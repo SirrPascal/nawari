@@ -66,7 +66,7 @@ However, in accordance with Kenyan aviation and Kenya Airways corporate informat
      NTP=time.kenya-airways.com 10.2.1.10
      FallbackNTP=0.africa.pool.ntp.org
      ```
-     Verify max clock offset $\le 10\text{ ms}$ (`timedatectl timesync-status`).
+     Verify clock synchronization: Note that $\le 10\text{ ms}$ is an operational target to validate against actual clock synchronization requirements, VM guest-hypervisor timekeeping mechanisms, and application tolerances (`timedatectl timesync-status`).
   3. [ ] **Kernel Tuning:** Apply [`docker/security/sysctl-hardening.conf`](file:///Users/madeira/Desktop/Projects/nawari/docker/security/sysctl-hardening.conf) to `/etc/sysctl.d/99-nawari.conf`. Verify:
      - `vm.swappiness = 10`
      - `vm.max_map_count = 262144`
@@ -117,12 +117,15 @@ However, in accordance with Kenyan aviation and Kenya Airways corporate informat
 ### Workstream 8.2.3: Physical Network Switch SNMPv3 & Trap Commissioning
 * **Target Switch:** Cisco Catalyst 9500-48Y4C Core Switch (`10.2.156.45`).
 * **Execution Checklist:**
-  1. [ ] **SNMPv3 Connectivity Verification:** Execute non-intrusive query using production credentials:
+  1. [ ] **SNMPv3 Connectivity & Supported Cipher Suite Validation:** Validate the actual authentication and privacy algorithms supported by the switch hardware and IOS-XE crypto feature set (rather than blindly assuming static SHA-256 / AES-128 support across legacy or firmware-constrained devices):
      ```bash
+     # Test primary modern suite (SHA-256 / AES-128):
      snmpget -v3 -l authPriv -u nawari_snmp_user \
          -a SHA-256 -A "$SNMP_AUTH_KEY" \
          -x AES-128 -X "$SNMP_PRIV_KEY" \
          10.2.156.45 sysDescr.0
+     # If hardware requires legacy or extended ciphers (e.g. SHA-1 / DES or SHA-256 / AES-256):
+     # Verify the fallback SNMPv3 user profile is negotiated cleanly.
      ```
      Verify device identification string: `Cisco IOS-XE Software, Catalyst L3 Switch Software`.
   2. [ ] **LLD Interface Enumeration:** Trigger Zabbix discovery rule (`net.if.discovery`). Confirm all 52 physical interfaces (48x 25GE SFP28 + 4x 100GE QSFP28) and active SVIs are provisioned with:
@@ -148,10 +151,14 @@ However, in accordance with Kenyan aviation and Kenya Airways corporate informat
      - Session Registration State (`avSbceRegistrationStatus`)
      - Media Channel Utilization (`avSbceMediaUtilization`)
      - License Concurrency (`avSbceLicenseCurrentUsage`)
-  3. [ ] **Controlled Synthetic Call Rehearsal:**
+  3. [ ] **Controlled Synthetic Call Rehearsal & Multi-Layer Evidence:**
      - Profile: Launch `asterisk` container under `synthetic-voice` profile.
      - Destination: Kenya Airways internal diagnostic echo test extension (`1001`).
      - Safety Gate Verification: Verify destination is present in `voice_destination_allowlist.json`; verify call duration limited to 15 seconds; verify cooldown delay enforced.
+     - Multi-Layer Evidence Requirement: To establish true voice media quality rather than superficial signaling success, the test call must produce corroborating evidence across all three planes:
+       1. **SIP Signaling Plane:** INVITE, 100 Trying, 180 Ringing, 200 OK, and BYE handshake with confirmed session parameters.
+       2. **AMI Control Plane:** Asterisk Manager Interface event sequence logging (ChannelCreate, DialBegin, DialEnd, Hangup, VarSet).
+       3. **RTP/RTCP Media Plane:** Bidirectional RTP packet streaming with matching packet counts, RTCP Sender/Receiver Reports (SR/RR), jitter measurements, and measured packet loss.
      - RTCP / MOS Validation: Inspect generated RTCP packet report; confirm calculated MOS ($R$-factor conversion), jitter, and packet loss persist to Zabbix trapper.
 
 ---
@@ -168,11 +175,17 @@ However, in accordance with Kenyan aviation and Kenya Airways corporate informat
        msiexec /i nawari-agent-setup.msi /qn GATEWAY_URL="https://10.2.1.58:8443" ENROLLMENT_TOKEN="$TOKEN"
        ```
      - Jamf Pro: Deploy PKG with post-install configuration placing `/etc/nawari/agent.json` (mode `0600`).
-  3. [ ] **Phased Rollout Schedule:**
-     - **Canary (Day 1):** 5 laptops in Network Engineering lab.
-     - **Pilot (Day 3):** 25 workstations across Airport Terminal 1A operations and check-in desks.
-     - **General Availability (Day 7):** 250 enterprise workstations across Pride Centre HQ and outstations.
-  4. [ ] **Fleet Health Verification:** Confirm all enrolled endpoints appear on `nawari-endpoint-fleet` Grafana dashboard with correct server-stamped `PHYSICAL_PRODUCTION` provenance and active heartbeats.
+  3. [ ] **Phased Fleet Rollout & Representative Sample Sizing:**
+     - **Sample Diversity Criteria:** Canary and pilot groups must reflect device heterogeneity (Windows 10/11 Enterprise, macOS Sonoma/Sequoia, Intel vs Apple Silicon, Wi-Fi 6 vs Ethernet) and risk tiers across critical operational zones:
+       - **Canary (Day 1):** 5 laptops in Network Engineering lab (diverse OS/hardware profiles).
+       - **Pilot (Day 3):** 25 workstations across Airport Terminal 1A operations, check-in desks, flight dispatch, and baggage handling networks.
+       - **General Availability (Day 7):** 250 enterprise workstations across Pride Centre HQ and domestic/regional outstations.
+  4. [ ] **Fleet Lifecycle Policies & Operational Controls:**
+     - **In-Place Binary Upgrade:** MDM update package runs silently, preserving existing local spool buffer queues and enrollment identity tokens without dropping state.
+     - **Credential Revocation & Blacklisting:** Central revocation capability in Gateway immediately invalidates compromised or decommissioned host enrollment tokens.
+     - **Offline Spooling & Retention Rules:** Spool storage bounded at 50 MB / 7 days per endpoint; FIFO eviction policy ensures endpoints buffer during airport WAN outages without disk exhaustion.
+     - **Clean Emergency Rollback:** Uninstall policy (`msiexec /x nawari-agent-setup.msi /qn`) terminates agent daemon cleanly, removing background services and credential files without residue.
+  5. [ ] **Fleet Health Verification:** Confirm all enrolled endpoints appear on `nawari-endpoint-fleet` Grafana dashboard with correct server-stamped `PHYSICAL_PRODUCTION` provenance and active heartbeats.
 
 ---
 
