@@ -1,0 +1,1021 @@
+{
+  "annotations": {
+    "list": []
+  },
+  "editable": true,
+  "fiscalYearStartMonth": 0,
+  "graphTooltip": 1,
+  "id": null,
+  "links": [],
+  "liveNow": false,
+  "panels": [
+    {
+      "collapsed": false,
+      "gridPos": { "h": 1, "w": 24, "x": 0, "y": 0 },
+      "id": 1,
+      "title": "Endpoint Identification & Telemetric Metadata",
+      "type": "row"
+    },
+    {
+      "datasource": {
+        "type": "alexanderzobnin-zabbix-datasource",
+        "uid": "PA67C5EADE9207728"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "color": { "mode": "thresholds" },
+          "mappings": [],
+          "noValue": "STALE / NO DATA",
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              { "color": "blue", "value": null }
+            ]
+          }
+        },
+        "overrides": []
+      },
+      "gridPos": { "h": 4, "w": 10, "x": 0, "y": 1 },
+      "id": 2,
+      "options": {
+        "colorMode": "none",
+        "graphMode": "none",
+        "justifyMode": "auto",
+        "orientation": "auto",
+        "reduceOptions": {
+          "calcs": ["lastNotNull"],
+          "fields": "",
+          "values": false
+        },
+        "textMode": "auto"
+      },
+      "pluginVersion": "11.6.0",
+      "targets": [
+        {
+          "application": { "filter": "" },
+          "datasource": {
+            "type": "alexanderzobnin-zabbix-datasource",
+            "uid": "PA67C5EADE9207728"
+          },
+          "group": { "filter": "$group" },
+          "host": { "filter": "$endpoint" },
+          "item": { "filter": "Endpoint info" },
+          "itemTag": { "filter": "" },
+          "mode": 0,
+          "options": { "showDisabledItems": false },
+          "refId": "A",
+          "resultFormat": "time_series",
+          "tags": { "filter": "" },
+          "trigger": { "filter": "" }
+        }
+      ],
+      "title": "Agent Info & Host Identity",
+      "type": "stat"
+    },
+    {
+      "datasource": {
+        "type": "alexanderzobnin-zabbix-datasource",
+        "uid": "PA67C5EADE9207728"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "color": { "mode": "thresholds" },
+          "mappings": [
+            {
+              "options": {
+                "0": { "color": "blue", "text": "Ethernet (Wired LAN)" },
+                "1": { "color": "purple", "text": "Wi-Fi (Wireless 802.11)" },
+                "2": { "color": "orange", "text": "VPN (Virtual Tunnel)" },
+                "3": { "color": "gray", "text": "Other / Loopback" }
+              },
+              "type": "value"
+            }
+          ],
+          "noValue": "STALE / NO DATA",
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              { "color": "blue", "value": null }
+            ]
+          }
+        },
+        "overrides": []
+      },
+      "gridPos": { "h": 4, "w": 7, "x": 10, "y": 1 },
+      "id": 3,
+      "options": {
+        "colorMode": "background",
+        "graphMode": "none",
+        "justifyMode": "auto",
+        "orientation": "auto",
+        "reduceOptions": {
+          "calcs": ["lastNotNull"],
+          "fields": "",
+          "values": false
+        },
+        "textMode": "auto"
+      },
+      "pluginVersion": "11.6.0",
+      "targets": [
+        {
+          "application": { "filter": "" },
+          "datasource": {
+            "type": "alexanderzobnin-zabbix-datasource",
+            "uid": "PA67C5EADE9207728"
+          },
+          "group": { "filter": "$group" },
+          "host": { "filter": "$endpoint" },
+          "item": { "filter": "Network interface type" },
+          "itemTag": { "filter": "" },
+          "mode": 0,
+          "options": { "showDisabledItems": false },
+          "refId": "A",
+          "resultFormat": "time_series",
+          "tags": { "filter": "" },
+          "trigger": { "filter": "" }
+        }
+      ],
+      "title": "Active Interface",
+      "type": "stat"
+    },
+    {
+      "datasource": {
+        "type": "alexanderzobnin-zabbix-datasource",
+        "uid": "PA67C5EADE9207728"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "color": { "mode": "thresholds" },
+          "mappings": [
+            {
+              "options": {
+                "0": { "color": "blue", "text": "MOCK_SIMULATED (Dev)" },
+                "1": { "color": "green", "text": "PHYSICAL_PRODUCTION (Enterprise)" }
+              },
+              "type": "value"
+            }
+          ],
+          "noValue": "STALE / NO DATA",
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              { "color": "blue", "value": null }
+            ]
+          }
+        },
+        "overrides": []
+      },
+      "gridPos": { "h": 4, "w": 7, "x": 17, "y": 1 },
+      "id": 4,
+      "options": {
+        "colorMode": "background",
+        "graphMode": "none",
+        "justifyMode": "auto",
+        "orientation": "auto",
+        "reduceOptions": {
+          "calcs": ["lastNotNull"],
+          "fields": "",
+          "values": false
+        },
+        "textMode": "auto"
+      },
+      "pluginVersion": "11.6.0",
+      "targets": [
+        {
+          "application": { "filter": "" },
+          "datasource": {
+            "type": "alexanderzobnin-zabbix-datasource",
+            "uid": "PA67C5EADE9207728"
+          },
+          "group": { "filter": "$group" },
+          "host": { "filter": "$endpoint" },
+          "item": { "filter": "Endpoint environment" },
+          "itemTag": { "filter": "" },
+          "mode": 0,
+          "options": { "showDisabledItems": false },
+          "refId": "A",
+          "resultFormat": "time_series",
+          "tags": { "filter": "" },
+          "trigger": { "filter": "" }
+        }
+      ],
+      "title": "Authoritative Provenance",
+      "type": "stat"
+    },
+    {
+      "collapsed": false,
+      "gridPos": { "h": 1, "w": 24, "x": 0, "y": 5 },
+      "id": 5,
+      "title": "First-Hop Edge Network Quality (Default Gateway)",
+      "type": "row"
+    },
+    {
+      "datasource": {
+        "type": "alexanderzobnin-zabbix-datasource",
+        "uid": "PA67C5EADE9207728"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "color": { "mode": "palette-classic" },
+          "custom": {
+            "axisLabel": "Latency (s)",
+            "fillOpacity": 15,
+            "lineWidth": 2,
+            "scaleDistribution": { "type": "linear" }
+          },
+          "mappings": [],
+          "noValue": "STALE / NO DATA",
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              { "color": "green", "value": null },
+              { "color": "yellow", "value": 0.02 },
+              { "color": "red", "value": 0.05 }
+            ]
+          },
+          "unit": "s"
+        },
+        "overrides": []
+      },
+      "gridPos": { "h": 6, "w": 12, "x": 0, "y": 6 },
+      "id": 6,
+      "options": {
+        "legend": { "calcs": ["mean", "max", "lastNotNull"], "displayMode": "table", "placement": "bottom" },
+        "tooltip": { "mode": "single" }
+      },
+      "pluginVersion": "11.6.0",
+      "targets": [
+        {
+          "application": { "filter": "" },
+          "datasource": {
+            "type": "alexanderzobnin-zabbix-datasource",
+            "uid": "PA67C5EADE9207728"
+          },
+          "group": { "filter": "$group" },
+          "host": { "filter": "$endpoint" },
+          "item": { "filter": "Default gateway latency" },
+          "itemTag": { "filter": "" },
+          "mode": 0,
+          "options": { "showDisabledItems": false },
+          "refId": "A",
+          "resultFormat": "time_series",
+          "tags": { "filter": "" },
+          "trigger": { "filter": "" }
+        }
+      ],
+      "title": "Default Gateway RTT Latency",
+      "type": "timeseries"
+    },
+    {
+      "datasource": {
+        "type": "alexanderzobnin-zabbix-datasource",
+        "uid": "PA67C5EADE9207728"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "color": { "mode": "palette-classic" },
+          "custom": {
+            "axisLabel": "Packet Loss (%)",
+            "fillOpacity": 15,
+            "lineWidth": 2,
+            "scaleDistribution": { "type": "linear" }
+          },
+          "mappings": [],
+          "noValue": "STALE / NO DATA",
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              { "color": "green", "value": null },
+              { "color": "yellow", "value": 1 },
+              { "color": "red", "value": 20 }
+            ]
+          },
+          "unit": "percent"
+        },
+        "overrides": []
+      },
+      "gridPos": { "h": 6, "w": 12, "x": 12, "y": 6 },
+      "id": 7,
+      "options": {
+        "legend": { "calcs": ["mean", "max", "lastNotNull"], "displayMode": "table", "placement": "bottom" },
+        "tooltip": { "mode": "single" }
+      },
+      "pluginVersion": "11.6.0",
+      "targets": [
+        {
+          "application": { "filter": "" },
+          "datasource": {
+            "type": "alexanderzobnin-zabbix-datasource",
+            "uid": "PA67C5EADE9207728"
+          },
+          "group": { "filter": "$group" },
+          "host": { "filter": "$endpoint" },
+          "item": { "filter": "Default gateway packet loss" },
+          "itemTag": { "filter": "" },
+          "mode": 0,
+          "options": { "showDisabledItems": false },
+          "refId": "A",
+          "resultFormat": "time_series",
+          "tags": { "filter": "" },
+          "trigger": { "filter": "" }
+        }
+      ],
+      "title": "Default Gateway Packet Loss",
+      "type": "timeseries"
+    },
+    {
+      "collapsed": false,
+      "gridPos": { "h": 1, "w": 24, "x": 0, "y": 12 },
+      "id": 8,
+      "title": "Physical Wi-Fi Health (Isolated — Active Only for Wi-Fi Interfaces)",
+      "type": "row"
+    },
+    {
+      "datasource": {
+        "type": "alexanderzobnin-zabbix-datasource",
+        "uid": "PA67C5EADE9207728"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "color": { "mode": "thresholds" },
+          "mappings": [],
+          "max": -30,
+          "min": -95,
+          "noValue": "N/A (WIRED/VPN)",
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              { "color": "red", "value": null },
+              { "color": "yellow", "value": -75 },
+              { "color": "green", "value": -65 }
+            ]
+          },
+          "unit": "dBm"
+        },
+        "overrides": []
+      },
+      "gridPos": { "h": 6, "w": 6, "x": 0, "y": 13 },
+      "id": 9,
+      "options": {
+        "orientation": "auto",
+        "reduceOptions": {
+          "calcs": ["lastNotNull"],
+          "fields": "",
+          "values": false
+        },
+        "showThresholdLabels": true,
+        "showThresholdMarkers": true
+      },
+      "pluginVersion": "11.6.0",
+      "targets": [
+        {
+          "application": { "filter": "" },
+          "datasource": {
+            "type": "alexanderzobnin-zabbix-datasource",
+            "uid": "PA67C5EADE9207728"
+          },
+          "group": { "filter": "$group" },
+          "host": { "filter": "$endpoint" },
+          "item": { "filter": "Wi-Fi RSSI" },
+          "itemTag": { "filter": "" },
+          "mode": 0,
+          "options": { "showDisabledItems": false },
+          "refId": "A",
+          "resultFormat": "time_series",
+          "tags": { "filter": "" },
+          "trigger": { "filter": "" }
+        }
+      ],
+      "title": "Wi-Fi RSSI Gauge",
+      "type": "gauge"
+    },
+    {
+      "datasource": {
+        "type": "alexanderzobnin-zabbix-datasource",
+        "uid": "PA67C5EADE9207728"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "color": { "mode": "palette-classic" },
+          "custom": {
+            "axisLabel": "Signal Strength (dBm)",
+            "fillOpacity": 15,
+            "lineWidth": 2,
+            "scaleDistribution": { "type": "linear" }
+          },
+          "mappings": [],
+          "noValue": "N/A (WIRED/VPN)",
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              { "color": "red", "value": null },
+              { "color": "yellow", "value": -75 },
+              { "color": "green", "value": -65 }
+            ]
+          },
+          "unit": "dBm"
+        },
+        "overrides": []
+      },
+      "gridPos": { "h": 6, "w": 6, "x": 6, "y": 13 },
+      "id": 10,
+      "options": {
+        "legend": { "calcs": ["mean", "lastNotNull"], "displayMode": "table", "placement": "bottom" },
+        "tooltip": { "mode": "single" }
+      },
+      "pluginVersion": "11.6.0",
+      "targets": [
+        {
+          "application": { "filter": "" },
+          "datasource": {
+            "type": "alexanderzobnin-zabbix-datasource",
+            "uid": "PA67C5EADE9207728"
+          },
+          "group": { "filter": "$group" },
+          "host": { "filter": "$endpoint" },
+          "item": { "filter": "Wi-Fi RSSI" },
+          "itemTag": { "filter": "" },
+          "mode": 0,
+          "options": { "showDisabledItems": false },
+          "refId": "A",
+          "resultFormat": "time_series",
+          "tags": { "filter": "" },
+          "trigger": { "filter": "" }
+        }
+      ],
+      "title": "Wi-Fi RSSI History",
+      "type": "timeseries"
+    },
+    {
+      "datasource": {
+        "type": "alexanderzobnin-zabbix-datasource",
+        "uid": "PA67C5EADE9207728"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "color": { "mode": "thresholds" },
+          "mappings": [],
+          "max": 100,
+          "min": 0,
+          "noValue": "N/A (WIRED/VPN)",
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              { "color": "red", "value": null },
+              { "color": "yellow", "value": 50 },
+              { "color": "green", "value": 70 }
+            ]
+          },
+          "unit": "percent"
+        },
+        "overrides": []
+      },
+      "gridPos": { "h": 6, "w": 6, "x": 12, "y": 13 },
+      "id": 11,
+      "options": {
+        "orientation": "auto",
+        "reduceOptions": {
+          "calcs": ["lastNotNull"],
+          "fields": "",
+          "values": false
+        },
+        "showThresholdLabels": true,
+        "showThresholdMarkers": true
+      },
+      "pluginVersion": "11.6.0",
+      "targets": [
+        {
+          "application": { "filter": "" },
+          "datasource": {
+            "type": "alexanderzobnin-zabbix-datasource",
+            "uid": "PA67C5EADE9207728"
+          },
+          "group": { "filter": "$group" },
+          "host": { "filter": "$endpoint" },
+          "item": { "filter": "Wi-Fi signal quality" },
+          "itemTag": { "filter": "" },
+          "mode": 0,
+          "options": { "showDisabledItems": false },
+          "refId": "A",
+          "resultFormat": "time_series",
+          "tags": { "filter": "" },
+          "trigger": { "filter": "" }
+        }
+      ],
+      "title": "Wi-Fi Link Quality Gauge",
+      "type": "gauge"
+    },
+    {
+      "datasource": {
+        "type": "alexanderzobnin-zabbix-datasource",
+        "uid": "PA67C5EADE9207728"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "color": { "mode": "palette-classic" },
+          "custom": {
+            "axisLabel": "Quality (%)",
+            "fillOpacity": 15,
+            "lineWidth": 2,
+            "scaleDistribution": { "type": "linear" }
+          },
+          "mappings": [],
+          "noValue": "N/A (WIRED/VPN)",
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              { "color": "red", "value": null },
+              { "color": "yellow", "value": 50 },
+              { "color": "green", "value": 70 }
+            ]
+          },
+          "unit": "percent"
+        },
+        "overrides": []
+      },
+      "gridPos": { "h": 6, "w": 6, "x": 18, "y": 13 },
+      "id": 12,
+      "options": {
+        "legend": { "calcs": ["mean", "lastNotNull"], "displayMode": "table", "placement": "bottom" },
+        "tooltip": { "mode": "single" }
+      },
+      "pluginVersion": "11.6.0",
+      "targets": [
+        {
+          "application": { "filter": "" },
+          "datasource": {
+            "type": "alexanderzobnin-zabbix-datasource",
+            "uid": "PA67C5EADE9207728"
+          },
+          "group": { "filter": "$group" },
+          "host": { "filter": "$endpoint" },
+          "item": { "filter": "Wi-Fi signal quality" },
+          "itemTag": { "filter": "" },
+          "mode": 0,
+          "options": { "showDisabledItems": false },
+          "refId": "A",
+          "resultFormat": "time_series",
+          "tags": { "filter": "" },
+          "trigger": { "filter": "" }
+        }
+      ],
+      "title": "Wi-Fi Link Quality History",
+      "type": "timeseries"
+    },
+    {
+      "collapsed": false,
+      "gridPos": { "h": 1, "w": 24, "x": 0, "y": 19 },
+      "id": 13,
+      "title": "Edge DNS Resolution Diagnostics",
+      "type": "row"
+    },
+    {
+      "datasource": {
+        "type": "alexanderzobnin-zabbix-datasource",
+        "uid": "PA67C5EADE9207728"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "color": { "mode": "palette-classic" },
+          "custom": {
+            "axisLabel": "Resolution Latency (s)",
+            "fillOpacity": 15,
+            "lineWidth": 2,
+            "scaleDistribution": { "type": "linear" }
+          },
+          "mappings": [],
+          "noValue": "STALE / NO DATA",
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              { "color": "green", "value": null },
+              { "color": "yellow", "value": 0.05 },
+              { "color": "red", "value": 0.2 }
+            ]
+          },
+          "unit": "s"
+        },
+        "overrides": []
+      },
+      "gridPos": { "h": 6, "w": 16, "x": 0, "y": 20 },
+      "id": 14,
+      "options": {
+        "legend": { "calcs": ["mean", "max", "lastNotNull"], "displayMode": "table", "placement": "bottom" },
+        "tooltip": { "mode": "multi" }
+      },
+      "pluginVersion": "11.6.0",
+      "targets": [
+        {
+          "application": { "filter": "" },
+          "datasource": {
+            "type": "alexanderzobnin-zabbix-datasource",
+            "uid": "PA67C5EADE9207728"
+          },
+          "group": { "filter": "$group" },
+          "host": { "filter": "$endpoint" },
+          "item": { "filter": "/DNS resolution time .*/" },
+          "itemTag": { "filter": "" },
+          "mode": 0,
+          "options": { "showDisabledItems": false },
+          "refId": "A",
+          "resultFormat": "time_series",
+          "tags": { "filter": "" },
+          "trigger": { "filter": "" }
+        }
+      ],
+      "title": "DNS Query Resolution Time by Target",
+      "type": "timeseries"
+    },
+    {
+      "datasource": {
+        "type": "alexanderzobnin-zabbix-datasource",
+        "uid": "PA67C5EADE9207728"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "color": { "mode": "thresholds" },
+          "mappings": [
+            {
+              "options": {
+                "0": { "color": "green", "text": "NOERROR / SUCCESS" },
+                "1": { "color": "orange", "text": "NXDOMAIN" },
+                "2": { "color": "red", "text": "SERVFAIL" },
+                "3": { "color": "red", "text": "TIMEOUT" },
+                "4": { "color": "red", "text": "REFUSED" },
+                "5": { "color": "red", "text": "ERROR" }
+              },
+              "type": "value"
+            }
+          ],
+          "noValue": "STALE / NO DATA",
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              { "color": "green", "value": null },
+              { "color": "red", "value": 1 }
+            ]
+          }
+        },
+        "overrides": []
+      },
+      "gridPos": { "h": 6, "w": 8, "x": 16, "y": 20 },
+      "id": 15,
+      "options": {
+        "colorMode": "background",
+        "graphMode": "none",
+        "justifyMode": "auto",
+        "orientation": "auto",
+        "reduceOptions": {
+          "calcs": ["lastNotNull"],
+          "fields": "",
+          "values": false
+        },
+        "textMode": "auto"
+      },
+      "pluginVersion": "11.6.0",
+      "targets": [
+        {
+          "application": { "filter": "" },
+          "datasource": {
+            "type": "alexanderzobnin-zabbix-datasource",
+            "uid": "PA67C5EADE9207728"
+          },
+          "group": { "filter": "$group" },
+          "host": { "filter": "$endpoint" },
+          "item": { "filter": "/DNS resolution status .*/" },
+          "itemTag": { "filter": "" },
+          "mode": 0,
+          "options": { "showDisabledItems": false },
+          "refId": "A",
+          "resultFormat": "time_series",
+          "tags": { "filter": "" },
+          "trigger": { "filter": "" }
+        }
+      ],
+      "title": "DNS Target RCODE / Status",
+      "type": "stat"
+    },
+    {
+      "collapsed": false,
+      "gridPos": { "h": 1, "w": 24, "x": 0, "y": 26 },
+      "id": 16,
+      "title": "Multi-Protocol Service Connectivity & Latency Decomposition",
+      "type": "row"
+    },
+    {
+      "datasource": {
+        "type": "alexanderzobnin-zabbix-datasource",
+        "uid": "PA67C5EADE9207728"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "color": { "mode": "thresholds" },
+          "mappings": [
+            {
+              "options": {
+                "0": { "color": "red", "text": "DOWN / UNREACHABLE" },
+                "1": { "color": "green", "text": "REACHABLE (OK)" }
+              },
+              "type": "value"
+            }
+          ],
+          "noValue": "STALE / NO DATA",
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              { "color": "red", "value": null },
+              { "color": "green", "value": 1 }
+            ]
+          }
+        },
+        "overrides": []
+      },
+      "gridPos": { "h": 6, "w": 6, "x": 0, "y": 27 },
+      "id": 17,
+      "options": {
+        "colorMode": "background",
+        "graphMode": "none",
+        "justifyMode": "auto",
+        "orientation": "auto",
+        "reduceOptions": {
+          "calcs": ["lastNotNull"],
+          "fields": "",
+          "values": false
+        },
+        "textMode": "auto"
+      },
+      "pluginVersion": "11.6.0",
+      "targets": [
+        {
+          "application": { "filter": "" },
+          "datasource": {
+            "type": "alexanderzobnin-zabbix-datasource",
+            "uid": "PA67C5EADE9207728"
+          },
+          "group": { "filter": "$group" },
+          "host": { "filter": "$endpoint" },
+          "item": { "filter": "/Service reachable .*/" },
+          "itemTag": { "filter": "" },
+          "mode": 0,
+          "options": { "showDisabledItems": false },
+          "refId": "A",
+          "resultFormat": "time_series",
+          "tags": { "filter": "" },
+          "trigger": { "filter": "" }
+        }
+      ],
+      "title": "Service Target Reachability",
+      "type": "stat"
+    },
+    {
+      "datasource": {
+        "type": "alexanderzobnin-zabbix-datasource",
+        "uid": "PA67C5EADE9207728"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "color": { "mode": "palette-classic" },
+          "custom": {
+            "axisLabel": "TCP Handshake (s)",
+            "fillOpacity": 15,
+            "lineWidth": 2,
+            "scaleDistribution": { "type": "linear" }
+          },
+          "mappings": [],
+          "noValue": "STALE / NO DATA",
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              { "color": "green", "value": null },
+              { "color": "yellow", "value": 0.05 },
+              { "color": "red", "value": 0.2 }
+            ]
+          },
+          "unit": "s"
+        },
+        "overrides": []
+      },
+      "gridPos": { "h": 6, "w": 6, "x": 6, "y": 27 },
+      "id": 18,
+      "options": {
+        "legend": { "calcs": ["mean", "lastNotNull"], "displayMode": "table", "placement": "bottom" },
+        "tooltip": { "mode": "multi" }
+      },
+      "pluginVersion": "11.6.0",
+      "targets": [
+        {
+          "application": { "filter": "" },
+          "datasource": {
+            "type": "alexanderzobnin-zabbix-datasource",
+            "uid": "PA67C5EADE9207728"
+          },
+          "group": { "filter": "$group" },
+          "host": { "filter": "$endpoint" },
+          "item": { "filter": "/TCP connect time .*/" },
+          "itemTag": { "filter": "" },
+          "mode": 0,
+          "options": { "showDisabledItems": false },
+          "refId": "A",
+          "resultFormat": "time_series",
+          "tags": { "filter": "" },
+          "trigger": { "filter": "" }
+        }
+      ],
+      "title": "TCP 3-Way Handshake Latency",
+      "type": "timeseries"
+    },
+    {
+      "datasource": {
+        "type": "alexanderzobnin-zabbix-datasource",
+        "uid": "PA67C5EADE9207728"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "color": { "mode": "palette-classic" },
+          "custom": {
+            "axisLabel": "TLS Negotiation (s)",
+            "fillOpacity": 15,
+            "lineWidth": 2,
+            "scaleDistribution": { "type": "linear" }
+          },
+          "mappings": [],
+          "noValue": "STALE / NO DATA",
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              { "color": "green", "value": null },
+              { "color": "yellow", "value": 0.08 },
+              { "color": "red", "value": 0.3 }
+            ]
+          },
+          "unit": "s"
+        },
+        "overrides": []
+      },
+      "gridPos": { "h": 6, "w": 6, "x": 12, "y": 27 },
+      "id": 19,
+      "options": {
+        "legend": { "calcs": ["mean", "lastNotNull"], "displayMode": "table", "placement": "bottom" },
+        "tooltip": { "mode": "multi" }
+      },
+      "pluginVersion": "11.6.0",
+      "targets": [
+        {
+          "application": { "filter": "" },
+          "datasource": {
+            "type": "alexanderzobnin-zabbix-datasource",
+            "uid": "PA67C5EADE9207728"
+          },
+          "group": { "filter": "$group" },
+          "host": { "filter": "$endpoint" },
+          "item": { "filter": "/TLS handshake time .*/" },
+          "itemTag": { "filter": "" },
+          "mode": 0,
+          "options": { "showDisabledItems": false },
+          "refId": "A",
+          "resultFormat": "time_series",
+          "tags": { "filter": "" },
+          "trigger": { "filter": "" }
+        }
+      ],
+      "title": "TLS Cryptographic Handshake Time",
+      "type": "timeseries"
+    },
+    {
+      "datasource": {
+        "type": "alexanderzobnin-zabbix-datasource",
+        "uid": "PA67C5EADE9207728"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "color": { "mode": "palette-classic" },
+          "custom": {
+            "axisLabel": "HTTP Timings (s)",
+            "fillOpacity": 15,
+            "lineWidth": 2,
+            "scaleDistribution": { "type": "linear" }
+          },
+          "mappings": [],
+          "noValue": "STALE / NO DATA",
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              { "color": "green", "value": null },
+              { "color": "yellow", "value": 0.2 },
+              { "color": "red", "value": 0.8 }
+            ]
+          },
+          "unit": "s"
+        },
+        "overrides": []
+      },
+      "gridPos": { "h": 6, "w": 6, "x": 18, "y": 27 },
+      "id": 20,
+      "options": {
+        "legend": { "calcs": ["mean", "lastNotNull"], "displayMode": "table", "placement": "bottom" },
+        "tooltip": { "mode": "multi" }
+      },
+      "pluginVersion": "11.6.0",
+      "targets": [
+        {
+          "application": { "filter": "" },
+          "datasource": {
+            "type": "alexanderzobnin-zabbix-datasource",
+            "uid": "PA67C5EADE9207728"
+          },
+          "group": { "filter": "$group" },
+          "host": { "filter": "$endpoint" },
+          "item": { "filter": "/HTTP TTFB .*/" },
+          "itemTag": { "filter": "" },
+          "mode": 0,
+          "options": { "showDisabledItems": false },
+          "refId": "A",
+          "resultFormat": "time_series",
+          "tags": { "filter": "" },
+          "trigger": { "filter": "" }
+        }
+      ],
+      "title": "HTTP Time To First Byte (TTFB)",
+      "type": "timeseries"
+    },
+    {
+      "collapsed": false,
+      "gridPos": { "h": 1, "w": 24, "x": 0, "y": 33 },
+      "id": 21,
+      "title": "Quick Investigation & Cross-Domain Navigation Links",
+      "type": "row"
+    },
+    {
+      "gridPos": { "h": 4, "w": 12, "x": 0, "y": 34 },
+      "id": 22,
+      "options": {
+        "content": "### 🧭 Directional Hop & Network Path Analysis\n\nAnalyze hop-by-hop latency build-up, CoPP rate-limiting guards, and route divergence from **$endpoint** across transit routers.\n\n👉 **[Open Network Path Analysis for $endpoint](/d/nawari-path-analysis/nawari-path-analysis?var-endpoint=${endpoint})**",
+        "mode": "markdown"
+      },
+      "pluginVersion": "11.6.0",
+      "title": "Path Analysis Navigation",
+      "type": "text"
+    },
+    {
+      "gridPos": { "h": 4, "w": 12, "x": 12, "y": 34 },
+      "id": 23,
+      "options": {
+        "content": "### 🎙️ Cross-Domain Voice Service Assurance\n\nCorrelate edge gateway packet loss and Wi-Fi degradation from **$endpoint** against synthetic Asterisk voice calls and ITU-T G.107 MOS scores.\n\n👉 **[Open Voice Service Correlation for $endpoint](/d/nawari-voice-correlation/nawari-voice-correlation?var-endpoint=${endpoint})**",
+        "mode": "markdown"
+      },
+      "pluginVersion": "11.6.0",
+      "title": "Voice Assurance Navigation",
+      "type": "text"
+    }
+  ],
+  "refresh": "10s",
+  "schemaVersion": 39,
+  "tags": ["nawari", "endpoint", "detail", "wifi", "dns", "phase7"],
+  "templating": {
+    "list": [
+      {
+        "current": { "selected": true, "text": "Endpoints", "value": "Endpoints" },
+        "datasource": { "type": "alexanderzobnin-zabbix-datasource", "uid": "PA67C5EADE9207728" },
+        "definition": "*",
+        "hide": 0,
+        "includeAll": false,
+        "multi": false,
+        "name": "group",
+        "options": [],
+        "query": "*",
+        "refresh": 1,
+        "regex": "/.*Endpoint.*/",
+        "skipUrlSync": false,
+        "sort": 1,
+        "type": "query"
+      },
+      {
+        "current": { "selected": true, "text": "endpoint-probe-01", "value": "endpoint-probe-01" },
+        "datasource": { "type": "alexanderzobnin-zabbix-datasource", "uid": "PA67C5EADE9207728" },
+        "definition": "$group.*",
+        "hide": 0,
+        "includeAll": false,
+        "multi": false,
+        "name": "endpoint",
+        "options": [],
+        "query": "$group.*",
+        "refresh": 1,
+        "regex": "",
+        "skipUrlSync": false,
+        "sort": 1,
+        "type": "query"
+      }
+    ]
+  },
+  "time": {
+    "from": "now-1h",
+    "to": "now"
+  },
+  "timepicker": {
+    "refresh_intervals": ["5s", "10s", "30s", "1m", "5m"]
+  },
+  "timezone": "browser",
+  "title": "Nawari — Endpoint Deep-Dive & Edge Experience",
+  "uid": "nawari-endpoint-detail"
+}
+
