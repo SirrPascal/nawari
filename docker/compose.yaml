@@ -185,3 +185,35 @@ services:
       options:
         max-size: "10m"
         max-file: "3"
+
+  # ----------------------------------------------------------------------------
+  # 6. Asterisk 22 - Controlled Synthetic Voice Testing Engine
+  # (Gated by 'synthetic-voice' profile)
+  # ----------------------------------------------------------------------------
+  asterisk:
+    profiles:
+      - synthetic-voice
+    image: avtest-asterisk:22.11.0
+    container_name: nawari-asterisk
+    restart: unless-stopped
+    user: root
+    environment:
+      - ASTERISK_AMI_SECRET=${ASTERISK_AMI_SECRET:-nawari_ami_dev_secret}
+    entrypoint: /entrypoint.sh
+    volumes:
+      - ./asterisk/config:/etc/asterisk
+      - ./asterisk/entrypoint.sh:/entrypoint.sh:ro
+    networks:
+      - nawari-internal
+    healthcheck:
+      test: ["CMD-SHELL", "/usr/sbin/asterisk -rx 'core show sysinfo' || exit 1"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+      start_period: 10s
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "10m"
+        max-file: "3"
+

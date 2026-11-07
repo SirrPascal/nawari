@@ -37,3 +37,12 @@ services:
       - nawari-internal
     ports:
       - "127.0.0.1:1161:161/udp"
+
+  asterisk:
+    profiles:
+      - synthetic-voice
+    ports:
+      - "127.0.0.1:${ASTERISK_AMI_PORT:-5038}:5038"
+      - "127.0.0.1:${ASTERISK_SIP_PORT:-5060}:5060/udp"
+      - "127.0.0.1:${ASTERISK_TLS_PORT:-5061}:5061"
+
