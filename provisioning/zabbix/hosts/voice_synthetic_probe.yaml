@@ -1,0 +1,22 @@
+# ==============================================================================
+# NAWARI — Voice Synthetic Probe Host Definition
+# Dispatches synthetic call outcomes, SIP status, and MOS via Zabbix Trapper
+# ==============================================================================
+version: "1"
+
+hosts:
+  - host: "nawari-voice-probe-01"
+    name: "Nawari Voice Synthetic Probe 01"
+    description: "Synthetic voice quality, SIP signaling, and media telemetry probe."
+    status: 0  # Monitored
+    groups:
+      - "Synthetic Probes"
+    templates:
+      - "Nawari Voice Synthetic Probe by Zabbix Trapper"
+    interfaces:
+      - type: 1  # Zabbix Agent (dummy listener interface for trapper items)
+        main: 1
+        useip: 1
+        ip: "127.0.0.1"
+        dns: ""
+        port: "10050"

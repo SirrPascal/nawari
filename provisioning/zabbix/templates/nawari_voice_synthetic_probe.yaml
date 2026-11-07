@@ -1,0 +1,177 @@
+zabbix_export:
+  version: '7.4'
+  template_groups:
+    - uuid: 12ce2490200743cc9dbb103ee2ece67e
+      name: 'Templates/Telephony'
+  templates:
+    - uuid: 4f42157145fc41ee844fad125e603b91
+      template: 'Nawari Voice Synthetic Probe by Zabbix Trapper'
+      name: 'Nawari Voice Synthetic Probe by Zabbix Trapper'
+      description: |
+        Nawari Synthetic Voice Telemetry & Service Assurance Template.
+        Captures active synthetic call outcomes, SIP signaling status codes,
+        latencies, bidirectional media states, and ITU-T G.107 Estimated MOS
+        dispatched via Zabbix Trapper protocol.
+      groups:
+        - name: 'Templates/Telephony'
+      items:
+        - uuid: 7b61f9a6409b47ccb6ed4a0023c1e114
+          name: 'Synthetic call outcome'
+          type: TRAP
+          key: voice.synthetic.outcome
+          delay: '0'
+          value_type: CHAR
+          description: 'Outcome of synthetic voice probe (ANSWERED, BUSY, CONGESTION, TIMEOUT, FAILED, SAFETY_BLOCKED).'
+          tags:
+            - tag: component
+              value: voice-probe
+          triggers:
+            - uuid: d36bffaf068e490eb7c42ddcaadd34ee
+              expression: 'last(/Nawari Voice Synthetic Probe by Zabbix Trapper/voice.synthetic.outcome)="CONGESTION" or last(/Nawari Voice Synthetic Probe by Zabbix Trapper/voice.synthetic.outcome)="FAILED"'
+              name: 'Synthetic voice test failed or congested'
+              priority: HIGH
+              description: 'Synthetic voice call resulted in service congestion (SIP 503) or transaction failure.'
+              tags:
+                - tag: scope
+                  value: availability
+        - uuid: 5f5c09de83e84db09cb2408865f58773
+          name: 'Synthetic call SIP status'
+          type: TRAP
+          key: voice.synthetic.sip_status
+          delay: '0'
+          value_type: UNSIGNED
+          description: 'SIP response status code returned by target trunk (e.g. 200, 486, 503, 408).'
+          tags:
+            - tag: component
+              value: voice-probe
+        - uuid: 3f87f71dbbc14487aa0cb448ecd714bc
+          name: 'Synthetic call setup time'
+          type: TRAP
+          key: voice.synthetic.setup_time
+          delay: '0'
+          value_type: FLOAT
+          units: ms
+          description: 'Time from call initiation to answer/progress state.'
+          tags:
+            - tag: component
+              value: voice-probe
+          triggers:
+            - uuid: b4ad30079a5b42a88c84d82d767be7fe
+              expression: 'last(/Nawari Voice Synthetic Probe by Zabbix Trapper/voice.synthetic.setup_time)>5000'
+              name: 'High call setup latency on synthetic probe (> 5s)'
+              priority: WARNING
+              description: 'Signaling session establishment exceeded 5000ms.'
+              tags:
+                - tag: scope
+                  value: performance
+        - uuid: 444e6577bf0645649ac22e841ed55801
+          name: 'Synthetic call duration'
+          type: TRAP
+          key: voice.synthetic.duration
+          delay: '0'
+          value_type: FLOAT
+          units: s
+          description: 'Total active duration of synthetic call probe.'
+          tags:
+            - tag: component
+              value: voice-probe
+        - uuid: 1df16c0f7f1d4fc799f9e2195366fc9e
+          name: 'Synthetic call media verification status'
+          type: TRAP
+          key: voice.synthetic.media_status
+          delay: '0'
+          value_type: CHAR
+          description: 'Bidirectional media status (BIDIRECTIONAL, TRANSMIT_ONLY, RECEIVE_ONLY, NO_MEDIA, UNVERIFIED).'
+          tags:
+            - tag: component
+              value: voice-probe
+          triggers:
+            - uuid: 5580ec75f6ce4cfa992ec0e3c4fab828
+              expression: 'last(/Nawari Voice Synthetic Probe by Zabbix Trapper/voice.synthetic.media_status)="TRANSMIT_ONLY" or last(/Nawari Voice Synthetic Probe by Zabbix Trapper/voice.synthetic.media_status)="RECEIVE_ONLY"'
+              name: 'One-way audio detected on synthetic voice test'
+              priority: HIGH
+              description: 'RTP stream was only observed in one direction. Likely caused by firewall RTP drop, asymmetric routing, or SBC NAT traversal failure.'
+              tags:
+                - tag: scope
+                  value: media-path
+        - uuid: e475ae377ea344e783db7373d8a677eb
+          name: 'Synthetic call Estimated MOS'
+          type: TRAP
+          key: voice.synthetic.mos
+          delay: '0'
+          value_type: FLOAT
+          description: 'ITU-T G.107 E-model Estimated Mean Opinion Score (1.00 - 4.50).'
+          tags:
+            - tag: component
+              value: voice-probe
+          triggers:
+            - uuid: 7884a544aabd464abc45816dda60dbd0
+              expression: 'last(/Nawari Voice Synthetic Probe by Zabbix Trapper/voice.synthetic.mos)<3.8 and last(/Nawari Voice Synthetic Probe by Zabbix Trapper/voice.synthetic.mos)>0'
+              name: 'Degraded voice quality on synthetic probe (MOS < 3.8)'
+              priority: WARNING
+              description: 'Estimated Mean Opinion Score dropped below acceptable threshold (3.8).'
+              tags:
+                - tag: scope
+                  value: performance
+            - uuid: b006d2ced52f410ba9108b26d52faf41
+              expression: 'last(/Nawari Voice Synthetic Probe by Zabbix Trapper/voice.synthetic.mos)<3.5 and last(/Nawari Voice Synthetic Probe by Zabbix Trapper/voice.synthetic.mos)>0'
+              name: 'Unacceptable voice quality on synthetic probe (MOS < 3.5)'
+              priority: HIGH
+              description: 'Estimated Mean Opinion Score dropped to unacceptable conversational quality (MOS < 3.5).'
+              tags:
+                - tag: scope
+                  value: performance
+        - uuid: 8ff697e9f3574df6a2d55822cd01c4bc
+          name: 'Synthetic call R-factor'
+          type: TRAP
+          key: voice.synthetic.r_factor
+          delay: '0'
+          value_type: FLOAT
+          description: 'Transmission rating factor R (0.0 - 100.0).'
+          tags:
+            - tag: component
+              value: voice-probe
+        - uuid: 38fa247429014c3083a8108181fe0cec
+          name: 'Synthetic call RTP jitter'
+          type: TRAP
+          key: voice.synthetic.jitter
+          delay: '0'
+          value_type: FLOAT
+          units: ms
+          description: 'Measured interarrival packet jitter.'
+          tags:
+            - tag: component
+              value: voice-probe
+        - uuid: d0f559ea4598460eb6952d7511ec9db4
+          name: 'Synthetic call RTP packet loss'
+          type: TRAP
+          key: voice.synthetic.packet_loss
+          delay: '0'
+          value_type: FLOAT
+          units: '%'
+          description: 'Measured voice packet loss percentage.'
+          tags:
+            - tag: component
+              value: voice-probe
+        - uuid: f8d49dd3412b48d8b08dbed9497745dc
+          name: 'Synthetic call RTP round trip time'
+          type: TRAP
+          key: voice.synthetic.rtt
+          delay: '0'
+          value_type: FLOAT
+          units: ms
+          description: 'Measured RTCP network round-trip time.'
+          tags:
+            - tag: component
+              value: voice-probe
+        - uuid: 9009354aaf064acebbbaa3c47843e933
+          name: 'Synthetic call one-way mouth-to-ear delay'
+          type: TRAP
+          key: voice.synthetic.one_way_delay
+          delay: '0'
+          value_type: FLOAT
+          units: ms
+          description: 'Estimated mouth-to-ear delay incorporating RTT, de-jitter holding, and packetization.'
+          tags:
+            - tag: component
+              value: voice-probe
