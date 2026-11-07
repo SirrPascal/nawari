@@ -192,22 +192,70 @@ class CallSafetyManager:
 
     @contextmanager
     def concurrency_lock(self) -> Generator[None, None, None]:
-        """Acquire non-blocking system-wide concurrency lock for single call execution."""
+        """Acquire non-blocking system-wide concurrency lock with automatic stale lock recovery."""
         lock_path = self.settings.lock_file_path
         lock_path.parent.mkdir(parents=True, exist_ok=True)
         fd = os.open(str(lock_path), os.O_CREAT | os.O_RDWR, 0o644)
+        acquired = False
         try:
             try:
                 fcntl.flock(fd, fcntl.LOCK_EX | fcntl.LOCK_NB)
+                acquired = True
             except (BlockingIOError, OSError):
-                raise SafetyViolationError(
-                    "Another synthetic call is currently executing. Concurrency limit is strictly 1."
-                )
+                # Check for dead PID / stale lock
+                stale_recovered = False
+                try:
+                    with open(str(lock_path), "r", encoding="utf-8") as f:
+                        content = f.read().strip()
+                    if ":" in content:
+                        pid_str, ts_str = content.split(":", 1)
+                        holder_pid = int(pid_str)
+                        holder_ts = float(ts_str)
+                        # Check if process is still alive
+                        try:
+                            os.kill(holder_pid, 0)
+                        except (ProcessLookupError, OSError):
+                            # Process died! Auto-recover lock
+                            stale_recovered = True
+                        else:
+                            # If process has exceeded 2x max duration, flag anomaly
+                            if time.time() - holder_ts > (self.settings.max_duration_seconds * 2):
+                                stale_recovered = True
+                except Exception:
+                    pass
+
+                if stale_recovered:
+                    # Stale lock holder is dead; try acquiring again
+                    try:
+                        fcntl.flock(fd, fcntl.LOCK_EX | fcntl.LOCK_NB)
+                        acquired = True
+                    except (BlockingIOError, OSError):
+                        raise SafetyViolationError(
+                            "Another synthetic call is currently executing. Concurrency limit is strictly 1."
+                        )
+                else:
+                    raise SafetyViolationError(
+                        "Another synthetic call is currently executing. Concurrency limit is strictly 1."
+                    )
+
+            # Record holder PID and timestamp
+            if acquired:
+                os.ftruncate(fd, 0)
+                os.lseek(fd, 0, os.SEEK_SET)
+                payload = f"{os.getpid()}:{time.time()}\n".encode("utf-8")
+                os.write(fd, payload)
+
             yield
         finally:
+            if acquired:
+                try:
+                    os.ftruncate(fd, 0)
+                    fcntl.flock(fd, fcntl.LOCK_UN)
+                except OSError:
+                    pass
             try:
-                fcntl.flock(fd, fcntl.LOCK_UN)
+                os.close(fd)
             except OSError:
                 pass
-            os.close(fd)
+
 

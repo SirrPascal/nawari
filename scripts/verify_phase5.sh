@@ -113,11 +113,12 @@ from services.voice.models import SyntheticCallRequest, CallOutcome
 runner = SyntheticCallRunner(get_voice_settings())
 res = runner.execute_call(SyntheticCallRequest(target='1002', timeout_seconds=10.0))
 assert res.success, f'Call failed: {res.error_message}'
-assert res.outcome == CallOutcome.ANSWERED
+assert res.outcome == CallOutcome.ANSWERED, f'Expected ANSWERED, got {res.outcome}: {res.error_message}'
 assert res.signaling.sip_status_code == 200
 assert res.duration_seconds >= 2.5
 "
 }
+
 
 check_synthetic_call_busy_1003() {
     cd "${PROJECT_ROOT}"
@@ -129,11 +130,12 @@ from services.voice.models import SyntheticCallRequest, CallOutcome
 
 runner = SyntheticCallRunner(get_voice_settings())
 res = runner.execute_call(SyntheticCallRequest(target='1003', timeout_seconds=10.0))
-assert res.outcome == CallOutcome.BUSY
+assert res.outcome == CallOutcome.BUSY, f'Expected BUSY, got {res.outcome}: {res.error_message}'
 assert res.signaling.sip_status_code == 486
 assert res.signaling.hangup_cause in {0, 17}
 "
 }
+
 
 check_synthetic_call_congestion_1004() {
     cd "${PROJECT_ROOT}"
