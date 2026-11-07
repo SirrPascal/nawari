@@ -21,6 +21,9 @@ class GatewayConfig:
     auth_token: Optional[str] = "nawari-dev-token"
     require_auth: bool = True
     max_payload_bytes: int = 2097152  # 2 MiB
+    max_queue_depth: int = 5000
+    backpressure_threshold: float = 0.90  # 90% of max_queue_depth triggers HTTP 429
+    retry_after_seconds: int = 30
     tls_cert_path: Optional[str] = None
     tls_key_path: Optional[str] = None
     allowed_agent_versions: List[str] = field(default_factory=lambda: ["1.0.0"])
@@ -34,6 +37,9 @@ class GatewayConfig:
             "zabbix_server_port": self.zabbix_server_port,
             "require_auth": self.require_auth,
             "max_payload_bytes": self.max_payload_bytes,
+            "max_queue_depth": self.max_queue_depth,
+            "backpressure_threshold": self.backpressure_threshold,
+            "retry_after_seconds": self.retry_after_seconds,
             "tls_enabled": bool(self.tls_cert_path and self.tls_key_path),
         }
 

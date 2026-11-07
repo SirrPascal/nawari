@@ -70,6 +70,20 @@ class GatewayRequestHandler(BaseHTTPRequestHandler):
 
     def do_POST(self) -> None:
         """Route POST requests: /api/v1/telemetry and /api/v1/telemetry/replay."""
+        # 0. Backpressure / Congestion Guard (Workstream 8F)
+        if self.gateway.is_congested():
+            body = json.dumps({
+                "error": "Gateway ingestion queue is backpressured; spool telemetry locally and retry",
+                "retry_after": self.gateway.config.retry_after_seconds,
+            }).encode("utf-8")
+            self.send_response(HTTPStatus.TOO_MANY_REQUESTS)
+            self.send_header("Content-Type", "application/json")
+            self.send_header("Retry-After", str(self.gateway.config.retry_after_seconds))
+            self.send_header("Content-Length", str(len(body)))
+            self.end_headers()
+            self.wfile.write(body)
+            return
+
         # 1. Authentication Guard
         if not self._verify_auth():
             self._send_json_response(
@@ -94,13 +108,17 @@ class GatewayRequestHandler(BaseHTTPRequestHandler):
 
         body = self.rfile.read(content_length)
 
-        # 3. Endpoint Routing
-        if self.path == "/api/v1/telemetry":
-            self._handle_telemetry_post(body)
-        elif self.path == "/api/v1/telemetry/replay":
-            self._handle_replay_post(body)
-        else:
-            self._send_json_response(HTTPStatus.NOT_FOUND, {"error": f"Endpoint not found: {self.path}"})
+        # 3. Endpoint Routing with Queue Tracking
+        self.gateway.increment_queue_depth()
+        try:
+            if self.path == "/api/v1/telemetry":
+                self._handle_telemetry_post(body)
+            elif self.path == "/api/v1/telemetry/replay":
+                self._handle_replay_post(body)
+            else:
+                self._send_json_response(HTTPStatus.NOT_FOUND, {"error": f"Endpoint not found: {self.path}"})
+        finally:
+            self.gateway.decrement_queue_depth()
 
     def _handle_telemetry_post(self, body: bytes) -> None:
         try:
@@ -219,7 +237,23 @@ class IngestionGatewayServer:
         self._thread: Optional[threading.Thread] = None
         self._start_time: float = 0.0
         self._total_ingested_reports: int = 0
+        self._active_queue_depth: int = 0
         self._lock = threading.Lock()
+
+    def is_congested(self) -> bool:
+        """Determines if the active queue depth exceeds the backpressure threshold."""
+        with self._lock:
+            threshold = int(self.config.max_queue_depth * self.config.backpressure_threshold)
+            return self._active_queue_depth >= threshold
+
+    def increment_queue_depth(self) -> None:
+        with self._lock:
+            self._active_queue_depth += 1
+
+    def decrement_queue_depth(self) -> None:
+        with self._lock:
+            if self._active_queue_depth > 0:
+                self._active_queue_depth -= 1
 
     def start(self) -> None:
         """Start the Gateway HTTP server in a background daemon thread."""
@@ -288,6 +322,7 @@ class IngestionGatewayServer:
     def get_stats(self) -> Dict[str, Any]:
         with self._lock:
             ingested = self._total_ingested_reports
+            queue_depth = self._active_queue_depth
         uptime = round(time.time() - self._start_time, 2) if self._start_time > 0 else 0.0
         return {
             "status": "HEALTHY",
@@ -295,5 +330,7 @@ class IngestionGatewayServer:
             "zabbix_server": f"{self.config.zabbix_server_host}:{self.config.zabbix_server_port}",
             "require_auth": self.config.require_auth,
             "total_ingested_reports": ingested,
+            "active_queue_depth": queue_depth,
+            "max_queue_depth": self.config.max_queue_depth,
             "uptime_seconds": uptime,
         }
