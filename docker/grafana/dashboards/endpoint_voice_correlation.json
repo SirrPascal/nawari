@@ -112,7 +112,7 @@
           "mappings": [],
           "max": 4.5,
           "min": 1,
-          "noValue": "UNKNOWN / NO DATA",
+          "noValue": "UNKNOWN (NO RTCP)",
           "thresholds": {
             "mode": "absolute",
             "steps": [
@@ -148,7 +148,7 @@
           },
           "group": { "filter": "/Telephony/" },
           "host": { "filter": "/.*voice-probe.*/" },
-          "item": { "filter": "Estimated MOS (ITU-T G.107)" },
+          "item": { "filter": "Synthetic call Estimated MOS" },
           "itemTag": { "filter": "" },
           "mode": 0,
           "options": { "showDisabledItems": false },
@@ -166,6 +166,7 @@
         "type": "alexanderzobnin-zabbix-datasource",
         "uid": "PA67C5EADE9207728"
       },
+      "description": "Perimeter L4 TCP/TLS socket connectivity only. Does NOT indicate SIP registration, authentication, or media flow.",
       "fieldConfig": {
         "defaults": {
           "color": { "mode": "thresholds" },
@@ -223,7 +224,7 @@
           "trigger": { "filter": "" }
         }
       ],
-      "title": "SBCE Port 5061 Transport",
+      "title": "SBCE Port 5061 L4 Transport Socket",
       "type": "stat"
     },
     {
@@ -297,6 +298,7 @@
         "type": "alexanderzobnin-zabbix-datasource",
         "uid": "PA67C5EADE9207728"
       },
+      "description": "Gateway edge latency and voice MOS operate on distinct operational layers. Visual correlation on dual axes does not imply direct causation; voice impairment may stem from core network or upstream carrier conditions, while high gateway latency may affect local transit without degrading an established prioritized RTP session.",
       "fieldConfig": {
         "defaults": {
           "color": { "mode": "palette-classic" },
@@ -316,7 +318,7 @@
         },
         "overrides": [
           {
-            "matcher": { "id": "byName", "options": "Estimated MOS (ITU-T G.107)" },
+            "matcher": { "id": "byName", "options": "Synthetic call Estimated MOS" },
             "properties": [
               { "id": "custom.axisPlacement", "value": "right" },
               { "id": "custom.axisLabel", "value": "MOS Score (1.0 - 4.5)" },
@@ -371,7 +373,7 @@
           },
           "group": { "filter": "/Telephony/" },
           "host": { "filter": "/.*voice-probe.*/" },
-          "item": { "filter": "Estimated MOS (ITU-T G.107)" },
+          "item": { "filter": "Synthetic call Estimated MOS" },
           "itemTag": { "filter": "" },
           "mode": 0,
           "options": { "showDisabledItems": false },
@@ -469,7 +471,7 @@
           },
           "group": { "filter": "/Telephony/" },
           "host": { "filter": "/.*voice-probe.*/" },
-          "item": { "filter": "RTCP packet loss percentage" },
+          "item": { "filter": "Synthetic call RTP packet loss" },
           "itemTag": { "filter": "" },
           "mode": 0,
           "options": { "showDisabledItems": false },
@@ -494,6 +496,7 @@
         "type": "alexanderzobnin-zabbix-datasource",
         "uid": "PA67C5EADE9207728"
       },
+      "description": "Correlates local physical Wi-Fi signal quality with voice call RTP jitter (derived from RTCP Receiver Reports). Local Wi-Fi channel contention or low signal directly inflates media packet jitter.",
       "fieldConfig": {
         "defaults": {
           "color": { "mode": "palette-classic" },
@@ -509,7 +512,7 @@
         },
         "overrides": [
           {
-            "matcher": { "id": "byName", "options": "RTCP jitter" },
+            "matcher": { "id": "byName", "options": "Synthetic call RTP jitter" },
             "properties": [
               { "id": "custom.axisPlacement", "value": "right" },
               { "id": "custom.axisLabel", "value": "Jitter (s)" },
@@ -551,7 +554,7 @@
           },
           "group": { "filter": "/Telephony/" },
           "host": { "filter": "/.*voice-probe.*/" },
-          "item": { "filter": "RTCP jitter" },
+          "item": { "filter": "Synthetic call RTP jitter" },
           "itemTag": { "filter": "" },
           "mode": 0,
           "options": { "showDisabledItems": false },

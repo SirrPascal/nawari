@@ -599,6 +599,7 @@
       },
       "gridPos": { "h": 6, "w": 16, "x": 0, "y": 20 },
       "id": 14,
+      "description": "DNS query resolution latency measured directly against configured nameservers or system resolver. Represents an independent name lookup phase before transport connection.",
       "options": {
         "legend": { "calcs": ["mean", "max", "lastNotNull"], "displayMode": "table", "placement": "bottom" },
         "tooltip": { "mode": "multi" }
@@ -797,6 +798,7 @@
       },
       "gridPos": { "h": 6, "w": 6, "x": 6, "y": 27 },
       "id": 18,
+      "description": "Duration of the L4 TCP 3-way handshake (SYN to ACK). Represents pure transport-layer round-trip time, independent of subsequent TLS negotiation.",
       "options": {
         "legend": { "calcs": ["mean", "lastNotNull"], "displayMode": "table", "placement": "bottom" },
         "tooltip": { "mode": "multi" }
@@ -854,6 +856,7 @@
       },
       "gridPos": { "h": 6, "w": 6, "x": 12, "y": 27 },
       "id": 19,
+      "description": "Duration of cryptographic TLS session negotiation (ClientHello to Finished). Measures cryptographic overhead distinct from the initial TCP socket connect time.",
       "options": {
         "legend": { "calcs": ["mean", "lastNotNull"], "displayMode": "table", "placement": "bottom" },
         "tooltip": { "mode": "multi" }
@@ -911,6 +914,7 @@
       },
       "gridPos": { "h": 6, "w": 6, "x": 18, "y": 27 },
       "id": 20,
+      "description": "Time To First Byte: duration from HTTP request transmission until the first response byte arrives. Measures upstream application processing latency, distinct from TCP and TLS setup times.",
       "options": {
         "legend": { "calcs": ["mean", "lastNotNull"], "displayMode": "table", "placement": "bottom" },
         "tooltip": { "mode": "multi" }

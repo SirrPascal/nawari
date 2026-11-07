@@ -37,6 +37,7 @@
       },
       "gridPos": { "h": 4, "w": 6, "x": 0, "y": 1 },
       "id": 2,
+      "description": "Total number of registered endpoint probe hosts discovered in Zabbix inventory.",
       "options": {
         "colorMode": "value",
         "graphMode": "none",
@@ -94,6 +95,7 @@
       },
       "gridPos": { "h": 4, "w": 6, "x": 6, "y": 1 },
       "id": 3,
+      "description": "Endpoints currently delivering live telemetry streams within active SLA windows.",
       "options": {
         "colorMode": "background",
         "graphMode": "none",
@@ -152,6 +154,7 @@
       },
       "gridPos": { "h": 4, "w": 6, "x": 12, "y": 1 },
       "id": 4,
+      "description": "Endpoints experiencing local physical, Wi-Fi, or gateway latency and packet loss degradation triggers.",
       "options": {
         "colorMode": "value",
         "graphMode": "none",
@@ -209,6 +212,7 @@
       },
       "gridPos": { "h": 4, "w": 6, "x": 18, "y": 1 },
       "id": 5,
+      "description": "Endpoints with no telemetry received for over 15 minutes, triggering the nodata() staleness alarm.",
       "options": {
         "colorMode": "background",
         "graphMode": "none",
