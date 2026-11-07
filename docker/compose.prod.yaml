@@ -1,0 +1,64 @@
+# ==============================================================================
+# NAWARI — Production Docker Compose Overrides (Phase 1)
+# Target: Ubuntu Server 24.04.4 LTS (mon-grafana01 @ 10.2.1.58)
+# Resource Quotas: 2 vCPU, 7.8 GiB RAM, ~17 GB Root Disk
+# ==============================================================================
+
+services:
+  postgres:
+    deploy:
+      resources:
+        limits:
+          memory: 512M
+          cpus: '0.50'
+        reservations:
+          memory: 256M
+
+  zabbix-snmptraps:
+    ports:
+      # Accept traps from enterprise subnets (10.2.156.0/24) on UDP 162
+      - "0.0.0.0:162:1162/udp"
+    deploy:
+      resources:
+        limits:
+          memory: 64M
+          cpus: '0.10'
+        reservations:
+          memory: 32M
+
+  zabbix-server:
+    ports:
+      # Bound strictly to production host IP for sender/active agent ingress
+      - "10.2.1.58:10051:10051"
+    deploy:
+      resources:
+        limits:
+          memory: 512M
+          cpus: '0.60'
+        reservations:
+          memory: 256M
+
+  zabbix-web:
+    ports:
+      # Bound strictly to loopback; exposed via reverse proxy or SSH tunnel
+      - "127.0.0.1:8080:8080"
+    deploy:
+      resources:
+        limits:
+          memory: 256M
+          cpus: '0.30'
+        reservations:
+          memory: 128M
+
+  grafana:
+    ports:
+      # Bound strictly to loopback; exposed via reverse proxy or SSH tunnel
+      - "127.0.0.1:3000:3000"
+    deploy:
+      resources:
+        limits:
+          memory: 300M
+          cpus: '0.40'
+        reservations:
+          memory: 150M
+
