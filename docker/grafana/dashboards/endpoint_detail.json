@@ -37,6 +37,7 @@
       },
       "gridPos": { "h": 4, "w": 10, "x": 0, "y": 1 },
       "id": 2,
+      "description": "Displays the agent version, hostname, and operating system build of the selected endpoint. Confirms that the endpoint agent daemon is running the current approved software build. Note that hostname strings are reported by the local OS and are validated against the persistent agent UUID.",
       "options": {
         "colorMode": "none",
         "graphMode": "none",
@@ -103,6 +104,7 @@
       },
       "gridPos": { "h": 4, "w": 7, "x": 10, "y": 1 },
       "id": 3,
+      "description": "Identifies the physical or logical network adapter carrying the endpoint's default route (e.g. Ethernet, Wi-Fi, VPN). Determines whether wireless diagnostic panels (RSSI, link quality) are active or safely suppressed as N/A. Changing interface types during an active session can cause transient latency spikes or TCP resets.",
       "options": {
         "colorMode": "background",
         "graphMode": "none",
@@ -167,6 +169,7 @@
       },
       "gridPos": { "h": 4, "w": 7, "x": 17, "y": 1 },
       "id": 4,
+      "description": "Indicates the execution environment trust tier (PHYSICAL_PRODUCTION, CONTAINER_SIMULATION, LAB_MOCK) stamped by the Nawari Gateway. Guarantees that diagnostic metrics reflect actual physical device hardware rather than lab test runners. Prevents accidental classification of simulated test workloads as enterprise field issues.",
       "options": {
         "colorMode": "background",
         "graphMode": "none",
@@ -239,6 +242,7 @@
       },
       "gridPos": { "h": 6, "w": 12, "x": 0, "y": 6 },
       "id": 6,
+      "description": "Measures the ICMP round-trip time between this endpoint and its first-hop default gateway. Values below 10 ms indicate healthy local Ethernet or enterprise Wi-Fi; values above 50 ms signal local access-layer congestion. Gateway latency reflects only the access link and does not measure wide-area network or cloud transit.",
       "options": {
         "legend": { "calcs": ["mean", "max", "lastNotNull"], "displayMode": "table", "placement": "bottom" },
         "tooltip": { "mode": "single" }
@@ -296,6 +300,7 @@
       },
       "gridPos": { "h": 6, "w": 12, "x": 12, "y": 6 },
       "id": 7,
+      "description": "Measures the percentage of dropped ICMP echo requests sent to the local default gateway. Any sustained packet loss (>1%) degrades TCP throughput and causes audio dropouts on real-time voice calls. Loss at the first hop indicates faulty cabling, Wi-Fi channel contention, or local switch port congestion.",
       "options": {
         "legend": { "calcs": ["mean", "max", "lastNotNull"], "displayMode": "table", "placement": "bottom" },
         "tooltip": { "mode": "single" }
@@ -356,6 +361,7 @@
       },
       "gridPos": { "h": 6, "w": 6, "x": 0, "y": 13 },
       "id": 9,
+      "description": "Measures Received Signal Strength Indicator (RSSI) in dBm for wireless connections. Values closer to zero indicate stronger signal (-50 dBm is excellent, below -75 dBm indicates poor coverage). Automatically displays N/A for wired Ethernet or VPN connections to prevent misleading zero readings.",
       "options": {
         "orientation": "auto",
         "reduceOptions": {
@@ -419,6 +425,7 @@
       },
       "gridPos": { "h": 6, "w": 6, "x": 6, "y": 13 },
       "id": 10,
+      "description": "Displays signal strength trends over time to identify roaming events, physical shielding, or intermittent RF fading. Rapid drops in RSSI typically coincide with user movement or environmental RF interference. Persistently weak signal forces the Wi-Fi adapter to fall back to lower modulation schemes, increasing latency.",
       "options": {
         "legend": { "calcs": ["mean", "lastNotNull"], "displayMode": "table", "placement": "bottom" },
         "tooltip": { "mode": "single" }
@@ -472,6 +479,7 @@
       },
       "gridPos": { "h": 6, "w": 6, "x": 12, "y": 13 },
       "id": 11,
+      "description": "Normalized wireless link quality score from 0% to 100%, incorporating signal-to-noise ratio and packet retry rates. Scores above 70% support reliable voice communications; scores below 40% lead to severe packet jitter and audio clipping. Displays N/A on wired interfaces to enforce strict physical telemetry isolation.",
       "options": {
         "orientation": "auto",
         "reduceOptions": {
@@ -535,6 +543,7 @@
       },
       "gridPos": { "h": 6, "w": 6, "x": 18, "y": 13 },
       "id": 12,
+      "description": "Tracks changes in wireless link stability over time, revealing intermittent RF interference or access point congestion. Correlate dips in link quality with default gateway loss and voice jitter to isolate wireless edge faults. Only active for Wi-Fi interfaces; remains N/A for wired or cellular connections.",
       "options": {
         "legend": { "calcs": ["mean", "lastNotNull"], "displayMode": "table", "placement": "bottom" },
         "tooltip": { "mode": "single" }
@@ -599,7 +608,7 @@
       },
       "gridPos": { "h": 6, "w": 16, "x": 0, "y": 20 },
       "id": 14,
-      "description": "DNS query resolution latency measured directly against configured nameservers or system resolver. Represents an independent name lookup phase before transport connection.",
+      "description": "Measures the time required to resolve configured domain names using the endpoint's configured DNS servers. Values above 50 ms indicate DNS server overload or network delays between the endpoint and the resolver. This measurement reflects only name resolution, not subsequent TCP connection or HTTP response times.",
       "options": {
         "legend": { "calcs": ["mean", "max", "lastNotNull"], "displayMode": "table", "placement": "bottom" },
         "tooltip": { "mode": "multi" }
@@ -661,6 +670,7 @@
       },
       "gridPos": { "h": 6, "w": 8, "x": 16, "y": 20 },
       "id": 15,
+      "description": "Displays the DNS response code returned by the resolver (NOERROR=0, NXDOMAIN=3, SERVFAIL=2, TIMEOUT=4). Non-zero RCODEs indicate DNS configuration errors, missing records, or resolver upstream lookup failures. An endpoint cannot establish network sessions if DNS resolution fails, even if underlying IP transport is healthy.",
       "options": {
         "colorMode": "background",
         "graphMode": "none",
@@ -733,6 +743,7 @@
       },
       "gridPos": { "h": 6, "w": 6, "x": 0, "y": 27 },
       "id": 17,
+      "description": "Reports whether TCP/TLS connections to monitored service targets succeeded (1=REACHABLE, 0=DOWN). A value of 0 indicates that the TCP handshake failed, was refused, or timed out. Transport reachability confirms socket connectivity across firewalls but does not verify application functionality or user authentication.",
       "options": {
         "colorMode": "background",
         "graphMode": "none",
@@ -798,7 +809,7 @@
       },
       "gridPos": { "h": 6, "w": 6, "x": 6, "y": 27 },
       "id": 18,
-      "description": "Duration of the L4 TCP 3-way handshake (SYN to ACK). Represents pure transport-layer round-trip time, independent of subsequent TLS negotiation.",
+      "description": "Duration of the L4 TCP 3-way handshake (SYN to ACK). Represents pure transport-layer round-trip time, independent of subsequent TLS negotiation. Elevated values indicate network transit latency or server SYN backlog exhaustion.",
       "options": {
         "legend": { "calcs": ["mean", "lastNotNull"], "displayMode": "table", "placement": "bottom" },
         "tooltip": { "mode": "multi" }
@@ -856,7 +867,7 @@
       },
       "gridPos": { "h": 6, "w": 6, "x": 12, "y": 27 },
       "id": 19,
-      "description": "Duration of cryptographic TLS session negotiation (ClientHello to Finished). Measures cryptographic overhead distinct from the initial TCP socket connect time.",
+      "description": "Duration of cryptographic TLS session negotiation (ClientHello to Finished). Measures cryptographic overhead distinct from the initial TCP socket connect time. High handshake durations point to slow cryptographic key exchange, large certificate chains, or server CPU throttling.",
       "options": {
         "legend": { "calcs": ["mean", "lastNotNull"], "displayMode": "table", "placement": "bottom" },
         "tooltip": { "mode": "multi" }
@@ -914,7 +925,7 @@
       },
       "gridPos": { "h": 6, "w": 6, "x": 18, "y": 27 },
       "id": 20,
-      "description": "Time To First Byte: duration from HTTP request transmission until the first response byte arrives. Measures upstream application processing latency, distinct from TCP and TLS setup times.",
+      "description": "Time To First Byte: duration from HTTP request transmission until the first response byte arrives. Measures upstream application processing latency, distinct from TCP and TLS setup times. High TTFB with low TCP/TLS times isolates application server or database performance issues.",
       "options": {
         "legend": { "calcs": ["mean", "lastNotNull"], "displayMode": "table", "placement": "bottom" },
         "tooltip": { "mode": "multi" }
@@ -952,6 +963,7 @@
     {
       "gridPos": { "h": 4, "w": 12, "x": 0, "y": 34 },
       "id": 22,
+      "description": "Direct contextual navigation link to the Network Path Analysis dashboard for the selected endpoint. Opens hop-by-hop Paris traceroute, latency waterfall, and CoPP guard status. Use when gateway metrics or service probes indicate network transit degradation.",
       "options": {
         "content": "### 🧭 Directional Hop & Network Path Analysis\n\nAnalyze hop-by-hop latency build-up, CoPP rate-limiting guards, and route divergence from **$endpoint** across transit routers.\n\n👉 **[Open Network Path Analysis for $endpoint](/d/nawari-path-analysis/nawari-path-analysis?var-endpoint=${endpoint})**",
         "mode": "markdown"
@@ -963,6 +975,7 @@
     {
       "gridPos": { "h": 4, "w": 12, "x": 12, "y": 34 },
       "id": 23,
+      "description": "Direct contextual navigation link to the Voice Service Correlation dashboard for the selected endpoint. Correlates edge network metrics against synthetic Asterisk voice calls and ITU-T G.107 MOS scores. Use when investigating voice quality degradation, jitter, or call setup failures.",
       "options": {
         "content": "### 🎙️ Cross-Domain Voice Service Assurance\n\nCorrelate edge gateway packet loss and Wi-Fi degradation from **$endpoint** against synthetic Asterisk voice calls and ITU-T G.107 MOS scores.\n\n👉 **[Open Voice Service Correlation for $endpoint](/d/nawari-voice-correlation/nawari-voice-correlation?var-endpoint=${endpoint})**",
         "mode": "markdown"

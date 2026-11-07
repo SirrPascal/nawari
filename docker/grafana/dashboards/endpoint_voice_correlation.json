@@ -19,6 +19,7 @@
     {
       "gridPos": { "h": 4, "w": 24, "x": 0, "y": 1 },
       "id": 2,
+      "description": "Architectural guidelines defining the separation between network transport and voice application health. A successful TCP/TLS handshake to SBC port 5061 proves only layer-4 socket reachability. It does not verify SIP registration, digest authentication, codec negotiation, or bidirectional media flow.",
       "options": {
         "content": "> ⚠️ **Domain Boundary Notice: Layer 4/7 Transport vs Media & Telephony Health**\n>\n> A successful TCP 3-way handshake or TLS session negotiation to Avaya SBCE port 5061 (`endpoint.service.reachable = 1`) proves **only** that socket connectivity exists across the network perimeter.\n>\n> It does **NOT** verify:\n> 1. SIP User Agent Digest Authentication or SIP Registration state.\n> 2. SDP offer/answer codec negotiation (e.g. G.711 A-law / G.729).\n> 3. NAT traversal or asymmetric media routing (e.g. one-way RTP audio).\n> 4. End-to-end voice quality (ITU-T G.107 MOS) or packet jitter.\n>\n> Comprehensive voice service assurance correlates **both** endpoint edge reachability and controlled synthetic Asterisk call probes.",
         "mode": "markdown"
@@ -66,6 +67,7 @@
       },
       "gridPos": { "h": 4, "w": 6, "x": 0, "y": 6 },
       "id": 4,
+      "description": "Reports the signaling and media result of controlled Asterisk synthetic voice probes (ANSWERED, BUSY, CONGESTION, TIMEOUT, FAILED). A healthy result confirms end-to-end SIP signaling and call setup across the voice core. CONGESTION (SIP 503) or TIMEOUT (SIP 408) indicates trunk capacity exhaustion or core server unreachability.",
       "options": {
         "colorMode": "background",
         "graphMode": "none",
@@ -126,6 +128,7 @@
       },
       "gridPos": { "h": 4, "w": 6, "x": 6, "y": 6 },
       "id": 5,
+      "description": "Calculates Mean Opinion Score (1.0 to 4.5) using ITU-T G.107 E-model based on measured RTP packet loss, jitter, and delay. Scores below 3.8 indicate noticeable degradation; scores below 3.5 indicate unacceptable voice quality. Crucially, displays UNKNOWN when RTCP reports are missing to avoid fabricating voice quality metrics.",
       "options": {
         "colorMode": "background",
         "graphMode": "none",
@@ -166,7 +169,7 @@
         "type": "alexanderzobnin-zabbix-datasource",
         "uid": "PA67C5EADE9207728"
       },
-      "description": "Perimeter L4 TCP/TLS socket connectivity only. Does NOT indicate SIP registration, authentication, or media flow.",
+      "description": "Perimeter L4 TCP/TLS socket connectivity only. Does NOT indicate SIP registration, authentication, or media flow. Verifies that the Avaya SBCE perimeter listener accepts TCP connections from the endpoint network. Socket connectivity is a prerequisite for voice service, but cannot prove telephony or media functionality.",
       "fieldConfig": {
         "defaults": {
           "color": { "mode": "thresholds" },
@@ -251,6 +254,7 @@
       },
       "gridPos": { "h": 4, "w": 6, "x": 18, "y": 6 },
       "id": 7,
+      "description": "Percentage of probe packets lost to the endpoint's local default gateway. Evaluates whether the user's local network access link is impaired during voice calls. Packet loss on the first-hop access link severely impacts RTP voice streams regardless of WAN or SBC health.",
       "options": {
         "colorMode": "background",
         "graphMode": "none",
@@ -423,6 +427,7 @@
       },
       "gridPos": { "h": 8, "w": 24, "x": 0, "y": 20 },
       "id": 11,
+      "description": "Multi-layer loss comparison overlaying default gateway loss, end-to-end network path loss, and voice audio stream packet loss. If gateway loss matches voice loss, the root cause is local to the access network. If voice loss occurs while edge and path loss are zero, the issue lies in upstream SIP trunks, transcoding DSPs, or carrier routing.",
       "options": {
         "legend": { "calcs": ["mean", "max", "lastNotNull"], "displayMode": "table", "placement": "bottom" },
         "tooltip": { "mode": "multi" }
@@ -496,7 +501,7 @@
         "type": "alexanderzobnin-zabbix-datasource",
         "uid": "PA67C5EADE9207728"
       },
-      "description": "Correlates local physical Wi-Fi signal quality with voice call RTP jitter (derived from RTCP Receiver Reports). Local Wi-Fi channel contention or low signal directly inflates media packet jitter.",
+      "description": "Correlates local physical Wi-Fi signal quality with voice call RTP jitter (derived from RTCP Receiver Reports). Local Wi-Fi channel contention or low signal directly inflates media packet jitter. Helps operators determine whether voice choppy audio complaints originate from local office Wi-Fi or the enterprise WAN.",
       "fieldConfig": {
         "defaults": {
           "color": { "mode": "palette-classic" },
@@ -589,6 +594,7 @@
       },
       "gridPos": { "h": 8, "w": 12, "x": 12, "y": 29 },
       "id": 14,
+      "description": "Tracks concurrent active audio sessions processed by the Avaya Session Border Controller Enterprise. Sudden spikes nearing license or DSP limits correlate with call rejection (SIP 503) and increased audio delay. Provides server-side capacity context to evaluate whether voice quality degradation is caused by edge network conditions or central infrastructure overload.",
       "options": {
         "legend": { "calcs": ["mean", "lastNotNull"], "displayMode": "table", "placement": "bottom" },
         "tooltip": { "mode": "multi" }

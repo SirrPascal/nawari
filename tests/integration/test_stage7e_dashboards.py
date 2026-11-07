@@ -148,3 +148,54 @@ def test_05_grafana_search_endpoint_folder(grafana_auth):
         for spec in EXPECTED_DASHBOARDS:
             assert spec["uid"] in uids, f"Dashboard {spec['uid']} not found in Grafana search index"
 
+
+def test_06_panel_descriptions_coverage():
+    """Verify that 100% of visual panels across all dashboards have technically rigorous descriptions."""
+    total_visual = 0
+    total_described = 0
+
+    for spec in EXPECTED_DASHBOARDS:
+        path = DASHBOARDS_DIR / spec["filename"]
+        with open(path, "r", encoding="utf-8") as f:
+            data = json.load(f)
+
+        panels = data.get("panels", [])
+        visual_panels = [p for p in panels if p.get("type") != "row"]
+        assert len(visual_panels) > 0, f"No visual panels found in {spec['filename']}"
+
+        for p in visual_panels:
+            total_visual += 1
+            desc = p.get("description", "").strip()
+            assert desc, f"Panel {p.get('id')} ({p.get('title')}) in {spec['filename']} is missing description"
+            assert len(desc) >= 30, (
+                f"Panel {p.get('id')} in {spec['filename']} has description that is too brief (<30 chars): '{desc}'"
+            )
+            # Avoid generic placeholders
+            assert not any(ph in desc.lower() for ph in ["shows network performance", "todo", "placeholder", "tbd"]), (
+                f"Panel {p.get('id')} in {spec['filename']} contains generic description placeholder: '{desc}'"
+            )
+            total_described += 1
+
+    assert total_visual == 47, f"Expected 47 visual panels across all 4 dashboards, found {total_visual}"
+    assert total_described == total_visual, f"Expected 100% description coverage ({total_visual}/{total_visual})"
+
+
+def test_07_live_grafana_descriptions_rendered(grafana_auth):
+    """Verify that provisioned dashboards in live Grafana retain panel descriptions for the info interface."""
+    for spec in EXPECTED_DASHBOARDS:
+        uid = spec["uid"]
+        url = f"http://127.0.0.1:3001/api/dashboards/uid/{uid}"
+        req = urllib.request.Request(url, headers={"Authorization": grafana_auth})
+
+        with urllib.request.urlopen(req, timeout=5.0) as resp:
+            assert resp.status == 200
+            body = json.loads(resp.read().decode("utf-8"))
+            dash = body.get("dashboard", {})
+            panels = dash.get("panels", [])
+            visual_panels = [p for p in panels if p.get("type") != "row"]
+
+            for p in visual_panels:
+                desc = p.get("description", "").strip()
+                assert desc, f"Provisioned panel {p.get('id')} in Grafana dashboard {uid} lost its description"
+
+

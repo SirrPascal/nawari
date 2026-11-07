@@ -37,7 +37,7 @@
       },
       "gridPos": { "h": 4, "w": 6, "x": 0, "y": 1 },
       "id": 2,
-      "description": "Total number of registered endpoint probe hosts discovered in Zabbix inventory.",
+      "description": "Measures the total inventory count of enrolled endpoint probe hosts discovered in Zabbix. A static inventory count establishes the fleet denominator for availability calculations. It does not indicate active data transmission or device health; compare against Active Reporting Endpoints to identify dormant or decommissioned endpoints.",
       "options": {
         "colorMode": "value",
         "graphMode": "none",
@@ -95,7 +95,7 @@
       },
       "gridPos": { "h": 4, "w": 6, "x": 6, "y": 1 },
       "id": 3,
-      "description": "Endpoints currently delivering live telemetry streams within active SLA windows.",
+      "description": "Measures the number of endpoint agents actively transmitting telemetry samples to the ingestion gateway within the reporting interval. Healthy fleets should show active counts matching enrolled inventory. Values significantly lower than total enrolled indicate fleet disconnects, host reboots, or gateway communication failures.",
       "options": {
         "colorMode": "background",
         "graphMode": "none",
@@ -154,7 +154,7 @@
       },
       "gridPos": { "h": 4, "w": 6, "x": 12, "y": 1 },
       "id": 4,
-      "description": "Endpoints experiencing local physical, Wi-Fi, or gateway latency and packet loss degradation triggers.",
+      "description": "Counts endpoints currently firing warning or average severity triggers for first-hop gateway latency (>50ms), packet loss (>20%), or degraded Wi-Fi. Elevated counts highlight localized physical or edge network access impairment before wide-area transit is reached. Note that edge degradation does not automatically prove WAN or cloud service failure.",
       "options": {
         "colorMode": "value",
         "graphMode": "none",
@@ -212,7 +212,7 @@
       },
       "gridPos": { "h": 4, "w": 6, "x": 18, "y": 1 },
       "id": 5,
-      "description": "Endpoints with no telemetry received for over 15 minutes, triggering the nodata() staleness alarm.",
+      "description": "Counts enrolled endpoints that have failed to submit heartbeat or telemetry samples for more than 15 minutes (nodata() = 1). A non-zero count signals agent process interruption, machine sleep/shutdown, or persistent network partition. Missing telemetry must never be interpreted as healthy zero-loss or zero-latency conditions.",
       "options": {
         "colorMode": "background",
         "graphMode": "none",
@@ -282,6 +282,7 @@
       },
       "gridPos": { "h": 6, "w": 12, "x": 0, "y": 6 },
       "id": 7,
+      "description": "Displays the distribution of primary active network interface types (Ethernet, Wi-Fi, VPN, Cellular) currently utilized by reporting endpoints. Useful for diagnosing interface-specific degradation clusters (e.g. airport lounge Wi-Fi saturation vs wired operations centers). Note that multi-homed endpoints report only their primary default route egress interface.",
       "options": {
         "displayLabels": ["percent", "name"],
         "legend": { "displayMode": "table", "placement": "right", "values": ["value", "percent"] },
@@ -341,6 +342,7 @@
       },
       "gridPos": { "h": 6, "w": 12, "x": 12, "y": 6 },
       "id": 8,
+      "description": "Classifies reporting endpoints by their cryptographic execution provenance (PHYSICAL_PRODUCTION, CONTAINER_SIMULATION, LAB_MOCK). Ensures operators can verify that production metrics originate from authentic physical endpoints rather than lab harnesses. Provenance is enforced and stamped server-side by the Nawari Ingestion Gateway.",
       "options": {
         "displayLabels": ["percent", "name"],
         "legend": { "displayMode": "table", "placement": "right", "values": ["value", "percent"] },
@@ -417,6 +419,7 @@
       },
       "gridPos": { "h": 7, "w": 12, "x": 0, "y": 13 },
       "id": 10,
+      "description": "Measures round-trip time (RTT) between endpoint agents and their local default gateways across the fleet. Sustained values above 50 ms indicate local subnet congestion, duplex mismatches, or Wi-Fi interference. Low gateway latency confirms local edge health but does not guarantee WAN transit or cloud application availability.",
       "options": {
         "legend": { "calcs": ["mean", "max", "lastNotNull"], "displayMode": "table", "placement": "bottom" },
         "tooltip": { "mode": "multi" }
@@ -479,6 +482,7 @@
       },
       "gridPos": { "h": 7, "w": 12, "x": 12, "y": 13 },
       "id": 11,
+      "description": "Measures ICMP probe packet loss percentage between endpoints and their first-hop gateway. Values above 0% indicate physical link errors, wireless RF collisions, or local switch buffer exhaustion. Loss at the default gateway directly impairs real-time voice and video streams across the access layer.",
       "options": {
         "legend": { "calcs": ["mean", "max", "lastNotNull"], "displayMode": "table", "placement": "bottom" },
         "tooltip": { "mode": "multi" }
@@ -543,6 +547,7 @@
       },
       "gridPos": { "h": 6, "w": 8, "x": 0, "y": 21 },
       "id": 13,
+      "description": "Measures transport socket reachability (L4 TCP 3-way handshake) from endpoints to perimeter SBC/voice edge devices on port 5061. Values of 1 indicate the transport socket was established; 0 indicates network firewall drops or server downtime. Crucially, TCP connect success does not verify SIP registration, TLS handshake, or bidirectional audio RTP flow.",
       "options": {
         "colorMode": "background",
         "graphMode": "none",
@@ -608,6 +613,7 @@
       },
       "gridPos": { "h": 6, "w": 8, "x": 8, "y": 21 },
       "id": 14,
+      "description": "Measures the query resolution time for corporate and external hostnames against configured nameservers. Elevated resolution times (>50 ms) or timeouts indicate recursive resolver saturation, cache thrashing, or upstream DNS transit failures. High DNS resolution latency delays all subsequent web and voice session establishments.",
       "options": {
         "legend": { "calcs": ["mean", "max"], "displayMode": "table", "placement": "bottom" },
         "tooltip": { "mode": "multi" }
@@ -665,6 +671,7 @@
       },
       "gridPos": { "h": 6, "w": 8, "x": 16, "y": 21 },
       "id": 15,
+      "description": "Measures HTTP Time To First Byte (TTFB) from request transmission to initial response byte across monitored corporate web endpoints. Elevated TTFB indicates server-side application processing delays, backend database bottlenecks, or reverse proxy queuing. TTFB measures server processing latency, distinct from TCP connect and TLS negotiation times.",
       "options": {
         "legend": { "calcs": ["mean", "max"], "displayMode": "table", "placement": "bottom" },
         "tooltip": { "mode": "multi" }
@@ -730,6 +737,7 @@
       },
       "gridPos": { "h": 8, "w": 24, "x": 0, "y": 28 },
       "id": 17,
+      "description": "Tabular inventory of all discovered endpoint agents showing host identity, active interface, default gateway RTT, packet loss, and environment provenance. Enables rapid drill-down from fleet-level trends to specific impaired workstations or flight operations terminals. Telemetry marked STALE indicates an endpoint has stopped reporting and requires local investigation.",
       "options": {
         "footer": { "countRows": false, "fields": "", "reducer": ["sum"], "show": false },
         "showHeader": true,
@@ -772,6 +780,7 @@
       },
       "gridPos": { "h": 8, "w": 24, "x": 0, "y": 37 },
       "id": 19,
+      "description": "Real-time operational problem feed displaying active Zabbix alarms across the endpoint fleet. Alarms highlight active edge degradations including gateway loss >20%, gateway RTT >50ms, and missing telemetry >15m. Acknowledging problems here suppresses redundant alerts while remediation is underway.",
       "options": {
         "columns": [
           { "text": "Severity", "value": "severity" },
