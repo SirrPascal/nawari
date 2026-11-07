@@ -37,7 +37,9 @@ class InterfaceState(str, Enum):
 
 class DnsResolutionStatus(str, Enum):
     """Classification of DNS query results."""
-    SUCCESS = "SUCCESS"
+    NOERROR = "NOERROR"
+    SUCCESS = "NOERROR"  # Canonical alias
+    NOERROR_EMPTY = "NOERROR_EMPTY"  # Query succeeded but returned no applicable records
     NXDOMAIN = "NXDOMAIN"
     SERVFAIL = "SERVFAIL"
     TIMEOUT = "TIMEOUT"
@@ -233,11 +235,19 @@ class ServiceConnectivityTelemetry:
     is_reachable: bool
     icmp_rtt_ms: Optional[float] = None
     icmp_loss_pct: Optional[float] = None
+    dns_lookup_time_ms: Optional[float] = None
     tcp_connect_time_ms: Optional[float] = None
+    tcp_status: Optional[str] = None
     tls_handshake_time_ms: Optional[float] = None
+    tls_version: Optional[str] = None
+    tls_cipher: Optional[str] = None
+    tls_cert_valid: Optional[bool] = None
+    tls_cert_days_remaining: Optional[int] = None
     http_status_code: Optional[int] = None
     http_ttfb_ms: Optional[float] = None
     http_total_time_ms: Optional[float] = None
+    http_response_size_bytes: Optional[int] = None
+    error_message: Optional[str] = None
 
     def to_dict(self) -> Dict[str, Any]:
         return {
@@ -249,11 +259,19 @@ class ServiceConnectivityTelemetry:
             "is_reachable": self.is_reachable,
             "icmp_rtt_ms": self.icmp_rtt_ms,
             "icmp_loss_pct": self.icmp_loss_pct,
+            "dns_lookup_time_ms": self.dns_lookup_time_ms,
             "tcp_connect_time_ms": self.tcp_connect_time_ms,
+            "tcp_status": self.tcp_status,
             "tls_handshake_time_ms": self.tls_handshake_time_ms,
+            "tls_version": self.tls_version,
+            "tls_cipher": self.tls_cipher,
+            "tls_cert_valid": self.tls_cert_valid,
+            "tls_cert_days_remaining": self.tls_cert_days_remaining,
             "http_status_code": self.http_status_code,
             "http_ttfb_ms": self.http_ttfb_ms,
             "http_total_time_ms": self.http_total_time_ms,
+            "http_response_size_bytes": self.http_response_size_bytes,
+            "error_message": self.error_message,
         }
 
     @classmethod
@@ -267,11 +285,19 @@ class ServiceConnectivityTelemetry:
             is_reachable=bool(data["is_reachable"]),
             icmp_rtt_ms=data.get("icmp_rtt_ms"),
             icmp_loss_pct=data.get("icmp_loss_pct"),
+            dns_lookup_time_ms=data.get("dns_lookup_time_ms"),
             tcp_connect_time_ms=data.get("tcp_connect_time_ms"),
+            tcp_status=data.get("tcp_status"),
             tls_handshake_time_ms=data.get("tls_handshake_time_ms"),
+            tls_version=data.get("tls_version"),
+            tls_cipher=data.get("tls_cipher"),
+            tls_cert_valid=data.get("tls_cert_valid"),
+            tls_cert_days_remaining=data.get("tls_cert_days_remaining"),
             http_status_code=data.get("http_status_code"),
             http_ttfb_ms=data.get("http_ttfb_ms"),
             http_total_time_ms=data.get("http_total_time_ms"),
+            http_response_size_bytes=data.get("http_response_size_bytes"),
+            error_message=data.get("error_message"),
         )
 
 

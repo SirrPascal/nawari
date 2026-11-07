@@ -21,12 +21,13 @@ Rather than relying on theoretical estimates (such as the earlier 85 MiB project
 
 | Metric | Measured Value | Architectural Budget Limit | Status | Notes |
 |---|---|---|---|---|
-| **Startup & Init Latency** | **0.93 ms** | < 100.0 ms | **EXCEEDED (100x Faster)** | Time to load configuration, initialize identity, and register probes |
+| **Cold Process Execution (CLI)** | **120.0 ms** | < 500.0 ms | **PASS** | Complete shell command invocation from cold python3 launch to process exit |
+| **Agent Internal Init Latency** | **0.93 ms** | < 100.0 ms | **EXCEEDED (100x Faster)** | In-process time to parse config, load identity, initialize platform adapter and scheduler |
 | **Idle Memory RSS** | **28.70 MiB** | < 45.0 MiB | **PASS (36% Headroom)** | Baseline Resident Set Size after initialization |
 | **Active Probing Memory RSS** | **29.55 MiB** | < 50.0 MiB | **PASS (40% Headroom)** | Memory RSS during active gateway ping and mock target execution |
 | **Active CPU Utilization** | **0.39% of 1 core** | < 5.0% of 1 core | **EXCEEDED (12x Lower)** | Average CPU utilization across 5 continuous diagnostic cycles |
 | **Active Thread Count** | **1 thread** | < 5 threads | **PASS** | Pure asyncio event loop execution |
-| **5 Diagnostic Cycles Duration** | **10.19 s** | < 30.0 s | **PASS** | Includes 3 gateway ICMP echo pings per cycle |
+| **5 Diagnostic Cycles Duration** | **10.19 s** | < 30.0 s | **PASS** | Workload: 5 consecutive cycles of 3x gateway ICMP pings + loopback reachability checks |
 | **Logging Overhead (1,000 lines)** | **15.34 ms** | < 100.0 ms | **PASS** | 15.34 microseconds per sanitized log line |
 | **Local Spool Footprint** | **5 records (~3.8 KB)** | < 10 MB | **PASS** | Standard JSONL append-only format |
 

@@ -7,18 +7,19 @@
 
 ---
 
-## 1. Zero-Remote-Execution (Zero-RCE) Enforcement
+## 1. Zero-Remote-Execution (Zero-RCE) Architectural Boundary
 
-The Nawari Endpoint Agent is strictly engineered to prevent arbitrary remote command execution:
+The primary security boundary of the Nawari Endpoint Agent is that **it contains no architectural facility, execution engine, or shell dispatcher capable of executing arbitrary commands**. 
 
-1. **Purely Outbound Sensor:** The agent does not open any inbound listening TCP/UDP ports. It initiates outbound connections exclusively.
-2. **Rejection of Shell Metacharacters:** In `TargetPolicy`, destination addresses and target identifiers are validated against `DANGEROUS_CHARS_REGEX`:
+1. **Absence of Command Execution Primitives:** The codebase contains zero instances of `eval()`, `exec()`, `os.system()`, or `subprocess.Popen(shell=True)`. All network probes are implemented as direct Python standard library socket/TLS/HTTP function calls with strongly typed arguments.
+2. **Purely Declarative Target Model:** The agent accepts only structured, strongly-typed probe targets (`TargetPolicy`). A server or policy update cannot supply a script, a command string, or an executable binary to the agent.
+3. **Defense-in-Depth Sanitization:** As an additional defense-in-depth layer, `TargetPolicy` validates all destination addresses against `DANGEROUS_CHARS_REGEX`:
    ```python
    DANGEROUS_CHARS_REGEX = re.compile(r"[;`$&|<>\\\n\r\t\"']")
    ```
-   Any target containing shell separators or metacharacters raises an immediate `ConfigurationError`.
-3. **Destination Whitelist Policy:** The configuration validates target destinations against `allowed_subnets` (CIDR notation) and `allowed_domains` (e.g. `*.kq.internal`, `*.local`, `localhost`). Targets outside approved boundaries are rejected at startup.
-4. **No Dynamic Execution Primitives:** The codebase contains zero instances of `eval()`, `exec()`, `os.system()`, or `subprocess.Popen(shell=True)`. All network interactions utilize native standard library socket APIs or sanitized argument vectors (`shell=False`).
+   Any destination containing shell metacharacters or invalid RFC hostnames/IPs is rejected immediately at configuration load time.
+4. **Destination Whitelist Policy:** The configuration validates target destinations against `allowed_subnets` (CIDR notation) and `allowed_domains` (e.g. `*.kq.internal`, `*.local`, `localhost`). Targets outside approved boundaries are rejected at startup.
+5. **Purely Outbound Sensor:** The agent does not open any inbound listening TCP/UDP ports. It initiates outbound diagnostic queries exclusively.
 
 ---
 

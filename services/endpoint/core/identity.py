@@ -89,7 +89,7 @@ class IdentityManager:
                     data = json.loads(content)
                     return EndpointIdentity.from_dict(data)
             except (json.JSONDecodeError, IdentityCorruptError, KeyError) as exc:
-                # Safely back up corrupted file rather than crashing or silently overwriting
+                # Safely back up corrupted file for forensic analysis
                 corrupt_backup = self.state_file.with_name(
                     f"{self.state_file.name}.corrupt.{int(time.time())}"
                 )
@@ -97,10 +97,16 @@ class IdentityManager:
                     shutil.copy2(self.state_file, corrupt_backup)
                 except Exception:
                     pass
-                # Generate replacement identity
-                new_id = self._generate_new_identity(re_reg_count=1)
-                self._save_atomic(new_id)
-                return new_id
+
+                # Explicit recovery requirement: DO NOT silently generate a replacement identity!
+                # Silently creating a new identity would cause an existing endpoint to enroll as a duplicate device.
+                raise IdentityCorruptError(
+                    f"Stored agent identity file is corrupt or invalid ({exc}). "
+                    f"Backed up to '{corrupt_backup.name}'. "
+                    "Automatic identity re-generation is disabled to prevent duplicate device enrollment. "
+                    "Run 'nawari-agent re-register --force' to explicitly generate a new identity, "
+                    "or restore the identity file from backup."
+                ) from exc
             except Exception as exc:
                 raise IdentityCorruptError(f"Unexpected error loading identity: {exc}") from exc
 
@@ -111,6 +117,8 @@ class IdentityManager:
 
     def re_register(self, force: bool = False) -> EndpointIdentity:
         """Explicitly re-register and generate a new agent identity."""
+        if not force:
+            raise ValueError("Re-registration requires explicit confirmation: pass force=True.")
         current_count = self._identity.re_registration_count if self._identity else 0
         new_id = self._generate_new_identity(re_reg_count=current_count + 1)
         self._save_atomic(new_id)

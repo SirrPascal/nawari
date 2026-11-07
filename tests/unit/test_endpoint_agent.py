@@ -64,7 +64,7 @@ def test_identity_persistence_and_restart():
 
 
 def test_identity_corrupted_file_recovery():
-    """Verify that corrupt identity file does not crash the agent and triggers safe recovery."""
+    """Verify that corrupt identity file halts with IdentityCorruptError and requires explicit recovery."""
     with tempfile.TemporaryDirectory() as tmpdir:
         state_file = Path(tmpdir) / "agent_id.json"
         
@@ -72,13 +72,20 @@ def test_identity_corrupted_file_recovery():
         state_file.write_text("{malformed: json", encoding="utf-8")
 
         mgr = IdentityManager(state_path=str(state_file))
-        new_id = mgr.agent_id
-        assert uuid.UUID(new_id, version=4)
-        assert mgr.identity.re_registration_count == 1
+        
+        # Must raise IdentityCorruptError rather than silently generating new identity
+        with pytest.raises(IdentityCorruptError, match="Automatic identity re-generation is disabled"):
+            _ = mgr.agent_id
 
-        # Verify backup of corrupted file was created
+        # Verify backup of corrupted file was created for forensics
         corrupt_backups = list(Path(tmpdir).glob("*.corrupt.*"))
         assert len(corrupt_backups) == 1
+
+        # Explicit operator re-registration with force=True succeeds
+        new_identity = mgr.re_register(force=True)
+        assert uuid.UUID(new_identity.agent_id, version=4)
+        assert new_identity.re_registration_count == 1
+        assert mgr.agent_id == new_identity.agent_id
 
 
 def test_identity_masking():

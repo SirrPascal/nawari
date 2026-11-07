@@ -1,4 +1,4 @@
-"""Endpoint Agent runtime coordinator and execution engine."""
+"""Endpoint Agent runtime coordinator and execution engine (Stage 7B Baseline)."""
 
 from __future__ import annotations
 
@@ -7,10 +7,10 @@ import logging
 import signal
 import sys
 import time
-from typing import Any, Dict, Optional
+from typing import Any, Dict, List, Optional
 
 from services.endpoint.collectors.local_network import LocalNetworkCollector
-from services.endpoint.config import AgentConfig
+from services.endpoint.config import AgentConfig, TargetPolicy
 from services.endpoint.core.circuit_breaker import CircuitBreaker
 from services.endpoint.core.identity import IdentityManager
 from services.endpoint.core.lifecycle import AgentLifecycleManager, AgentStatus
@@ -19,6 +19,7 @@ from services.endpoint.core.scheduler import ProbeScheduler
 from services.endpoint.core.spooler import DiskSpooler
 from services.endpoint.models import (
     AgentMetadata,
+    DnsProbeTelemetry,
     EndpointTelemetryReport,
     LocalNetworkTelemetry,
     ServiceConnectivityTelemetry,
@@ -27,6 +28,10 @@ from services.endpoint.models import (
 )
 from services.endpoint.os_platform import get_platform_adapter
 from services.endpoint.os_platform.base import PlatformAdapter
+from services.endpoint.probes.dns import DnsProbe
+from services.endpoint.probes.http import HttpProbe, HttpStatusOutcome
+from services.endpoint.probes.tcp import TcpConnectStatus, TcpProbe
+from services.endpoint.probes.tls import TlsHandshakeStatus, TlsProbe
 
 logger = setup_agent_logger()
 
@@ -53,13 +58,20 @@ class EndpointAgentRunner:
             spooler=self.spooler,
         )
         self.local_net_collector = LocalNetworkCollector(self.adapter)
+
+        # Stage 7B Probing Engines
+        self.dns_probe = DnsProbe(timeout_seconds=3.0)
+        self.tcp_probe = TcpProbe(default_timeout_seconds=3.0)
+        self.tls_probe = TlsProbe(verify_certificates=True, default_timeout_seconds=3.0)
+        self.http_probe = HttpProbe(default_timeout_seconds=5.0)
+
         self._shutdown_event = asyncio.Event()
 
         # Register probe tasks
         self._register_default_probes()
 
     def _register_default_probes(self) -> None:
-        """Register Stage 7A diagnostic probe tasks."""
+        """Register Stage 7A and 7B diagnostic probe tasks."""
         # 1. Local Network probe task
         self.scheduler.register_probe(
             probe_id="local_network",
@@ -69,7 +81,7 @@ class EndpointAgentRunner:
             handler=self._probe_local_network,
         )
 
-        # 2. Local mock service reachability task
+        # 2. Service connectivity probe tasks for configured targets
         for target in self.config.targets:
             if not self.config.validate_target_allowed(target):
                 logger.warning(f"Target '{target.target_id}' violates security whitelist policy; skipping registration")
@@ -79,8 +91,8 @@ class EndpointAgentRunner:
                 probe_id=f"service_{target.target_id}",
                 name=f"Reachability probe to {target.target_name}",
                 interval_seconds=float(self.config.poll_interval_seconds),
-                timeout_seconds=target.timeout_seconds,
-                handler=lambda t=target: self._probe_service_mock(t),
+                timeout_seconds=target.timeout_seconds + 1.0,
+                handler=lambda t=target: self._probe_service(t),
             )
 
     async def _probe_local_network(self) -> LocalNetworkTelemetry:
@@ -92,7 +104,6 @@ class EndpointAgentRunner:
         self.lifecycle.set_status(AgentStatus.PROBING)
         try:
             telemetry = self.local_net_collector.collect()
-            # Spool to local disk
             metadata = AgentMetadata(
                 agent_id=self.identity_mgr.agent_id,
                 hostname=self.config.hostname,
@@ -111,22 +122,85 @@ class EndpointAgentRunner:
         finally:
             self.lifecycle.set_status(AgentStatus.IDLE)
 
-    async def _probe_service_mock(self, target: Any) -> ServiceConnectivityTelemetry:
-        """Controlled local service reachability probe handler for Stage 7A testing."""
-        is_reachable, rtt, loss = self.adapter.ping(target.destination, count=1, timeout_seconds=1.0)
-        return ServiceConnectivityTelemetry(
-            target_id=target.target_id,
-            target_name=target.target_name,
-            destination_ip=target.destination,
-            destination_port=target.port,
-            protocol=target.protocol,
-            is_reachable=is_reachable,
-            icmp_rtt_ms=rtt,
-            icmp_loss_pct=loss,
-        )
+    async def _probe_service(self, target: TargetPolicy) -> ServiceConnectivityTelemetry:
+        """Execute protocol-specific reachability and handshake probing (Stage 7B)."""
+        destination = target.destination
+        port = target.port
+        timeout = target.timeout_seconds
+
+        # Protocol dispatch
+        if target.protocol == ServiceProtocol.TCP:
+            # TCP 3-way handshake measurement
+            res = await self.tcp_probe.probe(destination, port or 80, timeout_seconds=timeout)
+            return ServiceConnectivityTelemetry(
+                target_id=target.target_id,
+                target_name=target.target_name,
+                destination_ip=destination,
+                destination_port=port,
+                protocol=ServiceProtocol.TCP,
+                is_reachable=res.is_reachable,
+                tcp_connect_time_ms=res.connect_time_ms,
+                tcp_status=res.status.value,
+                error_message=res.error_message,
+            )
+
+        elif target.protocol == ServiceProtocol.TLS:
+            # TLS handshake measurement
+            res = await self.tls_probe.probe(destination, port or 5061, timeout_seconds=timeout)
+            return ServiceConnectivityTelemetry(
+                target_id=target.target_id,
+                target_name=target.target_name,
+                destination_ip=destination,
+                destination_port=port or 5061,
+                protocol=ServiceProtocol.TLS,
+                is_reachable=res.is_valid,
+                tls_handshake_time_ms=res.handshake_time_ms,
+                tls_version=res.tls_version,
+                tls_cipher=res.cipher_suite,
+                tls_cert_valid=res.is_valid,
+                tls_cert_days_remaining=res.cert_days_remaining,
+                error_message=res.error_message,
+            )
+
+        elif target.protocol in (ServiceProtocol.HTTP, ServiceProtocol.HTTPS):
+            # Decomposed HTTP(S) measurement
+            scheme = "https" if target.protocol == ServiceProtocol.HTTPS else "http"
+            default_port = 443 if scheme == "https" else 80
+            url = f"{scheme}://{destination}:{port or default_port}/"
+            res = await self.http_probe.probe(url, timeout_seconds=timeout)
+            return ServiceConnectivityTelemetry(
+                target_id=target.target_id,
+                target_name=target.target_name,
+                destination_ip=destination,
+                destination_port=port or default_port,
+                protocol=target.protocol,
+                is_reachable=res.is_success,
+                dns_lookup_time_ms=res.dns_time_ms,
+                tcp_connect_time_ms=res.tcp_time_ms,
+                tls_handshake_time_ms=res.tls_time_ms,
+                http_status_code=res.status_code,
+                http_ttfb_ms=res.ttfb_ms,
+                http_total_time_ms=res.total_time_ms,
+                http_response_size_bytes=res.response_size_bytes,
+                error_message=res.error_message,
+            )
+
+        else:
+            # Default / ICMP ping
+            is_reachable, rtt, loss = self.adapter.ping(destination, count=2, timeout_seconds=timeout)
+            return ServiceConnectivityTelemetry(
+                target_id=target.target_id,
+                target_name=target.target_name,
+                destination_ip=destination,
+                destination_port=port,
+                protocol=ServiceProtocol.ICMP,
+                is_reachable=is_reachable,
+                icmp_rtt_ms=rtt,
+                icmp_loss_pct=loss,
+            )
 
     async def run_once(self) -> EndpointTelemetryReport:
-        """Execute a single diagnostic cycle and return the canonical telemetry report."""
+        """Execute a complete diagnostic cycle across DNS, local network, and service probes."""
         metadata = AgentMetadata(
             agent_id=self.identity_mgr.agent_id,
             hostname=self.config.hostname,
@@ -138,15 +212,33 @@ class EndpointAgentRunner:
         )
 
         local_net = self.local_net_collector.collect()
-        service_probes = []
+
+        # 1. Execute DNS probes for configured DNS resolvers or target hostnames
+        dns_probes: List[DnsProbeTelemetry] = []
+        # Probe local resolution of localhost and configured targets if hostname
+        test_domains = ["localhost"]
+        for t in self.config.targets:
+            if not t.destination.replace(".", "").isdigit():
+                test_domains.append(t.destination)
+
+        for domain in set(test_domains):
+            try:
+                dp = await self.dns_probe.probe(query_name=domain, record_type="A")
+                dns_probes.append(dp)
+            except Exception as exc:
+                logger.warning(f"Error in DNS probe for {domain}: {exc}")
+
+        # 2. Execute Service Probes
+        service_probes: List[ServiceConnectivityTelemetry] = []
         for target in self.config.targets:
             if self.config.validate_target_allowed(target):
-                sp = await self._probe_service_mock(target)
+                sp = await self._probe_service(target)
                 service_probes.append(sp)
 
         report = EndpointTelemetryReport(
             metadata=metadata,
             local_network=local_net,
+            dns_probes=dns_probes,
             service_probes=service_probes,
         )
 
@@ -161,7 +253,6 @@ class EndpointAgentRunner:
             f"Poll Interval: {self.config.poll_interval_seconds}s)"
         )
 
-        # Setup OS signal handlers if in main thread
         try:
             loop = asyncio.get_running_loop()
             for sig in (signal.SIGTERM, signal.SIGINT):
