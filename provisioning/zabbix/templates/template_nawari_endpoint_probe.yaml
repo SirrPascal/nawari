@@ -1,0 +1,257 @@
+zabbix_export:
+  version: '7.4'
+  template_groups:
+    - uuid: 8a7c2930410743cc9dbb103ee2ece99b
+      name: 'Templates/Network devices'
+  templates:
+    - uuid: 9b52157145fc41ee844fad125e603c82
+      template: 'Template Nawari Endpoint Probe by Zabbix Trapper'
+      name: 'Template Nawari Endpoint Probe by Zabbix Trapper'
+      description: |
+        Nawari Endpoint-to-Service Network Observability Template.
+        Captures edge connectivity, default gateway health, Wi-Fi link quality,
+        DNS resolution timing, multi-protocol service connectivity, and
+        hop-by-hop network path performance ingested via the Nawari Ingestion Gateway.
+      groups:
+        - name: 'Templates/Network devices'
+      items:
+        - uuid: 1a61f9a6409b47ccb6ed4a0023c1e001
+          name: 'Endpoint info'
+          type: TRAP
+          key: endpoint.info
+          delay: '0'
+          value_type: CHAR
+          description: 'JSON metadata containing agent identity, OS, kernel, version, and provenance.'
+          tags:
+            - tag: component
+              value: endpoint-agent
+
+        - uuid: 2a61f9a6409b47ccb6ed4a0023c1e002
+          name: 'Endpoint environment'
+          type: TRAP
+          key: endpoint.environment
+          delay: '0'
+          value_type: UNSIGNED
+          description: 'Authoritative provenance environment: 0=MOCK_SIMULATED, 1=PHYSICAL_PRODUCTION.'
+          tags:
+            - tag: component
+              value: endpoint-agent
+
+        - uuid: 3a61f9a6409b47ccb6ed4a0023c1e003
+          name: 'Network interface type'
+          type: TRAP
+          key: endpoint.network.interface.type
+          delay: '0'
+          value_type: UNSIGNED
+          description: 'Active primary interface type: 0=Ethernet, 1=Wi-Fi, 2=VPN, 3=Other/Loopback.'
+          tags:
+            - tag: component
+              value: network
+
+        - uuid: 4a61f9a6409b47ccb6ed4a0023c1e004
+          name: 'Default gateway latency'
+          type: TRAP
+          key: endpoint.network.gateway.rtt
+          delay: '0'
+          value_type: FLOAT
+          units: s
+          description: 'Round-trip ping time to default gateway in seconds.'
+          tags:
+            - tag: component
+              value: network
+          triggers:
+            - uuid: d46bffaf068e490eb7c42ddcaadd3401
+              expression: 'nodata(/Template Nawari Endpoint Probe by Zabbix Trapper/endpoint.network.gateway.rtt,15m)=1'
+              name: 'Endpoint probe telemetry is stale (>15m)'
+              priority: WARNING
+              description: 'No telemetry has been received from this endpoint within the 15-minute SLA guard window.'
+              tags:
+                - tag: scope
+                  value: availability
+
+        - uuid: 5a61f9a6409b47ccb6ed4a0023c1e005
+          name: 'Default gateway packet loss'
+          type: TRAP
+          key: endpoint.network.gateway.loss
+          delay: '0'
+          value_type: FLOAT
+          units: '%'
+          description: 'Packet loss percentage to default gateway.'
+          tags:
+            - tag: component
+              value: network
+          triggers:
+            - uuid: e56bffaf068e490eb7c42ddcaadd3402
+              expression: 'last(/Template Nawari Endpoint Probe by Zabbix Trapper/endpoint.network.gateway.loss)>20'
+              name: 'High packet loss to default gateway (>20%)'
+              priority: AVERAGE
+              description: 'Local edge link degradation detected to immediate default gateway.'
+              tags:
+                - tag: scope
+                  value: performance
+
+        - uuid: 6a61f9a6409b47ccb6ed4a0023c1e006
+          name: 'Wi-Fi RSSI'
+          type: TRAP
+          key: endpoint.network.wifi.rssi
+          delay: '0'
+          value_type: FLOAT
+          units: dBm
+          description: 'Received Signal Strength Indicator for connected Wi-Fi AP.'
+          tags:
+            - tag: component
+              value: wifi
+
+        - uuid: 7a61f9a6409b47ccb6ed4a0023c1e007
+          name: 'Wi-Fi signal quality'
+          type: TRAP
+          key: endpoint.network.wifi.quality
+          delay: '0'
+          value_type: FLOAT
+          units: '%'
+          description: 'Link quality percentage for connected Wi-Fi AP.'
+          tags:
+            - tag: component
+              value: wifi
+
+      discovery_rules:
+        - uuid: 8a61f9a6409b47ccb6ed4a0023c1e010
+          name: 'DNS target discovery'
+          type: TRAP
+          key: nawari.endpoint.dns.discovery
+          delay: '0'
+          description: 'Low-Level Discovery of DNS probe targets.'
+          item_prototypes:
+            - uuid: 8b61f9a6409b47ccb6ed4a0023c1e011
+              name: 'DNS resolution time [{#TARGET}]'
+              type: TRAP
+              key: 'endpoint.dns.latency[{#TARGET}]'
+              delay: '0'
+              value_type: FLOAT
+              units: s
+              description: 'Time taken to resolve DNS target in seconds.'
+              tags:
+                - tag: component
+                  value: dns
+            - uuid: 8c61f9a6409b47ccb6ed4a0023c1e012
+              name: 'DNS resolution status [{#TARGET}]'
+              type: TRAP
+              key: 'endpoint.dns.status[{#TARGET}]'
+              delay: '0'
+              value_type: UNSIGNED
+              description: 'DNS status code: 0=Success, 1=NXDomain, 2=ServFail, 3=Timeout, 4=Refused, 5=Error.'
+              tags:
+                - tag: component
+                  value: dns
+
+        - uuid: 9a61f9a6409b47ccb6ed4a0023c1e020
+          name: 'Service connectivity target discovery'
+          type: TRAP
+          key: nawari.endpoint.service.discovery
+          delay: '0'
+          description: 'Low-Level Discovery of probed services.'
+          item_prototypes:
+            - uuid: 9b61f9a6409b47ccb6ed4a0023c1e021
+              name: 'Service reachable [{#TARGET}]'
+              type: TRAP
+              key: 'endpoint.service.reachable[{#TARGET}]'
+              delay: '0'
+              value_type: UNSIGNED
+              description: 'Service reachability: 1=Reachable, 0=Unreachable.'
+              tags:
+                - tag: component
+                  value: service
+            - uuid: 9c61f9a6409b47ccb6ed4a0023c1e022
+              name: 'TCP connect time [{#TARGET}]'
+              type: TRAP
+              key: 'endpoint.service.tcp_connect[{#TARGET}]'
+              delay: '0'
+              value_type: FLOAT
+              units: s
+              description: 'TCP 3-way handshake round-trip latency in seconds.'
+              tags:
+                - tag: component
+                  value: service
+            - uuid: 9d61f9a6409b47ccb6ed4a0023c1e023
+              name: 'TLS handshake time [{#TARGET}]'
+              type: TRAP
+              key: 'endpoint.service.tls_handshake[{#TARGET}]'
+              delay: '0'
+              value_type: FLOAT
+              units: s
+              description: 'TLS cryptographic session negotiation time in seconds.'
+              tags:
+                - tag: component
+                  value: service
+            - uuid: 9e61f9a6409b47ccb6ed4a0023c1e024
+              name: 'HTTP status code [{#TARGET}]'
+              type: TRAP
+              key: 'endpoint.service.http_status[{#TARGET}]'
+              delay: '0'
+              value_type: UNSIGNED
+              description: 'HTTP response status code.'
+              tags:
+                - tag: component
+                  value: service
+            - uuid: 9f61f9a6409b47ccb6ed4a0023c1e025
+              name: 'HTTP TTFB [{#TARGET}]'
+              type: TRAP
+              key: 'endpoint.service.http_ttfb[{#TARGET}]'
+              delay: '0'
+              value_type: FLOAT
+              units: s
+              description: 'HTTP Time To First Byte in seconds.'
+              tags:
+                - tag: component
+                  value: service
+
+        - uuid: 0a61f9a6409b47ccb6ed4a0023c1e030
+          name: 'Network path target discovery'
+          type: TRAP
+          key: nawari.endpoint.path.discovery
+          delay: '0'
+          description: 'Low-Level Discovery of network path trace targets.'
+          item_prototypes:
+            - uuid: 0b61f9a6409b47ccb6ed4a0023c1e031
+              name: 'Path end-to-end latency [{#TARGET}]'
+              type: TRAP
+              key: 'endpoint.path.e2e_rtt[{#TARGET}]'
+              delay: '0'
+              value_type: FLOAT
+              units: s
+              description: 'Total path round-trip time in seconds.'
+              tags:
+                - tag: component
+                  value: path
+            - uuid: 0c61f9a6409b47ccb6ed4a0023c1e032
+              name: 'Path end-to-end packet loss [{#TARGET}]'
+              type: TRAP
+              key: 'endpoint.path.e2e_loss[{#TARGET}]'
+              delay: '0'
+              value_type: FLOAT
+              units: '%'
+              description: 'Observed packet loss across network path.'
+              tags:
+                - tag: component
+                  value: path
+            - uuid: 0d61f9a6409b47ccb6ed4a0023c1e033
+              name: 'Path route changed [{#TARGET}]'
+              type: TRAP
+              key: 'endpoint.path.route_changed[{#TARGET}]'
+              delay: '0'
+              value_type: UNSIGNED
+              description: 'Route change flag: 0=Stable, 1=Route Diverged.'
+              tags:
+                - tag: component
+                  value: path
+            - uuid: 0e61f9a6409b47ccb6ed4a0023c1e034
+              name: 'Path total hops [{#TARGET}]'
+              type: TRAP
+              key: 'endpoint.path.total_hops[{#TARGET}]'
+              delay: '0'
+              value_type: UNSIGNED
+              description: 'Total number of hops traversed to target.'
+              tags:
+                - tag: component
+                  value: path
+

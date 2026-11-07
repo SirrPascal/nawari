@@ -46,6 +46,8 @@ class EndpointAgentRunner:
         config: AgentConfig,
         platform_adapter: Optional[PlatformAdapter] = None,
         identity_manager: Optional[IdentityManager] = None,
+        uploader: Optional[Any] = None,
+        enable_uploader: bool = False,
     ) -> None:
         self.config = config
         self.adapter = platform_adapter or get_platform_adapter()
@@ -60,6 +62,16 @@ class EndpointAgentRunner:
             spooler=self.spooler,
         )
         self.local_net_collector = LocalNetworkCollector(self.adapter)
+
+        # Stage 7D Telemetry Uploader & Spool Replay
+        self.uploader = uploader
+        if self.uploader is None and enable_uploader:
+            from services.endpoint.core.uploader import TelemetryUploader
+            self.uploader = TelemetryUploader(
+                gateway_url=self.config.gateway_url,
+                auth_token=self.config.api_token,
+                spooler=self.spooler,
+            )
 
         # Stage 7B Probing Engines
         self.dns_probe = DnsProbe(timeout_seconds=3.0)
@@ -266,6 +278,17 @@ class EndpointAgentRunner:
         )
 
         self.spooler.spool(report.to_dict())
+
+        # If uploader is configured, attempt upload and drain spool
+        if self.uploader:
+            try:
+                uploaded = self.uploader.upload_report(report)
+                if uploaded:
+                    self.spooler.dequeue(count=1)
+                    self.uploader.replay_spooled(batch_size=20)
+            except Exception as exc:
+                logger.warning(f"Error during telemetry upload/replay: {exc}")
+
         return report
 
     async def start(self) -> None:

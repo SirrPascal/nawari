@@ -95,3 +95,4 @@ All adapters parse platform outputs into structured `RawHopProbe` dictionaries a
 
 ### 4.3 Total Test Regression
 - **103 passed in 21.92s** across unit and integration suites.
+

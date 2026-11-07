@@ -115,6 +115,8 @@ class DiskSpooler:
                     pass
             return 0
 
+    dequeue = purge  # Canonical alias for spool queue operations
+
     def clear(self) -> None:
         """Clear all spooled records."""
         if self.spool_file.exists():
