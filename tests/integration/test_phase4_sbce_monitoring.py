@@ -43,8 +43,22 @@ def grafana_auth_header():
     return "Basic " + base64.b64encode(token).decode("utf-8")
 
 
-def test_01_snmpv3_authpriv_responsiveness():
-    """Verify mock SNMP responds to SNMPv3 authPriv queries using Admin user."""
+def test_01a_snmpv3_modern_sha256_aes_responsiveness():
+    """Verify mock SNMP responds to modern production baseline SNMPv3 authPriv (SHA-256 / AES-128)."""
+    cmd = [
+        "docker", "exec", "nawari-mock-snmp",
+        "snmpget", "-v3", "-l", "authPriv",
+        "-u", "Admin_sha256",
+        "-a", "SHA-256", "-A", "sbce_secret_auth_pass",
+        "-x", "AES", "-X", "sbce_secret_priv_pass",
+        "127.0.0.1", "1.3.6.1.2.1.1.5.0",
+    ]
+    res = subprocess.run(cmd, capture_output=True, text=True, check=True)
+    assert "nawari-mock-core-switch-01" in res.stdout, f"Modern SNMPv3 response invalid: {res.stdout}"
+
+
+def test_01b_snmpv3_legacy_sha1_des_responsiveness():
+    """Verify mock SNMP responds to legacy compatibility baseline SNMPv3 authPriv (SHA-1 / DES)."""
     cmd = [
         "docker", "exec", "nawari-mock-snmp",
         "snmpget", "-v3", "-l", "authPriv",
@@ -54,7 +68,7 @@ def test_01_snmpv3_authpriv_responsiveness():
         "127.0.0.1", "1.3.6.1.2.1.1.5.0",
     ]
     res = subprocess.run(cmd, capture_output=True, text=True, check=True)
-    assert "nawari-mock-core-switch-01" in res.stdout, f"SNMPv3 response invalid: {res.stdout}"
+    assert "nawari-mock-core-switch-01" in res.stdout, f"Legacy SNMPv3 response invalid: {res.stdout}"
 
 
 def test_02_avaya_sbce_template_hierarchy(zabbix_client):
@@ -109,7 +123,9 @@ def test_03_mock_sbce_host_provisioned(zabbix_client):
     assert len(ifaces) >= 1, "Interface missing on mock SBCE host"
     details = ifaces[0].get("details", {})
     assert str(details.get("version")) == "3", f"Expected SNMPv3, got: {details}"
-    assert details.get("securityname") == "Admin", "Expected SNMPv3 security name Admin"
+    assert details.get("securityname") == "Admin_sha256", "Expected SNMPv3 security name Admin_sha256"
+    assert str(details.get("authprotocol")) == "3", f"Expected SHA256 (3), got {details.get('authprotocol')}"
+    assert str(details.get("privprotocol")) == "1", f"Expected AES128 (1), got {details.get('privprotocol')}"
 
 
 def test_04_sbce_interfaces_discovered(zabbix_client):

@@ -39,10 +39,36 @@ run_check() {
     fi
 }
 
-check_mock_snmpv3_authpriv() {
+check_mock_snmpv3_modern_sha256_aes() {
+    docker exec nawari-mock-snmp snmpget -v3 -l authPriv \
+        -u Admin_sha256 -a SHA-256 -A sbce_secret_auth_pass -x AES -X sbce_secret_priv_pass \
+        127.0.0.1 1.3.6.1.2.1.1.5.0 | grep -q "nawari-mock-core-switch-01"
+}
+
+check_mock_snmpv3_legacy_sha1_des() {
     docker exec nawari-mock-snmp snmpget -v3 -l authPriv \
         -u Admin -a SHA -A sbce_secret_auth_pass -x DES -X sbce_secret_priv_pass \
         127.0.0.1 1.3.6.1.2.1.1.5.0 | grep -q "nawari-mock-core-switch-01"
+}
+
+check_zabbix_sha256_aes_polling() {
+    "${PYTHON_BIN}" -c "
+import sys
+sys.path.insert(0, '${PROJECT_ROOT}')
+from services.api.client.zabbix_client import ZabbixClient
+from services.api.config import get_settings
+
+settings = get_settings()
+client = ZabbixClient(settings.zabbix)
+client.connect()
+host = client.get_hosts(['mock-avaya-sbce-01'], select_interfaces=True)[0]
+details = host['interfaces'][0]['details']
+assert details['securityname'] == 'Admin_sha256'
+assert str(details['authprotocol']) == '3'  # SHA256
+assert str(details['privprotocol']) == '1'  # AES128
+items = client.call('item.get', {'hostids': [host['hostid']], 'search': {'key_': 'system.cpu.util'}})
+assert items[0]['state'] == '0' and items[0]['lastvalue'] != ''
+" > /dev/null 2>&1
 }
 
 check_sbce_template_hierarchy() {
@@ -89,7 +115,9 @@ mock_h = client.call('host.get', {
 assert len(mock_h) == 1 and mock_h[0]['status'] == '0'
 assert any(t['name'] == 'Nawari Avaya SBCE by SNMP' for t in mock_h[0]['parentTemplates'])
 assert str(mock_h[0]['interfaces'][0]['details']['version']) == '3'
-assert mock_h[0]['interfaces'][0]['details']['securityname'] == 'Admin'
+assert mock_h[0]['interfaces'][0]['details']['securityname'] == 'Admin_sha256'
+assert str(mock_h[0]['interfaces'][0]['details']['authprotocol']) == '3'
+assert str(mock_h[0]['interfaces'][0]['details']['privprotocol']) == '1'
 
 prod_h = client.call('host.get', {
     'filter': {'host': ['avaya-sbce-01']},
@@ -240,14 +268,16 @@ with urllib.request.urlopen(req) as resp:
 " > /dev/null 2>&1
 }
 
-run_check "SNMPv3 authPriv Responsiveness (User: Admin, SHA/DES)" check_mock_snmpv3_authpriv
-run_check "Avaya SBCE Template Hierarchy & LLD Rules" check_sbce_template_hierarchy
-run_check "SBCE Hosts Provisioned (Mock & Production Reconciled)" check_sbce_hosts_provisioned
-run_check "LLD Discovery of Voice Interfaces (M1, M2, A1, B1)" check_sbce_interface_discovery
-run_check "SBCE Appliance Resource Telemetry Active (CPU/RAM/Disk/Load)" check_sbce_resource_metrics
-run_check "Historical Metric Persistence in PostgreSQL" check_historical_telemetry
-run_check "Voice Interface Fault Injection & Auto-Recovery (A1 Link Down)" check_voice_fault_lifecycle
-run_check "Grafana Avaya SBCE Operational Dashboard (19 Panels)" check_grafana_dashboard
+run_check "[SIMULATED-MOCK] Modern SNMPv3 authPriv Baseline (SHA-256 / AES-128)" check_mock_snmpv3_modern_sha256_aes
+run_check "[SIMULATED-MOCK] Legacy SNMPv3 authPriv Compatibility (SHA-1 / DES)" check_mock_snmpv3_legacy_sha1_des
+run_check "[SIMULATED-MOCK] Zabbix SNMPv3 SHA-256/AES-128 Active Polling" check_zabbix_sha256_aes_polling
+run_check "[SIMULATED-MOCK] Avaya SBCE Template Hierarchy & LLD Rules" check_sbce_template_hierarchy
+run_check "[SIMULATED-MOCK] SBCE Hosts Provisioned (Mock & Production Reconciled)" check_sbce_hosts_provisioned
+run_check "[SIMULATED-MOCK] LLD Discovery of Voice Interfaces (M1, M2, A1, B1)" check_sbce_interface_discovery
+run_check "[SIMULATED-MOCK] SBCE Appliance Resource Telemetry (CPU/RAM/Disk/Load)" check_sbce_resource_metrics
+run_check "[SIMULATED-MOCK] Historical Metric Persistence in PostgreSQL" check_historical_telemetry
+run_check "[SIMULATED-MOCK] Voice Path Fault Injection & Recovery (A1 Link Down)" check_voice_fault_lifecycle
+run_check "[SIMULATED-MOCK] Grafana Avaya SBCE Operational Dashboard (19 Panels)" check_grafana_dashboard
 
 echo "----------------------------------------------------------------------"
 echo "VERIFICATION SUMMARY: ${PASS} PASSED, ${FAIL} FAILED"

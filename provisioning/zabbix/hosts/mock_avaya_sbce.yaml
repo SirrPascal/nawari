@@ -22,11 +22,11 @@ hosts:
         useip: 0
         details:
           version: 3
-          securityname: "Admin"
+          securityname: "Admin_sha256"
           securitylevel: "authPriv"
-          authprotocol: "SHA"
+          authprotocol: "SHA256"
           authpassphrase: "sbce_secret_auth_pass"
-          privprotocol: "DES"
+          privprotocol: "AES128"
           privpassphrase: "sbce_secret_priv_pass"
     macros:
       - macro: "{$IFCONTROL}"

@@ -41,7 +41,11 @@ ip addr add 10.2.156.134/24 dev B1 2>/dev/null || true
 ) &
 
 # Initialize SNMPv3 users directly into snmpd.conf
+# 1. Legacy compatibility baseline (SHA-1 / DES)
 echo "createUser ${AVAYA_SBCE_SNMP_SEC_NAME:-Admin} SHA \"${AVAYA_SBCE_SNMP_AUTH_PASS:-sbce_secret_auth_pass}\" DES \"${AVAYA_SBCE_SNMP_PRIV_PASS:-sbce_secret_priv_pass}\"" >> /etc/snmp/snmpd.conf
+# 2. Modern production baseline (SHA-256 / AES-128)
+echo "createUser ${AVAYA_SBCE_SNMP_SEC_NAME:-Admin}_sha256 SHA-256 \"${AVAYA_SBCE_SNMP_AUTH_PASS:-sbce_secret_auth_pass}\" AES \"${AVAYA_SBCE_SNMP_PRIV_PASS:-sbce_secret_priv_pass}\"" >> /etc/snmp/snmpd.conf
+# 3. Transition cipher user (SHA-1 / AES-128)
 echo "createUser ${AVAYA_SBCE_SNMP_SEC_NAME:-Admin}_aes SHA \"${AVAYA_SBCE_SNMP_AUTH_PASS:-sbce_secret_auth_pass}\" AES \"${AVAYA_SBCE_SNMP_PRIV_PASS:-sbce_secret_priv_pass}\"" >> /etc/snmp/snmpd.conf
 
 echo "[MOCK-SNMP] Starting Net-SNMP daemon (snmpd)..."
