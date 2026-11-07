@@ -33,8 +33,15 @@ from services.voice.telemetry_schema import CanonicalVoiceEvent
 class CrossDomainCorrelator:
     """Correlates voice quality telemetry, endpoint experience, and infrastructure monitoring state."""
 
-    def __init__(self, zabbix_client: Optional[Any] = None):
+    def __init__(
+        self,
+        zabbix_client: Optional[Any] = None,
+        topology_graph: Optional[Any] = None,
+        topology_engine: Optional[Any] = None,
+    ):
         self.zabbix_client = zabbix_client
+        self.topology_graph = topology_graph
+        self.topology_engine = topology_engine
 
     def fetch_active_problems(
         self,
@@ -67,6 +74,7 @@ class CrossDomainCorrelator:
         active_problems: Optional[list[dict[str, Any]]] = None,
         infrastructure_metrics: Optional[dict[str, Any]] = None,
         endpoint_reports: Optional[list[EndpointTelemetryReport]] = None,
+        topology_changes: Optional[list[Any]] = None,
     ) -> ServiceAssuranceReport:
         """Execute multi-domain correlation and synthesize an assurance report."""
         if active_problems is None:
@@ -781,6 +789,70 @@ class CrossDomainCorrelator:
                     ],
                 )
             )
+
+        # -------------------------------------------------------------
+        # Scenario 7: Topology-Aware Network Dependency & Change Correlation
+        # -------------------------------------------------------------
+        changes = topology_changes or []
+        if changes:
+            # Check if any changes correlate with existing network/transport hypotheses
+            for ch in changes:
+                ch_type = getattr(ch, "change_type", str(ch))
+                target_id = getattr(ch, "target_entity_id", "")
+                target_type = getattr(ch, "target_entity_type", "")
+
+                for hyp in hypotheses:
+                    if hyp.root_cause_domain in (
+                        RootCauseDomain.NETWORK_LINK,
+                        RootCauseDomain.NETWORK_TRANSIT,
+                        RootCauseDomain.LOCAL_NETWORK,
+                    ):
+                        hyp.status = HypothesisStatus.CONFIRMED
+                        hyp.confidence = max(hyp.confidence, 0.98)
+                        hyp.evidence.append(
+                            EvidenceItem(
+                                domain=EvidenceDomain.NETWORK,
+                                source="topology.change_detector",
+                                identifier=f"Topological Change: {ch_type} on {target_id}",
+                                severity="CRITICAL" if ("DOWN" in ch_type or "LOST" in ch_type) else "HIGH",
+                                description=f"Corroborated by physical network change ({ch_type}) on {target_type} {target_id}.",
+                                value=ch_type,
+                            )
+                        )
+
+            # If no hypotheses yet and we have high-impact link/neighbour changes
+            if not hypotheses:
+                down_changes = [
+                    c for c in changes
+                    if getattr(c, "change_type", "") in ("LINK_DOWN", "NEIGHBOUR_LOST", "UPLINK_FLAP")
+                ]
+                if down_changes:
+                    ch0 = down_changes[0]
+                    ch_type = getattr(ch0, "change_type", "LINK_DOWN")
+                    target_id = getattr(ch0, "target_entity_id", "unknown")
+                    hypotheses.append(
+                        IncidentHypothesis(
+                            status=HypothesisStatus.CONFIRMED,
+                            root_cause_domain=RootCauseDomain.NETWORK_LINK,
+                            title=f"Physical Network Link Outage ({ch_type} on {target_id})",
+                            summary=f"Automated topology change detector identified critical state transition: {ch_type} on {target_id}.",
+                            confidence=0.98,
+                            evidence=[
+                                EvidenceItem(
+                                    domain=EvidenceDomain.NETWORK,
+                                    source="topology.change_detector",
+                                    identifier=f"{ch_type}: {target_id}",
+                                    severity="CRITICAL",
+                                    description=f"Physical link or neighbor outage detected on {target_id}.",
+                                    value=ch_type,
+                                )
+                            ],
+                            remediation_recommendations=[
+                                f"Inspect physical cable, optical transceiver, or patch panel for {target_id}.",
+                                "Verify Spanning Tree and port status on adjacent switch.",
+                            ],
+                        )
+                    )
 
         # Default fallback if no specific scenario matched
         if not hypotheses:
