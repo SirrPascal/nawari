@@ -22,6 +22,12 @@ from services.endpoint.models import (
 )
 from services.endpoint.os_platform import get_platform_adapter
 from services.endpoint.os_platform.base import PlatformAdapter, PlatformCapabilities
+from services.endpoint.path import (
+    HopAnalyzer,
+    MplsLabelEntry,
+    MplsLabelParser,
+    ParisTraceroute,
+)
 from services.endpoint.runner import EndpointAgentRunner
 
 __all__ = [
@@ -51,4 +57,8 @@ __all__ = [
     "PathTelemetry",
     "EndpointTelemetryReport",
     "AgentMetadata",
+    "ParisTraceroute",
+    "HopAnalyzer",
+    "MplsLabelParser",
+    "MplsLabelEntry",
 ]

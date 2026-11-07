@@ -289,3 +289,4 @@ class HttpProbe:
                 active_sock.close()
             except Exception:
                 pass
+

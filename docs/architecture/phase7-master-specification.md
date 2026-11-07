@@ -162,3 +162,4 @@ However, core infrastructure monitoring cannot determine the true experience of 
 4. **Zero-RCE Guarantee:** Purely declarative configuration; no shell command evaluation.
 5. **No Fabricated Data:** Missing or unsupported measurements strictly yield `None` / `UNKNOWN`.
 6. **Production Headroom:** Target VM (`mon-grafana01`, 2 vCPU, 7.8 GiB RAM) must retain >5.0 GiB free RAM.
+

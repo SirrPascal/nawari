@@ -22,12 +22,14 @@ from services.endpoint.models import (
     DnsProbeTelemetry,
     EndpointTelemetryReport,
     LocalNetworkTelemetry,
+    PathTelemetry,
     ServiceConnectivityTelemetry,
     ServiceProtocol,
     TelemetricEnvironment,
 )
 from services.endpoint.os_platform import get_platform_adapter
 from services.endpoint.os_platform.base import PlatformAdapter
+from services.endpoint.path import ParisTraceroute
 from services.endpoint.probes.dns import DnsProbe
 from services.endpoint.probes.http import HttpProbe, HttpStatusOutcome
 from services.endpoint.probes.tcp import TcpConnectStatus, TcpProbe
@@ -64,6 +66,9 @@ class EndpointAgentRunner:
         self.tcp_probe = TcpProbe(default_timeout_seconds=3.0)
         self.tls_probe = TlsProbe(verify_certificates=True, default_timeout_seconds=3.0)
         self.http_probe = HttpProbe(default_timeout_seconds=5.0)
+
+        # Stage 7C Path Analysis Engine
+        self.traceroute = ParisTraceroute(adapter=self.adapter, default_max_hops=15, default_timeout_seconds=1.0)
 
         self._shutdown_event = asyncio.Event()
 
@@ -235,11 +240,29 @@ class EndpointAgentRunner:
                 sp = await self._probe_service(target)
                 service_probes.append(sp)
 
+        # 3. Execute Path Traces for Allowed Targets
+        path_traces: List[PathTelemetry] = []
+        for target in self.config.targets:
+            if self.config.validate_target_allowed(target):
+                try:
+                    pt = await self.traceroute.trace(
+                        target_id=target.target_id,
+                        destination_ip=target.destination,
+                        target_port=target.port,
+                        protocol=target.protocol.value,
+                        max_hops=10,
+                        timeout_seconds=1.0,
+                    )
+                    path_traces.append(pt)
+                except Exception as exc:
+                    logger.warning(f"Error executing path trace to {target.target_id}: {exc}")
+
         report = EndpointTelemetryReport(
             metadata=metadata,
             local_network=local_net,
             dns_probes=dns_probes,
             service_probes=service_probes,
+            path_traces=path_traces,
         )
 
         self.spooler.spool(report.to_dict())

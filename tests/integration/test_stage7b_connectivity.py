@@ -162,3 +162,4 @@ def test_stage7b_end_to_end_agent_runner_with_probes():
             assert len(spooled["service_probes"]) == 2
 
     asyncio.run(_test())
+

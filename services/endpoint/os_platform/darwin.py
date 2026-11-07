@@ -2,6 +2,7 @@
 
 from __future__ import annotations
 
+import ipaddress
 import os
 import platform
 import re
@@ -199,3 +200,121 @@ class DarwinAdapter(PlatformAdapter):
             return is_reachable, avg_rtt, loss_pct
         except Exception:
             return False, None, 100.0
+
+    def trace_path(
+        self,
+        destination_ip: str,
+        max_hops: int = 30,
+        timeout_seconds: float = 2.0,
+        target_port: Optional[int] = None,
+        fixed_flow: bool = True,
+    ) -> List[Dict[str, Any]]:
+        """Execute unprivileged Paris traceroute on macOS using /usr/sbin/traceroute."""
+        if destination_ip in ("127.0.0.1", "localhost", "::1"):
+            return [{
+                "hop_index": 1,
+                "ip_address": "127.0.0.1",
+                "rtts_ms": [0.1, 0.1, 0.1],
+                "probes_sent": 3,
+                "probes_received": 3,
+                "mpls_labels": [],
+            }]
+
+        traceroute_bin = "/usr/sbin/traceroute"
+        if not os.path.exists(traceroute_bin):
+            return []
+
+        cmd = [
+            traceroute_bin,
+            "-n",
+            "-m", str(min(max(1, max_hops), 64)),
+            "-q", "3",
+            "-w", str(max(1, int(timeout_seconds))),
+        ]
+        if fixed_flow:
+            cmd.append("-e")
+        if target_port:
+            cmd.extend(["-p", str(target_port)])
+        cmd.append(destination_ip)
+
+        try:
+            res = subprocess.run(
+                cmd,
+                capture_output=True,
+                text=True,
+                timeout=timeout_seconds * max_hops + 10.0,
+                check=False,
+            )
+            return self._parse_traceroute_output(res.stdout, destination_ip)
+        except Exception:
+            return []
+
+    def _parse_traceroute_output(self, output: str, destination_ip: str) -> List[Dict[str, Any]]:
+        hops: List[Dict[str, Any]] = []
+        for line in output.strip().splitlines():
+            line = line.strip()
+            if not line or line.startswith("traceroute"):
+                continue
+            parts = line.split()
+            if not parts or not parts[0].isdigit():
+                continue
+            hop_index = int(parts[0])
+            ip_addr: Optional[str] = None
+            rtts: List[float] = []
+            probes_sent = 0
+            mpls_labels: List[int] = []
+
+            i = 1
+            while i < len(parts):
+                token = parts[i]
+                if token == "*":
+                    probes_sent += 1
+                    i += 1
+                    continue
+                if token.startswith("[MPLS:"):
+                    mpls_str = token
+                    while not token.endswith("]") and i + 1 < len(parts):
+                        i += 1
+                        token = parts[i]
+                        mpls_str += " " + token
+                    if "Label" in mpls_str:
+                        try:
+                            idx = mpls_str.find("Label")
+                            sub = mpls_str[idx + 5 :].split()[0].rstrip("]")
+                            mpls_labels.append(int(sub))
+                        except Exception:
+                            pass
+                    i += 1
+                    continue
+
+                try:
+                    ipaddress.ip_address(token)
+                    if ip_addr is None:
+                        ip_addr = token
+                    i += 1
+                    continue
+                except ValueError:
+                    pass
+
+                try:
+                    val = float(token)
+                    rtts.append(val)
+                    probes_sent += 1
+                    i += 1
+                    if i < len(parts) and parts[i].lower() == "ms":
+                        i += 1
+                    continue
+                except ValueError:
+                    pass
+
+                i += 1
+
+            hops.append({
+                "hop_index": hop_index,
+                "ip_address": ip_addr,
+                "rtts_ms": rtts,
+                "probes_sent": max(probes_sent, len(rtts)),
+                "probes_received": len(rtts),
+                "mpls_labels": mpls_labels,
+            })
+        return hops

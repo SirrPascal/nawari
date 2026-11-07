@@ -85,3 +85,4 @@ The `EndpointAgentRunner` coordinates all Stage 7A and Stage 7B diagnostic colle
 - Layer independence verified: 404 URL confirms transport healthy while application layer reports client error.
 - Full agent cycle verified: `run_once()` generated `nawari.endpoint.telemetry.v1` report and safely persisted to spooler.
 - **Result**: 5/5 integration tests passed in 6.33s.
+

@@ -316,6 +316,7 @@ class HopTelemetry:
     loss_pct: float
     status: HopResponseStatus
     mpls_labels: List[int] = field(default_factory=list)
+    delta_rtt_ms: Optional[float] = None
 
     def __post_init__(self) -> None:
         if not (1 <= self.hop_index <= 64):
@@ -337,6 +338,7 @@ class HopTelemetry:
             "rtt_avg_ms": self.rtt_avg_ms,
             "rtt_max_ms": self.rtt_max_ms,
             "rtt_stddev_ms": self.rtt_stddev_ms,
+            "delta_rtt_ms": self.delta_rtt_ms,
             "loss_pct": self.loss_pct,
             "status": self.status.value,
             "mpls_labels": list(self.mpls_labels),
@@ -354,6 +356,7 @@ class HopTelemetry:
             rtt_avg_ms=data.get("rtt_avg_ms"),
             rtt_max_ms=data.get("rtt_max_ms"),
             rtt_stddev_ms=data.get("rtt_stddev_ms"),
+            delta_rtt_ms=data.get("delta_rtt_ms"),
             loss_pct=float(data["loss_pct"]),
             status=HopResponseStatus(data["status"]),
             mpls_labels=list(data.get("mpls_labels", [])),
@@ -372,6 +375,9 @@ class PathTelemetry:
     path_hash: str
     has_route_changed: bool
     hops: List[HopTelemetry] = field(default_factory=list)
+    loss_onset_hop: Optional[int] = None
+    latency_onset_hop: Optional[int] = None
+    divergent_hop_index: Optional[int] = None
 
     def to_dict(self) -> Dict[str, Any]:
         return {
@@ -383,6 +389,9 @@ class PathTelemetry:
             "end_to_end_loss_pct": self.end_to_end_loss_pct,
             "path_hash": self.path_hash,
             "has_route_changed": self.has_route_changed,
+            "loss_onset_hop": self.loss_onset_hop,
+            "latency_onset_hop": self.latency_onset_hop,
+            "divergent_hop_index": self.divergent_hop_index,
             "hops": [h.to_dict() for h in self.hops],
         }
 
@@ -398,6 +407,9 @@ class PathTelemetry:
             end_to_end_loss_pct=float(data["end_to_end_loss_pct"]),
             path_hash=data["path_hash"],
             has_route_changed=bool(data["has_route_changed"]),
+            loss_onset_hop=data.get("loss_onset_hop"),
+            latency_onset_hop=data.get("latency_onset_hop"),
+            divergent_hop_index=data.get("divergent_hop_index"),
             hops=hops,
         )
 

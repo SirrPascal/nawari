@@ -24,6 +24,7 @@ class PlatformCapabilities:
     supports_wifi_diagnostics: bool
     supports_gateway_discovery: bool
     supports_dns_discovery: bool
+    supports_path_tracing: bool = True
     requires_elevation_for: List[str] = field(default_factory=list)
 
     def to_dict(self) -> Dict[str, Any]:
@@ -36,6 +37,7 @@ class PlatformCapabilities:
             "supports_wifi_diagnostics": self.supports_wifi_diagnostics,
             "supports_gateway_discovery": self.supports_gateway_discovery,
             "supports_dns_discovery": self.supports_dns_discovery,
+            "supports_path_tracing": self.supports_path_tracing,
             "requires_elevation_for": list(self.requires_elevation_for),
         }
 
@@ -76,4 +78,16 @@ class PlatformAdapter(ABC):
         self, destination_ip: str, count: int = 3, timeout_seconds: float = 1.0
     ) -> Tuple[bool, Optional[float], float]:
         """Send ICMP echo requests and return (is_reachable, avg_rtt_ms, loss_pct)."""
+        pass
+
+    @abstractmethod
+    def trace_path(
+        self,
+        destination_ip: str,
+        max_hops: int = 30,
+        timeout_seconds: float = 2.0,
+        target_port: Optional[int] = None,
+        fixed_flow: bool = True,
+    ) -> List[Dict[str, Any]]:
+        """Send TTL-incremented path probes and return raw hop dictionary list."""
         pass
