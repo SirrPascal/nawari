@@ -25,6 +25,15 @@ zabbix_export:
           tags:
             - tag: component
               value: endpoint-agent
+          triggers:
+            - uuid: d46bffaf068e490eb7c42ddcaadd3401
+              expression: 'nodata(/Template Nawari Endpoint Probe by Zabbix Trapper/endpoint.info,15m)=1'
+              name: 'Endpoint probe telemetry is stale (>15m)'
+              priority: WARNING
+              description: 'No telemetry heartbeat has been received from this endpoint within the 15-minute SLA guard window.'
+              tags:
+                - tag: scope
+                  value: availability
 
         - uuid: 2a61f9a6409b47ccb6ed4a0023c1e002
           name: 'Endpoint environment'
@@ -60,14 +69,14 @@ zabbix_export:
             - tag: component
               value: network
           triggers:
-            - uuid: d46bffaf068e490eb7c42ddcaadd3401
-              expression: 'nodata(/Template Nawari Endpoint Probe by Zabbix Trapper/endpoint.network.gateway.rtt,15m)=1'
-              name: 'Endpoint probe telemetry is stale (>15m)'
+            - uuid: f46bffaf068e490eb7c42ddcaadd3499
+              expression: 'last(/Template Nawari Endpoint Probe by Zabbix Trapper/endpoint.network.gateway.rtt)>0.05'
+              name: 'High default gateway latency (>50ms)'
               priority: WARNING
-              description: 'No telemetry has been received from this endpoint within the 15-minute SLA guard window.'
+              description: 'Local edge link latency to default gateway exceeds 50ms.'
               tags:
                 - tag: scope
-                  value: availability
+                  value: performance
 
         - uuid: 5a61f9a6409b47ccb6ed4a0023c1e005
           name: 'Default gateway packet loss'

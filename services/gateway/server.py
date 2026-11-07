@@ -2,6 +2,7 @@
 
 from __future__ import annotations
 
+import hmac
 import json
 import logging
 import ssl
@@ -51,10 +52,10 @@ class GatewayRequestHandler(BaseHTTPRequestHandler):
 
         if auth_header.startswith("Bearer "):
             token = auth_header[7:].strip()
-            if token == expected:
+            if hmac.compare_digest(token, expected):
                 return True
 
-        if token_header.strip() == expected:
+        if token_header.strip() and hmac.compare_digest(token_header.strip(), expected):
             return True
 
         return False
@@ -106,9 +107,10 @@ class GatewayRequestHandler(BaseHTTPRequestHandler):
             payload = json.loads(body.decode("utf-8"))
             report = EndpointTelemetryReport.from_dict(payload)
         except Exception as exc:
+            logger.warning(f"Rejected malformed telemetry payload: {exc}")
             self._send_json_response(
                 HTTPStatus.BAD_REQUEST,
-                {"error": f"Malformed telemetry payload: {exc}"},
+                {"error": "Malformed telemetry payload: invalid schema or JSON syntax"},
             )
             return
 
@@ -158,9 +160,10 @@ class GatewayRequestHandler(BaseHTTPRequestHandler):
             if not isinstance(reports_data, list):
                 raise ValueError("Reports field must be a list of telemetry reports")
         except Exception as exc:
+            logger.warning(f"Rejected malformed replay payload: {exc}")
             self._send_json_response(
                 HTTPStatus.BAD_REQUEST,
-                {"error": f"Malformed replay payload: {exc}"},
+                {"error": "Malformed replay payload: invalid schema or JSON syntax"},
             )
             return
 
