@@ -59,3 +59,4 @@ def test_live_hosts_verification(zabbix_client):
     assert "Core Distribution Gateway" in gw["name"]
     assert len(gw["interfaces"]) >= 1
     assert gw["interfaces"][0]["ip"] == "10.2.1.1"
+

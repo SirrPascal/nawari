@@ -1,10 +1,12 @@
 """Idempotent reconciliation engine for applying desired state to Zabbix."""
 
 import logging
+from pathlib import Path
 from typing import Any, Optional
 
 from services.api.client.models import HostGroup, InterfaceType
 from services.api.client.zabbix_client import ZabbixClient
+from services.api.config import find_project_root
 from services.api.provisioning.diff import (
     ActionType,
     ChangeReport,
@@ -22,8 +24,45 @@ class Reconciler:
     def __init__(self, client: ZabbixClient):
         self.client = client
 
+    def sync_templates(self, templates_dir: Optional[Path] = None) -> list[str]:
+        """Import all template YAML files located in templates_dir."""
+        if templates_dir is None:
+            templates_dir = find_project_root() / "provisioning" / "zabbix" / "templates"
+
+        if not templates_dir.exists():
+            return []
+
+        imported = []
+        yaml_files = sorted(templates_dir.glob("*.yaml")) + sorted(templates_dir.glob("*.yml"))
+        for path in yaml_files:
+            with open(path, "r", encoding="utf-8") as f:
+                content = f.read()
+
+            try:
+                self.client.call("configuration.import", {
+                    "format": "yaml",
+                    "source": content,
+                    "rules": {
+                        "templates": {"createMissing": True, "updateExisting": True},
+                        "template_groups": {"createMissing": True, "updateExisting": True},
+                        "templateLinkage": {"createMissing": True},
+                        "items": {"createMissing": True, "updateExisting": True},
+                        "discoveryRules": {"createMissing": True, "updateExisting": True},
+                        "triggers": {"createMissing": True, "updateExisting": True}
+                    }
+                })
+                imported.append(path.name)
+                logger.info(f"Successfully synced template: {path.name}")
+            except Exception as e:
+                logger.error(f"Failed to sync template {path.name}: {e}")
+                raise
+        return imported
+
     def plan(self, desired_state: DesiredState) -> ChangeReport:
         """Fetch current Zabbix state and calculate diff without applying changes."""
+        # 0. Sync local template definitions
+        self.sync_templates()
+
         # 1. Fetch live host groups
         desired_group_names = [g.name for g in desired_state.host_groups]
         live_groups = self.client.get_host_groups(names=desired_group_names)
@@ -217,3 +256,4 @@ class Reconciler:
                 if desired_main.type == InterfaceType.SNMP and desired_main.details:
                     if_payload["details"] = desired_main.details.to_dict()
                 self.client.update_interface(primary_live["interfaceid"], if_payload)
+

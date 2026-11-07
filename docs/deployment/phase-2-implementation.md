@@ -116,3 +116,4 @@ In response to the architecture review, the following production reality gates a
 3. **Version Pinning & Upgrades:** `zabbix/zabbix-server-pgsql:alpine-7.4-latest` pulls patch releases along the stable 7.4 branch (currently `7.4.16`). Minor patch upgrades follow semantic versioning without breaking schema changes.
 4. **SNMP Traps Network Gate:** Local test traps validate container spooling; cross-network UDP transport, firewall validation, and Avaya enterprise MIB resolution remain gated for production staging.
 5. **Production Readiness:** `docker/compose.prod.yaml` is documented as an initial configuration baseline, not proof of deployment.
+

@@ -61,3 +61,4 @@ In Nawari:
    python3 -m services.api.cli apply
    ```
 3. Verify connectivity through Zabbix SNMP poller.
+

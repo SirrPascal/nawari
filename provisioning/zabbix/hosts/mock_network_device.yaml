@@ -1,0 +1,45 @@
+# ==============================================================================
+# NAWARI — Simulated Network Device Target (Phase 3 SNMP LLD & Telemetry)
+# ==============================================================================
+version: "1"
+
+hosts:
+  # ----------------------------------------------------------------------------
+  # Simulated Core Switch (Dev/Test Environment)
+  # ----------------------------------------------------------------------------
+  - host: "mock-core-switch-01"
+    name: "Simulated Core Switch 01 (Lab)"
+    description: "Mock network core switch for Phase 3 SNMP discovery and real telemetry verification"
+    status: 0 # Monitored
+    groups:
+      - "Core Network"
+    templates:
+      - "Nawari Network Device by SNMP"
+    interfaces:
+      - type: snmp
+        dns: "mock-snmp"
+        ip: ""
+        port: 161
+        main: 1
+        useip: 0
+        details:
+          version: 2
+          community: "{$SNMP_COMMUNITY}"
+    macros:
+      - macro: "{$SNMP_COMMUNITY}"
+        value: "public"
+        type: "text"
+        description: "SNMP read-only community for mock core switch"
+      - macro: "{$IF_ERRORS_WARN}"
+        value: "2"
+        description: "Interface error threshold per minute"
+      - macro: "{$IFCONTROL}"
+        value: "1"
+        description: "Enable link-down alerting on discovered interfaces"
+    tags:
+      - tag: "environment"
+        value: "lab-simulation"
+      - tag: "role"
+        value: "core-switch"
+      - tag: "platform"
+        value: "net-snmp-simulated"

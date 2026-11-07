@@ -144,3 +144,4 @@ def test_diff_hosts_detects_property_updates():
     assert "name" in details
     assert "description" in details
     assert "groups" in details
+

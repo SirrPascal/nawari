@@ -12,3 +12,4 @@ host_groups:
     description: "Session Border Controllers terminating SIP trunks and remote workers"
   - name: "Communications Applications"
     description: "Application servers and telephony integration services"
+

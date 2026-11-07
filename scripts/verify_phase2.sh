@@ -76,3 +76,4 @@ else
     echo ">> PHASE 2 VERIFICATION FAILED WITH ${FAIL} FAILURES <<"
     exit 1
 fi
+

@@ -107,3 +107,4 @@ def test_desired_host_parsing():
     assert len(dh.interfaces) == 1
     assert len(dh.macros) == 1
     assert len(dh.tags) == 1
+
