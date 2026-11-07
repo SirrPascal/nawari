@@ -46,6 +46,12 @@ class RootCauseDomain(str, Enum):
     FIREWALL_NAT_ASYMMETRY = "FIREWALL_NAT_ASYMMETRY"   # One-way audio, RTP port block, asymmetric routing
     UPSTREAM_CARRIER = "UPSTREAM_CARRIER"               # Carrier / ITSP refusal (SIP 503/408) with healthy local infra
     CLIENT_ENDPOINT = "CLIENT_ENDPOINT"                 # End-user busy (486), client misconfiguration, device drop
+    LOCAL_ENDPOINT = "LOCAL_ENDPOINT"                   # Local Wi-Fi PHY or first-hop edge degradation isolated to single endpoint
+    DNS_INFRASTRUCTURE = "DNS_INFRASTRUCTURE"           # DNS resolution failure / NXDOMAIN / SERVFAIL across endpoints
+    NETWORK_TRANSIT_PATH = "NETWORK_TRANSIT_PATH"       # Hop-by-hop WAN loss or latency jump along transit path
+    VOICE_SIGNALING = "VOICE_SIGNALING"                 # SIP protocol/registration failure while transport socket is healthy
+    VOICE_MEDIA = "VOICE_MEDIA"                         # Audio stream loss, high jitter, or one-way audio
+    APPLICATION_SERVICE = "APPLICATION_SERVICE"         # HTTP/HTTPS 5xx errors or high TTFB while transport is healthy
     HEALTHY = "HEALTHY"                                 # Service operating normally
     UNKNOWN = "UNKNOWN"                                 # Unclassified anomaly
 
@@ -57,6 +63,10 @@ class EvidenceDomain(str, Enum):
     APPLIANCE = "APPLIANCE"     # SBCE / server hardware and OS telemetry
     SIGNALING = "SIGNALING"     # SIP protocol transactions, response codes, call setup
     MEDIA = "MEDIA"             # RTP / RTCP streams, jitter, packet loss, MOS, directionality
+    ENDPOINT = "ENDPOINT"       # Edge workstation, Wi-Fi RSSI/quality, gateway reachability
+    DNS = "DNS"                 # DNS query timings, RCODEs
+    SERVICE = "SERVICE"         # L4/L7 probing (TCP connect, TLS handshake, HTTP status/TTFB)
+    PATH = "PATH"               # Paris traceroute, hop RTT, loss, route changes
 
 
 @dataclass
@@ -124,6 +134,8 @@ class ServiceAssuranceReport:
     signaling_summary: dict[str, Any] = field(default_factory=dict)
     media_summary: dict[str, Any] = field(default_factory=dict)
     infrastructure_summary: dict[str, Any] = field(default_factory=dict)
+    endpoint_summary: dict[str, Any] = field(default_factory=dict)
+    path_summary: dict[str, Any] = field(default_factory=dict)
     hypotheses: list[IncidentHypothesis] = field(default_factory=list)
     active_problems: list[dict[str, Any]] = field(default_factory=list)
 
@@ -147,6 +159,8 @@ class ServiceAssuranceReport:
             "signaling_summary": self.signaling_summary,
             "media_summary": self.media_summary,
             "infrastructure_summary": self.infrastructure_summary,
+            "endpoint_summary": self.endpoint_summary,
+            "path_summary": self.path_summary,
             "primary_hypothesis": self.primary_hypothesis.to_dict() if self.primary_hypothesis else None,
             "hypotheses": [h.to_dict() for h in self.hypotheses],
             "active_problems": self.active_problems,

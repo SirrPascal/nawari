@@ -55,9 +55,28 @@ def format_assurance_report(report_dict: dict) -> str:
         f"  Infra:     Active Alarms={report_dict['infrastructure_summary'].get('active_problems_count')} "
         f"(Link={report_dict['infrastructure_summary'].get('link_problems_count')}, "
         f"CPU={report_dict['infrastructure_summary'].get('cpu_problems_count')})",
+    ]
+
+    ep_summary = report_dict.get("endpoint_summary", {})
+    if ep_summary.get("total_endpoints", 0) > 0:
+        lines.append(
+            f"  Endpoints: Total={ep_summary.get('total_endpoints')} | "
+            f"Degraded={ep_summary.get('degraded_endpoints')} | "
+            f"DNS Failures={ep_summary.get('dns_failures')}"
+        )
+
+    path_summary = report_dict.get("path_summary", {})
+    if path_summary.get("total_traces", 0) > 0:
+        lines.append(
+            f"  Paths:     Traces={path_summary.get('total_traces')} | "
+            f"Diverged={path_summary.get('routes_diverged')} | "
+            f"Hops w/ Loss={path_summary.get('hops_with_loss')}"
+        )
+
+    lines.extend([
         "--------------------------------------------------------------------------------",
         "CORRELATED INCIDENT HYPOTHESES:",
-    ]
+    ])
 
     for idx, hyp in enumerate(report_dict.get("hypotheses", []), 1):
         status = hyp.get("status")
