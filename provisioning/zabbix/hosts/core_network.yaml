@@ -1,0 +1,39 @@
+# ==============================================================================
+# NAWARI — Core Aviation Network Infrastructure Monitoring Targets
+# ==============================================================================
+version: "1"
+
+hosts:
+  # ----------------------------------------------------------------------------
+  # Primary Core Gateway / Switch (HQ)
+  # ----------------------------------------------------------------------------
+  - host: "core-gw-01"
+    name: "Core Distribution Gateway 01"
+    description: "Primary distribution router and gateway for aviation telemetry networks"
+    status: 0 # Monitored
+    groups:
+      - "Core Network"
+    templates:
+      - "Network Generic Device by SNMP"
+    interfaces:
+      - type: snmp
+        ip: "10.2.1.1"
+        port: 161
+        main: 1
+        useip: 1
+        details:
+          version: 2
+          community: "{$SNMP_COMMUNITY}"
+    macros:
+      - macro: "{$SNMP_COMMUNITY}"
+        value: "${CORE_SNMP_COMMUNITY:-public}"
+        type: "secret"
+        description: "Read-only SNMP community for core network devices"
+      - macro: "{$IF_ERRORS_WARN}"
+        value: "2"
+        description: "Interface error threshold per minute"
+    tags:
+      - tag: "role"
+        value: "core-gateway"
+      - tag: "site"
+        value: "hq-datacenter"

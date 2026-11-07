@@ -29,11 +29,11 @@ if os.path.exists(ENV_FILE):
                 k, v = line.split("=", 1)
                 ENV_VARS[k.strip()] = v.strip()
 
-GRAFANA_ADMIN_USER = ENV_VARS.get("GRAFANA_ADMIN_USER", "admin")
-GRAFANA_ADMIN_PASSWORD = ENV_VARS.get("GRAFANA_ADMIN_PASSWORD", "nawari_grafana_dev_pass")
-ZBX_API_USER = ENV_VARS.get("ZBX_API_USER", "Admin")
-ZBX_API_PASSWORD = ENV_VARS.get("ZBX_API_PASSWORD", "NawariSecOps2025!")
-ZBX_API_TOKEN = ENV_VARS.get("ZBX_API_TOKEN", "")
+GRAFANA_ADMIN_USER = os.environ.get("GRAFANA_ADMIN_USER", ENV_VARS.get("GRAFANA_ADMIN_USER", "admin"))
+GRAFANA_ADMIN_PASSWORD = os.environ.get("GRAFANA_ADMIN_PASSWORD", ENV_VARS.get("GRAFANA_ADMIN_PASSWORD", ""))
+ZBX_API_USER = os.environ.get("ZBX_API_USER", ENV_VARS.get("ZBX_API_USER", "Admin"))
+ZBX_API_PASSWORD = os.environ.get("ZBX_API_PASSWORD", ENV_VARS.get("ZBX_API_PASSWORD", ""))
+ZBX_API_TOKEN = os.environ.get("ZBX_API_TOKEN", ENV_VARS.get("ZBX_API_TOKEN", ""))
 
 CONTAINERS = [
     "nawari-postgres",
@@ -257,3 +257,4 @@ def test_12_resource_consumption_budget():
     assert total_mib < 1680.0, f"Total memory ({total_mib:.1f} MiB) exceeds 1.64 GiB budget"
     # In healthy idle state, should be well under 800 MiB
     assert total_mib < 800.0, f"Measured memory unexpectedly high ({total_mib:.1f} MiB)"
+

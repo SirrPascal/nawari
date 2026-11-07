@@ -126,10 +126,10 @@ nawari/
 
 | Service | Local URL / Port | Credentials | Purpose |
 | :--- | :--- | :--- | :--- |
-| **Grafana 11.6** | [http://localhost:3001](http://localhost:3001) | `admin` / `nawari_grafana_dev_pass` | Visualizations & Dashboards |
-| **Zabbix Web 7.4** | [http://localhost:8088](http://localhost:8088) | `Admin` / `NawariSecOps2025!` | Primary Monitoring Console |
+| **Grafana 11.6** | [http://localhost:3001](http://localhost:3001) | Set via `GRAFANA_ADMIN_*` in `.env` | Visualizations & Dashboards |
+| **Zabbix Web 7.4** | [http://localhost:8088](http://localhost:8088) | Set via `ZBX_API_*` in `.env` | Primary Monitoring Console |
 | **Zabbix Server** | `127.0.0.1:10051` | Native Zabbix Protocol | Active Agent & Trapper port |
-| **PostgreSQL 17** | `127.0.0.1:5433` | `zabbix` / `nawari_postgres_dev_pass` | Relational Telemetry Store |
+| **PostgreSQL 17** | `127.0.0.1:5433` | Set via `POSTGRES_*` in `.env` | Relational Telemetry Store |
 | **SNMP Traps** | `127.0.0.1:162/udp` | SNMP Trap Spooler | Inbound Trap Receiver |
 
 ---

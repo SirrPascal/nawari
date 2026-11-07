@@ -1,0 +1,51 @@
+# ==============================================================================
+# NAWARI — Avaya Voice Infrastructure Monitoring Targets
+# ==============================================================================
+version: "1"
+
+hosts:
+  # ----------------------------------------------------------------------------
+  # Avaya Session Border Controller Enterprise (Primary SBCE)
+  # ----------------------------------------------------------------------------
+  - host: "avaya-sbce-01"
+    name: "Avaya SBCE Primary (HQ-DMZ)"
+    description: "Primary Session Border Controller terminating SIP trunks and remote worker audio - Production Active"
+    status: 0 # Monitored
+    groups:
+      - "Voice Infrastructure"
+      - "Edge SBC"
+    templates:
+      - "Network Generic Device by SNMP"
+    interfaces:
+      - type: snmp
+        ip: "${AVAYA_SBCE_HOST:-10.2.156.131}"
+        port: "${AVAYA_SBCE_SNMP_PORT:-161}"
+        main: 1
+        useip: 1
+        details:
+          version: 3
+          securityname: "${AVAYA_SBCE_SNMP_SEC_NAME:-Admin}"
+          securitylevel: "authPriv"
+          authprotocol: "${AVAYA_SBCE_SNMP_AUTH_PROTO:-SHA}"
+          authpassphrase: "${AVAYA_SBCE_SNMP_AUTH_PASS:-sbce_secret_auth_pass}"
+          privprotocol: "${AVAYA_SBCE_SNMP_PRIV_PROTO:-DES}"
+          privpassphrase: "${AVAYA_SBCE_SNMP_PRIV_PASS:-sbce_secret_priv_pass}"
+    macros:
+      - macro: "{$SNMP_PORT}"
+        value: "161"
+        description: "Target SNMP polling port"
+      - macro: "{$ICMP_LOSS_WARN}"
+        value: "10"
+        description: "Warning threshold for packet loss percentage"
+      - macro: "{$ICMP_RESPONSE_TIME_WARN}"
+        value: "0.15"
+        description: "Warning threshold for ICMP response time in seconds (150ms)"
+    tags:
+      - tag: "vendor"
+        value: "avaya"
+      - tag: "role"
+        value: "sbc"
+      - tag: "tier"
+        value: "tier-1"
+      - tag: "site"
+        value: "hq-datacenter"

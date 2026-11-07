@@ -8,6 +8,18 @@ SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 PROJECT_ROOT="$(dirname "${SCRIPT_DIR}")"
 cd "${PROJECT_ROOT}"
 
+# Load local environment if present
+if [ -f "${PROJECT_ROOT}/.env" ]; then
+    set -a
+    # shellcheck disable=SC1091
+    . "${PROJECT_ROOT}/.env"
+    set +a
+fi
+
+ZBX_PASS="${ZBX_API_PASSWORD:-}"
+GF_USER="${GRAFANA_ADMIN_USER:-admin}"
+GF_PASS="${GRAFANA_ADMIN_PASSWORD:-}"
+
 echo "======================================================================"
 echo "NAWARI PHASE 1 ACCEPTANCE VERIFICATION"
 echo "======================================================================"
@@ -69,7 +81,7 @@ check_zbx_web_http() {
 check_zbx_api_auth() {
     curl -sf -X POST \
         -H "Content-Type: application/json-rpc" \
-        -d '{"jsonrpc":"2.0","method":"user.login","params":{"username":"Admin","password":"NawariSecOps2025!"},"id":1}' \
+        -d "{\"jsonrpc\":\"2.0\",\"method\":\"user.login\",\"params\":{\"username\":\"${ZBX_API_USER:-Admin}\",\"password\":\"${ZBX_PASS}\"},\"id\":1}" \
         http://127.0.0.1:8088/api_jsonrpc.php | grep -q '"result"'
 }
 
@@ -78,7 +90,7 @@ check_grafana_http() {
 }
 
 check_grafana_zbx_ds() {
-    curl -sf -u admin:nawari_grafana_dev_pass \
+    curl -sf -u "${GF_USER}:${GF_PASS}" \
         http://127.0.0.1:3001/api/datasources/uid/PA67C5EADE9207728/health | grep -q '"status":"OK"'
 }
 

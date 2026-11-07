@@ -55,11 +55,11 @@ All core containers should transition to `healthy` status within 20–40 seconds
 
 | Service | Local URL / Binding | Default Credentials | Description |
 |---|---|---|---|
-| **Grafana** | [http://localhost:3001](http://localhost:3001) | `admin` / `nawari_grafana_dev_pass` | Central visualization dashboard |
-| **Zabbix Web** | [http://localhost:8088](http://localhost:8088) | `Admin` / `NawariSecOps2025!` | Monitoring administration & API |
+| **Grafana** | [http://localhost:3001](http://localhost:3001) | Set via `.env` (`GRAFANA_ADMIN_*`) | Central visualization dashboard |
+| **Zabbix Web** | [http://localhost:8088](http://localhost:8088) | Set via `.env` (`ZBX_API_*`) | Monitoring administration & API |
 | **Zabbix Server Trap Receiver** | `udp://localhost:162` | N/A | Local trap receiver port |
 | **Zabbix Server Trapper** | `tcp://127.0.0.1:10051` | N/A | Zabbix agent & trapper port |
-| **PostgreSQL 17** | `127.0.0.1:5433` | `zabbix` / `nawari_postgres_dev_pass` | Relational state & telemetry store |
+| **PostgreSQL 17** | `127.0.0.1:5433` | Set via `.env` (`POSTGRES_*`) | Relational state & telemetry store |
 
 ---
 

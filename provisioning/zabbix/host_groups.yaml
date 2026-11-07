@@ -1,0 +1,14 @@
+# ==============================================================================
+# NAWARI — Core Host Groups Definition
+# ==============================================================================
+version: "1"
+
+host_groups:
+  - name: "Core Network"
+    description: "Core switches, routers, and gateway infrastructure"
+  - name: "Voice Infrastructure"
+    description: "Avaya Communications Manager, Session Manager, and SBCs"
+  - name: "Edge SBC"
+    description: "Session Border Controllers terminating SIP trunks and remote workers"
+  - name: "Communications Applications"
+    description: "Application servers and telephony integration services"

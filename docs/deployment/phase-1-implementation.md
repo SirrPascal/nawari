@@ -68,7 +68,7 @@ Four dedicated Docker named volumes isolate all stateful data:
 2. **Authentication Method in Zabbix 7.4:**
    - Official Zabbix 7.4 enforces strict password complexity on user accounts (passwords cannot contain user names, surnames, or usernames).
    - In Zabbix 7.4 and Grafana Zabbix App v6.10.2, the datasource authentication enum for API tokens is `authType: token` with `secureJsonData.apiToken`.
-   - Generated dedicated Super Admin API token (`581e7ab6...`) and configured via `docker/grafana/provisioning/datasources/zabbix.yaml`.
+   - Generated dedicated Super Admin API token and configured via `docker/grafana/provisioning/datasources/zabbix.yaml` using environment variable interpolation `${ZBX_API_TOKEN}`.
    - Verified datasource health check:
      ```json
      {"message": "Zabbix API version 7.4.16", "status": "OK"}
@@ -130,3 +130,4 @@ Measured live on macOS Apple Silicon via `docker stats --no-stream`:
 ```bash
 ./scripts/verify_phase1.sh
 ```
+
