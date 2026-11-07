@@ -1073,7 +1073,8 @@
     "refresh_intervals": ["5s", "10s", "30s", "1m", "5m"]
   },
   "timezone": "browser",
-  "title": "Nawari — Avaya SBCE Operational & Voice Telemetry",
+  "title": "Nawari — Avaya SBCE Operational Health",
   "uid": "nawari-sbce-health",
   "version": 1
 }
+

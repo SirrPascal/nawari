@@ -235,7 +235,7 @@ req = urllib.request.Request(url, headers={'Authorization': f'Basic {auth_str}'}
 with urllib.request.urlopen(req) as resp:
     assert resp.status == 200
     data = json.loads(resp.read().decode())
-    assert data['dashboard']['title'] == 'Nawari — Avaya SBCE Operational & Voice Telemetry'
+    assert data['dashboard']['title'] == 'Nawari — Avaya SBCE Operational Health'
     assert len(data['dashboard']['panels']) >= 15
 " > /dev/null 2>&1
 }
@@ -260,3 +260,4 @@ else
     echo ">>> PHASE 4 ACCEPTANCE GATES FAILED <<<"
     exit 1
 fi
+

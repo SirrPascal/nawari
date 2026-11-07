@@ -1,30 +1,36 @@
-# Nawari — Phase 4 Engineering Report: Avaya SBCE & Communications Observability
+# Nawari — Phase 4 Engineering Report: Avaya SBCE Observability & Physical Validation (Phase 4.1)
 
 ## Executive Summary
 
-Phase 4 of the Nawari platform establishes enterprise-grade observability for mission-critical voice infrastructure, centered on the **Avaya Session Border Controller Enterprise (SBCE)**. 
+Phase 4 establishes an enterprise-grade monitoring layer for the **Avaya Session Border Controller Enterprise (SBCE)** built upon Nawari's generic network monitoring foundation.
 
 In accordance with architectural principles:
 > *"Zabbix monitors. Grafana visualizes. Nawari correlates and assures services."*
 
-Phase 4 moves beyond generic SNMP device reachability to capture full appliance resource health (CPU, RAM, root disk, 1-minute load average), high-capacity 64-bit traffic counters on voice signaling and media interfaces, automated fault detection on carrier trunk interfaces, and real-time operational visualization in Grafana.
+Phase 4 moves beyond generic SNMP device reachability to capture full appliance operating resource health (CPU, RAM, root disk space, 1-minute load average), 64-bit high-capacity traffic counters on voice signaling and media interfaces, automated fault detection on carrier trunk interfaces, and real-time operational visualization in Grafana.
+
+> [!IMPORTANT]
+> **Simulation vs. Production Distinction:**
+> The current milestone is successfully implemented and verified against a **simulated SBCE environment** (`nawari-mock-snmp`). Physical validation against the real Avaya appliance is governed by **Phase 4.1**, ensuring that no unverified assumptions are carried into production or Phase 5.
 
 ---
 
-## 1. Appliance Architecture & Management IP Reconciliation
+## 1. Candidate Appliance IPs & Empirical Verification Protocol
 
-### 1.1 IP Address Discrepancy Resolution
-A critical discrepancy was identified between the legacy Sentra configuration and the Nawari Master Engineering specification:
-* **Sentra Configuration:** Target IP `10.2.156.132` (Pride SBCE appliance/EMS).
-* **Master Engineering Prompt:** Target IP `10.2.156.131` (Pride SBCE primary active node).
+### 1.1 Candidate IP Discrepancy
+* **Sentra Configuration:** Target IP `10.2.156.132` (recorded as Pride SBCE appliance/EMS).
+* **Master Engineering Prompt:** Target IP `10.2.156.131` (specified as primary Pride SBCE).
 
-### 1.2 Cluster Architecture Analysis
-In a high-availability (HA) Avaya SBCE deployment:
-* **`10.2.156.131`**: Active Session Border Controller node in the high-availability pair (`sbc01`), terminating active SIP signaling trunks and RTP audio.
-* **`10.2.156.132`**: Standby Session Border Controller node / Element Management System (`sbc02`/EMS), maintaining replicated configuration and state synchronization.
+### 1.2 Verification Protocol (Phase 4.1 Gate)
+Finding different addresses in two repositories does not independently establish operational roles. Rather than assuming roles, Nawari establishes an empirical validation protocol:
+1. **Management IP Audit:** Probe both `10.2.156.131` and `10.2.156.132` using read-only SNMPv3 queries to retrieve `sysName`, `sysDescr`, and physical interfaces.
+2. **HA Role Confirmation:** Inspect appliance clustering status (via SBCE EMS or CLI `sbc status`) to verify active vs standby assignment.
+3. **EMS Architecture Determination:** Establish whether EMS is co-located or operates on an independent management IP.
+4. **SNMP Polling Scope:** Confirm whether SNMP polling is permitted on both physical nodes or strictly on a cluster Virtual IP (VIP).
+5. **Address Classification:** Establish whether `.131` and `.132` are physical node management interfaces (M1), cluster VIPs, or signaling interfaces (A1/B1).
 
-### 1.3 Implementation Resolution
-In `provisioning/zabbix/hosts/avaya_voice_infrastructure.yaml`, the target is parameterized with primary active node as default while allowing environmental override:
+### 1.3 Production Hardened Configuration
+In `provisioning/zabbix/hosts/avaya_voice_infrastructure.yaml`, plaintext fallback credentials have been strictly eliminated:
 ```yaml
 interfaces:
   - type: snmp
@@ -36,51 +42,38 @@ interfaces:
       version: 3
       securityname: "${AVAYA_SBCE_SNMP_SEC_NAME:-Admin}"
       securitylevel: "authPriv"
-      authprotocol: "${AVAYA_SBCE_SNMP_AUTH_PROTO:-SHA}"
-      authpassphrase: "${AVAYA_SBCE_SNMP_AUTH_PASS:-sbce_secret_auth_pass}"
-      privprotocol: "${AVAYA_SBCE_SNMP_PRIV_PROTO:-DES}"
-      privpassphrase: "${AVAYA_SBCE_SNMP_PRIV_PASS:-sbce_secret_priv_pass}"
+      authprotocol: "${AVAYA_SBCE_SNMP_AUTH_PROTO:-SHA256}"
+      authpassphrase: "${AVAYA_SBCE_SNMP_AUTH_PASS}"
+      privprotocol: "${AVAYA_SBCE_SNMP_PRIV_PROTO:-AES128}"
+      privpassphrase: "${AVAYA_SBCE_SNMP_PRIV_PASS}"
 ```
 
 ---
 
-## 2. Telemetry Matrix & Supported OID Catalog
+## 2. Telemetry Matrix & OID Classification Standard
 
-The complete telemetry matrix is cataloged in `docs/monitoring/avaya-sbce-telemetry-matrix.md`.
+The complete telemetry matrix is maintained in `docs/monitoring/avaya-sbce-telemetry-matrix.md`. Every metric is categorized under a 5-tier standard:
 
-### 2.1 Interface Mapping & 64-bit HC Octet Counters
-Avaya SBCE physical interfaces are mapped into standard `IF-MIB` indices:
-* **`M1`**: Primary Management Interface (SSH, EMS, Web GUI, SNMP polling).
-* **`M2`**: Secondary / HA Heartbeat Interconnect.
-* **`A1`**: External DMZ Interface (Carrier SIP Trunks, TLS/TCP Signaling, RTP Audio).
-* **`B1`**: Internal Core Interface (Avaya Aura Session Manager, Core Media Servers).
+1. **Confirmed on physical SBCE:** (Pending Phase 4.1 live network audit).
+2. **Documented by Avaya but not yet tested:** (Avaya enterprise MIB `.1.3.6.1.4.1.6889`, active session tables, enterprise traps).
+3. **Available only on the mock:** (Verified in `nawari-mock-snmp`, including custom disk pass-through and storage index mappings).
+4. **Unsupported or unavailable:** (OIDs returning `noSuchObject` or unsupported).
+5. **Not yet investigated.**
 
-All octet traffic items use 64-bit counters (`ifHCInOctets` / `ifHCOutOctets`) with `CHANGE_PER_SECOND` and 8x multiplier preprocessing to report precise bits per second (bps) without 32-bit roll-over distortions.
-
-### 2.2 Appliance Resource Health
-Avaya SBCE runs a hardened enterprise Linux operating system exposing standard system and resource MIBs:
-* **CPU Utilization (`system.cpu.util`)**: OID `1.3.6.1.4.1.2021.11.11.0` (`ssCpuIdle`). Calculated as `100 - idle%`.
-* **1-Minute Load Average (`system.cpu.load.avg1`)**: OID `1.3.6.1.4.1.2021.10.1.3.1` (`laLoad.1`).
-* **Total Physical Memory (`vm.memory.total`)**: OID `1.3.6.1.2.1.25.2.3.1.5.1` (`hrStorageSize.1`) * allocation units.
-* **Available Physical Memory (`vm.memory.available`)**: OID `1.3.6.1.4.1.2021.4.6.0` (`memAvailReal`) * 1024.
-* **Calculated Memory Utilization (`vm.memory.util`)**: `(1 - (last(//vm.memory.available) / last(//vm.memory.total))) * 100`.
-* **Root Filesystem Space Utilization (`vfs.fs.used.percent[/]`)**: OID `1.3.6.1.4.1.2021.9.1.9.1` (`dskPercent.1`).
+### 2.1 Technical Caveats of Mock Emulation
+* **Root Disk (`vfs.fs.used.percent[/]`):** Required a custom Net-SNMP pass-through script (`snmp_disk_pass.sh`) because Alpine's overlayfs does not populate `dskTable` natively. The physical appliance runs CentOS/RHEL; Phase 4.1 will verify whether it exposes `dskPercent.1` or requires `HOST-RESOURCES-MIB::hrStorageTable` discovery.
+* **Physical Memory (`vm.memory.total`):** References `hrStorageSize.1` (assuming index 1 is Physical RAM). The physical appliance may use a different index or `UCD-SNMP-MIB::memTotalReal.0` (`1.3.6.1.4.1.2021.4.5.0`).
+* **Interface Naming:** Virtual dummy interfaces (`M1`, `M2`, `A1`, `B1`) were created in the mock container. Physical SBCE interfaces may use physical names (`eth0`, `sbc0`) mapped via `ifAlias`.
 
 ---
 
 ## 3. Nawari Avaya SBCE Template Design
 
-The template `provisioning/zabbix/templates/nawari_avaya_sbce.yaml` was designed and imported into Zabbix 7.4.
+The template `provisioning/zabbix/templates/nawari_avaya_sbce.yaml` inherits from `Nawari Generic SNMP Base`.
 
-### 3.1 Template Architecture
-* **Name:** `Nawari Avaya SBCE by SNMP`
-* **Groups:** `Templates/Network devices`, `Templates/Applications`
-* **Hierarchy:** Inherits `Nawari Generic SNMP Base` (inheriting ICMP ping, SNMP availability, sysName, sysDescr, uptime, and baseline restart triggers).
-
-### 3.2 Low-Level Discovery (LLD)
+### 3.1 Low-Level Discovery (LLD)
 * **Rule Key:** `sbce.interface.discovery`
 * **SNMP OID:** `discovery[{#IFNAME},1.3.6.1.2.1.31.1.1.1.1]`
-* **Filter:** Configurable via macros `{$SBCE.IF.MATCHES}` and `{$SBCE.IF.NOT_MATCHES}`.
 * **Item Prototypes (9 per discovered interface):**
   1. Operational status (`net.if.status[ifOperStatus.{#SNMPINDEX}]`)
   2. Administrative status (`net.if.adminstatus[ifAdminStatus.{#SNMPINDEX}]`)
@@ -92,8 +85,8 @@ The template `provisioning/zabbix/templates/nawari_avaya_sbce.yaml` was designed
   8. Outbound discards (`net.if.out.discards[ifOutDiscards.{#SNMPINDEX}]`)
   9. Interface speed (`net.if.speed[ifHighSpeed.{#SNMPINDEX}]`)
 
-### 3.3 Trigger Framework
-* **High Severity:** Interface Link Down on voice signaling/media interfaces (`A1`, `B1`, `M1`). Expression: `last(/Nawari Avaya SBCE by SNMP/net.if.status[ifOperStatus.{#SNMPINDEX}])=2 and {$IFCONTROL}=1`.
+### 3.2 Trigger Framework
+* **High Severity:** Interface Link Down on voice signaling/media interfaces (`A1`, `B1`, `M1`).
 * **Warning Severity:** High Bandwidth Utilization (`> 80%`).
 * **Warning Severity:** High Error Rate (`> 2 errors/sec`).
 * **Warning Severity:** High CPU Utilization (`> 85% for 5 min`).
@@ -102,67 +95,36 @@ The template `provisioning/zabbix/templates/nawari_avaya_sbce.yaml` was designed
 
 ---
 
-## 4. SNMPv3 Security Profile Verification
+## 4. Phase 4.1 Physical Validation Tool (`probe_physical_sbce.py`)
 
-The production appliance specifies SNMPv3 with `authPriv`:
-* **User:** `Admin`
-* **Authentication:** SHA-1 / SHA-256 (`authpassphrase: sbce_secret_auth_pass`)
-* **Privacy / Encryption:** DES / AES-128 (`privpassphrase: sbce_secret_priv_pass`)
+A safe, non-destructive audit tool was authored at `scripts/audit/probe_physical_sbce.py`.
 
-The mock agent container (`nawari-mock-snmp`) was enhanced to support real SNMPv3 `authPriv` with both DES and AES ciphers. Host queries and Zabbix server SNMP poller verification confirmed successful authenticated and encrypted communication:
-```bash
-snmpget -v3 -l authPriv -u Admin -a SHA -A sbce_secret_auth_pass -x DES -X sbce_secret_priv_pass 127.0.0.1:1161 1.3.6.1.2.1.1.5.0
-# Returns: SNMPv2-MIB::sysName.0 = STRING: "nawari-mock-core-switch-01"
-```
-
----
-
-## 5. Fault Injection & Problem Lifecycle Validation
-
-A rigorous test of the event-management lifecycle was executed against the simulated Avaya SBCE:
-1. **Initial State:** Interface `A1` (External DMZ Signaling) was UP (`ifOperStatus: 1`), 0 active problems.
-2. **Fault Injection:** Executed `/usr/local/bin/inject_fault.sh link-down A1`.
-3. **Problem Event Creation:** Within Zabbix poller cycle, Zabbix triggered:
-   * **Problem:** `Interface A1: Link down`
-   * **Severity:** `4` (HIGH)
-   * **Event ID:** `144`
-4. **Recovery Injection:** Executed `/usr/local/bin/inject_fault.sh link-up A1`.
-5. **Automatic Problem Resolution:** Zabbix poller detected `ifOperStatus: 1`, automatically closing the problem event.
+### Capabilities:
+* **SNMPv3 `authPriv` Handshake:** Probes target IP using user-supplied or environment credentials.
+* **System Identity Collection:** Extracts `sysName`, `sysDescr`, `sysObjectID`, `sysUpTime`.
+* **Interface Enumeration:** Walks IF-MIB to report all `ifName`, `ifDescr`, and `ifOperStatus` values.
+* **Storage Table Inspection:** Walks `HOST-RESOURCES-MIB::hrStorageTable` to identify real RAM and disk indices.
+* **Native OID Verification:** Checks native availability of `UCD-ssCpuIdle`, `UCD-laLoad.1`, `UCD-dskPercent.1`.
+* **Avaya Enterprise Sub-tree Probe:** Probes `.1.3.6.1.4.1.6889` for active Avaya enterprise MIB objects.
+* **Automated Compatibility Audit:** Produces structured Markdown / JSON audit reports matching observed appliance behavior against Nawari template keys.
 
 ---
 
-## 6. Grafana Operational Dashboard (`nawari-sbce-health`)
+## 5. Grafana Dashboard Scope: Appliance Health vs. Voice Quality
 
-A dedicated operational dashboard was built and provisioned at `docker/grafana/dashboards/avaya_sbce_operational_health.json`:
-* **Dashboard Title:** `Nawari — Avaya SBCE Operational & Voice Telemetry`
-* **UID:** `nawari-sbce-health`
-* **Panels (19 total across 4 functional rows):**
-  * **Row 1 (Appliance Health & System Resources):**
-    * SNMPv3 Reachability Status (Stat: Green/Red)
-    * System Uptime (Stat: Days/Hours)
-    * CPU Utilization Gauge (0–100% with 75% warn, 85% crit thresholds)
-    * RAM Utilization Gauge (0–100% with 80% warn, 90% crit thresholds)
-    * Root Disk Utilization Gauge (0–100% with 75% warn, 85% crit thresholds)
-    * 1-Minute Load Average (Stat with trend line)
-  * **Row 2 (Voice Signaling & Media Interface Matrix):**
-    * Interface `A1` Status (Stat: LINK UP / LINK DOWN)
-    * Interface `B1` Status (Stat: LINK UP / LINK DOWN)
-    * Interface `M1` Status (Stat: LINK UP / LINK DOWN)
-    * Interface `M2` Status (Stat: LINK UP / LINK DOWN)
-  * **Row 3 (Voice Path Traffic & Bandwidth Utilization):**
-    * `A1` External DMZ Signaling Traffic (bps, In/Out time series)
-    * `B1` Internal Media & Core Signaling Traffic (bps, In/Out time series)
-  * **Row 4 (Voice Path Quality & Active Problem Feed):**
-    * Packet Error Rate on Voice Paths (pps)
-    * Packet Discard Rate on Voice Paths (pps)
-    * Avaya SBCE Live Problem & Alarm Feed (`alexanderzobnin-zabbix-problems-panel`)
+Provisioned at `docker/grafana/dashboards/avaya_sbce_operational_health.json`:
+* **Title:** `Nawari — Avaya SBCE Operational Health` (UID: `nawari-sbce-health`)
+* **Scope Boundary:** Explicitly restricted to **Appliance Operational Health**:
+  * Physical interface UP does not prove SIP trunk establishment.
+  * Low interface packet loss does not prove acceptable RTP jitter.
+  * SIP 200 OK does not prove two-way audio flow.
+  * Voice quality, jitter, packet loss, and MOS are monitored in **Phase 5**.
 
 ---
 
-## 7. Automated Acceptance Verification
+## 6. Automated Verification Results
 
-### 7.1 Test Suite Results
-The full test suite was executed via `pytest`, verifying 42/42 tests passing with zero failures:
+### 6.1 Full Test Suite (`pytest tests/`)
 ```text
 tests/integration/test_core_infrastructure.py ............               [ 28%]
 tests/integration/test_phase3_network_monitoring.py .........            [ 50%]
@@ -171,28 +133,40 @@ tests/integration/test_provisioning_idempotency.py ..                    [ 76%]
 tests/unit/test_config_and_schema.py .....                               [ 88%]
 tests/unit/test_diff_engine.py .....                                     [100%]
 
-============================= 42 passed in 43.02s ==============================
+============================= 42 passed in 46.07s ==============================
 ```
 
-### 7.2 Phase 4 Verification Gates (`scripts/verify_phase4.sh`)
-The dedicated Phase 4 gate script passed all 8 acceptance checks:
-1. `SNMPv3 authPriv Responsiveness (User: Admin, SHA/DES)` — **PASS**
-2. `Avaya SBCE Template Hierarchy & LLD Rules` — **PASS**
-3. `SBCE Hosts Provisioned (Mock & Production Reconciled)` — **PASS**
-4. `LLD Discovery of Voice Interfaces (M1, M2, A1, B1)` — **PASS**
-5. `SBCE Appliance Resource Telemetry Active (CPU/RAM/Disk/Load)` — **PASS**
-6. `Historical Metric Persistence in PostgreSQL` — **PASS**
-7. `Voice Interface Fault Injection & Auto-Recovery (A1 Link Down)` — **PASS**
-8. `Grafana Avaya SBCE Operational Dashboard (19 Panels)` — **PASS**
+### 6.2 Phase 4 Acceptance Script (`scripts/verify_phase4.sh`)
+```text
+======================================================================
+NAWARI PHASE 4 ACCEPTANCE VERIFICATION: AVAYA SBCE OBSERVABILITY
+======================================================================
+[TEST] SNMPv3 authPriv Responsiveness (User: Admin, SHA/DES) ... PASS
+[TEST] Avaya SBCE Template Hierarchy & LLD Rules ... PASS
+[TEST] SBCE Hosts Provisioned (Mock & Production Reconciled) ... PASS
+[TEST] LLD Discovery of Voice Interfaces (M1, M2, A1, B1) ... PASS
+[TEST] SBCE Appliance Resource Telemetry Active (CPU/RAM/Disk/Load) ... PASS
+[TEST] Historical Metric Persistence in PostgreSQL ... PASS
+[TEST] Voice Interface Fault Injection & Auto-Recovery (A1 Link Down) ... PASS
+[TEST] Grafana Avaya SBCE Operational Dashboard (19 Panels) ... PASS
+----------------------------------------------------------------------
+VERIFICATION SUMMARY: 8 PASSED, 0 FAILED
+======================================================================
+>>> PHASE 4 ACCEPTANCE GATES COMPLETED SUCCESSFULLY <<<
+```
 
 ---
 
-## 8. Git Commit & Phase 5 Transition
+## 7. Phase 4.1 Physical Validation Acceptance Criteria
 
-All Phase 4 deliverables are ready for commit to the `main` branch. 
-
-With appliance-level observability, SNMPv3 security, and interface telemetry verified, the platform is prepared for **Phase 5: Voice Telemetry, SIP Health & Synthetic Call Testing**, which will introduce:
-1. Asterisk 22 synthetic SIP call generation in an isolated profile.
-2. SIP signaling transaction metrics (INVITE, 200 OK, BYE, 4xx/5xx failure rates).
-3. RTP voice stream quality telemetry (Jitter, Packet Loss, RTT, estimated MOS).
-4. Correlated service health metrics bridging network transport to voice user experience.
+Before transitioning to production or Phase 5, Phase 4.1 must satisfy the following 10 gates:
+1. Confirm the SBCE management IP and HA roles.
+2. Successfully establish SNMPv3 authPriv communication with the real appliance.
+3. Retrieve its system identity and uptime.
+4. Walk the supported system-resource and IF-MIB OIDs using `probe_physical_sbce.py`.
+5. Match discovered interfaces to the actual SBCE interface roles.
+6. Confirm which resource metrics are genuinely available natively.
+7. Compare actual readings with Nawari's Zabbix items.
+8. Verify that the production dashboard does not display unsupported metrics as healthy.
+9. Document unsupported or unavailable metrics without fabricating replacements.
+10. Confirm that no configuration changes were made to the production appliance.

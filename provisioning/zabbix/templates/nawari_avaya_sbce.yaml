@@ -344,3 +344,4 @@ zabbix_export:
         - macro: '{$IF_ERRORS_WARN}'
           value: '2'
           description: 'Interface error rate threshold in errors per second'
+

@@ -26,10 +26,10 @@ hosts:
           version: 3
           securityname: "${AVAYA_SBCE_SNMP_SEC_NAME:-Admin}"
           securitylevel: "authPriv"
-          authprotocol: "${AVAYA_SBCE_SNMP_AUTH_PROTO:-SHA}"
-          authpassphrase: "${AVAYA_SBCE_SNMP_AUTH_PASS:-sbce_secret_auth_pass}"
-          privprotocol: "${AVAYA_SBCE_SNMP_PRIV_PROTO:-DES}"
-          privpassphrase: "${AVAYA_SBCE_SNMP_PRIV_PASS:-sbce_secret_priv_pass}"
+          authprotocol: "${AVAYA_SBCE_SNMP_AUTH_PROTO:-SHA256}"
+          authpassphrase: "${AVAYA_SBCE_SNMP_AUTH_PASS}"
+          privprotocol: "${AVAYA_SBCE_SNMP_PRIV_PROTO:-AES128}"
+          privpassphrase: "${AVAYA_SBCE_SNMP_PRIV_PASS}"
     macros:
       - macro: "{$SNMP_PORT}"
         value: "161"

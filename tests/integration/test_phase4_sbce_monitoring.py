@@ -262,7 +262,7 @@ def test_08_grafana_sbce_dashboard_provisioned(grafana_auth_header):
         data = json.loads(resp.read().decode("utf-8"))
 
     dash = data.get("dashboard", {})
-    assert dash.get("title") == "Nawari — Avaya SBCE Operational & Voice Telemetry"
+    assert dash.get("title") == "Nawari — Avaya SBCE Operational Health"
     panels = dash.get("panels", [])
     assert len(panels) >= 15, f"Expected at least 15 panels, found {len(panels)}"
 
@@ -283,3 +283,4 @@ def test_09_production_target_reconciliation(zabbix_client):
     assert "Nawari Avaya SBCE by SNMP" in tpls, f"Production host not linked to Avaya template: {tpls}"
     ip = h["interfaces"][0]["ip"]
     assert ip == "10.2.156.131", f"Expected primary active IP 10.2.156.131, got {ip}"
+

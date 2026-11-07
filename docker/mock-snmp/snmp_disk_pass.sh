@@ -20,3 +20,4 @@ if [ "$1" = "-g" ] || [ "$1" = "-n" ]; then
     echo "${USED}"
 fi
 exit 0
+

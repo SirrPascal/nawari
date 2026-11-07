@@ -53,3 +53,4 @@ hosts:
         value: "sbc"
       - tag: "platform"
         value: "sbce-simulated"
+
