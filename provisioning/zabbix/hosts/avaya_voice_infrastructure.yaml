@@ -15,7 +15,7 @@ hosts:
       - "Voice Infrastructure"
       - "Edge SBC"
     templates:
-      - "Network Generic Device by SNMP"
+      - "Nawari Avaya SBCE by SNMP"
     interfaces:
       - type: snmp
         ip: "${AVAYA_SBCE_HOST:-10.2.156.131}"

@@ -1,0 +1,55 @@
+# ==============================================================================
+# NAWARI — Simulated Avaya SBCE Target (Phase 4 SNMPv3 & Telemetry Verification)
+# ==============================================================================
+version: "1"
+
+hosts:
+  - host: "mock-avaya-sbce-01"
+    name: "Simulated Avaya SBCE 01 (Lab)"
+    description: "Mock Avaya Session Border Controller Enterprise for Phase 4 SNMPv3 authPriv and voice interface telemetry"
+    status: 0 # Monitored
+    groups:
+      - "Voice Infrastructure"
+      - "Edge SBC"
+    templates:
+      - "Nawari Avaya SBCE by SNMP"
+    interfaces:
+      - type: snmp
+        dns: "mock-snmp"
+        ip: ""
+        port: 161
+        main: 1
+        useip: 0
+        details:
+          version: 3
+          securityname: "Admin"
+          securitylevel: "authPriv"
+          authprotocol: "SHA"
+          authpassphrase: "sbce_secret_auth_pass"
+          privprotocol: "DES"
+          privpassphrase: "sbce_secret_priv_pass"
+    macros:
+      - macro: "{$IFCONTROL}"
+        value: "1"
+        description: "Enable link-down alerting on discovered SBCE interfaces"
+      - macro: "{$IF_ERRORS_WARN}"
+        value: "2"
+        description: "Interface error threshold per second"
+      - macro: "{$CPU.UTIL.WARN}"
+        value: "85"
+        description: "Warning threshold for CPU utilization"
+      - macro: "{$MEMORY.UTIL.WARN}"
+        value: "90"
+        description: "Warning threshold for memory utilization"
+      - macro: "{$FS.FREE.MIN.WARN}"
+        value: "15"
+        description: "Warning threshold for root disk free space percentage"
+    tags:
+      - tag: "environment"
+        value: "lab-simulation"
+      - tag: "vendor"
+        value: "avaya"
+      - tag: "role"
+        value: "sbc"
+      - tag: "platform"
+        value: "sbce-simulated"

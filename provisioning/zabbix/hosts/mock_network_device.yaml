@@ -43,3 +43,4 @@ hosts:
         value: "core-switch"
       - tag: "platform"
         value: "net-snmp-simulated"
+

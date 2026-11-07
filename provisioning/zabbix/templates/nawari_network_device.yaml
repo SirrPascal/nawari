@@ -219,3 +219,4 @@ zabbix_export:
         - macro: '{$NET.IF.IFNAME.NOT_MATCHES}'
           value: '^(lo|gre0|tunl0|sit0|erspan0|gretap0|ip_vti0|ip6.*)$'
           description: 'Regular expression to filter out loopback and virtual tunnel interfaces from discovery'
+

@@ -154,3 +154,4 @@ zabbix_export:
         - macro: '{$ICMP_RESPONSE_TIME_WARN}'
           value: '0.15'
           description: 'Warning threshold for ICMP response latency in seconds'
+

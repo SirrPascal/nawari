@@ -228,12 +228,24 @@ class Reconciler:
             update_payload["groups"] = groups
 
         if "templates" in details:
+            # Query existing templates on the host to clear removed ones
+            live_host = self.client.get_hosts([dh.host], select_templates=True)
+            current_tids = {
+                t["templateid"]
+                for t in (live_host[0].get("parentTemplates", []) if live_host else [])
+            }
+            desired_tids = set()
             templates = []
             for t in dh.templates:
                 tid = tpl_map.get(t)
                 if tid:
                     templates.append({"templateid": tid})
+                    desired_tids.add(tid)
             update_payload["templates"] = templates
+
+            to_clear = current_tids - desired_tids
+            if to_clear:
+                update_payload["templates_clear"] = [{"templateid": tid} for tid in to_clear]
 
         if update_payload:
             self.client.update_host(hostid, update_payload)
