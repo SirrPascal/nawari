@@ -21,13 +21,21 @@ class ServiceHealthState(str, Enum):
 
 
 class HypothesisStatus(str, Enum):
-    """Confidence status of a diagnostic incident hypothesis."""
+    """Calibrated confidence status of a diagnostic incident hypothesis."""
 
-    CONFIRMED = "CONFIRMED"         # Direct causal evidence identified across correlated domains
-    SUSPECTED = "SUSPECTED"         # Strong circumstantial evidence; secondary verification recommended
+    CONFIRMED = "CONFIRMED"         # Direct causal evidence establishes the cause (e.g. socket/protocol error)
+    PROBABLE = "PROBABLE"           # Multiple independent indicators support the hypothesis (e.g. link down + timeout)
+    SUSPECTED = "SUSPECTED"         # Indicator suggests possible cause, but evidence is circumstantial or single-source
     SYMPTOM = "SYMPTOM"             # Downstream effect caused by an identified root cause
     HEALTHY = "HEALTHY"             # Clean execution; no anomaly identified
     INCONCLUSIVE = "INCONCLUSIVE"   # Conflicting or insufficient data to isolate root cause
+
+
+class TelemetricEnvironment(str, Enum):
+    """Provenance of telemetry: distinguishes simulated/mock environments from physical appliances."""
+
+    MOCK_SIMULATED = "MOCK_SIMULATED"           # Local mock SNMP / containerized Asterisk
+    PHYSICAL_PRODUCTION = "PHYSICAL_PRODUCTION" # Real Avaya SBCE / Session Manager hardware
 
 
 class RootCauseDomain(str, Enum):
@@ -109,6 +117,8 @@ class ServiceAssuranceReport:
     timestamp: float = 0.0
     service_id: str = "voice-service-default"
     target_host: str = "nawari-voice-probe-01"
+    environment: TelemetricEnvironment = TelemetricEnvironment.MOCK_SIMULATED
+    is_stale: bool = False
     health_state: ServiceHealthState = ServiceHealthState.UNKNOWN
     health_score: float = 0.0   # 0.0 - 100.0 index
     signaling_summary: dict[str, Any] = field(default_factory=dict)
@@ -130,6 +140,8 @@ class ServiceAssuranceReport:
             "timestamp": self.timestamp,
             "service_id": self.service_id,
             "target_host": self.target_host,
+            "environment": self.environment.value,
+            "is_stale": self.is_stale,
             "health_state": self.health_state.value,
             "health_score": round(self.health_score, 1),
             "signaling_summary": self.signaling_summary,
@@ -142,3 +154,4 @@ class ServiceAssuranceReport:
 
     def to_json(self, indent: Optional[int] = None) -> str:
         return json.dumps(self.to_dict(), indent=indent)
+

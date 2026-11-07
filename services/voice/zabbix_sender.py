@@ -5,20 +5,28 @@ over TCP 10051 without external C binaries or third-party client dependencies.
 """
 
 import json
+import logging
+import os
 import re
 import socket
 import struct
 import time
 from dataclasses import dataclass
+from pathlib import Path
 from typing import Any, Optional
 
 from services.voice.models import SyntheticCallResult
 
+logger = logging.getLogger("nawari.voice.zabbix_sender")
 ZABBIX_HEADER = b"ZBXD\x01"
 
 
 class ZabbixSenderError(Exception):
     """Raised when communication with Zabbix trapper fails."""
+
+    def __init__(self, message: str, spooled: bool = False):
+        super().__init__(message)
+        self.spooled = spooled
 
 
 @dataclass
@@ -87,15 +95,26 @@ class ZabbixSenderResponse:
 
 
 class ZabbixSender:
-    """Client for dispatching metrics to Zabbix Server Trapper items."""
+    """Client for dispatching metrics to Zabbix Server Trapper items with retries and spooling."""
 
-    def __init__(self, host: str = "127.0.0.1", port: int = 10051, timeout: float = 5.0):
+    def __init__(
+        self,
+        host: str = "127.0.0.1",
+        port: int = 10051,
+        timeout: float = 5.0,
+        max_retries: int = 3,
+        backoff_factor: float = 0.5,
+        spool_file: Optional[Path] = None,
+    ):
         self.host = host
         self.port = port
         self.timeout = timeout
+        self.max_retries = max_retries
+        self.backoff_factor = backoff_factor
+        self.spool_file = spool_file
 
     def send(self, metrics: list[ZabbixMetric]) -> ZabbixSenderResponse:
-        """Transmit a batch of metrics to Zabbix Server."""
+        """Transmit a batch of metrics to Zabbix Server with retries and spooling."""
         if not metrics:
             return ZabbixSenderResponse(response="success", info="processed: 0; failed: 0; total: 0; seconds spent: 0.0")
 
@@ -110,32 +129,102 @@ class ZabbixSender:
         payload = json.dumps({"request": "sender data", "data": data_list}).encode("utf-8")
         packet = ZABBIX_HEADER + struct.pack("<Q", len(payload)) + payload
 
+        last_err: Optional[Exception] = None
+        for attempt in range(self.max_retries + 1):
+            try:
+                with socket.create_connection((self.host, self.port), timeout=self.timeout) as sock:
+                    sock.settimeout(self.timeout)
+                    sock.sendall(packet)
+
+                    # Read header (13 bytes: 5 byte magic + 8 byte length)
+                    hdr = sock.recv(13)
+                    if len(hdr) < 13:
+                        raise ZabbixSenderError(f"Incomplete Zabbix header: received {len(hdr)} bytes")
+
+                    if not hdr.startswith(b"ZBXD"):
+                        raise ZabbixSenderError(f"Invalid Zabbix protocol magic: {hdr[:4]}")
+
+                    expected_len = struct.unpack("<Q", hdr[5:13])[0]
+                    resp_bytes = b""
+                    while len(resp_bytes) < expected_len:
+                        chunk = sock.recv(min(4096, expected_len - len(resp_bytes)))
+                        if not chunk:
+                            break
+                        resp_bytes += chunk
+
+                    raw_json = resp_bytes.decode("utf-8", errors="replace")
+                    return ZabbixSenderResponse.parse(raw_json)
+
+            except Exception as e:
+                last_err = e
+                if attempt < self.max_retries:
+                    sleep_time = self.backoff_factor * (2 ** attempt)
+                    time.sleep(sleep_time)
+
+        # Retries exhausted - check spooling
+        if self.spool_file:
+            try:
+                self.spool_file.parent.mkdir(parents=True, exist_ok=True)
+                with open(self.spool_file, "a", encoding="utf-8") as f:
+                    for item in data_list:
+                        f.write(json.dumps(item) + "\n")
+                logger.warning(
+                    f"Zabbix server unreachable at {self.host}:{self.port}. Spooled {len(data_list)} metrics to {self.spool_file}"
+                )
+                raise ZabbixSenderError(
+                    f"Failed to transmit data to Zabbix after {self.max_retries+1} attempts ({last_err}); spooled to disk",
+                    spooled=True,
+                )
+            except Exception as spool_err:
+                if isinstance(spool_err, ZabbixSenderError):
+                    raise spool_err
+                raise ZabbixSenderError(f"Failed to transmit to Zabbix and spooling failed: {spool_err}")
+
+        raise ZabbixSenderError(
+            f"Failed to transmit data to Zabbix server at {self.host}:{self.port} after {self.max_retries+1} attempts: {last_err}"
+        )
+
+    def replay_spool(self, spool_file: Optional[Path] = None) -> int:
+        """Read and transmit previously spooled metrics to Zabbix."""
+        target_spool = spool_file or self.spool_file
+        if not target_spool or not target_spool.exists():
+            return 0
+
+        metrics: list[ZabbixMetric] = []
+        with open(target_spool, "r", encoding="utf-8") as f:
+            for line in f:
+                line = line.strip()
+                if not line:
+                    continue
+                try:
+                    d = json.loads(line)
+                    metrics.append(
+                        ZabbixMetric(
+                            host=d["host"],
+                            key=d["key"],
+                            value=d["value"],
+                            clock=d.get("clock"),
+                        )
+                    )
+                except Exception:
+                    pass
+
+        if not metrics:
+            target_spool.unlink(missing_ok=True)
+            return 0
+
+        # Send without spooling to avoid recursive spooling loop
+        original_spool = self.spool_file
         try:
-            with socket.create_connection((self.host, self.port), timeout=self.timeout) as sock:
-                sock.settimeout(self.timeout)
-                sock.sendall(packet)
-
-                # Read header (13 bytes: 5 byte magic + 8 byte length)
-                hdr = sock.recv(13)
-                if len(hdr) < 13:
-                    raise ZabbixSenderError(f"Incomplete Zabbix header: received {len(hdr)} bytes")
-
-                if not hdr.startswith(b"ZBXD"):
-                    raise ZabbixSenderError(f"Invalid Zabbix protocol magic: {hdr[:4]}")
-
-                expected_len = struct.unpack("<Q", hdr[5:13])[0]
-                resp_bytes = b""
-                while len(resp_bytes) < expected_len:
-                    chunk = sock.recv(min(4096, expected_len - len(resp_bytes)))
-                    if not chunk:
-                        break
-                    resp_bytes += chunk
-
-                raw_json = resp_bytes.decode("utf-8", errors="replace")
-                return ZabbixSenderResponse.parse(raw_json)
-
-        except Exception as e:
-            raise ZabbixSenderError(f"Failed to transmit data to Zabbix server at {self.host}:{self.port}: {e}")
+            self.spool_file = None
+            resp = self.send(metrics)
+            if resp.response == "success":
+                target_spool.unlink(missing_ok=True)
+                logger.info(f"Successfully replayed {len(metrics)} spooled metrics to Zabbix")
+                return len(metrics)
+            return 0
+        finally:
+            self.spool_file = original_spool
 
     def send_call_result(
         self,
@@ -147,6 +236,7 @@ class ZabbixSender:
         metrics: list[ZabbixMetric] = [
             ZabbixMetric(host, "voice.synthetic.outcome", result.outcome.value, now),
             ZabbixMetric(host, "voice.synthetic.duration", result.duration_seconds, now),
+            ZabbixMetric(host, "voice.synthetic.environment", "MOCK_SIMULATED", now),
         ]
 
         if result.signaling.sip_status_code is not None:

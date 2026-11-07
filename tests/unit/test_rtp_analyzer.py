@@ -104,3 +104,85 @@ def test_ami_rtcp_event_parsing():
     assert 4.0 <= metrics.mos_score <= 4.5
     assert metrics.packets_sent == 300
     assert metrics.packets_received == 298
+
+
+def test_unidirectional_media_invalidates_mos():
+    """Verify that one-way audio (TRANSMIT_ONLY or RECEIVE_ONLY) invalidates conversational MOS."""
+    # Transmit only (remote silence / firewall drop)
+    metrics_tx = RtpAnalyzer.from_metrics(
+        jitter_ms=2.0,
+        loss_pct=0.0,
+        rtt_ms=15.0,
+        packets_sent=250,
+        packets_received=0,
+    )
+    assert not metrics_tx.is_valid
+    assert metrics_tx.verification_level.value == "TRANSMIT_ONLY"
+    assert metrics_tx.estimated_mos is None
+    assert metrics_tx.r_factor is None
+    # Packet loss cannot be claimed as 0.0% when 0 packets are received
+    assert metrics_tx.loss_pct is None
+
+    # Receive only (local mute / egress drop)
+    metrics_rx = RtpAnalyzer.from_metrics(
+        jitter_ms=2.0,
+        loss_pct=0.0,
+        rtt_ms=15.0,
+        packets_sent=0,
+        packets_received=250,
+    )
+    assert not metrics_rx.is_valid
+    assert metrics_rx.verification_level.value == "RECEIVE_ONLY"
+    assert metrics_rx.estimated_mos is None
+
+
+def test_no_media_invalidates_mos():
+    """Verify that NO_MEDIA stream invalidates conversational MOS."""
+    metrics_none = RtpAnalyzer.from_metrics(
+        jitter_ms=0.0,
+        loss_pct=0.0,
+        rtt_ms=0.0,
+        packets_sent=0,
+        packets_received=0,
+    )
+    assert not metrics_none.is_valid
+    assert metrics_none.verification_level.value == "NO_MEDIA"
+    assert metrics_none.estimated_mos is None
+    assert metrics_none.r_factor is None
+
+
+def test_codec_impairment_comparison():
+    """Verify ITU-T G.107 equipment impairment: G.729A has intrinsic impairment vs G.711u."""
+    r_g711, mos_g711, _ = RtpAnalyzer.calculate_estimated_mos(
+        jitter_ms=5.0, loss_pct=1.0, rtt_ms=30.0, codec="G.711u"
+    )
+    r_g729, mos_g729, _ = RtpAnalyzer.calculate_estimated_mos(
+        jitter_ms=5.0, loss_pct=1.0, rtt_ms=30.0, codec="G.729A"
+    )
+
+    assert r_g711 is not None and r_g729 is not None
+    assert mos_g711 is not None and mos_g729 is not None
+    # G.729A has base Ie=11 impairment, so its R-factor and MOS must be strictly lower than G.711u
+    assert r_g729 < r_g711
+    assert mos_g729 < mos_g711
+    assert mos_g711 >= 4.2
+    assert mos_g729 <= 4.0
+
+
+def test_delay_impairment_knee_point():
+    """Verify non-linear delay penalty when mouth-to-ear latency exceeds 177.3ms."""
+    # Baseline delay within 100ms
+    r_low_delay, mos_low, d_low = RtpAnalyzer.calculate_estimated_mos(
+        jitter_ms=5.0, loss_pct=0.0, rtt_ms=40.0
+    )
+    # Severe delay well above 177.3ms knee point (e.g. satellite / cross-continent transit: RTT 350ms)
+    r_high_delay, mos_high, d_high = RtpAnalyzer.calculate_estimated_mos(
+        jitter_ms=5.0, loss_pct=0.0, rtt_ms=350.0
+    )
+
+    assert d_low is not None and d_low < 100.0
+    assert d_high is not None and d_high > 177.3
+    assert r_high_delay is not None and r_low_delay is not None
+    assert r_high_delay < r_low_delay
+    assert mos_high is not None and mos_low is not None
+    assert mos_high < mos_low

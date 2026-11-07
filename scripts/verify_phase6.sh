@@ -44,7 +44,7 @@ templates = client.call('template.get', {
 })
 assert len(templates) == 1, 'Template missing'
 keys = {i['key_'] for i in templates[0].get('items', [])}
-required = {'voice.synthetic.outcome', 'voice.synthetic.sip_status', 'voice.synthetic.setup_time', 'voice.synthetic.duration', 'voice.synthetic.media_status', 'voice.synthetic.mos', 'voice.synthetic.r_factor', 'voice.synthetic.jitter', 'voice.synthetic.packet_loss', 'voice.synthetic.rtt', 'voice.synthetic.one_way_delay'}
+required = {'voice.synthetic.outcome', 'voice.synthetic.sip_status', 'voice.synthetic.setup_time', 'voice.synthetic.duration', 'voice.synthetic.media_status', 'voice.synthetic.mos', 'voice.synthetic.r_factor', 'voice.synthetic.jitter', 'voice.synthetic.packet_loss', 'voice.synthetic.rtt', 'voice.synthetic.one_way_delay', 'voice.synthetic.environment'}
 diff = required - keys
 assert not diff, f'Missing keys: {diff}'
 "
@@ -148,7 +148,7 @@ problems = [{'eventid': '101', 'name': 'Interface B1 link down on mock-avaya-sbc
 corr = CrossDomainCorrelator()
 report = corr.correlate(ev, active_problems=problems)
 assert report.health_state == ServiceHealthState.CRITICAL
-assert report.primary_hypothesis.status == HypothesisStatus.CONFIRMED
+assert report.primary_hypothesis.status == HypothesisStatus.PROBABLE
 assert report.primary_hypothesis.root_cause_domain == RootCauseDomain.NETWORK_LINK
 "
 }
@@ -172,7 +172,7 @@ problems = [{'eventid': '201', 'name': 'High CPU utilization (>90%) on mock-avay
 corr = CrossDomainCorrelator()
 report = corr.correlate(ev, active_problems=problems)
 assert report.health_state == ServiceHealthState.CRITICAL
-assert report.primary_hypothesis.status == HypothesisStatus.CONFIRMED
+assert report.primary_hypothesis.status == HypothesisStatus.PROBABLE
 assert report.primary_hypothesis.root_cause_domain == RootCauseDomain.APPLIANCE_OVERLOAD
 "
 }
@@ -195,7 +195,7 @@ ev = CanonicalVoiceEvent(
 corr = CrossDomainCorrelator()
 report = corr.correlate(ev, active_problems=[])
 assert report.health_state == ServiceHealthState.CRITICAL
-assert report.primary_hypothesis.status == HypothesisStatus.CONFIRMED
+assert report.primary_hypothesis.status == HypothesisStatus.PROBABLE
 assert report.primary_hypothesis.root_cause_domain == RootCauseDomain.FIREWALL_NAT_ASYMMETRY
 "
 }

@@ -147,11 +147,15 @@ class RtpAnalyzer:
         """Create MediaQualityMetrics with strict validity and bidirectional verification."""
         v_level = cls.determine_verification_level(packets_sent, packets_received)
 
-        if jitter_ms is None or loss_pct is None:
+        # Strict bidirectional media requirement:
+        # Conversational speech quality requires both transmission and reception.
+        # If media is unidirectional or absent, quality cannot be measured.
+        if jitter_ms is None or loss_pct is None or v_level != MediaVerificationLevel.BIDIRECTIONAL:
+            adjusted_loss = loss_pct if v_level == MediaVerificationLevel.BIDIRECTIONAL else None
             return MediaQualityMetrics(
-                jitter_ms=jitter_ms,
-                loss_pct=loss_pct,
-                rtt_ms=rtt_ms,
+                jitter_ms=round(jitter_ms, 2) if jitter_ms is not None else None,
+                loss_pct=round(adjusted_loss, 2) if adjusted_loss is not None else None,
+                rtt_ms=round(rtt_ms, 2) if rtt_ms is not None else None,
                 packets_sent=packets_sent,
                 packets_received=packets_received,
                 codec=codec,

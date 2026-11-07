@@ -196,6 +196,10 @@ class CanonicalVoiceEvent:
             ZabbixMetric(target_host, "voice.synthetic.media_status", self.media.verification_level.value, now),
         ]
 
+        is_physical = any(k in self.event_source.lower() for k in ("physical", "production")) or "physical" in self.device_id.lower()
+        env_str = "PHYSICAL_PRODUCTION" if is_physical else "MOCK_SIMULATED"
+        metrics.append(ZabbixMetric(target_host, "voice.synthetic.environment", env_str, now))
+
         if self.signaling.sip_status_code is not None:
             metrics.append(ZabbixMetric(target_host, "voice.synthetic.sip_status", self.signaling.sip_status_code, now))
 

@@ -34,6 +34,14 @@ zabbix_export:
               tags:
                 - tag: scope
                   value: availability
+            - uuid: cec449b05f854584a151c7314ef778a8
+              expression: 'nodata(/Nawari Voice Synthetic Probe by Zabbix Trapper/voice.synthetic.outcome,15m)=1'
+              name: 'Synthetic voice probe telemetry is stale (>15m)'
+              priority: WARNING
+              description: 'No synthetic voice probe outcomes have been reported to Zabbix within the 15-minute SLA window.'
+              tags:
+                - tag: scope
+                  value: availability
         - uuid: 5f5c09de83e84db09cb2408865f58773
           name: 'Synthetic call SIP status'
           type: TRAP
@@ -172,6 +180,16 @@ zabbix_export:
           value_type: FLOAT
           units: ms
           description: 'Estimated mouth-to-ear delay incorporating RTT, de-jitter holding, and packetization.'
+          tags:
+            - tag: component
+              value: voice-probe
+        - uuid: f99ad4b423c445e7a9c5cff0027377c2
+          name: 'Synthetic probe environment provenance'
+          type: TRAP
+          key: voice.synthetic.environment
+          delay: '0'
+          value_type: CHAR
+          description: 'Operating environment of voice telemetry (MOCK_SIMULATED vs PHYSICAL_PRODUCTION).'
           tags:
             - tag: component
               value: voice-probe

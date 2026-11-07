@@ -16,6 +16,7 @@ from services.assurance.models import (
     RootCauseDomain,
     ServiceAssuranceReport,
     ServiceHealthState,
+    TelemetricEnvironment,
 )
 from services.voice.models import CallOutcome, MediaVerificationLevel
 from services.voice.telemetry_schema import CanonicalVoiceEvent
@@ -39,7 +40,7 @@ class CrossDomainCorrelator:
             # Query problems from Zabbix API
             params: dict[str, Any] = {
                 "output": ["eventid", "name", "severity", "clock", "r_eventid"],
-                "recent": "true",
+                "recent": True,
                 "sortfield": ["eventid"],
                 "sortorder": "DESC",
             }
@@ -115,6 +116,13 @@ class CrossDomainCorrelator:
         hypotheses: list[IncidentHypothesis] = []
 
         # 3. Rule Evaluation & Hypothesis Generation
+        now_epoch = time.time()
+        event_time = voice_event.collection_timestamp or now_epoch
+        is_stale = (now_epoch - event_time) > 900.0 if (event_time > 0 and now_epoch > event_time) else False
+
+        # Environment provenance
+        is_physical = any(k in voice_event.event_source.lower() for k in ("physical", "production")) or "physical" in voice_event.device_id.lower()
+        environment = TelemetricEnvironment.PHYSICAL_PRODUCTION if is_physical else TelemetricEnvironment.MOCK_SIMULATED
 
         # Scenario A: Network Link Failure on SBCE or switch
         if (
@@ -143,13 +151,15 @@ class CrossDomainCorrelator:
                     )
                 )
 
+            # Distinguish Confirmed (direct deterministic trace) from Probable (multi-domain correlation)
+            has_direct_proof = infra.get("direct_causality", False) or "EHOSTUNREACH" in (signaling.hangup_cause_txt or "")
             hypotheses.append(
                 IncidentHypothesis(
-                    status=HypothesisStatus.CONFIRMED,
+                    status=HypothesisStatus.CONFIRMED if has_direct_proof else HypothesisStatus.PROBABLE,
                     root_cause_domain=RootCauseDomain.NETWORK_LINK,
-                    title="Voice Service Outage Caused by Network Interface Failure",
-                    summary="Network transport link failure on SBC/Switch interface directly interrupted SIP transaction and media flow.",
-                    confidence=0.96,
+                    title="Voice Failure Due to Network Interface Outage" if has_direct_proof else "Probable Network-Path Failure: Interface Outage Correlated with Call Timeout",
+                    summary="Direct network socket error confirmed link failure" if has_direct_proof else "Multiple independent indicators support network transport failure: SBCE interface link down alarm observed alongside synthetic call timeout.",
+                    confidence=0.95 if has_direct_proof else 0.85,
                     evidence=evidence,
                     remediation_recommendations=[
                         "Inspect physical layer connection and optical transceiver (SFP) on SBCE interface.",
@@ -189,11 +199,11 @@ class CrossDomainCorrelator:
 
             hypotheses.append(
                 IncidentHypothesis(
-                    status=HypothesisStatus.CONFIRMED,
+                    status=HypothesisStatus.PROBABLE,
                     root_cause_domain=RootCauseDomain.APPLIANCE_OVERLOAD,
-                    title="Voice Service Degradation Due to SBCE Resource Saturation",
-                    summary="Appliance CPU or memory saturation is introducing SIP processing latency, thread delays, and packet drop.",
-                    confidence=0.93,
+                    title="Probable SBCE Resource Saturation Impairing Voice Service",
+                    summary="Multiple independent indicators support appliance overload: SBCE CPU/load problem observed alongside elevated setup latency or call timeout.",
+                    confidence=0.82,
                     evidence=evidence,
                     remediation_recommendations=[
                         "Review active process list and worker thread utilization on SBCE appliance.",
@@ -231,11 +241,11 @@ class CrossDomainCorrelator:
             ]
             hypotheses.append(
                 IncidentHypothesis(
-                    status=HypothesisStatus.CONFIRMED,
+                    status=HypothesisStatus.PROBABLE,
                     root_cause_domain=RootCauseDomain.FIREWALL_NAT_ASYMMETRY,
-                    title="One-Way Audio / Media Port Dropped by Firewall or NAT Traversal",
-                    summary="Signaling plane is functional, but the RTP media plane is blocked in one direction. Typical for stateful firewall UDP port drops or asymmetric routing.",
-                    confidence=0.92,
+                    title="Probable Firewall RTP Drop or NAT Asymmetry (One-Way Audio)",
+                    summary="Signaling plane is functional (200 OK), but RTP audio stream was only verified in one direction. Probable stateful firewall UDP timeout or asymmetric routing.",
+                    confidence=0.80,
                     evidence=evidence,
                     remediation_recommendations=[
                         "Inspect firewall UDP state table and verify RTP port range (e.g. 35000-40000) is open bi-directionally.",
@@ -268,13 +278,14 @@ class CrossDomainCorrelator:
                     value=0,
                 ),
             ]
+            has_carrier_header = "congestion" in (signaling.sip_status_reason or "").lower()
             hypotheses.append(
                 IncidentHypothesis(
-                    status=HypothesisStatus.CONFIRMED,
+                    status=HypothesisStatus.CONFIRMED if has_carrier_header else HypothesisStatus.PROBABLE,
                     root_cause_domain=RootCauseDomain.UPSTREAM_CARRIER,
-                    title="External Carrier Trunk Congestion or Upstream Outage",
+                    title="External Carrier Trunk Congestion (Confirmed SIP 503)" if has_carrier_header else "Probable Upstream Carrier / Trunk Congestion",
                     summary="Local SBCE appliance and interfaces are healthy, but upstream carrier trunk returned SIP 503 Service Unavailable or failed to respond.",
-                    confidence=0.89,
+                    confidence=0.90 if has_carrier_header else 0.82,
                     evidence=evidence,
                     remediation_recommendations=[
                         "Contact telecom carrier / ITSP (Safaricom / Airtel) to verify trunk circuit health.",
@@ -303,11 +314,11 @@ class CrossDomainCorrelator:
             ]
             hypotheses.append(
                 IncidentHypothesis(
-                    status=HypothesisStatus.CONFIRMED,
+                    status=HypothesisStatus.PROBABLE,
                     root_cause_domain=RootCauseDomain.NETWORK_LINK,
-                    title="Voice Quality Degraded by Network Jitter or Packet Loss",
+                    title="Probable Network Queueing or Jitter Impairing Voice Quality",
                     summary="Bidirectional media is active, but network transport queueing, packet loss, or jitter is impairing voice quality.",
-                    confidence=0.85,
+                    confidence=0.78,
                     evidence=evidence,
                     remediation_recommendations=[
                         "Verify end-to-end DSCP markings (EF for voice RTP, CS3 for SIP signaling).",
@@ -323,6 +334,7 @@ class CrossDomainCorrelator:
             and media.verification_level == MediaVerificationLevel.BIDIRECTIONAL
             and (media.estimated_mos is None or media.estimated_mos >= 3.8)
             and not (link_problems or cpu_problems)
+            and not is_stale
         ):
             hypotheses.append(
                 IncidentHypothesis(
@@ -353,6 +365,32 @@ class CrossDomainCorrelator:
                 )
             )
 
+        # Scenario G: Stale Telemetry Guard
+        if is_stale:
+            hypotheses.append(
+                IncidentHypothesis(
+                    status=HypothesisStatus.SUSPECTED,
+                    root_cause_domain=RootCauseDomain.UNKNOWN,
+                    title="Stale Voice Telemetry: Probe Ingestion Delayed or Offline",
+                    summary="Latest synthetic voice telemetry is older than 15 minutes. Current operational health cannot be assured.",
+                    confidence=0.70,
+                    evidence=[
+                        EvidenceItem(
+                            domain=EvidenceDomain.SIGNALING,
+                            source="voice.synthetic",
+                            identifier="Telemetry Staleness",
+                            severity="WARNING",
+                            description=f"Telemetry age exceeds 15 minutes ({int((now_epoch - event_time)/60)}m elapsed).",
+                            value=int(now_epoch - event_time),
+                        )
+                    ],
+                    remediation_recommendations=[
+                        "Verify whether Asterisk synthetic voice scheduler or cron task is actively executing.",
+                        "Inspect Zabbix Sender logs and verify TCP 10051 reachability.",
+                    ],
+                )
+            )
+
         # Default fallback if no specific scenario matched
         if not hypotheses:
             hypotheses.append(
@@ -369,7 +407,10 @@ class CrossDomainCorrelator:
 
         # 4. Compute Health State and Health Score
         primary = max(hypotheses, key=lambda h: h.confidence)
-        if primary.status == HypothesisStatus.HEALTHY:
+        if is_stale and primary.status != HypothesisStatus.HEALTHY and not (link_problems or cpu_problems):
+            health_state = ServiceHealthState.UNKNOWN
+            health_score = 50.0
+        elif primary.status == HypothesisStatus.HEALTHY:
             health_state = ServiceHealthState.HEALTHY
             health_score = 98.0
             if media.estimated_mos:
@@ -400,6 +441,8 @@ class CrossDomainCorrelator:
             timestamp=now,
             service_id=voice_event.service_id,
             target_host=voice_event.device_id,
+            environment=environment,
+            is_stale=is_stale,
             health_state=health_state,
             health_score=health_score,
             signaling_summary=sig_summary,
