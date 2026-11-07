@@ -4,6 +4,7 @@ Unit tests for Nawari Phase 8 Enterprise Security, RBAC, Enrollment & Audit.
 
 import os
 import tempfile
+import time
 import pytest
 
 from services.security.rbac import (
@@ -132,3 +133,116 @@ def test_06_tamper_resistant_audit_log():
     finally:
         if os.path.exists(log_path):
             os.remove(log_path)
+
+
+def test_07_audit_log_deletion_and_reordering_detection():
+    """Verify that deleting a record in the middle, reordering lines, or truncating the tail is caught."""
+    with tempfile.NamedTemporaryFile(suffix=".log", delete=False) as f:
+        log_path = f.name
+
+    try:
+        logger = AuditLogger(log_path)
+        logger.log_event("actor1", "ROLE1", "ACTION1", "TGT", "1", "10.0.0.1", "SUCCESS")
+        logger.log_event("actor2", "ROLE2", "ACTION2", "TGT", "2", "10.0.0.2", "SUCCESS")
+        logger.log_event("actor3", "ROLE3", "ACTION3", "TGT", "3", "10.0.0.3", "SUCCESS")
+
+        with open(log_path, "r") as f:
+            lines = f.readlines()
+
+        assert len(lines) == 3
+
+        # 1. Test middle deletion (drop line 1)
+        with open(log_path, "w") as f:
+            f.write(lines[0] + lines[2])
+        valid, msg = AuditLogger.verify_file(log_path)
+        assert valid is False
+        assert "deletion" in msg or "mismatch" in msg or "index" in msg
+
+        # 2. Test reordering (swap line 0 and line 1)
+        with open(log_path, "w") as f:
+            f.write(lines[1] + lines[0] + lines[2])
+        valid_reorder, msg_reorder = AuditLogger.verify_file(log_path)
+        assert valid_reorder is False
+        assert "reordering" in msg_reorder or "index" in msg_reorder or "mismatch" in msg_reorder
+
+        # 3. Test tail truncation (verify against expected_record_count)
+        with open(log_path, "w") as f:
+            f.write(lines[0] + lines[1])
+        valid_trunc, msg_trunc = AuditLogger.verify_file(log_path, expected_record_count=3)
+        assert valid_trunc is False
+        assert "Truncation detected" in msg_trunc
+
+    finally:
+        if os.path.exists(log_path):
+            os.remove(log_path)
+
+
+def test_08_endpoint_credential_rotation():
+    """Verify endpoint token rotation immediately invalidates the previous secret token."""
+    mgr = EnrollmentManager()
+    token = mgr.generate_provisioning_token(issuer="MDM")
+    reg = mgr.register_endpoint(token, "laptop-rot", "AA:BB:CC:11:22:33", "10.2.1.100")
+    ep_id = reg["endpoint_id"]
+    old_secret = reg["secret_token"]
+
+    assert mgr.validate_endpoint_token(ep_id, old_secret) is True
+
+    # Rotate credentials
+    rot = mgr.rotate_endpoint_credentials(ep_id, old_secret)
+    new_secret = rot["secret_token"]
+    assert new_secret != old_secret
+
+    # Old secret must now be rejected
+    assert mgr.validate_endpoint_token(ep_id, old_secret) is False
+    # New secret must be accepted
+    assert mgr.validate_endpoint_token(ep_id, new_secret) is True
+
+
+def test_09_gateway_live_replay_guard():
+    """Verify that live telemetry with clock skew > 300s is rejected when replay guard is active."""
+    import json
+    import urllib.request
+    import urllib.error
+    from unittest.mock import MagicMock
+    from services.gateway.config import GatewayConfig
+    from services.gateway.server import IngestionGatewayServer
+    from services.voice.zabbix_sender import ZabbixSender
+    from tests.unit.test_stage7d_gateway import build_sample_report
+
+    config = GatewayConfig(
+        host="127.0.0.1",
+        port=8456,
+        require_auth=False,
+        enforce_replay_guard=True,
+        max_clock_skew_seconds=60.0,
+    )
+    server = IngestionGatewayServer(config=config, zabbix_sender=MagicMock(spec=ZabbixSender))
+    server.start()
+
+    try:
+        report = build_sample_report()
+        # Set timestamp 2 hours in the past (replace on frozen dataclasses)
+        import dataclasses
+        past_meta = dataclasses.replace(report.metadata, timestamp_ns=int((time.time() - 7200) * 1e9))
+        report = dataclasses.replace(report, metadata=past_meta)
+        payload = json.dumps(report.to_dict()).encode("utf-8")
+
+        req = urllib.request.Request(
+            "http://127.0.0.1:8456/api/v1/telemetry",
+            data=payload,
+            headers={"Content-Type": "application/json"},
+            method="POST",
+        )
+
+        with pytest.raises(urllib.error.HTTPError) as exc_info:
+            urllib.request.urlopen(req)
+
+        err = exc_info.value
+        assert err.code == 400
+        body = json.loads(err.read().decode("utf-8"))
+        assert "Replay/Timestamp guard" in body["error"]
+
+    finally:
+        server.stop()
+
+

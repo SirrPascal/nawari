@@ -64,6 +64,11 @@ check_backup_restore_scripts() {
     test -x "${PROJECT_ROOT}/scripts/backup/restore_nawari.sh" || return 1
 }
 
+check_recovery_benchmark() {
+    cd "${PROJECT_ROOT}"
+    PYTHONPATH=. "${PYTEST}" -q tests/recovery/test_backup_restore_loop.py
+}
+
 check_unit_security_rbac() {
     cd "${PROJECT_ROOT}"
     PYTHONPATH=. "${PYTEST}" -q tests/unit/test_rbac_permissions.py
@@ -94,6 +99,7 @@ run_check "Workstream 8A: Docker Compose Production Overrides & Image Pinning" c
 run_check "Workstream 8A: Core Production Containers Healthy" check_containers_running_and_healthy
 run_check "Workstream 8A: Host Security Templates (UFW & Sysctl Hardening)" check_host_hardening_templates
 run_check "Workstream 8B: Backup & Restore Scripts and DR Runbook" check_backup_restore_scripts
+run_check "Workstream 8B: Timed Disaster Recovery Benchmark (RTO <= 30m)" check_recovery_benchmark
 run_check "Workstream 8C: Enterprise Security, RBAC & Audit Hashing Tests" check_unit_security_rbac
 run_check "Workstream 8D: Incident Deduplication & 9-Stage Lifecycle Tests" check_unit_incident_lifecycle
 run_check "Workstream 8E: Enterprise Integrations (ITSM, Email, SMS, CMDB)" check_unit_integrations
@@ -111,3 +117,4 @@ else
     echo "FAILURE: One or more Phase 8 verification checks failed." >&2
     exit 1
 fi
+

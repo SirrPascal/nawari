@@ -24,6 +24,8 @@ class GatewayConfig:
     max_queue_depth: int = 5000
     backpressure_threshold: float = 0.90  # 90% of max_queue_depth triggers HTTP 429
     retry_after_seconds: int = 30
+    enforce_replay_guard: bool = False  # Enabled in production/stress tests
+    max_clock_skew_seconds: float = 300.0  # 5 minutes
     tls_cert_path: Optional[str] = None
     tls_key_path: Optional[str] = None
     allowed_agent_versions: List[str] = field(default_factory=lambda: ["1.0.0"])

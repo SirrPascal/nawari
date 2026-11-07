@@ -144,6 +144,23 @@ class GatewayRequestHandler(BaseHTTPRequestHandler):
             )
             return
 
+        # Replay & Timestamp Freshness Guard (Active when enforce_replay_guard=True)
+        if self.gateway.config.enforce_replay_guard:
+            report_ts_sec = report.metadata.timestamp_ns / 1e9
+            skew = abs(time.time() - report_ts_sec)
+            if skew > self.gateway.config.max_clock_skew_seconds:
+                self._send_json_response(
+                    HTTPStatus.BAD_REQUEST,
+                    {
+                        "error": (
+                            f"Replay/Timestamp guard: Clock skew of {skew:.1f}s exceeds "
+                            f"{self.gateway.config.max_clock_skew_seconds}s limit. "
+                            f"Use /api/v1/telemetry/replay for offline spool recovery."
+                        )
+                    },
+                )
+                return
+
         server_ts_ns = time.time_ns()
 
         # Map to Zabbix metrics and LLD

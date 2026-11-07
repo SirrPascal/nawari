@@ -148,3 +148,57 @@ def test_04_escalation_evaluation():
     IncidentLifecycleController.transition_to(inc, IncidentStage.ACKNOWLEDGED, actor="noc_lead")
     needs_esc, _ = IncidentLifecycleController.evaluate_escalation(inc)
     assert needs_esc is False
+
+
+def test_05_stale_or_silent_telemetry_cannot_cause_recovery():
+    """Verify that source silence, NO_DATA, STALE, or outdated telemetry cannot resolve an incident."""
+    dedup = IncidentDeduplicator()
+    inc, _ = dedup.process_symptom(
+        root_cause_domain=RootCauseDomain.ENDPOINT_WIFI,
+        fault_entity_id="laptop-wifi-01",
+        site_id="NBO-HQ",
+        severity=Severity.HIGH,
+        confidence=Confidence.CONFIRMED,
+        title="High Wi-Fi Packet Loss",
+    )
+    IncidentLifecycleController.transition_to(inc, IncidentStage.ACKNOWLEDGED, actor="ops")
+    IncidentLifecycleController.transition_to(inc, IncidentStage.INVESTIGATING)
+    IncidentLifecycleController.transition_to(inc, IncidentStage.RECOVERING)
+
+    # 1. Active nominal telemetry cycle 1
+    c1 = IncidentLifecycleController.record_nominal_cycle(
+        inc,
+        telemetry_timestamp=time.time(),
+        telemetry_status="NOMINAL",
+    )
+    assert c1 == 1
+    assert inc.nominal_cycles == 1
+
+    # 2. Source drops off or stops reporting (NO_DATA) -> Must NOT count as recovery!
+    c2 = IncidentLifecycleController.record_nominal_cycle(
+        inc,
+        telemetry_timestamp=time.time(),
+        telemetry_status="NO_DATA",
+    )
+    assert c2 == 0
+    assert inc.nominal_cycles == 0  # Resets to 0!
+    assert inc.status == IncidentStage.RECOVERING  # Does NOT resolve
+
+    # 3. Delayed/stale telemetry (5 minutes old) -> Must NOT count as recovery!
+    IncidentLifecycleController.record_nominal_cycle(
+        inc,
+        telemetry_timestamp=time.time(),
+        telemetry_status="NOMINAL",
+    )
+    assert inc.nominal_cycles == 1
+
+    c_stale = IncidentLifecycleController.record_nominal_cycle(
+        inc,
+        telemetry_timestamp=time.time() - 300,  # 300 seconds old
+        telemetry_status="NOMINAL",
+        max_staleness_seconds=120.0,
+    )
+    assert c_stale == 0
+    assert inc.nominal_cycles == 0  # Stale telemetry rejected and resets cycle!
+
+

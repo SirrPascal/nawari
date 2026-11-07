@@ -78,12 +78,34 @@ class IncidentLifecycleController:
         incident.updated_at = now
 
     @classmethod
-    def record_nominal_cycle(cls, incident: Incident) -> int:
+    def record_nominal_cycle(
+        cls,
+        incident: Incident,
+        telemetry_timestamp: Optional[float] = None,
+        telemetry_status: str = "NOMINAL",
+        max_staleness_seconds: float = 120.0,
+    ) -> int:
         """
         Records a nominal monitoring cycle during recovery.
+        Enforces that missing, silent, or stale telemetry cannot be interpreted as recovery.
         Automatically transitions to RESOLVED once minimum required nominal cycles are reached.
         """
         now = time.time()
+
+        # Telemetry Freshness & Evidence Invariant:
+        # Missing or unconfirmed telemetry CANNOT count as recovery!
+        if telemetry_status in ("STALE", "NO_DATA", "UNREACHABLE", "UNKNOWN", "DEGRADED"):
+            incident.nominal_cycles = 0
+            incident.updated_at = now
+            return 0
+
+        if telemetry_timestamp is not None:
+            age = abs(now - telemetry_timestamp)
+            if age > max_staleness_seconds:
+                incident.nominal_cycles = 0
+                incident.updated_at = now
+                return 0
+
         incident.nominal_cycles += 1
         incident.updated_at = now
 

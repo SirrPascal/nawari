@@ -183,3 +183,26 @@ class EnrollmentManager:
 
     def is_revoked(self, endpoint_id: str) -> bool:
         return endpoint_id in self._revocation_list
+
+    def rotate_endpoint_credentials(self, endpoint_id: str, current_secret_token: str) -> dict:
+        """
+        Rotates credentials for an active, non-revoked endpoint.
+        Invalidates previous token and extends expiration by 90 days.
+        """
+        if not self.validate_endpoint_token(endpoint_id, current_secret_token):
+            raise EnrollmentError("Cannot rotate credentials: invalid current token or endpoint revoked/expired.")
+
+        cred = self._registered_endpoints[endpoint_id]
+        now = time.time()
+        new_secret_token = f"nawari-agent-{secrets.token_urlsafe(32)}"
+        new_secret_hash = hmac.new(self._secret, new_secret_token.encode("utf-8"), hashlib.sha256).hexdigest()
+
+        cred.secret_hash = new_secret_hash
+        cred.issued_at = now
+        cred.expires_at = now + (90 * 86400)
+
+        return {
+            "endpoint_id": endpoint_id,
+            "secret_token": new_secret_token,
+            "expires_at": cred.expires_at,
+        }

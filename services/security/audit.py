@@ -102,22 +102,40 @@ class AuditLogger:
 
         return rec
 
-    def verify_integrity(self) -> Tuple[bool, str]:
+    def verify_integrity(
+        self,
+        expected_record_count: Optional[int] = None,
+        expected_head_hash: Optional[str] = None,
+    ) -> Tuple[bool, str]:
+        if expected_record_count is not None and len(self._records) != expected_record_count:
+            return False, f"Truncation detected: expected {expected_record_count} records, found {len(self._records)}"
+
         expected_prev_hash = GENESIS_HASH
         for i, rec in enumerate(self._records):
             if rec.index != i:
-                return False, f"Broken sequence index at position {i}: expected {i}, got {rec.index}"
+                return False, f"Broken sequence index at position {i}: expected {i}, got {rec.index} (reordering or deletion detected)"
             if rec.prev_hash != expected_prev_hash:
-                return False, f"Hash chain broken at index {i}: prev_hash mismatch"
+                return False, f"Hash chain broken at index {i}: prev_hash mismatch (deletion or alteration detected)"
             calculated = rec.calculate_hash()
             if rec.signature != calculated:
                 return False, f"Signature mismatch at index {i}: record content modified!"
             expected_prev_hash = rec.signature
+
+        if expected_head_hash is not None and self._latest_hash != expected_head_hash:
+            return False, f"Head hash mismatch: expected {expected_head_hash}, got {self._latest_hash} (tail truncation detected)"
+
         return True, f"Integrity verified: all {len(self._records)} records valid and untampered."
 
     @staticmethod
-    def verify_file(log_path: str) -> Tuple[bool, str]:
+    def verify_file(
+        log_path: str,
+        expected_record_count: Optional[int] = None,
+        expected_head_hash: Optional[str] = None,
+    ) -> Tuple[bool, str]:
         if not os.path.exists(log_path):
             return False, f"Log file does not exist: {log_path}"
         logger = AuditLogger(log_path)
-        return logger.verify_integrity()
+        return logger.verify_integrity(
+            expected_record_count=expected_record_count,
+            expected_head_hash=expected_head_hash,
+        )
