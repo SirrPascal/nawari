@@ -137,6 +137,17 @@ zabbix_export:
               value: sip-sessions
             - tag: provenance
               value: CONFIGURED_UNVERIFIED
+          triggers:
+            - uuid: 4070a70cb0ff470dafc431b51c179261
+              expression: 'nodata(/Nawari Avaya SBCE by SNMP/avaya.sbce.ems.active_calls,5m)=1'
+              name: 'Avaya SBCE: Telemetry Stale or Loss of Monitoring'
+              priority: WARNING
+              description: 'No telemetry update received from Avaya SBCE EMS statistics interface for over 5 minutes.'
+              tags:
+                - tag: component
+                  value: sip-sessions
+                - tag: scope
+                  value: availability
         - uuid: 4070a70cb0ff470dafc431b51c179252
           name: 'Active SIP Registrations'
           type: TRAP
@@ -206,6 +217,150 @@ zabbix_export:
               value: capacity
             - tag: provenance
               value: CONFIGURED_UNVERIFIED
+          triggers:
+            - uuid: 4070a70cb0ff470dafc431b51c179262
+              expression: 'last(/Nawari Avaya SBCE by SNMP/avaya.sbce.ems.license_utilization_pct)>=80'
+              name: 'Avaya SBCE: Active Session Capacity Warning (>= 80%)'
+              priority: WARNING
+              description: 'Active concurrent SIP sessions exceed 80% of licensed capacity.'
+              tags:
+                - tag: component
+                  value: capacity
+                - tag: scope
+                  value: capacity
+            - uuid: 4070a70cb0ff470dafc431b51c179263
+              expression: 'last(/Nawari Avaya SBCE by SNMP/avaya.sbce.ems.license_utilization_pct)>=95'
+              name: 'Avaya SBCE: Active Session Capacity Critical (>= 95%)'
+              priority: DISASTER
+              description: 'Critical SIP session saturation on SBCE (> 95% license limit); activate failover routing immediately.'
+              tags:
+                - tag: component
+                  value: capacity
+                - tag: scope
+                  value: capacity
+
+        - uuid: 4070a70cb0ff470dafc431b51c179256
+          name: 'SBCE Management Interface Reachability'
+          type: SIMPLE
+          key: 'net.tcp.service[https,10.2.156.131,443]'
+          delay: 1m
+          value_type: UNSIGNED
+          description: 'TCP/TLS connection to SBCE Element Management System (EMS) web management interface on port 443.'
+          tags:
+            - tag: component
+              value: management
+            - tag: provenance
+              value: REAL_ZABBIX
+          triggers:
+            - uuid: 4070a70cb0ff470dafc431b51c179264
+              expression: 'last(/Nawari Avaya SBCE by SNMP/net.tcp.service[https,10.2.156.131,443])=0'
+              name: 'Avaya SBCE: Management Interface Unreachable'
+              priority: HIGH
+              description: 'SBCE EMS management interface (HTTPS on port 443) failed consecutive health probes.'
+              tags:
+                - tag: component
+                  value: management
+                - tag: scope
+                  value: availability
+
+        - uuid: 4070a70cb0ff470dafc431b51c179257
+          name: 'SBCE SIP Failure Rate'
+          type: TRAP
+          key: avaya.sbce.sip_failure_rate_pct
+          delay: '0'
+          value_type: FLOAT
+          units: '%'
+          description: 'Percentage of SIP requests receiving 4xx/5xx failure responses over 5 minutes.'
+          tags:
+            - tag: component
+              value: sip-signaling
+            - tag: provenance
+              value: CONFIGURED_UNVERIFIED
+          triggers:
+            - uuid: 4070a70cb0ff470dafc431b51c179265
+              expression: 'min(/Nawari Avaya SBCE by SNMP/avaya.sbce.sip_failure_rate_pct,5m)>5'
+              name: 'Avaya SBCE: Sustained High SIP Failure Rate (> 5%)'
+              priority: HIGH
+              description: 'SIP signaling 4xx/5xx failure responses exceed 5% of processed call attempts over 5 minutes.'
+              tags:
+                - tag: component
+                  value: sip-signaling
+                - tag: scope
+                  value: performance
+
+        - uuid: 4070a70cb0ff470dafc431b51c179258
+          name: 'SBCE Allocated Licenses Utilization'
+          type: TRAP
+          key: avaya.sbce.allocated_licenses_pct
+          delay: '0'
+          value_type: FLOAT
+          units: '%'
+          description: 'Percentage of provisioned SBC concurrent session licenses currently allocated.'
+          tags:
+            - tag: component
+              value: capacity
+            - tag: provenance
+              value: CONFIGURED_UNVERIFIED
+          triggers:
+            - uuid: 4070a70cb0ff470dafc431b51c179266
+              expression: 'last(/Nawari Avaya SBCE by SNMP/avaya.sbce.allocated_licenses_pct)>=90'
+              name: 'Avaya SBCE: License Utilization Limit Approached (>= 90%)'
+              priority: HIGH
+              description: 'SBCE allocated session licenses have reached 90% of total installed pool.'
+              tags:
+                - tag: component
+                  value: capacity
+                - tag: scope
+                  value: capacity
+
+        - uuid: 4070a70cb0ff470dafc431b51c179259
+          name: 'SBCE Aggregate Interface Error Rate'
+          type: TRAP
+          key: avaya.sbce.if_error_rate_pct
+          delay: '0'
+          value_type: FLOAT
+          units: '%'
+          description: 'Aggregate interface error and packet discard percentage across all voice interfaces.'
+          tags:
+            - tag: component
+              value: interface
+            - tag: provenance
+              value: REAL_HARDWARE
+          triggers:
+            - uuid: 4070a70cb0ff470dafc431b51c179267
+              expression: 'min(/Nawari Avaya SBCE by SNMP/avaya.sbce.if_error_rate_pct,5m)>1'
+              name: 'Avaya SBCE: Interface Packet Discards / Errors Elevated (> 1%)'
+              priority: AVERAGE
+              description: 'Packet errors and discards across SBCE voice interfaces exceed 1% over 5 minutes.'
+              tags:
+                - tag: component
+                  value: interface
+                - tag: scope
+                  value: performance
+
+        - uuid: 4070a70cb0ff470dafc431b51c179260
+          name: 'SBCE Appliance Reachability'
+          type: SIMPLE
+          key: 'icmpping[10.2.156.131]'
+          delay: 1m
+          value_type: UNSIGNED
+          description: 'ICMP ping reachability to SBCE signaling and management IP.'
+          tags:
+            - tag: component
+              value: infrastructure
+            - tag: provenance
+              value: REAL_ZABBIX
+          triggers:
+            - uuid: 4070a70cb0ff470dafc431b51c179268
+              expression: 'last(/Nawari Avaya SBCE by SNMP/icmpping[10.2.156.131])=0'
+              name: 'Avaya SBCE: Appliance Unreachable'
+              priority: DISASTER
+              description: 'Avaya SBCE signaling or management IP is unresponsive to ICMP ping.'
+              tags:
+                - tag: component
+                  value: sbce-core
+                - tag: scope
+                  value: availability
       discovery_rules:
         - uuid: 4d62a0470270471ba69a3c710a8e9e8c
           name: 'SBCE interfaces discovery'

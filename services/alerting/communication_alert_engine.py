@@ -1,8 +1,13 @@
 """
-Nawari Communication Alert Engine.
-Evaluates operational metrics against the Communication Alert Catalogue,
-manages alert lifecycles (PENDING -> FIRING -> RECOVERING -> RESOLVED),
-enforces deduplication, cooldown intervals, flapping protection, and suppression.
+Nawari Communication Alert Engine (Phase 13.4 Migration Status: PASSIVE_MIGRATED_TO_ZABBIX).
+
+NOTE ON ARCHITECTURAL MIGRATION:
+As of Phase 13.4, Zabbix 7.4 is the authoritative device-level monitoring and alerting engine.
+All 45 communication alert rules have been translated into native Zabbix triggers and actions
+in provisioning/zabbix/templates/ and provisioning/zabbix/actions/.
+This Python engine is retained strictly for offline unit test compatibility and mock verification.
+Production and staging environments execute triggers directly within Zabbix 7.4, with Nawari
+consuming events via ZabbixProblemConsumer.
 """
 
 from __future__ import annotations
@@ -24,7 +29,9 @@ logger = logging.getLogger("nawari.alerting")
 
 
 class CommunicationAlertEngine:
-    """Core evaluation engine for Communication Observability alerts."""
+    """Core evaluation engine for Communication Observability alerts (PASSIVE_MIGRATED_TO_ZABBIX)."""
+
+    OPERATIONAL_MODE: str = "PASSIVE_MIGRATED_TO_ZABBIX"
 
     def __init__(
         self,
@@ -38,6 +45,7 @@ class CommunicationAlertEngine:
         self.notification_handler = notification_handler
         self.cooldown_seconds = cooldown_seconds
         self.suppressed_entities: Set[str] = set()
+        self.operational_mode: str = self.OPERATIONAL_MODE
 
     def add_suppression(self, entity_id: str) -> None:
         """Suppress notifications for a specific entity (e.g. maintenance window)."""

@@ -1,0 +1,61 @@
+zabbix_export:
+  version: '7.4'
+  media_types:
+    - name: 'Microsoft 365 Email'
+      type: EMAIL
+      smtp_server: 'smtp.office365.com'
+      smtp_port: '587'
+      smtp_helo: 'nawari.local'
+      smtp_email: ''
+      smtp_security: STARTTLS
+      smtp_verify_peer: YES
+      smtp_verify_host: YES
+      smtp_authentication: NORMAL_PASSWORD
+      username: ''
+      password: ''
+      provider: OFFICE365
+      status: DISABLED
+      description: |
+        Microsoft 365 Exchange Online Email Media Type for Nawari Alerting.
+        Connects to smtp.office365.com:587 with mandatory STARTTLS and strict certificate validation.
+        Credentials remain empty by default and media type is held in DISABLED state until tenant credentials are supplied.
+      message_templates:
+        - events_source: TRIGGERS
+          recovery: 0
+          subject: '[NAWARI - {EVENT.SEVERITY}] {EVENT.NAME} on {HOST.NAME}'
+          message: |
+            <b>Problem Initial Notification</b><br>
+            <b>Severity:</b> {EVENT.SEVERITY}<br>
+            <b>Host:</b> {HOST.NAME} ({HOST.IP})<br>
+            <b>Trigger:</b> {EVENT.NAME}<br>
+            <b>Problem Time:</b> {EVENT.DATE} {EVENT.TIME}<br>
+            <b>Item Values:</b> {ITEM.NAME}: {ITEM.VALUE}<br>
+            <b>Operational Description:</b> {TRIGGER.DESCRIPTION}<br>
+            <b>Event ID:</b> {EVENT.ID}<br>
+            <br>
+            <i>Nawari Enterprise Observability & Service Assurance · Kenya Airways</i>
+        - events_source: TRIGGERS
+          recovery: 1
+          subject: '[RECOVERED] {EVENT.NAME} on {HOST.NAME}'
+          message: |
+            <b>Problem Resolved / Recovered</b><br>
+            <b>Host:</b> {HOST.NAME} ({HOST.IP})<br>
+            <b>Trigger:</b> {EVENT.NAME}<br>
+            <b>Recovery Time:</b> {EVENT.RECOVERY.DATE} {EVENT.RECOVERY.TIME}<br>
+            <b>Problem Duration:</b> {EVENT.DURATION}<br>
+            <b>Operational Status:</b> Nominal operating parameters restored.<br>
+            <b>Event ID:</b> {EVENT.ID} (Resolved by {EVENT.RECOVERY.ID})<br>
+            <br>
+            <i>Nawari Enterprise Observability & Service Assurance · Kenya Airways</i>
+        - events_source: TRIGGERS
+          recovery: 2
+          subject: '[UPDATED] {EVENT.NAME} on {HOST.NAME}'
+          message: |
+            <b>Problem Update / Acknowledged</b><br>
+            <b>Host:</b> {HOST.NAME} ({HOST.IP})<br>
+            <b>Update User:</b> {USER.FULLNAME}<br>
+            <b>Action / Message:</b> {EVENT.UPDATE.MESSAGE}<br>
+            <b>Current Status:</b> {EVENT.STATUS}<br>
+            <br>
+            <i>Nawari Enterprise Observability & Service Assurance · Kenya Airways</i>
+

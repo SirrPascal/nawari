@@ -66,6 +66,17 @@ zabbix_export:
               value: system
             - tag: provenance
               value: REAL_HARDWARE
+          triggers:
+            - uuid: d2b3c4d5e6f7470dafc431b51c179328
+              expression: 'nodata(/Nawari Avaya Session Manager by SNMP/system.uptime,5m)=1'
+              name: 'Avaya SM: Management Telemetry Stale or Loss of Monitoring'
+              priority: WARNING
+              description: 'No SNMP response received from Session Manager for over 5 minutes.'
+              tags:
+                - tag: component
+                  value: system
+                - tag: scope
+                  value: availability
 
         - uuid: d2b3c4d5e6f7470dafc431b51c179305
           name: 'SIP Entity State — Avaya Communication Manager'
@@ -89,8 +100,33 @@ zabbix_export:
             - uuid: d2b3c4d5e6f7470dafc431b51c179315
               expression: 'last(/Nawari Avaya Session Manager by SNMP/avaya.sm.sip_entity.status.cm)=3'
               name: 'Avaya SM: SIP Entity Down (Communication Manager)'
-              priority: HIGH
+              priority: DISASTER
               description: 'SIP OPTIONS monitoring to Communication Manager has failed. CM entity is marked DOWN.'
+              tags:
+                - tag: component
+                  value: sip-entity
+                - tag: scope
+                  value: availability
+            - uuid: d2b3c4d5e6f7470dafc431b51c179317
+              expression: 'last(/Nawari Avaya Session Manager by SNMP/avaya.sm.sip_entity.status.cm)=2'
+              name: 'Avaya SM: SIP Entity PARTIALLY UP (Communication Manager)'
+              priority: AVERAGE
+              description: 'Session Manager reports Communication Manager SIP Entity is in PARTIALLY UP degraded state.'
+              tags:
+                - tag: component
+                  value: sip-entity
+                - tag: scope
+                  value: availability
+            - uuid: d2b3c4d5e6f7470dafc431b51c179318
+              expression: 'last(/Nawari Avaya Session Manager by SNMP/avaya.sm.sip_entity.status.cm)=4'
+              name: 'Avaya SM: SIP Entity DENY NEW SERVICE (Communication Manager)'
+              priority: HIGH
+              description: 'Session Manager reports Communication Manager SIP Entity is in DENY NEW SERVICE administrative or overload lockout.'
+              tags:
+                - tag: component
+                  value: sip-entity
+                - tag: scope
+                  value: availability
 
         - uuid: d2b3c4d5e6f7470dafc431b51c179306
           name: 'SIP Entity State — Avaya SBCE Pride'
@@ -113,8 +149,33 @@ zabbix_export:
             - uuid: d2b3c4d5e6f7470dafc431b51c179316
               expression: 'last(/Nawari Avaya Session Manager by SNMP/avaya.sm.sip_entity.status.sbce)=3'
               name: 'Avaya SM: SIP Entity Down (Avaya SBCE)'
-              priority: HIGH
+              priority: DISASTER
               description: 'SIP OPTIONS monitoring to Avaya SBCE has failed. Perimeter trunk routing is degraded.'
+              tags:
+                - tag: component
+                  value: sip-entity
+                - tag: scope
+                  value: availability
+            - uuid: d2b3c4d5e6f7470dafc431b51c179319
+              expression: 'last(/Nawari Avaya Session Manager by SNMP/avaya.sm.sip_entity.status.sbce)=2'
+              name: 'Avaya SM: SIP Entity PARTIALLY UP (Avaya SBCE)'
+              priority: AVERAGE
+              description: 'Session Manager reports Avaya SBCE SIP Entity is in PARTIALLY UP degraded state.'
+              tags:
+                - tag: component
+                  value: sip-entity
+                - tag: scope
+                  value: availability
+            - uuid: d2b3c4d5e6f7470dafc431b51c179320
+              expression: 'last(/Nawari Avaya Session Manager by SNMP/avaya.sm.sip_entity.status.sbce)=4'
+              name: 'Avaya SM: SIP Entity DENY NEW SERVICE (Avaya SBCE)'
+              priority: HIGH
+              description: 'Session Manager reports Avaya SBCE SIP Entity is in DENY NEW SERVICE state.'
+              tags:
+                - tag: component
+                  value: sip-entity
+                - tag: scope
+                  value: availability
 
         - uuid: d2b3c4d5e6f7470dafc431b51c179307
           name: 'SIP OPTIONS Response Time — Avaya CM'
@@ -133,6 +194,68 @@ zabbix_export:
               value: sip-signaling
             - tag: provenance
               value: NAWARI_SIP_PROBE
+          triggers:
+            - uuid: d2b3c4d5e6f7470dafc431b51c179321
+              expression: 'min(/Nawari Avaya Session Manager by SNMP/avaya.sm.sip_entity.rtt.cm,3m)>250'
+              name: 'Avaya SM: SIP OPTIONS Latency Elevated (> 250ms)'
+              priority: WARNING
+              description: 'SIP OPTIONS round-trip response time to core Communication Manager exceeds 250ms threshold.'
+              tags:
+                - tag: component
+                  value: sip-signaling
+                - tag: scope
+                  value: performance
+
+        - uuid: d2b3c4d5e6f7470dafc431b51c179322
+          name: 'Synthetic SIP OPTIONS Probe Status'
+          type: TRAP
+          key: avaya.sm.sip_options_status
+          delay: '0'
+          value_type: UNSIGNED
+          description: |
+            Nawari active SIP OPTIONS probe response code classification: 1 = 200 OK, 0 = Failed / Timed out.
+          tags:
+            - tag: component
+              value: sip-signaling
+            - tag: provenance
+              value: NAWARI_SIP_PROBE
+          triggers:
+            - uuid: d2b3c4d5e6f7470dafc431b51c179323
+              expression: 'last(/Nawari Avaya Session Manager by SNMP/avaya.sm.sip_options_status)=0'
+              name: 'Avaya SM: Synthetic SIP OPTIONS Probe Failure'
+              priority: HIGH
+              description: 'Nawari active SIP OPTIONS probe failed to receive a valid response from Session Manager listener.'
+              tags:
+                - tag: component
+                  value: sip-signaling
+                - tag: scope
+                  value: availability
+
+        - uuid: d2b3c4d5e6f7470dafc431b51c179324
+          name: 'Session Manager SIP Signalling Failure Rate'
+          type: TRAP
+          key: avaya.sm.signalling_failure_pct
+          delay: '0'
+          value_type: FLOAT
+          units: '%'
+          description: |
+            Percentage of SIP routing requests resulting in 4xx/5xx responses over a 5-minute window.
+          tags:
+            - tag: component
+              value: sip-routing
+            - tag: provenance
+              value: CONFIGURED_UNVERIFIED
+          triggers:
+            - uuid: d2b3c4d5e6f7470dafc431b51c179325
+              expression: 'min(/Nawari Avaya Session Manager by SNMP/avaya.sm.signalling_failure_pct,3m)>5'
+              name: 'Avaya SM: Session Manager Signalling Failure Rate High (> 5%)'
+              priority: HIGH
+              description: 'SIP routing transactions on Session Manager exhibit an elevated error rate exceeding 5%.'
+              tags:
+                - tag: component
+                  value: sip-routing
+                - tag: scope
+                  value: performance
 
         - uuid: d2b3c4d5e6f7470dafc431b51c179308
           name: 'Session Manager Active Alarms Count'
@@ -150,6 +273,17 @@ zabbix_export:
               value: alarms
             - tag: provenance
               value: CONFIGURED_UNVERIFIED
+          triggers:
+            - uuid: d2b3c4d5e6f7470dafc431b51c179326
+              expression: 'last(/Nawari Avaya Session Manager by SNMP/avaya.sm.alarms.active_count)>0'
+              name: 'Avaya SM: Critical Enterprise Alarm Reported'
+              priority: HIGH
+              description: 'Active enterprise alarms reported on Session Manager via AV-TRAP-MIB or System Manager.'
+              tags:
+                - tag: component
+                  value: alarms
+                - tag: scope
+                  value: availability
 
         - uuid: d2b3c4d5e6f7470dafc431b51c179309
           name: 'TCP Established Sockets'
@@ -178,4 +312,15 @@ zabbix_export:
               value: infrastructure
             - tag: provenance
               value: REAL_ZABBIX
+          triggers:
+            - uuid: d2b3c4d5e6f7470dafc431b51c179327
+              expression: 'last(/Nawari Avaya Session Manager by SNMP/icmpping[10.2.156.22])=0'
+              name: 'Avaya SM: Session Manager Host Unavailable'
+              priority: DISASTER
+              description: 'Session Manager host is completely unreachable via network ICMP ping.'
+              tags:
+                - tag: component
+                  value: infrastructure
+                - tag: scope
+                  value: availability
 

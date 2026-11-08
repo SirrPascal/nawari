@@ -56,6 +56,17 @@ class M365Config:
     max_retries: int = 3
     initial_backoff_seconds: float = 1.0
 
+    @property
+    def is_configured(self) -> bool:
+        """Returns True if delivery is enabled and minimal authentication credentials are provided."""
+        if not self.delivery_enabled or not self.smtp_user:
+            return False
+        if self.auth_mode == M365AuthMode.BASIC and not self.smtp_pass:
+            return False
+        if self.auth_mode == M365AuthMode.OAUTH2 and not (self.oauth_token or (self.client_id and self.client_secret)):
+            return False
+        return True
+
     @classmethod
     def from_env(cls) -> M365Config:
         return cls(
@@ -71,6 +82,18 @@ class M365Config:
             tenant_id=os.getenv("AZURE_TENANT_ID"),
             delivery_enabled=os.getenv("SMTP_DELIVERY_ENABLED", "false").lower() == "true",
         )
+
+def mask_secret(secret: str, unmasked_prefix: int = 2, unmasked_suffix: int = 2) -> str:
+    """Safely masks passwords and tokens while preserving brief diagnostic hints."""
+    if not secret:
+        return "<empty>"
+    if len(secret) <= (unmasked_prefix + unmasked_suffix):
+        return "*" * len(secret)
+    return secret[:unmasked_prefix] + "*" * (len(secret) - unmasked_prefix - unmasked_suffix) + secret[-unmasked_suffix:]
+
+
+# Alias for compatibility
+M365EmailConfig = M365Config
 
 
 class M365EmailProvider:

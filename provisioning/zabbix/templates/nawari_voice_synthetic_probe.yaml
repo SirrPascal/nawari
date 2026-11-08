@@ -65,13 +65,18 @@ zabbix_export:
               value: voice-probe
           triggers:
             - uuid: b4ad30079a5b42a88c84d82d767be7fe
-              expression: 'last(/Nawari Voice Synthetic Probe by Zabbix Trapper/voice.synthetic.setup_time)>5000'
-              name: 'High call setup latency on synthetic probe (> 5s)'
-              priority: WARNING
-              description: 'Signaling session establishment exceeded 5000ms.'
+              expression: 'last(/Nawari Voice Synthetic Probe by Zabbix Trapper/voice.synthetic.setup_time)>4000'
+              name: 'Synthetic Voice: Call Setup Timeout (> 4000 ms)'
+              priority: AVERAGE
+              description: 'Synthetic voice test call setup latency (PDD) exceeded 4000ms threshold.'
               tags:
                 - tag: scope
                   value: performance
+                - tag: telemetry_type
+                  value: synthetic
+                - tag: source
+                  value: asterisk
+
         - uuid: 444e6577bf0645649ac22e841ed55801
           name: 'Synthetic call duration'
           type: TRAP
@@ -83,6 +88,67 @@ zabbix_export:
           tags:
             - tag: component
               value: voice-probe
+          triggers:
+            - uuid: 444e6577bf0645649ac22e841ed55802
+              expression: 'last(/Nawari Voice Synthetic Probe by Zabbix Trapper/voice.synthetic.duration)<5 and last(/Nawari Voice Synthetic Probe by Zabbix Trapper/voice.synthetic.duration)>0'
+              name: 'Synthetic Voice: Connected Duration Below Criterion (< 5s)'
+              priority: AVERAGE
+              description: 'Synthetic call connected but terminated earlier than the minimum 5-second media test duration.'
+              tags:
+                - tag: scope
+                  value: performance
+                - tag: telemetry_type
+                  value: synthetic
+                - tag: source
+                  value: asterisk
+
+        - uuid: 444e6577bf0645649ac22e841ed55803
+          name: 'Synthetic Call SIP vs AMI Mismatch'
+          type: TRAP
+          key: voice.synthetic.sip_ami_mismatch
+          delay: '0'
+          value_type: UNSIGNED
+          description: 'Flag indicating mismatch between SIP signaling 200 OK and Asterisk AMI answer event (1 = mismatch, 0 = matched).'
+          tags:
+            - tag: component
+              value: voice-probe
+          triggers:
+            - uuid: 444e6577bf0645649ac22e841ed55804
+              expression: 'last(/Nawari Voice Synthetic Probe by Zabbix Trapper/voice.synthetic.sip_ami_mismatch)=1'
+              name: 'Synthetic Voice: SIP vs AMI Result Mismatch'
+              priority: AVERAGE
+              description: 'SIP signaling handshake succeeded but Asterisk AMI media channel failed to confirm audio answer.'
+              tags:
+                - tag: scope
+                  value: availability
+                - tag: telemetry_type
+                  value: synthetic
+                - tag: source
+                  value: asterisk
+
+        - uuid: 444e6577bf0645649ac22e841ed55805
+          name: 'Synthetic Call Success Indicator'
+          type: TRAP
+          key: voice.synthetic.call_success
+          delay: '0'
+          value_type: UNSIGNED
+          description: 'Binary indicator of synthetic call success: 1 = Success, 0 = Failure.'
+          tags:
+            - tag: component
+              value: voice-probe
+          triggers:
+            - uuid: 444e6577bf0645649ac22e841ed55806
+              expression: 'max(/Nawari Voice Synthetic Probe by Zabbix Trapper/voice.synthetic.call_success,#3)=0'
+              name: 'Synthetic Voice: Consecutive Test Failures (3 Consecutive)'
+              priority: HIGH
+              description: 'Synthetic voice test probes have failed for 3 consecutive scheduled executions.'
+              tags:
+                - tag: scope
+                  value: availability
+                - tag: telemetry_type
+                  value: synthetic
+                - tag: source
+                  value: asterisk
         - uuid: 1df16c0f7f1d4fc799f9e2195366fc9e
           name: 'Synthetic call media verification status'
           type: TRAP

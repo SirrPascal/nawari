@@ -32,6 +32,17 @@ zabbix_export:
               value: system
             - tag: provenance
               value: REAL_HARDWARE
+          triggers:
+            - uuid: e3c4d5e6f7a8470dafc431b51c179420
+              expression: 'nodata(/Nawari Avaya G450 Media Gateway by SNMP/system.uptime,10m)=1'
+              name: 'Avaya G450: Media Gateway Telemetry Missing (> 10m)'
+              priority: WARNING
+              description: 'No SNMP response received from G450 Media Gateway for over 10 minutes.'
+              tags:
+                - tag: component
+                  value: system
+                - tag: scope
+                  value: availability
 
         - uuid: e3c4d5e6f7a8470dafc431b51c179403
           name: 'Gateway CM Registration State'
@@ -71,6 +82,17 @@ zabbix_export:
               value: environment
             - tag: provenance
               value: CONFIGURED_UNVERIFIED
+          triggers:
+            - uuid: e3c4d5e6f7a8470dafc431b51c179421
+              expression: 'last(/Nawari Avaya G450 Media Gateway by SNMP/avaya.g450.psu.status.1)=2 or last(/Nawari Avaya G450 Media Gateway by SNMP/avaya.g450.psu.status.2)=2'
+              name: 'Avaya G450: Power Supply Unit Failure'
+              priority: DISASTER
+              description: 'Chassis power supply module reported failure event via G450 MGP trap.'
+              tags:
+                - tag: component
+                  value: environment
+                - tag: scope
+                  value: availability
 
         - uuid: e3c4d5e6f7a8470dafc431b51c179405
           name: 'Secondary Power Supply Status (Redundant)'
@@ -105,6 +127,17 @@ zabbix_export:
               value: environment
             - tag: provenance
               value: CONFIGURED_UNVERIFIED
+          triggers:
+            - uuid: e3c4d5e6f7a8470dafc431b51c179422
+              expression: 'last(/Nawari Avaya G450 Media Gateway by SNMP/avaya.g450.fan_tray.status)=2'
+              name: 'Avaya G450: Fan Tray Failure'
+              priority: HIGH
+              description: 'G450 cooling fan tray assembly failure event reported.'
+              tags:
+                - tag: component
+                  value: environment
+                - tag: scope
+                  value: availability
 
         - uuid: e3c4d5e6f7a8470dafc431b51c179407
           name: 'Internal Chassis Temperature Alarm State'
@@ -130,6 +163,11 @@ zabbix_export:
               name: 'Avaya G450: Chassis Ambient Temperature Threshold Exceeded (Warning)'
               priority: HIGH
               description: 'G450 Media Gateway ambient temperature threshold exceeded (temperatureWarning trap received).'
+              tags:
+                - tag: component
+                  value: environment
+                - tag: scope
+                  value: availability
 
         - uuid: e3c4d5e6f7a8470dafc431b51c179408
           name: 'E1/ISDN Primary Trunk Port Operational Status'
@@ -144,6 +182,17 @@ zabbix_export:
               value: pstn-trunk
             - tag: provenance
               value: REAL_HARDWARE
+          triggers:
+            - uuid: e3c4d5e6f7a8470dafc431b51c179423
+              expression: 'last(/Nawari Avaya G450 Media Gateway by SNMP/ifOperStatus.e1.1)=2'
+              name: 'Avaya G450: E1/ISDN Primary Trunk Port Down'
+              priority: HIGH
+              description: 'Operational link state of physical E1/PRI trunk port on MM710 is Down.'
+              tags:
+                - tag: component
+                  value: pstn-trunk
+                - tag: scope
+                  value: availability
 
         - uuid: e3c4d5e6f7a8470dafc431b51c179409
           name: 'G450 ICMP Reachability'
@@ -157,4 +206,15 @@ zabbix_export:
               value: infrastructure
             - tag: provenance
               value: REAL_ZABBIX
+          triggers:
+            - uuid: e3c4d5e6f7a8470dafc431b51c179424
+              expression: 'last(/Nawari Avaya G450 Media Gateway by SNMP/icmpping[10.2.156.60])=0'
+              name: 'Avaya G450: Media Gateway Chassis Unreachable'
+              priority: HIGH
+              description: 'G450 Media Gateway management IP is unresponsive to ICMP polling.'
+              tags:
+                - tag: component
+                  value: infrastructure
+                - tag: scope
+                  value: availability
 

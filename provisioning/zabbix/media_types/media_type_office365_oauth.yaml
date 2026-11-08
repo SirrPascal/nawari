@@ -1,0 +1,17 @@
+zabbix_export:
+  version: '7.4'
+  media_types:
+    - name: 'Microsoft 365 OAuth AlertScript'
+      type: SCRIPT
+      script_name: 'zabbix_m365_oauth_sender.py'
+      parameters:
+        - '{ALERT.SENDTO}'
+        - '{ALERT.SUBJECT}'
+        - '{ALERT.MESSAGE}'
+      status: DISABLED
+      description: |
+        Microsoft 365 Modern Authentication (OAuth 2.0 / XOAUTH2) AlertScript Media Type.
+        Executes alertscript /usr/lib/zabbix/alertscripts/zabbix_m365_oauth_sender.py.
+        Acquires OAuth bearer token via tenant client credentials and submits to Exchange Online.
+        Credentials remain empty until configured by administrator.
+

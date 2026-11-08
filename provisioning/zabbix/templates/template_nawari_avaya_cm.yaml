@@ -193,6 +193,27 @@ zabbix_export:
               value: call-rate
             - tag: provenance
               value: REAL_AVAYA_SNMP
+          triggers:
+            - uuid: 88aa11bb22cc470dafc431b51c179220
+              expression: 'last(/Nawari Avaya Communication Manager by SNMP/avaya.cm.call_rate.completed)<10 and last(/Nawari Avaya Communication Manager by SNMP/avaya.cm.call_rate.completed)>=0'
+              name: 'Avaya CM: Call Rate Abnormal Drop (< 10 calls/hr)'
+              priority: HIGH
+              description: 'Completed call rate in the hourly measurement block dropped abnormally below minimum operational baseline.'
+              tags:
+                - tag: component
+                  value: call-rate
+                - tag: scope
+                  value: performance
+            - uuid: 88aa11bb22cc470dafc431b51c179221
+              expression: 'nodata(/Nawari Avaya Communication Manager by SNMP/avaya.cm.call_rate.completed,2h)=1'
+              name: 'Avaya CM: Performance Telemetry Stale (> 2h)'
+              priority: WARNING
+              description: 'No hourly call rate measurement block received within the 2-hour freshness window.'
+              tags:
+                - tag: component
+                  value: call-rate
+                - tag: scope
+                  value: availability
 
         - uuid: 88aa11bb22cc470dafc431b51c179213
           name: 'Echo Cancellation Status'
@@ -240,3 +261,14 @@ zabbix_export:
               value: infrastructure
             - tag: provenance
               value: REAL_ZABBIX
+          triggers:
+            - uuid: 88aa11bb22cc470dafc431b51c179219
+              expression: 'last(/Nawari Avaya Communication Manager by SNMP/icmpping[10.102.10.25])=0'
+              name: 'Avaya CM: Communication Manager Processor Unreachable'
+              priority: DISASTER
+              description: 'Communication Manager call processor interface is unresponsive to network ICMP polling.'
+              tags:
+                - tag: component
+                  value: cm-core
+                - tag: scope
+                  value: availability
