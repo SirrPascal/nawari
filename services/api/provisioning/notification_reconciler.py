@@ -399,6 +399,14 @@ class NotificationReconciler:
         tag_stats = self.reconcile_trigger_tags()
         actions = self.ensure_structured_actions(admin_group_id, total_outage_group_id)
 
+        # Phase 13.7: Gracefully supersede and disable legacy Action 7 to guarantee mutual exclusivity
+        # and prevent duplicate notifications for the four administrators who belong to both groups.
+        legacy_actions = self.client.call("action.get", {"filter": {"name": ACTION_NAME}})
+        if legacy_actions:
+            legacy_id = str(legacy_actions[0]["actionid"])
+            self.client.call("action.update", {"actionid": legacy_id, "status": 1})
+            logger.info(f"Retired legacy action '{ACTION_NAME}' (ID: {legacy_id}) to prevent duplicate notifications")
+
         return {
             "total_outage_group_id": total_outage_group_id,
             "all_recipients_count": len(all_user_ids),
