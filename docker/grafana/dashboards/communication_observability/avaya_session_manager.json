@@ -26,7 +26,7 @@
         "type": "alexanderzobnin-zabbix-datasource",
         "uid": "PA67C5EADE9207728"
       },
-      "description": "Processor core utilization on the Avaya Aura Session Manager appliance. Units: Percentage (0-100%). Warning: 75%, Critical: 90%. Source: HOST-RESOURCES-MIB via SNMPv3. Polling: 60s. Limitation: High CPU may delay SIP routing transaction processing.",
+      "description": "Processor core utilization on the Avaya Aura Session Manager appliance. Units: Percentage (0-100%). Warning: 75%, Critical: 90%. Source: HOST-RESOURCES-MIB via SNMPv3. Polling: 60s. Limitation: High CPU may delay SIP routing transaction processing. Missing data indicates collector outage, agent failure, or network disruption; values are preserved as null gaps.",
       "fieldConfig": {
         "defaults": {
           "color": {
@@ -96,7 +96,7 @@
         "type": "alexanderzobnin-zabbix-datasource",
         "uid": "PA67C5EADE9207728"
       },
-      "description": "Physical RAM utilization on Avaya Session Manager. Units: Percentage (0-100%). Warning: 80%, Critical: 95%. Source: HOST-RESOURCES-MIB via SNMPv3. Polling: 60s.",
+      "description": "Physical RAM utilization on Avaya Session Manager. Units: Percentage (0-100%). Warning: 80%, Critical: 95%. Source: HOST-RESOURCES-MIB via SNMPv3. Polling: 60s. Missing data indicates collector outage, agent failure, or network disruption; values are preserved as null gaps.",
       "fieldConfig": {
         "defaults": {
           "color": {
@@ -166,7 +166,7 @@
         "type": "alexanderzobnin-zabbix-datasource",
         "uid": "PA67C5EADE9207728"
       },
-      "description": "Operating system uptime of the Session Manager server since last reload. Source: MIB-II sysUpTime (OID 1.3.6.1.2.1.1.3.0). Polling: 60s. Freshness: 60s.",
+      "description": "Operating system uptime of the Session Manager server since last reload. Source: MIB-II sysUpTime (OID 1.3.6.1.2.1.1.3.0). Polling: 60s. Freshness: 60s. Missing data indicates collector outage, agent failure, or network disruption; values are preserved as null gaps.",
       "fieldConfig": {
         "defaults": {
           "unit": "s"
@@ -216,7 +216,7 @@
         "type": "alexanderzobnin-zabbix-datasource",
         "uid": "PA67C5EADE9207728"
       },
-      "description": "Total count of active TCP sockets currently in ESTABLISHED state on Session Manager. Reflects active signaling connections from endpoints, Communication Manager, and SBCE. Source: TCP-MIB tcpCurrEstab (OID 1.3.6.1.2.1.6.9.0). Polling: 60s.",
+      "description": "Total count of active TCP sockets currently in ESTABLISHED state on Session Manager. Reflects active signaling connections from endpoints, Communication Manager, and SBCE. Source: TCP-MIB tcpCurrEstab (OID 1.3.6.1.2.1.6.9.0). Polling: 60s. Missing data indicates collector outage, agent failure, or network disruption; values are preserved as null gaps.",
       "fieldConfig": {
         "defaults": {
           "custom": {
@@ -274,7 +274,7 @@
         "type": "alexanderzobnin-zabbix-datasource",
         "uid": "PA67C5EADE9207728"
       },
-      "description": "SIP Entity Link Operational Status for Communication Manager. Values: 1 = UP, 2 = PARTIALLY UP, 3 = DOWN, 4 = DENY NEW SERVICE. Collection Mechanism: Ingested via Session Manager CLI export (`smstat`/`starety`) or System Manager REST API. Note: Not exposed via Session Manager SNMP agent; proves SIP OPTIONS reachability only, NOT audio media quality. Provenance: CONFIGURED_UNVERIFIED.",
+      "description": "SIP Entity Link Operational Status for Communication Manager. Values: 1 = UP, 2 = PARTIALLY UP, 3 = DOWN, 4 = DENY NEW SERVICE. Collection Mechanism: Ingested via Session Manager CLI export (`smstat`/`starety`) or System Manager REST API. Note: Not exposed via Session Manager SNMP agent; proves SIP OPTIONS reachability only, NOT audio media quality. Provenance: CONFIGURED_UNVERIFIED. Missing data indicates collector outage, agent failure, or network disruption; values are preserved as null gaps.",
       "fieldConfig": {
         "defaults": {
           "color": {
@@ -362,7 +362,7 @@
         "type": "alexanderzobnin-zabbix-datasource",
         "uid": "PA67C5EADE9207728"
       },
-      "description": "SIP Entity Link Operational Status for Avaya SBCE Pride perimeter controller. Values: 1 = UP, 2 = PARTIALLY UP, 3 = DOWN, 4 = DENY NEW SERVICE. Collection Mechanism: Ingested via Session Manager CLI export or System Manager REST API. Note: Not exposed via Session Manager SNMP agent. Provenance: CONFIGURED_UNVERIFIED.",
+      "description": "SIP Entity Link Operational Status for Avaya SBCE Pride perimeter controller. Values: 1 = UP, 2 = PARTIALLY UP, 3 = DOWN, 4 = DENY NEW SERVICE. Collection Mechanism: Ingested via Session Manager CLI export or System Manager REST API. Note: Not exposed via Session Manager SNMP agent. Provenance: CONFIGURED_UNVERIFIED. Missing data indicates collector outage, agent failure, or network disruption; values are preserved as null gaps.",
       "fieldConfig": {
         "defaults": {
           "color": {
@@ -450,7 +450,7 @@
         "type": "alexanderzobnin-zabbix-datasource",
         "uid": "PA67C5EADE9207728"
       },
-      "description": "Measured round-trip response time in milliseconds for SIP OPTIONS heartbeat pings sent by Nawari SIP Probe Engine to monitored entities (CM and SBCE). Units: Milliseconds (ms). Collection Mechanism: Active SIP OPTIONS probing by Nawari (`NAWARI_SIP_PROBE`). Note: Not an SNMP metric.",
+      "description": "Measured round-trip response time in milliseconds for SIP OPTIONS heartbeat pings sent by Nawari SIP Probe Engine to monitored entities (CM and SBCE). Units: Milliseconds (ms). Collection Mechanism: Active SIP OPTIONS probing by Nawari (`NAWARI_SIP_PROBE`). Note: Not an SNMP metric. Missing data indicates collector outage, agent failure, or network disruption; values are preserved as null gaps.",
       "fieldConfig": {
         "defaults": {
           "custom": {
@@ -508,7 +508,7 @@
         "type": "alexanderzobnin-zabbix-datasource",
         "uid": "PA67C5EADE9207728"
       },
-      "description": "Comprehensive table of all SIP Entities configured in Session Manager (CM, SBCE Pride, SBCE DR, Media Gateways, PSTN SIP trunks) detailing IP address, transport (TLS/TCP/UDP), port, entity status, and measured OPTIONS latency. Source: Avaya Session Manager operational model / System Manager API export.",
+      "description": "Comprehensive table of all SIP Entities configured in Session Manager (CM, SBCE Pride, SBCE DR, Media Gateways, PSTN SIP trunks) detailing IP address, transport (TLS/TCP/UDP), port, entity status, and measured OPTIONS latency. Source: Avaya Session Manager operational model / System Manager API export. Missing data indicates collector outage, agent failure, or network disruption; values are preserved as null gaps.",
       "fieldConfig": {
         "defaults": {},
         "overrides": []
@@ -548,7 +548,7 @@
         "type": "alexanderzobnin-zabbix-datasource",
         "uid": "PA67C5EADE9207728"
       },
-      "description": "Total count of active enterprise alarms currently asserted on Session Manager. Source: AV-TRAP-MIB trap receiver / System Manager notification. Note: Ingested via SNMP trap or notification webhook; event-driven. Warning: > 0 alarms.",
+      "description": "Total count of active enterprise alarms currently asserted on Session Manager. Source: AV-TRAP-MIB trap receiver / System Manager notification. Note: Ingested via SNMP trap or notification webhook; event-driven. Warning: > 0 alarms. Missing data indicates collector outage, agent failure, or network disruption; values are preserved as null gaps.",
       "fieldConfig": {
         "defaults": {
           "color": {

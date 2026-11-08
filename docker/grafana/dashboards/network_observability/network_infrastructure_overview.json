@@ -128,7 +128,7 @@
       ],
       "title": "Core Switch SNMP Status",
       "type": "stat",
-      "description": "SNMP reachability status of Kenya Airways core distribution and datacenter switches. Values: 1 = Available/Responding, 0 = Timeout/Unreachable. Source: Zabbix zabbix[host,snmp,available] internal metric. Limitations: Verifies UDP/161 polling response; does not measure packet forwarding throughput."
+      "description": "SNMP reachability status of Kenya Airways core distribution and datacenter switches. Values: 1 = Available/Responding, 0 = Timeout/Unreachable. Source: Zabbix zabbix[host,snmp,available] internal metric. Limitations: Verifies UDP/161 polling response; does not measure packet forwarding throughput. Missing data indicates collector outage, agent failure, or network disruption; values are preserved as null gaps."
     },
     {
       "datasource": {
@@ -224,7 +224,7 @@
       ],
       "title": "System Uptime",
       "type": "stat",
-      "description": "Continuous operating time since the switch was last reloaded or rebooted. Units: Seconds (formatted as Days, Hours, Minutes). Source: SNMPv2-MIB::sysUpTime (OID .1.3.6.1.2.1.1.3.0). Limitations: Uptime resets during firmware upgrades, power cycles, or kernel crash reboots."
+      "description": "Continuous operating time since the switch was last reloaded or rebooted. Units: Seconds (formatted as Days, Hours, Minutes). Source: SNMPv2-MIB::sysUpTime (OID .1.3.6.1.2.1.1.3.0). Limitations: Uptime resets during firmware upgrades, power cycles, or kernel crash reboots. Missing data indicates collector outage, agent failure, or network disruption; values are preserved as null gaps."
     },
     {
       "datasource": {
@@ -320,7 +320,7 @@
       ],
       "title": "ICMP Latency",
       "type": "stat",
-      "description": "Round-trip ping response time between the Nawari monitoring collector and the core switch management interface. Units: Milliseconds (ms). Source: Zabbix icmppingsec metric. Warning: > 10ms, Critical: > 50ms. Limitations: Control plane ICMP response is low priority and may spike during high control plane CPU without impacting forwarding plane traffic."
+      "description": "Round-trip ping response time between the Nawari monitoring collector and the core switch management interface. Units: Milliseconds (ms). Source: Zabbix icmppingsec metric. Warning: > 10ms, Critical: > 50ms. Limitations: Control plane ICMP response is low priority and may spike during high control plane CPU without impacting forwarding plane traffic. Missing data indicates collector outage, agent failure, or network disruption; values are preserved as null gaps."
     },
     {
       "datasource": {
@@ -411,7 +411,7 @@
       ],
       "title": "Active Network Problems",
       "type": "stat",
-      "description": "Total count of unresolved active alerts and threshold breaches currently open against core network infrastructure in Zabbix. Source: Zabbix Problems API filtered for Network Infrastructure host group. Limitations: Count reflects unacknowledged and acknowledged active problem events."
+      "description": "Total count of unresolved active alerts and threshold breaches currently open against core network infrastructure in Zabbix. Source: Zabbix Problems API filtered for Network Infrastructure host group. Limitations: Count reflects unacknowledged and acknowledged active problem events. Missing data indicates collector outage, agent failure, or network disruption; values are preserved as null gaps."
     },
     {
       "collapsed": false,
@@ -531,7 +531,7 @@
       ],
       "title": "Discovered Physical & Logical Interfaces (mock-core-switch-01)",
       "type": "table",
-      "description": "Inventory table of all discovered physical Ethernet, port-channel, and VLAN interfaces on the core switch, detailing operational status, speed, and traffic statistics. Source: Zabbix Low-Level Discovery (LLD) on IF-MIB. Limitations: Updated every 1 hour by discovery rule."
+      "description": "Inventory table of all discovered physical Ethernet, port-channel, and VLAN interfaces on the core switch, detailing operational status, speed, and traffic statistics. Source: Zabbix Low-Level Discovery (LLD) on IF-MIB. Limitations: Updated every 1 hour by discovery rule. Missing data indicates collector outage, agent failure, or network disruption; values are preserved as null gaps."
     },
     {
       "collapsed": false,
@@ -640,7 +640,7 @@
       ],
       "title": "Live Network Alert Feed (Zabbix Problems)",
       "type": "alexanderzobnin-zabbix-problems-panel",
-      "description": "Live streaming feed of unresolved network problem events ordered by severity (Information, Warning, Average, High, Disaster). Source: Zabbix Problems integration. Limitations: Real-time event feed depends on active WebSocket/polling connection to Zabbix API."
+      "description": "Live streaming feed of unresolved network problem events ordered by severity (Information, Warning, Average, High, Disaster). Source: Zabbix Problems integration. Limitations: Real-time event feed depends on active WebSocket/polling connection to Zabbix API. Missing data indicates collector outage, agent failure, or network disruption; values are preserved as null gaps."
     }
   ],
   "schemaVersion": 39,

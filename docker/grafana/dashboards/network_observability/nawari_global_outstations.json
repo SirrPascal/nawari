@@ -12,7 +12,12 @@
   "panels": [
     {
       "collapsed": false,
-      "gridPos": { "h": 1, "w": 24, "x": 0, "y": 0 },
+      "gridPos": {
+        "h": 1,
+        "w": 24,
+        "x": 0,
+        "y": 0
+      },
       "id": 1,
       "title": "Global Outstation Fleet Topology & WAN Health",
       "type": "row"
@@ -22,16 +27,27 @@
         "type": "alexanderzobnin-zabbix-datasource",
         "uid": "PA67C5EADE9207728"
       },
-      "description": "Real-time circuit operational status across Kenya Airways core hub, domestic stations, regional outstations, and long-haul international terminals.",
+      "description": "Real-time circuit operational status across Kenya Airways core hub, domestic stations, regional outstations, and long-haul international terminals. Missing data indicates collector outage, agent failure, or network disruption; values are preserved as null gaps.",
       "fieldConfig": {
         "defaults": {
-          "color": { "mode": "thresholds" },
+          "color": {
+            "mode": "thresholds"
+          },
           "mappings": [
             {
               "options": {
-                "0": { "color": "red", "text": "DOWN" },
-                "1": { "color": "green", "text": "ACTIVE" },
-                "2": { "color": "yellow", "text": "DEGRADED" }
+                "0": {
+                  "color": "red",
+                  "text": "DOWN"
+                },
+                "1": {
+                  "color": "green",
+                  "text": "ACTIVE"
+                },
+                "2": {
+                  "color": "yellow",
+                  "text": "DEGRADED"
+                }
               },
               "type": "value"
             }
@@ -39,27 +55,56 @@
           "thresholds": {
             "mode": "absolute",
             "steps": [
-              { "color": "red", "value": null },
-              { "color": "yellow", "value": 1 },
-              { "color": "green", "value": 2 }
+              {
+                "color": "red",
+                "value": null
+              },
+              {
+                "color": "yellow",
+                "value": 1
+              },
+              {
+                "color": "green",
+                "value": 2
+              }
             ]
           }
         },
         "overrides": []
       },
-      "gridPos": { "h": 8, "w": 14, "x": 0, "y": 1 },
+      "gridPos": {
+        "h": 8,
+        "w": 14,
+        "x": 0,
+        "y": 1
+      },
       "id": 2,
       "options": {
-        "footer": { "enablePagination": true, "fields": "", "reducer": ["sum"], "show": false },
+        "footer": {
+          "enablePagination": true,
+          "fields": "",
+          "reducer": [
+            "sum"
+          ],
+          "show": false
+        },
         "showHeader": true
       },
       "pluginVersion": "11.0.0",
       "targets": [
         {
-          "application": { "name": "Multi-Site WAN" },
-          "group": { "name": "Outstations" },
-          "host": { "name": "mon-grafana01" },
-          "item": { "name": "Outstation Circuit Status Matrix" },
+          "application": {
+            "name": "Multi-Site WAN"
+          },
+          "group": {
+            "name": "Outstations"
+          },
+          "host": {
+            "name": "mon-grafana01"
+          },
+          "item": {
+            "name": "Outstation Circuit Status Matrix"
+          },
           "refId": "Circuits"
         }
       ],
@@ -71,10 +116,12 @@
         "type": "alexanderzobnin-zabbix-datasource",
         "uid": "PA67C5EADE9207728"
       },
-      "description": "Round-trip network latency from JKIA Head Office to global outstations (Target: Domestic < 40ms, Regional < 80ms, International < 160ms).",
+      "description": "Round-trip network latency from JKIA Head Office to global outstations (Target: Domestic < 40ms, Regional < 80ms, International < 160ms). Missing data indicates collector outage, agent failure, or network disruption; values are preserved as null gaps.",
       "fieldConfig": {
         "defaults": {
-          "color": { "mode": "palette-classic" },
+          "color": {
+            "mode": "palette-classic"
+          },
           "custom": {
             "axisBorderShow": false,
             "axisCenteredZero": false,
@@ -90,42 +137,91 @@
           "thresholds": {
             "mode": "absolute",
             "steps": [
-              { "color": "green", "value": null },
-              { "color": "yellow", "value": 80 },
-              { "color": "red", "value": 150 }
+              {
+                "color": "green",
+                "value": null
+              },
+              {
+                "color": "yellow",
+                "value": 80
+              },
+              {
+                "color": "red",
+                "value": 150
+              }
             ]
           },
           "unit": "ms"
         },
         "overrides": []
       },
-      "gridPos": { "h": 8, "w": 10, "x": 14, "y": 1 },
+      "gridPos": {
+        "h": 8,
+        "w": 10,
+        "x": 14,
+        "y": 1
+      },
       "id": 3,
       "options": {
-        "legend": { "calcs": ["mean", "max", "lastNotNull"], "displayMode": "table", "placement": "bottom" },
-        "tooltip": { "mode": "multi", "sort": "desc" }
+        "legend": {
+          "calcs": [
+            "mean",
+            "max",
+            "lastNotNull"
+          ],
+          "displayMode": "table",
+          "placement": "bottom"
+        },
+        "tooltip": {
+          "mode": "multi",
+          "sort": "desc"
+        }
       },
       "pluginVersion": "11.0.0",
       "targets": [
         {
-          "application": { "name": "Multi-Site WAN" },
-          "group": { "name": "Outstations" },
-          "host": { "name": "mon-grafana01" },
-          "item": { "name": "WAN Latency MBA" },
+          "application": {
+            "name": "Multi-Site WAN"
+          },
+          "group": {
+            "name": "Outstations"
+          },
+          "host": {
+            "name": "mon-grafana01"
+          },
+          "item": {
+            "name": "WAN Latency MBA"
+          },
           "refId": "LatMBA"
         },
         {
-          "application": { "name": "Multi-Site WAN" },
-          "group": { "name": "Outstations" },
-          "host": { "name": "mon-grafana01" },
-          "item": { "name": "WAN Latency KIS" },
+          "application": {
+            "name": "Multi-Site WAN"
+          },
+          "group": {
+            "name": "Outstations"
+          },
+          "host": {
+            "name": "mon-grafana01"
+          },
+          "item": {
+            "name": "WAN Latency KIS"
+          },
           "refId": "LatKIS"
         },
         {
-          "application": { "name": "Multi-Site WAN" },
-          "group": { "name": "Outstations" },
-          "host": { "name": "mon-grafana01" },
-          "item": { "name": "WAN Latency LHR" },
+          "application": {
+            "name": "Multi-Site WAN"
+          },
+          "group": {
+            "name": "Outstations"
+          },
+          "host": {
+            "name": "mon-grafana01"
+          },
+          "item": {
+            "name": "WAN Latency LHR"
+          },
           "refId": "LatLHR"
         }
       ],
@@ -134,7 +230,12 @@
     },
     {
       "collapsed": false,
-      "gridPos": { "h": 1, "w": 24, "x": 0, "y": 9 },
+      "gridPos": {
+        "h": 1,
+        "w": 24,
+        "x": 0,
+        "y": 9
+      },
       "id": 4,
       "title": "Trans-WAN Voice Quality & Trunk Survivability (ITU-T G.107)",
       "type": "row"
@@ -144,54 +245,100 @@
         "type": "alexanderzobnin-zabbix-datasource",
         "uid": "PA67C5EADE9207728"
       },
-      "description": "Synthetic voice Listening MOS score across primary outstations (Tier 1 Aviation SLA: MOS >= 4.0).",
+      "description": "Synthetic voice Listening MOS score across primary outstations (Tier 1 Aviation SLA: MOS >= 4.0). Missing data indicates collector outage, agent failure, or network disruption; values are preserved as null gaps.",
       "fieldConfig": {
         "defaults": {
-          "color": { "mode": "thresholds" },
+          "color": {
+            "mode": "thresholds"
+          },
           "mappings": [],
           "max": 4.5,
           "min": 1.0,
           "thresholds": {
             "mode": "absolute",
             "steps": [
-              { "color": "red", "value": null },
-              { "color": "yellow", "value": 3.5 },
-              { "color": "green", "value": 4.0 }
+              {
+                "color": "red",
+                "value": null
+              },
+              {
+                "color": "yellow",
+                "value": 3.5
+              },
+              {
+                "color": "green",
+                "value": 4.0
+              }
             ]
           },
           "unit": "none"
         },
         "overrides": []
       },
-      "gridPos": { "h": 6, "w": 8, "x": 0, "y": 10 },
+      "gridPos": {
+        "h": 6,
+        "w": 8,
+        "x": 0,
+        "y": 10
+      },
       "id": 5,
       "options": {
         "orientation": "auto",
-        "reduceOptions": { "calcs": ["lastNotNull"], "fields": "", "values": false },
+        "reduceOptions": {
+          "calcs": [
+            "lastNotNull"
+          ],
+          "fields": "",
+          "values": false
+        },
         "showThresholdLabels": false,
         "showThresholdMarkers": true
       },
       "pluginVersion": "11.0.0",
       "targets": [
         {
-          "application": { "name": "Voice Assurance" },
-          "group": { "name": "Trans-WAN Probes" },
-          "host": { "name": "mon-grafana01" },
-          "item": { "name": "Voice MOS MBA" },
+          "application": {
+            "name": "Voice Assurance"
+          },
+          "group": {
+            "name": "Trans-WAN Probes"
+          },
+          "host": {
+            "name": "mon-grafana01"
+          },
+          "item": {
+            "name": "Voice MOS MBA"
+          },
           "refId": "MosMBA"
         },
         {
-          "application": { "name": "Voice Assurance" },
-          "group": { "name": "Trans-WAN Probes" },
-          "host": { "name": "mon-grafana01" },
-          "item": { "name": "Voice MOS KIS" },
+          "application": {
+            "name": "Voice Assurance"
+          },
+          "group": {
+            "name": "Trans-WAN Probes"
+          },
+          "host": {
+            "name": "mon-grafana01"
+          },
+          "item": {
+            "name": "Voice MOS KIS"
+          },
           "refId": "MosKIS"
         },
         {
-          "application": { "name": "Voice Assurance" },
-          "group": { "name": "Trans-WAN Probes" },
-          "host": { "name": "mon-grafana01" },
-          "item": { "name": "Voice MOS LHR" },
+          "application": {
+            "name": "Voice Assurance"
+          },
+          "group": {
+            "name": "Trans-WAN Probes"
+          },
+          "host": {
+            "name": "mon-grafana01"
+          },
+          "item": {
+            "name": "Voice MOS LHR"
+          },
           "refId": "MosLHR"
         }
       ],
@@ -203,10 +350,12 @@
         "type": "alexanderzobnin-zabbix-datasource",
         "uid": "PA67C5EADE9207728"
       },
-      "description": "Trans-WAN packet jitter and packet loss percentage over outstation voice paths.",
+      "description": "Trans-WAN packet jitter and packet loss percentage over outstation voice paths. Missing data indicates collector outage, agent failure, or network disruption; values are preserved as null gaps.",
       "fieldConfig": {
         "defaults": {
-          "color": { "mode": "palette-classic" },
+          "color": {
+            "mode": "palette-classic"
+          },
           "custom": {
             "axisBorderShow": false,
             "axisCenteredZero": false,
@@ -223,26 +372,58 @@
         },
         "overrides": []
       },
-      "gridPos": { "h": 6, "w": 16, "x": 8, "y": 10 },
+      "gridPos": {
+        "h": 6,
+        "w": 16,
+        "x": 8,
+        "y": 10
+      },
       "id": 6,
       "options": {
-        "legend": { "calcs": ["mean", "max", "lastNotNull"], "displayMode": "table", "placement": "bottom" },
-        "tooltip": { "mode": "multi", "sort": "desc" }
+        "legend": {
+          "calcs": [
+            "mean",
+            "max",
+            "lastNotNull"
+          ],
+          "displayMode": "table",
+          "placement": "bottom"
+        },
+        "tooltip": {
+          "mode": "multi",
+          "sort": "desc"
+        }
       },
       "pluginVersion": "11.0.0",
       "targets": [
         {
-          "application": { "name": "Voice Assurance" },
-          "group": { "name": "Trans-WAN Probes" },
-          "host": { "name": "mon-grafana01" },
-          "item": { "name": "Voice Jitter MBA" },
+          "application": {
+            "name": "Voice Assurance"
+          },
+          "group": {
+            "name": "Trans-WAN Probes"
+          },
+          "host": {
+            "name": "mon-grafana01"
+          },
+          "item": {
+            "name": "Voice Jitter MBA"
+          },
           "refId": "JitterMBA"
         },
         {
-          "application": { "name": "Voice Assurance" },
-          "group": { "name": "Trans-WAN Probes" },
-          "host": { "name": "mon-grafana01" },
-          "item": { "name": "Voice Jitter LHR" },
+          "application": {
+            "name": "Voice Assurance"
+          },
+          "group": {
+            "name": "Trans-WAN Probes"
+          },
+          "host": {
+            "name": "mon-grafana01"
+          },
+          "item": {
+            "name": "Voice Jitter LHR"
+          },
           "refId": "JitterLHR"
         }
       ],
@@ -251,7 +432,12 @@
     },
     {
       "collapsed": false,
-      "gridPos": { "h": 1, "w": 24, "x": 0, "y": 16 },
+      "gridPos": {
+        "h": 1,
+        "w": 24,
+        "x": 0,
+        "y": 16
+      },
       "id": 7,
       "title": "Edge Telemetry Store-and-Forward Spool Diagnostics",
       "type": "row"
@@ -261,52 +447,98 @@
         "type": "alexanderzobnin-zabbix-datasource",
         "uid": "PA67C5EADE9207728"
       },
-      "description": "Number of telemetry records currently spooled on outstation disk waiting for WAN circuit recovery.",
+      "description": "Number of telemetry records currently spooled on outstation disk waiting for WAN circuit recovery. Missing data indicates collector outage, agent failure, or network disruption; values are preserved as null gaps.",
       "fieldConfig": {
         "defaults": {
-          "color": { "mode": "thresholds" },
+          "color": {
+            "mode": "thresholds"
+          },
           "mappings": [],
           "thresholds": {
             "mode": "absolute",
             "steps": [
-              { "color": "green", "value": null },
-              { "color": "yellow", "value": 100 },
-              { "color": "red", "value": 1000 }
+              {
+                "color": "green",
+                "value": null
+              },
+              {
+                "color": "yellow",
+                "value": 100
+              },
+              {
+                "color": "red",
+                "value": 1000
+              }
             ]
           },
           "unit": "short"
         },
         "overrides": []
       },
-      "gridPos": { "h": 7, "w": 12, "x": 0, "y": 17 },
+      "gridPos": {
+        "h": 7,
+        "w": 12,
+        "x": 0,
+        "y": 17
+      },
       "id": 8,
       "options": {
         "orientation": "auto",
-        "reduceOptions": { "calcs": ["lastNotNull"], "fields": "", "values": false },
+        "reduceOptions": {
+          "calcs": [
+            "lastNotNull"
+          ],
+          "fields": "",
+          "values": false
+        },
         "showThresholdLabels": false,
         "showThresholdMarkers": true
       },
       "pluginVersion": "11.0.0",
       "targets": [
         {
-          "application": { "name": "Store and Forward" },
-          "group": { "name": "Edge Proxies" },
-          "host": { "name": "mon-grafana01" },
-          "item": { "name": "Spool Buffered MBA" },
+          "application": {
+            "name": "Store and Forward"
+          },
+          "group": {
+            "name": "Edge Proxies"
+          },
+          "host": {
+            "name": "mon-grafana01"
+          },
+          "item": {
+            "name": "Spool Buffered MBA"
+          },
           "refId": "SpoolMBA"
         },
         {
-          "application": { "name": "Store and Forward" },
-          "group": { "name": "Edge Proxies" },
-          "host": { "name": "mon-grafana01" },
-          "item": { "name": "Spool Buffered KIS" },
+          "application": {
+            "name": "Store and Forward"
+          },
+          "group": {
+            "name": "Edge Proxies"
+          },
+          "host": {
+            "name": "mon-grafana01"
+          },
+          "item": {
+            "name": "Spool Buffered KIS"
+          },
           "refId": "SpoolKIS"
         },
         {
-          "application": { "name": "Store and Forward" },
-          "group": { "name": "Edge Proxies" },
-          "host": { "name": "mon-grafana01" },
-          "item": { "name": "Spool Buffered LHR" },
+          "application": {
+            "name": "Store and Forward"
+          },
+          "group": {
+            "name": "Edge Proxies"
+          },
+          "host": {
+            "name": "mon-grafana01"
+          },
+          "item": {
+            "name": "Spool Buffered LHR"
+          },
           "refId": "SpoolLHR"
         }
       ],
@@ -318,10 +550,12 @@
         "type": "alexanderzobnin-zabbix-datasource",
         "uid": "PA67C5EADE9207728"
       },
-      "description": "Rate of replayed telemetry ingestion following outstation circuit restoration. Records marked with REPLAYED quality to protect live SLI metrics.",
+      "description": "Rate of replayed telemetry ingestion following outstation circuit restoration. Records marked with REPLAYED quality to protect live SLI metrics. Missing data indicates collector outage, agent failure, or network disruption; values are preserved as null gaps.",
       "fieldConfig": {
         "defaults": {
-          "color": { "mode": "palette-classic" },
+          "color": {
+            "mode": "palette-classic"
+          },
           "custom": {
             "axisBorderShow": false,
             "axisCenteredZero": false,
@@ -338,19 +572,43 @@
         },
         "overrides": []
       },
-      "gridPos": { "h": 7, "w": 12, "x": 12, "y": 17 },
+      "gridPos": {
+        "h": 7,
+        "w": 12,
+        "x": 12,
+        "y": 17
+      },
       "id": 9,
       "options": {
-        "legend": { "calcs": ["mean", "max", "sum"], "displayMode": "table", "placement": "bottom" },
-        "tooltip": { "mode": "multi", "sort": "desc" }
+        "legend": {
+          "calcs": [
+            "mean",
+            "max",
+            "sum"
+          ],
+          "displayMode": "table",
+          "placement": "bottom"
+        },
+        "tooltip": {
+          "mode": "multi",
+          "sort": "desc"
+        }
       },
       "pluginVersion": "11.0.0",
       "targets": [
         {
-          "application": { "name": "Store and Forward" },
-          "group": { "name": "Edge Proxies" },
-          "host": { "name": "mon-grafana01" },
-          "item": { "name": "Replay Ingestion Rate" },
+          "application": {
+            "name": "Store and Forward"
+          },
+          "group": {
+            "name": "Edge Proxies"
+          },
+          "host": {
+            "name": "mon-grafana01"
+          },
+          "item": {
+            "name": "Replay Ingestion Rate"
+          },
           "refId": "DrainRate"
         }
       ],
@@ -360,7 +618,14 @@
   ],
   "refresh": "30s",
   "schemaVersion": 39,
-  "tags": ["nawari", "multisite", "outstations", "wan", "voice", "kenya-airways"],
+  "tags": [
+    "nawari",
+    "multisite",
+    "outstations",
+    "wan",
+    "voice",
+    "kenya-airways"
+  ],
   "templating": {
     "list": []
   },
@@ -369,11 +634,15 @@
     "to": "now"
   },
   "timepicker": {
-    "refresh_intervals": ["10s", "30s", "1m", "5m"]
+    "refresh_intervals": [
+      "10s",
+      "30s",
+      "1m",
+      "5m"
+    ]
   },
   "timezone": "browser",
-  "title": "Nawari — Global Outstation Network & WAN Telemetry",
+  "title": "Nawari \u2014 Global Outstation Network & WAN Telemetry",
   "uid": "nawari-global-outstations",
   "version": 1
 }
-

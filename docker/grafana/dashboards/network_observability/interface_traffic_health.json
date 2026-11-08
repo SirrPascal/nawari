@@ -124,7 +124,7 @@
       ],
       "title": "Interface Operational Status",
       "type": "stat",
-      "description": "Current operational state of the selected network interface. Values: Up (1) or Down (2). Source: IF-MIB::ifOperStatus (OID .1.3.6.1.2.1.2.2.1.8). Limitations: Reflects physical layer link status and data-link state; does not verify IP routing or application-layer reachability."
+      "description": "Current operational state of the selected network interface. Values: Up (1) or Down (2). Source: IF-MIB::ifOperStatus (OID .1.3.6.1.2.1.2.2.1.8). Limitations: Reflects physical layer link status and data-link state; does not verify IP routing or application-layer reachability. Missing data indicates collector outage, agent failure, or network disruption; values are preserved as null gaps."
     },
     {
       "datasource": {
@@ -212,7 +212,7 @@
       ],
       "title": "Configured Interface Speed",
       "type": "stat",
-      "description": "Negotiated or statically configured transmission speed of the network interface. Units: Bits per second (bps, formatted as Mbps/Gbps). Source: IF-MIB::ifHighSpeed (OID .1.3.6.1.2.1.31.1.1.1.15). Limitations: Speed duplex mismatch can lead to massive packet loss and throughput collapse."
+      "description": "Negotiated or statically configured transmission speed of the network interface. Units: Bits per second (bps, formatted as Mbps/Gbps). Source: IF-MIB::ifHighSpeed (OID .1.3.6.1.2.1.31.1.1.1.15). Limitations: Speed duplex mismatch can lead to massive packet loss and throughput collapse. Missing data indicates collector outage, agent failure, or network disruption; values are preserved as null gaps."
     },
     {
       "datasource": {
@@ -321,7 +321,7 @@
       ],
       "title": "Administrative State",
       "type": "stat",
-      "description": "Desired administrative configuration state of the interface set by network administrators. Values: Up (1), Down (2), Testing (3). Source: IF-MIB::ifAdminStatus (OID .1.3.6.1.2.1.2.2.1.7). Limitations: If Admin State is Down, the port was intentionally shut down by policy."
+      "description": "Desired administrative configuration state of the interface set by network administrators. Values: Up (1), Down (2), Testing (3). Source: IF-MIB::ifAdminStatus (OID .1.3.6.1.2.1.2.2.1.7). Limitations: If Admin State is Down, the port was intentionally shut down by policy. Missing data indicates collector outage, agent failure, or network disruption; values are preserved as null gaps."
     },
     {
       "collapsed": false,
@@ -489,7 +489,7 @@
       ],
       "title": "Bandwidth Ingress / Egress (bits/sec)",
       "type": "timeseries",
-      "description": "Real-time inbound (RX) and outbound (TX) traffic throughput on the selected network interface. Units: Bits per second (bps) calculated from 64-bit high-capacity octet counters. Source: IF-MIB::ifHCInOctets / ifHCOutOctets. Limitations: Polling interval is 30 seconds; sub-second bursts are averaged across the polling window."
+      "description": "Real-time inbound (RX) and outbound (TX) traffic throughput on the selected network interface. Units: Bits per second (bps) calculated from 64-bit high-capacity octet counters. Source: IF-MIB::ifHCInOctets / ifHCOutOctets. Limitations: Polling interval is 30 seconds; sub-second bursts are averaged across the polling window. Missing data indicates collector outage, agent failure, or network disruption; values are preserved as null gaps."
     },
     {
       "collapsed": false,
@@ -652,7 +652,7 @@
       ],
       "title": "Packet Error Rates (in/out errors/sec)",
       "type": "timeseries",
-      "description": "Rate of corrupt, malformed, or CRC-failing packets received or transmitted on the interface. Units: Errors per second. Source: IF-MIB::ifInErrors / ifOutErrors. Limitations: Non-zero error rates indicate physical cable degradation, transceiver fault, or electromagnetic interference."
+      "description": "Rate of corrupt, malformed, or CRC-failing packets received or transmitted on the interface. Units: Errors per second. Source: IF-MIB::ifInErrors / ifOutErrors. Limitations: Non-zero error rates indicate physical cable degradation, transceiver fault, or electromagnetic interference. Missing data indicates collector outage, agent failure, or network disruption; values are preserved as null gaps."
     },
     {
       "datasource": {
@@ -803,7 +803,7 @@
       ],
       "title": "Packet Discard Rates (in/out pps)",
       "type": "timeseries",
-      "description": "Rate of valid inbound and outbound packets dropped due to internal queue or buffer exhaustion. Units: Packets per second (pps). Source: IF-MIB::ifInDiscards / ifOutDiscards. Limitations: Indicates egress queue congestion or policing drops; warrants investigation into QoS queue configuration."
+      "description": "Rate of valid inbound and outbound packets dropped due to internal queue or buffer exhaustion. Units: Packets per second (pps). Source: IF-MIB::ifInDiscards / ifOutDiscards. Limitations: Indicates egress queue congestion or policing drops; warrants investigation into QoS queue configuration. Missing data indicates collector outage, agent failure, or network disruption; values are preserved as null gaps."
     }
   ],
   "schemaVersion": 39,

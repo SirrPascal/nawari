@@ -113,15 +113,23 @@ zabbix_export:
           delay: '0'
           value_type: UNSIGNED
           description: |
-            Chassis thermal alarm status: 1 = Normal (< 40°C), 2 = Thermal Warning (temperatureWarning trap), 3 = Critical Exceeded.
-            Collection Mechanism: Ingested via G450 MGP SNMP traps (temperatureWarning, temperatureClear).
-            Important: G450 firmware exposes discrete thermal event traps rather than a continuous floating-point analog gauge.
-            Provenance: CONFIGURED_UNVERIFIED (Phase 13.2 audit correction).
+            Event-derived chassis thermal alarm status:
+            0 = UNKNOWN (no trap received / initialized),
+            1 = CLEARED (Normal state via temperatureClear trap),
+            2 = WARNING (Ambient threshold exceeded via temperatureWarning trap).
+            Important: G450 MGP firmware does not expose a continuous analog temperature gauge or a separate critical trap state (Phase 13.3 MIB conformance).
+            Provenance: CONFIGURED_UNVERIFIED.
           tags:
             - tag: component
               value: environment
             - tag: provenance
               value: CONFIGURED_UNVERIFIED
+          triggers:
+            - uuid: e3c4d5e6f7a8470dafc431b51c179417
+              expression: 'last(/Nawari Avaya G450 Media Gateway by SNMP/avaya.g450.temperature)=2'
+              name: 'Avaya G450: Chassis Ambient Temperature Threshold Exceeded (Warning)'
+              priority: HIGH
+              description: 'G450 Media Gateway ambient temperature threshold exceeded (temperatureWarning trap received).'
 
         - uuid: e3c4d5e6f7a8470dafc431b51c179408
           name: 'E1/ISDN Primary Trunk Port Operational Status'

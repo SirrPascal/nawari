@@ -12,7 +12,12 @@
   "panels": [
     {
       "collapsed": false,
-      "gridPos": { "h": 1, "w": 24, "x": 0, "y": 0 },
+      "gridPos": {
+        "h": 1,
+        "w": 24,
+        "x": 0,
+        "y": 0
+      },
       "id": 1,
       "title": "Network Topology & Physical Adjacencies",
       "type": "row"
@@ -22,8 +27,13 @@
         "type": "postgres",
         "uid": "nawari-postgres-telemetry"
       },
-      "description": "Interactive Layer 2 and Layer 3 topological graph displaying confirmed switches, routers, SBCs, endpoints, and links with real-time operational status and bandwidth.",
-      "gridPos": { "h": 16, "w": 24, "x": 0, "y": 1 },
+      "description": "Interactive Layer 2 and Layer 3 topological graph displaying confirmed switches, routers, SBCs, endpoints, and links with real-time operational status and bandwidth. Missing data indicates collector outage, agent failure, or network disruption; values are preserved as null gaps.",
+      "gridPos": {
+        "h": 16,
+        "w": 24,
+        "x": 0,
+        "y": 1
+      },
       "id": 2,
       "options": {
         "nodes": {
@@ -60,7 +70,12 @@
     },
     {
       "collapsed": false,
-      "gridPos": { "h": 1, "w": 24, "x": 0, "y": 17 },
+      "gridPos": {
+        "h": 1,
+        "w": 24,
+        "x": 0,
+        "y": 17
+      },
       "id": 3,
       "title": "Recent Topology State Changes & Flaps",
       "type": "row"
@@ -70,8 +85,13 @@
         "type": "postgres",
         "uid": "nawari-postgres-telemetry"
       },
-      "description": "Chronological audit log of physical link transitions, neighbor additions/losses, and route modifications detected by the topology engine.",
-      "gridPos": { "h": 8, "w": 24, "x": 0, "y": 18 },
+      "description": "Chronological audit log of physical link transitions, neighbor additions/losses, and route modifications detected by the topology engine. Missing data indicates collector outage, agent failure, or network disruption; values are preserved as null gaps.",
+      "gridPos": {
+        "h": 8,
+        "w": 24,
+        "x": 0,
+        "y": 18
+      },
       "id": 4,
       "options": {
         "sortBy": [
@@ -97,17 +117,29 @@
     }
   ],
   "schemaVersion": 39,
-  "tags": ["nawari", "network", "topology", "cisco", "avaya", "layer2", "layer3"],
+  "tags": [
+    "nawari",
+    "network",
+    "topology",
+    "cisco",
+    "avaya",
+    "layer2",
+    "layer3"
+  ],
   "time": {
     "from": "now-6h",
     "to": "now"
   },
   "timepicker": {
-    "refresh_intervals": ["10s", "30s", "1m", "5m"]
+    "refresh_intervals": [
+      "10s",
+      "30s",
+      "1m",
+      "5m"
+    ]
   },
   "timezone": "browser",
-  "title": "Nawari — Network Topology & Service Dependencies",
+  "title": "Nawari \u2014 Network Topology & Service Dependencies",
   "uid": "nawari-network-topology",
   "version": 1
 }
-

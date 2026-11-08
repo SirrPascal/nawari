@@ -617,7 +617,7 @@ def create_communication_manager_dashboard():
             },
             {
                 "datasource": DATASOURCE,
-                "description": "Total call attempts processed by Communication Manager in 5-minute sampling intervals. Source: Avaya CM 8.1 MIB table avCmListMeasCallRateTotalTable (group OID 1.3.6.1.4.1.6889.2.73.8.1.145 leaf .1.2.1). Polling interval: strictly 5 minutes. Freshness: 5 minutes.",
+                "description": "Call processing activity indicator from Avaya CM 8.1 MIB avCmListMeasCallRateTotalTable (group OID 1.3.6.1.4.1.6889.2.73.8.1.145). Polling interval: strictly 5 minutes (vendor rate-limiting bound). Note: measurement interval is an hourly measurement block from list measurements call-rate total, not a rolling 5-minute counter. Attempts is not exposed as a 5-minute counter in this table. Missing data indicates collector timeout or SNMP failure.",
                 "fieldConfig": {
                     "defaults": {
                         "custom": {"drawStyle": "line", "lineInterpolation": "smooth", "spanNulls": False},
@@ -629,14 +629,14 @@ def create_communication_manager_dashboard():
                 "id": 4,
                 "options": {"tooltip": {"mode": "single"}},
                 "targets": [
-                    {"group": {"name": "Voice Infrastructure"}, "host": {"name": "nawari-cm-01"}, "item": {"name": "Call Rate Total Attempts (5-minute)"}, "refId": "ATTEMPTS"}
+                    {"group": {"name": "Voice Infrastructure"}, "host": {"name": "nawari-cm-01"}, "item": {"name": "Call Rate Total Attempts (Hourly Measurement Interval)"}, "refId": "ATTEMPTS"}
                 ],
-                "title": "Call Rate Attempts (5-min) [REAL — AVAYA SNMP]",
+                "title": "Call Processing Hourly Status [REAL — AVAYA SNMP]",
                 "type": "timeseries"
             },
             {
                 "datasource": DATASOURCE,
-                "description": "Total successfully completed calls processed by Communication Manager in 5-minute sampling intervals. Source: Avaya CM 8.1 MIB table avCmListMeasCallRateTotalTable (group OID 1.3.6.1.4.1.6889.2.73.8.1.145 leaf .1.3.1). Polling interval: strictly 5 minutes.",
+                "description": "Total completed calls recorded in the current hourly measurement block from list measurements call-rate total (leaf .1.3.1). Source: Avaya CM 8.1 MIB table avCmListMeasCallRateTotalTable (group OID 1.3.6.1.4.1.6889.2.73.8.1.145 leaf .1.3.1). Polling interval: strictly 5 minutes (vendor engine protection limit). Measurement interval: hourly measurement block. Missing data indicates CM SNMP communication outage.",
                 "fieldConfig": {
                     "defaults": {
                         "custom": {"drawStyle": "line", "lineInterpolation": "smooth", "spanNulls": False},
@@ -648,21 +648,21 @@ def create_communication_manager_dashboard():
                 "id": 5,
                 "options": {"tooltip": {"mode": "single"}},
                 "targets": [
-                    {"group": {"name": "Voice Infrastructure"}, "host": {"name": "nawari-cm-01"}, "item": {"name": "Call Rate Completed Calls (5-minute)"}, "refId": "COMPLETED"}
+                    {"group": {"name": "Voice Infrastructure"}, "host": {"name": "nawari-cm-01"}, "item": {"name": "Call Rate Completed Calls (Hourly Measurement Interval)"}, "refId": "COMPLETED"}
                 ],
-                "title": "Call Rate Completed (5-min) [REAL — AVAYA SNMP]",
+                "title": "Call Rate Completed Calls (Hourly Measurement) [REAL — AVAYA SNMP]",
                 "type": "timeseries"
             },
             {
                 "collapsed": False,
                 "gridPos": {"h": 1, "w": 24, "x": 0, "y": 7},
                 "id": 6,
-                "title": "Hourly IP Voice Quality Telemetry (avCmMeasIpVoStatSumDataLstHrTable)",
+                "title": "Hourly IP Voice Quality Telemetry (avCmMeasIpVoStatHrData)",
                 "type": "row"
             },
             {
                 "datasource": DATASOURCE,
-                "description": "Percentage of IP voice audio packets lost during active calls in the last completed hour across the monitored network region. Source: Avaya CM SNMP table avCmMeasIpVoStatSumDataLstHrTable (OID 1.3.6.1.4.1.6889.2.73.8.1.77 leaf .6). Polling interval: strictly 1 hour. Freshness: 1-2 hours. Warning: > 1.0%, Critical: > 2.5%.",
+                "description": "Percentage of IP voice audio packets lost during active calls in the last completed hour across the monitored network region. Source: Avaya CM SNMP table avCmMeasIpVoStatHrData (OID 1.3.6.1.4.1.6889.2.73.8.1.67 leaf .10). Polling interval: strictly 1 hour. Caching interval: 600s. Warning: > 1.0%, Critical: > 2.5%. Missing data indicates CM SNMP communication outage or unadministered IP options.",
                 "fieldConfig": {
                     "defaults": {
                         "color": {"mode": "thresholds"},
@@ -682,7 +682,7 @@ def create_communication_manager_dashboard():
             },
             {
                 "datasource": DATASOURCE,
-                "description": "Peak interarrival packet jitter in milliseconds observed across real calls in the last completed hour. Source: Avaya CM SNMP table avCmMeasIpVoStatSumDataLstHrTable (leaf .7). Polling interval: strictly 1 hour. Warning: > 20ms, Critical: > 30ms.",
+                "description": "Peak interarrival packet jitter in milliseconds observed across real calls in the last completed hour. Source: Avaya CM SNMP table avCmMeasIpVoStatHrData (OID 1.3.6.1.4.1.6889.2.73.8.1.67 leaf .11). Polling interval: strictly 1 hour. Caching interval: 600s. Warning: > 20ms, Critical: > 30ms. Missing data indicates collector outage.",
                 "fieldConfig": {
                     "defaults": {
                         "color": {"mode": "thresholds"},
@@ -702,7 +702,7 @@ def create_communication_manager_dashboard():
             },
             {
                 "datasource": DATASOURCE,
-                "description": "Maximum two-way round-trip audio packet delay in milliseconds observed across real calls in the last completed hour. Source: Avaya CM SNMP table avCmMeasIpVoStatSumDataLstHrTable (leaf .8). Polling interval: strictly 1 hour. Target: <= 150ms (ITU-T G.114), Critical: > 250ms.",
+                "description": "Maximum two-way round-trip audio packet delay in milliseconds observed across real calls in the last completed hour. Source: Avaya CM SNMP table avCmMeasIpVoStatHrData (OID 1.3.6.1.4.1.6889.2.73.8.1.67 leaf .12). Polling interval: strictly 1 hour. Caching interval: 600s. Target: <= 150ms (ITU-T G.114), Critical: > 250ms. Missing data indicates collector outage.",
                 "fieldConfig": {
                     "defaults": {
                         "color": {"mode": "thresholds"},
@@ -722,7 +722,7 @@ def create_communication_manager_dashboard():
             },
             {
                 "datasource": DATASOURCE,
-                "description": "Average interarrival packet jitter in milliseconds calculated across all calls in the last completed hour. Source: Avaya CM SNMP table avCmMeasIpVoStatHrJitterTable (OID 1.3.6.1.4.1.6889.2.73.8.1.66 leaf .2). Polling interval: 1 hour.",
+                "description": "Summary interarrival packet jitter metric calculated across active calls in the completed hour. Source: Avaya CM SNMP table avCmMeasIpVoStatHrData (OID 1.3.6.1.4.1.6889.2.73.8.1.67). Polling interval: strictly 1 hour. Caching interval: 600s. Missing data indicates collector outage.",
                 "fieldConfig": {
                     "defaults": {
                         "color": {"mode": "thresholds"},
@@ -749,7 +749,7 @@ def create_communication_manager_dashboard():
             },
             {
                 "datasource": DATASOURCE,
-                "description": "Primary negotiated audio compression algorithm / codec (e.g. G.711A, G.711U, G.729) active in the measured network region. Source: Avaya CM SNMP table avCmMeasIpVoStatSumDataLstHrTable leaf .3. Polling interval: 1 hour.",
+                "description": "Primary negotiated audio compression algorithm / codec (e.g. G.711A, G.711U, G.729) active in the measured network region. Source: Avaya CM SNMP table avCmMeasIpVoStatHrData (OID 1.3.6.1.4.1.6889.2.73.8.1.67 leaf .8). Polling interval: 1 hour. Missing data indicates collector outage.",
                 "fieldConfig": {"defaults": {}, "overrides": []},
                 "gridPos": {"h": 6, "w": 8, "x": 0, "y": 15},
                 "id": 12,
@@ -762,7 +762,7 @@ def create_communication_manager_dashboard():
             },
             {
                 "datasource": DATASOURCE,
-                "description": "Operational status of hardware/software echo cancellation on voice paths for the measured network region. Source: Avaya CM SNMP table avCmMeasIpVoStatSumDataLstHrTable leaf .11. Polling interval: 1 hour.",
+                "description": "Operational status of hardware/software echo cancellation on voice paths for the measured network region. Source: Avaya CM SNMP table avCmMeasIpVoStatHrData (OID 1.3.6.1.4.1.6889.2.73.8.1.67 leaf .13). Polling interval: 1 hour. Missing data indicates collector outage.",
                 "fieldConfig": {"defaults": {}, "overrides": []},
                 "gridPos": {"h": 6, "w": 8, "x": 8, "y": 15},
                 "id": 13,
@@ -775,7 +775,7 @@ def create_communication_manager_dashboard():
             },
             {
                 "datasource": DATASOURCE,
-                "description": "Total number of real IP voice calls evaluated by Communication Manager during the last completed hour across all media gateways. Source: Avaya CM SNMP table avCmMeasIpVoStatHrJitterTable leaf .4. Polling interval: 1 hour.",
+                "description": "Total number of real IP voice calls evaluated by Communication Manager during the last completed hour across all media gateways. Source: Avaya CM SNMP table avCmMeasIpVoStatHrData (OID 1.3.6.1.4.1.6889.2.73.8.1.67). Polling interval: 1 hour. Missing data indicates collector outage.",
                 "fieldConfig": {"defaults": {"unit": "calls"}, "overrides": []},
                 "gridPos": {"h": 6, "w": 8, "x": 16, "y": 15},
                 "id": 14,
@@ -858,14 +858,14 @@ def create_g450_dashboard():
             },
             {
                 "datasource": DATASOURCE,
-                "description": "Internal temperature alarm state of the G450 chassis processor. 1 = Normal (< 40°C), 2 = Thermal Warning, 3 = Critical Exceeded. Collection Mechanism: Ingested via G450 MGP SNMP traps (temperatureWarning, temperatureClear). Important: G450 exposes discrete thermal event traps rather than a continuous analog gauge (Audit Phase 13.2 correction). Provenance: CONFIGURED_UNVERIFIED.",
+                "description": "Event-derived internal thermal state of the G450 chassis processor. States: 0 = UNKNOWN (no trap received / initialized), 1 = CLEARED (normal operation after temperatureClear trap), 2 = WARNING (ambient temperature threshold exceeded after temperatureWarning trap). Important: Avaya G450 MGP firmware does not expose a continuous analog temperature gauge or a separate critical trap state; thermal monitoring is strictly event-derived (Phase 13.3 MIB conformance). Provenance: CONFIGURED_UNVERIFIED. Missing data indicates trapper service failure.",
                 "fieldConfig": {
                     "defaults": {
                         "color": {"mode": "thresholds"},
                         "mappings": [
-                            {"options": {"1": {"color": "green", "text": "NORMAL (< 40°C)"}, "2": {"color": "yellow", "text": "THERMAL WARNING"}, "3": {"color": "red", "text": "CRITICAL EXCEEDED"}}, "type": "value"}
+                            {"options": {"0": {"color": "semi-dark-blue", "text": "UNKNOWN"}, "1": {"color": "green", "text": "CLEARED (NORMAL)"}, "2": {"color": "orange", "text": "THERMAL WARNING"}}, "type": "value"}
                         ],
-                        "thresholds": {"mode": "absolute", "steps": [{"color": "green", "value": None}, {"color": "yellow", "value": 2}, {"color": "red", "value": 3}]}
+                        "thresholds": {"mode": "absolute", "steps": [{"color": "semi-dark-blue", "value": None}, {"color": "green", "value": 1}, {"color": "orange", "value": 2}]}
                     },
                     "overrides": []
                 },
@@ -932,7 +932,7 @@ def create_g450_dashboard():
             },
             {
                 "datasource": DATASOURCE,
-                "description": "VoIP DSP and media resource channel utilization. Status: Not collected — requires physical audit of installed G450 firmware and DSP child cards (MP80 / MP20 / MP160). Unconfirmed telemetry is honestly displayed as N/A rather than an invented percentage.",
+                "description": "VoIP DSP and media resource channel utilization. Status: Not collected — requires physical audit of installed G450 firmware and DSP child cards (MP20 / MP80 for older branch gateways, MP120 / MP160 for high-capacity models). Unconfirmed telemetry is honestly displayed as N/A rather than an invented percentage. Missing data indicates uncollected hardware telemetry.",
                 "fieldConfig": {
                     "defaults": {
                         "color": {"mode": "thresholds"},

@@ -128,7 +128,7 @@
       ],
       "title": "SNMPv3 Status",
       "type": "stat",
-      "description": "Operational status of the SNMPv3 monitoring agent on the Avaya Session Border Controller Enterprise (SBCE 8.1). Value 1 indicates SNMP daemon is responding to polling requests; 0 indicates SNMP agent timeout or unreachable. Source: Zabbix SNMPv3 agent ping. Limitations: Verifies management plane reachability only; does not confirm media proxy or SIP signaling functionality."
+      "description": "Operational status of the SNMPv3 monitoring agent on the Avaya Session Border Controller Enterprise (SBCE 8.1). Value 1 indicates SNMP daemon is responding to polling requests; 0 indicates SNMP agent timeout or unreachable. Source: Zabbix SNMPv3 agent ping. Limitations: Verifies management plane reachability only; does not confirm media proxy or SIP signaling functionality. Missing data indicates collector outage, agent failure, or network disruption; values are preserved as null gaps."
     },
     {
       "datasource": {
@@ -224,7 +224,7 @@
       ],
       "title": "System Uptime",
       "type": "stat",
-      "description": "Elapsed time since last reboot of the Avaya SBCE operating system (CentOS-based SBC OS). Units: Seconds (formatted as days, hours, minutes). Source: HOST-RESOURCES-MIB::hrSystemUptime (OID .1.3.6.1.2.1.25.1.1.0). Limitations: A sudden drop to zero indicates an unplanned reboot or power disruption."
+      "description": "Elapsed time since last reboot of the Avaya SBCE operating system (CentOS-based SBC OS). Units: Seconds (formatted as days, hours, minutes). Source: HOST-RESOURCES-MIB::hrSystemUptime (OID .1.3.6.1.2.1.25.1.1.0). Limitations: A sudden drop to zero indicates an unplanned reboot or power disruption. Missing data indicates collector outage, agent failure, or network disruption; values are preserved as null gaps."
     },
     {
       "datasource": {
@@ -320,7 +320,7 @@
       ],
       "title": "CPU Utilization",
       "type": "gauge",
-      "description": "Total processor utilization across all cores of the Avaya SBCE appliance. Units: Percentage (0\u2013100%). Warning threshold: 75%, Critical: 90%. Source: HOST-RESOURCES-MIB::hrProcessorLoad (OID .1.3.6.1.2.1.25.3.3.1.2). Limitations: High CPU may cause delayed SIP transaction processing and audio transcoding artifacts."
+      "description": "Total processor utilization across all cores of the Avaya SBCE appliance. Units: Percentage (0\u2013100%). Warning threshold: 75%, Critical: 90%. Source: HOST-RESOURCES-MIB::hrProcessorLoad (OID .1.3.6.1.2.1.25.3.3.1.2). Limitations: High CPU may cause delayed SIP transaction processing and audio transcoding artifacts. Missing data indicates collector outage, agent failure, or network disruption; values are preserved as null gaps."
     },
     {
       "datasource": {
@@ -416,7 +416,7 @@
       ],
       "title": "RAM Utilization",
       "type": "gauge",
-      "description": "Percentage of physical memory currently consumed on the Avaya SBCE. Units: Percentage (0\u2013100%). Source: HOST-RESOURCES-MIB memory allocation metrics. Warning: 80%, Critical: 95%. Limitations: Memory exhaustion can lead to Linux OOM killer terminating SIP signaling processes."
+      "description": "Percentage of physical memory currently consumed on the Avaya SBCE. Units: Percentage (0\u2013100%). Source: HOST-RESOURCES-MIB memory allocation metrics. Warning: 80%, Critical: 95%. Limitations: Memory exhaustion can lead to Linux OOM killer terminating SIP signaling processes. Missing data indicates collector outage, agent failure, or network disruption; values are preserved as null gaps."
     },
     {
       "datasource": {
@@ -512,7 +512,7 @@
       ],
       "title": "Root Disk Utilization",
       "type": "gauge",
-      "description": "Disk space consumption on the root (/) filesystem partition of the Avaya SBCE appliance. Units: Percentage (0\u2013100%). Source: HOST-RESOURCES-MIB::hrStorageUsed (OID .1.3.6.1.2.1.25.2.3.1.6). Limitations: Log file accumulation (e.g., trace_sbc) can fill disk, leading to packet capture failure or service halt."
+      "description": "Disk space consumption on the root (/) filesystem partition of the Avaya SBCE appliance. Units: Percentage (0\u2013100%). Source: HOST-RESOURCES-MIB::hrStorageUsed (OID .1.3.6.1.2.1.25.2.3.1.6). Limitations: Log file accumulation (e.g., trace_sbc) can fill disk, leading to packet capture failure or service halt. Missing data indicates collector outage, agent failure, or network disruption; values are preserved as null gaps."
     },
     {
       "datasource": {
@@ -607,7 +607,7 @@
       ],
       "title": "Load Average (1m)",
       "type": "stat",
-      "description": "One-minute system load average representing the number of runnable or waiting processes. Units: Scalar load average. Source: UCD-SNMP-MIB::laLoad.1 (OID .1.3.6.1.4.1.2021.10.1.3.1). Limitations: Sustained load higher than CPU core count indicates queue saturation and potential SIP packet drop."
+      "description": "One-minute system load average representing the number of runnable or waiting processes. Units: Scalar load average. Source: UCD-SNMP-MIB::laLoad.1 (OID .1.3.6.1.4.1.2021.10.1.3.1). Limitations: Sustained load higher than CPU core count indicates queue saturation and potential SIP packet drop. Missing data indicates collector outage, agent failure, or network disruption; values are preserved as null gaps."
     },
     {
       "collapsed": false,
@@ -728,7 +728,7 @@
       ],
       "title": "A1 \u2014 External DMZ (SIP Signaling)",
       "type": "stat",
-      "description": "Link operational status of physical interface A1 connecting the Avaya SBCE to the external DMZ and telecom service provider SIP trunks (e.g., Safaricom). 1 = Up, 2 = Down. Source: IF-MIB::ifOperStatus.1. Limitations: Down status causes immediate loss of external inbound/outbound telephony."
+      "description": "Link operational status of physical interface A1 connecting the Avaya SBCE to the external DMZ and telecom service provider SIP trunks (e.g., Safaricom). 1 = Up, 2 = Down. Source: IF-MIB::ifOperStatus.1. Limitations: Down status causes immediate loss of external inbound/outbound telephony. Missing data indicates collector outage, agent failure, or network disruption; values are preserved as null gaps."
     },
     {
       "datasource": {
@@ -837,7 +837,7 @@
       ],
       "title": "B1 \u2014 Internal Media & Core Signaling",
       "type": "stat",
-      "description": "Link operational status of physical interface B1 connecting the Avaya SBCE to the internal core voice network (Avaya Aura Session Manager & Media Gateways). 1 = Up, 2 = Down. Source: IF-MIB::ifOperStatus.2. Limitations: Down status halts internal call routing between SBCE and Aura Core."
+      "description": "Link operational status of physical interface B1 connecting the Avaya SBCE to the internal core voice network (Avaya Aura Session Manager & Media Gateways). 1 = Up, 2 = Down. Source: IF-MIB::ifOperStatus.2. Limitations: Down status halts internal call routing between SBCE and Aura Core. Missing data indicates collector outage, agent failure, or network disruption; values are preserved as null gaps."
     },
     {
       "datasource": {
@@ -946,7 +946,7 @@
       ],
       "title": "M1 \u2014 Primary Management",
       "type": "stat",
-      "description": "Link operational status of interface M1 dedicated to out-of-band management and EMS web administration. 1 = Up, 2 = Down. Source: IF-MIB::ifOperStatus.3. Limitations: Interface failure prevents administrative access and EMS configuration synchronization but does not disrupt active call traffic."
+      "description": "Link operational status of interface M1 dedicated to out-of-band management and EMS web administration. 1 = Up, 2 = Down. Source: IF-MIB::ifOperStatus.3. Limitations: Interface failure prevents administrative access and EMS configuration synchronization but does not disrupt active call traffic. Missing data indicates collector outage, agent failure, or network disruption; values are preserved as null gaps."
     },
     {
       "datasource": {
@@ -1055,7 +1055,7 @@
       ],
       "title": "M2 \u2014 Secondary / HA Heartbeat",
       "type": "stat",
-      "description": "Link operational status of interface M2 used for High Availability (HA) clustering heartbeat and state synchronization between SBCE primary and standby appliances. 1 = Up, 2 = Down. Source: IF-MIB::ifOperStatus.4. Limitations: Loss of M2 heartbeat can trigger split-brain condition or disable automatic failover."
+      "description": "Link operational status of interface M2 used for High Availability (HA) clustering heartbeat and state synchronization between SBCE primary and standby appliances. 1 = Up, 2 = Down. Source: IF-MIB::ifOperStatus.4. Limitations: Loss of M2 heartbeat can trigger split-brain condition or disable automatic failover. Missing data indicates collector outage, agent failure, or network disruption; values are preserved as null gaps."
     },
     {
       "collapsed": false,
@@ -1252,7 +1252,7 @@
       ],
       "title": "A1 Carrier DMZ Traffic (bps)",
       "type": "timeseries",
-      "description": "Bidirectional network bandwidth utilization on external interface A1 carrying carrier SIP signaling (UDP/TCP/TLS 5060/5061) and RTP media streams. Units: Bits per second (bps) with delta rate calculation. Source: IF-MIB::ifHCInOctets / ifHCOutOctets. Limitations: Polled at 30s intervals; short microbursts below polling window are smoothed."
+      "description": "Bidirectional network bandwidth utilization on external interface A1 carrying carrier SIP signaling (UDP/TCP/TLS 5060/5061) and RTP media streams. Units: Bits per second (bps) with delta rate calculation. Source: IF-MIB::ifHCInOctets / ifHCOutOctets. Limitations: Polled at 30s intervals; short microbursts below polling window are smoothed. Missing data indicates collector outage, agent failure, or network disruption; values are preserved as null gaps."
     },
     {
       "datasource": {
@@ -1437,7 +1437,7 @@
       ],
       "title": "B1 Internal Media & Core Signaling Traffic (bps)",
       "type": "timeseries",
-      "description": "Bidirectional network throughput on internal interface B1 carrying media streams between SBCE and Avaya Media Servers/Gateways. Units: Bits per second (bps). Source: IF-MIB::ifHCInOctets / ifHCOutOctets. Limitations: Bandwidth spikes correlate with concurrent active RTP call sessions."
+      "description": "Bidirectional network throughput on internal interface B1 carrying media streams between SBCE and Avaya Media Servers/Gateways. Units: Bits per second (bps). Source: IF-MIB::ifHCInOctets / ifHCOutOctets. Limitations: Bandwidth spikes correlate with concurrent active RTP call sessions. Missing data indicates collector outage, agent failure, or network disruption; values are preserved as null gaps."
     },
     {
       "collapsed": false,
@@ -1602,7 +1602,7 @@
       ],
       "title": "Voice Path Packet Errors (rate)",
       "type": "timeseries",
-      "description": "Rate of inbound and outbound frame/packet errors detected on voice-bearing interfaces (A1 and B1). Units: Errors per second. Source: IF-MIB::ifInErrors / ifOutErrors. Limitations: Any non-zero error rate directly degrades voice audio quality, causing robotic voice, clipping, and clicks."
+      "description": "Rate of inbound and outbound frame/packet errors detected on voice-bearing interfaces (A1 and B1). Units: Errors per second. Source: IF-MIB::ifInErrors / ifOutErrors. Limitations: Any non-zero error rate directly degrades voice audio quality, causing robotic voice, clipping, and clicks. Missing data indicates collector outage, agent failure, or network disruption; values are preserved as null gaps."
     },
     {
       "datasource": {
@@ -1755,7 +1755,7 @@
       ],
       "title": "Voice Path Packet Discards (rate)",
       "type": "timeseries",
-      "description": "Rate of dropped inbound and outbound packets due to buffer overrun or NIC queue saturation on voice interfaces A1 and B1. Units: Packets per second (pps). Source: IF-MIB::ifInDiscards / ifOutDiscards. Limitations: Non-zero discards indicate interface or switch buffer congestion requiring QoS review."
+      "description": "Rate of dropped inbound and outbound packets due to buffer overrun or NIC queue saturation on voice interfaces A1 and B1. Units: Packets per second (pps). Source: IF-MIB::ifInDiscards / ifOutDiscards. Limitations: Non-zero discards indicate interface or switch buffer congestion requiring QoS review. Missing data indicates collector outage, agent failure, or network disruption; values are preserved as null gaps."
     },
     {
       "datasource": {
@@ -1848,7 +1848,7 @@
       ],
       "title": "Avaya SBCE Active Alarms & Problems Feed",
       "type": "alexanderzobnin-zabbix-problems-panel",
-      "description": "Live real-time alarm stream of active operational problems and threshold violations originating from Avaya SBCE hosts in Zabbix. Source: Zabbix Problems API filtered for Avaya SBCE host group. Limitations: Reflected alarms depend on Zabbix trigger definitions and polling intervals."
+      "description": "Live real-time alarm stream of active operational problems and threshold violations originating from Avaya SBCE hosts in Zabbix. Source: Zabbix Problems API filtered for Avaya SBCE host group. Limitations: Reflected alarms depend on Zabbix trigger definitions and polling intervals. Missing data indicates collector outage, agent failure, or network disruption; values are preserved as null gaps."
     }
   ],
   "schemaVersion": 39,

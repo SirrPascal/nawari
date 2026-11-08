@@ -11,7 +11,12 @@
   "panels": [
     {
       "collapsed": false,
-      "gridPos": { "h": 1, "w": 24, "x": 0, "y": 0 },
+      "gridPos": {
+        "h": 1,
+        "w": 24,
+        "x": 0,
+        "y": 0
+      },
       "id": 1,
       "title": "End-to-End Path Performance Metrics",
       "type": "row"
@@ -23,31 +28,49 @@
       },
       "fieldConfig": {
         "defaults": {
-          "color": { "mode": "thresholds" },
+          "color": {
+            "mode": "thresholds"
+          },
           "mappings": [],
           "noValue": "STALE / NO DATA",
           "thresholds": {
             "mode": "absolute",
             "steps": [
-              { "color": "green", "value": null },
-              { "color": "yellow", "value": 0.04 },
-              { "color": "red", "value": 0.1 }
+              {
+                "color": "green",
+                "value": null
+              },
+              {
+                "color": "yellow",
+                "value": 0.04
+              },
+              {
+                "color": "red",
+                "value": 0.1
+              }
             ]
           },
           "unit": "s"
         },
         "overrides": []
       },
-      "gridPos": { "h": 4, "w": 6, "x": 0, "y": 1 },
+      "gridPos": {
+        "h": 4,
+        "w": 6,
+        "x": 0,
+        "y": 1
+      },
       "id": 2,
-      "description": "Measures the total round-trip time between the endpoint and the destination target along the discovered path. Sudden increases in end-to-end latency indicate routing shifts, congested transit links, or bufferbloat. Note that traceroute RTT may differ slightly from TCP application latency due to different network priority queues.",
+      "description": "Measures the total round-trip time between the endpoint and the destination target along the discovered path. Sudden increases in end-to-end latency indicate routing shifts, congested transit links, or bufferbloat. Note that traceroute RTT may differ slightly from TCP application latency due to different network priority queues. Missing data indicates collector outage, agent failure, or network disruption; values are preserved as null gaps.",
       "options": {
         "colorMode": "background",
         "graphMode": "none",
         "justifyMode": "auto",
         "orientation": "auto",
         "reduceOptions": {
-          "calcs": ["lastNotNull"],
+          "calcs": [
+            "lastNotNull"
+          ],
           "fields": "",
           "values": false
         },
@@ -56,21 +79,37 @@
       "pluginVersion": "11.6.0",
       "targets": [
         {
-          "application": { "filter": "" },
+          "application": {
+            "filter": ""
+          },
           "datasource": {
             "type": "alexanderzobnin-zabbix-datasource",
             "uid": "PA67C5EADE9207728"
           },
-          "group": { "filter": "$group" },
-          "host": { "filter": "$endpoint" },
-          "item": { "filter": "Path end-to-end latency [$target]" },
-          "itemTag": { "filter": "" },
+          "group": {
+            "filter": "$group"
+          },
+          "host": {
+            "filter": "$endpoint"
+          },
+          "item": {
+            "filter": "Path end-to-end latency [$target]"
+          },
+          "itemTag": {
+            "filter": ""
+          },
           "mode": 0,
-          "options": { "showDisabledItems": false },
+          "options": {
+            "showDisabledItems": false
+          },
           "refId": "A",
           "resultFormat": "time_series",
-          "tags": { "filter": "" },
-          "trigger": { "filter": "" }
+          "tags": {
+            "filter": ""
+          },
+          "trigger": {
+            "filter": ""
+          }
         }
       ],
       "title": "End-to-End Latency",
@@ -83,31 +122,49 @@
       },
       "fieldConfig": {
         "defaults": {
-          "color": { "mode": "thresholds" },
+          "color": {
+            "mode": "thresholds"
+          },
           "mappings": [],
           "noValue": "STALE / NO DATA",
           "thresholds": {
             "mode": "absolute",
             "steps": [
-              { "color": "green", "value": null },
-              { "color": "yellow", "value": 1 },
-              { "color": "red", "value": 20 }
+              {
+                "color": "green",
+                "value": null
+              },
+              {
+                "color": "yellow",
+                "value": 1
+              },
+              {
+                "color": "red",
+                "value": 20
+              }
             ]
           },
           "unit": "percent"
         },
         "overrides": []
       },
-      "gridPos": { "h": 4, "w": 6, "x": 6, "y": 1 },
+      "gridPos": {
+        "h": 4,
+        "w": 6,
+        "x": 6,
+        "y": 1
+      },
       "id": 3,
-      "description": "Percentage of probe packets lost between the endpoint and the final destination target. Values above 0% indicate severe path impairment that causes TCP retransmissions and degraded voice/video quality. Must be evaluated alongside intermediate hop loss; loss at the target is true circuit loss, whereas intermediate non-responses may be CoPP.",
+      "description": "Percentage of probe packets lost between the endpoint and the final destination target. Values above 0% indicate severe path impairment that causes TCP retransmissions and degraded voice/video quality. Must be evaluated alongside intermediate hop loss; loss at the target is true circuit loss, whereas intermediate non-responses may be CoPP. Missing data indicates collector outage, agent failure, or network disruption; values are preserved as null gaps.",
       "options": {
         "colorMode": "background",
         "graphMode": "none",
         "justifyMode": "auto",
         "orientation": "auto",
         "reduceOptions": {
-          "calcs": ["lastNotNull"],
+          "calcs": [
+            "lastNotNull"
+          ],
           "fields": "",
           "values": false
         },
@@ -116,21 +173,37 @@
       "pluginVersion": "11.6.0",
       "targets": [
         {
-          "application": { "filter": "" },
+          "application": {
+            "filter": ""
+          },
           "datasource": {
             "type": "alexanderzobnin-zabbix-datasource",
             "uid": "PA67C5EADE9207728"
           },
-          "group": { "filter": "$group" },
-          "host": { "filter": "$endpoint" },
-          "item": { "filter": "Path end-to-end packet loss [$target]" },
-          "itemTag": { "filter": "" },
+          "group": {
+            "filter": "$group"
+          },
+          "host": {
+            "filter": "$endpoint"
+          },
+          "item": {
+            "filter": "Path end-to-end packet loss [$target]"
+          },
+          "itemTag": {
+            "filter": ""
+          },
           "mode": 0,
-          "options": { "showDisabledItems": false },
+          "options": {
+            "showDisabledItems": false
+          },
           "refId": "A",
           "resultFormat": "time_series",
-          "tags": { "filter": "" },
-          "trigger": { "filter": "" }
+          "tags": {
+            "filter": ""
+          },
+          "trigger": {
+            "filter": ""
+          }
         }
       ],
       "title": "End-to-End Packet Loss",
@@ -143,28 +216,40 @@
       },
       "fieldConfig": {
         "defaults": {
-          "color": { "mode": "thresholds" },
+          "color": {
+            "mode": "thresholds"
+          },
           "mappings": [],
           "noValue": "STALE / NO DATA",
           "thresholds": {
             "mode": "absolute",
             "steps": [
-              { "color": "blue", "value": null }
+              {
+                "color": "blue",
+                "value": null
+              }
             ]
           }
         },
         "overrides": []
       },
-      "gridPos": { "h": 4, "w": 6, "x": 12, "y": 1 },
+      "gridPos": {
+        "h": 4,
+        "w": 6,
+        "x": 12,
+        "y": 1
+      },
       "id": 4,
-      "description": "The number of layer-3 routing hops traversed between the endpoint and the destination target. Significant changes in hop count indicate dynamic route re-convergence, BGP shifts, or failover to backup circuits. Path length alone does not determine latency, but abrupt hop count increases often correlate with path suboptimality.",
+      "description": "The number of layer-3 routing hops traversed between the endpoint and the destination target. Significant changes in hop count indicate dynamic route re-convergence, BGP shifts, or failover to backup circuits. Path length alone does not determine latency, but abrupt hop count increases often correlate with path suboptimality. Missing data indicates collector outage, agent failure, or network disruption; values are preserved as null gaps.",
       "options": {
         "colorMode": "value",
         "graphMode": "none",
         "justifyMode": "auto",
         "orientation": "auto",
         "reduceOptions": {
-          "calcs": ["lastNotNull"],
+          "calcs": [
+            "lastNotNull"
+          ],
           "fields": "",
           "values": false
         },
@@ -173,21 +258,37 @@
       "pluginVersion": "11.6.0",
       "targets": [
         {
-          "application": { "filter": "" },
+          "application": {
+            "filter": ""
+          },
           "datasource": {
             "type": "alexanderzobnin-zabbix-datasource",
             "uid": "PA67C5EADE9207728"
           },
-          "group": { "filter": "$group" },
-          "host": { "filter": "$endpoint" },
-          "item": { "filter": "Path total hops [$target]" },
-          "itemTag": { "filter": "" },
+          "group": {
+            "filter": "$group"
+          },
+          "host": {
+            "filter": "$endpoint"
+          },
+          "item": {
+            "filter": "Path total hops [$target]"
+          },
+          "itemTag": {
+            "filter": ""
+          },
           "mode": 0,
-          "options": { "showDisabledItems": false },
+          "options": {
+            "showDisabledItems": false
+          },
           "refId": "A",
           "resultFormat": "time_series",
-          "tags": { "filter": "" },
-          "trigger": { "filter": "" }
+          "tags": {
+            "filter": ""
+          },
+          "trigger": {
+            "filter": ""
+          }
         }
       ],
       "title": "Total Path Hops",
@@ -200,12 +301,20 @@
       },
       "fieldConfig": {
         "defaults": {
-          "color": { "mode": "thresholds" },
+          "color": {
+            "mode": "thresholds"
+          },
           "mappings": [
             {
               "options": {
-                "0": { "color": "green", "text": "STABLE ROUTE (HASH UNCHANGED)" },
-                "1": { "color": "orange", "text": "ROUTE DIVERGED (CHANGED)" }
+                "0": {
+                  "color": "green",
+                  "text": "STABLE ROUTE (HASH UNCHANGED)"
+                },
+                "1": {
+                  "color": "orange",
+                  "text": "ROUTE DIVERGED (CHANGED)"
+                }
               },
               "type": "value"
             }
@@ -214,23 +323,36 @@
           "thresholds": {
             "mode": "absolute",
             "steps": [
-              { "color": "green", "value": null },
-              { "color": "orange", "value": 1 }
+              {
+                "color": "green",
+                "value": null
+              },
+              {
+                "color": "orange",
+                "value": 1
+              }
             ]
           }
         },
         "overrides": []
       },
-      "gridPos": { "h": 4, "w": 6, "x": 18, "y": 1 },
+      "gridPos": {
+        "h": 4,
+        "w": 6,
+        "x": 18,
+        "y": 1
+      },
       "id": 5,
-      "description": "Indicates whether the network forwarding path has remained stable or diverged from its baseline hash signature (0=STABLE, 1=ROUTE CHANGED). Frequent route changes signal flapping links, asymmetric routing, or ECMP churn. Route flapping introduces transient packet reordering and jitter that degrade real-time traffic.",
+      "description": "Indicates whether the network forwarding path has remained stable or diverged from its baseline hash signature (0=STABLE, 1=ROUTE CHANGED). Frequent route changes signal flapping links, asymmetric routing, or ECMP churn. Route flapping introduces transient packet reordering and jitter that degrade real-time traffic. Missing data indicates collector outage, agent failure, or network disruption; values are preserved as null gaps.",
       "options": {
         "colorMode": "background",
         "graphMode": "none",
         "justifyMode": "auto",
         "orientation": "auto",
         "reduceOptions": {
-          "calcs": ["lastNotNull"],
+          "calcs": [
+            "lastNotNull"
+          ],
           "fields": "",
           "values": false
         },
@@ -239,21 +361,37 @@
       "pluginVersion": "11.6.0",
       "targets": [
         {
-          "application": { "filter": "" },
+          "application": {
+            "filter": ""
+          },
           "datasource": {
             "type": "alexanderzobnin-zabbix-datasource",
             "uid": "PA67C5EADE9207728"
           },
-          "group": { "filter": "$group" },
-          "host": { "filter": "$endpoint" },
-          "item": { "filter": "Path route changed [$target]" },
-          "itemTag": { "filter": "" },
+          "group": {
+            "filter": "$group"
+          },
+          "host": {
+            "filter": "$endpoint"
+          },
+          "item": {
+            "filter": "Path route changed [$target]"
+          },
+          "itemTag": {
+            "filter": ""
+          },
           "mode": 0,
-          "options": { "showDisabledItems": false },
+          "options": {
+            "showDisabledItems": false
+          },
           "refId": "A",
           "resultFormat": "time_series",
-          "tags": { "filter": "" },
-          "trigger": { "filter": "" }
+          "tags": {
+            "filter": ""
+          },
+          "trigger": {
+            "filter": ""
+          }
         }
       ],
       "title": "Path Route Stability",
@@ -261,17 +399,27 @@
     },
     {
       "collapsed": false,
-      "gridPos": { "h": 1, "w": 24, "x": 0, "y": 5 },
+      "gridPos": {
+        "h": 1,
+        "w": 24,
+        "x": 0,
+        "y": 5
+      },
       "id": 6,
       "title": "Control Plane Policing (CoPP) Guard & Interpretation Notice",
       "type": "row"
     },
     {
-      "gridPos": { "h": 4, "w": 24, "x": 0, "y": 6 },
+      "gridPos": {
+        "h": 4,
+        "w": 24,
+        "x": 0,
+        "y": 6
+      },
       "id": 7,
-      "description": "Technical notice explaining Control Plane Policing (CoPP) mechanics in modern router backbones. Transit data packets are prioritized in hardware ASICs, while ICMP Time Exceeded packets are rate-limited by router CPUs. Hops showing packet loss or timeouts must not be classified as network failures if downstream hops and destinations are responsive.",
+      "description": "Technical notice explaining Control Plane Policing (CoPP) mechanics in modern router backbones. Transit data packets are prioritized in hardware ASICs, while ICMP Time Exceeded packets are rate-limited by router CPUs. Hops showing packet loss or timeouts must not be classified as network failures if downstream hops and destinations are responsive. Missing data indicates collector outage, agent failure, or network disruption; values are preserved as null gaps.",
       "options": {
-        "content": "> 🛡️ **Control Plane Policing (CoPP) Guard Active**\n>\n> In modern enterprise and carrier backbones, core routing engines prioritize transit data-plane packets and aggressively rate-limit or drop ICMP `Time Exceeded` generation generated by their control plane CPUs.\n>\n> **Operational Invariant:** An intermediate hop showing timeouts (`*`) or high loss is **non-impairing** if downstream hops or the target destination are healthy (Loss < 20%). Nawari classifies these hops as `TIMEOUT_COPP` (CoPP Rate-Limited) and strictly omits synthetic RTT metrics, preventing spurious alarms and false ticket escalations to transit carriers.",
+        "content": "> \ud83d\udee1\ufe0f **Control Plane Policing (CoPP) Guard Active**\n>\n> In modern enterprise and carrier backbones, core routing engines prioritize transit data-plane packets and aggressively rate-limit or drop ICMP `Time Exceeded` generation generated by their control plane CPUs.\n>\n> **Operational Invariant:** An intermediate hop showing timeouts (`*`) or high loss is **non-impairing** if downstream hops or the target destination are healthy (Loss < 20%). Nawari classifies these hops as `TIMEOUT_COPP` (CoPP Rate-Limited) and strictly omits synthetic RTT metrics, preventing spurious alarms and false ticket escalations to transit carriers.",
         "mode": "markdown"
       },
       "pluginVersion": "11.6.0",
@@ -280,7 +428,12 @@
     },
     {
       "collapsed": false,
-      "gridPos": { "h": 1, "w": 24, "x": 0, "y": 10 },
+      "gridPos": {
+        "h": 1,
+        "w": 24,
+        "x": 0,
+        "y": 10
+      },
       "id": 8,
       "title": "Hop-by-Hop Topology & Performance Waterfall",
       "type": "row"
@@ -292,19 +445,35 @@
       },
       "fieldConfig": {
         "defaults": {
-          "color": { "mode": "thresholds" },
+          "color": {
+            "mode": "thresholds"
+          },
           "custom": {
             "align": "auto",
-            "cellOptions": { "type": "auto" },
+            "cellOptions": {
+              "type": "auto"
+            },
             "inspect": false
           },
           "mappings": [
             {
               "options": {
-                "0": { "color": "green", "text": "RESPONSIVE" },
-                "1": { "color": "blue", "text": "COPP_RATE_LIMITED" },
-                "2": { "color": "red", "text": "UNREACHABLE" },
-                "3": { "color": "purple", "text": "ANONYMOUS_MPLS" }
+                "0": {
+                  "color": "green",
+                  "text": "RESPONSIVE"
+                },
+                "1": {
+                  "color": "blue",
+                  "text": "COPP_RATE_LIMITED"
+                },
+                "2": {
+                  "color": "red",
+                  "text": "UNREACHABLE"
+                },
+                "3": {
+                  "color": "purple",
+                  "text": "ANONYMOUS_MPLS"
+                }
               },
               "type": "value"
             }
@@ -312,38 +481,69 @@
           "thresholds": {
             "mode": "absolute",
             "steps": [
-              { "color": "green", "value": null }
+              {
+                "color": "green",
+                "value": null
+              }
             ]
           }
         },
         "overrides": []
       },
-      "gridPos": { "h": 9, "w": 24, "x": 0, "y": 11 },
+      "gridPos": {
+        "h": 9,
+        "w": 24,
+        "x": 0,
+        "y": 11
+      },
       "id": 9,
-      "description": "Detailed hop-by-hop breakdown showing router IP addresses, reverse DNS hostnames, autonomous system numbers (ASN), average RTT, packet loss, and CoPP status. Identifies exactly which network transit hop introduces latency or packet loss. Non-responsive hops marked COPP_RATE_LIMITED indicate benign control plane filtering rather than link failure.",
+      "description": "Detailed hop-by-hop breakdown showing router IP addresses, reverse DNS hostnames, autonomous system numbers (ASN), average RTT, packet loss, and CoPP status. Identifies exactly which network transit hop introduces latency or packet loss. Non-responsive hops marked COPP_RATE_LIMITED indicate benign control plane filtering rather than link failure. Missing data indicates collector outage, agent failure, or network disruption; values are preserved as null gaps.",
       "options": {
-        "footer": { "countRows": false, "fields": "", "reducer": ["sum"], "show": false },
+        "footer": {
+          "countRows": false,
+          "fields": "",
+          "reducer": [
+            "sum"
+          ],
+          "show": false
+        },
         "showHeader": true,
         "sortBy": []
       },
       "pluginVersion": "11.6.0",
       "targets": [
         {
-          "application": { "filter": "" },
+          "application": {
+            "filter": ""
+          },
           "datasource": {
             "type": "alexanderzobnin-zabbix-datasource",
             "uid": "PA67C5EADE9207728"
           },
-          "group": { "filter": "$group" },
-          "host": { "filter": "$endpoint" },
-          "item": { "filter": "/nawari.path.hop..*[$target,.*/" },
-          "itemTag": { "filter": "" },
+          "group": {
+            "filter": "$group"
+          },
+          "host": {
+            "filter": "$endpoint"
+          },
+          "item": {
+            "filter": "/nawari.path.hop..*[$target,.*/"
+          },
+          "itemTag": {
+            "filter": ""
+          },
           "mode": 0,
-          "options": { "showDisabledItems": false },
+          "options": {
+            "showDisabledItems": false
+          },
           "refId": "A",
           "resultFormat": "time_series",
-          "tags": { "filter": "" },
-          "trigger": { "filter": "" }
+          "tags": {
+            "filter": ""
+          },
+          "trigger": {
+            "filter": ""
+          }
         }
       ],
       "title": "Discovered Hop Details (IP, RTT, Packet Loss, CoPP Status)",
@@ -351,7 +551,12 @@
     },
     {
       "collapsed": false,
-      "gridPos": { "h": 1, "w": 24, "x": 0, "y": 20 },
+      "gridPos": {
+        "h": 1,
+        "w": 24,
+        "x": 0,
+        "y": 20
+      },
       "id": 10,
       "title": "Hop Latency Progression & Bottleneck Detection",
       "type": "row"
@@ -363,52 +568,96 @@
       },
       "fieldConfig": {
         "defaults": {
-          "color": { "mode": "palette-classic" },
+          "color": {
+            "mode": "palette-classic"
+          },
           "custom": {
             "axisLabel": "Hop RTT (s)",
             "fillOpacity": 15,
             "lineWidth": 2,
-            "scaleDistribution": { "type": "linear" }
+            "scaleDistribution": {
+              "type": "linear"
+            }
           },
           "mappings": [],
           "noValue": "STALE / NO DATA",
           "thresholds": {
             "mode": "absolute",
             "steps": [
-              { "color": "green", "value": null },
-              { "color": "yellow", "value": 0.04 },
-              { "color": "red", "value": 0.1 }
+              {
+                "color": "green",
+                "value": null
+              },
+              {
+                "color": "yellow",
+                "value": 0.04
+              },
+              {
+                "color": "red",
+                "value": 0.1
+              }
             ]
           },
           "unit": "s"
         },
         "overrides": []
       },
-      "gridPos": { "h": 7, "w": 24, "x": 0, "y": 21 },
+      "gridPos": {
+        "h": 7,
+        "w": 24,
+        "x": 0,
+        "y": 21
+      },
       "id": 11,
-      "description": "Visualizes cumulative round-trip latency as packets traverse each successive hop toward the target. Sharp increases (>40 ms) between consecutive hops isolate congested physical spans, submarine cable transitions, or satellite links. Helps distinguish whether latency originates in the local LAN, enterprise WAN, or third-party ISP transit.",
+      "description": "Visualizes cumulative round-trip latency as packets traverse each successive hop toward the target. Sharp increases (>40 ms) between consecutive hops isolate congested physical spans, submarine cable transitions, or satellite links. Helps distinguish whether latency originates in the local LAN, enterprise WAN, or third-party ISP transit. Missing data indicates collector outage, agent failure, or network disruption; values are preserved as null gaps.",
       "options": {
-        "legend": { "calcs": ["mean", "max", "lastNotNull"], "displayMode": "table", "placement": "bottom" },
-        "tooltip": { "mode": "multi" }
+        "legend": {
+          "calcs": [
+            "mean",
+            "max",
+            "lastNotNull"
+          ],
+          "displayMode": "table",
+          "placement": "bottom"
+        },
+        "tooltip": {
+          "mode": "multi"
+        }
       },
       "pluginVersion": "11.6.0",
       "targets": [
         {
-          "application": { "filter": "" },
+          "application": {
+            "filter": ""
+          },
           "datasource": {
             "type": "alexanderzobnin-zabbix-datasource",
             "uid": "PA67C5EADE9207728"
           },
-          "group": { "filter": "$group" },
-          "host": { "filter": "$endpoint" },
-          "item": { "filter": "/nawari.path.hop.rtt[$target,.*/" },
-          "itemTag": { "filter": "" },
+          "group": {
+            "filter": "$group"
+          },
+          "host": {
+            "filter": "$endpoint"
+          },
+          "item": {
+            "filter": "/nawari.path.hop.rtt[$target,.*/"
+          },
+          "itemTag": {
+            "filter": ""
+          },
           "mode": 0,
-          "options": { "showDisabledItems": false },
+          "options": {
+            "showDisabledItems": false
+          },
           "refId": "A",
           "resultFormat": "time_series",
-          "tags": { "filter": "" },
-          "trigger": { "filter": "" }
+          "tags": {
+            "filter": ""
+          },
+          "trigger": {
+            "filter": ""
+          }
         }
       ],
       "title": "Hop Latency Progression Waterfall (Detecting >40ms Latency Jumps)",
@@ -416,7 +665,12 @@
     },
     {
       "collapsed": false,
-      "gridPos": { "h": 1, "w": 24, "x": 0, "y": 28 },
+      "gridPos": {
+        "h": 1,
+        "w": 24,
+        "x": 0,
+        "y": 28
+      },
       "id": 12,
       "title": "Route Stability & Path Change Timeline",
       "type": "row"
@@ -428,7 +682,9 @@
       },
       "fieldConfig": {
         "defaults": {
-          "color": { "mode": "thresholds" },
+          "color": {
+            "mode": "thresholds"
+          },
           "custom": {
             "axisLabel": "Route Divergence",
             "fillOpacity": 25,
@@ -437,8 +693,14 @@
           "mappings": [
             {
               "options": {
-                "0": { "color": "green", "text": "STABLE" },
-                "1": { "color": "red", "text": "ROUTE CHANGED" }
+                "0": {
+                  "color": "green",
+                  "text": "STABLE"
+                },
+                "1": {
+                  "color": "red",
+                  "text": "ROUTE CHANGED"
+                }
               },
               "type": "value"
             }
@@ -447,38 +709,70 @@
           "thresholds": {
             "mode": "absolute",
             "steps": [
-              { "color": "green", "value": null },
-              { "color": "red", "value": 1 }
+              {
+                "color": "green",
+                "value": null
+              },
+              {
+                "color": "red",
+                "value": 1
+              }
             ]
           }
         },
         "overrides": []
       },
-      "gridPos": { "h": 6, "w": 24, "x": 0, "y": 29 },
+      "gridPos": {
+        "h": 6,
+        "w": 24,
+        "x": 0,
+        "y": 29
+      },
       "id": 13,
-      "description": "Tracks changes in the SHA-256 path signature over time, showing when routing topology shifted. Spikes to 1 indicate an detected change in IP hop sequence, transit ASNs, or interface path. Correlate path change events with latency jumps or voice quality drops to determine whether ISP routing updates caused service degradation.",
+      "description": "Tracks changes in the SHA-256 path signature over time, showing when routing topology shifted. Spikes to 1 indicate an detected change in IP hop sequence, transit ASNs, or interface path. Correlate path change events with latency jumps or voice quality drops to determine whether ISP routing updates caused service degradation. Missing data indicates collector outage, agent failure, or network disruption; values are preserved as null gaps.",
       "options": {
-        "legend": { "displayMode": "list", "placement": "bottom" },
-        "tooltip": { "mode": "single" }
+        "legend": {
+          "displayMode": "list",
+          "placement": "bottom"
+        },
+        "tooltip": {
+          "mode": "single"
+        }
       },
       "pluginVersion": "11.6.0",
       "targets": [
         {
-          "application": { "filter": "" },
+          "application": {
+            "filter": ""
+          },
           "datasource": {
             "type": "alexanderzobnin-zabbix-datasource",
             "uid": "PA67C5EADE9207728"
           },
-          "group": { "filter": "$group" },
-          "host": { "filter": "$endpoint" },
-          "item": { "filter": "Path route changed [$target]" },
-          "itemTag": { "filter": "" },
+          "group": {
+            "filter": "$group"
+          },
+          "host": {
+            "filter": "$endpoint"
+          },
+          "item": {
+            "filter": "Path route changed [$target]"
+          },
+          "itemTag": {
+            "filter": ""
+          },
           "mode": 0,
-          "options": { "showDisabledItems": false },
+          "options": {
+            "showDisabledItems": false
+          },
           "refId": "A",
           "resultFormat": "time_series",
-          "tags": { "filter": "" },
-          "trigger": { "filter": "" }
+          "tags": {
+            "filter": ""
+          },
+          "trigger": {
+            "filter": ""
+          }
         }
       ],
       "title": "Route Divergence History (Path Signature Hash Transitions)",
@@ -487,12 +781,26 @@
   ],
   "refresh": "10s",
   "schemaVersion": 39,
-  "tags": ["nawari", "network", "path", "traceroute", "copp", "phase7"],
+  "tags": [
+    "nawari",
+    "network",
+    "path",
+    "traceroute",
+    "copp",
+    "phase7"
+  ],
   "templating": {
     "list": [
       {
-        "current": { "selected": true, "text": "Endpoints", "value": "Endpoints" },
-        "datasource": { "type": "alexanderzobnin-zabbix-datasource", "uid": "PA67C5EADE9207728" },
+        "current": {
+          "selected": true,
+          "text": "Endpoints",
+          "value": "Endpoints"
+        },
+        "datasource": {
+          "type": "alexanderzobnin-zabbix-datasource",
+          "uid": "PA67C5EADE9207728"
+        },
         "definition": "*",
         "hide": 0,
         "includeAll": false,
@@ -507,8 +815,15 @@
         "type": "query"
       },
       {
-        "current": { "selected": true, "text": "endpoint-probe-01", "value": "endpoint-probe-01" },
-        "datasource": { "type": "alexanderzobnin-zabbix-datasource", "uid": "PA67C5EADE9207728" },
+        "current": {
+          "selected": true,
+          "text": "endpoint-probe-01",
+          "value": "endpoint-probe-01"
+        },
+        "datasource": {
+          "type": "alexanderzobnin-zabbix-datasource",
+          "uid": "PA67C5EADE9207728"
+        },
         "definition": "$group.*",
         "hide": 0,
         "includeAll": false,
@@ -523,8 +838,15 @@
         "type": "query"
       },
       {
-        "current": { "selected": true, "text": "avaya-sbce", "value": "avaya-sbce" },
-        "datasource": { "type": "alexanderzobnin-zabbix-datasource", "uid": "PA67C5EADE9207728" },
+        "current": {
+          "selected": true,
+          "text": "avaya-sbce",
+          "value": "avaya-sbce"
+        },
+        "datasource": {
+          "type": "alexanderzobnin-zabbix-datasource",
+          "uid": "PA67C5EADE9207728"
+        },
         "definition": "$group.$endpoint.Path end-to-end latency [*]",
         "hide": 0,
         "includeAll": false,
@@ -545,10 +867,15 @@
     "to": "now"
   },
   "timepicker": {
-    "refresh_intervals": ["5s", "10s", "30s", "1m", "5m"]
+    "refresh_intervals": [
+      "5s",
+      "10s",
+      "30s",
+      "1m",
+      "5m"
+    ]
   },
   "timezone": "browser",
-  "title": "Nawari — Network Path & Directional Hop Analysis",
+  "title": "Nawari \u2014 Network Path & Directional Hop Analysis",
   "uid": "nawari-path-analysis"
 }
-

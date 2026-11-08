@@ -26,7 +26,7 @@
         "type": "alexanderzobnin-zabbix-datasource",
         "uid": "PA67C5EADE9207728"
       },
-      "description": "Operational registration state of the primary Safaricom SIP trunk terminating on Avaya SBCE interface A1. 1 = REGISTERED, 0 = UNREGISTERED / FAILED. Source: Zabbix SNMP/SIP OPTIONS check on SBCE. Crucial Note: Proves layer-5 signaling reachability only; does NOT guarantee absence of voice packet loss or acceptable audio quality.",
+      "description": "Operational registration state of the primary Safaricom SIP trunk terminating on Avaya SBCE interface A1. 1 = REGISTERED, 0 = UNREGISTERED / FAILED. Source: Zabbix SNMP/SIP OPTIONS check on SBCE. Crucial Note: Proves layer-5 signaling reachability only; does NOT guarantee absence of voice packet loss or acceptable audio quality. Missing data indicates collector outage, agent failure, or network disruption; values are preserved as null gaps.",
       "fieldConfig": {
         "defaults": {
           "color": {
@@ -106,7 +106,7 @@
         "type": "alexanderzobnin-zabbix-datasource",
         "uid": "PA67C5EADE9207728"
       },
-      "description": "Operational registration state of the secondary Airtel SIP trunk terminating on Avaya SBCE interface A1. 1 = REGISTERED, 0 = UNREGISTERED / FAILED. Source: Zabbix SNMP/SIP OPTIONS check on SBCE. Signaling reachability only.",
+      "description": "Operational registration state of the secondary Airtel SIP trunk terminating on Avaya SBCE interface A1. 1 = REGISTERED, 0 = UNREGISTERED / FAILED. Source: Zabbix SNMP/SIP OPTIONS check on SBCE. Signaling reachability only. Missing data indicates collector outage, agent failure, or network disruption; values are preserved as null gaps.",
       "fieldConfig": {
         "defaults": {
           "color": {
@@ -186,7 +186,7 @@
         "type": "alexanderzobnin-zabbix-datasource",
         "uid": "PA67C5EADE9207728"
       },
-      "description": "Round-trip latency in milliseconds for SIP OPTIONS heartbeat pings exchanged with carrier SBC endpoints (Safaricom vs Airtel). Units: Milliseconds (ms). Warning: > 50ms, Critical: > 100ms. Source: Zabbix SIP OPTIONS probe. Polling: 30s.",
+      "description": "Round-trip latency in milliseconds for SIP OPTIONS heartbeat pings exchanged with carrier SBC endpoints (Safaricom vs Airtel). Units: Milliseconds (ms). Warning: > 50ms, Critical: > 100ms. Source: Zabbix SIP OPTIONS probe. Polling: 30s. Missing data indicates collector outage, agent failure, or network disruption; values are preserved as null gaps.",
       "fieldConfig": {
         "defaults": {
           "custom": {
@@ -256,7 +256,7 @@
         "type": "alexanderzobnin-zabbix-datasource",
         "uid": "PA67C5EADE9207728"
       },
-      "description": "Post-Dial Delay (PDD: INVITE to 18x), Time-to-Alerting (TTA: INVITE to 180 Ringing), and Call Setup Duration measured in milliseconds from synthetic Asterisk test calls across carrier trunks. Source: Asterisk AMI call logs. Limitations: Reflects synthetic probe calls between test extensions.",
+      "description": "Post-Dial Delay (PDD: INVITE to 18x), Time-to-Alerting (TTA: INVITE to 180 Ringing), and Call Setup Duration measured in milliseconds from synthetic Asterisk test calls across carrier trunks. Source: Asterisk AMI call logs. Limitations: Reflects synthetic probe calls between test extensions. Missing data indicates collector outage, agent failure, or network disruption; values are preserved as null gaps.",
       "fieldConfig": {
         "defaults": {
           "custom": {
@@ -335,7 +335,7 @@
         "type": "alexanderzobnin-zabbix-datasource",
         "uid": "PA67C5EADE9207728"
       },
-      "description": "Distribution of SIP response codes returned by carrier networks during synthetic probe calls: differentiates expected station states (480 offline, 486 busy, 487 teardown) from carrier/infrastructure failures (500 Server Internal Error, 502 Bad Gateway, 503 Service Unavailable, 504 Gateway Timeout). Source: Synthetic Asterisk transaction logs.",
+      "description": "Distribution of SIP response codes returned by carrier networks during synthetic probe calls: differentiates expected station states (480 offline, 486 busy, 487 teardown) from carrier/infrastructure failures (500 Server Internal Error, 502 Bad Gateway, 503 Service Unavailable, 504 Gateway Timeout). Source: Synthetic Asterisk transaction logs. Missing data indicates collector outage, agent failure, or network disruption; values are preserved as null gaps.",
       "fieldConfig": {
         "defaults": {
           "unit": "short"
@@ -393,7 +393,7 @@
         "type": "alexanderzobnin-zabbix-datasource",
         "uid": "PA67C5EADE9207728"
       },
-      "description": "Bidirectional network bandwidth utilization on external interface A1 carrying carrier SIP signaling and RTP media streams. Units: Bits per second (bps). Source: IF-MIB on Avaya SBCE via Zabbix SNMPv3. Polling: 30s.",
+      "description": "Bidirectional network bandwidth utilization on external interface A1 carrying carrier SIP signaling and RTP media streams. Units: Bits per second (bps). Source: IF-MIB on Avaya SBCE via Zabbix SNMPv3. Polling: 30s. Missing data indicates collector outage, agent failure, or network disruption; values are preserved as null gaps.",
       "fieldConfig": {
         "defaults": {
           "custom": {
@@ -451,7 +451,7 @@
         "type": "alexanderzobnin-zabbix-datasource",
         "uid": "PA67C5EADE9207728"
       },
-      "description": "Rate of inbound and outbound frame/packet errors detected on carrier interface A1. Units: Errors per second. Source: IF-MIB ifInErrors / ifOutErrors. Any non-zero error rate directly degrades voice audio quality, causing clipping and metallic distortion.",
+      "description": "Rate of inbound and outbound frame/packet errors detected on carrier interface A1. Units: Errors per second. Source: IF-MIB ifInErrors / ifOutErrors. Any non-zero error rate directly degrades voice audio quality, causing clipping and metallic distortion. Missing data indicates collector outage, agent failure, or network disruption; values are preserved as null gaps.",
       "fieldConfig": {
         "defaults": {
           "color": {

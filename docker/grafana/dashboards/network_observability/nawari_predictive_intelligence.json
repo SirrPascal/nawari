@@ -12,7 +12,12 @@
   "panels": [
     {
       "collapsed": false,
-      "gridPos": { "h": 1, "w": 24, "x": 0, "y": 0 },
+      "gridPos": {
+        "h": 1,
+        "w": 24,
+        "x": 0,
+        "y": 0
+      },
       "id": 1,
       "title": "Predictive Health Radar & Active Statistical Deviations",
       "type": "row"
@@ -22,52 +27,98 @@
         "type": "alexanderzobnin-zabbix-datasource",
         "uid": "PA67C5EADE9207728"
       },
-      "description": "Real-time count of active statistical deviations across domains evaluated against dynamic diurnal baselines (|Z| >= 3.0 with 3-cycle persistence). High values indicate widespread operational anomalies.",
+      "description": "Real-time count of active statistical deviations across domains evaluated against dynamic diurnal baselines (|Z| >= 3.0 with 3-cycle persistence). High values indicate widespread operational anomalies. Missing data indicates collector outage, agent failure, or network disruption; values are preserved as null gaps.",
       "fieldConfig": {
         "defaults": {
-          "color": { "mode": "thresholds" },
+          "color": {
+            "mode": "thresholds"
+          },
           "mappings": [],
           "thresholds": {
             "mode": "absolute",
             "steps": [
-              { "color": "green", "value": null },
-              { "color": "yellow", "value": 1 },
-              { "color": "red", "value": 5 }
+              {
+                "color": "green",
+                "value": null
+              },
+              {
+                "color": "yellow",
+                "value": 1
+              },
+              {
+                "color": "red",
+                "value": 5
+              }
             ]
           },
           "unit": "short"
         },
         "overrides": []
       },
-      "gridPos": { "h": 7, "w": 8, "x": 0, "y": 1 },
+      "gridPos": {
+        "h": 7,
+        "w": 8,
+        "x": 0,
+        "y": 1
+      },
       "id": 2,
       "options": {
         "orientation": "auto",
-        "reduceOptions": { "calcs": ["lastNotNull"], "fields": "", "values": false },
+        "reduceOptions": {
+          "calcs": [
+            "lastNotNull"
+          ],
+          "fields": "",
+          "values": false
+        },
         "showThresholdLabels": false,
         "showThresholdMarkers": true
       },
       "pluginVersion": "11.0.0",
       "targets": [
         {
-          "application": { "name": "Predictive Analytics" },
-          "group": { "name": "Analytics Engine" },
-          "host": { "name": "mon-grafana01" },
-          "item": { "name": "Active Anomaly Count (Voice)" },
+          "application": {
+            "name": "Predictive Analytics"
+          },
+          "group": {
+            "name": "Analytics Engine"
+          },
+          "host": {
+            "name": "mon-grafana01"
+          },
+          "item": {
+            "name": "Active Anomaly Count (Voice)"
+          },
           "refId": "VoiceAnom"
         },
         {
-          "application": { "name": "Predictive Analytics" },
-          "group": { "name": "Analytics Engine" },
-          "host": { "name": "mon-grafana01" },
-          "item": { "name": "Active Anomaly Count (Network)" },
+          "application": {
+            "name": "Predictive Analytics"
+          },
+          "group": {
+            "name": "Analytics Engine"
+          },
+          "host": {
+            "name": "mon-grafana01"
+          },
+          "item": {
+            "name": "Active Anomaly Count (Network)"
+          },
           "refId": "NetAnom"
         },
         {
-          "application": { "name": "Predictive Analytics" },
-          "group": { "name": "Analytics Engine" },
-          "host": { "name": "mon-grafana01" },
-          "item": { "name": "Active Anomaly Count (Endpoints)" },
+          "application": {
+            "name": "Predictive Analytics"
+          },
+          "group": {
+            "name": "Analytics Engine"
+          },
+          "host": {
+            "name": "mon-grafana01"
+          },
+          "item": {
+            "name": "Active Anomaly Count (Endpoints)"
+          },
           "refId": "EpAnom"
         }
       ],
@@ -79,46 +130,87 @@
         "type": "alexanderzobnin-zabbix-datasource",
         "uid": "PA67C5EADE9207728"
       },
-      "description": "Projects estimated hours until critical resource ceilings (SBCE licensed session pool, switch uplink bandwidth) reach safe operational limits (85%) or hard saturation (100%). Gated on R^2 >= 0.70 fit quality.",
+      "description": "Projects estimated hours until critical resource ceilings (SBCE licensed session pool, switch uplink bandwidth) reach safe operational limits (85%) or hard saturation (100%). Gated on R^2 >= 0.70 fit quality. Missing data indicates collector outage, agent failure, or network disruption; values are preserved as null gaps.",
       "fieldConfig": {
         "defaults": {
-          "color": { "mode": "thresholds" },
+          "color": {
+            "mode": "thresholds"
+          },
           "mappings": [],
           "thresholds": {
             "mode": "absolute",
             "steps": [
-              { "color": "red", "value": null },
-              { "color": "orange", "value": 4 },
-              { "color": "yellow", "value": 12 },
-              { "color": "green", "value": 24 }
+              {
+                "color": "red",
+                "value": null
+              },
+              {
+                "color": "orange",
+                "value": 4
+              },
+              {
+                "color": "yellow",
+                "value": 12
+              },
+              {
+                "color": "green",
+                "value": 24
+              }
             ]
           },
           "unit": "h"
         },
         "overrides": []
       },
-      "gridPos": { "h": 7, "w": 16, "x": 8, "y": 1 },
+      "gridPos": {
+        "h": 7,
+        "w": 16,
+        "x": 8,
+        "y": 1
+      },
       "id": 3,
       "options": {
         "orientation": "horizontal",
-        "reduceOptions": { "calcs": ["lastNotNull"], "fields": "", "values": false },
+        "reduceOptions": {
+          "calcs": [
+            "lastNotNull"
+          ],
+          "fields": "",
+          "values": false
+        },
         "showThresholdLabels": true,
         "showThresholdMarkers": true
       },
       "pluginVersion": "11.0.0",
       "targets": [
         {
-          "application": { "name": "Predictive Analytics" },
-          "group": { "name": "Analytics Engine" },
-          "host": { "name": "mon-grafana01" },
-          "item": { "name": "TTE Safe Horizon (SBCE Sessions)" },
+          "application": {
+            "name": "Predictive Analytics"
+          },
+          "group": {
+            "name": "Analytics Engine"
+          },
+          "host": {
+            "name": "mon-grafana01"
+          },
+          "item": {
+            "name": "TTE Safe Horizon (SBCE Sessions)"
+          },
           "refId": "TTESbce"
         },
         {
-          "application": { "name": "Predictive Analytics" },
-          "group": { "name": "Analytics Engine" },
-          "host": { "name": "mon-grafana01" },
-          "item": { "name": "TTE Safe Horizon (Core Uplink Bandwidth)" },
+          "application": {
+            "name": "Predictive Analytics"
+          },
+          "group": {
+            "name": "Analytics Engine"
+          },
+          "host": {
+            "name": "mon-grafana01"
+          },
+          "item": {
+            "name": "TTE Safe Horizon (Core Uplink Bandwidth)"
+          },
           "refId": "TTENet"
         }
       ],
@@ -127,7 +219,12 @@
     },
     {
       "collapsed": false,
-      "gridPos": { "h": 1, "w": 24, "x": 0, "y": 8 },
+      "gridPos": {
+        "h": 1,
+        "w": 24,
+        "x": 0,
+        "y": 8
+      },
       "id": 4,
       "title": "Dynamic Diurnal Baseline Corridors & Trajectory Tracking",
       "type": "row"
@@ -137,10 +234,12 @@
         "type": "alexanderzobnin-zabbix-datasource",
         "uid": "PA67C5EADE9207728"
       },
-      "description": "Compares observed metric values against dynamic historical diurnal baseline bands ([μ - 2.5σ, μ + 2.5σ]) computed per hour and day-of-week. Excursions outside the shaded corridor trigger statistical anomaly evaluations.",
+      "description": "Compares observed metric values against dynamic historical diurnal baseline bands ([\u03bc - 2.5\u03c3, \u03bc + 2.5\u03c3]) computed per hour and day-of-week. Excursions outside the shaded corridor trigger statistical anomaly evaluations. Missing data indicates collector outage, agent failure, or network disruption; values are preserved as null gaps.",
       "fieldConfig": {
         "defaults": {
-          "color": { "mode": "palette-classic" },
+          "color": {
+            "mode": "palette-classic"
+          },
           "custom": {
             "axisBorderShow": false,
             "axisCenteredZero": false,
@@ -155,32 +254,72 @@
         },
         "overrides": []
       },
-      "gridPos": { "h": 8, "w": 14, "x": 0, "y": 9 },
+      "gridPos": {
+        "h": 8,
+        "w": 14,
+        "x": 0,
+        "y": 9
+      },
       "id": 5,
       "options": {
-        "legend": { "displayMode": "table", "placement": "bottom", "calcs": ["lastNotNull", "max", "mean"] },
-        "tooltip": { "mode": "multi", "sort": "desc" }
+        "legend": {
+          "displayMode": "table",
+          "placement": "bottom",
+          "calcs": [
+            "lastNotNull",
+            "max",
+            "mean"
+          ]
+        },
+        "tooltip": {
+          "mode": "multi",
+          "sort": "desc"
+        }
       },
       "targets": [
         {
-          "application": { "name": "Predictive Analytics" },
-          "group": { "name": "Analytics Engine" },
-          "host": { "name": "mon-grafana01" },
-          "item": { "name": "Observed Metric Value" },
+          "application": {
+            "name": "Predictive Analytics"
+          },
+          "group": {
+            "name": "Analytics Engine"
+          },
+          "host": {
+            "name": "mon-grafana01"
+          },
+          "item": {
+            "name": "Observed Metric Value"
+          },
           "refId": "Actual"
         },
         {
-          "application": { "name": "Predictive Analytics" },
-          "group": { "name": "Analytics Engine" },
-          "host": { "name": "mon-grafana01" },
-          "item": { "name": "Baseline Upper Bound (2.5σ)" },
+          "application": {
+            "name": "Predictive Analytics"
+          },
+          "group": {
+            "name": "Analytics Engine"
+          },
+          "host": {
+            "name": "mon-grafana01"
+          },
+          "item": {
+            "name": "Baseline Upper Bound (2.5\u03c3)"
+          },
           "refId": "Upper"
         },
         {
-          "application": { "name": "Predictive Analytics" },
-          "group": { "name": "Analytics Engine" },
-          "host": { "name": "mon-grafana01" },
-          "item": { "name": "Baseline Lower Bound (2.5σ)" },
+          "application": {
+            "name": "Predictive Analytics"
+          },
+          "group": {
+            "name": "Analytics Engine"
+          },
+          "host": {
+            "name": "mon-grafana01"
+          },
+          "item": {
+            "name": "Baseline Lower Bound (2.5\u03c3)"
+          },
           "refId": "Lower"
         }
       ],
@@ -192,10 +331,12 @@
         "type": "alexanderzobnin-zabbix-datasource",
         "uid": "PA67C5EADE9207728"
       },
-      "description": "Calculates voice quality drift velocity (dMOS/dt). Projects forward MOS at 15-minute and 30-minute horizons. Negative slopes steeper than -0.15 MOS/10min trigger early degradation pre-alarms.",
+      "description": "Calculates voice quality drift velocity (dMOS/dt). Projects forward MOS at 15-minute and 30-minute horizons. Negative slopes steeper than -0.15 MOS/10min trigger early degradation pre-alarms. Missing data indicates collector outage, agent failure, or network disruption; values are preserved as null gaps.",
       "fieldConfig": {
         "defaults": {
-          "color": { "mode": "palette-classic" },
+          "color": {
+            "mode": "palette-classic"
+          },
           "custom": {
             "axisBorderShow": false,
             "axisCenteredZero": false,
@@ -213,32 +354,72 @@
         },
         "overrides": []
       },
-      "gridPos": { "h": 8, "w": 10, "x": 14, "y": 9 },
+      "gridPos": {
+        "h": 8,
+        "w": 10,
+        "x": 14,
+        "y": 9
+      },
       "id": 6,
       "options": {
-        "legend": { "displayMode": "table", "placement": "bottom", "calcs": ["lastNotNull", "min", "mean"] },
-        "tooltip": { "mode": "multi", "sort": "desc" }
+        "legend": {
+          "displayMode": "table",
+          "placement": "bottom",
+          "calcs": [
+            "lastNotNull",
+            "min",
+            "mean"
+          ]
+        },
+        "tooltip": {
+          "mode": "multi",
+          "sort": "desc"
+        }
       },
       "targets": [
         {
-          "application": { "name": "Predictive Analytics" },
-          "group": { "name": "Analytics Engine" },
-          "host": { "name": "mon-grafana01" },
-          "item": { "name": "Current Voice MOS" },
+          "application": {
+            "name": "Predictive Analytics"
+          },
+          "group": {
+            "name": "Analytics Engine"
+          },
+          "host": {
+            "name": "mon-grafana01"
+          },
+          "item": {
+            "name": "Current Voice MOS"
+          },
           "refId": "MOS"
         },
         {
-          "application": { "name": "Predictive Analytics" },
-          "group": { "name": "Analytics Engine" },
-          "host": { "name": "mon-grafana01" },
-          "item": { "name": "Projected MOS (15m Horizon)" },
+          "application": {
+            "name": "Predictive Analytics"
+          },
+          "group": {
+            "name": "Analytics Engine"
+          },
+          "host": {
+            "name": "mon-grafana01"
+          },
+          "item": {
+            "name": "Projected MOS (15m Horizon)"
+          },
           "refId": "Proj15"
         },
         {
-          "application": { "name": "Predictive Analytics" },
-          "group": { "name": "Analytics Engine" },
-          "host": { "name": "mon-grafana01" },
-          "item": { "name": "Projected MOS (30m Horizon)" },
+          "application": {
+            "name": "Predictive Analytics"
+          },
+          "group": {
+            "name": "Analytics Engine"
+          },
+          "host": {
+            "name": "mon-grafana01"
+          },
+          "item": {
+            "name": "Projected MOS (30m Horizon)"
+          },
           "refId": "Proj30"
         }
       ],
@@ -247,7 +428,12 @@
     },
     {
       "collapsed": false,
-      "gridPos": { "h": 1, "w": 24, "x": 0, "y": 17 },
+      "gridPos": {
+        "h": 1,
+        "w": 24,
+        "x": 0,
+        "y": 17
+      },
       "id": 7,
       "title": "Intelligent Diagnosis & Evidence-Ranked Root Cause Hypotheses",
       "type": "row"
@@ -257,35 +443,69 @@
         "type": "alexanderzobnin-zabbix-datasource",
         "uid": "PA67C5EADE9207728"
       },
-      "description": "Displays evidence-ranked diagnostic hypotheses. Evaluates cross-domain evidence across topology, counting supporting vs contradicting facts to compute net rank scores.",
+      "description": "Displays evidence-ranked diagnostic hypotheses. Evaluates cross-domain evidence across topology, counting supporting vs contradicting facts to compute net rank scores. Missing data indicates collector outage, agent failure, or network disruption; values are preserved as null gaps.",
       "fieldConfig": {
         "defaults": {
-          "color": { "mode": "thresholds" },
-          "custom": { "align": "auto", "displayMode": "auto" },
+          "color": {
+            "mode": "thresholds"
+          },
+          "custom": {
+            "align": "auto",
+            "displayMode": "auto"
+          },
           "mappings": [],
           "thresholds": {
             "mode": "absolute",
             "steps": [
-              { "color": "blue", "value": null },
-              { "color": "orange", "value": 3 },
-              { "color": "red", "value": 5 }
+              {
+                "color": "blue",
+                "value": null
+              },
+              {
+                "color": "orange",
+                "value": 3
+              },
+              {
+                "color": "red",
+                "value": 5
+              }
             ]
           }
         },
         "overrides": []
       },
-      "gridPos": { "h": 8, "w": 14, "x": 0, "y": 18 },
+      "gridPos": {
+        "h": 8,
+        "w": 14,
+        "x": 0,
+        "y": 18
+      },
       "id": 8,
       "options": {
-        "footer": { "enablePagination": true, "fields": "", "reducer": ["sum"], "show": false },
+        "footer": {
+          "enablePagination": true,
+          "fields": "",
+          "reducer": [
+            "sum"
+          ],
+          "show": false
+        },
         "showHeader": true
       },
       "targets": [
         {
-          "application": { "name": "Predictive Analytics" },
-          "group": { "name": "Analytics Engine" },
-          "host": { "name": "mon-grafana01" },
-          "item": { "name": "Ranked Diagnostic Hypotheses" },
+          "application": {
+            "name": "Predictive Analytics"
+          },
+          "group": {
+            "name": "Analytics Engine"
+          },
+          "host": {
+            "name": "mon-grafana01"
+          },
+          "item": {
+            "name": "Ranked Diagnostic Hypotheses"
+          },
           "refId": "Hypotheses"
         }
       ],
@@ -297,10 +517,12 @@
         "type": "alexanderzobnin-zabbix-datasource",
         "uid": "PA67C5EADE9207728"
       },
-      "description": "Monitors carrier SIP signaling latency drift. Progressive PDD inflation indicates upstream carrier proxy congestion or queuing prior to hard trunk failures.",
+      "description": "Monitors carrier SIP signaling latency drift. Progressive PDD inflation indicates upstream carrier proxy congestion or queuing prior to hard trunk failures. Missing data indicates collector outage, agent failure, or network disruption; values are preserved as null gaps.",
       "fieldConfig": {
         "defaults": {
-          "color": { "mode": "palette-classic" },
+          "color": {
+            "mode": "palette-classic"
+          },
           "custom": {
             "axisBorderShow": false,
             "axisCenteredZero": false,
@@ -316,25 +538,57 @@
         },
         "overrides": []
       },
-      "gridPos": { "h": 8, "w": 10, "x": 14, "y": 18 },
+      "gridPos": {
+        "h": 8,
+        "w": 10,
+        "x": 14,
+        "y": 18
+      },
       "id": 9,
       "options": {
-        "legend": { "displayMode": "table", "placement": "bottom", "calcs": ["lastNotNull", "max", "mean"] },
-        "tooltip": { "mode": "multi", "sort": "desc" }
+        "legend": {
+          "displayMode": "table",
+          "placement": "bottom",
+          "calcs": [
+            "lastNotNull",
+            "max",
+            "mean"
+          ]
+        },
+        "tooltip": {
+          "mode": "multi",
+          "sort": "desc"
+        }
       },
       "targets": [
         {
-          "application": { "name": "Predictive Analytics" },
-          "group": { "name": "Analytics Engine" },
-          "host": { "name": "mon-grafana01" },
-          "item": { "name": "Post-Dial Delay (Safaricom Trunk)" },
+          "application": {
+            "name": "Predictive Analytics"
+          },
+          "group": {
+            "name": "Analytics Engine"
+          },
+          "host": {
+            "name": "mon-grafana01"
+          },
+          "item": {
+            "name": "Post-Dial Delay (Safaricom Trunk)"
+          },
           "refId": "PDDSafaricom"
         },
         {
-          "application": { "name": "Predictive Analytics" },
-          "group": { "name": "Analytics Engine" },
-          "host": { "name": "mon-grafana01" },
-          "item": { "name": "Post-Dial Delay (Airtel Trunk)" },
+          "application": {
+            "name": "Predictive Analytics"
+          },
+          "group": {
+            "name": "Analytics Engine"
+          },
+          "host": {
+            "name": "mon-grafana01"
+          },
+          "item": {
+            "name": "Post-Dial Delay (Airtel Trunk)"
+          },
           "refId": "PDDAirtel"
         }
       ],
@@ -344,7 +598,13 @@
   ],
   "refresh": "30s",
   "schemaVersion": 39,
-  "tags": ["nawari", "predictive", "analytics", "baselines", "kenya-airways"],
+  "tags": [
+    "nawari",
+    "predictive",
+    "analytics",
+    "baselines",
+    "kenya-airways"
+  ],
   "templating": {
     "list": []
   },
@@ -353,11 +613,15 @@
     "to": "now"
   },
   "timepicker": {
-    "refresh_intervals": ["10s", "30s", "1m", "5m"]
+    "refresh_intervals": [
+      "10s",
+      "30s",
+      "1m",
+      "5m"
+    ]
   },
   "timezone": "browser",
-  "title": "Nawari — Predictive Intelligence, Dynamic Baselines & Degradation Assurance",
+  "title": "Nawari \u2014 Predictive Intelligence, Dynamic Baselines & Degradation Assurance",
   "uid": "nawari-predictive-intelligence",
   "version": 1
 }
-

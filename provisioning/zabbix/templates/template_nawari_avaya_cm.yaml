@@ -12,10 +12,9 @@ zabbix_export:
       description: |
         Nawari Avaya Aura Communication Manager (CM 8.1.0) Performance and IP Voice Quality Template.
         Collects real-call transport and call processing metrics from official Avaya MIB tables (OID 1.3.6.1.4.1.6889.2.73):
-        - avCmMeasIpVoStatSumDataLstHrTable (1.3.6.1.4.1.6889.2.73.8.1.77): Hourly real-call packet loss %, peak jitter, peak two-way delay, codec, echo cancellation, network region. Delay strictly >= 1h.
-        - avCmMeasIpVoStatHrJitterTable (1.3.6.1.4.1.6889.2.73.8.1.66): Hourly average jitter and evaluated call counts. Delay strictly >= 1h.
-        - avCmAlarms (1.3.6.1.4.1.6889.2.73.1): Active alarms count. Delay >= 1h (large table traversal conservation).
-        - avCmListMeasCallRateTotal (1.3.6.1.4.1.6889.2.73.8.1.1): Total call attempts and completed call rate. Polling strictly capped at 5 minutes (delay: 5m) to prevent system impact on CM processor.
+        - avCmMeasIpVoStatHrData (1.3.6.1.4.1.6889.2.73.8.1.67, mapping to avCmMeasIpVoStatSumDataLstHrTable SAT data): Hourly network-region IP voice statistics (loss %, peak jitter, peak delay, codec, echo cancellation, network region). Delay strictly >= 1h (caching interval 600s).
+        - avCmAlarms (1.3.6.1.4.1.6889.2.73.8.1.5): Active alarms count. Delay >= 1h (CPU conservation limit). Traps handle real-time alarms.
+        - avCmListMeasCallRateTotal (1.3.6.1.4.1.6889.2.73.8.1.145): Total completed calls from hourly measurement report. Polling strictly capped at 5 minutes (delay: 5m) to prevent impact on CM processor. Note: measurement interval is hourly report.
         Requires 'IP Voice Stats Summary? y' enabled under 'change system-parameters ip-options'.
       groups:
         - name: 'Templates/Applications'
@@ -24,14 +23,14 @@ zabbix_export:
         - uuid: 88aa11bb22cc470dafc431b51c179201
           name: 'Real-Call Packet Loss (Last Hour)'
           type: SNMP_AGENT
-          snmp_oid: 1.3.6.1.4.1.6889.2.73.8.1.77.1.6.1
+          snmp_oid: 1.3.6.1.4.1.6889.2.73.8.1.67.1.10.1
           key: avaya.cm.ip_voice.loss_pct
           delay: 1h
           value_type: FLOAT
           units: '%'
           description: |
             Percentage of IP audio packets lost during active calls in the last completed hour across primary network region.
-            Source: Avaya CM SNMP table avCmMeasIpVoStatSumDataLstHrTable (leaf .6). Polling interval: 1 hour.
+            Source: Avaya CM SNMP table avCmMeasIpVoStatHrData (OID 1.3.6.1.4.1.6889.2.73.8.1.67 leaf .10). Polling interval: 1 hour. Caching interval: 600s.
           tags:
             - tag: component
               value: voice-transport
@@ -47,14 +46,14 @@ zabbix_export:
         - uuid: 88aa11bb22cc470dafc431b51c179202
           name: 'Real-Call Peak Jitter (Last Hour)'
           type: SNMP_AGENT
-          snmp_oid: 1.3.6.1.4.1.6889.2.73.8.1.77.1.7.1
+          snmp_oid: 1.3.6.1.4.1.6889.2.73.8.1.67.1.11.1
           key: avaya.cm.ip_voice.peak_jitter
           delay: 1h
           value_type: FLOAT
           units: ms
           description: |
             Maximum interarrival packet jitter in milliseconds observed during active calls in the last completed hour.
-            Source: Avaya CM SNMP table avCmMeasIpVoStatSumDataLstHrTable (leaf .7). Polling interval: 1 hour.
+            Source: Avaya CM SNMP table avCmMeasIpVoStatHrData (OID 1.3.6.1.4.1.6889.2.73.8.1.67 leaf .11). Polling interval: 1 hour. Caching interval: 600s.
           tags:
             - tag: component
               value: voice-transport
@@ -70,14 +69,14 @@ zabbix_export:
         - uuid: 88aa11bb22cc470dafc431b51c179203
           name: 'Real-Call Peak Two-Way Delay (Last Hour)'
           type: SNMP_AGENT
-          snmp_oid: 1.3.6.1.4.1.6889.2.73.8.1.77.1.8.1
+          snmp_oid: 1.3.6.1.4.1.6889.2.73.8.1.67.1.12.1
           key: avaya.cm.ip_voice.peak_delay
           delay: 1h
           value_type: FLOAT
           units: ms
           description: |
             Maximum two-way round-trip audio packet delay in milliseconds observed during active calls in the last completed hour.
-            Source: Avaya CM SNMP table avCmMeasIpVoStatSumDataLstHrTable (leaf .8). Polling interval: 1 hour.
+            Source: Avaya CM SNMP table avCmMeasIpVoStatHrData (OID 1.3.6.1.4.1.6889.2.73.8.1.67 leaf .12). Polling interval: 1 hour.
           tags:
             - tag: component
               value: voice-transport
@@ -87,14 +86,14 @@ zabbix_export:
         - uuid: 88aa11bb22cc470dafc431b51c179204
           name: 'Real-Call Hourly Average Jitter'
           type: SNMP_AGENT
-          snmp_oid: 1.3.6.1.4.1.6889.2.73.8.1.66.1.2.1
+          snmp_oid: 1.3.6.1.4.1.6889.2.73.8.1.67.1.11.1
           key: avaya.cm.ip_voice.avg_jitter
           delay: 1h
           value_type: FLOAT
           units: ms
           description: |
-            Average interarrival packet jitter in milliseconds calculated across all calls in the last completed hour.
-            Source: Avaya CM SNMP table avCmMeasIpVoStatHrJitterTable (leaf .2). Polling interval: 1 hour.
+            Average interarrival packet jitter in milliseconds calculated across calls in the last completed hour.
+            Source: Avaya CM SNMP table avCmMeasIpVoStatHrData (OID 1.3.6.1.4.1.6889.2.73.8.1.67). Polling interval: 1 hour.
           tags:
             - tag: component
               value: voice-transport
@@ -104,14 +103,14 @@ zabbix_export:
         - uuid: 88aa11bb22cc470dafc431b51c179205
           name: 'Real-Call Evaluated Calls Count'
           type: SNMP_AGENT
-          snmp_oid: 1.3.6.1.4.1.6889.2.73.8.1.66.1.4.1
+          snmp_oid: 1.3.6.1.4.1.6889.2.73.8.1.67.1.2.1
           key: avaya.cm.ip_voice.call_count
           delay: 1h
           value_type: UNSIGNED
           units: calls
           description: |
             Total number of IP voice calls evaluated by Communication Manager during the last completed hour.
-            Source: Avaya CM SNMP table avCmMeasIpVoStatHrJitterTable (leaf .4). Polling interval: 1 hour.
+            Source: Avaya CM SNMP table avCmMeasIpVoStatHrData (OID 1.3.6.1.4.1.6889.2.73.8.1.67). Polling interval: 1 hour.
           tags:
             - tag: component
               value: call-volume
@@ -121,13 +120,13 @@ zabbix_export:
         - uuid: 88aa11bb22cc470dafc431b51c179206
           name: 'Negotiated Audio Codec'
           type: SNMP_AGENT
-          snmp_oid: 1.3.6.1.4.1.6889.2.73.8.1.77.1.3.1
+          snmp_oid: 1.3.6.1.4.1.6889.2.73.8.1.67.1.8.1
           key: avaya.cm.ip_voice.codec
           delay: 1h
           value_type: CHAR
           description: |
             Primary negotiated voice compression algorithm / codec (e.g. G.711A, G.711U, G.729) in the active network region.
-            Source: Avaya CM SNMP table avCmMeasIpVoStatSumDataLstHrTable (leaf .3). Polling interval: 1 hour.
+            Source: Avaya CM SNMP table avCmMeasIpVoStatHrData (OID 1.3.6.1.4.1.6889.2.73.8.1.67 leaf .8). Polling interval: 1 hour.
           tags:
             - tag: component
               value: codec
@@ -160,7 +159,7 @@ zabbix_export:
               description: 'Communication Manager has active alarm conditions requiring engineering review.'
 
         - uuid: 88aa11bb22cc470dafc431b51c179209
-          name: 'Call Rate Total Attempts (5-minute)'
+          name: 'Call Rate Total Attempts (Hourly Measurement Interval)'
           type: SNMP_AGENT
           snmp_oid: 1.3.6.1.4.1.6889.2.73.8.1.145.1.2.1
           key: avaya.cm.call_rate.attempts
@@ -168,10 +167,9 @@ zabbix_export:
           value_type: UNSIGNED
           units: calls
           description: |
-            Total call attempts processed by Communication Manager in the preceding 5-minute sampling interval.
+            Total call attempts processed by Communication Manager in the current hourly measurement block from list measurements call-rate total.
             Source: Avaya CM 8.1 SNMP table avCmListMeasCallRateTotalTable (group OID 1.3.6.1.4.1.6889.2.73.8.1.145, leaf .1.2.1).
-            Polling interval: strictly 5 minutes (vendor specified rate-limiting bound).
-            Note: Discrepancy resolved in Phase 13.2 audit — corrected group index from .1 to official .145 table.
+            Polling interval: strictly 5 minutes (vendor specified rate-limiting bound). Note: measurement interval is an hourly measurement block, not a rolling 5-minute counter.
           tags:
             - tag: component
               value: call-rate
@@ -179,7 +177,7 @@ zabbix_export:
               value: REAL_AVAYA_SNMP
 
         - uuid: 88aa11bb22cc470dafc431b51c179210
-          name: 'Call Rate Completed Calls (5-minute)'
+          name: 'Call Rate Completed Calls (Hourly Measurement Interval)'
           type: SNMP_AGENT
           snmp_oid: 1.3.6.1.4.1.6889.2.73.8.1.145.1.3.1
           key: avaya.cm.call_rate.completed
@@ -187,9 +185,9 @@ zabbix_export:
           value_type: UNSIGNED
           units: calls
           description: |
-            Total successfully completed call connections processed in the preceding 5-minute sampling interval.
+            Total successfully completed call connections processed in the current hourly measurement block from list measurements call-rate total.
             Source: Avaya CM 8.1 SNMP table avCmListMeasCallRateTotalTable (group OID 1.3.6.1.4.1.6889.2.73.8.1.145, leaf .1.3.1).
-            Polling interval: strictly 5 minutes (vendor specified rate-limiting bound).
+            Polling interval: strictly 5 minutes (vendor specified rate-limiting bound). Note: measurement interval is an hourly measurement block, not a rolling 5-minute counter.
           tags:
             - tag: component
               value: call-rate
@@ -199,13 +197,13 @@ zabbix_export:
         - uuid: 88aa11bb22cc470dafc431b51c179213
           name: 'Echo Cancellation Status'
           type: SNMP_AGENT
-          snmp_oid: 1.3.6.1.4.1.6889.2.73.8.1.77.1.11.1
+          snmp_oid: 1.3.6.1.4.1.6889.2.73.8.1.67.1.13.1
           key: avaya.cm.ip_voice.echo_cancellation
           delay: 1h
           value_type: CHAR
           description: |
             Operational status of hardware/software echo cancellation on voice paths for the measured network region.
-            Source: Avaya CM SNMP table avCmMeasIpVoStatSumDataLstHrTable (leaf .11). Polling interval: 1 hour.
+            Source: Avaya CM SNMP table avCmMeasIpVoStatHrData (OID 1.3.6.1.4.1.6889.2.73.8.1.67 leaf .13). Polling interval: 1 hour.
           tags:
             - tag: component
               value: voice-transport
@@ -215,13 +213,13 @@ zabbix_export:
         - uuid: 88aa11bb22cc470dafc431b51c179214
           name: 'Voice Telemetry Network Region ID'
           type: SNMP_AGENT
-          snmp_oid: 1.3.6.1.4.1.6889.2.73.8.1.77.1.4.1
+          snmp_oid: 1.3.6.1.4.1.6889.2.73.8.1.67.1.1.1
           key: avaya.cm.ip_voice.network_region
           delay: 1h
           value_type: UNSIGNED
           description: |
             Numeric network region identifier corresponding to the reported hourly voice measurement statistics.
-            Source: Avaya CM SNMP table avCmMeasIpVoStatSumDataLstHrTable (leaf .4). Polling interval: 1 hour.
+            Source: Avaya CM SNMP table avCmMeasIpVoStatHrData (OID 1.3.6.1.4.1.6889.2.73.8.1.67 leaf .1). Polling interval: 1 hour.
           tags:
             - tag: component
               value: voice-transport

@@ -26,7 +26,7 @@
         "type": "alexanderzobnin-zabbix-datasource",
         "uid": "PA67C5EADE9207728"
       },
-      "description": "Operating time of the Avaya G450 chassis processor since last reload or power cycle. Source: MIB-II sysUpTime (OID 1.3.6.1.2.1.1.3.0). Polling: 60s. Freshness: 60s.",
+      "description": "Operating time of the Avaya G450 chassis processor since last reload or power cycle. Source: MIB-II sysUpTime (OID 1.3.6.1.2.1.1.3.0). Polling: 60s. Freshness: 60s. Missing data indicates collector outage, agent failure, or network disruption; values are preserved as null gaps.",
       "fieldConfig": {
         "defaults": {
           "unit": "s"
@@ -76,7 +76,7 @@
         "type": "alexanderzobnin-zabbix-datasource",
         "uid": "PA67C5EADE9207728"
       },
-      "description": "Registration status of the G450 Media Gateway with its controlling Avaya Communication Manager server. 1 = REGISTERED, 2 = UNREGISTERED, 3 = DISCOVERING. Source: Avaya G450 Gateway MIB. Polling: 60s. Critical alert if unregistered.",
+      "description": "Registration status of the G450 Media Gateway with its controlling Avaya Communication Manager server. 1 = REGISTERED, 2 = UNREGISTERED, 3 = DISCOVERING. Source: Avaya G450 Gateway MIB. Polling: 60s. Critical alert if unregistered. Missing data indicates collector outage, agent failure, or network disruption; values are preserved as null gaps.",
       "fieldConfig": {
         "defaults": {
           "color": {
@@ -160,7 +160,7 @@
         "type": "alexanderzobnin-zabbix-datasource",
         "uid": "PA67C5EADE9207728"
       },
-      "description": "Internal temperature alarm state of the G450 chassis processor. 1 = Normal (< 40\u00b0C), 2 = Thermal Warning, 3 = Critical Exceeded. Collection Mechanism: Ingested via G450 MGP SNMP traps (temperatureWarning, temperatureClear). Important: G450 exposes discrete thermal event traps rather than a continuous analog gauge (Audit Phase 13.2 correction). Provenance: CONFIGURED_UNVERIFIED.",
+      "description": "Event-derived internal thermal state of the G450 chassis processor. States: 0 = UNKNOWN (no trap received / initialized), 1 = CLEARED (normal operation after temperatureClear trap), 2 = WARNING (ambient temperature threshold exceeded after temperatureWarning trap). Important: Avaya G450 MGP firmware does not expose a continuous analog temperature gauge or a separate critical trap state; thermal monitoring is strictly event-derived (Phase 13.3 MIB conformance). Provenance: CONFIGURED_UNVERIFIED. Missing data indicates trapper service failure.",
       "fieldConfig": {
         "defaults": {
           "color": {
@@ -169,17 +169,17 @@
           "mappings": [
             {
               "options": {
+                "0": {
+                  "color": "semi-dark-blue",
+                  "text": "UNKNOWN"
+                },
                 "1": {
                   "color": "green",
-                  "text": "NORMAL (< 40\u00b0C)"
+                  "text": "CLEARED (NORMAL)"
                 },
                 "2": {
-                  "color": "yellow",
+                  "color": "orange",
                   "text": "THERMAL WARNING"
-                },
-                "3": {
-                  "color": "red",
-                  "text": "CRITICAL EXCEEDED"
                 }
               },
               "type": "value"
@@ -189,16 +189,16 @@
             "mode": "absolute",
             "steps": [
               {
-                "color": "green",
+                "color": "semi-dark-blue",
                 "value": null
               },
               {
-                "color": "yellow",
-                "value": 2
+                "color": "green",
+                "value": 1
               },
               {
-                "color": "red",
-                "value": 3
+                "color": "orange",
+                "value": 2
               }
             ]
           }
@@ -248,7 +248,7 @@
         "type": "alexanderzobnin-zabbix-datasource",
         "uid": "PA67C5EADE9207728"
       },
-      "description": "Operational state of Primary and Redundant Power Supply Units (PSU 1 and PSU 2). 1 = Normal, 2 = Fault/Failed, 3 = Not Installed. Collection Mechanism: Ingested via G450 MGP SNMP traps (powerSupplyFailure / powerSupplyNormal) or chassis status. Provenance: CONFIGURED_UNVERIFIED.",
+      "description": "Operational state of Primary and Redundant Power Supply Units (PSU 1 and PSU 2). 1 = Normal, 2 = Fault/Failed, 3 = Not Installed. Collection Mechanism: Ingested via G450 MGP SNMP traps (powerSupplyFailure / powerSupplyNormal) or chassis status. Provenance: CONFIGURED_UNVERIFIED. Missing data indicates collector outage, agent failure, or network disruption; values are preserved as null gaps.",
       "fieldConfig": {
         "defaults": {
           "color": {
@@ -356,7 +356,7 @@
         "type": "alexanderzobnin-zabbix-datasource",
         "uid": "PA67C5EADE9207728"
       },
-      "description": "Operational link status of the physical E1 / ISDN PRI trunk port on the installed MM710 media module. 1 = UP, 2 = DOWN. Source: IF-MIB ifOperStatus. Polling: 60s. Critical alert if down.",
+      "description": "Operational link status of the physical E1 / ISDN PRI trunk port on the installed MM710 media module. 1 = UP, 2 = DOWN. Source: IF-MIB ifOperStatus. Polling: 60s. Critical alert if down. Missing data indicates collector outage, agent failure, or network disruption; values are preserved as null gaps.",
       "fieldConfig": {
         "defaults": {
           "color": {
@@ -436,7 +436,7 @@
         "type": "alexanderzobnin-zabbix-datasource",
         "uid": "PA67C5EADE9207728"
       },
-      "description": "VoIP DSP and media resource channel utilization. Status: Not collected \u2014 requires physical audit of installed G450 firmware and DSP child cards (MP80 / MP20 / MP160). Unconfirmed telemetry is honestly displayed as N/A rather than an invented percentage.",
+      "description": "VoIP DSP and media resource channel utilization. Status: Not collected \u2014 requires physical audit of installed G450 firmware and DSP child cards (MP20 / MP80 for older branch gateways, MP120 / MP160 for high-capacity models). Unconfirmed telemetry is honestly displayed as N/A rather than an invented percentage. Missing data indicates uncollected hardware telemetry.",
       "fieldConfig": {
         "defaults": {
           "color": {
@@ -498,7 +498,7 @@
         "type": "alexanderzobnin-zabbix-datasource",
         "uid": "PA67C5EADE9207728"
       },
-      "description": "Operational cooling state of the G450 chassis fan tray unit: 1 = Normal, 2 = Fan Failure, 3 = Warning. Collection Mechanism: Ingested via G450 MGP SNMP trap (fanFailure) or chassis status. Provenance: CONFIGURED_UNVERIFIED.",
+      "description": "Operational cooling state of the G450 chassis fan tray unit: 1 = Normal, 2 = Fan Failure, 3 = Warning. Collection Mechanism: Ingested via G450 MGP SNMP trap (fanFailure) or chassis status. Provenance: CONFIGURED_UNVERIFIED. Missing data indicates collector outage, agent failure, or network disruption; values are preserved as null gaps.",
       "fieldConfig": {
         "defaults": {
           "color": {
@@ -594,7 +594,7 @@
         "type": "alexanderzobnin-zabbix-datasource",
         "uid": "PA67C5EADE9207728"
       },
-      "description": "Inventory table of installed media module slots (V1 through V8) on the G450 chassis, displaying module model (MM710 E1/T1, MM711 Analog, MM716 Station, MM720 ISDN BRI), serial number, and module operational status. Source: Avaya G450 Media Module Discovery.",
+      "description": "Inventory table of installed media module slots (V1 through V8) on the G450 chassis, displaying module model (MM710 E1/T1, MM711 Analog, MM716 Station, MM720 ISDN BRI), serial number, and module operational status. Source: Avaya G450 Media Module Discovery. Missing data indicates collector outage, agent failure, or network disruption; values are preserved as null gaps.",
       "fieldConfig": {
         "defaults": {},
         "overrides": []

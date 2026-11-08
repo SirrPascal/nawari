@@ -1,5 +1,5 @@
 catalogue_version: 1.0.0
-generated_at: '2026-11-08T10:58:22.634013+00:00'
+generated_at: '2026-11-08T11:29:24.171093+00:00'
 nawari_architecture_version: Phase 13.1 Enterprise Observability
 integrity_standards:
   null_handling_policy: 'Preserve as NULL / Gaps (spanNulls: False). Coercing NULL
@@ -59,7 +59,9 @@ dashboards:
     description: Displays the agent version, hostname, and operating system build
       of the selected endpoint. Confirms that the endpoint agent daemon is running
       the current approved software build. Note that hostname strings are reported
-      by the local OS and are validated against the persistent agent UUID.
+      by the local OS and are validated against the persistent agent UUID. Missing
+      data indicates collector outage, agent failure, or network disruption; values
+      are preserved as null gaps.
     datasource_type: alexanderzobnin-zabbix-datasource
     provenance_type: REAL_ZABBIX_TELEMETRY
     telemetry_source: Zabbix Telemetry Engine (SNMPv2c/v3, ICMP ping, Zabbix Agent
@@ -78,7 +80,8 @@ dashboards:
       default route (e.g. Ethernet, Wi-Fi, VPN). Determines whether wireless diagnostic
       panels (RSSI, link quality) are active or safely suppressed as N/A. Changing
       interface types during an active session can cause transient latency spikes
-      or TCP resets.
+      or TCP resets. Missing data indicates collector outage, agent failure, or network
+      disruption; values are preserved as null gaps.
     datasource_type: alexanderzobnin-zabbix-datasource
     provenance_type: REAL_ZABBIX_TELEMETRY
     telemetry_source: Zabbix Telemetry Engine (SNMPv2c/v3, ICMP ping, Zabbix Agent
@@ -97,7 +100,8 @@ dashboards:
       CONTAINER_SIMULATION, LAB_MOCK) stamped by the Nawari Gateway. Guarantees that
       diagnostic metrics reflect actual physical device hardware rather than lab test
       runners. Prevents accidental classification of simulated test workloads as enterprise
-      field issues.
+      field issues. Missing data indicates collector outage, agent failure, or network
+      disruption; values are preserved as null gaps.
     datasource_type: alexanderzobnin-zabbix-datasource
     provenance_type: REAL_ZABBIX_TELEMETRY
     telemetry_source: Zabbix Telemetry Engine (SNMPv2c/v3, ICMP ping, Zabbix Agent
@@ -116,7 +120,8 @@ dashboards:
       default gateway. Values below 10 ms indicate healthy local Ethernet or enterprise
       Wi-Fi; values above 50 ms signal local access-layer congestion. Gateway latency
       reflects only the access link and does not measure wide-area network or cloud
-      transit.
+      transit. Missing data indicates collector outage, agent failure, or network
+      disruption; values are preserved as null gaps.
     datasource_type: alexanderzobnin-zabbix-datasource
     provenance_type: REAL_ZABBIX_TELEMETRY
     telemetry_source: Zabbix Telemetry Engine (SNMPv2c/v3, ICMP ping, Zabbix Agent
@@ -134,7 +139,9 @@ dashboards:
     description: Measures the percentage of dropped ICMP echo requests sent to the
       local default gateway. Any sustained packet loss (>1%) degrades TCP throughput
       and causes audio dropouts on real-time voice calls. Loss at the first hop indicates
-      faulty cabling, Wi-Fi channel contention, or local switch port congestion.
+      faulty cabling, Wi-Fi channel contention, or local switch port congestion. Missing
+      data indicates collector outage, agent failure, or network disruption; values
+      are preserved as null gaps.
     datasource_type: alexanderzobnin-zabbix-datasource
     provenance_type: REAL_ZABBIX_TELEMETRY
     telemetry_source: Zabbix Telemetry Engine (SNMPv2c/v3, ICMP ping, Zabbix Agent
@@ -152,7 +159,9 @@ dashboards:
     description: Measures Received Signal Strength Indicator (RSSI) in dBm for wireless
       connections. Values closer to zero indicate stronger signal (-50 dBm is excellent,
       below -75 dBm indicates poor coverage). Automatically displays N/A for wired
-      Ethernet or VPN connections to prevent misleading zero readings.
+      Ethernet or VPN connections to prevent misleading zero readings. Missing data
+      indicates collector outage, agent failure, or network disruption; values are
+      preserved as null gaps.
     datasource_type: alexanderzobnin-zabbix-datasource
     provenance_type: REAL_ZABBIX_TELEMETRY
     telemetry_source: Zabbix Telemetry Engine (SNMPv2c/v3, ICMP ping, Zabbix Agent
@@ -171,7 +180,8 @@ dashboards:
       physical shielding, or intermittent RF fading. Rapid drops in RSSI typically
       coincide with user movement or environmental RF interference. Persistently weak
       signal forces the Wi-Fi adapter to fall back to lower modulation schemes, increasing
-      latency.
+      latency. Missing data indicates collector outage, agent failure, or network
+      disruption; values are preserved as null gaps.
     datasource_type: alexanderzobnin-zabbix-datasource
     provenance_type: REAL_ZABBIX_TELEMETRY
     telemetry_source: Zabbix Telemetry Engine (SNMPv2c/v3, ICMP ping, Zabbix Agent
@@ -190,7 +200,8 @@ dashboards:
       signal-to-noise ratio and packet retry rates. Scores above 70% support reliable
       voice communications; scores below 40% lead to severe packet jitter and audio
       clipping. Displays N/A on wired interfaces to enforce strict physical telemetry
-      isolation.
+      isolation. Missing data indicates collector outage, agent failure, or network
+      disruption; values are preserved as null gaps.
     datasource_type: alexanderzobnin-zabbix-datasource
     provenance_type: REAL_ZABBIX_TELEMETRY
     telemetry_source: Zabbix Telemetry Engine (SNMPv2c/v3, ICMP ping, Zabbix Agent
@@ -209,6 +220,8 @@ dashboards:
       RF interference or access point congestion. Correlate dips in link quality with
       default gateway loss and voice jitter to isolate wireless edge faults. Only
       active for Wi-Fi interfaces; remains N/A for wired or cellular connections.
+      Missing data indicates collector outage, agent failure, or network disruption;
+      values are preserved as null gaps.
     datasource_type: alexanderzobnin-zabbix-datasource
     provenance_type: REAL_ZABBIX_TELEMETRY
     telemetry_source: Zabbix Telemetry Engine (SNMPv2c/v3, ICMP ping, Zabbix Agent
@@ -227,7 +240,8 @@ dashboards:
       the endpoint's configured DNS servers. Values above 50 ms indicate DNS server
       overload or network delays between the endpoint and the resolver. This measurement
       reflects only name resolution, not subsequent TCP connection or HTTP response
-      times.
+      times. Missing data indicates collector outage, agent failure, or network disruption;
+      values are preserved as null gaps.
     datasource_type: alexanderzobnin-zabbix-datasource
     provenance_type: REAL_ZABBIX_TELEMETRY
     telemetry_source: Zabbix Telemetry Engine (SNMPv2c/v3, ICMP ping, Zabbix Agent
@@ -246,7 +260,8 @@ dashboards:
       NXDOMAIN=3, SERVFAIL=2, TIMEOUT=4). Non-zero RCODEs indicate DNS configuration
       errors, missing records, or resolver upstream lookup failures. An endpoint cannot
       establish network sessions if DNS resolution fails, even if underlying IP transport
-      is healthy.
+      is healthy. Missing data indicates collector outage, agent failure, or network
+      disruption; values are preserved as null gaps.
     datasource_type: alexanderzobnin-zabbix-datasource
     provenance_type: REAL_ZABBIX_TELEMETRY
     telemetry_source: Zabbix Telemetry Engine (SNMPv2c/v3, ICMP ping, Zabbix Agent
@@ -265,6 +280,8 @@ dashboards:
       succeeded (1=REACHABLE, 0=DOWN). A value of 0 indicates that the TCP handshake
       failed, was refused, or timed out. Transport reachability confirms socket connectivity
       across firewalls but does not verify application functionality or user authentication.
+      Missing data indicates collector outage, agent failure, or network disruption;
+      values are preserved as null gaps.
     datasource_type: alexanderzobnin-zabbix-datasource
     provenance_type: REAL_ZABBIX_TELEMETRY
     telemetry_source: Zabbix Telemetry Engine (SNMPv2c/v3, ICMP ping, Zabbix Agent
@@ -282,6 +299,8 @@ dashboards:
     description: Duration of the L4 TCP 3-way handshake (SYN to ACK). Represents pure
       transport-layer round-trip time, independent of subsequent TLS negotiation.
       Elevated values indicate network transit latency or server SYN backlog exhaustion.
+      Missing data indicates collector outage, agent failure, or network disruption;
+      values are preserved as null gaps.
     datasource_type: alexanderzobnin-zabbix-datasource
     provenance_type: REAL_ZABBIX_TELEMETRY
     telemetry_source: Zabbix Telemetry Engine (SNMPv2c/v3, ICMP ping, Zabbix Agent
@@ -299,7 +318,8 @@ dashboards:
     description: Duration of cryptographic TLS session negotiation (ClientHello to
       Finished). Measures cryptographic overhead distinct from the initial TCP socket
       connect time. High handshake durations point to slow cryptographic key exchange,
-      large certificate chains, or server CPU throttling.
+      large certificate chains, or server CPU throttling. Missing data indicates collector
+      outage, agent failure, or network disruption; values are preserved as null gaps.
     datasource_type: alexanderzobnin-zabbix-datasource
     provenance_type: REAL_ZABBIX_TELEMETRY
     telemetry_source: Zabbix Telemetry Engine (SNMPv2c/v3, ICMP ping, Zabbix Agent
@@ -317,7 +337,8 @@ dashboards:
     description: 'Time To First Byte: duration from HTTP request transmission until
       the first response byte arrives. Measures upstream application processing latency,
       distinct from TCP and TLS setup times. High TTFB with low TCP/TLS times isolates
-      application server or database performance issues.'
+      application server or database performance issues. Missing data indicates collector
+      outage, agent failure, or network disruption; values are preserved as null gaps.'
     datasource_type: alexanderzobnin-zabbix-datasource
     provenance_type: REAL_ZABBIX_TELEMETRY
     telemetry_source: Zabbix Telemetry Engine (SNMPv2c/v3, ICMP ping, Zabbix Agent
@@ -335,7 +356,8 @@ dashboards:
     description: Direct contextual navigation link to the Network Path Analysis dashboard
       for the selected endpoint. Opens hop-by-hop Paris traceroute, latency waterfall,
       and CoPP guard status. Use when gateway metrics or service probes indicate network
-      transit degradation.
+      transit degradation. Missing data indicates collector outage, agent failure,
+      or network disruption; values are preserved as null gaps.
     datasource_type: zabbix
     provenance_type: REAL_ZABBIX_TELEMETRY
     telemetry_source: Zabbix Telemetry Engine (SNMPv2c/v3, ICMP ping, Zabbix Agent
@@ -353,7 +375,9 @@ dashboards:
     description: Direct contextual navigation link to the Voice Service Correlation
       dashboard for the selected endpoint. Correlates edge network metrics against
       synthetic Asterisk voice calls and ITU-T G.107 MOS scores. Use when investigating
-      voice quality degradation, jitter, or call setup failures.
+      voice quality degradation, jitter, or call setup failures. Missing data indicates
+      collector outage, agent failure, or network disruption; values are preserved
+      as null gaps.
     datasource_type: zabbix
     provenance_type: REAL_ZABBIX_TELEMETRY
     telemetry_source: Zabbix Telemetry Engine (SNMPv2c/v3, ICMP ping, Zabbix Agent
@@ -379,7 +403,8 @@ dashboards:
       discovered in Zabbix. A static inventory count establishes the fleet denominator
       for availability calculations. It does not indicate active data transmission
       or device health; compare against Active Reporting Endpoints to identify dormant
-      or decommissioned endpoints.
+      or decommissioned endpoints. Missing data indicates collector outage, agent
+      failure, or network disruption; values are preserved as null gaps.
     datasource_type: alexanderzobnin-zabbix-datasource
     provenance_type: REAL_ZABBIX_TELEMETRY
     telemetry_source: Zabbix Telemetry Engine (SNMPv2c/v3, ICMP ping, Zabbix Agent
@@ -398,7 +423,8 @@ dashboards:
       samples to the ingestion gateway within the reporting interval. Healthy fleets
       should show active counts matching enrolled inventory. Values significantly
       lower than total enrolled indicate fleet disconnects, host reboots, or gateway
-      communication failures.
+      communication failures. Missing data indicates collector outage, agent failure,
+      or network disruption; values are preserved as null gaps.
     datasource_type: alexanderzobnin-zabbix-datasource
     provenance_type: REAL_ZABBIX_TELEMETRY
     telemetry_source: Zabbix Telemetry Engine (SNMPv2c/v3, ICMP ping, Zabbix Agent
@@ -417,7 +443,8 @@ dashboards:
       for first-hop gateway latency (>50ms), packet loss (>20%), or degraded Wi-Fi.
       Elevated counts highlight localized physical or edge network access impairment
       before wide-area transit is reached. Note that edge degradation does not automatically
-      prove WAN or cloud service failure.
+      prove WAN or cloud service failure. Missing data indicates collector outage,
+      agent failure, or network disruption; values are preserved as null gaps.
     datasource_type: alexanderzobnin-zabbix-datasource
     provenance_type: REAL_ZABBIX_TELEMETRY
     telemetry_source: Zabbix Telemetry Engine (SNMPv2c/v3, ICMP ping, Zabbix Agent
@@ -455,7 +482,9 @@ dashboards:
       (Ethernet, Wi-Fi, VPN, Cellular) currently utilized by reporting endpoints.
       Useful for diagnosing interface-specific degradation clusters (e.g. airport
       lounge Wi-Fi saturation vs wired operations centers). Note that multi-homed
-      endpoints report only their primary default route egress interface.
+      endpoints report only their primary default route egress interface. Missing
+      data indicates collector outage, agent failure, or network disruption; values
+      are preserved as null gaps.
     datasource_type: alexanderzobnin-zabbix-datasource
     provenance_type: REAL_ZABBIX_TELEMETRY
     telemetry_source: Zabbix Telemetry Engine (SNMPv2c/v3, ICMP ping, Zabbix Agent
@@ -474,7 +503,8 @@ dashboards:
       (PHYSICAL_PRODUCTION, CONTAINER_SIMULATION, LAB_MOCK). Ensures operators can
       verify that production metrics originate from authentic physical endpoints rather
       than lab harnesses. Provenance is enforced and stamped server-side by the Nawari
-      Ingestion Gateway.
+      Ingestion Gateway. Missing data indicates collector outage, agent failure, or
+      network disruption; values are preserved as null gaps.
     datasource_type: alexanderzobnin-zabbix-datasource
     provenance_type: REAL_ZABBIX_TELEMETRY
     telemetry_source: Zabbix Telemetry Engine (SNMPv2c/v3, ICMP ping, Zabbix Agent
@@ -493,7 +523,8 @@ dashboards:
       local default gateways across the fleet. Sustained values above 50 ms indicate
       local subnet congestion, duplex mismatches, or Wi-Fi interference. Low gateway
       latency confirms local edge health but does not guarantee WAN transit or cloud
-      application availability.
+      application availability. Missing data indicates collector outage, agent failure,
+      or network disruption; values are preserved as null gaps.
     datasource_type: alexanderzobnin-zabbix-datasource
     provenance_type: REAL_ZABBIX_TELEMETRY
     telemetry_source: Zabbix Telemetry Engine (SNMPv2c/v3, ICMP ping, Zabbix Agent
@@ -512,6 +543,8 @@ dashboards:
       their first-hop gateway. Values above 0% indicate physical link errors, wireless
       RF collisions, or local switch buffer exhaustion. Loss at the default gateway
       directly impairs real-time voice and video streams across the access layer.
+      Missing data indicates collector outage, agent failure, or network disruption;
+      values are preserved as null gaps.
     datasource_type: alexanderzobnin-zabbix-datasource
     provenance_type: REAL_ZABBIX_TELEMETRY
     telemetry_source: Zabbix Telemetry Engine (SNMPv2c/v3, ICMP ping, Zabbix Agent
@@ -530,7 +563,8 @@ dashboards:
       endpoints to perimeter SBC/voice edge devices on port 5061. Values of 1 indicate
       the transport socket was established; 0 indicates network firewall drops or
       server downtime. Crucially, TCP connect success does not verify SIP registration,
-      TLS handshake, or bidirectional audio RTP flow.
+      TLS handshake, or bidirectional audio RTP flow. Missing data indicates collector
+      outage, agent failure, or network disruption; values are preserved as null gaps.
     datasource_type: alexanderzobnin-zabbix-datasource
     provenance_type: REAL_ZABBIX_TELEMETRY
     telemetry_source: Zabbix Telemetry Engine (SNMPv2c/v3, ICMP ping, Zabbix Agent
@@ -549,7 +583,8 @@ dashboards:
       against configured nameservers. Elevated resolution times (>50 ms) or timeouts
       indicate recursive resolver saturation, cache thrashing, or upstream DNS transit
       failures. High DNS resolution latency delays all subsequent web and voice session
-      establishments.
+      establishments. Missing data indicates collector outage, agent failure, or network
+      disruption; values are preserved as null gaps.
     datasource_type: alexanderzobnin-zabbix-datasource
     provenance_type: REAL_ZABBIX_TELEMETRY
     telemetry_source: Zabbix Telemetry Engine (SNMPv2c/v3, ICMP ping, Zabbix Agent
@@ -568,7 +603,8 @@ dashboards:
       to initial response byte across monitored corporate web endpoints. Elevated
       TTFB indicates server-side application processing delays, backend database bottlenecks,
       or reverse proxy queuing. TTFB measures server processing latency, distinct
-      from TCP connect and TLS negotiation times.
+      from TCP connect and TLS negotiation times. Missing data indicates collector
+      outage, agent failure, or network disruption; values are preserved as null gaps.
     datasource_type: alexanderzobnin-zabbix-datasource
     provenance_type: REAL_ZABBIX_TELEMETRY
     telemetry_source: Zabbix Telemetry Engine (SNMPv2c/v3, ICMP ping, Zabbix Agent
@@ -587,7 +623,9 @@ dashboards:
       identity, active interface, default gateway RTT, packet loss, and environment
       provenance. Enables rapid drill-down from fleet-level trends to specific impaired
       workstations or flight operations terminals. Telemetry marked STALE indicates
-      an endpoint has stopped reporting and requires local investigation.
+      an endpoint has stopped reporting and requires local investigation. Missing
+      data indicates collector outage, agent failure, or network disruption; values
+      are preserved as null gaps.
     datasource_type: alexanderzobnin-zabbix-datasource
     provenance_type: REAL_ZABBIX_TELEMETRY
     telemetry_source: Zabbix Telemetry Engine (SNMPv2c/v3, ICMP ping, Zabbix Agent
@@ -630,7 +668,9 @@ dashboards:
     description: 'Current operational state of the selected network interface. Values:
       Up (1) or Down (2). Source: IF-MIB::ifOperStatus (OID .1.3.6.1.2.1.2.2.1.8).
       Limitations: Reflects physical layer link status and data-link state; does not
-      verify IP routing or application-layer reachability.'
+      verify IP routing or application-layer reachability. Missing data indicates
+      collector outage, agent failure, or network disruption; values are preserved
+      as null gaps.'
     datasource_type: alexanderzobnin-zabbix-datasource
     provenance_type: REAL_ZABBIX_TELEMETRY
     telemetry_source: Zabbix Telemetry Engine (SNMPv2c/v3, ICMP ping, Zabbix Agent
@@ -648,7 +688,8 @@ dashboards:
     description: 'Negotiated or statically configured transmission speed of the network
       interface. Units: Bits per second (bps, formatted as Mbps/Gbps). Source: IF-MIB::ifHighSpeed
       (OID .1.3.6.1.2.1.31.1.1.1.15). Limitations: Speed duplex mismatch can lead
-      to massive packet loss and throughput collapse.'
+      to massive packet loss and throughput collapse. Missing data indicates collector
+      outage, agent failure, or network disruption; values are preserved as null gaps.'
     datasource_type: alexanderzobnin-zabbix-datasource
     provenance_type: REAL_ZABBIX_TELEMETRY
     telemetry_source: Zabbix Telemetry Engine (SNMPv2c/v3, ICMP ping, Zabbix Agent
@@ -666,7 +707,8 @@ dashboards:
     description: 'Desired administrative configuration state of the interface set
       by network administrators. Values: Up (1), Down (2), Testing (3). Source: IF-MIB::ifAdminStatus
       (OID .1.3.6.1.2.1.2.2.1.7). Limitations: If Admin State is Down, the port was
-      intentionally shut down by policy.'
+      intentionally shut down by policy. Missing data indicates collector outage,
+      agent failure, or network disruption; values are preserved as null gaps.'
     datasource_type: alexanderzobnin-zabbix-datasource
     provenance_type: REAL_ZABBIX_TELEMETRY
     telemetry_source: Zabbix Telemetry Engine (SNMPv2c/v3, ICMP ping, Zabbix Agent
@@ -685,7 +727,8 @@ dashboards:
       selected network interface. Units: Bits per second (bps) calculated from 64-bit
       high-capacity octet counters. Source: IF-MIB::ifHCInOctets / ifHCOutOctets.
       Limitations: Polling interval is 30 seconds; sub-second bursts are averaged
-      across the polling window.'
+      across the polling window. Missing data indicates collector outage, agent failure,
+      or network disruption; values are preserved as null gaps.'
     datasource_type: alexanderzobnin-zabbix-datasource
     provenance_type: REAL_ZABBIX_TELEMETRY
     telemetry_source: Zabbix Telemetry Engine (SNMPv2c/v3, ICMP ping, Zabbix Agent
@@ -704,7 +747,8 @@ dashboards:
     description: 'Rate of corrupt, malformed, or CRC-failing packets received or transmitted
       on the interface. Units: Errors per second. Source: IF-MIB::ifInErrors / ifOutErrors.
       Limitations: Non-zero error rates indicate physical cable degradation, transceiver
-      fault, or electromagnetic interference.'
+      fault, or electromagnetic interference. Missing data indicates collector outage,
+      agent failure, or network disruption; values are preserved as null gaps.'
     datasource_type: alexanderzobnin-zabbix-datasource
     provenance_type: REAL_ZABBIX_TELEMETRY
     telemetry_source: Zabbix Telemetry Engine (SNMPv2c/v3, ICMP ping, Zabbix Agent
@@ -723,7 +767,9 @@ dashboards:
     description: 'Rate of valid inbound and outbound packets dropped due to internal
       queue or buffer exhaustion. Units: Packets per second (pps). Source: IF-MIB::ifInDiscards
       / ifOutDiscards. Limitations: Indicates egress queue congestion or policing
-      drops; warrants investigation into QoS queue configuration.'
+      drops; warrants investigation into QoS queue configuration. Missing data indicates
+      collector outage, agent failure, or network disruption; values are preserved
+      as null gaps.'
     datasource_type: alexanderzobnin-zabbix-datasource
     provenance_type: REAL_ZABBIX_TELEMETRY
     telemetry_source: Zabbix Telemetry Engine (SNMPv2c/v3, ICMP ping, Zabbix Agent
@@ -748,7 +794,8 @@ dashboards:
     panel_type: bargauge
     description: Distribution of operational remediation actions across the execution
       lifecycle. Tracks active executions, verification checkpoints, and automated
-      rollbacks.
+      rollbacks. Missing data indicates collector outage, agent failure, or network
+      disruption; values are preserved as null gaps.
     datasource_type: alexanderzobnin-zabbix-datasource
     provenance_type: REAL_ZABBIX_TELEMETRY
     telemetry_source: Zabbix Telemetry Engine (SNMPv2c/v3, ICMP ping, Zabbix Agent
@@ -772,7 +819,9 @@ dashboards:
     panel_type: stat
     description: Operational dead-man circuit breaker status. Automatically trips
       into LOCKED state if 3 consecutive remediation playbooks fail within 15 minutes,
-      halting further autonomous actions until manual NOC reset.
+      halting further autonomous actions until manual NOC reset. Missing data indicates
+      collector outage, agent failure, or network disruption; values are preserved
+      as null gaps.
     datasource_type: alexanderzobnin-zabbix-datasource
     provenance_type: REAL_ZABBIX_TELEMETRY
     telemetry_source: Zabbix Telemetry Engine (SNMPv2c/v3, ICMP ping, Zabbix Agent
@@ -790,7 +839,8 @@ dashboards:
     panel_type: table
     description: Real-time queue of pending operational actions awaiting human operator
       authorization. Enforces Two-Person Rule for high-risk mutations with single-use
-      HMAC-SHA256 tokens expiring in 15 minutes.
+      HMAC-SHA256 tokens expiring in 15 minutes. Missing data indicates collector
+      outage, agent failure, or network disruption; values are preserved as null gaps.
     datasource_type: alexanderzobnin-zabbix-datasource
     provenance_type: REAL_ZABBIX_TELEMETRY
     telemetry_source: Zabbix Telemetry Engine (SNMPv2c/v3, ICMP ping, Zabbix Agent
@@ -808,7 +858,8 @@ dashboards:
     panel_type: timeseries
     description: Independent post-action verification metrics proving true service
       recovery. Actions declaring exit code 0 must independently prove metric restoration
-      before incident closure.
+      before incident closure. Missing data indicates collector outage, agent failure,
+      or network disruption; values are preserved as null gaps.
     datasource_type: alexanderzobnin-zabbix-datasource
     provenance_type: REAL_ZABBIX_TELEMETRY
     telemetry_source: Zabbix Telemetry Engine (SNMPv2c/v3, ICMP ping, Zabbix Agent
@@ -828,7 +879,8 @@ dashboards:
     panel_type: table
     description: Tamper-evident operational audit ledger. Every proposal, approval,
       execution, and rollback is recorded in an immutable SHA-256 block hash chain
-      adhering to aviation compliance standards.
+      adhering to aviation compliance standards. Missing data indicates collector
+      outage, agent failure, or network disruption; values are preserved as null gaps.
     datasource_type: alexanderzobnin-zabbix-datasource
     provenance_type: REAL_ZABBIX_TELEMETRY
     telemetry_source: Zabbix Telemetry Engine (SNMPv2c/v3, ICMP ping, Zabbix Agent
@@ -852,7 +904,8 @@ dashboards:
     panel_title: Active Edge Collectors
     panel_type: stat
     description: Total count of active and communicating edge collector instances
-      across outstation hubs.
+      across outstation hubs. Missing data indicates collector outage, agent failure,
+      or network disruption; values are preserved as null gaps.
     datasource_type: alexanderzobnin-zabbix-datasource
     provenance_type: REAL_ZABBIX_TELEMETRY
     telemetry_source: Zabbix Telemetry Engine (SNMPv2c/v3, ICMP ping, Zabbix Agent
@@ -869,7 +922,8 @@ dashboards:
     panel_title: Max Outstation Clock Drift
     panel_type: stat
     description: 'Measured NTP clock drift between outstation edge devices and Central
-      Hub master clock (Warning: > 250ms).'
+      Hub master clock (Warning: > 250ms). Missing data indicates collector outage,
+      agent failure, or network disruption; values are preserved as null gaps.'
     datasource_type: alexanderzobnin-zabbix-datasource
     provenance_type: REAL_ZABBIX_TELEMETRY
     telemetry_source: Zabbix Telemetry Engine (SNMPv2c/v3, ICMP ping, Zabbix Agent
@@ -886,7 +940,8 @@ dashboards:
     panel_title: Fleet Total Spool Backlog
     panel_type: stat
     description: Total volume of telemetry records queued across all outstation SQLite
-      spools waiting for circuit restoration.
+      spools waiting for circuit restoration. Missing data indicates collector outage,
+      agent failure, or network disruption; values are preserved as null gaps.
     datasource_type: alexanderzobnin-zabbix-datasource
     provenance_type: REAL_ZABBIX_TELEMETRY
     telemetry_source: Zabbix Telemetry Engine (SNMPv2c/v3, ICMP ping, Zabbix Agent
@@ -903,7 +958,9 @@ dashboards:
     panel_title: Outstation Spool Storage & Replay Queue Matrix
     panel_type: table
     description: 'Individual outstation edge collector operational metrics: spool
-      file size (MB), buffered records, in-flight records, and last sync timestamp.'
+      file size (MB), buffered records, in-flight records, and last sync timestamp.
+      Missing data indicates collector outage, agent failure, or network disruption;
+      values are preserved as null gaps.'
     datasource_type: alexanderzobnin-zabbix-datasource
     provenance_type: REAL_ZABBIX_TELEMETRY
     telemetry_source: Zabbix Telemetry Engine (SNMPv2c/v3, ICMP ping, Zabbix Agent
@@ -927,7 +984,9 @@ dashboards:
     panel_title: Global Station Availability
     panel_type: gauge
     description: Overall proportion of Kenya Airways flight operations stations currently
-      online with active primary or secondary WAN circuits.
+      online with active primary or secondary WAN circuits. Missing data indicates
+      collector outage, agent failure, or network disruption; values are preserved
+      as null gaps.
     datasource_type: alexanderzobnin-zabbix-datasource
     provenance_type: REAL_ZABBIX_TELEMETRY
     telemetry_source: Zabbix Telemetry Engine (SNMPv2c/v3, ICMP ping, Zabbix Agent
@@ -944,7 +1003,8 @@ dashboards:
     panel_title: Active P1 / P2 Incidents
     panel_type: stat
     description: Count of active P1 Critical and P2 High operational incidents across
-      the global network.
+      the global network. Missing data indicates collector outage, agent failure,
+      or network disruption; values are preserved as null gaps.
     datasource_type: alexanderzobnin-zabbix-datasource
     provenance_type: REAL_ZABBIX_TELEMETRY
     telemetry_source: Zabbix Telemetry Engine (SNMPv2c/v3, ICMP ping, Zabbix Agent
@@ -961,7 +1021,8 @@ dashboards:
     panel_title: Service Tier Health Summary
     panel_type: table
     description: Health status across Tier 1 (Mission-Critical), Tier 2 (Business-Critical),
-      and Tier 3 (Corporate) aviation services.
+      and Tier 3 (Corporate) aviation services. Missing data indicates collector outage,
+      agent failure, or network disruption; values are preserved as null gaps.
     datasource_type: alexanderzobnin-zabbix-datasource
     provenance_type: REAL_ZABBIX_TELEMETRY
     telemetry_source: Zabbix Telemetry Engine (SNMPv2c/v3, ICMP ping, Zabbix Agent
@@ -978,7 +1039,8 @@ dashboards:
     panel_title: Regional Health Index Trends
     panel_type: timeseries
     description: Multi-region health index across Kenya Domestic, East Africa Regional,
-      Europe, and Middle East outstations.
+      Europe, and Middle East outstations. Missing data indicates collector outage,
+      agent failure, or network disruption; values are preserved as null gaps.
     datasource_type: alexanderzobnin-zabbix-datasource
     provenance_type: REAL_ZABBIX_TELEMETRY
     telemetry_source: Zabbix Telemetry Engine (SNMPv2c/v3, ICMP ping, Zabbix Agent
@@ -999,7 +1061,9 @@ dashboards:
     panel_title: Notification Channel Health & DLQ Backlog
     panel_type: table
     description: Operational notification delivery rate and Dead Letter Queue (DLQ)
-      state across SMTP Email, SMS Paging, and ServiceNow ITSM.
+      state across SMTP Email, SMS Paging, and ServiceNow ITSM. Missing data indicates
+      collector outage, agent failure, or network disruption; values are preserved
+      as null gaps.
     datasource_type: alexanderzobnin-zabbix-datasource
     provenance_type: REAL_ZABBIX_TELEMETRY
     telemetry_source: Zabbix Telemetry Engine (SNMPv2c/v3, ICMP ping, Zabbix Agent
@@ -1024,6 +1088,8 @@ dashboards:
     panel_type: table
     description: Real-time circuit operational status across Kenya Airways core hub,
       domestic stations, regional outstations, and long-haul international terminals.
+      Missing data indicates collector outage, agent failure, or network disruption;
+      values are preserved as null gaps.
     datasource_type: alexanderzobnin-zabbix-datasource
     provenance_type: REAL_ZABBIX_TELEMETRY
     telemetry_source: Zabbix Telemetry Engine (SNMPv2c/v3, ICMP ping, Zabbix Agent
@@ -1040,7 +1106,9 @@ dashboards:
     panel_title: Trans-WAN Round-Trip Latency (JKIA Hub to Outstations)
     panel_type: timeseries
     description: 'Round-trip network latency from JKIA Head Office to global outstations
-      (Target: Domestic < 40ms, Regional < 80ms, International < 160ms).'
+      (Target: Domestic < 40ms, Regional < 80ms, International < 160ms). Missing data
+      indicates collector outage, agent failure, or network disruption; values are
+      preserved as null gaps.'
     datasource_type: alexanderzobnin-zabbix-datasource
     provenance_type: REAL_ZABBIX_TELEMETRY
     telemetry_source: Zabbix Telemetry Engine (SNMPv2c/v3, ICMP ping, Zabbix Agent
@@ -1061,7 +1129,8 @@ dashboards:
     panel_title: Voice Quality Listening MOS by Station
     panel_type: gauge
     description: 'Synthetic voice Listening MOS score across primary outstations (Tier
-      1 Aviation SLA: MOS >= 4.0).'
+      1 Aviation SLA: MOS >= 4.0). Missing data indicates collector outage, agent
+      failure, or network disruption; values are preserved as null gaps.'
     datasource_type: alexanderzobnin-zabbix-datasource
     provenance_type: SYNTHETIC_PROBE
     telemetry_source: Synthetic Asterisk Call Engine (AMI / RTCP Telemetry)
@@ -1083,7 +1152,8 @@ dashboards:
     panel_title: Trans-WAN Voice Packet Jitter Trends
     panel_type: timeseries
     description: Trans-WAN packet jitter and packet loss percentage over outstation
-      voice paths.
+      voice paths. Missing data indicates collector outage, agent failure, or network
+      disruption; values are preserved as null gaps.
     datasource_type: alexanderzobnin-zabbix-datasource
     provenance_type: REAL_ZABBIX_TELEMETRY
     telemetry_source: Zabbix Telemetry Engine (SNMPv2c/v3, ICMP ping, Zabbix Agent
@@ -1102,7 +1172,8 @@ dashboards:
     panel_title: Buffered Spool Queue Depth by Station (Offline Records)
     panel_type: stat
     description: Number of telemetry records currently spooled on outstation disk
-      waiting for WAN circuit recovery.
+      waiting for WAN circuit recovery. Missing data indicates collector outage, agent
+      failure, or network disruption; values are preserved as null gaps.
     datasource_type: alexanderzobnin-zabbix-datasource
     provenance_type: REAL_ZABBIX_TELEMETRY
     telemetry_source: Zabbix Telemetry Engine (SNMPv2c/v3, ICMP ping, Zabbix Agent
@@ -1124,6 +1195,8 @@ dashboards:
     panel_type: timeseries
     description: Rate of replayed telemetry ingestion following outstation circuit
       restoration. Records marked with REPLAYED quality to protect live SLI metrics.
+      Missing data indicates collector outage, agent failure, or network disruption;
+      values are preserved as null gaps.
     datasource_type: alexanderzobnin-zabbix-datasource
     provenance_type: REAL_ZABBIX_TELEMETRY
     telemetry_source: Zabbix Telemetry Engine (SNMPv2c/v3, ICMP ping, Zabbix Agent
@@ -1146,7 +1219,9 @@ dashboards:
   - panel_id: 2
     panel_title: Incidents by Lifecycle State
     panel_type: stat
-    description: Distribution of active incidents across lifecycle stages.
+    description: Distribution of active incidents across lifecycle stages. Missing
+      data indicates collector outage, agent failure, or network disruption; values
+      are preserved as null gaps.
     datasource_type: alexanderzobnin-zabbix-datasource
     provenance_type: REAL_ZABBIX_TELEMETRY
     telemetry_source: Zabbix Telemetry Engine (SNMPv2c/v3, ICMP ping, Zabbix Agent
@@ -1163,7 +1238,8 @@ dashboards:
     panel_title: Max Unacknowledged Incident Age (SLA 15m)
     panel_type: stat
     description: 'Unacknowledged incidents nearing or exceeding SLA escalation timers
-      (Tier 1: 15 mins).'
+      (Tier 1: 15 mins). Missing data indicates collector outage, agent failure, or
+      network disruption; values are preserved as null gaps.'
     datasource_type: alexanderzobnin-zabbix-datasource
     provenance_type: SERVICE_ASSURANCE_SLI
     telemetry_source: Nawari Business Service SLI Engine (13B Standard)
@@ -1180,7 +1256,8 @@ dashboards:
     panel_title: Active Recovery Verification Pipelines (Consecutive Healthy Chains)
     panel_type: table
     description: Active recovery verification pipelines requiring >= 3 consecutive
-      fresh healthy observations before incident closure.
+      fresh healthy observations before incident closure. Missing data indicates collector
+      outage, agent failure, or network disruption; values are preserved as null gaps.
     datasource_type: alexanderzobnin-zabbix-datasource
     provenance_type: REAL_ZABBIX_TELEMETRY
     telemetry_source: Zabbix Telemetry Engine (SNMPv2c/v3, ICMP ping, Zabbix Agent
@@ -1206,7 +1283,8 @@ dashboards:
     panel_type: bargauge
     description: Real-time count of active statistical deviations across domains evaluated
       against dynamic diurnal baselines (|Z| >= 3.0 with 3-cycle persistence). High
-      values indicate widespread operational anomalies.
+      values indicate widespread operational anomalies. Missing data indicates collector
+      outage, agent failure, or network disruption; values are preserved as null gaps.
     datasource_type: alexanderzobnin-zabbix-datasource
     provenance_type: REAL_ZABBIX_TELEMETRY
     telemetry_source: Zabbix Telemetry Engine (SNMPv2c/v3, ICMP ping, Zabbix Agent
@@ -1228,7 +1306,9 @@ dashboards:
     panel_type: bargauge
     description: Projects estimated hours until critical resource ceilings (SBCE licensed
       session pool, switch uplink bandwidth) reach safe operational limits (85%) or
-      hard saturation (100%). Gated on R^2 >= 0.70 fit quality.
+      hard saturation (100%). Gated on R^2 >= 0.70 fit quality. Missing data indicates
+      collector outage, agent failure, or network disruption; values are preserved
+      as null gaps.
     datasource_type: alexanderzobnin-zabbix-datasource
     provenance_type: REAL_SBCE_SNMP
     telemetry_source: Avaya SBCE 8.1 SNMPv3 Agent (IF-MIB / HOST-RESOURCES-MIB / UCD-SNMP-MIB)
@@ -1249,7 +1329,8 @@ dashboards:
     description: "Compares observed metric values against dynamic historical diurnal\
       \ baseline bands ([\u03BC - 2.5\u03C3, \u03BC + 2.5\u03C3]) computed per hour\
       \ and day-of-week. Excursions outside the shaded corridor trigger statistical\
-      \ anomaly evaluations."
+      \ anomaly evaluations. Missing data indicates collector outage, agent failure,\
+      \ or network disruption; values are preserved as null gaps."
     datasource_type: alexanderzobnin-zabbix-datasource
     provenance_type: REAL_ZABBIX_TELEMETRY
     telemetry_source: Zabbix Telemetry Engine (SNMPv2c/v3, ICMP ping, Zabbix Agent
@@ -1271,7 +1352,8 @@ dashboards:
     panel_type: timeseries
     description: Calculates voice quality drift velocity (dMOS/dt). Projects forward
       MOS at 15-minute and 30-minute horizons. Negative slopes steeper than -0.15
-      MOS/10min trigger early degradation pre-alarms.
+      MOS/10min trigger early degradation pre-alarms. Missing data indicates collector
+      outage, agent failure, or network disruption; values are preserved as null gaps.
     datasource_type: alexanderzobnin-zabbix-datasource
     provenance_type: PREDICTIVE_STATISTICAL
     telemetry_source: Nawari Predictive Intelligence & Diurnal Baseline Engine
@@ -1293,7 +1375,8 @@ dashboards:
     panel_type: table
     description: Displays evidence-ranked diagnostic hypotheses. Evaluates cross-domain
       evidence across topology, counting supporting vs contradicting facts to compute
-      net rank scores.
+      net rank scores. Missing data indicates collector outage, agent failure, or
+      network disruption; values are preserved as null gaps.
     datasource_type: alexanderzobnin-zabbix-datasource
     provenance_type: REAL_ZABBIX_TELEMETRY
     telemetry_source: Zabbix Telemetry Engine (SNMPv2c/v3, ICMP ping, Zabbix Agent
@@ -1311,6 +1394,8 @@ dashboards:
     panel_type: timeseries
     description: Monitors carrier SIP signaling latency drift. Progressive PDD inflation
       indicates upstream carrier proxy congestion or queuing prior to hard trunk failures.
+      Missing data indicates collector outage, agent failure, or network disruption;
+      values are preserved as null gaps.
     datasource_type: alexanderzobnin-zabbix-datasource
     provenance_type: REAL_ZABBIX_TELEMETRY
     telemetry_source: Zabbix Telemetry Engine (SNMPv2c/v3, ICMP ping, Zabbix Agent
@@ -1336,7 +1421,8 @@ dashboards:
     panel_title: Departure Control System (DCS Core) Availability SLI
     panel_type: gauge
     description: Availability SLI for Departure Control System (Amadeus Altea Core,
-      Airport Check-in Desks, Gate Boarding Scanners).
+      Airport Check-in Desks, Gate Boarding Scanners). Missing data indicates collector
+      outage, agent failure, or network disruption; values are preserved as null gaps.
     datasource_type: alexanderzobnin-zabbix-datasource
     provenance_type: SERVICE_ASSURANCE_SLI
     telemetry_source: Nawari Business Service SLI Engine (13B Standard)
@@ -1353,7 +1439,8 @@ dashboards:
     panel_title: Flight Operations & Dispatch Availability SLI
     panel_type: gauge
     description: Availability SLI for Flight Operations & Dispatch (Jeppesen FliteDeck,
-      OFP Delivery, Core JKIA DC Switches).
+      OFP Delivery, Core JKIA DC Switches). Missing data indicates collector outage,
+      agent failure, or network disruption; values are preserved as null gaps.
     datasource_type: alexanderzobnin-zabbix-datasource
     provenance_type: SERVICE_ASSURANCE_SLI
     telemetry_source: Nawari Business Service SLI Engine (13B Standard)
@@ -1370,7 +1457,8 @@ dashboards:
     panel_title: Air-to-Ground & Ramp Voice Availability SLI
     panel_type: gauge
     description: Availability SLI for Air-to-Ground & Ramp Operations Voice (Avaya
-      Session Manager, SBCE, Dispatcher SIP Extensions).
+      Session Manager, SBCE, Dispatcher SIP Extensions). Missing data indicates collector
+      outage, agent failure, or network disruption; values are preserved as null gaps.
     datasource_type: alexanderzobnin-zabbix-datasource
     provenance_type: SERVICE_ASSURANCE_SLI
     telemetry_source: Nawari Business Service SLI Engine (13B Standard)
@@ -1388,7 +1476,8 @@ dashboards:
     panel_type: timeseries
     description: Multi-window Error Budget Burn Rate across aviation services. 1x
       consumes budget in 30 days; > 2x consumes budget in 14 days; > 14.4x consumes
-      100% of budget in 2 days.
+      100% of budget in 2 days. Missing data indicates collector outage, agent failure,
+      or network disruption; values are preserved as null gaps.
     datasource_type: alexanderzobnin-zabbix-datasource
     provenance_type: SERVICE_ASSURANCE_SLI
     telemetry_source: Nawari Business Service SLI Engine (13B Standard)
@@ -1409,6 +1498,8 @@ dashboards:
     panel_title: 'Remaining Error Budget Minutes (Tier 1: 21.6 mins / month max downtime)'
     panel_type: stat
     description: Remaining error budget minutes before contractual or design SLA breach.
+      Missing data indicates collector outage, agent failure, or network disruption;
+      values are preserved as null gaps.
     datasource_type: alexanderzobnin-zabbix-datasource
     provenance_type: SERVICE_ASSURANCE_SLI
     telemetry_source: Nawari Business Service SLI Engine (13B Standard)
@@ -1428,6 +1519,8 @@ dashboards:
     panel_type: table
     description: Active correlated incidents impacting aviation business services,
       showing impacted station, failed dependency, and recovery verification state.
+      Missing data indicates collector outage, agent failure, or network disruption;
+      values are preserved as null gaps.
     datasource_type: alexanderzobnin-zabbix-datasource
     provenance_type: REAL_ZABBIX_TELEMETRY
     telemetry_source: Zabbix Telemetry Engine (SNMPv2c/v3, ICMP ping, Zabbix Agent
@@ -1453,7 +1546,9 @@ dashboards:
     description: 'SNMP reachability status of Kenya Airways core distribution and
       datacenter switches. Values: 1 = Available/Responding, 0 = Timeout/Unreachable.
       Source: Zabbix zabbix[host,snmp,available] internal metric. Limitations: Verifies
-      UDP/161 polling response; does not measure packet forwarding throughput.'
+      UDP/161 polling response; does not measure packet forwarding throughput. Missing
+      data indicates collector outage, agent failure, or network disruption; values
+      are preserved as null gaps.'
     datasource_type: alexanderzobnin-zabbix-datasource
     provenance_type: REAL_ZABBIX_TELEMETRY
     telemetry_source: Zabbix Telemetry Engine (SNMPv2c/v3, ICMP ping, Zabbix Agent
@@ -1471,7 +1566,8 @@ dashboards:
     description: 'Continuous operating time since the switch was last reloaded or
       rebooted. Units: Seconds (formatted as Days, Hours, Minutes). Source: SNMPv2-MIB::sysUpTime
       (OID .1.3.6.1.2.1.1.3.0). Limitations: Uptime resets during firmware upgrades,
-      power cycles, or kernel crash reboots.'
+      power cycles, or kernel crash reboots. Missing data indicates collector outage,
+      agent failure, or network disruption; values are preserved as null gaps.'
     datasource_type: alexanderzobnin-zabbix-datasource
     provenance_type: REAL_ZABBIX_TELEMETRY
     telemetry_source: Zabbix Telemetry Engine (SNMPv2c/v3, ICMP ping, Zabbix Agent
@@ -1490,7 +1586,8 @@ dashboards:
       and the core switch management interface. Units: Milliseconds (ms). Source:
       Zabbix icmppingsec metric. Warning: > 10ms, Critical: > 50ms. Limitations: Control
       plane ICMP response is low priority and may spike during high control plane
-      CPU without impacting forwarding plane traffic.'
+      CPU without impacting forwarding plane traffic. Missing data indicates collector
+      outage, agent failure, or network disruption; values are preserved as null gaps.'
     datasource_type: alexanderzobnin-zabbix-datasource
     provenance_type: REAL_ZABBIX_TELEMETRY
     telemetry_source: Zabbix Telemetry Engine (SNMPv2c/v3, ICMP ping, Zabbix Agent
@@ -1508,7 +1605,9 @@ dashboards:
     description: 'Total count of unresolved active alerts and threshold breaches currently
       open against core network infrastructure in Zabbix. Source: Zabbix Problems
       API filtered for Network Infrastructure host group. Limitations: Count reflects
-      unacknowledged and acknowledged active problem events.'
+      unacknowledged and acknowledged active problem events. Missing data indicates
+      collector outage, agent failure, or network disruption; values are preserved
+      as null gaps.'
     datasource_type: alexanderzobnin-zabbix-datasource
     provenance_type: REAL_ZABBIX_TELEMETRY
     telemetry_source: Zabbix Telemetry Engine (SNMPv2c/v3, ICMP ping, Zabbix Agent
@@ -1526,7 +1625,9 @@ dashboards:
     description: 'Inventory table of all discovered physical Ethernet, port-channel,
       and VLAN interfaces on the core switch, detailing operational status, speed,
       and traffic statistics. Source: Zabbix Low-Level Discovery (LLD) on IF-MIB.
-      Limitations: Updated every 1 hour by discovery rule.'
+      Limitations: Updated every 1 hour by discovery rule. Missing data indicates
+      collector outage, agent failure, or network disruption; values are preserved
+      as null gaps.'
     datasource_type: alexanderzobnin-zabbix-datasource
     provenance_type: REAL_ZABBIX_TELEMETRY
     telemetry_source: Zabbix Telemetry Engine (SNMPv2c/v3, ICMP ping, Zabbix Agent
@@ -1544,7 +1645,8 @@ dashboards:
     description: 'Live streaming feed of unresolved network problem events ordered
       by severity (Information, Warning, Average, High, Disaster). Source: Zabbix
       Problems integration. Limitations: Real-time event feed depends on active WebSocket/polling
-      connection to Zabbix API.'
+      connection to Zabbix API. Missing data indicates collector outage, agent failure,
+      or network disruption; values are preserved as null gaps.'
     datasource_type: alexanderzobnin-zabbix-datasource
     provenance_type: REAL_ZABBIX_TELEMETRY
     telemetry_source: Zabbix Telemetry Engine (SNMPv2c/v3, ICMP ping, Zabbix Agent
@@ -1570,7 +1672,8 @@ dashboards:
       target along the discovered path. Sudden increases in end-to-end latency indicate
       routing shifts, congested transit links, or bufferbloat. Note that traceroute
       RTT may differ slightly from TCP application latency due to different network
-      priority queues.
+      priority queues. Missing data indicates collector outage, agent failure, or
+      network disruption; values are preserved as null gaps.
     datasource_type: alexanderzobnin-zabbix-datasource
     provenance_type: REAL_ZABBIX_TELEMETRY
     telemetry_source: Zabbix Telemetry Engine (SNMPv2c/v3, ICMP ping, Zabbix Agent
@@ -1589,7 +1692,8 @@ dashboards:
       destination target. Values above 0% indicate severe path impairment that causes
       TCP retransmissions and degraded voice/video quality. Must be evaluated alongside
       intermediate hop loss; loss at the target is true circuit loss, whereas intermediate
-      non-responses may be CoPP.
+      non-responses may be CoPP. Missing data indicates collector outage, agent failure,
+      or network disruption; values are preserved as null gaps.
     datasource_type: alexanderzobnin-zabbix-datasource
     provenance_type: REAL_ZABBIX_TELEMETRY
     telemetry_source: Zabbix Telemetry Engine (SNMPv2c/v3, ICMP ping, Zabbix Agent
@@ -1608,7 +1712,8 @@ dashboards:
       and the destination target. Significant changes in hop count indicate dynamic
       route re-convergence, BGP shifts, or failover to backup circuits. Path length
       alone does not determine latency, but abrupt hop count increases often correlate
-      with path suboptimality.
+      with path suboptimality. Missing data indicates collector outage, agent failure,
+      or network disruption; values are preserved as null gaps.
     datasource_type: alexanderzobnin-zabbix-datasource
     provenance_type: REAL_ZABBIX_TELEMETRY
     telemetry_source: Zabbix Telemetry Engine (SNMPv2c/v3, ICMP ping, Zabbix Agent
@@ -1627,7 +1732,8 @@ dashboards:
       or diverged from its baseline hash signature (0=STABLE, 1=ROUTE CHANGED). Frequent
       route changes signal flapping links, asymmetric routing, or ECMP churn. Route
       flapping introduces transient packet reordering and jitter that degrade real-time
-      traffic.
+      traffic. Missing data indicates collector outage, agent failure, or network
+      disruption; values are preserved as null gaps.
     datasource_type: alexanderzobnin-zabbix-datasource
     provenance_type: REAL_ZABBIX_TELEMETRY
     telemetry_source: Zabbix Telemetry Engine (SNMPv2c/v3, ICMP ping, Zabbix Agent
@@ -1646,7 +1752,8 @@ dashboards:
       in modern router backbones. Transit data packets are prioritized in hardware
       ASICs, while ICMP Time Exceeded packets are rate-limited by router CPUs. Hops
       showing packet loss or timeouts must not be classified as network failures if
-      downstream hops and destinations are responsive.
+      downstream hops and destinations are responsive. Missing data indicates collector
+      outage, agent failure, or network disruption; values are preserved as null gaps.
     datasource_type: zabbix
     provenance_type: REAL_ZABBIX_TELEMETRY
     telemetry_source: Zabbix Telemetry Engine (SNMPv2c/v3, ICMP ping, Zabbix Agent
@@ -1665,7 +1772,8 @@ dashboards:
       DNS hostnames, autonomous system numbers (ASN), average RTT, packet loss, and
       CoPP status. Identifies exactly which network transit hop introduces latency
       or packet loss. Non-responsive hops marked COPP_RATE_LIMITED indicate benign
-      control plane filtering rather than link failure.
+      control plane filtering rather than link failure. Missing data indicates collector
+      outage, agent failure, or network disruption; values are preserved as null gaps.
     datasource_type: alexanderzobnin-zabbix-datasource
     provenance_type: REAL_ZABBIX_TELEMETRY
     telemetry_source: Zabbix Telemetry Engine (SNMPv2c/v3, ICMP ping, Zabbix Agent
@@ -1684,7 +1792,8 @@ dashboards:
       successive hop toward the target. Sharp increases (>40 ms) between consecutive
       hops isolate congested physical spans, submarine cable transitions, or satellite
       links. Helps distinguish whether latency originates in the local LAN, enterprise
-      WAN, or third-party ISP transit.
+      WAN, or third-party ISP transit. Missing data indicates collector outage, agent
+      failure, or network disruption; values are preserved as null gaps.
     datasource_type: alexanderzobnin-zabbix-datasource
     provenance_type: REAL_ZABBIX_TELEMETRY
     telemetry_source: Zabbix Telemetry Engine (SNMPv2c/v3, ICMP ping, Zabbix Agent
@@ -1703,7 +1812,8 @@ dashboards:
       routing topology shifted. Spikes to 1 indicate an detected change in IP hop
       sequence, transit ASNs, or interface path. Correlate path change events with
       latency jumps or voice quality drops to determine whether ISP routing updates
-      caused service degradation.
+      caused service degradation. Missing data indicates collector outage, agent failure,
+      or network disruption; values are preserved as null gaps.
     datasource_type: alexanderzobnin-zabbix-datasource
     provenance_type: REAL_ZABBIX_TELEMETRY
     telemetry_source: Zabbix Telemetry Engine (SNMPv2c/v3, ICMP ping, Zabbix Agent
@@ -1727,7 +1837,8 @@ dashboards:
     panel_type: nodeGraph
     description: Interactive Layer 2 and Layer 3 topological graph displaying confirmed
       switches, routers, SBCs, endpoints, and links with real-time operational status
-      and bandwidth.
+      and bandwidth. Missing data indicates collector outage, agent failure, or network
+      disruption; values are preserved as null gaps.
     datasource_type: postgres
     provenance_type: CORRELATED_ANALYTICS
     telemetry_source: Nawari Unified Analytics & Correlation Engine
@@ -1743,7 +1854,9 @@ dashboards:
     panel_title: Topology Change Audit Log
     panel_type: table
     description: Chronological audit log of physical link transitions, neighbor additions/losses,
-      and route modifications detected by the topology engine.
+      and route modifications detected by the topology engine. Missing data indicates
+      collector outage, agent failure, or network disruption; values are preserved
+      as null gaps.
     datasource_type: postgres
     provenance_type: CORRELATED_ANALYTICS
     telemetry_source: Nawari Unified Analytics & Correlation Engine
@@ -1768,7 +1881,8 @@ dashboards:
     panel_type: gauge
     description: 'Processor core utilization on the Avaya Call Management System (CMS)
       server host. Units: Percentage (0-100%). Warning: 75%, Critical: 90%. Source:
-      HOST-RESOURCES-MIB. Polling: 60s.'
+      HOST-RESOURCES-MIB. Polling: 60s. Missing data indicates collector outage, agent
+      failure, or network disruption; values are preserved as null gaps.'
     datasource_type: alexanderzobnin-zabbix-datasource
     provenance_type: REAL_ZABBIX_TELEMETRY
     telemetry_source: Zabbix Telemetry Engine (SNMPv2c/v3, ICMP ping, Zabbix Agent
@@ -1785,7 +1899,9 @@ dashboards:
     panel_type: stat
     description: 'Operational state of the IBM Informix Dynamic Server (IDS) database
       engine underpinning CMS real-time and historical tables. 1 = Running / Online,
-      0 = Down / Offline. Source: Zabbix service check. Polling: 60s.'
+      0 = Down / Offline. Source: Zabbix service check. Polling: 60s. Missing data
+      indicates collector outage, agent failure, or network disruption; values are
+      preserved as null gaps.'
     datasource_type: alexanderzobnin-zabbix-datasource
     provenance_type: REAL_ZABBIX_TELEMETRY
     telemetry_source: Zabbix Telemetry Engine (SNMPv2c/v3, ICMP ping, Zabbix Agent
@@ -1803,7 +1919,8 @@ dashboards:
     description: 'Configured historical archiving interval for Avaya CMS interval
       tables (15 minutes, 30 minutes, or 60 minutes). Nawari read-only ODBC ingestion
       synchronizes strictly to this interval, preserving original timestamps. Source:
-      CMS system configuration.'
+      CMS system configuration. Missing data indicates collector outage, agent failure,
+      or network disruption; values are preserved as null gaps.'
     datasource_type: alexanderzobnin-zabbix-datasource
     provenance_type: REAL_ZABBIX_TELEMETRY
     telemetry_source: Zabbix Telemetry Engine (SNMPv2c/v3, ICMP ping, Zabbix Agent
@@ -1820,7 +1937,9 @@ dashboards:
     panel_type: gauge
     description: "Percentage of contact centre callers answered within Kenya Airways\
       \ service level threshold (80% answered in 20 seconds). Source: Avaya CMS Informix\
-      \ read-only ODBC query on hsplit table. Freshness: 15\u201330 minutes."
+      \ read-only ODBC query on hsplit table. Freshness: 15\u201330 minutes. Missing\
+      \ data indicates collector outage, agent failure, or network disruption; values\
+      \ are preserved as null gaps."
     datasource_type: alexanderzobnin-zabbix-datasource
     provenance_type: SERVICE_ASSURANCE_SLI
     telemetry_source: Nawari Business Service SLI Engine (13B Standard)
@@ -1837,7 +1956,8 @@ dashboards:
     panel_type: timeseries
     description: 'Average Speed of Answer (ASA) in seconds: mean caller waiting time
       before an agent connects. Source: Avaya CMS Informix query. Warning: > 45s,
-      Critical: > 90s.'
+      Critical: > 90s. Missing data indicates collector outage, agent failure, or
+      network disruption; values are preserved as null gaps.'
     datasource_type: alexanderzobnin-zabbix-datasource
     provenance_type: REAL_ZABBIX_TELEMETRY
     telemetry_source: Zabbix Telemetry Engine (SNMPv2c/v3, ICMP ping, Zabbix Agent
@@ -1854,7 +1974,8 @@ dashboards:
     panel_type: stat
     description: 'Live number of customer calls currently waiting on hold across all
       reservation and ticketing skill queues. Source: CMS real-time stream. Warning:
-      > 15 calls.'
+      > 15 calls. Missing data indicates collector outage, agent failure, or network
+      disruption; values are preserved as null gaps.'
     datasource_type: alexanderzobnin-zabbix-datasource
     provenance_type: REAL_ZABBIX_TELEMETRY
     telemetry_source: Zabbix Telemetry Engine (SNMPv2c/v3, ICMP ping, Zabbix Agent
@@ -1870,7 +1991,9 @@ dashboards:
     panel_title: "Oldest Call Waiting (sec) [APPLICATION \u2014 CMS]"
     panel_type: stat
     description: 'Duration in seconds of the single longest-waiting caller currently
-      in queue. Source: CMS real-time report. Warning: > 120s, Critical: > 300s.'
+      in queue. Source: CMS real-time report. Warning: > 120s, Critical: > 300s. Missing
+      data indicates collector outage, agent failure, or network disruption; values
+      are preserved as null gaps.'
     datasource_type: alexanderzobnin-zabbix-datasource
     provenance_type: REAL_ZABBIX_TELEMETRY
     telemetry_source: Zabbix Telemetry Engine (SNMPv2c/v3, ICMP ping, Zabbix Agent
@@ -1887,7 +2010,8 @@ dashboards:
     panel_type: timeseries
     description: "Historical volume trend comparing Calls Offered, Calls Answered,\
       \ and Calls Abandoned over interval buckets. Source: Avaya CMS Informix hsplit\
-      \ table. Freshness: 15\u201330 minutes."
+      \ table. Freshness: 15\u201330 minutes. Missing data indicates collector outage,\
+      \ agent failure, or network disruption; values are preserved as null gaps."
     datasource_type: alexanderzobnin-zabbix-datasource
     provenance_type: REAL_ZABBIX_TELEMETRY
     telemetry_source: Zabbix Telemetry Engine (SNMPv2c/v3, ICMP ping, Zabbix Agent
@@ -1907,7 +2031,8 @@ dashboards:
     description: 'Performance table breakdown by contact centre Skill Group / Split
       (e.g., Reservations English, French, Swahili, Flying Blue, Baggage Helpdesk)
       showing calls offered, answered, abandon %, ASA, and SLA compliance. Source:
-      Avaya CMS read-only ODBC query.'
+      Avaya CMS read-only ODBC query. Missing data indicates collector outage, agent
+      failure, or network disruption; values are preserved as null gaps.'
     datasource_type: alexanderzobnin-zabbix-datasource
     provenance_type: REAL_ZABBIX_TELEMETRY
     telemetry_source: Zabbix Telemetry Engine (SNMPv2c/v3, ICMP ping, Zabbix Agent
@@ -1932,7 +2057,9 @@ dashboards:
     panel_title: "CM Processor Reachability [REAL \u2014 ZABBIX]"
     panel_type: stat
     description: 'ICMP ping network reachability to the Avaya Communication Manager
-      processor interface. 1 = UP, 0 = DOWN. Polling: 1m. Freshness: 60s.'
+      processor interface. 1 = UP, 0 = DOWN. Polling: 1m. Freshness: 60s. Missing
+      data indicates collector outage, agent failure, or network disruption; values
+      are preserved as null gaps.'
     datasource_type: alexanderzobnin-zabbix-datasource
     provenance_type: REAL_ZABBIX_TELEMETRY
     telemetry_source: Zabbix Telemetry Engine (SNMPv2c/v3, ICMP ping, Zabbix Agent
@@ -1950,7 +2077,8 @@ dashboards:
     description: 'Total active alarm conditions on Communication Manager. Source:
       Avaya CM 8.1 MIB table avCmAlarmsTable (group OID 1.3.6.1.4.1.6889.2.73.8.1.5).
       Polling interval: strictly 1 hour (delay: 1h) to prevent excessive CPU consumption
-      on the CM call engine. Freshness: 1-2 hours.'
+      on the CM call engine. Freshness: 1-2 hours. Missing data indicates collector
+      outage, agent failure, or network disruption; values are preserved as null gaps.'
     datasource_type: alexanderzobnin-zabbix-datasource
     provenance_type: REAL_AVAYA_SNMP
     telemetry_source: Avaya Communication Manager 8.1.0 MIB (avCmMeasIpVoStatSumDataLstHrTable
@@ -1964,18 +2092,20 @@ dashboards:
       real-time per-call streaming telemetry.
     null_handling: 'spanNulls: False (nulls preserved as gaps, never coerced to 0)'
   - panel_id: 4
-    panel_title: "Call Rate Attempts (5-min) [REAL \u2014 AVAYA SNMP]"
+    panel_title: "Call Processing Hourly Status [REAL \u2014 AVAYA SNMP]"
     panel_type: timeseries
-    description: 'Total call attempts processed by Communication Manager in 5-minute
-      sampling intervals. Source: Avaya CM 8.1 MIB table avCmListMeasCallRateTotalTable
-      (group OID 1.3.6.1.4.1.6889.2.73.8.1.145 leaf .1.2.1). Polling interval: strictly
-      5 minutes. Freshness: 5 minutes.'
+    description: 'Call processing activity indicator from Avaya CM 8.1 MIB avCmListMeasCallRateTotalTable
+      (group OID 1.3.6.1.4.1.6889.2.73.8.1.145). Polling interval: strictly 5 minutes
+      (vendor rate-limiting bound). Note: measurement interval is an hourly measurement
+      block from list measurements call-rate total, not a rolling 5-minute counter.
+      Attempts is not exposed as a 5-minute counter in this table. Missing data indicates
+      collector timeout or SNMP failure.'
     datasource_type: alexanderzobnin-zabbix-datasource
     provenance_type: REAL_AVAYA_SNMP
     telemetry_source: Avaya Communication Manager 8.1.0 MIB (avCmMeasIpVoStatSumDataLstHrTable
       / avCmMeasIpVoStatHrJitterTable)
     metric_keys:
-    - Call Rate Total Attempts (5-minute)
+    - Call Rate Total Attempts (Hourly Measurement Interval)
     unit: calls
     refresh_interval: 1 hour (Polling restricted to >= 3600s to prevent CM CPU exhaustion)
     freshness_guarantee: "1\u20132 hours (CM internal hourly measurement bucket)"
@@ -1983,18 +2113,21 @@ dashboards:
       real-time per-call streaming telemetry.
     null_handling: 'spanNulls: False (nulls preserved as gaps, never coerced to 0)'
   - panel_id: 5
-    panel_title: "Call Rate Completed (5-min) [REAL \u2014 AVAYA SNMP]"
+    panel_title: "Call Rate Completed Calls (Hourly Measurement) [REAL \u2014 AVAYA\
+      \ SNMP]"
     panel_type: timeseries
-    description: 'Total successfully completed calls processed by Communication Manager
-      in 5-minute sampling intervals. Source: Avaya CM 8.1 MIB table avCmListMeasCallRateTotalTable
-      (group OID 1.3.6.1.4.1.6889.2.73.8.1.145 leaf .1.3.1). Polling interval: strictly
-      5 minutes.'
+    description: 'Total completed calls recorded in the current hourly measurement
+      block from list measurements call-rate total (leaf .1.3.1). Source: Avaya CM
+      8.1 MIB table avCmListMeasCallRateTotalTable (group OID 1.3.6.1.4.1.6889.2.73.8.1.145
+      leaf .1.3.1). Polling interval: strictly 5 minutes (vendor engine protection
+      limit). Measurement interval: hourly measurement block. Missing data indicates
+      CM SNMP communication outage.'
     datasource_type: alexanderzobnin-zabbix-datasource
     provenance_type: REAL_AVAYA_SNMP
     telemetry_source: Avaya Communication Manager 8.1.0 MIB (avCmMeasIpVoStatSumDataLstHrTable
       / avCmMeasIpVoStatHrJitterTable)
     metric_keys:
-    - Call Rate Completed Calls (5-minute)
+    - Call Rate Completed Calls (Hourly Measurement Interval)
     unit: calls
     refresh_interval: 1 hour (Polling restricted to >= 3600s to prevent CM CPU exhaustion)
     freshness_guarantee: "1\u20132 hours (CM internal hourly measurement bucket)"
@@ -2006,9 +2139,10 @@ dashboards:
     panel_type: stat
     description: 'Percentage of IP voice audio packets lost during active calls in
       the last completed hour across the monitored network region. Source: Avaya CM
-      SNMP table avCmMeasIpVoStatSumDataLstHrTable (OID 1.3.6.1.4.1.6889.2.73.8.1.77
-      leaf .6). Polling interval: strictly 1 hour. Freshness: 1-2 hours. Warning:
-      > 1.0%, Critical: > 2.5%.'
+      SNMP table avCmMeasIpVoStatHrData (OID 1.3.6.1.4.1.6889.2.73.8.1.67 leaf .10).
+      Polling interval: strictly 1 hour. Caching interval: 600s. Warning: > 1.0%,
+      Critical: > 2.5%. Missing data indicates CM SNMP communication outage or unadministered
+      IP options.'
     datasource_type: alexanderzobnin-zabbix-datasource
     provenance_type: REAL_AVAYA_SNMP
     telemetry_source: Avaya Communication Manager 8.1.0 MIB (avCmMeasIpVoStatSumDataLstHrTable
@@ -2025,8 +2159,10 @@ dashboards:
     panel_title: "Real-Call Peak Jitter (Last Hour) [REAL \u2014 AVAYA SNMP]"
     panel_type: stat
     description: 'Peak interarrival packet jitter in milliseconds observed across
-      real calls in the last completed hour. Source: Avaya CM SNMP table avCmMeasIpVoStatSumDataLstHrTable
-      (leaf .7). Polling interval: strictly 1 hour. Warning: > 20ms, Critical: > 30ms.'
+      real calls in the last completed hour. Source: Avaya CM SNMP table avCmMeasIpVoStatHrData
+      (OID 1.3.6.1.4.1.6889.2.73.8.1.67 leaf .11). Polling interval: strictly 1 hour.
+      Caching interval: 600s. Warning: > 20ms, Critical: > 30ms. Missing data indicates
+      collector outage.'
     datasource_type: alexanderzobnin-zabbix-datasource
     provenance_type: REAL_AVAYA_SNMP
     telemetry_source: Avaya Communication Manager 8.1.0 MIB (avCmMeasIpVoStatSumDataLstHrTable
@@ -2043,9 +2179,10 @@ dashboards:
     panel_title: "Real-Call Peak Delay (Last Hour) [REAL \u2014 AVAYA SNMP]"
     panel_type: stat
     description: 'Maximum two-way round-trip audio packet delay in milliseconds observed
-      across real calls in the last completed hour. Source: Avaya CM SNMP table avCmMeasIpVoStatSumDataLstHrTable
-      (leaf .8). Polling interval: strictly 1 hour. Target: <= 150ms (ITU-T G.114),
-      Critical: > 250ms.'
+      across real calls in the last completed hour. Source: Avaya CM SNMP table avCmMeasIpVoStatHrData
+      (OID 1.3.6.1.4.1.6889.2.73.8.1.67 leaf .12). Polling interval: strictly 1 hour.
+      Caching interval: 600s. Target: <= 150ms (ITU-T G.114), Critical: > 250ms. Missing
+      data indicates collector outage.'
     datasource_type: alexanderzobnin-zabbix-datasource
     provenance_type: REAL_AVAYA_SNMP
     telemetry_source: Avaya Communication Manager 8.1.0 MIB (avCmMeasIpVoStatSumDataLstHrTable
@@ -2061,9 +2198,10 @@ dashboards:
   - panel_id: 10
     panel_title: "Hourly Average Jitter [REAL \u2014 AVAYA SNMP]"
     panel_type: stat
-    description: 'Average interarrival packet jitter in milliseconds calculated across
-      all calls in the last completed hour. Source: Avaya CM SNMP table avCmMeasIpVoStatHrJitterTable
-      (OID 1.3.6.1.4.1.6889.2.73.8.1.66 leaf .2). Polling interval: 1 hour.'
+    description: 'Summary interarrival packet jitter metric calculated across active
+      calls in the completed hour. Source: Avaya CM SNMP table avCmMeasIpVoStatHrData
+      (OID 1.3.6.1.4.1.6889.2.73.8.1.67). Polling interval: strictly 1 hour. Caching
+      interval: 600s. Missing data indicates collector outage.'
     datasource_type: alexanderzobnin-zabbix-datasource
     provenance_type: REAL_AVAYA_SNMP
     telemetry_source: Avaya Communication Manager 8.1.0 MIB (avCmMeasIpVoStatSumDataLstHrTable
@@ -2081,7 +2219,8 @@ dashboards:
     panel_type: stat
     description: 'Primary negotiated audio compression algorithm / codec (e.g. G.711A,
       G.711U, G.729) active in the measured network region. Source: Avaya CM SNMP
-      table avCmMeasIpVoStatSumDataLstHrTable leaf .3. Polling interval: 1 hour.'
+      table avCmMeasIpVoStatHrData (OID 1.3.6.1.4.1.6889.2.73.8.1.67 leaf .8). Polling
+      interval: 1 hour. Missing data indicates collector outage.'
     datasource_type: alexanderzobnin-zabbix-datasource
     provenance_type: REAL_AVAYA_SNMP
     telemetry_source: Avaya Communication Manager 8.1.0 MIB (avCmMeasIpVoStatSumDataLstHrTable
@@ -2098,8 +2237,9 @@ dashboards:
     panel_title: "Echo Cancellation Status [REAL \u2014 AVAYA SNMP]"
     panel_type: stat
     description: 'Operational status of hardware/software echo cancellation on voice
-      paths for the measured network region. Source: Avaya CM SNMP table avCmMeasIpVoStatSumDataLstHrTable
-      leaf .11. Polling interval: 1 hour.'
+      paths for the measured network region. Source: Avaya CM SNMP table avCmMeasIpVoStatHrData
+      (OID 1.3.6.1.4.1.6889.2.73.8.1.67 leaf .13). Polling interval: 1 hour. Missing
+      data indicates collector outage.'
     datasource_type: alexanderzobnin-zabbix-datasource
     provenance_type: REAL_AVAYA_SNMP
     telemetry_source: Avaya Communication Manager 8.1.0 MIB (avCmMeasIpVoStatSumDataLstHrTable
@@ -2117,7 +2257,8 @@ dashboards:
     panel_type: stat
     description: 'Total number of real IP voice calls evaluated by Communication Manager
       during the last completed hour across all media gateways. Source: Avaya CM SNMP
-      table avCmMeasIpVoStatHrJitterTable leaf .4. Polling interval: 1 hour.'
+      table avCmMeasIpVoStatHrData (OID 1.3.6.1.4.1.6889.2.73.8.1.67). Polling interval:
+      1 hour. Missing data indicates collector outage.'
     datasource_type: alexanderzobnin-zabbix-datasource
     provenance_type: REAL_AVAYA_SNMP
     telemetry_source: Avaya Communication Manager 8.1.0 MIB (avCmMeasIpVoStatSumDataLstHrTable
@@ -2143,7 +2284,8 @@ dashboards:
     panel_type: stat
     description: 'Operating time of the Avaya G450 chassis processor since last reload
       or power cycle. Source: MIB-II sysUpTime (OID 1.3.6.1.2.1.1.3.0). Polling: 60s.
-      Freshness: 60s.'
+      Freshness: 60s. Missing data indicates collector outage, agent failure, or network
+      disruption; values are preserved as null gaps.'
     datasource_type: alexanderzobnin-zabbix-datasource
     provenance_type: REAL_ZABBIX_TELEMETRY
     telemetry_source: Zabbix Telemetry Engine (SNMPv2c/v3, ICMP ping, Zabbix Agent
@@ -2160,7 +2302,9 @@ dashboards:
     panel_type: stat
     description: 'Registration status of the G450 Media Gateway with its controlling
       Avaya Communication Manager server. 1 = REGISTERED, 2 = UNREGISTERED, 3 = DISCOVERING.
-      Source: Avaya G450 Gateway MIB. Polling: 60s. Critical alert if unregistered.'
+      Source: Avaya G450 Gateway MIB. Polling: 60s. Critical alert if unregistered.
+      Missing data indicates collector outage, agent failure, or network disruption;
+      values are preserved as null gaps.'
     datasource_type: alexanderzobnin-zabbix-datasource
     provenance_type: REAL_ZABBIX_TELEMETRY
     telemetry_source: Zabbix Telemetry Engine (SNMPv2c/v3, ICMP ping, Zabbix Agent
@@ -2175,11 +2319,13 @@ dashboards:
   - panel_id: 4
     panel_title: "Chassis Thermal State [EVENT TRAP \u2014 G450 MGP]"
     panel_type: stat
-    description: "Internal temperature alarm state of the G450 chassis processor.\
-      \ 1 = Normal (< 40\xB0C), 2 = Thermal Warning, 3 = Critical Exceeded. Collection\
-      \ Mechanism: Ingested via G450 MGP SNMP traps (temperatureWarning, temperatureClear).\
-      \ Important: G450 exposes discrete thermal event traps rather than a continuous\
-      \ analog gauge (Audit Phase 13.2 correction). Provenance: CONFIGURED_UNVERIFIED."
+    description: 'Event-derived internal thermal state of the G450 chassis processor.
+      States: 0 = UNKNOWN (no trap received / initialized), 1 = CLEARED (normal operation
+      after temperatureClear trap), 2 = WARNING (ambient temperature threshold exceeded
+      after temperatureWarning trap). Important: Avaya G450 MGP firmware does not
+      expose a continuous analog temperature gauge or a separate critical trap state;
+      thermal monitoring is strictly event-derived (Phase 13.3 MIB conformance). Provenance:
+      CONFIGURED_UNVERIFIED. Missing data indicates trapper service failure.'
     datasource_type: alexanderzobnin-zabbix-datasource
     provenance_type: REAL_ZABBIX_TELEMETRY
     telemetry_source: Zabbix Telemetry Engine (SNMPv2c/v3, ICMP ping, Zabbix Agent
@@ -2197,7 +2343,8 @@ dashboards:
     description: 'Operational state of Primary and Redundant Power Supply Units (PSU
       1 and PSU 2). 1 = Normal, 2 = Fault/Failed, 3 = Not Installed. Collection Mechanism:
       Ingested via G450 MGP SNMP traps (powerSupplyFailure / powerSupplyNormal) or
-      chassis status. Provenance: CONFIGURED_UNVERIFIED.'
+      chassis status. Provenance: CONFIGURED_UNVERIFIED. Missing data indicates collector
+      outage, agent failure, or network disruption; values are preserved as null gaps.'
     datasource_type: alexanderzobnin-zabbix-datasource
     provenance_type: REAL_ZABBIX_TELEMETRY
     telemetry_source: Zabbix Telemetry Engine (SNMPv2c/v3, ICMP ping, Zabbix Agent
@@ -2215,7 +2362,8 @@ dashboards:
     panel_type: stat
     description: 'Operational link status of the physical E1 / ISDN PRI trunk port
       on the installed MM710 media module. 1 = UP, 2 = DOWN. Source: IF-MIB ifOperStatus.
-      Polling: 60s. Critical alert if down.'
+      Polling: 60s. Critical alert if down. Missing data indicates collector outage,
+      agent failure, or network disruption; values are preserved as null gaps.'
     datasource_type: alexanderzobnin-zabbix-datasource
     provenance_type: REAL_ZABBIX_TELEMETRY
     telemetry_source: Zabbix Telemetry Engine (SNMPv2c/v3, ICMP ping, Zabbix Agent
@@ -2232,8 +2380,9 @@ dashboards:
     panel_type: stat
     description: "VoIP DSP and media resource channel utilization. Status: Not collected\
       \ \u2014 requires physical audit of installed G450 firmware and DSP child cards\
-      \ (MP80 / MP20 / MP160). Unconfirmed telemetry is honestly displayed as N/A\
-      \ rather than an invented percentage."
+      \ (MP20 / MP80 for older branch gateways, MP120 / MP160 for high-capacity models).\
+      \ Unconfirmed telemetry is honestly displayed as N/A rather than an invented\
+      \ percentage. Missing data indicates uncollected hardware telemetry."
     datasource_type: alexanderzobnin-zabbix-datasource
     provenance_type: REAL_ZABBIX_TELEMETRY
     telemetry_source: Zabbix Telemetry Engine (SNMPv2c/v3, ICMP ping, Zabbix Agent
@@ -2250,7 +2399,9 @@ dashboards:
     panel_type: stat
     description: 'Operational cooling state of the G450 chassis fan tray unit: 1 =
       Normal, 2 = Fan Failure, 3 = Warning. Collection Mechanism: Ingested via G450
-      MGP SNMP trap (fanFailure) or chassis status. Provenance: CONFIGURED_UNVERIFIED.'
+      MGP SNMP trap (fanFailure) or chassis status. Provenance: CONFIGURED_UNVERIFIED.
+      Missing data indicates collector outage, agent failure, or network disruption;
+      values are preserved as null gaps.'
     datasource_type: alexanderzobnin-zabbix-datasource
     provenance_type: REAL_ZABBIX_TELEMETRY
     telemetry_source: Zabbix Telemetry Engine (SNMPv2c/v3, ICMP ping, Zabbix Agent
@@ -2268,7 +2419,8 @@ dashboards:
     description: 'Inventory table of installed media module slots (V1 through V8)
       on the G450 chassis, displaying module model (MM710 E1/T1, MM711 Analog, MM716
       Station, MM720 ISDN BRI), serial number, and module operational status. Source:
-      Avaya G450 Media Module Discovery.'
+      Avaya G450 Media Module Discovery. Missing data indicates collector outage,
+      agent failure, or network disruption; values are preserved as null gaps.'
     datasource_type: alexanderzobnin-zabbix-datasource
     provenance_type: REAL_ZABBIX_TELEMETRY
     telemetry_source: Zabbix Telemetry Engine (SNMPv2c/v3, ICMP ping, Zabbix Agent
@@ -2295,7 +2447,9 @@ dashboards:
       Border Controller Enterprise (SBCE 8.1). Value 1 indicates SNMP daemon is responding
       to polling requests; 0 indicates SNMP agent timeout or unreachable. Source:
       Zabbix SNMPv3 agent ping. Limitations: Verifies management plane reachability
-      only; does not confirm media proxy or SIP signaling functionality.'
+      only; does not confirm media proxy or SIP signaling functionality. Missing data
+      indicates collector outage, agent failure, or network disruption; values are
+      preserved as null gaps.'
     datasource_type: alexanderzobnin-zabbix-datasource
     provenance_type: REAL_SBCE_SNMP
     telemetry_source: Avaya SBCE 8.1 SNMPv3 Agent (IF-MIB / HOST-RESOURCES-MIB / UCD-SNMP-MIB)
@@ -2313,7 +2467,9 @@ dashboards:
     description: 'Elapsed time since last reboot of the Avaya SBCE operating system
       (CentOS-based SBC OS). Units: Seconds (formatted as days, hours, minutes). Source:
       HOST-RESOURCES-MIB::hrSystemUptime (OID .1.3.6.1.2.1.25.1.1.0). Limitations:
-      A sudden drop to zero indicates an unplanned reboot or power disruption.'
+      A sudden drop to zero indicates an unplanned reboot or power disruption. Missing
+      data indicates collector outage, agent failure, or network disruption; values
+      are preserved as null gaps.'
     datasource_type: alexanderzobnin-zabbix-datasource
     provenance_type: REAL_SBCE_SNMP
     telemetry_source: Avaya SBCE 8.1 SNMPv3 Agent (IF-MIB / HOST-RESOURCES-MIB / UCD-SNMP-MIB)
@@ -2332,7 +2488,8 @@ dashboards:
       \ Units: Percentage (0\u2013100%). Warning threshold: 75%, Critical: 90%. Source:\
       \ HOST-RESOURCES-MIB::hrProcessorLoad (OID .1.3.6.1.2.1.25.3.3.1.2). Limitations:\
       \ High CPU may cause delayed SIP transaction processing and audio transcoding\
-      \ artifacts."
+      \ artifacts. Missing data indicates collector outage, agent failure, or network\
+      \ disruption; values are preserved as null gaps."
     datasource_type: alexanderzobnin-zabbix-datasource
     provenance_type: REAL_SBCE_SNMP
     telemetry_source: Avaya SBCE 8.1 SNMPv3 Agent (IF-MIB / HOST-RESOURCES-MIB / UCD-SNMP-MIB)
@@ -2350,7 +2507,9 @@ dashboards:
     description: "Percentage of physical memory currently consumed on the Avaya SBCE.\
       \ Units: Percentage (0\u2013100%). Source: HOST-RESOURCES-MIB memory allocation\
       \ metrics. Warning: 80%, Critical: 95%. Limitations: Memory exhaustion can lead\
-      \ to Linux OOM killer terminating SIP signaling processes."
+      \ to Linux OOM killer terminating SIP signaling processes. Missing data indicates\
+      \ collector outage, agent failure, or network disruption; values are preserved\
+      \ as null gaps."
     datasource_type: alexanderzobnin-zabbix-datasource
     provenance_type: REAL_SBCE_SNMP
     telemetry_source: Avaya SBCE 8.1 SNMPv3 Agent (IF-MIB / HOST-RESOURCES-MIB / UCD-SNMP-MIB)
@@ -2368,7 +2527,9 @@ dashboards:
     description: "Disk space consumption on the root (/) filesystem partition of the\
       \ Avaya SBCE appliance. Units: Percentage (0\u2013100%). Source: HOST-RESOURCES-MIB::hrStorageUsed\
       \ (OID .1.3.6.1.2.1.25.2.3.1.6). Limitations: Log file accumulation (e.g., trace_sbc)\
-      \ can fill disk, leading to packet capture failure or service halt."
+      \ can fill disk, leading to packet capture failure or service halt. Missing\
+      \ data indicates collector outage, agent failure, or network disruption; values\
+      \ are preserved as null gaps."
     datasource_type: alexanderzobnin-zabbix-datasource
     provenance_type: REAL_SBCE_SNMP
     telemetry_source: Avaya SBCE 8.1 SNMPv3 Agent (IF-MIB / HOST-RESOURCES-MIB / UCD-SNMP-MIB)
@@ -2386,7 +2547,9 @@ dashboards:
     description: 'One-minute system load average representing the number of runnable
       or waiting processes. Units: Scalar load average. Source: UCD-SNMP-MIB::laLoad.1
       (OID .1.3.6.1.4.1.2021.10.1.3.1). Limitations: Sustained load higher than CPU
-      core count indicates queue saturation and potential SIP packet drop.'
+      core count indicates queue saturation and potential SIP packet drop. Missing
+      data indicates collector outage, agent failure, or network disruption; values
+      are preserved as null gaps.'
     datasource_type: alexanderzobnin-zabbix-datasource
     provenance_type: REAL_SBCE_SNMP
     telemetry_source: Avaya SBCE 8.1 SNMPv3 Agent (IF-MIB / HOST-RESOURCES-MIB / UCD-SNMP-MIB)
@@ -2404,7 +2567,9 @@ dashboards:
     description: 'Link operational status of physical interface A1 connecting the
       Avaya SBCE to the external DMZ and telecom service provider SIP trunks (e.g.,
       Safaricom). 1 = Up, 2 = Down. Source: IF-MIB::ifOperStatus.1. Limitations: Down
-      status causes immediate loss of external inbound/outbound telephony.'
+      status causes immediate loss of external inbound/outbound telephony. Missing
+      data indicates collector outage, agent failure, or network disruption; values
+      are preserved as null gaps.'
     datasource_type: alexanderzobnin-zabbix-datasource
     provenance_type: REAL_SBCE_SNMP
     telemetry_source: Avaya SBCE 8.1 SNMPv3 Agent (IF-MIB / HOST-RESOURCES-MIB / UCD-SNMP-MIB)
@@ -2422,7 +2587,9 @@ dashboards:
     description: 'Link operational status of physical interface B1 connecting the
       Avaya SBCE to the internal core voice network (Avaya Aura Session Manager &
       Media Gateways). 1 = Up, 2 = Down. Source: IF-MIB::ifOperStatus.2. Limitations:
-      Down status halts internal call routing between SBCE and Aura Core.'
+      Down status halts internal call routing between SBCE and Aura Core. Missing
+      data indicates collector outage, agent failure, or network disruption; values
+      are preserved as null gaps.'
     datasource_type: alexanderzobnin-zabbix-datasource
     provenance_type: REAL_SBCE_SNMP
     telemetry_source: Avaya SBCE 8.1 SNMPv3 Agent (IF-MIB / HOST-RESOURCES-MIB / UCD-SNMP-MIB)
@@ -2440,7 +2607,9 @@ dashboards:
     description: 'Link operational status of interface M1 dedicated to out-of-band
       management and EMS web administration. 1 = Up, 2 = Down. Source: IF-MIB::ifOperStatus.3.
       Limitations: Interface failure prevents administrative access and EMS configuration
-      synchronization but does not disrupt active call traffic.'
+      synchronization but does not disrupt active call traffic. Missing data indicates
+      collector outage, agent failure, or network disruption; values are preserved
+      as null gaps.'
     datasource_type: alexanderzobnin-zabbix-datasource
     provenance_type: REAL_SBCE_SNMP
     telemetry_source: Avaya SBCE 8.1 SNMPv3 Agent (IF-MIB / HOST-RESOURCES-MIB / UCD-SNMP-MIB)
@@ -2459,7 +2628,8 @@ dashboards:
       (HA) clustering heartbeat and state synchronization between SBCE primary and
       standby appliances. 1 = Up, 2 = Down. Source: IF-MIB::ifOperStatus.4. Limitations:
       Loss of M2 heartbeat can trigger split-brain condition or disable automatic
-      failover.'
+      failover. Missing data indicates collector outage, agent failure, or network
+      disruption; values are preserved as null gaps.'
     datasource_type: alexanderzobnin-zabbix-datasource
     provenance_type: REAL_SBCE_SNMP
     telemetry_source: Avaya SBCE 8.1 SNMPv3 Agent (IF-MIB / HOST-RESOURCES-MIB / UCD-SNMP-MIB)
@@ -2478,7 +2648,8 @@ dashboards:
       A1 carrying carrier SIP signaling (UDP/TCP/TLS 5060/5061) and RTP media streams.
       Units: Bits per second (bps) with delta rate calculation. Source: IF-MIB::ifHCInOctets
       / ifHCOutOctets. Limitations: Polled at 30s intervals; short microbursts below
-      polling window are smoothed.'
+      polling window are smoothed. Missing data indicates collector outage, agent
+      failure, or network disruption; values are preserved as null gaps.'
     datasource_type: alexanderzobnin-zabbix-datasource
     provenance_type: REAL_SBCE_SNMP
     telemetry_source: Avaya SBCE 8.1 SNMPv3 Agent (IF-MIB / HOST-RESOURCES-MIB / UCD-SNMP-MIB)
@@ -2497,7 +2668,9 @@ dashboards:
     description: 'Bidirectional network throughput on internal interface B1 carrying
       media streams between SBCE and Avaya Media Servers/Gateways. Units: Bits per
       second (bps). Source: IF-MIB::ifHCInOctets / ifHCOutOctets. Limitations: Bandwidth
-      spikes correlate with concurrent active RTP call sessions.'
+      spikes correlate with concurrent active RTP call sessions. Missing data indicates
+      collector outage, agent failure, or network disruption; values are preserved
+      as null gaps.'
     datasource_type: alexanderzobnin-zabbix-datasource
     provenance_type: REAL_SBCE_SNMP
     telemetry_source: Avaya SBCE 8.1 SNMPv3 Agent (IF-MIB / HOST-RESOURCES-MIB / UCD-SNMP-MIB)
@@ -2516,7 +2689,9 @@ dashboards:
     description: 'Rate of inbound and outbound frame/packet errors detected on voice-bearing
       interfaces (A1 and B1). Units: Errors per second. Source: IF-MIB::ifInErrors
       / ifOutErrors. Limitations: Any non-zero error rate directly degrades voice
-      audio quality, causing robotic voice, clipping, and clicks.'
+      audio quality, causing robotic voice, clipping, and clicks. Missing data indicates
+      collector outage, agent failure, or network disruption; values are preserved
+      as null gaps.'
     datasource_type: alexanderzobnin-zabbix-datasource
     provenance_type: REAL_SBCE_SNMP
     telemetry_source: Avaya SBCE 8.1 SNMPv3 Agent (IF-MIB / HOST-RESOURCES-MIB / UCD-SNMP-MIB)
@@ -2535,7 +2710,9 @@ dashboards:
     description: 'Rate of dropped inbound and outbound packets due to buffer overrun
       or NIC queue saturation on voice interfaces A1 and B1. Units: Packets per second
       (pps). Source: IF-MIB::ifInDiscards / ifOutDiscards. Limitations: Non-zero discards
-      indicate interface or switch buffer congestion requiring QoS review.'
+      indicate interface or switch buffer congestion requiring QoS review. Missing
+      data indicates collector outage, agent failure, or network disruption; values
+      are preserved as null gaps.'
     datasource_type: alexanderzobnin-zabbix-datasource
     provenance_type: REAL_SBCE_SNMP
     telemetry_source: Avaya SBCE 8.1 SNMPv3 Agent (IF-MIB / HOST-RESOURCES-MIB / UCD-SNMP-MIB)
@@ -2554,7 +2731,9 @@ dashboards:
     description: 'Live real-time alarm stream of active operational problems and threshold
       violations originating from Avaya SBCE hosts in Zabbix. Source: Zabbix Problems
       API filtered for Avaya SBCE host group. Limitations: Reflected alarms depend
-      on Zabbix trigger definitions and polling intervals.'
+      on Zabbix trigger definitions and polling intervals. Missing data indicates
+      collector outage, agent failure, or network disruption; values are preserved
+      as null gaps.'
     datasource_type: alexanderzobnin-zabbix-datasource
     provenance_type: REAL_SBCE_SNMP
     telemetry_source: Avaya SBCE 8.1 SNMPv3 Agent (IF-MIB / HOST-RESOURCES-MIB / UCD-SNMP-MIB)
@@ -2580,7 +2759,8 @@ dashboards:
     description: 'Processor core utilization on the Avaya Aura Session Manager appliance.
       Units: Percentage (0-100%). Warning: 75%, Critical: 90%. Source: HOST-RESOURCES-MIB
       via SNMPv3. Polling: 60s. Limitation: High CPU may delay SIP routing transaction
-      processing.'
+      processing. Missing data indicates collector outage, agent failure, or network
+      disruption; values are preserved as null gaps.'
     datasource_type: alexanderzobnin-zabbix-datasource
     provenance_type: REAL_ZABBIX_TELEMETRY
     telemetry_source: Zabbix Telemetry Engine (SNMPv2c/v3, ICMP ping, Zabbix Agent
@@ -2597,7 +2777,8 @@ dashboards:
     panel_type: gauge
     description: 'Physical RAM utilization on Avaya Session Manager. Units: Percentage
       (0-100%). Warning: 80%, Critical: 95%. Source: HOST-RESOURCES-MIB via SNMPv3.
-      Polling: 60s.'
+      Polling: 60s. Missing data indicates collector outage, agent failure, or network
+      disruption; values are preserved as null gaps.'
     datasource_type: alexanderzobnin-zabbix-datasource
     provenance_type: REAL_ZABBIX_TELEMETRY
     telemetry_source: Zabbix Telemetry Engine (SNMPv2c/v3, ICMP ping, Zabbix Agent
@@ -2614,7 +2795,8 @@ dashboards:
     panel_type: stat
     description: 'Operating system uptime of the Session Manager server since last
       reload. Source: MIB-II sysUpTime (OID 1.3.6.1.2.1.1.3.0). Polling: 60s. Freshness:
-      60s.'
+      60s. Missing data indicates collector outage, agent failure, or network disruption;
+      values are preserved as null gaps.'
     datasource_type: alexanderzobnin-zabbix-datasource
     provenance_type: REAL_ZABBIX_TELEMETRY
     telemetry_source: Zabbix Telemetry Engine (SNMPv2c/v3, ICMP ping, Zabbix Agent
@@ -2632,7 +2814,8 @@ dashboards:
     description: 'Total count of active TCP sockets currently in ESTABLISHED state
       on Session Manager. Reflects active signaling connections from endpoints, Communication
       Manager, and SBCE. Source: TCP-MIB tcpCurrEstab (OID 1.3.6.1.2.1.6.9.0). Polling:
-      60s.'
+      60s. Missing data indicates collector outage, agent failure, or network disruption;
+      values are preserved as null gaps.'
     datasource_type: alexanderzobnin-zabbix-datasource
     provenance_type: REAL_ZABBIX_TELEMETRY
     telemetry_source: Zabbix Telemetry Engine (SNMPv2c/v3, ICMP ping, Zabbix Agent
@@ -2651,7 +2834,9 @@ dashboards:
       1 = UP, 2 = PARTIALLY UP, 3 = DOWN, 4 = DENY NEW SERVICE. Collection Mechanism:
       Ingested via Session Manager CLI export (`smstat`/`starety`) or System Manager
       REST API. Note: Not exposed via Session Manager SNMP agent; proves SIP OPTIONS
-      reachability only, NOT audio media quality. Provenance: CONFIGURED_UNVERIFIED.'
+      reachability only, NOT audio media quality. Provenance: CONFIGURED_UNVERIFIED.
+      Missing data indicates collector outage, agent failure, or network disruption;
+      values are preserved as null gaps.'
     datasource_type: alexanderzobnin-zabbix-datasource
     provenance_type: REAL_ZABBIX_TELEMETRY
     telemetry_source: Zabbix Telemetry Engine (SNMPv2c/v3, ICMP ping, Zabbix Agent
@@ -2669,7 +2854,9 @@ dashboards:
     description: 'SIP Entity Link Operational Status for Avaya SBCE Pride perimeter
       controller. Values: 1 = UP, 2 = PARTIALLY UP, 3 = DOWN, 4 = DENY NEW SERVICE.
       Collection Mechanism: Ingested via Session Manager CLI export or System Manager
-      REST API. Note: Not exposed via Session Manager SNMP agent. Provenance: CONFIGURED_UNVERIFIED.'
+      REST API. Note: Not exposed via Session Manager SNMP agent. Provenance: CONFIGURED_UNVERIFIED.
+      Missing data indicates collector outage, agent failure, or network disruption;
+      values are preserved as null gaps.'
     datasource_type: alexanderzobnin-zabbix-datasource
     provenance_type: REAL_SBCE_SNMP
     telemetry_source: Avaya SBCE 8.1 SNMPv3 Agent (IF-MIB / HOST-RESOURCES-MIB / UCD-SNMP-MIB)
@@ -2687,7 +2874,9 @@ dashboards:
     description: 'Measured round-trip response time in milliseconds for SIP OPTIONS
       heartbeat pings sent by Nawari SIP Probe Engine to monitored entities (CM and
       SBCE). Units: Milliseconds (ms). Collection Mechanism: Active SIP OPTIONS probing
-      by Nawari (`NAWARI_SIP_PROBE`). Note: Not an SNMP metric.'
+      by Nawari (`NAWARI_SIP_PROBE`). Note: Not an SNMP metric. Missing data indicates
+      collector outage, agent failure, or network disruption; values are preserved
+      as null gaps.'
     datasource_type: alexanderzobnin-zabbix-datasource
     provenance_type: REAL_ZABBIX_TELEMETRY
     telemetry_source: Zabbix Telemetry Engine (SNMPv2c/v3, ICMP ping, Zabbix Agent
@@ -2706,7 +2895,9 @@ dashboards:
     description: 'Comprehensive table of all SIP Entities configured in Session Manager
       (CM, SBCE Pride, SBCE DR, Media Gateways, PSTN SIP trunks) detailing IP address,
       transport (TLS/TCP/UDP), port, entity status, and measured OPTIONS latency.
-      Source: Avaya Session Manager operational model / System Manager API export.'
+      Source: Avaya Session Manager operational model / System Manager API export.
+      Missing data indicates collector outage, agent failure, or network disruption;
+      values are preserved as null gaps.'
     datasource_type: alexanderzobnin-zabbix-datasource
     provenance_type: CORRELATED_ANALYTICS
     telemetry_source: Nawari Unified Analytics & Correlation Engine
@@ -2724,7 +2915,9 @@ dashboards:
     panel_type: stat
     description: 'Total count of active enterprise alarms currently asserted on Session
       Manager. Source: AV-TRAP-MIB trap receiver / System Manager notification. Note:
-      Ingested via SNMP trap or notification webhook; event-driven. Warning: > 0 alarms.'
+      Ingested via SNMP trap or notification webhook; event-driven. Warning: > 0 alarms.
+      Missing data indicates collector outage, agent failure, or network disruption;
+      values are preserved as null gaps.'
     datasource_type: alexanderzobnin-zabbix-datasource
     provenance_type: REAL_ZABBIX_TELEMETRY
     telemetry_source: Zabbix Telemetry Engine (SNMPv2c/v3, ICMP ping, Zabbix Agent
@@ -2749,7 +2942,9 @@ dashboards:
     description: Architectural guidelines defining the separation between network
       transport and voice application health. A successful TCP/TLS handshake to SBC
       port 5061 proves only layer-4 socket reachability. It does not verify SIP registration,
-      digest authentication, codec negotiation, or bidirectional media flow.
+      digest authentication, codec negotiation, or bidirectional media flow. Missing
+      data indicates collector outage, agent failure, or network disruption; values
+      are preserved as null gaps.
     datasource_type: zabbix
     provenance_type: REAL_ZABBIX_TELEMETRY
     telemetry_source: Zabbix Telemetry Engine (SNMPv2c/v3, ICMP ping, Zabbix Agent
@@ -2768,7 +2963,8 @@ dashboards:
       voice probes (ANSWERED, BUSY, CONGESTION, TIMEOUT, FAILED). A healthy result
       confirms end-to-end SIP signaling and call setup across the voice core. CONGESTION
       (SIP 503) or TIMEOUT (SIP 408) indicates trunk capacity exhaustion or core server
-      unreachability.
+      unreachability. Missing data indicates collector outage, agent failure, or network
+      disruption; values are preserved as null gaps.
     datasource_type: alexanderzobnin-zabbix-datasource
     provenance_type: SYNTHETIC_PROBE
     telemetry_source: Synthetic Asterisk Call Engine (AMI / RTCP Telemetry)
@@ -2788,7 +2984,8 @@ dashboards:
       based on measured RTP packet loss, jitter, and delay. Scores below 3.8 indicate
       noticeable degradation; scores below 3.5 indicate unacceptable voice quality.
       Crucially, displays UNKNOWN when RTCP reports are missing to avoid fabricating
-      voice quality metrics.
+      voice quality metrics. Missing data indicates collector outage, agent failure,
+      or network disruption; values are preserved as null gaps.
     datasource_type: alexanderzobnin-zabbix-datasource
     provenance_type: SYNTHETIC_PROBE
     telemetry_source: Synthetic Asterisk Call Engine (AMI / RTCP Telemetry)
@@ -2808,7 +3005,8 @@ dashboards:
       SIP registration, authentication, or media flow. Verifies that the Avaya SBCE
       perimeter listener accepts TCP connections from the endpoint network. Socket
       connectivity is a prerequisite for voice service, but cannot prove telephony
-      or media functionality.
+      or media functionality. Missing data indicates collector outage, agent failure,
+      or network disruption; values are preserved as null gaps.
     datasource_type: alexanderzobnin-zabbix-datasource
     provenance_type: REAL_SBCE_SNMP
     telemetry_source: Avaya SBCE 8.1 SNMPv3 Agent (IF-MIB / HOST-RESOURCES-MIB / UCD-SNMP-MIB)
@@ -2826,7 +3024,8 @@ dashboards:
     description: Percentage of probe packets lost to the endpoint's local default
       gateway. Evaluates whether the user's local network access link is impaired
       during voice calls. Packet loss on the first-hop access link severely impacts
-      RTP voice streams regardless of WAN or SBC health.
+      RTP voice streams regardless of WAN or SBC health. Missing data indicates collector
+      outage, agent failure, or network disruption; values are preserved as null gaps.
     datasource_type: alexanderzobnin-zabbix-datasource
     provenance_type: REAL_ZABBIX_TELEMETRY
     telemetry_source: Zabbix Telemetry Engine (SNMPv2c/v3, ICMP ping, Zabbix Agent
@@ -2845,7 +3044,8 @@ dashboards:
       layers. Visual correlation on dual axes does not imply direct causation; voice
       impairment may stem from core network or upstream carrier conditions, while
       high gateway latency may affect local transit without degrading an established
-      prioritized RTP session.
+      prioritized RTP session. Missing data indicates collector outage, agent failure,
+      or network disruption; values are preserved as null gaps.
     datasource_type: alexanderzobnin-zabbix-datasource
     provenance_type: SYNTHETIC_PROBE
     telemetry_source: Synthetic Asterisk Call Engine (AMI / RTCP Telemetry)
@@ -2866,7 +3066,8 @@ dashboards:
       network path loss, and voice audio stream packet loss. If gateway loss matches
       voice loss, the root cause is local to the access network. If voice loss occurs
       while edge and path loss are zero, the issue lies in upstream SIP trunks, transcoding
-      DSPs, or carrier routing.
+      DSPs, or carrier routing. Missing data indicates collector outage, agent failure,
+      or network disruption; values are preserved as null gaps.
     datasource_type: alexanderzobnin-zabbix-datasource
     provenance_type: SYNTHETIC_PROBE
     telemetry_source: Synthetic Asterisk Call Engine (AMI / RTCP Telemetry)
@@ -2888,7 +3089,8 @@ dashboards:
       jitter (derived from RTCP Receiver Reports). Local Wi-Fi channel contention
       or low signal directly inflates media packet jitter. Helps operators determine
       whether voice choppy audio complaints originate from local office Wi-Fi or the
-      enterprise WAN.
+      enterprise WAN. Missing data indicates collector outage, agent failure, or network
+      disruption; values are preserved as null gaps.
     datasource_type: alexanderzobnin-zabbix-datasource
     provenance_type: SYNTHETIC_PROBE
     telemetry_source: Synthetic Asterisk Call Engine (AMI / RTCP Telemetry)
@@ -2909,7 +3111,9 @@ dashboards:
       Border Controller Enterprise. Sudden spikes nearing license or DSP limits correlate
       with call rejection (SIP 503) and increased audio delay. Provides server-side
       capacity context to evaluate whether voice quality degradation is caused by
-      edge network conditions or central infrastructure overload.
+      edge network conditions or central infrastructure overload. Missing data indicates
+      collector outage, agent failure, or network disruption; values are preserved
+      as null gaps.
     datasource_type: alexanderzobnin-zabbix-datasource
     provenance_type: REAL_SBCE_SNMP
     telemetry_source: Avaya SBCE 8.1 SNMPv3 Agent (IF-MIB / HOST-RESOURCES-MIB / UCD-SNMP-MIB)
@@ -2934,7 +3138,9 @@ dashboards:
     description: 'Signaling outcome of the most recent synthetic voice test call (e.g.,
       Completed 200 OK, Busy 486, Timeout 408, Service Unavailable 503). Source: Synthetic
       Asterisk probe AMI event logs. Limitations: Reflects synthetic probe calls between
-      test extensions; does not evaluate live customer or agent calls.'
+      test extensions; does not evaluate live customer or agent calls. Missing data
+      indicates collector outage, agent failure, or network disruption; values are
+      preserved as null gaps.'
     datasource_type: alexanderzobnin-zabbix-datasource
     provenance_type: SYNTHETIC_PROBE
     telemetry_source: Synthetic Asterisk Call Engine (AMI / RTCP Telemetry)
@@ -2954,7 +3160,8 @@ dashboards:
       test calls via ITU-T G.107 E-model based on measured packet loss, jitter, and
       delay. Scale: 1.0 (unusable) to 4.5 (toll quality). Warning: < 3.6, Critical:
       < 3.1. Source: Synthetic Asterisk voice probe. Limitations: Synthetic probe
-      only; real subscriber calls are NOT included.'
+      only; real subscriber calls are NOT included. Missing data indicates collector
+      outage, agent failure, or network disruption; values are preserved as null gaps.'
     datasource_type: alexanderzobnin-zabbix-datasource
     provenance_type: SYNTHETIC_PROBE
     telemetry_source: Synthetic Asterisk Call Engine (AMI / RTCP Telemetry)
@@ -2973,7 +3180,8 @@ dashboards:
     description: 'Designates the media routing path of the tested voice session (e.g.,
       Inbound Carrier DMZ, Outbound PSTN, Internal Inter-Station). Source: Synthetic
       probe call profile configuration. Limitations: Validates designated routing
-      profile under test.'
+      profile under test. Missing data indicates collector outage, agent failure,
+      or network disruption; values are preserved as null gaps.'
     datasource_type: alexanderzobnin-zabbix-datasource
     provenance_type: SYNTHETIC_PROBE
     telemetry_source: Synthetic Asterisk Call Engine (AMI / RTCP Telemetry)
@@ -2993,7 +3201,8 @@ dashboards:
       the first 18x progress response (Post-Dial Delay / PDD). Units: Milliseconds
       (ms). Warning: > 1500ms, Critical: > 3000ms. Source: Synthetic Asterisk probe
       SIP signaling timer. Limitations: Measures synthetic signaling latency across
-      SBCE.'
+      SBCE. Missing data indicates collector outage, agent failure, or network disruption;
+      values are preserved as null gaps.'
     datasource_type: alexanderzobnin-zabbix-datasource
     provenance_type: SYNTHETIC_PROBE
     telemetry_source: Synthetic Asterisk Call Engine (AMI / RTCP Telemetry)
@@ -3012,7 +3221,8 @@ dashboards:
     description: 'Transmission rating factor (R) calculated via ITU-T G.107 E-model
       for synthetic test calls. Scale: 0 to 100 (R >= 80 indicates toll quality, R
       < 60 is unacceptable). Source: Synthetic Asterisk probe RTCP calculation. Limitations:
-      Strictly synthetic test call calculation.'
+      Strictly synthetic test call calculation. Missing data indicates collector outage,
+      agent failure, or network disruption; values are preserved as null gaps.'
     datasource_type: alexanderzobnin-zabbix-datasource
     provenance_type: SYNTHETIC_PROBE
     telemetry_source: Synthetic Asterisk Call Engine (AMI / RTCP Telemetry)
@@ -3032,7 +3242,8 @@ dashboards:
       synthetic test environments and physical production infrastructure. Values:
       MOCK_SIMULATED (Blue) or PHYSICAL_PRODUCTION (Purple). Source: Voice probe environment
       provenance metric. Purpose: Guarantees full operator awareness of telemetry
-      origin.'
+      origin. Missing data indicates collector outage, agent failure, or network disruption;
+      values are preserved as null gaps.'
     datasource_type: alexanderzobnin-zabbix-datasource
     provenance_type: SYNTHETIC_PROBE
     telemetry_source: Synthetic Asterisk Call Engine (AMI / RTCP Telemetry)
@@ -3051,7 +3262,9 @@ dashboards:
     description: 'Historical time-series trend of Post-Dial Delay (PDD) and session
       setup duration across consecutive synthetic voice probe runs. Units: Milliseconds
       (ms). Source: Synthetic Asterisk probe logs. Limitations: Useful for identifying
-      carrier signaling latency drift over diurnal cycles.'
+      carrier signaling latency drift over diurnal cycles. Missing data indicates
+      collector outage, agent failure, or network disruption; values are preserved
+      as null gaps.'
     datasource_type: alexanderzobnin-zabbix-datasource
     provenance_type: SYNTHETIC_PROBE
     telemetry_source: Synthetic Asterisk Call Engine (AMI / RTCP Telemetry)
@@ -3070,7 +3283,9 @@ dashboards:
     description: 'Distribution of SIP response codes (1xx progress, 2xx success, 4xx
       client errors, 5xx server failures) returned during synthetic probe campaigns.
       Source: Synthetic Asterisk SIP transaction logs. Limitations: Differentiates
-      client busy/offline states from carrier 503 outages.'
+      client busy/offline states from carrier 503 outages. Missing data indicates
+      collector outage, agent failure, or network disruption; values are preserved
+      as null gaps.'
     datasource_type: alexanderzobnin-zabbix-datasource
     provenance_type: SYNTHETIC_PROBE
     telemetry_source: Synthetic Asterisk Call Engine (AMI / RTCP Telemetry)
@@ -3089,7 +3304,9 @@ dashboards:
     description: 'Continuous time-series trend of estimated Mean Opinion Score (MOS)
       from synthetic voice probes plotted against SLA contractual limits (Toll Quality
       = 4.0, Minimum Acceptable = 3.6). Source: Synthetic Asterisk probe ITU-T G.107
-      calculation. Limitations: Measures synthetic probe stream quality only.'
+      calculation. Limitations: Measures synthetic probe stream quality only. Missing
+      data indicates collector outage, agent failure, or network disruption; values
+      are preserved as null gaps.'
     datasource_type: alexanderzobnin-zabbix-datasource
     provenance_type: SYNTHETIC_PROBE
     telemetry_source: Synthetic Asterisk Call Engine (AMI / RTCP Telemetry)
@@ -3108,7 +3325,8 @@ dashboards:
     description: 'Measured RTP packet loss percentage and jitter (ms) recorded during
       synthetic probe voice calls. Source: Asterisk RTCP reports. Target: Packet loss
       < 1%, Jitter < 20ms. Limitations: Reflects acoustic path between synthetic probe
-      endpoints.'
+      endpoints. Missing data indicates collector outage, agent failure, or network
+      disruption; values are preserved as null gaps.'
     datasource_type: alexanderzobnin-zabbix-datasource
     provenance_type: SYNTHETIC_PROBE
     telemetry_source: Synthetic Asterisk Call Engine (AMI / RTCP Telemetry)
@@ -3129,7 +3347,9 @@ dashboards:
     description: 'Real-time physical interface throughput on Avaya SBCE interface
       A1 (External DMZ carrier signaling) and B1 (Internal Core media). Units: Bits
       per second (bps). Source: Avaya SBCE IF-MIB via Zabbix SNMPv3. Note: This panel
-      displays REAL infrastructure traffic, distinct from synthetic probe metrics.'
+      displays REAL infrastructure traffic, distinct from synthetic probe metrics.
+      Missing data indicates collector outage, agent failure, or network disruption;
+      values are preserved as null gaps.'
     datasource_type: alexanderzobnin-zabbix-datasource
     provenance_type: REAL_SBCE_SNMP
     telemetry_source: Avaya SBCE 8.1 SNMPv3 Agent (IF-MIB / HOST-RESOURCES-MIB / UCD-SNMP-MIB)
@@ -3147,7 +3367,8 @@ dashboards:
     panel_type: timeseries
     description: "Processor core utilization on the Avaya SBCE appliance. Units: Percentage\
       \ (0\u2013100%). Source: HOST-RESOURCES-MIB via Zabbix. Note: Real appliance\
-      \ hardware telemetry."
+      \ hardware telemetry. Missing data indicates collector outage, agent failure,\
+      \ or network disruption; values are preserved as null gaps."
     datasource_type: alexanderzobnin-zabbix-datasource
     provenance_type: REAL_SBCE_SNMP
     telemetry_source: Avaya SBCE 8.1 SNMPv3 Agent (IF-MIB / HOST-RESOURCES-MIB / UCD-SNMP-MIB)
@@ -3174,7 +3395,9 @@ dashboards:
       platforms: Avaya SBCE (.131 Pride), Session Manager (.22), Communication Manager
       (.26), G450 Media Gateway (.60), and CMS Server. Displays real-time operational
       status (1 = UP, 0 = DOWN). Source: Zabbix ICMP and SNMP health checks. Freshness:
-      60s. Limitation: Reflects management/control plane reachability only.'
+      60s. Limitation: Reflects management/control plane reachability only. Missing
+      data indicates collector outage, agent failure, or network disruption; values
+      are preserved as null gaps.'
     datasource_type: alexanderzobnin-zabbix-datasource
     provenance_type: REAL_SBCE_SNMP
     telemetry_source: Avaya SBCE 8.1 SNMPv3 Agent (IF-MIB / HOST-RESOURCES-MIB / UCD-SNMP-MIB)
@@ -3197,7 +3420,8 @@ dashboards:
       Communication Manager and Session Manager. Source: Avaya CM enterprise MIB avCmAlarms
       (OID 1.3.6.1.4.1.6889.2.73.1) and Session Manager alarms. Warning: > 0 alarms.
       Polling interval: 1 hour (CM vendor CPU conservation limit). Freshness: 1-2
-      hours.'
+      hours. Missing data indicates collector outage, agent failure, or network disruption;
+      values are preserved as null gaps.'
     datasource_type: alexanderzobnin-zabbix-datasource
     provenance_type: REAL_AVAYA_SNMP
     telemetry_source: Avaya Communication Manager 8.1.0 MIB (avCmMeasIpVoStatSumDataLstHrTable
@@ -3218,7 +3442,8 @@ dashboards:
       \ the Avaya SBCE. Measures live concurrent signaling/session capacity, not historical\
       \ completed call volume. Source: Avaya SBCE EMS SIP Statistics Interface. Freshness:\
       \ 60s. Normal: 50\u2013350 calls, Critical: > 450 (approaching 500 session license\
-      \ limit)."
+      \ limit). Missing data indicates collector outage, agent failure, or network\
+      \ disruption; values are preserved as null gaps."
     datasource_type: alexanderzobnin-zabbix-datasource
     provenance_type: REAL_SBCE_SNMP
     telemetry_source: Avaya SBCE 8.1 SNMPv3 Agent (IF-MIB / HOST-RESOURCES-MIB / UCD-SNMP-MIB)
@@ -3237,7 +3462,8 @@ dashboards:
       carrier SIP trunks terminating on Avaya SBCE. 1 = REGISTERED / UP, 0 = UNREGISTERED
       / DOWN. Source: Zabbix SIP monitoring on SBCE. Crucial Note: Proves layer-5
       SIP signaling reachability only; does NOT guarantee voice audio quality or absence
-      of media packet loss. Freshness: 60s.'
+      of media packet loss. Freshness: 60s. Missing data indicates collector outage,
+      agent failure, or network disruption; values are preserved as null gaps.'
     datasource_type: alexanderzobnin-zabbix-datasource
     provenance_type: REAL_SBCE_SNMP
     telemetry_source: Avaya SBCE 8.1 SNMPv3 Agent (IF-MIB / HOST-RESOURCES-MIB / UCD-SNMP-MIB)
@@ -3256,7 +3482,9 @@ dashboards:
     description: 'Rate of call attempts and completed call connections processed by
       Avaya Communication Manager sampled every 5 minutes. Source: Avaya CM MIB table
       avCmListMeasCallRateTotal (OID 1.3.6.1.4.1.6889.2.73.8.1.1). Polling interval:
-      5 minutes (vendor specified CPU limit). Freshness: 5 minutes.'
+      5 minutes (vendor specified CPU limit). Freshness: 5 minutes. Missing data indicates
+      collector outage, agent failure, or network disruption; values are preserved
+      as null gaps.'
     datasource_type: alexanderzobnin-zabbix-datasource
     provenance_type: REAL_AVAYA_SNMP
     telemetry_source: Avaya Communication Manager 8.1.0 MIB (avCmMeasIpVoStatSumDataLstHrTable
@@ -3276,7 +3504,9 @@ dashboards:
     description: "Percentage of incoming customer contact centre calls answered within\
       \ the contractual Kenya Airways threshold (80% answered in 20 seconds). Source:\
       \ Avaya CMS Informix database read-only integration. Warning: < 80%, Critical:\
-      \ < 70%. Freshness: 15\u201330 minutes (matches CMS reporting archive interval)."
+      \ < 70%. Freshness: 15\u201330 minutes (matches CMS reporting archive interval).\
+      \ Missing data indicates collector outage, agent failure, or network disruption;\
+      \ values are preserved as null gaps."
     datasource_type: alexanderzobnin-zabbix-datasource
     provenance_type: SERVICE_ASSURANCE_SLI
     telemetry_source: Nawari Business Service SLI Engine (13B Standard)
@@ -3294,7 +3524,8 @@ dashboards:
     description: 'Current number of customer callers waiting in queue and wait duration
       (seconds) of the oldest queued caller across all ACD skills. Source: Avaya CMS
       real-time reporting interface. Warning: Queue > 15 calls or Oldest > 120s. Freshness:
-      60s.'
+      60s. Missing data indicates collector outage, agent failure, or network disruption;
+      values are preserved as null gaps.'
     datasource_type: alexanderzobnin-zabbix-datasource
     provenance_type: REAL_ZABBIX_TELEMETRY
     telemetry_source: Zabbix Telemetry Engine (SNMPv2c/v3, ICMP ping, Zabbix Agent
@@ -3313,7 +3544,8 @@ dashboards:
     description: "Distribution of customer service agent staffing across states: Logged\
       \ In, Available (idle), ACD Talking (on call), After Call Work (ACW), and Auxiliary\
       \ (break/training). Source: Avaya CMS Informix database read-only query. Freshness:\
-      \ 15\u201330 minutes."
+      \ 15\u201330 minutes. Missing data indicates collector outage, agent failure,\
+      \ or network disruption; values are preserved as null gaps."
     datasource_type: alexanderzobnin-zabbix-datasource
     provenance_type: REAL_ZABBIX_TELEMETRY
     telemetry_source: Zabbix Telemetry Engine (SNMPv2c/v3, ICMP ping, Zabbix Agent
@@ -3331,7 +3563,9 @@ dashboards:
     description: "Real-call Mean Opinion Score (MOS). Status: Not instrumented \u2014\
       \ no validated real-call MOS telemetry source is configured (RTCP-XR RFC 3611\
       \ Block 7 or passive media analyzer required). Displayed value is null/uninstrumented;\
-      \ synthetic MOS must never be substituted for real subscriber calls."
+      \ synthetic MOS must never be substituted for real subscriber calls. Missing\
+      \ data indicates collector outage, agent failure, or network disruption; values\
+      \ are preserved as null gaps."
     datasource_type: alexanderzobnin-zabbix-datasource
     provenance_type: NOT_INSTRUMENTED
     telemetry_source: "None \u2014 Telemetry Not Instrumented (Requires RFC 3611 RTCP-XR\
@@ -3351,7 +3585,9 @@ dashboards:
     description: 'Hourly aggregated real-call packet loss percentage across active
       calls terminating on Avaya Communication Manager media gateways. Source: Avaya
       CM MIB table avCmMeasIpVoStatSumDataLstHrTable (OID 1.3.6.1.4.1.6889.2.73.8.1.77
-      leaf .6). Interval: strictly 1 hour. Freshness: 1-2 hours. Warning: > 2.5%.'
+      leaf .6). Interval: strictly 1 hour. Freshness: 1-2 hours. Warning: > 2.5%.
+      Missing data indicates collector outage, agent failure, or network disruption;
+      values are preserved as null gaps.'
     datasource_type: alexanderzobnin-zabbix-datasource
     provenance_type: REAL_AVAYA_SNMP
     telemetry_source: Avaya Communication Manager 8.1.0 MIB (avCmMeasIpVoStatSumDataLstHrTable
@@ -3371,7 +3607,8 @@ dashboards:
       for synthetic test calls generated between Asterisk probes and test extensions.
       Scale: 1.0 to 4.5. Warning: < 3.6, Critical: < 3.1. Source: Synthetic Asterisk
       probe telemetry. Caution: Reflects synthetic probe calls ONLY; does NOT represent
-      real customer calls.'
+      real customer calls. Missing data indicates collector outage, agent failure,
+      or network disruption; values are preserved as null gaps.'
     datasource_type: alexanderzobnin-zabbix-datasource
     provenance_type: SYNTHETIC_PROBE
     telemetry_source: Synthetic Asterisk Call Engine (AMI / RTCP Telemetry)
@@ -3390,7 +3627,8 @@ dashboards:
     panel_type: table
     description: Audit inventory of all voice telemetry sources, underlying protocols,
       expected polling intervals, freshness guarantees, and operational status. Identifies
-      whether data is actively updating or stale.
+      whether data is actively updating or stale. Missing data indicates collector
+      outage, agent failure, or network disruption; values are preserved as null gaps.
     datasource_type: alexanderzobnin-zabbix-datasource
     provenance_type: REAL_ZABBIX_TELEMETRY
     telemetry_source: Zabbix Telemetry Engine (SNMPv2c/v3, ICMP ping, Zabbix Agent
@@ -3418,7 +3656,8 @@ dashboards:
       terminating on Avaya SBCE interface A1. 1 = REGISTERED, 0 = UNREGISTERED / FAILED.
       Source: Zabbix SNMP/SIP OPTIONS check on SBCE. Crucial Note: Proves layer-5
       signaling reachability only; does NOT guarantee absence of voice packet loss
-      or acceptable audio quality.'
+      or acceptable audio quality. Missing data indicates collector outage, agent
+      failure, or network disruption; values are preserved as null gaps.'
     datasource_type: alexanderzobnin-zabbix-datasource
     provenance_type: REAL_SBCE_SNMP
     telemetry_source: Avaya SBCE 8.1 SNMPv3 Agent (IF-MIB / HOST-RESOURCES-MIB / UCD-SNMP-MIB)
@@ -3435,7 +3674,9 @@ dashboards:
     panel_type: stat
     description: 'Operational registration state of the secondary Airtel SIP trunk
       terminating on Avaya SBCE interface A1. 1 = REGISTERED, 0 = UNREGISTERED / FAILED.
-      Source: Zabbix SNMP/SIP OPTIONS check on SBCE. Signaling reachability only.'
+      Source: Zabbix SNMP/SIP OPTIONS check on SBCE. Signaling reachability only.
+      Missing data indicates collector outage, agent failure, or network disruption;
+      values are preserved as null gaps.'
     datasource_type: alexanderzobnin-zabbix-datasource
     provenance_type: REAL_SBCE_SNMP
     telemetry_source: Avaya SBCE 8.1 SNMPv3 Agent (IF-MIB / HOST-RESOURCES-MIB / UCD-SNMP-MIB)
@@ -3453,7 +3694,8 @@ dashboards:
     description: 'Round-trip latency in milliseconds for SIP OPTIONS heartbeat pings
       exchanged with carrier SBC endpoints (Safaricom vs Airtel). Units: Milliseconds
       (ms). Warning: > 50ms, Critical: > 100ms. Source: Zabbix SIP OPTIONS probe.
-      Polling: 30s.'
+      Polling: 30s. Missing data indicates collector outage, agent failure, or network
+      disruption; values are preserved as null gaps.'
     datasource_type: alexanderzobnin-zabbix-datasource
     provenance_type: REAL_SBCE_SNMP
     telemetry_source: Avaya SBCE 8.1 SNMPv3 Agent (IF-MIB / HOST-RESOURCES-MIB / UCD-SNMP-MIB)
@@ -3473,7 +3715,9 @@ dashboards:
     description: 'Post-Dial Delay (PDD: INVITE to 18x), Time-to-Alerting (TTA: INVITE
       to 180 Ringing), and Call Setup Duration measured in milliseconds from synthetic
       Asterisk test calls across carrier trunks. Source: Asterisk AMI call logs. Limitations:
-      Reflects synthetic probe calls between test extensions.'
+      Reflects synthetic probe calls between test extensions. Missing data indicates
+      collector outage, agent failure, or network disruption; values are preserved
+      as null gaps.'
     datasource_type: alexanderzobnin-zabbix-datasource
     provenance_type: SYNTHETIC_PROBE
     telemetry_source: Synthetic Asterisk Call Engine (AMI / RTCP Telemetry)
@@ -3499,7 +3743,8 @@ dashboards:
       during synthetic probe calls: differentiates expected station states (480 offline,
       486 busy, 487 teardown) from carrier/infrastructure failures (500 Server Internal
       Error, 502 Bad Gateway, 503 Service Unavailable, 504 Gateway Timeout). Source:
-      Synthetic Asterisk transaction logs.'
+      Synthetic Asterisk transaction logs. Missing data indicates collector outage,
+      agent failure, or network disruption; values are preserved as null gaps.'
     datasource_type: alexanderzobnin-zabbix-datasource
     provenance_type: SYNTHETIC_PROBE
     telemetry_source: Synthetic Asterisk Call Engine (AMI / RTCP Telemetry)
@@ -3518,7 +3763,9 @@ dashboards:
     panel_type: timeseries
     description: 'Bidirectional network bandwidth utilization on external interface
       A1 carrying carrier SIP signaling and RTP media streams. Units: Bits per second
-      (bps). Source: IF-MIB on Avaya SBCE via Zabbix SNMPv3. Polling: 30s.'
+      (bps). Source: IF-MIB on Avaya SBCE via Zabbix SNMPv3. Polling: 30s. Missing
+      data indicates collector outage, agent failure, or network disruption; values
+      are preserved as null gaps.'
     datasource_type: alexanderzobnin-zabbix-datasource
     provenance_type: REAL_SBCE_SNMP
     telemetry_source: Avaya SBCE 8.1 SNMPv3 Agent (IF-MIB / HOST-RESOURCES-MIB / UCD-SNMP-MIB)
@@ -3537,7 +3784,8 @@ dashboards:
     description: 'Rate of inbound and outbound frame/packet errors detected on carrier
       interface A1. Units: Errors per second. Source: IF-MIB ifInErrors / ifOutErrors.
       Any non-zero error rate directly degrades voice audio quality, causing clipping
-      and metallic distortion.'
+      and metallic distortion. Missing data indicates collector outage, agent failure,
+      or network disruption; values are preserved as null gaps.'
     datasource_type: alexanderzobnin-zabbix-datasource
     provenance_type: REAL_SBCE_SNMP
     telemetry_source: Avaya SBCE 8.1 SNMPv3 Agent (IF-MIB / HOST-RESOURCES-MIB / UCD-SNMP-MIB)
@@ -3564,7 +3812,8 @@ dashboards:
       to 180 Ringing), and Time to Answer (TTOA: 180 to 200 OK) measured in milliseconds
       from synthetic Asterisk test calls. Source: Asterisk AMI synthetic call engine
       via Zabbix. Limitations: Reflects synthetic probe transactions only; does not
-      represent live customer or agent calls.'
+      represent live customer or agent calls. Missing data indicates collector outage,
+      agent failure, or network disruption; values are preserved as null gaps.'
     datasource_type: alexanderzobnin-zabbix-datasource
     provenance_type: SYNTHETIC_PROBE
     telemetry_source: Synthetic Asterisk Call Engine (AMI / RTCP Telemetry)
@@ -3589,7 +3838,9 @@ dashboards:
     description: 'Categorization of SIP response events from synthetic test calls:
       differentiates normal station states (480 offline, 486 busy, 487 probe teardown)
       from true trunk/infrastructure failures (500, 502, 503, 504). Source: Synthetic
-      Asterisk probe logs. Limitations: Synthetic probe calls only.'
+      Asterisk probe logs. Limitations: Synthetic probe calls only. Missing data indicates
+      collector outage, agent failure, or network disruption; values are preserved
+      as null gaps.'
     datasource_type: alexanderzobnin-zabbix-datasource
     provenance_type: SYNTHETIC_PROBE
     telemetry_source: Synthetic Asterisk Call Engine (AMI / RTCP Telemetry)
@@ -3610,7 +3861,8 @@ dashboards:
       for Avaya SBCE / Session Manager carrier interconnects (e.g., Safaricom, Airtel
       SIP trunks). Source: Zabbix SNMP/SIP OPTIONS monitor on Avaya SBCE. Important:
       Proves layer-5 SIP signaling reachability only; does NOT guarantee voice audio
-      media quality or absence of RTP packet loss.'
+      media quality or absence of RTP packet loss. Missing data indicates collector
+      outage, agent failure, or network disruption; values are preserved as null gaps.'
     datasource_type: alexanderzobnin-zabbix-datasource
     provenance_type: REAL_SBCE_SNMP
     telemetry_source: Avaya SBCE 8.1 SNMPv3 Agent (IF-MIB / HOST-RESOURCES-MIB / UCD-SNMP-MIB)
@@ -3630,7 +3882,8 @@ dashboards:
       \ no validated real-call MOS telemetry source is configured (RTCP-XR RFC 3611\
       \ Block 7 / E-Model calculation on actual media streams is required). Displayed\
       \ value is null/uninstrumented; synthetic MOS must never be substituted for\
-      \ real customer calls."
+      \ real customer calls. Missing data indicates collector outage, agent failure,\
+      \ or network disruption; values are preserved as null gaps."
     datasource_type: alexanderzobnin-zabbix-datasource
     provenance_type: NOT_INSTRUMENTED
     telemetry_source: "None \u2014 Telemetry Not Instrumented (Requires RFC 3611 RTCP-XR\
@@ -3652,7 +3905,8 @@ dashboards:
       for synthetic test calls generated between Asterisk probes and test extensions.
       Source: Synthetic Asterisk probe RTCP telemetry via Zabbix. Caution: This metric
       reflects synthetic probe calls ONLY; it does NOT measure or represent real customer
-      or staff calls.'
+      or staff calls. Missing data indicates collector outage, agent failure, or network
+      disruption; values are preserved as null gaps.'
     datasource_type: alexanderzobnin-zabbix-datasource
     provenance_type: SYNTHETIC_PROBE
     telemetry_source: Synthetic Asterisk Call Engine (AMI / RTCP Telemetry)
@@ -3674,7 +3928,8 @@ dashboards:
       \ CM MIB table avCmMeasIpVoStatSumDataLstHrTable (OID 1.3.6.1.4.1.6889.2.73.8.1.77).\
       \ Interval: 1 hour (CM internal bucket calculation). Freshness: 1\u20132 hours.\
       \ Limitations: Hourly aggregated snapshot; does not provide per-call real-time\
-      \ streaming telemetry."
+      \ streaming telemetry. Missing data indicates collector outage, agent failure,\
+      \ or network disruption; values are preserved as null gaps."
     datasource_type: alexanderzobnin-zabbix-datasource
     provenance_type: REAL_AVAYA_SNMP
     telemetry_source: Avaya Communication Manager 8.1.0 MIB (avCmMeasIpVoStatSumDataLstHrTable
@@ -3696,7 +3951,8 @@ dashboards:
       avCmMeasIpVoStatSumDataLstHrTable (OID 1.3.6.1.4.1.6889.2.73.8.1.77) and avCmMeasIpVoStatHrJitterTable
       (OID 1.3.6.1.4.1.6889.2.73.8.1.66). Interval: 1 hour. Limitations: Reflects
       historical peak values during the preceding hour interval; not instantaneous
-      jitter.'
+      jitter. Missing data indicates collector outage, agent failure, or network disruption;
+      values are preserved as null gaps.'
     datasource_type: alexanderzobnin-zabbix-datasource
     provenance_type: REAL_AVAYA_SNMP
     telemetry_source: Avaya Communication Manager 8.1.0 MIB (avCmMeasIpVoStatSumDataLstHrTable
@@ -3718,7 +3974,9 @@ dashboards:
     panel_type: timeseries
     description: 'Synthetic voice call media impairment breakdown: network packet
       drop rate vs jitter buffer discard rate. Source: Synthetic Asterisk RTCP reports
-      via Zabbix. Limitations: Reflects synthetic probe calls between test extensions.'
+      via Zabbix. Limitations: Reflects synthetic probe calls between test extensions.
+      Missing data indicates collector outage, agent failure, or network disruption;
+      values are preserved as null gaps.'
     datasource_type: alexanderzobnin-zabbix-datasource
     provenance_type: SYNTHETIC_PROBE
     telemetry_source: Synthetic Asterisk Call Engine (AMI / RTCP Telemetry)
@@ -3739,7 +3997,8 @@ dashboards:
     panel_type: timeseries
     description: 'Synthetic round-trip mouth-to-ear voice latency (ITU-T G.114 target:
       <= 150ms). Source: Synthetic Asterisk probe RTP timestamps via Zabbix. Limitations:
-      Synthetic probe path latency.'
+      Synthetic probe path latency. Missing data indicates collector outage, agent
+      failure, or network disruption; values are preserved as null gaps.'
     datasource_type: alexanderzobnin-zabbix-datasource
     provenance_type: SYNTHETIC_PROBE
     telemetry_source: Synthetic Asterisk Call Engine (AMI / RTCP Telemetry)
@@ -3758,7 +4017,9 @@ dashboards:
     panel_type: gauge
     description: 'Active concurrent call sessions and licensed capacity utilization
       on Avaya SBCE 8.1. Source: Avaya SBCE SNMP agent via Zabbix. Warning: > 400
-      sessions (80%), Critical: > 450 sessions (90%). Real hardware telemetry.'
+      sessions (80%), Critical: > 450 sessions (90%). Real hardware telemetry. Missing
+      data indicates collector outage, agent failure, or network disruption; values
+      are preserved as null gaps.'
     datasource_type: alexanderzobnin-zabbix-datasource
     provenance_type: REAL_SBCE_SNMP
     telemetry_source: Avaya SBCE 8.1 SNMPv3 Agent (IF-MIB / HOST-RESOURCES-MIB / UCD-SNMP-MIB)
@@ -3775,7 +4036,9 @@ dashboards:
     panel_title: Recent Correlated Voice Call Sessions [CORRELATED PROBES]
     panel_type: table
     description: 'Recent correlated voice calls with signaling outcome, Q.850 cause
-      code, and topology verification status. Source: Nawari Voice Intelligence Engine.'
+      code, and topology verification status. Source: Nawari Voice Intelligence Engine.
+      Missing data indicates collector outage, agent failure, or network disruption;
+      values are preserved as null gaps.'
     datasource_type: alexanderzobnin-zabbix-datasource
     provenance_type: CORRELATED_ANALYTICS
     telemetry_source: Nawari Unified Analytics & Correlation Engine
@@ -3802,7 +4065,9 @@ dashboards:
     description: 'Product specification and boundary requirements: WFO is an enterprise
       product category, not a specific product. Displays integration prerequisites
       (Verint / NICE / Geomant / AWOS verification required). Documents that Nawari
-      collects operational metadata ONLY; voice audio recordings are strictly excluded.'
+      collects operational metadata ONLY; voice audio recordings are strictly excluded.
+      Missing data indicates collector outage, agent failure, or network disruption;
+      values are preserved as null gaps.'
     datasource_type: alexanderzobnin-zabbix-datasource
     provenance_type: REAL_ZABBIX_TELEMETRY
     telemetry_source: Zabbix Telemetry Engine (SNMPv2c/v3, ICMP ping, Zabbix Agent
@@ -3820,7 +4085,8 @@ dashboards:
     description: 'Operational health of the CTI signaling link between Avaya Communication
       Manager and the recording server cluster (TSAPI / DMCC / CSTA). 1 = Link Active,
       0 = Link Down. Critical alert if down: halts call metadata association. Source:
-      CTI daemon check. Polling: 60s.'
+      CTI daemon check. Polling: 60s. Missing data indicates collector outage, agent
+      failure, or network disruption; values are preserved as null gaps.'
     datasource_type: alexanderzobnin-zabbix-datasource
     provenance_type: REAL_ZABBIX_TELEMETRY
     telemetry_source: Zabbix Telemetry Engine (SNMPv2c/v3, ICMP ping, Zabbix Agent
@@ -3836,7 +4102,8 @@ dashboards:
     panel_title: "Recording Host Uptime [REAL \u2014 HARDWARE]"
     panel_type: stat
     description: 'Operating system uptime of the recording application host server.
-      Source: MIB-II sysUpTime. Polling: 60s.'
+      Source: MIB-II sysUpTime. Polling: 60s. Missing data indicates collector outage,
+      agent failure, or network disruption; values are preserved as null gaps.'
     datasource_type: alexanderzobnin-zabbix-datasource
     provenance_type: REAL_ZABBIX_TELEMETRY
     telemetry_source: Zabbix Telemetry Engine (SNMPv2c/v3, ICMP ping, Zabbix Agent
@@ -3853,7 +4120,8 @@ dashboards:
     panel_type: stat
     description: 'Live count of concurrent telephone voice conversations currently
       being actively captured and recorded. Source: Recording daemon active session
-      counter. Polling: 60s.'
+      counter. Polling: 60s. Missing data indicates collector outage, agent failure,
+      or network disruption; values are preserved as null gaps.'
     datasource_type: alexanderzobnin-zabbix-datasource
     provenance_type: REAL_ZABBIX_TELEMETRY
     telemetry_source: Zabbix Telemetry Engine (SNMPv2c/v3, ICMP ping, Zabbix Agent
@@ -3869,7 +4137,9 @@ dashboards:
     panel_title: "Ingestion Rate (Calls/min) [APPLICATION \u2014 WFO]"
     panel_type: timeseries
     description: 'Rate of recorded call metadata payloads ingested and indexed into
-      the archive per minute. Source: WFO ingestion API. Polling: 60s.'
+      the archive per minute. Source: WFO ingestion API. Polling: 60s. Missing data
+      indicates collector outage, agent failure, or network disruption; values are
+      preserved as null gaps.'
     datasource_type: alexanderzobnin-zabbix-datasource
     provenance_type: REAL_ZABBIX_TELEMETRY
     telemetry_source: Zabbix Telemetry Engine (SNMPv2c/v3, ICMP ping, Zabbix Agent
@@ -3886,7 +4156,8 @@ dashboards:
     panel_type: stat
     description: 'Count of failed recording operations (e.g. RTP stream missing, CTI
       timeout, codec mismatch) in the preceding hour. Source: Recording error log.
-      Warning: > 0 failures.'
+      Warning: > 0 failures. Missing data indicates collector outage, agent failure,
+      or network disruption; values are preserved as null gaps.'
     datasource_type: alexanderzobnin-zabbix-datasource
     provenance_type: REAL_ZABBIX_TELEMETRY
     telemetry_source: Zabbix Telemetry Engine (SNMPv2c/v3, ICMP ping, Zabbix Agent
@@ -3903,7 +4174,8 @@ dashboards:
     panel_type: gauge
     description: 'Number of call recording files currently buffered in local staging
       storage awaiting transfer to long-term archive. Warning: > 200 calls. Critical:
-      > 500 calls. Source: Ingestion queue monitor.'
+      > 500 calls. Source: Ingestion queue monitor. Missing data indicates collector
+      outage, agent failure, or network disruption; values are preserved as null gaps.'
     datasource_type: alexanderzobnin-zabbix-datasource
     provenance_type: REAL_ZABBIX_TELEMETRY
     telemetry_source: Zabbix Telemetry Engine (SNMPv2c/v3, ICMP ping, Zabbix Agent
@@ -3920,7 +4192,8 @@ dashboards:
     panel_type: gauge
     description: 'Storage capacity utilization percentage across dedicated call recording
       storage volumes. Warning: > 80%, Critical: > 90%. Source: HOST-RESOURCES-MIB
-      hrStorageUsed. Polling: 5m.'
+      hrStorageUsed. Polling: 5m. Missing data indicates collector outage, agent failure,
+      or network disruption; values are preserved as null gaps.'
     datasource_type: alexanderzobnin-zabbix-datasource
     provenance_type: REAL_ZABBIX_TELEMETRY
     telemetry_source: Zabbix Telemetry Engine (SNMPv2c/v3, ICMP ping, Zabbix Agent
@@ -3937,7 +4210,9 @@ dashboards:
     panel_type: stat
     description: 'Projected remaining days before recording storage volume reaches
       90% and 100% capacity saturation based on rolling 14-day daily ingestion trajectory.
-      Source: Nawari Storage Capacity Forecaster. Warning: < 30 days.'
+      Source: Nawari Storage Capacity Forecaster. Warning: < 30 days. Missing data
+      indicates collector outage, agent failure, or network disruption; values are
+      preserved as null gaps.'
     datasource_type: alexanderzobnin-zabbix-datasource
     provenance_type: REAL_ZABBIX_TELEMETRY
     telemetry_source: Zabbix Telemetry Engine (SNMPv2c/v3, ICMP ping, Zabbix Agent
@@ -3954,7 +4229,8 @@ dashboards:
     panel_type: gauge
     description: 'Percentage of completed daily call recordings successfully migrated
       and verified in the offsite long-term immutable archival tier. Target: 100%.
-      Source: WFO Archival Verifier.'
+      Source: WFO Archival Verifier. Missing data indicates collector outage, agent
+      failure, or network disruption; values are preserved as null gaps.'
     datasource_type: alexanderzobnin-zabbix-datasource
     provenance_type: REAL_ZABBIX_TELEMETRY
     telemetry_source: Zabbix Telemetry Engine (SNMPv2c/v3, ICMP ping, Zabbix Agent

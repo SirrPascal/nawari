@@ -26,7 +26,7 @@
         "type": "alexanderzobnin-zabbix-datasource",
         "uid": "PA67C5EADE9207728"
       },
-      "description": "Product specification and boundary requirements: WFO is an enterprise product category, not a specific product. Displays integration prerequisites (Verint / NICE / Geomant / AWOS verification required). Documents that Nawari collects operational metadata ONLY; voice audio recordings are strictly excluded.",
+      "description": "Product specification and boundary requirements: WFO is an enterprise product category, not a specific product. Displays integration prerequisites (Verint / NICE / Geomant / AWOS verification required). Documents that Nawari collects operational metadata ONLY; voice audio recordings are strictly excluded. Missing data indicates collector outage, agent failure, or network disruption; values are preserved as null gaps.",
       "fieldConfig": {
         "defaults": {
           "color": {
@@ -88,7 +88,7 @@
         "type": "alexanderzobnin-zabbix-datasource",
         "uid": "PA67C5EADE9207728"
       },
-      "description": "Operational health of the CTI signaling link between Avaya Communication Manager and the recording server cluster (TSAPI / DMCC / CSTA). 1 = Link Active, 0 = Link Down. Critical alert if down: halts call metadata association. Source: CTI daemon check. Polling: 60s.",
+      "description": "Operational health of the CTI signaling link between Avaya Communication Manager and the recording server cluster (TSAPI / DMCC / CSTA). 1 = Link Active, 0 = Link Down. Critical alert if down: halts call metadata association. Source: CTI daemon check. Polling: 60s. Missing data indicates collector outage, agent failure, or network disruption; values are preserved as null gaps.",
       "fieldConfig": {
         "defaults": {
           "color": {
@@ -168,7 +168,7 @@
         "type": "alexanderzobnin-zabbix-datasource",
         "uid": "PA67C5EADE9207728"
       },
-      "description": "Operating system uptime of the recording application host server. Source: MIB-II sysUpTime. Polling: 60s.",
+      "description": "Operating system uptime of the recording application host server. Source: MIB-II sysUpTime. Polling: 60s. Missing data indicates collector outage, agent failure, or network disruption; values are preserved as null gaps.",
       "fieldConfig": {
         "defaults": {
           "unit": "s"
@@ -230,7 +230,7 @@
         "type": "alexanderzobnin-zabbix-datasource",
         "uid": "PA67C5EADE9207728"
       },
-      "description": "Live count of concurrent telephone voice conversations currently being actively captured and recorded. Source: Recording daemon active session counter. Polling: 60s.",
+      "description": "Live count of concurrent telephone voice conversations currently being actively captured and recorded. Source: Recording daemon active session counter. Polling: 60s. Missing data indicates collector outage, agent failure, or network disruption; values are preserved as null gaps.",
       "fieldConfig": {
         "defaults": {
           "unit": "calls"
@@ -280,7 +280,7 @@
         "type": "alexanderzobnin-zabbix-datasource",
         "uid": "PA67C5EADE9207728"
       },
-      "description": "Rate of recorded call metadata payloads ingested and indexed into the archive per minute. Source: WFO ingestion API. Polling: 60s.",
+      "description": "Rate of recorded call metadata payloads ingested and indexed into the archive per minute. Source: WFO ingestion API. Polling: 60s. Missing data indicates collector outage, agent failure, or network disruption; values are preserved as null gaps.",
       "fieldConfig": {
         "defaults": {
           "custom": {
@@ -326,7 +326,7 @@
         "type": "alexanderzobnin-zabbix-datasource",
         "uid": "PA67C5EADE9207728"
       },
-      "description": "Count of failed recording operations (e.g. RTP stream missing, CTI timeout, codec mismatch) in the preceding hour. Source: Recording error log. Warning: > 0 failures.",
+      "description": "Count of failed recording operations (e.g. RTP stream missing, CTI timeout, codec mismatch) in the preceding hour. Source: Recording error log. Warning: > 0 failures. Missing data indicates collector outage, agent failure, or network disruption; values are preserved as null gaps.",
       "fieldConfig": {
         "defaults": {
           "color": {
@@ -392,7 +392,7 @@
         "type": "alexanderzobnin-zabbix-datasource",
         "uid": "PA67C5EADE9207728"
       },
-      "description": "Number of call recording files currently buffered in local staging storage awaiting transfer to long-term archive. Warning: > 200 calls. Critical: > 500 calls. Source: Ingestion queue monitor.",
+      "description": "Number of call recording files currently buffered in local staging storage awaiting transfer to long-term archive. Warning: > 200 calls. Critical: > 500 calls. Source: Ingestion queue monitor. Missing data indicates collector outage, agent failure, or network disruption; values are preserved as null gaps.",
       "fieldConfig": {
         "defaults": {
           "color": {
@@ -474,7 +474,7 @@
         "type": "alexanderzobnin-zabbix-datasource",
         "uid": "PA67C5EADE9207728"
       },
-      "description": "Storage capacity utilization percentage across dedicated call recording storage volumes. Warning: > 80%, Critical: > 90%. Source: HOST-RESOURCES-MIB hrStorageUsed. Polling: 5m.",
+      "description": "Storage capacity utilization percentage across dedicated call recording storage volumes. Warning: > 80%, Critical: > 90%. Source: HOST-RESOURCES-MIB hrStorageUsed. Polling: 5m. Missing data indicates collector outage, agent failure, or network disruption; values are preserved as null gaps.",
       "fieldConfig": {
         "defaults": {
           "color": {
@@ -544,7 +544,7 @@
         "type": "alexanderzobnin-zabbix-datasource",
         "uid": "PA67C5EADE9207728"
       },
-      "description": "Projected remaining days before recording storage volume reaches 90% and 100% capacity saturation based on rolling 14-day daily ingestion trajectory. Source: Nawari Storage Capacity Forecaster. Warning: < 30 days.",
+      "description": "Projected remaining days before recording storage volume reaches 90% and 100% capacity saturation based on rolling 14-day daily ingestion trajectory. Source: Nawari Storage Capacity Forecaster. Warning: < 30 days. Missing data indicates collector outage, agent failure, or network disruption; values are preserved as null gaps.",
       "fieldConfig": {
         "defaults": {
           "color": {
@@ -614,7 +614,7 @@
         "type": "alexanderzobnin-zabbix-datasource",
         "uid": "PA67C5EADE9207728"
       },
-      "description": "Percentage of completed daily call recordings successfully migrated and verified in the offsite long-term immutable archival tier. Target: 100%. Source: WFO Archival Verifier.",
+      "description": "Percentage of completed daily call recordings successfully migrated and verified in the offsite long-term immutable archival tier. Target: 100%. Source: WFO Archival Verifier. Missing data indicates collector outage, agent failure, or network disruption; values are preserved as null gaps.",
       "fieldConfig": {
         "defaults": {
           "color": {

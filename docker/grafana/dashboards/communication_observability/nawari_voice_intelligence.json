@@ -27,7 +27,7 @@
         "type": "alexanderzobnin-zabbix-datasource",
         "uid": "PA67C5EADE9207728"
       },
-      "description": "Post-Dial Delay (PDD: INVITE to 18x), Time to Alerting (TTA: INVITE to 180 Ringing), and Time to Answer (TTOA: 180 to 200 OK) measured in milliseconds from synthetic Asterisk test calls. Source: Asterisk AMI synthetic call engine via Zabbix. Limitations: Reflects synthetic probe transactions only; does not represent live customer or agent calls.",
+      "description": "Post-Dial Delay (PDD: INVITE to 18x), Time to Alerting (TTA: INVITE to 180 Ringing), and Time to Answer (TTOA: 180 to 200 OK) measured in milliseconds from synthetic Asterisk test calls. Source: Asterisk AMI synthetic call engine via Zabbix. Limitations: Reflects synthetic probe transactions only; does not represent live customer or agent calls. Missing data indicates collector outage, agent failure, or network disruption; values are preserved as null gaps.",
       "fieldConfig": {
         "defaults": {
           "custom": {
@@ -106,7 +106,7 @@
         "type": "alexanderzobnin-zabbix-datasource",
         "uid": "PA67C5EADE9207728"
       },
-      "description": "Categorization of SIP response events from synthetic test calls: differentiates normal station states (480 offline, 486 busy, 487 probe teardown) from true trunk/infrastructure failures (500, 502, 503, 504). Source: Synthetic Asterisk probe logs. Limitations: Synthetic probe calls only.",
+      "description": "Categorization of SIP response events from synthetic test calls: differentiates normal station states (480 offline, 486 busy, 487 probe teardown) from true trunk/infrastructure failures (500, 502, 503, 504). Source: Synthetic Asterisk probe logs. Limitations: Synthetic probe calls only. Missing data indicates collector outage, agent failure, or network disruption; values are preserved as null gaps.",
       "fieldConfig": {
         "defaults": {
           "unit": "short"
@@ -152,7 +152,7 @@
         "type": "alexanderzobnin-zabbix-datasource",
         "uid": "PA67C5EADE9207728"
       },
-      "description": "Real-time SIP trunk registration state and signaling reachability for Avaya SBCE / Session Manager carrier interconnects (e.g., Safaricom, Airtel SIP trunks). Source: Zabbix SNMP/SIP OPTIONS monitor on Avaya SBCE. Important: Proves layer-5 SIP signaling reachability only; does NOT guarantee voice audio media quality or absence of RTP packet loss.",
+      "description": "Real-time SIP trunk registration state and signaling reachability for Avaya SBCE / Session Manager carrier interconnects (e.g., Safaricom, Airtel SIP trunks). Source: Zabbix SNMP/SIP OPTIONS monitor on Avaya SBCE. Important: Proves layer-5 SIP signaling reachability only; does NOT guarantee voice audio media quality or absence of RTP packet loss. Missing data indicates collector outage, agent failure, or network disruption; values are preserved as null gaps.",
       "fieldConfig": {
         "defaults": {
           "color": {
@@ -247,7 +247,7 @@
         "type": "alexanderzobnin-zabbix-datasource",
         "uid": "PA67C5EADE9207728"
       },
-      "description": "Real-call Mean Opinion Score (MOS). Status: Not instrumented \u2014 no validated real-call MOS telemetry source is configured (RTCP-XR RFC 3611 Block 7 / E-Model calculation on actual media streams is required). Displayed value is null/uninstrumented; synthetic MOS must never be substituted for real customer calls.",
+      "description": "Real-call Mean Opinion Score (MOS). Status: Not instrumented \u2014 no validated real-call MOS telemetry source is configured (RTCP-XR RFC 3611 Block 7 / E-Model calculation on actual media streams is required). Displayed value is null/uninstrumented; synthetic MOS must never be substituted for real customer calls. Missing data indicates collector outage, agent failure, or network disruption; values are preserved as null gaps.",
       "fieldConfig": {
         "defaults": {
           "color": {
@@ -312,7 +312,7 @@
         "type": "alexanderzobnin-zabbix-datasource",
         "uid": "PA67C5EADE9207728"
       },
-      "description": "Mean Opinion Score (MOS) estimated via ITU-T G.107 E-model strictly for synthetic test calls generated between Asterisk probes and test extensions. Source: Synthetic Asterisk probe RTCP telemetry via Zabbix. Caution: This metric reflects synthetic probe calls ONLY; it does NOT measure or represent real customer or staff calls.",
+      "description": "Mean Opinion Score (MOS) estimated via ITU-T G.107 E-model strictly for synthetic test calls generated between Asterisk probes and test extensions. Source: Synthetic Asterisk probe RTCP telemetry via Zabbix. Caution: This metric reflects synthetic probe calls ONLY; it does NOT measure or represent real customer or staff calls. Missing data indicates collector outage, agent failure, or network disruption; values are preserved as null gaps.",
       "fieldConfig": {
         "defaults": {
           "color": {
@@ -387,7 +387,7 @@
         "type": "alexanderzobnin-zabbix-datasource",
         "uid": "PA67C5EADE9207728"
       },
-      "description": "Aggregated hourly packet loss percentage across real voice calls terminating on Avaya Communication Manager 8.1.0 media gateways. Source: Avaya CM MIB table avCmMeasIpVoStatSumDataLstHrTable (OID 1.3.6.1.4.1.6889.2.73.8.1.77). Interval: 1 hour (CM internal bucket calculation). Freshness: 1\u20132 hours. Limitations: Hourly aggregated snapshot; does not provide per-call real-time streaming telemetry.",
+      "description": "Aggregated hourly packet loss percentage across real voice calls terminating on Avaya Communication Manager 8.1.0 media gateways. Source: Avaya CM MIB table avCmMeasIpVoStatSumDataLstHrTable (OID 1.3.6.1.4.1.6889.2.73.8.1.77). Interval: 1 hour (CM internal bucket calculation). Freshness: 1\u20132 hours. Limitations: Hourly aggregated snapshot; does not provide per-call real-time streaming telemetry. Missing data indicates collector outage, agent failure, or network disruption; values are preserved as null gaps.",
       "fieldConfig": {
         "defaults": {
           "color": {
@@ -440,7 +440,7 @@
         "type": "alexanderzobnin-zabbix-datasource",
         "uid": "PA67C5EADE9207728"
       },
-      "description": "Peak network jitter (ms) and peak one-way delay (ms) recorded across real voice sessions in Avaya Communication Manager. Source: Avaya CM MIB table avCmMeasIpVoStatSumDataLstHrTable (OID 1.3.6.1.4.1.6889.2.73.8.1.77) and avCmMeasIpVoStatHrJitterTable (OID 1.3.6.1.4.1.6889.2.73.8.1.66). Interval: 1 hour. Limitations: Reflects historical peak values during the preceding hour interval; not instantaneous jitter.",
+      "description": "Peak network jitter (ms) and peak one-way delay (ms) recorded across real voice sessions in Avaya Communication Manager. Source: Avaya CM MIB table avCmMeasIpVoStatSumDataLstHrTable (OID 1.3.6.1.4.1.6889.2.73.8.1.77) and avCmMeasIpVoStatHrJitterTable (OID 1.3.6.1.4.1.6889.2.73.8.1.66). Interval: 1 hour. Limitations: Reflects historical peak values during the preceding hour interval; not instantaneous jitter. Missing data indicates collector outage, agent failure, or network disruption; values are preserved as null gaps.",
       "fieldConfig": {
         "defaults": {
           "color": {
@@ -520,7 +520,7 @@
         "type": "alexanderzobnin-zabbix-datasource",
         "uid": "PA67C5EADE9207728"
       },
-      "description": "Synthetic voice call media impairment breakdown: network packet drop rate vs jitter buffer discard rate. Source: Synthetic Asterisk RTCP reports via Zabbix. Limitations: Reflects synthetic probe calls between test extensions.",
+      "description": "Synthetic voice call media impairment breakdown: network packet drop rate vs jitter buffer discard rate. Source: Synthetic Asterisk RTCP reports via Zabbix. Limitations: Reflects synthetic probe calls between test extensions. Missing data indicates collector outage, agent failure, or network disruption; values are preserved as null gaps.",
       "fieldConfig": {
         "defaults": {
           "custom": {
@@ -584,7 +584,7 @@
         "type": "alexanderzobnin-zabbix-datasource",
         "uid": "PA67C5EADE9207728"
       },
-      "description": "Synthetic round-trip mouth-to-ear voice latency (ITU-T G.114 target: <= 150ms). Source: Synthetic Asterisk probe RTP timestamps via Zabbix. Limitations: Synthetic probe path latency.",
+      "description": "Synthetic round-trip mouth-to-ear voice latency (ITU-T G.114 target: <= 150ms). Source: Synthetic Asterisk probe RTP timestamps via Zabbix. Limitations: Synthetic probe path latency. Missing data indicates collector outage, agent failure, or network disruption; values are preserved as null gaps.",
       "fieldConfig": {
         "defaults": {
           "custom": {
@@ -645,7 +645,7 @@
         "type": "alexanderzobnin-zabbix-datasource",
         "uid": "PA67C5EADE9207728"
       },
-      "description": "Active concurrent call sessions and licensed capacity utilization on Avaya SBCE 8.1. Source: Avaya SBCE SNMP agent via Zabbix. Warning: > 400 sessions (80%), Critical: > 450 sessions (90%). Real hardware telemetry.",
+      "description": "Active concurrent call sessions and licensed capacity utilization on Avaya SBCE 8.1. Source: Avaya SBCE SNMP agent via Zabbix. Warning: > 400 sessions (80%), Critical: > 450 sessions (90%). Real hardware telemetry. Missing data indicates collector outage, agent failure, or network disruption; values are preserved as null gaps.",
       "fieldConfig": {
         "defaults": {
           "color": {
@@ -718,7 +718,7 @@
         "type": "alexanderzobnin-zabbix-datasource",
         "uid": "PA67C5EADE9207728"
       },
-      "description": "Recent correlated voice calls with signaling outcome, Q.850 cause code, and topology verification status. Source: Nawari Voice Intelligence Engine.",
+      "description": "Recent correlated voice calls with signaling outcome, Q.850 cause code, and topology verification status. Source: Nawari Voice Intelligence Engine. Missing data indicates collector outage, agent failure, or network disruption; values are preserved as null gaps.",
       "fieldConfig": {
         "defaults": {},
         "overrides": []

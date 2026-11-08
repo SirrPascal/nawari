@@ -1,5 +1,5 @@
 register_version: 1.0.0
-generated_at: '2026-11-08T10:58:25.496101+00:00'
+generated_at: '2026-11-08T11:29:19.655935+00:00'
 standard: Nawari Phase 13.2 Telemetry Evidence & Integration Audit
 validation_status_definitions:
   VERIFIED_LIVE: Confirmed against actual active physical production device telemetry streaming live.
@@ -13,8 +13,8 @@ summary:
   total_dashboards: 24
   total_panels: 200
   status_counts:
-    VERIFIED_INTEGRATION: 160
-    CONFIGURED_UNVERIFIED: 19
+    VERIFIED_INTEGRATION: 159
+    CONFIGURED_UNVERIFIED: 20
     NOT_COLLECTED: 3
     SIMULATED: 18
 dashboards:
@@ -27,7 +27,8 @@ dashboards:
   - panel_id: 2
     panel_title: "CMS Host CPU Utilization [REAL \u2014 HARDWARE]"
     panel_description: 'Processor core utilization on the Avaya Call Management System (CMS) server host. Units: Percentage
-      (0-100%). Warning: 75%, Critical: 90%. Source: HOST-RESOURCES-MIB. Polling: 60s.'
+      (0-100%). Warning: 75%, Critical: 90%. Source: HOST-RESOURCES-MIB. Polling: 60s. Missing data indicates collector outage,
+      agent failure, or network disruption; values are preserved as null gaps.'
     metric_name: CMS Host CPU Utilization
     zabbix_item_key: CMS Host CPU Utilization
     source_device: nawari-cm-01
@@ -46,7 +47,8 @@ dashboards:
   - panel_id: 3
     panel_title: "Informix Database Engine Status [APPLICATION \u2014 CMS]"
     panel_description: 'Operational state of the IBM Informix Dynamic Server (IDS) database engine underpinning CMS real-time
-      and historical tables. 1 = Running / Online, 0 = Down / Offline. Source: Zabbix service check. Polling: 60s.'
+      and historical tables. 1 = Running / Online, 0 = Down / Offline. Source: Zabbix service check. Polling: 60s. Missing
+      data indicates collector outage, agent failure, or network disruption; values are preserved as null gaps.'
     metric_name: Informix Database Engine Status
     zabbix_item_key: Informix Database Engine Status
     source_device: nawari-cm-01
@@ -66,7 +68,8 @@ dashboards:
     panel_title: "CMS Archiving Interval Configuration [APPLICATION \u2014 CMS]"
     panel_description: 'Configured historical archiving interval for Avaya CMS interval tables (15 minutes, 30 minutes, or
       60 minutes). Nawari read-only ODBC ingestion synchronizes strictly to this interval, preserving original timestamps.
-      Source: CMS system configuration.'
+      Source: CMS system configuration. Missing data indicates collector outage, agent failure, or network disruption; values
+      are preserved as null gaps.'
     metric_name: CMS Ingestion Reporting Interval
     zabbix_item_key: CMS Ingestion Reporting Interval
     source_device: nawari-cm-01
@@ -85,7 +88,8 @@ dashboards:
   - panel_id: 6
     panel_title: "Service Level Attainment (% in SLA) [APPLICATION \u2014 CMS]"
     panel_description: "Percentage of contact centre callers answered within Kenya Airways service level threshold (80% answered\
-      \ in 20 seconds). Source: Avaya CMS Informix read-only ODBC query on hsplit table. Freshness: 15\u201330 minutes."
+      \ in 20 seconds). Source: Avaya CMS Informix read-only ODBC query on hsplit table. Freshness: 15\u201330 minutes. Missing\
+      \ data indicates collector outage, agent failure, or network disruption; values are preserved as null gaps."
     metric_name: Overall Service Level Attainment
     zabbix_item_key: Overall Service Level Attainment
     source_device: nawari-cm-01
@@ -104,7 +108,8 @@ dashboards:
   - panel_id: 7
     panel_title: "Average Speed of Answer (ASA, sec) [APPLICATION \u2014 CMS]"
     panel_description: 'Average Speed of Answer (ASA) in seconds: mean caller waiting time before an agent connects. Source:
-      Avaya CMS Informix query. Warning: > 45s, Critical: > 90s.'
+      Avaya CMS Informix query. Warning: > 45s, Critical: > 90s. Missing data indicates collector outage, agent failure, or
+      network disruption; values are preserved as null gaps.'
     metric_name: Average Speed of Answer (ASA)
     zabbix_item_key: Average Speed of Answer (ASA)
     source_device: nawari-cm-01
@@ -123,7 +128,8 @@ dashboards:
   - panel_id: 8
     panel_title: "Calls Waiting in Queue [APPLICATION \u2014 CMS]"
     panel_description: 'Live number of customer calls currently waiting on hold across all reservation and ticketing skill
-      queues. Source: CMS real-time stream. Warning: > 15 calls.'
+      queues. Source: CMS real-time stream. Warning: > 15 calls. Missing data indicates collector outage, agent failure, or
+      network disruption; values are preserved as null gaps.'
     metric_name: Calls Waiting in Queue
     zabbix_item_key: Calls Waiting in Queue
     source_device: nawari-cm-01
@@ -142,7 +148,8 @@ dashboards:
   - panel_id: 9
     panel_title: "Oldest Call Waiting (sec) [APPLICATION \u2014 CMS]"
     panel_description: 'Duration in seconds of the single longest-waiting caller currently in queue. Source: CMS real-time
-      report. Warning: > 120s, Critical: > 300s.'
+      report. Warning: > 120s, Critical: > 300s. Missing data indicates collector outage, agent failure, or network disruption;
+      values are preserved as null gaps.'
     metric_name: Oldest Call Waiting Duration
     zabbix_item_key: Oldest Call Waiting Duration
     source_device: nawari-cm-01
@@ -161,7 +168,8 @@ dashboards:
   - panel_id: 11
     panel_title: "Calls Offered vs Answered vs Abandoned [APPLICATION \u2014 CMS]"
     panel_description: "Historical volume trend comparing Calls Offered, Calls Answered, and Calls Abandoned over interval\
-      \ buckets. Source: Avaya CMS Informix hsplit table. Freshness: 15\u201330 minutes."
+      \ buckets. Source: Avaya CMS Informix hsplit table. Freshness: 15\u201330 minutes. Missing data indicates collector\
+      \ outage, agent failure, or network disruption; values are preserved as null gaps."
     metric_name: Calls Offered
     zabbix_item_key: Calls Offered
     source_device: nawari-cm-01
@@ -181,7 +189,8 @@ dashboards:
     panel_title: "Skill Group & Split Performance Breakdown [APPLICATION \u2014 CMS]"
     panel_description: 'Performance table breakdown by contact centre Skill Group / Split (e.g., Reservations English, French,
       Swahili, Flying Blue, Baggage Helpdesk) showing calls offered, answered, abandon %, ASA, and SLA compliance. Source:
-      Avaya CMS read-only ODBC query.'
+      Avaya CMS read-only ODBC query. Missing data indicates collector outage, agent failure, or network disruption; values
+      are preserved as null gaps.'
     metric_name: Skill Group Performance Table
     zabbix_item_key: Skill Group Performance Table
     source_device: nawari-cm-01
@@ -206,7 +215,8 @@ dashboards:
   - panel_id: 2
     panel_title: "CM Processor Reachability [REAL \u2014 ZABBIX]"
     panel_description: 'ICMP ping network reachability to the Avaya Communication Manager processor interface. 1 = UP, 0 =
-      DOWN. Polling: 1m. Freshness: 60s.'
+      DOWN. Polling: 1m. Freshness: 60s. Missing data indicates collector outage, agent failure, or network disruption; values
+      are preserved as null gaps.'
     metric_name: Communication Manager SNMP Availability
     zabbix_item_key: Communication Manager SNMP Availability
     source_device: nawari-cm-01
@@ -226,7 +236,8 @@ dashboards:
     panel_title: "Active Telephony Alarms (Hourly Scan) [REAL \u2014 AVAYA SNMP]"
     panel_description: 'Total active alarm conditions on Communication Manager. Source: Avaya CM 8.1 MIB table avCmAlarmsTable
       (group OID 1.3.6.1.4.1.6889.2.73.8.1.5). Polling interval: strictly 1 hour (delay: 1h) to prevent excessive CPU consumption
-      on the CM call engine. Freshness: 1-2 hours.'
+      on the CM call engine. Freshness: 1-2 hours. Missing data indicates collector outage, agent failure, or network disruption;
+      values are preserved as null gaps.'
     metric_name: Active Alarms Count
     zabbix_item_key: Active Alarms Count
     source_device: nawari-cm-01
@@ -243,12 +254,13 @@ dashboards:
     supporting_evidence: RFC 1213 / HOST-RESOURCES-MIB / IF-MIB
     validation_status: VERIFIED_INTEGRATION
   - panel_id: 4
-    panel_title: "Call Rate Attempts (5-min) [REAL \u2014 AVAYA SNMP]"
-    panel_description: 'Total call attempts processed by Communication Manager in 5-minute sampling intervals. Source: Avaya
-      CM 8.1 MIB table avCmListMeasCallRateTotalTable (group OID 1.3.6.1.4.1.6889.2.73.8.1.145 leaf .1.2.1). Polling interval:
-      strictly 5 minutes. Freshness: 5 minutes.'
-    metric_name: Call Rate Total Attempts (5-minute)
-    zabbix_item_key: Call Rate Total Attempts (5-minute)
+    panel_title: "Call Processing Hourly Status [REAL \u2014 AVAYA SNMP]"
+    panel_description: 'Call processing activity indicator from Avaya CM 8.1 MIB avCmListMeasCallRateTotalTable (group OID
+      1.3.6.1.4.1.6889.2.73.8.1.145). Polling interval: strictly 5 minutes (vendor rate-limiting bound). Note: measurement
+      interval is an hourly measurement block from list measurements call-rate total, not a rolling 5-minute counter. Attempts
+      is not exposed as a 5-minute counter in this table. Missing data indicates collector timeout or SNMP failure.'
+    metric_name: Call Rate Total Attempts (Hourly Measurement Interval)
+    zabbix_item_key: Call Rate Total Attempts (Hourly Measurement Interval)
     source_device: nawari-cm-01
     source_ip: 10.2.156.131
     collection_mechanism: SNMP
@@ -263,12 +275,13 @@ dashboards:
     supporting_evidence: RFC 1213 / HOST-RESOURCES-MIB / IF-MIB
     validation_status: VERIFIED_INTEGRATION
   - panel_id: 5
-    panel_title: "Call Rate Completed (5-min) [REAL \u2014 AVAYA SNMP]"
-    panel_description: 'Total successfully completed calls processed by Communication Manager in 5-minute sampling intervals.
-      Source: Avaya CM 8.1 MIB table avCmListMeasCallRateTotalTable (group OID 1.3.6.1.4.1.6889.2.73.8.1.145 leaf .1.3.1).
-      Polling interval: strictly 5 minutes.'
-    metric_name: Call Rate Completed Calls (5-minute)
-    zabbix_item_key: Call Rate Completed Calls (5-minute)
+    panel_title: "Call Rate Completed Calls (Hourly Measurement) [REAL \u2014 AVAYA SNMP]"
+    panel_description: 'Total completed calls recorded in the current hourly measurement block from list measurements call-rate
+      total (leaf .1.3.1). Source: Avaya CM 8.1 MIB table avCmListMeasCallRateTotalTable (group OID 1.3.6.1.4.1.6889.2.73.8.1.145
+      leaf .1.3.1). Polling interval: strictly 5 minutes (vendor engine protection limit). Measurement interval: hourly measurement
+      block. Missing data indicates CM SNMP communication outage.'
+    metric_name: Call Rate Completed Calls (Hourly Measurement Interval)
+    zabbix_item_key: Call Rate Completed Calls (Hourly Measurement Interval)
     source_device: nawari-cm-01
     source_ip: 10.2.156.131
     collection_mechanism: SNMP
@@ -285,8 +298,9 @@ dashboards:
   - panel_id: 7
     panel_title: "Real-Call Packet Loss % (Last Hour) [REAL \u2014 AVAYA SNMP]"
     panel_description: 'Percentage of IP voice audio packets lost during active calls in the last completed hour across the
-      monitored network region. Source: Avaya CM SNMP table avCmMeasIpVoStatSumDataLstHrTable (OID 1.3.6.1.4.1.6889.2.73.8.1.77
-      leaf .6). Polling interval: strictly 1 hour. Freshness: 1-2 hours. Warning: > 1.0%, Critical: > 2.5%.'
+      monitored network region. Source: Avaya CM SNMP table avCmMeasIpVoStatHrData (OID 1.3.6.1.4.1.6889.2.73.8.1.67 leaf
+      .10). Polling interval: strictly 1 hour. Caching interval: 600s. Warning: > 1.0%, Critical: > 2.5%. Missing data indicates
+      CM SNMP communication outage or unadministered IP options.'
     metric_name: Real-Call Packet Loss (Last Hour)
     zabbix_item_key: Real-Call Packet Loss (Last Hour)
     source_device: nawari-cm-01
@@ -305,8 +319,8 @@ dashboards:
   - panel_id: 8
     panel_title: "Real-Call Peak Jitter (Last Hour) [REAL \u2014 AVAYA SNMP]"
     panel_description: 'Peak interarrival packet jitter in milliseconds observed across real calls in the last completed hour.
-      Source: Avaya CM SNMP table avCmMeasIpVoStatSumDataLstHrTable (leaf .7). Polling interval: strictly 1 hour. Warning:
-      > 20ms, Critical: > 30ms.'
+      Source: Avaya CM SNMP table avCmMeasIpVoStatHrData (OID 1.3.6.1.4.1.6889.2.73.8.1.67 leaf .11). Polling interval: strictly
+      1 hour. Caching interval: 600s. Warning: > 20ms, Critical: > 30ms. Missing data indicates collector outage.'
     metric_name: Real-Call Peak Jitter (Last Hour)
     zabbix_item_key: Real-Call Peak Jitter (Last Hour)
     source_device: nawari-cm-01
@@ -325,8 +339,9 @@ dashboards:
   - panel_id: 9
     panel_title: "Real-Call Peak Delay (Last Hour) [REAL \u2014 AVAYA SNMP]"
     panel_description: 'Maximum two-way round-trip audio packet delay in milliseconds observed across real calls in the last
-      completed hour. Source: Avaya CM SNMP table avCmMeasIpVoStatSumDataLstHrTable (leaf .8). Polling interval: strictly
-      1 hour. Target: <= 150ms (ITU-T G.114), Critical: > 250ms.'
+      completed hour. Source: Avaya CM SNMP table avCmMeasIpVoStatHrData (OID 1.3.6.1.4.1.6889.2.73.8.1.67 leaf .12). Polling
+      interval: strictly 1 hour. Caching interval: 600s. Target: <= 150ms (ITU-T G.114), Critical: > 250ms. Missing data indicates
+      collector outage.'
     metric_name: Real-Call Peak Two-Way Delay (Last Hour)
     zabbix_item_key: Real-Call Peak Two-Way Delay (Last Hour)
     source_device: nawari-cm-01
@@ -344,9 +359,9 @@ dashboards:
     validation_status: VERIFIED_INTEGRATION
   - panel_id: 10
     panel_title: "Hourly Average Jitter [REAL \u2014 AVAYA SNMP]"
-    panel_description: 'Average interarrival packet jitter in milliseconds calculated across all calls in the last completed
-      hour. Source: Avaya CM SNMP table avCmMeasIpVoStatHrJitterTable (OID 1.3.6.1.4.1.6889.2.73.8.1.66 leaf .2). Polling
-      interval: 1 hour.'
+    panel_description: 'Summary interarrival packet jitter metric calculated across active calls in the completed hour. Source:
+      Avaya CM SNMP table avCmMeasIpVoStatHrData (OID 1.3.6.1.4.1.6889.2.73.8.1.67). Polling interval: strictly 1 hour. Caching
+      interval: 600s. Missing data indicates collector outage.'
     metric_name: Real-Call Hourly Average Jitter
     zabbix_item_key: Real-Call Hourly Average Jitter
     source_device: nawari-cm-01
@@ -365,8 +380,8 @@ dashboards:
   - panel_id: 12
     panel_title: "Negotiated Audio Codec [REAL \u2014 AVAYA SNMP]"
     panel_description: 'Primary negotiated audio compression algorithm / codec (e.g. G.711A, G.711U, G.729) active in the
-      measured network region. Source: Avaya CM SNMP table avCmMeasIpVoStatSumDataLstHrTable leaf .3. Polling interval: 1
-      hour.'
+      measured network region. Source: Avaya CM SNMP table avCmMeasIpVoStatHrData (OID 1.3.6.1.4.1.6889.2.73.8.1.67 leaf .8).
+      Polling interval: 1 hour. Missing data indicates collector outage.'
     metric_name: Negotiated Audio Codec
     zabbix_item_key: Negotiated Audio Codec
     source_device: nawari-cm-01
@@ -385,7 +400,8 @@ dashboards:
   - panel_id: 13
     panel_title: "Echo Cancellation Status [REAL \u2014 AVAYA SNMP]"
     panel_description: 'Operational status of hardware/software echo cancellation on voice paths for the measured network
-      region. Source: Avaya CM SNMP table avCmMeasIpVoStatSumDataLstHrTable leaf .11. Polling interval: 1 hour.'
+      region. Source: Avaya CM SNMP table avCmMeasIpVoStatHrData (OID 1.3.6.1.4.1.6889.2.73.8.1.67 leaf .13). Polling interval:
+      1 hour. Missing data indicates collector outage.'
     metric_name: Echo Cancellation Status
     zabbix_item_key: Echo Cancellation Status
     source_device: nawari-cm-01
@@ -404,7 +420,8 @@ dashboards:
   - panel_id: 14
     panel_title: "Evaluated Calls Count in Last Hour [REAL \u2014 AVAYA SNMP]"
     panel_description: 'Total number of real IP voice calls evaluated by Communication Manager during the last completed hour
-      across all media gateways. Source: Avaya CM SNMP table avCmMeasIpVoStatHrJitterTable leaf .4. Polling interval: 1 hour.'
+      across all media gateways. Source: Avaya CM SNMP table avCmMeasIpVoStatHrData (OID 1.3.6.1.4.1.6889.2.73.8.1.67). Polling
+      interval: 1 hour. Missing data indicates collector outage.'
     metric_name: Real-Call Evaluated Calls Count
     zabbix_item_key: Real-Call Evaluated Calls Count
     source_device: nawari-cm-01
@@ -429,7 +446,8 @@ dashboards:
   - panel_id: 2
     panel_title: "G450 System Uptime [REAL \u2014 HARDWARE]"
     panel_description: 'Operating time of the Avaya G450 chassis processor since last reload or power cycle. Source: MIB-II
-      sysUpTime (OID 1.3.6.1.2.1.1.3.0). Polling: 60s. Freshness: 60s.'
+      sysUpTime (OID 1.3.6.1.2.1.1.3.0). Polling: 60s. Freshness: 60s. Missing data indicates collector outage, agent failure,
+      or network disruption; values are preserved as null gaps.'
     metric_name: Chassis System Uptime
     zabbix_item_key: Chassis System Uptime
     source_device: nawari-g450-01
@@ -448,7 +466,8 @@ dashboards:
   - panel_id: 3
     panel_title: "CM Gateway Registration [CONFIGURED \u2014 G450 MGP]"
     panel_description: 'Registration status of the G450 Media Gateway with its controlling Avaya Communication Manager server.
-      1 = REGISTERED, 2 = UNREGISTERED, 3 = DISCOVERING. Source: Avaya G450 Gateway MIB. Polling: 60s. Critical alert if unregistered.'
+      1 = REGISTERED, 2 = UNREGISTERED, 3 = DISCOVERING. Source: Avaya G450 Gateway MIB. Polling: 60s. Critical alert if unregistered.
+      Missing data indicates collector outage, agent failure, or network disruption; values are preserved as null gaps.'
     metric_name: Gateway CM Registration State
     zabbix_item_key: Gateway CM Registration State
     source_device: nawari-cm-01
@@ -466,10 +485,11 @@ dashboards:
     validation_status: VERIFIED_INTEGRATION
   - panel_id: 4
     panel_title: "Chassis Thermal State [EVENT TRAP \u2014 G450 MGP]"
-    panel_description: "Internal temperature alarm state of the G450 chassis processor. 1 = Normal (< 40\xB0C), 2 = Thermal\
-      \ Warning, 3 = Critical Exceeded. Collection Mechanism: Ingested via G450 MGP SNMP traps (temperatureWarning, temperatureClear).\
-      \ Important: G450 exposes discrete thermal event traps rather than a continuous analog gauge (Audit Phase 13.2 correction).\
-      \ Provenance: CONFIGURED_UNVERIFIED."
+    panel_description: 'Event-derived internal thermal state of the G450 chassis processor. States: 0 = UNKNOWN (no trap received
+      / initialized), 1 = CLEARED (normal operation after temperatureClear trap), 2 = WARNING (ambient temperature threshold
+      exceeded after temperatureWarning trap). Important: Avaya G450 MGP firmware does not expose a continuous analog temperature
+      gauge or a separate critical trap state; thermal monitoring is strictly event-derived (Phase 13.3 MIB conformance).
+      Provenance: CONFIGURED_UNVERIFIED. Missing data indicates trapper service failure.'
     metric_name: Internal Chassis Temperature Alarm State
     zabbix_item_key: Internal Chassis Temperature Alarm State
     source_device: nawari-g450-01
@@ -481,8 +501,9 @@ dashboards:
     units: none
     collection_interval: Event-driven
     expected_data_freshness: Asynchronous
-    preprocessing_and_calculation: Discrete chassis thermal alarm states (1=Normal, 2=Warning, 3=Critical). G450 does not
-      expose a continuous analog temperature gauge in standard MIB.
+    preprocessing_and_calculation: Event-derived chassis thermal alarm states (0=UNKNOWN, 1=CLEARED, 2=WARNING). G450 MGP
+      firmware issues temperatureWarning and temperatureClear traps; it does not expose a continuous analog temperature gauge
+      or a separate critical trap state (Phase 13.3 MIB conformance).
     data_nature: REAL
     supporting_evidence: Avaya G450 Media Gateway Traps Specification
     validation_status: CONFIGURED_UNVERIFIED
@@ -490,7 +511,8 @@ dashboards:
     panel_title: "Power Supply Status (PSU 1 & 2) [CONFIGURED \u2014 EVENT TRAP]"
     panel_description: 'Operational state of Primary and Redundant Power Supply Units (PSU 1 and PSU 2). 1 = Normal, 2 = Fault/Failed,
       3 = Not Installed. Collection Mechanism: Ingested via G450 MGP SNMP traps (powerSupplyFailure / powerSupplyNormal) or
-      chassis status. Provenance: CONFIGURED_UNVERIFIED.'
+      chassis status. Provenance: CONFIGURED_UNVERIFIED. Missing data indicates collector outage, agent failure, or network
+      disruption; values are preserved as null gaps.'
     metric_name: Primary Power Supply Status
     zabbix_item_key: Primary Power Supply Status
     source_device: nawari-g450-01
@@ -509,7 +531,8 @@ dashboards:
   - panel_id: 7
     panel_title: "E1 / ISDN PRI Physical Trunk State [CONFIGURED \u2014 IF-MIB]"
     panel_description: 'Operational link status of the physical E1 / ISDN PRI trunk port on the installed MM710 media module.
-      1 = UP, 2 = DOWN. Source: IF-MIB ifOperStatus. Polling: 60s. Critical alert if down.'
+      1 = UP, 2 = DOWN. Source: IF-MIB ifOperStatus. Polling: 60s. Critical alert if down. Missing data indicates collector
+      outage, agent failure, or network disruption; values are preserved as null gaps.'
     metric_name: E1/ISDN Primary Trunk Port Operational Status
     zabbix_item_key: E1/ISDN Primary Trunk Port Operational Status
     source_device: nawari-g450-01
@@ -528,27 +551,29 @@ dashboards:
   - panel_id: 8
     panel_title: "DSP Media Resource Channels [NOT COLLECTED \u2014 REQUIRES AUDIT]"
     panel_description: "VoIP DSP and media resource channel utilization. Status: Not collected \u2014 requires physical audit\
-      \ of installed G450 firmware and DSP child cards (MP80 / MP20 / MP160). Unconfirmed telemetry is honestly displayed\
-      \ as N/A rather than an invented percentage."
+      \ of installed G450 firmware and DSP child cards (MP20 / MP80 for older branch gateways, MP120 / MP160 for high-capacity\
+      \ models). Unconfirmed telemetry is honestly displayed as N/A rather than an invented percentage. Missing data indicates\
+      \ uncollected hardware telemetry."
     metric_name: avG450DspChannelUtilization
     zabbix_item_key: avG450DspChannelUtilization
     source_device: nawari-g450-01
     source_ip: 10.2.156.60
     collection_mechanism: SNMP
     exact_identifier: 1.3.6.1.4.1.6889.2.69.2.2.1 (avG450DspTable)
-    supported_product_release: Avaya G450 Media Gateway (MP80 / MP160)
+    supported_product_release: Avaya G450 Media Gateway (MP20 / MP80 / MP120 / MP160)
     value_type: UNSIGNED
     units: none
     collection_interval: N/A
     expected_data_freshness: N/A (Uncollected)
-    preprocessing_and_calculation: DSP hardware channel allocation. Gated pending on-site module audit.
+    preprocessing_and_calculation: DSP hardware channel allocation. Gated pending on-site physical module audit.
     data_nature: NOT_YET_COLLECTED
     supporting_evidence: Avaya G450 Hardware Installation Guide & Media Module Architecture
     validation_status: NOT_COLLECTED
   - panel_id: 9
     panel_title: "Chassis Fan Tray Operational State [CONFIGURED \u2014 EVENT TRAP]"
     panel_description: 'Operational cooling state of the G450 chassis fan tray unit: 1 = Normal, 2 = Fan Failure, 3 = Warning.
-      Collection Mechanism: Ingested via G450 MGP SNMP trap (fanFailure) or chassis status. Provenance: CONFIGURED_UNVERIFIED.'
+      Collection Mechanism: Ingested via G450 MGP SNMP trap (fanFailure) or chassis status. Provenance: CONFIGURED_UNVERIFIED.
+      Missing data indicates collector outage, agent failure, or network disruption; values are preserved as null gaps.'
     metric_name: Chassis Fan Tray State
     zabbix_item_key: Chassis Fan Tray State
     source_device: nawari-g450-01
@@ -568,7 +593,8 @@ dashboards:
     panel_title: "Installed Media Module Slot Inventory (V1-V8) [REAL \u2014 HARDWARE]"
     panel_description: 'Inventory table of installed media module slots (V1 through V8) on the G450 chassis, displaying module
       model (MM710 E1/T1, MM711 Analog, MM716 Station, MM720 ISDN BRI), serial number, and module operational status. Source:
-      Avaya G450 Media Module Discovery.'
+      Avaya G450 Media Module Discovery. Missing data indicates collector outage, agent failure, or network disruption; values
+      are preserved as null gaps.'
     metric_name: Discovered Media Modules Table
     zabbix_item_key: Discovered Media Modules Table
     source_device: nawari-g450-01
@@ -595,7 +621,8 @@ dashboards:
     panel_description: 'Operational status of the SNMPv3 monitoring agent on the Avaya Session Border Controller Enterprise
       (SBCE 8.1). Value 1 indicates SNMP daemon is responding to polling requests; 0 indicates SNMP agent timeout or unreachable.
       Source: Zabbix SNMPv3 agent ping. Limitations: Verifies management plane reachability only; does not confirm media proxy
-      or SIP signaling functionality.'
+      or SIP signaling functionality. Missing data indicates collector outage, agent failure, or network disruption; values
+      are preserved as null gaps.'
     metric_name: SNMPv3 Status
     zabbix_item_key: SNMPv3 Status
     source_device: nawari-sbce-01
@@ -615,7 +642,8 @@ dashboards:
     panel_title: System Uptime
     panel_description: 'Elapsed time since last reboot of the Avaya SBCE operating system (CentOS-based SBC OS). Units: Seconds
       (formatted as days, hours, minutes). Source: HOST-RESOURCES-MIB::hrSystemUptime (OID .1.3.6.1.2.1.25.1.1.0). Limitations:
-      A sudden drop to zero indicates an unplanned reboot or power disruption.'
+      A sudden drop to zero indicates an unplanned reboot or power disruption. Missing data indicates collector outage, agent
+      failure, or network disruption; values are preserved as null gaps.'
     metric_name: System Uptime
     zabbix_item_key: System Uptime
     source_device: nawari-sbce-01
@@ -635,7 +663,8 @@ dashboards:
     panel_title: CPU Utilization
     panel_description: "Total processor utilization across all cores of the Avaya SBCE appliance. Units: Percentage (0\u2013\
       100%). Warning threshold: 75%, Critical: 90%. Source: HOST-RESOURCES-MIB::hrProcessorLoad (OID .1.3.6.1.2.1.25.3.3.1.2).\
-      \ Limitations: High CPU may cause delayed SIP transaction processing and audio transcoding artifacts."
+      \ Limitations: High CPU may cause delayed SIP transaction processing and audio transcoding artifacts. Missing data indicates\
+      \ collector outage, agent failure, or network disruption; values are preserved as null gaps."
     metric_name: CPU Utilization
     zabbix_item_key: CPU Utilization
     source_device: nawari-sbce-01
@@ -655,7 +684,8 @@ dashboards:
     panel_title: RAM Utilization
     panel_description: "Percentage of physical memory currently consumed on the Avaya SBCE. Units: Percentage (0\u2013100%).\
       \ Source: HOST-RESOURCES-MIB memory allocation metrics. Warning: 80%, Critical: 95%. Limitations: Memory exhaustion\
-      \ can lead to Linux OOM killer terminating SIP signaling processes."
+      \ can lead to Linux OOM killer terminating SIP signaling processes. Missing data indicates collector outage, agent failure,\
+      \ or network disruption; values are preserved as null gaps."
     metric_name: RAM Utilization
     zabbix_item_key: RAM Utilization
     source_device: nawari-sbce-01
@@ -675,7 +705,8 @@ dashboards:
     panel_title: Root Disk Utilization
     panel_description: "Disk space consumption on the root (/) filesystem partition of the Avaya SBCE appliance. Units: Percentage\
       \ (0\u2013100%). Source: HOST-RESOURCES-MIB::hrStorageUsed (OID .1.3.6.1.2.1.25.2.3.1.6). Limitations: Log file accumulation\
-      \ (e.g., trace_sbc) can fill disk, leading to packet capture failure or service halt."
+      \ (e.g., trace_sbc) can fill disk, leading to packet capture failure or service halt. Missing data indicates collector\
+      \ outage, agent failure, or network disruption; values are preserved as null gaps."
     metric_name: Root Disk Utilization
     zabbix_item_key: Root Disk Utilization
     source_device: nawari-sbce-01
@@ -695,7 +726,8 @@ dashboards:
     panel_title: Load Average (1m)
     panel_description: 'One-minute system load average representing the number of runnable or waiting processes. Units: Scalar
       load average. Source: UCD-SNMP-MIB::laLoad.1 (OID .1.3.6.1.4.1.2021.10.1.3.1). Limitations: Sustained load higher than
-      CPU core count indicates queue saturation and potential SIP packet drop.'
+      CPU core count indicates queue saturation and potential SIP packet drop. Missing data indicates collector outage, agent
+      failure, or network disruption; values are preserved as null gaps.'
     metric_name: Load Average (1m)
     zabbix_item_key: Load Average (1m)
     source_device: nawari-sbce-01
@@ -715,7 +747,8 @@ dashboards:
     panel_title: "A1 \u2014 External DMZ (SIP Signaling)"
     panel_description: 'Link operational status of physical interface A1 connecting the Avaya SBCE to the external DMZ and
       telecom service provider SIP trunks (e.g., Safaricom). 1 = Up, 2 = Down. Source: IF-MIB::ifOperStatus.1. Limitations:
-      Down status causes immediate loss of external inbound/outbound telephony.'
+      Down status causes immediate loss of external inbound/outbound telephony. Missing data indicates collector outage, agent
+      failure, or network disruption; values are preserved as null gaps.'
     metric_name: "A1 \u2014 External DMZ (SIP Signaling)"
     zabbix_item_key: "A1 \u2014 External DMZ (SIP Signaling)"
     source_device: nawari-sbce-01
@@ -735,7 +768,8 @@ dashboards:
     panel_title: "B1 \u2014 Internal Media & Core Signaling"
     panel_description: 'Link operational status of physical interface B1 connecting the Avaya SBCE to the internal core voice
       network (Avaya Aura Session Manager & Media Gateways). 1 = Up, 2 = Down. Source: IF-MIB::ifOperStatus.2. Limitations:
-      Down status halts internal call routing between SBCE and Aura Core.'
+      Down status halts internal call routing between SBCE and Aura Core. Missing data indicates collector outage, agent failure,
+      or network disruption; values are preserved as null gaps.'
     metric_name: "B1 \u2014 Internal Media & Core Signaling"
     zabbix_item_key: "B1 \u2014 Internal Media & Core Signaling"
     source_device: nawari-sbce-01
@@ -755,7 +789,8 @@ dashboards:
     panel_title: "M1 \u2014 Primary Management"
     panel_description: 'Link operational status of interface M1 dedicated to out-of-band management and EMS web administration.
       1 = Up, 2 = Down. Source: IF-MIB::ifOperStatus.3. Limitations: Interface failure prevents administrative access and
-      EMS configuration synchronization but does not disrupt active call traffic.'
+      EMS configuration synchronization but does not disrupt active call traffic. Missing data indicates collector outage,
+      agent failure, or network disruption; values are preserved as null gaps.'
     metric_name: "M1 \u2014 Primary Management"
     zabbix_item_key: "M1 \u2014 Primary Management"
     source_device: nawari-sbce-01
@@ -775,7 +810,8 @@ dashboards:
     panel_title: "M2 \u2014 Secondary / HA Heartbeat"
     panel_description: 'Link operational status of interface M2 used for High Availability (HA) clustering heartbeat and state
       synchronization between SBCE primary and standby appliances. 1 = Up, 2 = Down. Source: IF-MIB::ifOperStatus.4. Limitations:
-      Loss of M2 heartbeat can trigger split-brain condition or disable automatic failover.'
+      Loss of M2 heartbeat can trigger split-brain condition or disable automatic failover. Missing data indicates collector
+      outage, agent failure, or network disruption; values are preserved as null gaps.'
     metric_name: "M2 \u2014 Secondary / HA Heartbeat"
     zabbix_item_key: "M2 \u2014 Secondary / HA Heartbeat"
     source_device: nawari-sbce-01
@@ -795,7 +831,8 @@ dashboards:
     panel_title: A1 Carrier DMZ Traffic (bps)
     panel_description: 'Bidirectional network bandwidth utilization on external interface A1 carrying carrier SIP signaling
       (UDP/TCP/TLS 5060/5061) and RTP media streams. Units: Bits per second (bps) with delta rate calculation. Source: IF-MIB::ifHCInOctets
-      / ifHCOutOctets. Limitations: Polled at 30s intervals; short microbursts below polling window are smoothed.'
+      / ifHCOutOctets. Limitations: Polled at 30s intervals; short microbursts below polling window are smoothed. Missing
+      data indicates collector outage, agent failure, or network disruption; values are preserved as null gaps.'
     metric_name: A1 Carrier DMZ Traffic (bps)
     zabbix_item_key: A1 Carrier DMZ Traffic (bps)
     source_device: nawari-sbce-01
@@ -815,7 +852,8 @@ dashboards:
     panel_title: B1 Internal Media & Core Signaling Traffic (bps)
     panel_description: 'Bidirectional network throughput on internal interface B1 carrying media streams between SBCE and
       Avaya Media Servers/Gateways. Units: Bits per second (bps). Source: IF-MIB::ifHCInOctets / ifHCOutOctets. Limitations:
-      Bandwidth spikes correlate with concurrent active RTP call sessions.'
+      Bandwidth spikes correlate with concurrent active RTP call sessions. Missing data indicates collector outage, agent
+      failure, or network disruption; values are preserved as null gaps.'
     metric_name: B1 Internal Media & Core Signaling Traffic (bps)
     zabbix_item_key: B1 Internal Media & Core Signaling Traffic (bps)
     source_device: nawari-sbce-01
@@ -835,7 +873,8 @@ dashboards:
     panel_title: Voice Path Packet Errors (rate)
     panel_description: 'Rate of inbound and outbound frame/packet errors detected on voice-bearing interfaces (A1 and B1).
       Units: Errors per second. Source: IF-MIB::ifInErrors / ifOutErrors. Limitations: Any non-zero error rate directly degrades
-      voice audio quality, causing robotic voice, clipping, and clicks.'
+      voice audio quality, causing robotic voice, clipping, and clicks. Missing data indicates collector outage, agent failure,
+      or network disruption; values are preserved as null gaps.'
     metric_name: Voice Path Packet Errors (rate)
     zabbix_item_key: Voice Path Packet Errors (rate)
     source_device: nawari-sbce-01
@@ -855,7 +894,8 @@ dashboards:
     panel_title: Voice Path Packet Discards (rate)
     panel_description: 'Rate of dropped inbound and outbound packets due to buffer overrun or NIC queue saturation on voice
       interfaces A1 and B1. Units: Packets per second (pps). Source: IF-MIB::ifInDiscards / ifOutDiscards. Limitations: Non-zero
-      discards indicate interface or switch buffer congestion requiring QoS review.'
+      discards indicate interface or switch buffer congestion requiring QoS review. Missing data indicates collector outage,
+      agent failure, or network disruption; values are preserved as null gaps.'
     metric_name: Voice Path Packet Discards (rate)
     zabbix_item_key: Voice Path Packet Discards (rate)
     source_device: nawari-sbce-01
@@ -875,7 +915,8 @@ dashboards:
     panel_title: Avaya SBCE Active Alarms & Problems Feed
     panel_description: 'Live real-time alarm stream of active operational problems and threshold violations originating from
       Avaya SBCE hosts in Zabbix. Source: Zabbix Problems API filtered for Avaya SBCE host group. Limitations: Reflected alarms
-      depend on Zabbix trigger definitions and polling intervals.'
+      depend on Zabbix trigger definitions and polling intervals. Missing data indicates collector outage, agent failure,
+      or network disruption; values are preserved as null gaps.'
     metric_name: Avaya SBCE Active Alarms & Problems Feed
     zabbix_item_key: Avaya SBCE Active Alarms & Problems Feed
     source_device: nawari-sbce-01
@@ -901,7 +942,8 @@ dashboards:
     panel_title: "SM Host CPU Utilization [REAL \u2014 HARDWARE]"
     panel_description: 'Processor core utilization on the Avaya Aura Session Manager appliance. Units: Percentage (0-100%).
       Warning: 75%, Critical: 90%. Source: HOST-RESOURCES-MIB via SNMPv3. Polling: 60s. Limitation: High CPU may delay SIP
-      routing transaction processing.'
+      routing transaction processing. Missing data indicates collector outage, agent failure, or network disruption; values
+      are preserved as null gaps.'
     metric_name: Session Manager Host CPU Utilization
     zabbix_item_key: Session Manager Host CPU Utilization
     source_device: nawari-sm-01
@@ -920,7 +962,8 @@ dashboards:
   - panel_id: 3
     panel_title: "SM Host RAM Utilization [REAL \u2014 HARDWARE]"
     panel_description: 'Physical RAM utilization on Avaya Session Manager. Units: Percentage (0-100%). Warning: 80%, Critical:
-      95%. Source: HOST-RESOURCES-MIB via SNMPv3. Polling: 60s.'
+      95%. Source: HOST-RESOURCES-MIB via SNMPv3. Polling: 60s. Missing data indicates collector outage, agent failure, or
+      network disruption; values are preserved as null gaps.'
     metric_name: Session Manager Host RAM Utilization
     zabbix_item_key: Session Manager Host RAM Utilization
     source_device: nawari-sm-01
@@ -939,7 +982,8 @@ dashboards:
   - panel_id: 4
     panel_title: "SM System Uptime [REAL \u2014 HARDWARE]"
     panel_description: 'Operating system uptime of the Session Manager server since last reload. Source: MIB-II sysUpTime
-      (OID 1.3.6.1.2.1.1.3.0). Polling: 60s. Freshness: 60s.'
+      (OID 1.3.6.1.2.1.1.3.0). Polling: 60s. Freshness: 60s. Missing data indicates collector outage, agent failure, or network
+      disruption; values are preserved as null gaps.'
     metric_name: Session Manager System Uptime
     zabbix_item_key: Session Manager System Uptime
     source_device: nawari-sm-01
@@ -959,7 +1003,8 @@ dashboards:
     panel_title: "TCP Established Sockets [REAL \u2014 HARDWARE]"
     panel_description: 'Total count of active TCP sockets currently in ESTABLISHED state on Session Manager. Reflects active
       signaling connections from endpoints, Communication Manager, and SBCE. Source: TCP-MIB tcpCurrEstab (OID 1.3.6.1.2.1.6.9.0).
-      Polling: 60s.'
+      Polling: 60s. Missing data indicates collector outage, agent failure, or network disruption; values are preserved as
+      null gaps.'
     metric_name: TCP Established Sockets
     zabbix_item_key: TCP Established Sockets
     source_device: nawari-sm-01
@@ -980,7 +1025,8 @@ dashboards:
     panel_description: 'SIP Entity Link Operational Status for Communication Manager. Values: 1 = UP, 2 = PARTIALLY UP, 3
       = DOWN, 4 = DENY NEW SERVICE. Collection Mechanism: Ingested via Session Manager CLI export (`smstat`/`starety`) or
       System Manager REST API. Note: Not exposed via Session Manager SNMP agent; proves SIP OPTIONS reachability only, NOT
-      audio media quality. Provenance: CONFIGURED_UNVERIFIED.'
+      audio media quality. Provenance: CONFIGURED_UNVERIFIED. Missing data indicates collector outage, agent failure, or network
+      disruption; values are preserved as null gaps.'
     metric_name: "SIP Entity State \u2014 Avaya Communication Manager"
     zabbix_item_key: "SIP Entity State \u2014 Avaya Communication Manager"
     source_device: nawari-cm-01
@@ -1000,7 +1046,8 @@ dashboards:
     panel_title: "SIP Entity State \u2014 Avaya SBCE [CONFIGURED \u2014 ASM API/CLI]"
     panel_description: 'SIP Entity Link Operational Status for Avaya SBCE Pride perimeter controller. Values: 1 = UP, 2 =
       PARTIALLY UP, 3 = DOWN, 4 = DENY NEW SERVICE. Collection Mechanism: Ingested via Session Manager CLI export or System
-      Manager REST API. Note: Not exposed via Session Manager SNMP agent. Provenance: CONFIGURED_UNVERIFIED.'
+      Manager REST API. Note: Not exposed via Session Manager SNMP agent. Provenance: CONFIGURED_UNVERIFIED. Missing data
+      indicates collector outage, agent failure, or network disruption; values are preserved as null gaps.'
     metric_name: "SIP Entity State \u2014 Avaya SBCE Pride"
     zabbix_item_key: "SIP Entity State \u2014 Avaya SBCE Pride"
     source_device: nawari-sm-01
@@ -1021,7 +1068,8 @@ dashboards:
     panel_title: SIP OPTIONS Heartbeat Response Time [NAWARI SIP PROBE]
     panel_description: 'Measured round-trip response time in milliseconds for SIP OPTIONS heartbeat pings sent by Nawari SIP
       Probe Engine to monitored entities (CM and SBCE). Units: Milliseconds (ms). Collection Mechanism: Active SIP OPTIONS
-      probing by Nawari (`NAWARI_SIP_PROBE`). Note: Not an SNMP metric.'
+      probing by Nawari (`NAWARI_SIP_PROBE`). Note: Not an SNMP metric. Missing data indicates collector outage, agent failure,
+      or network disruption; values are preserved as null gaps.'
     metric_name: "SIP OPTIONS Response Time \u2014 Avaya CM"
     zabbix_item_key: "SIP OPTIONS Response Time \u2014 Avaya CM"
     source_device: nawari-sm-01
@@ -1042,7 +1090,8 @@ dashboards:
     panel_title: "Configured SIP Entity Topology & Link Status [CONFIGURED \u2014 ASM MODEL]"
     panel_description: 'Comprehensive table of all SIP Entities configured in Session Manager (CM, SBCE Pride, SBCE DR, Media
       Gateways, PSTN SIP trunks) detailing IP address, transport (TLS/TCP/UDP), port, entity status, and measured OPTIONS
-      latency. Source: Avaya Session Manager operational model / System Manager API export.'
+      latency. Source: Avaya Session Manager operational model / System Manager API export. Missing data indicates collector
+      outage, agent failure, or network disruption; values are preserved as null gaps.'
     metric_name: SIP Entity Summary Stream
     zabbix_item_key: SIP Entity Summary Stream
     source_device: nawari-sm-01
@@ -1062,7 +1111,8 @@ dashboards:
     panel_title: "Session Manager Active Alarms [EVENT TRAP \u2014 AV-TRAP-MIB]"
     panel_description: 'Total count of active enterprise alarms currently asserted on Session Manager. Source: AV-TRAP-MIB
       trap receiver / System Manager notification. Note: Ingested via SNMP trap or notification webhook; event-driven. Warning:
-      > 0 alarms.'
+      > 0 alarms. Missing data indicates collector outage, agent failure, or network disruption; values are preserved as null
+      gaps.'
     metric_name: Session Manager Active Alarms Count
     zabbix_item_key: Session Manager Active Alarms Count
     source_device: nawari-sm-01
@@ -1088,7 +1138,8 @@ dashboards:
     panel_title: Voice Observability Domain Boundary
     panel_description: Architectural guidelines defining the separation between network transport and voice application health.
       A successful TCP/TLS handshake to SBC port 5061 proves only layer-4 socket reachability. It does not verify SIP registration,
-      digest authentication, codec negotiation, or bidirectional media flow.
+      digest authentication, codec negotiation, or bidirectional media flow. Missing data indicates collector outage, agent
+      failure, or network disruption; values are preserved as null gaps.
     metric_name: Voice Observability Domain Boundary
     zabbix_item_key: Voice Observability Domain Boundary
     source_device: mon-grafana01
@@ -1108,7 +1159,8 @@ dashboards:
     panel_title: Voice Call Outcome
     panel_description: Reports the signaling and media result of controlled Asterisk synthetic voice probes (ANSWERED, BUSY,
       CONGESTION, TIMEOUT, FAILED). A healthy result confirms end-to-end SIP signaling and call setup across the voice core.
-      CONGESTION (SIP 503) or TIMEOUT (SIP 408) indicates trunk capacity exhaustion or core server unreachability.
+      CONGESTION (SIP 503) or TIMEOUT (SIP 408) indicates trunk capacity exhaustion or core server unreachability. Missing
+      data indicates collector outage, agent failure, or network disruption; values are preserved as null gaps.
     metric_name: Voice Call Outcome
     zabbix_item_key: Voice Call Outcome
     source_device: mon-grafana01
@@ -1128,7 +1180,8 @@ dashboards:
     panel_title: Estimated MOS Score
     panel_description: Calculates Mean Opinion Score (1.0 to 4.5) using ITU-T G.107 E-model based on measured RTP packet loss,
       jitter, and delay. Scores below 3.8 indicate noticeable degradation; scores below 3.5 indicate unacceptable voice quality.
-      Crucially, displays UNKNOWN when RTCP reports are missing to avoid fabricating voice quality metrics.
+      Crucially, displays UNKNOWN when RTCP reports are missing to avoid fabricating voice quality metrics. Missing data indicates
+      collector outage, agent failure, or network disruption; values are preserved as null gaps.
     metric_name: Estimated MOS Score
     zabbix_item_key: Estimated MOS Score
     source_device: mon-grafana01
@@ -1148,7 +1201,8 @@ dashboards:
     panel_title: SBCE Port 5061 L4 Transport Socket
     panel_description: Perimeter L4 TCP/TLS socket connectivity only. Does NOT indicate SIP registration, authentication,
       or media flow. Verifies that the Avaya SBCE perimeter listener accepts TCP connections from the endpoint network. Socket
-      connectivity is a prerequisite for voice service, but cannot prove telephony or media functionality.
+      connectivity is a prerequisite for voice service, but cannot prove telephony or media functionality. Missing data indicates
+      collector outage, agent failure, or network disruption; values are preserved as null gaps.
     metric_name: SBCE Port 5061 L4 Transport Socket
     zabbix_item_key: SBCE Port 5061 L4 Transport Socket
     source_device: nawari-sbce-01
@@ -1168,7 +1222,8 @@ dashboards:
     panel_title: Endpoint Gateway Loss
     panel_description: Percentage of probe packets lost to the endpoint's local default gateway. Evaluates whether the user's
       local network access link is impaired during voice calls. Packet loss on the first-hop access link severely impacts
-      RTP voice streams regardless of WAN or SBC health.
+      RTP voice streams regardless of WAN or SBC health. Missing data indicates collector outage, agent failure, or network
+      disruption; values are preserved as null gaps.
     metric_name: Endpoint Gateway Loss
     zabbix_item_key: Endpoint Gateway Loss
     source_device: mon-grafana01
@@ -1188,7 +1243,8 @@ dashboards:
     panel_title: 'Dual-Axis Correlation: Gateway Edge Latency vs Voice MOS'
     panel_description: Gateway edge latency and voice MOS operate on distinct operational layers. Visual correlation on dual
       axes does not imply direct causation; voice impairment may stem from core network or upstream carrier conditions, while
-      high gateway latency may affect local transit without degrading an established prioritized RTP session.
+      high gateway latency may affect local transit without degrading an established prioritized RTP session. Missing data
+      indicates collector outage, agent failure, or network disruption; values are preserved as null gaps.
     metric_name: 'Dual-Axis Correlation: Gateway Edge Latency vs Voice MOS'
     zabbix_item_key: 'Dual-Axis Correlation: Gateway Edge Latency vs Voice MOS'
     source_device: mon-grafana01
@@ -1209,6 +1265,7 @@ dashboards:
     panel_description: Multi-layer loss comparison overlaying default gateway loss, end-to-end network path loss, and voice
       audio stream packet loss. If gateway loss matches voice loss, the root cause is local to the access network. If voice
       loss occurs while edge and path loss are zero, the issue lies in upstream SIP trunks, transcoding DSPs, or carrier routing.
+      Missing data indicates collector outage, agent failure, or network disruption; values are preserved as null gaps.
     metric_name: 'Cross-Domain Packet Loss: Edge vs Path vs Voice Audio Stream'
     zabbix_item_key: 'Cross-Domain Packet Loss: Edge vs Path vs Voice Audio Stream'
     source_device: mon-grafana01
@@ -1228,7 +1285,8 @@ dashboards:
     panel_title: Wi-Fi Quality vs Audio RTCP Jitter
     panel_description: Correlates local physical Wi-Fi signal quality with voice call RTP jitter (derived from RTCP Receiver
       Reports). Local Wi-Fi channel contention or low signal directly inflates media packet jitter. Helps operators determine
-      whether voice choppy audio complaints originate from local office Wi-Fi or the enterprise WAN.
+      whether voice choppy audio complaints originate from local office Wi-Fi or the enterprise WAN. Missing data indicates
+      collector outage, agent failure, or network disruption; values are preserved as null gaps.
     metric_name: Wi-Fi Quality vs Audio RTCP Jitter
     zabbix_item_key: Wi-Fi Quality vs Audio RTCP Jitter
     source_device: mon-grafana01
@@ -1249,7 +1307,8 @@ dashboards:
     panel_description: Tracks concurrent active audio sessions processed by the Avaya Session Border Controller Enterprise.
       Sudden spikes nearing license or DSP limits correlate with call rejection (SIP 503) and increased audio delay. Provides
       server-side capacity context to evaluate whether voice quality degradation is caused by edge network conditions or central
-      infrastructure overload.
+      infrastructure overload. Missing data indicates collector outage, agent failure, or network disruption; values are preserved
+      as null gaps.
     metric_name: Avaya SBCE Active Audio Calls
     zabbix_item_key: Avaya SBCE Active Audio Calls
     source_device: nawari-sbce-01
@@ -1275,7 +1334,8 @@ dashboards:
     panel_title: Call Transaction Outcome
     panel_description: 'Signaling outcome of the most recent synthetic voice test call (e.g., Completed 200 OK, Busy 486,
       Timeout 408, Service Unavailable 503). Source: Synthetic Asterisk probe AMI event logs. Limitations: Reflects synthetic
-      probe calls between test extensions; does not evaluate live customer or agent calls.'
+      probe calls between test extensions; does not evaluate live customer or agent calls. Missing data indicates collector
+      outage, agent failure, or network disruption; values are preserved as null gaps.'
     metric_name: Call Transaction Outcome
     zabbix_item_key: Call Transaction Outcome
     source_device: mon-asterisk01
@@ -1296,7 +1356,8 @@ dashboards:
     panel_title: "Estimated MOS (ITU-T G.107) [SYNTHETIC \u2014 ASTERISK]"
     panel_description: 'Estimated Mean Opinion Score (MOS) calculated strictly for synthetic test calls via ITU-T G.107 E-model
       based on measured packet loss, jitter, and delay. Scale: 1.0 (unusable) to 4.5 (toll quality). Warning: < 3.6, Critical:
-      < 3.1. Source: Synthetic Asterisk voice probe. Limitations: Synthetic probe only; real subscriber calls are NOT included.'
+      < 3.1. Source: Synthetic Asterisk voice probe. Limitations: Synthetic probe only; real subscriber calls are NOT included.
+      Missing data indicates collector outage, agent failure, or network disruption; values are preserved as null gaps.'
     metric_name: "Estimated MOS (ITU-T G.107) [SYNTHETIC \u2014 ASTERISK]"
     zabbix_item_key: "Estimated MOS (ITU-T G.107) [SYNTHETIC \u2014 ASTERISK]"
     source_device: mon-asterisk01
@@ -1317,7 +1378,8 @@ dashboards:
     panel_title: Media Path Directionality
     panel_description: 'Designates the media routing path of the tested voice session (e.g., Inbound Carrier DMZ, Outbound
       PSTN, Internal Inter-Station). Source: Synthetic probe call profile configuration. Limitations: Validates designated
-      routing profile under test.'
+      routing profile under test. Missing data indicates collector outage, agent failure, or network disruption; values are
+      preserved as null gaps.'
     metric_name: Media Path Directionality
     zabbix_item_key: Media Path Directionality
     source_device: mon-asterisk01
@@ -1338,7 +1400,8 @@ dashboards:
     panel_title: Call Setup Latency
     panel_description: 'Elapsed duration from initial SIP INVITE transmission to receiving the first 18x progress response
       (Post-Dial Delay / PDD). Units: Milliseconds (ms). Warning: > 1500ms, Critical: > 3000ms. Source: Synthetic Asterisk
-      probe SIP signaling timer. Limitations: Measures synthetic signaling latency across SBCE.'
+      probe SIP signaling timer. Limitations: Measures synthetic signaling latency across SBCE. Missing data indicates collector
+      outage, agent failure, or network disruption; values are preserved as null gaps.'
     metric_name: Call Setup Latency
     zabbix_item_key: Call Setup Latency
     source_device: mon-asterisk01
@@ -1359,7 +1422,8 @@ dashboards:
     panel_title: "R-Factor (Transmission Quality) [SYNTHETIC \u2014 ASTERISK]"
     panel_description: 'Transmission rating factor (R) calculated via ITU-T G.107 E-model for synthetic test calls. Scale:
       0 to 100 (R >= 80 indicates toll quality, R < 60 is unacceptable). Source: Synthetic Asterisk probe RTCP calculation.
-      Limitations: Strictly synthetic test call calculation.'
+      Limitations: Strictly synthetic test call calculation. Missing data indicates collector outage, agent failure, or network
+      disruption; values are preserved as null gaps.'
     metric_name: "R-Factor (Transmission Quality) [SYNTHETIC \u2014 ASTERISK]"
     zabbix_item_key: "R-Factor (Transmission Quality) [SYNTHETIC \u2014 ASTERISK]"
     source_device: mon-asterisk01
@@ -1380,7 +1444,8 @@ dashboards:
     panel_title: Telemetry Provenance Mode
     panel_description: 'Explicit operational indicator distinguishing between SIMULATED/MOCK synthetic test environments and
       physical production infrastructure. Values: MOCK_SIMULATED (Blue) or PHYSICAL_PRODUCTION (Purple). Source: Voice probe
-      environment provenance metric. Purpose: Guarantees full operator awareness of telemetry origin.'
+      environment provenance metric. Purpose: Guarantees full operator awareness of telemetry origin. Missing data indicates
+      collector outage, agent failure, or network disruption; values are preserved as null gaps.'
     metric_name: Telemetry Provenance Mode
     zabbix_item_key: Telemetry Provenance Mode
     source_device: mon-grafana01
@@ -1400,7 +1465,8 @@ dashboards:
     panel_title: Call Setup Latency History
     panel_description: 'Historical time-series trend of Post-Dial Delay (PDD) and session setup duration across consecutive
       synthetic voice probe runs. Units: Milliseconds (ms). Source: Synthetic Asterisk probe logs. Limitations: Useful for
-      identifying carrier signaling latency drift over diurnal cycles.'
+      identifying carrier signaling latency drift over diurnal cycles. Missing data indicates collector outage, agent failure,
+      or network disruption; values are preserved as null gaps.'
     metric_name: Call Setup Latency History
     zabbix_item_key: Call Setup Latency History
     source_device: mon-asterisk01
@@ -1421,7 +1487,8 @@ dashboards:
     panel_title: SIP Response Code History
     panel_description: 'Distribution of SIP response codes (1xx progress, 2xx success, 4xx client errors, 5xx server failures)
       returned during synthetic probe campaigns. Source: Synthetic Asterisk SIP transaction logs. Limitations: Differentiates
-      client busy/offline states from carrier 503 outages.'
+      client busy/offline states from carrier 503 outages. Missing data indicates collector outage, agent failure, or network
+      disruption; values are preserved as null gaps.'
     metric_name: SIP Response Code History
     zabbix_item_key: SIP Response Code History
     source_device: mon-asterisk01
@@ -1442,7 +1509,8 @@ dashboards:
     panel_title: "Estimated MOS Trend & SLA Thresholds [SYNTHETIC \u2014 ASTERISK]"
     panel_description: 'Continuous time-series trend of estimated Mean Opinion Score (MOS) from synthetic voice probes plotted
       against SLA contractual limits (Toll Quality = 4.0, Minimum Acceptable = 3.6). Source: Synthetic Asterisk probe ITU-T
-      G.107 calculation. Limitations: Measures synthetic probe stream quality only.'
+      G.107 calculation. Limitations: Measures synthetic probe stream quality only. Missing data indicates collector outage,
+      agent failure, or network disruption; values are preserved as null gaps.'
     metric_name: "Estimated MOS Trend & SLA Thresholds [SYNTHETIC \u2014 ASTERISK]"
     zabbix_item_key: "Estimated MOS Trend & SLA Thresholds [SYNTHETIC \u2014 ASTERISK]"
     source_device: mon-asterisk01
@@ -1463,7 +1531,8 @@ dashboards:
     panel_title: "RTP Jitter & Packet Loss Impairments [SYNTHETIC \u2014 ASTERISK]"
     panel_description: 'Measured RTP packet loss percentage and jitter (ms) recorded during synthetic probe voice calls. Source:
       Asterisk RTCP reports. Target: Packet loss < 1%, Jitter < 20ms. Limitations: Reflects acoustic path between synthetic
-      probe endpoints.'
+      probe endpoints. Missing data indicates collector outage, agent failure, or network disruption; values are preserved
+      as null gaps.'
     metric_name: "RTP Jitter & Packet Loss Impairments [SYNTHETIC \u2014 ASTERISK]"
     zabbix_item_key: "RTP Jitter & Packet Loss Impairments [SYNTHETIC \u2014 ASTERISK]"
     source_device: mon-asterisk01
@@ -1484,7 +1553,8 @@ dashboards:
     panel_title: "SBCE Signaling (A1) & Media (B1) Traffic Throughput [REAL \u2014 SBCE SNMP]"
     panel_description: 'Real-time physical interface throughput on Avaya SBCE interface A1 (External DMZ carrier signaling)
       and B1 (Internal Core media). Units: Bits per second (bps). Source: Avaya SBCE IF-MIB via Zabbix SNMPv3. Note: This
-      panel displays REAL infrastructure traffic, distinct from synthetic probe metrics.'
+      panel displays REAL infrastructure traffic, distinct from synthetic probe metrics. Missing data indicates collector
+      outage, agent failure, or network disruption; values are preserved as null gaps.'
     metric_name: "SBCE Signaling (A1) & Media (B1) Traffic Throughput [REAL \u2014 SBCE SNMP]"
     zabbix_item_key: "SBCE Signaling (A1) & Media (B1) Traffic Throughput [REAL \u2014 SBCE SNMP]"
     source_device: nawari-sbce-01
@@ -1503,7 +1573,8 @@ dashboards:
   - panel_id: 15
     panel_title: "SBCE CPU Utilization [REAL \u2014 SBCE SNMP]"
     panel_description: "Processor core utilization on the Avaya SBCE appliance. Units: Percentage (0\u2013100%). Source: HOST-RESOURCES-MIB\
-      \ via Zabbix. Note: Real appliance hardware telemetry."
+      \ via Zabbix. Note: Real appliance hardware telemetry. Missing data indicates collector outage, agent failure, or network\
+      \ disruption; values are preserved as null gaps."
     metric_name: "SBCE CPU Utilization [REAL \u2014 SBCE SNMP]"
     zabbix_item_key: "SBCE CPU Utilization [REAL \u2014 SBCE SNMP]"
     source_device: nawari-sbce-01
@@ -1530,7 +1601,8 @@ dashboards:
     panel_description: 'Composite availability grid across all core enterprise telephony platforms: Avaya SBCE (.131 Pride),
       Session Manager (.22), Communication Manager (.26), G450 Media Gateway (.60), and CMS Server. Displays real-time operational
       status (1 = UP, 0 = DOWN). Source: Zabbix ICMP and SNMP health checks. Freshness: 60s. Limitation: Reflects management/control
-      plane reachability only.'
+      plane reachability only. Missing data indicates collector outage, agent failure, or network disruption; values are preserved
+      as null gaps.'
     metric_name: Appliance SNMP Reachability
     zabbix_item_key: Appliance SNMP Reachability
     source_device: nawari-sbce-01
@@ -1550,7 +1622,8 @@ dashboards:
     panel_title: "Active Telephony Alarms (CM & SM) [REAL \u2014 AVAYA SNMP]"
     panel_description: 'Total count of active, unresolved telephony alarms across Avaya Communication Manager and Session
       Manager. Source: Avaya CM enterprise MIB avCmAlarms (OID 1.3.6.1.4.1.6889.2.73.1) and Session Manager alarms. Warning:
-      > 0 alarms. Polling interval: 1 hour (CM vendor CPU conservation limit). Freshness: 1-2 hours.'
+      > 0 alarms. Polling interval: 1 hour (CM vendor CPU conservation limit). Freshness: 1-2 hours. Missing data indicates
+      collector outage, agent failure, or network disruption; values are preserved as null gaps.'
     metric_name: Active Alarms Count
     zabbix_item_key: Active Alarms Count
     source_device: nawari-cm-01
@@ -1570,7 +1643,8 @@ dashboards:
     panel_title: "Active SIP Calls on Perimeter SBCE [REAL \u2014 SBCE SNMP]"
     panel_description: "Count of currently active SIP call sessions established through the Avaya SBCE. Measures live concurrent\
       \ signaling/session capacity, not historical completed call volume. Source: Avaya SBCE EMS SIP Statistics Interface.\
-      \ Freshness: 60s. Normal: 50\u2013350 calls, Critical: > 450 (approaching 500 session license limit)."
+      \ Freshness: 60s. Normal: 50\u2013350 calls, Critical: > 450 (approaching 500 session license limit). Missing data indicates\
+      \ collector outage, agent failure, or network disruption; values are preserved as null gaps."
     metric_name: Active Audio Sessions
     zabbix_item_key: Active Audio Sessions
     source_device: nawari-sbce-01
@@ -1592,7 +1666,7 @@ dashboards:
     panel_description: 'Operational status of primary (Safaricom) and secondary (Airtel) carrier SIP trunks terminating on
       Avaya SBCE. 1 = REGISTERED / UP, 0 = UNREGISTERED / DOWN. Source: Zabbix SIP monitoring on SBCE. Crucial Note: Proves
       layer-5 SIP signaling reachability only; does NOT guarantee voice audio quality or absence of media packet loss. Freshness:
-      60s.'
+      60s. Missing data indicates collector outage, agent failure, or network disruption; values are preserved as null gaps.'
     metric_name: Safaricom Primary SIP Trunk Operational Status
     zabbix_item_key: Safaricom Primary SIP Trunk Operational Status
     source_device: nawari-sbce-01
@@ -1612,27 +1686,30 @@ dashboards:
     panel_title: "5-Minute Call Processing Rate (CM) [REAL \u2014 AVAYA SNMP]"
     panel_description: 'Rate of call attempts and completed call connections processed by Avaya Communication Manager sampled
       every 5 minutes. Source: Avaya CM MIB table avCmListMeasCallRateTotal (OID 1.3.6.1.4.1.6889.2.73.8.1.1). Polling interval:
-      5 minutes (vendor specified CPU limit). Freshness: 5 minutes.'
+      5 minutes (vendor specified CPU limit). Freshness: 5 minutes. Missing data indicates collector outage, agent failure,
+      or network disruption; values are preserved as null gaps.'
     metric_name: Call Rate Total Attempts (5-minute)
     zabbix_item_key: Call Rate Total Attempts (5-minute)
     source_device: nawari-cm-01
     source_ip: 10.102.10.25
     collection_mechanism: SNMP
-    exact_identifier: 1.3.6.1.2.1
+    exact_identifier: 1.3.6.1.4.1.6889.2.73.8.1.145 (avCmListMeasCallRateTotalTable)
     supported_product_release: Avaya Aura Communication Manager 8.1.0
     value_type: UNSIGNED
     units: calls
-    collection_interval: 60s
-    expected_data_freshness: < 60s
-    preprocessing_and_calculation: Standard scalar/counter retrieval via SNMP agent
+    collection_interval: 5m
+    expected_data_freshness: 5m
+    preprocessing_and_calculation: Hourly measurement interval report from list measurements call-rate total (Completed .1.3.1).
+      Polling limit strictly 5 minutes.
     data_nature: REAL
-    supporting_evidence: RFC 1213 / HOST-RESOURCES-MIB / IF-MIB
-    validation_status: VERIFIED_INTEGRATION
+    supporting_evidence: Avaya Aura CM 8.1 MIB (avCmListMeasCallRateTotalTable group .8.1.145)
+    validation_status: CONFIGURED_UNVERIFIED
   - panel_id: 9
     panel_title: "Contact Centre Service Level (% in SLA) [APPLICATION \u2014 CMS]"
     panel_description: "Percentage of incoming customer contact centre calls answered within the contractual Kenya Airways\
       \ threshold (80% answered in 20 seconds). Source: Avaya CMS Informix database read-only integration. Warning: < 80%,\
-      \ Critical: < 70%. Freshness: 15\u201330 minutes (matches CMS reporting archive interval)."
+      \ Critical: < 70%. Freshness: 15\u201330 minutes (matches CMS reporting archive interval). Missing data indicates collector\
+      \ outage, agent failure, or network disruption; values are preserved as null gaps."
     metric_name: Overall Service Level Attainment
     zabbix_item_key: Overall Service Level Attainment
     source_device: nawari-cm-01
@@ -1652,7 +1729,8 @@ dashboards:
     panel_title: "Queue Depth & Oldest Waiting Call [APPLICATION \u2014 CMS]"
     panel_description: 'Current number of customer callers waiting in queue and wait duration (seconds) of the oldest queued
       caller across all ACD skills. Source: Avaya CMS real-time reporting interface. Warning: Queue > 15 calls or Oldest >
-      120s. Freshness: 60s.'
+      120s. Freshness: 60s. Missing data indicates collector outage, agent failure, or network disruption; values are preserved
+      as null gaps.'
     metric_name: Calls Waiting in Queue
     zabbix_item_key: Calls Waiting in Queue
     source_device: nawari-cm-01
@@ -1672,7 +1750,8 @@ dashboards:
     panel_title: "Agent Staffing State Distribution [APPLICATION \u2014 CMS]"
     panel_description: "Distribution of customer service agent staffing across states: Logged In, Available (idle), ACD Talking\
       \ (on call), After Call Work (ACW), and Auxiliary (break/training). Source: Avaya CMS Informix database read-only query.\
-      \ Freshness: 15\u201330 minutes."
+      \ Freshness: 15\u201330 minutes. Missing data indicates collector outage, agent failure, or network disruption; values\
+      \ are preserved as null gaps."
     metric_name: Agent Staffing by State
     zabbix_item_key: Agent Staffing by State
     source_device: nawari-cm-01
@@ -1692,7 +1771,8 @@ dashboards:
     panel_title: "Real-Call MOS [NOT INSTRUMENTED \u2014 RTCP XR REQUIRED]"
     panel_description: "Real-call Mean Opinion Score (MOS). Status: Not instrumented \u2014 no validated real-call MOS telemetry\
       \ source is configured (RTCP-XR RFC 3611 Block 7 or passive media analyzer required). Displayed value is null/uninstrumented;\
-      \ synthetic MOS must never be substituted for real subscriber calls."
+      \ synthetic MOS must never be substituted for real subscriber calls. Missing data indicates collector outage, agent\
+      \ failure, or network disruption; values are preserved as null gaps."
     metric_name: avCmRealCallEstimatedMos
     zabbix_item_key: avCmRealCallEstimatedMos
     source_device: Kenya Airways Endpoint Fleet
@@ -1713,27 +1793,30 @@ dashboards:
     panel_title: "Real-Call Packet Loss % (CM Last Hour) [REAL \u2014 AVAYA SNMP]"
     panel_description: 'Hourly aggregated real-call packet loss percentage across active calls terminating on Avaya Communication
       Manager media gateways. Source: Avaya CM MIB table avCmMeasIpVoStatSumDataLstHrTable (OID 1.3.6.1.4.1.6889.2.73.8.1.77
-      leaf .6). Interval: strictly 1 hour. Freshness: 1-2 hours. Warning: > 2.5%.'
+      leaf .6). Interval: strictly 1 hour. Freshness: 1-2 hours. Warning: > 2.5%. Missing data indicates collector outage,
+      agent failure, or network disruption; values are preserved as null gaps.'
     metric_name: Real-Call Packet Loss (Last Hour)
     zabbix_item_key: Real-Call Packet Loss (Last Hour)
     source_device: nawari-cm-01
     source_ip: 10.102.10.25
     collection_mechanism: SNMP
-    exact_identifier: 1.3.6.1.4.1.6889.2.73.8.1.77 (avCmMeasIpVoStatSumDataLstHrTable) / .66 (avCmMeasIpVoStatHrJitterTable)
+    exact_identifier: 1.3.6.1.4.1.6889.2.73.8.1.67 (avCmMeasIpVoStatHrData)
     supported_product_release: Avaya Aura Communication Manager 8.1.0
     value_type: FLOAT
     units: percent
     collection_interval: 1h
     expected_data_freshness: "1h\u20132h"
-    preprocessing_and_calculation: Completed hourly measurement summary table. Polling strictly >= 1h.
+    preprocessing_and_calculation: 'Hourly network-region voice statistics report (SAT: list measurements ip voice-stats hourly
+      data). Polling strictly >= 1h, caching interval 600s.'
     data_nature: REAL
-    supporting_evidence: Avaya Aura CM 8.1 MIB (avCmMeasIpVoStatSumDataLstHrTable .77 / HrJitterTable .66)
+    supporting_evidence: Avaya Aura CM 8.1 MIB (avCmMeasIpVoStatHrData group .8.1.67)
     validation_status: CONFIGURED_UNVERIFIED
   - panel_id: 15
     panel_title: "Synthetic Voice MOS [SYNTHETIC \u2014 ASTERISK]"
     panel_description: 'Mean Opinion Score (MOS) estimated via ITU-T G.107 E-model strictly for synthetic test calls generated
       between Asterisk probes and test extensions. Scale: 1.0 to 4.5. Warning: < 3.6, Critical: < 3.1. Source: Synthetic Asterisk
-      probe telemetry. Caution: Reflects synthetic probe calls ONLY; does NOT represent real customer calls.'
+      probe telemetry. Caution: Reflects synthetic probe calls ONLY; does NOT represent real customer calls. Missing data
+      indicates collector outage, agent failure, or network disruption; values are preserved as null gaps.'
     metric_name: Estimated Mean Opinion Score (MOS)
     zabbix_item_key: Estimated Mean Opinion Score (MOS)
     source_device: mon-asterisk01
@@ -1753,7 +1836,8 @@ dashboards:
   - panel_id: 16
     panel_title: Voice Telemetry Source Freshness & Instrumentation Inventory [AUDIT]
     panel_description: Audit inventory of all voice telemetry sources, underlying protocols, expected polling intervals, freshness
-      guarantees, and operational status. Identifies whether data is actively updating or stale.
+      guarantees, and operational status. Identifies whether data is actively updating or stale. Missing data indicates collector
+      outage, agent failure, or network disruption; values are preserved as null gaps.
     metric_name: Telemetry Source Freshness Table
     zabbix_item_key: Telemetry Source Freshness Table
     source_device: /.*/
@@ -1779,7 +1863,8 @@ dashboards:
     panel_title: "Safaricom Primary SIP Trunk [REAL \u2014 ZABBIX]"
     panel_description: 'Operational registration state of the primary Safaricom SIP trunk terminating on Avaya SBCE interface
       A1. 1 = REGISTERED, 0 = UNREGISTERED / FAILED. Source: Zabbix SNMP/SIP OPTIONS check on SBCE. Crucial Note: Proves layer-5
-      signaling reachability only; does NOT guarantee absence of voice packet loss or acceptable audio quality.'
+      signaling reachability only; does NOT guarantee absence of voice packet loss or acceptable audio quality. Missing data
+      indicates collector outage, agent failure, or network disruption; values are preserved as null gaps.'
     metric_name: Safaricom Primary SIP Trunk Operational Status
     zabbix_item_key: Safaricom Primary SIP Trunk Operational Status
     source_device: nawari-sbce-01
@@ -1799,7 +1884,7 @@ dashboards:
     panel_title: "Airtel Secondary SIP Trunk [REAL \u2014 ZABBIX]"
     panel_description: 'Operational registration state of the secondary Airtel SIP trunk terminating on Avaya SBCE interface
       A1. 1 = REGISTERED, 0 = UNREGISTERED / FAILED. Source: Zabbix SNMP/SIP OPTIONS check on SBCE. Signaling reachability
-      only.'
+      only. Missing data indicates collector outage, agent failure, or network disruption; values are preserved as null gaps.'
     metric_name: Airtel Secondary SIP Trunk Operational Status
     zabbix_item_key: Airtel Secondary SIP Trunk Operational Status
     source_device: nawari-sbce-01
@@ -1819,7 +1904,8 @@ dashboards:
     panel_title: "Carrier SIP OPTIONS Round-Trip Latency [REAL \u2014 ZABBIX]"
     panel_description: 'Round-trip latency in milliseconds for SIP OPTIONS heartbeat pings exchanged with carrier SBC endpoints
       (Safaricom vs Airtel). Units: Milliseconds (ms). Warning: > 50ms, Critical: > 100ms. Source: Zabbix SIP OPTIONS probe.
-      Polling: 30s.'
+      Polling: 30s. Missing data indicates collector outage, agent failure, or network disruption; values are preserved as
+      null gaps.'
     metric_name: Safaricom SIP OPTIONS Round-Trip Latency
     zabbix_item_key: Safaricom SIP OPTIONS Round-Trip Latency
     source_device: nawari-sbce-01
@@ -1839,7 +1925,8 @@ dashboards:
     panel_title: "Signaling Phase Latencies (PDD vs TTA vs Setup) [SYNTHETIC \u2014 ASTERISK PROBE]"
     panel_description: 'Post-Dial Delay (PDD: INVITE to 18x), Time-to-Alerting (TTA: INVITE to 180 Ringing), and Call Setup
       Duration measured in milliseconds from synthetic Asterisk test calls across carrier trunks. Source: Asterisk AMI call
-      logs. Limitations: Reflects synthetic probe calls between test extensions.'
+      logs. Limitations: Reflects synthetic probe calls between test extensions. Missing data indicates collector outage,
+      agent failure, or network disruption; values are preserved as null gaps.'
     metric_name: Post-Dial Delay (PDD)
     zabbix_item_key: Post-Dial Delay (PDD)
     source_device: mon-asterisk01
@@ -1860,7 +1947,8 @@ dashboards:
     panel_title: "SIP Response Distribution (Station vs Trunk Outage) [SYNTHETIC \u2014 ASTERISK PROBE]"
     panel_description: 'Distribution of SIP response codes returned by carrier networks during synthetic probe calls: differentiates
       expected station states (480 offline, 486 busy, 487 teardown) from carrier/infrastructure failures (500 Server Internal
-      Error, 502 Bad Gateway, 503 Service Unavailable, 504 Gateway Timeout). Source: Synthetic Asterisk transaction logs.'
+      Error, 502 Bad Gateway, 503 Service Unavailable, 504 Gateway Timeout). Source: Synthetic Asterisk transaction logs.
+      Missing data indicates collector outage, agent failure, or network disruption; values are preserved as null gaps.'
     metric_name: SIP Responses by Category
     zabbix_item_key: SIP Responses by Category
     source_device: mon-asterisk01
@@ -1880,7 +1968,8 @@ dashboards:
   - panel_id: 9
     panel_title: "A1 Carrier DMZ Bandwidth (bps) [REAL \u2014 SBCE SNMP]"
     panel_description: 'Bidirectional network bandwidth utilization on external interface A1 carrying carrier SIP signaling
-      and RTP media streams. Units: Bits per second (bps). Source: IF-MIB on Avaya SBCE via Zabbix SNMPv3. Polling: 30s.'
+      and RTP media streams. Units: Bits per second (bps). Source: IF-MIB on Avaya SBCE via Zabbix SNMPv3. Polling: 30s. Missing
+      data indicates collector outage, agent failure, or network disruption; values are preserved as null gaps.'
     metric_name: A1 Interface Ingress Traffic (bps)
     zabbix_item_key: A1 Interface Ingress Traffic (bps)
     source_device: nawari-sbce-01
@@ -1900,7 +1989,8 @@ dashboards:
     panel_title: "Carrier Interface Packet Errors (Errors/sec) [REAL \u2014 SBCE SNMP]"
     panel_description: 'Rate of inbound and outbound frame/packet errors detected on carrier interface A1. Units: Errors per
       second. Source: IF-MIB ifInErrors / ifOutErrors. Any non-zero error rate directly degrades voice audio quality, causing
-      clipping and metallic distortion.'
+      clipping and metallic distortion. Missing data indicates collector outage, agent failure, or network disruption; values
+      are preserved as null gaps.'
     metric_name: Voice Path Packet Errors (rate)
     zabbix_item_key: Voice Path Packet Errors (rate)
     source_device: nawari-sbce-01
@@ -1927,7 +2017,7 @@ dashboards:
     panel_description: 'Post-Dial Delay (PDD: INVITE to 18x), Time to Alerting (TTA: INVITE to 180 Ringing), and Time to Answer
       (TTOA: 180 to 200 OK) measured in milliseconds from synthetic Asterisk test calls. Source: Asterisk AMI synthetic call
       engine via Zabbix. Limitations: Reflects synthetic probe transactions only; does not represent live customer or agent
-      calls.'
+      calls. Missing data indicates collector outage, agent failure, or network disruption; values are preserved as null gaps.'
     metric_name: Post-Dial Delay (PDD)
     zabbix_item_key: Post-Dial Delay (PDD)
     source_device: mon-asterisk01
@@ -1948,7 +2038,8 @@ dashboards:
     panel_title: "SIP Response Distribution (Station vs Trunk) [SYNTHETIC \u2014 ASTERISK PROBE]"
     panel_description: 'Categorization of SIP response events from synthetic test calls: differentiates normal station states
       (480 offline, 486 busy, 487 probe teardown) from true trunk/infrastructure failures (500, 502, 503, 504). Source: Synthetic
-      Asterisk probe logs. Limitations: Synthetic probe calls only.'
+      Asterisk probe logs. Limitations: Synthetic probe calls only. Missing data indicates collector outage, agent failure,
+      or network disruption; values are preserved as null gaps.'
     metric_name: SIP Responses by Category
     zabbix_item_key: SIP Responses by Category
     source_device: mon-asterisk01
@@ -1970,7 +2061,7 @@ dashboards:
     panel_description: 'Real-time SIP trunk registration state and signaling reachability for Avaya SBCE / Session Manager
       carrier interconnects (e.g., Safaricom, Airtel SIP trunks). Source: Zabbix SNMP/SIP OPTIONS monitor on Avaya SBCE. Important:
       Proves layer-5 SIP signaling reachability only; does NOT guarantee voice audio media quality or absence of RTP packet
-      loss.'
+      loss. Missing data indicates collector outage, agent failure, or network disruption; values are preserved as null gaps.'
     metric_name: Safaricom Primary SIP Trunk Operational Status
     zabbix_item_key: Safaricom Primary SIP Trunk Operational Status
     source_device: nawari-sbce-01
@@ -1990,7 +2081,8 @@ dashboards:
     panel_title: "Real-Call MOS [NOT INSTRUMENTED \u2014 RTCP XR REQUIRED]"
     panel_description: "Real-call Mean Opinion Score (MOS). Status: Not instrumented \u2014 no validated real-call MOS telemetry\
       \ source is configured (RTCP-XR RFC 3611 Block 7 / E-Model calculation on actual media streams is required). Displayed\
-      \ value is null/uninstrumented; synthetic MOS must never be substituted for real customer calls."
+      \ value is null/uninstrumented; synthetic MOS must never be substituted for real customer calls. Missing data indicates\
+      \ collector outage, agent failure, or network disruption; values are preserved as null gaps."
     metric_name: avCmRealCallEstimatedMos
     zabbix_item_key: avCmRealCallEstimatedMos
     source_device: Kenya Airways Endpoint Fleet
@@ -2011,7 +2103,8 @@ dashboards:
     panel_title: "Synthetic Voice Quality Index (MOS) [SYNTHETIC \u2014 ASTERISK]"
     panel_description: 'Mean Opinion Score (MOS) estimated via ITU-T G.107 E-model strictly for synthetic test calls generated
       between Asterisk probes and test extensions. Source: Synthetic Asterisk probe RTCP telemetry via Zabbix. Caution: This
-      metric reflects synthetic probe calls ONLY; it does NOT measure or represent real customer or staff calls.'
+      metric reflects synthetic probe calls ONLY; it does NOT measure or represent real customer or staff calls. Missing data
+      indicates collector outage, agent failure, or network disruption; values are preserved as null gaps.'
     metric_name: Estimated Mean Opinion Score (MOS)
     zabbix_item_key: Estimated Mean Opinion Score (MOS)
     source_device: mon-asterisk01
@@ -2033,28 +2126,31 @@ dashboards:
     panel_description: "Aggregated hourly packet loss percentage across real voice calls terminating on Avaya Communication\
       \ Manager 8.1.0 media gateways. Source: Avaya CM MIB table avCmMeasIpVoStatSumDataLstHrTable (OID 1.3.6.1.4.1.6889.2.73.8.1.77).\
       \ Interval: 1 hour (CM internal bucket calculation). Freshness: 1\u20132 hours. Limitations: Hourly aggregated snapshot;\
-      \ does not provide per-call real-time streaming telemetry."
+      \ does not provide per-call real-time streaming telemetry. Missing data indicates collector outage, agent failure, or\
+      \ network disruption; values are preserved as null gaps."
     metric_name: avCmMeasIpVoStatSumDataLstHrPktLoss
     zabbix_item_key: avCmMeasIpVoStatSumDataLstHrPktLoss
     source_device: nawari-cm-01
     source_ip: 10.102.10.25
     collection_mechanism: SNMP
-    exact_identifier: 1.3.6.1.4.1.6889.2.73.8.1.77 (avCmMeasIpVoStatSumDataLstHrTable) / .66 (avCmMeasIpVoStatHrJitterTable)
+    exact_identifier: 1.3.6.1.4.1.6889.2.73.8.1.67 (avCmMeasIpVoStatHrData)
     supported_product_release: Avaya Aura Communication Manager 8.1.0
     value_type: FLOAT
     units: percent
     collection_interval: 1h
     expected_data_freshness: "1h\u20132h"
-    preprocessing_and_calculation: Completed hourly measurement summary table. Polling strictly >= 1h.
+    preprocessing_and_calculation: 'Hourly network-region voice statistics report (SAT: list measurements ip voice-stats hourly
+      data). Polling strictly >= 1h, caching interval 600s.'
     data_nature: REAL
-    supporting_evidence: Avaya Aura CM 8.1 MIB (avCmMeasIpVoStatSumDataLstHrTable .77 / HrJitterTable .66)
+    supporting_evidence: Avaya Aura CM 8.1 MIB (avCmMeasIpVoStatHrData group .8.1.67)
     validation_status: CONFIGURED_UNVERIFIED
   - panel_id: 13
     panel_title: "Real-Call Peak Jitter & Delay [REAL \u2014 AVAYA SNMP]"
     panel_description: 'Peak network jitter (ms) and peak one-way delay (ms) recorded across real voice sessions in Avaya
       Communication Manager. Source: Avaya CM MIB table avCmMeasIpVoStatSumDataLstHrTable (OID 1.3.6.1.4.1.6889.2.73.8.1.77)
       and avCmMeasIpVoStatHrJitterTable (OID 1.3.6.1.4.1.6889.2.73.8.1.66). Interval: 1 hour. Limitations: Reflects historical
-      peak values during the preceding hour interval; not instantaneous jitter.'
+      peak values during the preceding hour interval; not instantaneous jitter. Missing data indicates collector outage, agent
+      failure, or network disruption; values are preserved as null gaps.'
     metric_name: avCmMeasIpVoStatSumDataLstHrPkJitter
     zabbix_item_key: avCmMeasIpVoStatSumDataLstHrPkJitter
     source_device: avaya-cm-01.nawari.local
@@ -2073,7 +2169,8 @@ dashboards:
   - panel_id: 5
     panel_title: "Network Packet Loss vs Jitter Buffer Discards [SYNTHETIC \u2014 ASTERISK]"
     panel_description: 'Synthetic voice call media impairment breakdown: network packet drop rate vs jitter buffer discard
-      rate. Source: Synthetic Asterisk RTCP reports via Zabbix. Limitations: Reflects synthetic probe calls between test extensions.'
+      rate. Source: Synthetic Asterisk RTCP reports via Zabbix. Limitations: Reflects synthetic probe calls between test extensions.
+      Missing data indicates collector outage, agent failure, or network disruption; values are preserved as null gaps.'
     metric_name: Network Packet Loss (%)
     zabbix_item_key: Network Packet Loss (%)
     source_device: mon-asterisk01
@@ -2093,7 +2190,8 @@ dashboards:
   - panel_id: 6
     panel_title: "Mouth-to-Ear Voice Latency (RTT) [SYNTHETIC \u2014 ASTERISK]"
     panel_description: 'Synthetic round-trip mouth-to-ear voice latency (ITU-T G.114 target: <= 150ms). Source: Synthetic
-      Asterisk probe RTP timestamps via Zabbix. Limitations: Synthetic probe path latency.'
+      Asterisk probe RTP timestamps via Zabbix. Limitations: Synthetic probe path latency. Missing data indicates collector
+      outage, agent failure, or network disruption; values are preserved as null gaps.'
     metric_name: Mouth-to-Ear Latency (RTT)
     zabbix_item_key: Mouth-to-Ear Latency (RTT)
     source_device: mon-asterisk01
@@ -2113,7 +2211,8 @@ dashboards:
   - panel_id: 8
     panel_title: "SBCE Active Concurrent Sessions (Max 500) [REAL \u2014 SBCE SNMP]"
     panel_description: 'Active concurrent call sessions and licensed capacity utilization on Avaya SBCE 8.1. Source: Avaya
-      SBCE SNMP agent via Zabbix. Warning: > 400 sessions (80%), Critical: > 450 sessions (90%). Real hardware telemetry.'
+      SBCE SNMP agent via Zabbix. Warning: > 400 sessions (80%), Critical: > 450 sessions (90%). Real hardware telemetry.
+      Missing data indicates collector outage, agent failure, or network disruption; values are preserved as null gaps.'
     metric_name: Active Audio Sessions
     zabbix_item_key: Active Audio Sessions
     source_device: nawari-sbce-01
@@ -2132,7 +2231,8 @@ dashboards:
   - panel_id: 10
     panel_title: Recent Correlated Voice Call Sessions [CORRELATED PROBES]
     panel_description: 'Recent correlated voice calls with signaling outcome, Q.850 cause code, and topology verification
-      status. Source: Nawari Voice Intelligence Engine.'
+      status. Source: Nawari Voice Intelligence Engine. Missing data indicates collector outage, agent failure, or network
+      disruption; values are preserved as null gaps.'
     metric_name: Recent Correlated Calls Stream
     zabbix_item_key: Recent Correlated Calls Stream
     source_device: /.*/
@@ -2158,7 +2258,8 @@ dashboards:
     panel_title: WFO Product Specification Status [PENDING VENDOR CONFIRMATION]
     panel_description: 'Product specification and boundary requirements: WFO is an enterprise product category, not a specific
       product. Displays integration prerequisites (Verint / NICE / Geomant / AWOS verification required). Documents that Nawari
-      collects operational metadata ONLY; voice audio recordings are strictly excluded.'
+      collects operational metadata ONLY; voice audio recordings are strictly excluded. Missing data indicates collector outage,
+      agent failure, or network disruption; values are preserved as null gaps.'
     metric_name: wfoProductSpecificationStatus
     zabbix_item_key: wfoProductSpecificationStatus
     source_device: nawari-rec-01
@@ -2179,7 +2280,8 @@ dashboards:
     panel_title: "Recorder-to-CM CTI Link State [APPLICATION \u2014 WFO]"
     panel_description: 'Operational health of the CTI signaling link between Avaya Communication Manager and the recording
       server cluster (TSAPI / DMCC / CSTA). 1 = Link Active, 0 = Link Down. Critical alert if down: halts call metadata association.
-      Source: CTI daemon check. Polling: 60s.'
+      Source: CTI daemon check. Polling: 60s. Missing data indicates collector outage, agent failure, or network disruption;
+      values are preserved as null gaps.'
     metric_name: Recorder-to-CM CTI Link State
     zabbix_item_key: Recorder-to-CM CTI Link State
     source_device: nawari-cm-01
@@ -2198,7 +2300,7 @@ dashboards:
   - panel_id: 4
     panel_title: "Recording Host Uptime [REAL \u2014 HARDWARE]"
     panel_description: 'Operating system uptime of the recording application host server. Source: MIB-II sysUpTime. Polling:
-      60s.'
+      60s. Missing data indicates collector outage, agent failure, or network disruption; values are preserved as null gaps.'
     metric_name: Recording Host Uptime
     zabbix_item_key: Recording Host Uptime
     source_device: nawari-rec-01
@@ -2218,7 +2320,8 @@ dashboards:
   - panel_id: 6
     panel_title: "Active Recording Sessions [APPLICATION \u2014 WFO]"
     panel_description: 'Live count of concurrent telephone voice conversations currently being actively captured and recorded.
-      Source: Recording daemon active session counter. Polling: 60s.'
+      Source: Recording daemon active session counter. Polling: 60s. Missing data indicates collector outage, agent failure,
+      or network disruption; values are preserved as null gaps.'
     metric_name: Active Concurrent Recording Sessions
     zabbix_item_key: Active Concurrent Recording Sessions
     source_device: nawari-rec-01
@@ -2238,7 +2341,8 @@ dashboards:
   - panel_id: 7
     panel_title: "Ingestion Rate (Calls/min) [APPLICATION \u2014 WFO]"
     panel_description: 'Rate of recorded call metadata payloads ingested and indexed into the archive per minute. Source:
-      WFO ingestion API. Polling: 60s.'
+      WFO ingestion API. Polling: 60s. Missing data indicates collector outage, agent failure, or network disruption; values
+      are preserved as null gaps.'
     metric_name: Recording Ingestion Rate
     zabbix_item_key: Recording Ingestion Rate
     source_device: nawari-rec-01
@@ -2258,7 +2362,8 @@ dashboards:
   - panel_id: 8
     panel_title: "Recording Failures Count [APPLICATION \u2014 WFO]"
     panel_description: 'Count of failed recording operations (e.g. RTP stream missing, CTI timeout, codec mismatch) in the
-      preceding hour. Source: Recording error log. Warning: > 0 failures.'
+      preceding hour. Source: Recording error log. Warning: > 0 failures. Missing data indicates collector outage, agent failure,
+      or network disruption; values are preserved as null gaps.'
     metric_name: Recording Capture Failure Count
     zabbix_item_key: Recording Capture Failure Count
     source_device: nawari-rec-01
@@ -2278,7 +2383,8 @@ dashboards:
   - panel_id: 9
     panel_title: "Ingestion Queue Depth [APPLICATION \u2014 WFO]"
     panel_description: 'Number of call recording files currently buffered in local staging storage awaiting transfer to long-term
-      archive. Warning: > 200 calls. Critical: > 500 calls. Source: Ingestion queue monitor.'
+      archive. Warning: > 200 calls. Critical: > 500 calls. Source: Ingestion queue monitor. Missing data indicates collector
+      outage, agent failure, or network disruption; values are preserved as null gaps.'
     metric_name: Ingestion Buffer Queue Depth
     zabbix_item_key: Ingestion Buffer Queue Depth
     source_device: nawari-rec-01
@@ -2298,7 +2404,8 @@ dashboards:
   - panel_id: 11
     panel_title: "Recording Storage Utilization (%) [REAL \u2014 HARDWARE]"
     panel_description: 'Storage capacity utilization percentage across dedicated call recording storage volumes. Warning:
-      > 80%, Critical: > 90%. Source: HOST-RESOURCES-MIB hrStorageUsed. Polling: 5m.'
+      > 80%, Critical: > 90%. Source: HOST-RESOURCES-MIB hrStorageUsed. Polling: 5m. Missing data indicates collector outage,
+      agent failure, or network disruption; values are preserved as null gaps.'
     metric_name: Recording Storage Partition Utilization
     zabbix_item_key: Recording Storage Partition Utilization
     source_device: nawari-rec-01
@@ -2317,7 +2424,8 @@ dashboards:
   - panel_id: 12
     panel_title: Projected Days-to-Full (Storage TTE) [PREDICTIVE]
     panel_description: 'Projected remaining days before recording storage volume reaches 90% and 100% capacity saturation
-      based on rolling 14-day daily ingestion trajectory. Source: Nawari Storage Capacity Forecaster. Warning: < 30 days.'
+      based on rolling 14-day daily ingestion trajectory. Source: Nawari Storage Capacity Forecaster. Warning: < 30 days.
+      Missing data indicates collector outage, agent failure, or network disruption; values are preserved as null gaps.'
     metric_name: Projected Days-to-Full (Storage TTE)
     zabbix_item_key: Projected Days-to-Full (Storage TTE)
     source_device: nawari-rec-01
@@ -2336,7 +2444,8 @@ dashboards:
   - panel_id: 13
     panel_title: "Daily Archival Success Rate (%) [APPLICATION \u2014 WFO]"
     panel_description: 'Percentage of completed daily call recordings successfully migrated and verified in the offsite long-term
-      immutable archival tier. Target: 100%. Source: WFO Archival Verifier.'
+      immutable archival tier. Target: 100%. Source: WFO Archival Verifier. Missing data indicates collector outage, agent
+      failure, or network disruption; values are preserved as null gaps.'
     metric_name: Daily Archival Transfer Success Rate
     zabbix_item_key: Daily Archival Transfer Success Rate
     source_device: nawari-rec-01
@@ -2363,7 +2472,8 @@ dashboards:
     panel_title: Agent Info & Host Identity
     panel_description: Displays the agent version, hostname, and operating system build of the selected endpoint. Confirms
       that the endpoint agent daemon is running the current approved software build. Note that hostname strings are reported
-      by the local OS and are validated against the persistent agent UUID.
+      by the local OS and are validated against the persistent agent UUID. Missing data indicates collector outage, agent
+      failure, or network disruption; values are preserved as null gaps.
     metric_name: Agent Info & Host Identity
     zabbix_item_key: Agent Info & Host Identity
     source_device: mon-grafana01
@@ -2383,7 +2493,8 @@ dashboards:
     panel_title: Active Interface
     panel_description: Identifies the physical or logical network adapter carrying the endpoint's default route (e.g. Ethernet,
       Wi-Fi, VPN). Determines whether wireless diagnostic panels (RSSI, link quality) are active or safely suppressed as N/A.
-      Changing interface types during an active session can cause transient latency spikes or TCP resets.
+      Changing interface types during an active session can cause transient latency spikes or TCP resets. Missing data indicates
+      collector outage, agent failure, or network disruption; values are preserved as null gaps.
     metric_name: Active Interface
     zabbix_item_key: Active Interface
     source_device: mon-grafana01
@@ -2403,7 +2514,8 @@ dashboards:
     panel_title: Authoritative Provenance
     panel_description: Indicates the execution environment trust tier (PHYSICAL_PRODUCTION, CONTAINER_SIMULATION, LAB_MOCK)
       stamped by the Nawari Gateway. Guarantees that diagnostic metrics reflect actual physical device hardware rather than
-      lab test runners. Prevents accidental classification of simulated test workloads as enterprise field issues.
+      lab test runners. Prevents accidental classification of simulated test workloads as enterprise field issues. Missing
+      data indicates collector outage, agent failure, or network disruption; values are preserved as null gaps.
     metric_name: Authoritative Provenance
     zabbix_item_key: Authoritative Provenance
     source_device: mon-grafana01
@@ -2423,7 +2535,8 @@ dashboards:
     panel_title: Default Gateway RTT Latency
     panel_description: Measures the ICMP round-trip time between this endpoint and its first-hop default gateway. Values below
       10 ms indicate healthy local Ethernet or enterprise Wi-Fi; values above 50 ms signal local access-layer congestion.
-      Gateway latency reflects only the access link and does not measure wide-area network or cloud transit.
+      Gateway latency reflects only the access link and does not measure wide-area network or cloud transit. Missing data
+      indicates collector outage, agent failure, or network disruption; values are preserved as null gaps.
     metric_name: Default Gateway RTT Latency
     zabbix_item_key: Default Gateway RTT Latency
     source_device: mon-grafana01
@@ -2443,7 +2556,8 @@ dashboards:
     panel_title: Default Gateway Packet Loss
     panel_description: Measures the percentage of dropped ICMP echo requests sent to the local default gateway. Any sustained
       packet loss (>1%) degrades TCP throughput and causes audio dropouts on real-time voice calls. Loss at the first hop
-      indicates faulty cabling, Wi-Fi channel contention, or local switch port congestion.
+      indicates faulty cabling, Wi-Fi channel contention, or local switch port congestion. Missing data indicates collector
+      outage, agent failure, or network disruption; values are preserved as null gaps.
     metric_name: Default Gateway Packet Loss
     zabbix_item_key: Default Gateway Packet Loss
     source_device: mon-grafana01
@@ -2463,7 +2577,8 @@ dashboards:
     panel_title: Wi-Fi RSSI Gauge
     panel_description: Measures Received Signal Strength Indicator (RSSI) in dBm for wireless connections. Values closer to
       zero indicate stronger signal (-50 dBm is excellent, below -75 dBm indicates poor coverage). Automatically displays
-      N/A for wired Ethernet or VPN connections to prevent misleading zero readings.
+      N/A for wired Ethernet or VPN connections to prevent misleading zero readings. Missing data indicates collector outage,
+      agent failure, or network disruption; values are preserved as null gaps.
     metric_name: Wi-Fi RSSI Gauge
     zabbix_item_key: Wi-Fi RSSI Gauge
     source_device: mon-grafana01
@@ -2483,7 +2598,8 @@ dashboards:
     panel_title: Wi-Fi RSSI History
     panel_description: Displays signal strength trends over time to identify roaming events, physical shielding, or intermittent
       RF fading. Rapid drops in RSSI typically coincide with user movement or environmental RF interference. Persistently
-      weak signal forces the Wi-Fi adapter to fall back to lower modulation schemes, increasing latency.
+      weak signal forces the Wi-Fi adapter to fall back to lower modulation schemes, increasing latency. Missing data indicates
+      collector outage, agent failure, or network disruption; values are preserved as null gaps.
     metric_name: Wi-Fi RSSI History
     zabbix_item_key: Wi-Fi RSSI History
     source_device: mon-grafana01
@@ -2503,7 +2619,8 @@ dashboards:
     panel_title: Wi-Fi Link Quality Gauge
     panel_description: Normalized wireless link quality score from 0% to 100%, incorporating signal-to-noise ratio and packet
       retry rates. Scores above 70% support reliable voice communications; scores below 40% lead to severe packet jitter and
-      audio clipping. Displays N/A on wired interfaces to enforce strict physical telemetry isolation.
+      audio clipping. Displays N/A on wired interfaces to enforce strict physical telemetry isolation. Missing data indicates
+      collector outage, agent failure, or network disruption; values are preserved as null gaps.
     metric_name: Wi-Fi Link Quality Gauge
     zabbix_item_key: Wi-Fi Link Quality Gauge
     source_device: mon-grafana01
@@ -2523,7 +2640,8 @@ dashboards:
     panel_title: Wi-Fi Link Quality History
     panel_description: Tracks changes in wireless link stability over time, revealing intermittent RF interference or access
       point congestion. Correlate dips in link quality with default gateway loss and voice jitter to isolate wireless edge
-      faults. Only active for Wi-Fi interfaces; remains N/A for wired or cellular connections.
+      faults. Only active for Wi-Fi interfaces; remains N/A for wired or cellular connections. Missing data indicates collector
+      outage, agent failure, or network disruption; values are preserved as null gaps.
     metric_name: Wi-Fi Link Quality History
     zabbix_item_key: Wi-Fi Link Quality History
     source_device: mon-grafana01
@@ -2543,7 +2661,8 @@ dashboards:
     panel_title: DNS Query Resolution Time by Target
     panel_description: Measures the time required to resolve configured domain names using the endpoint's configured DNS servers.
       Values above 50 ms indicate DNS server overload or network delays between the endpoint and the resolver. This measurement
-      reflects only name resolution, not subsequent TCP connection or HTTP response times.
+      reflects only name resolution, not subsequent TCP connection or HTTP response times. Missing data indicates collector
+      outage, agent failure, or network disruption; values are preserved as null gaps.
     metric_name: DNS Query Resolution Time by Target
     zabbix_item_key: DNS Query Resolution Time by Target
     source_device: mon-grafana01
@@ -2563,7 +2682,8 @@ dashboards:
     panel_title: DNS Target RCODE / Status
     panel_description: Displays the DNS response code returned by the resolver (NOERROR=0, NXDOMAIN=3, SERVFAIL=2, TIMEOUT=4).
       Non-zero RCODEs indicate DNS configuration errors, missing records, or resolver upstream lookup failures. An endpoint
-      cannot establish network sessions if DNS resolution fails, even if underlying IP transport is healthy.
+      cannot establish network sessions if DNS resolution fails, even if underlying IP transport is healthy. Missing data
+      indicates collector outage, agent failure, or network disruption; values are preserved as null gaps.
     metric_name: DNS Target RCODE / Status
     zabbix_item_key: DNS Target RCODE / Status
     source_device: mon-grafana01
@@ -2583,7 +2703,8 @@ dashboards:
     panel_title: Service Target Reachability
     panel_description: Reports whether TCP/TLS connections to monitored service targets succeeded (1=REACHABLE, 0=DOWN). A
       value of 0 indicates that the TCP handshake failed, was refused, or timed out. Transport reachability confirms socket
-      connectivity across firewalls but does not verify application functionality or user authentication.
+      connectivity across firewalls but does not verify application functionality or user authentication. Missing data indicates
+      collector outage, agent failure, or network disruption; values are preserved as null gaps.
     metric_name: Service Target Reachability
     zabbix_item_key: Service Target Reachability
     source_device: mon-grafana01
@@ -2603,6 +2724,7 @@ dashboards:
     panel_title: TCP 3-Way Handshake Latency
     panel_description: Duration of the L4 TCP 3-way handshake (SYN to ACK). Represents pure transport-layer round-trip time,
       independent of subsequent TLS negotiation. Elevated values indicate network transit latency or server SYN backlog exhaustion.
+      Missing data indicates collector outage, agent failure, or network disruption; values are preserved as null gaps.
     metric_name: TCP 3-Way Handshake Latency
     zabbix_item_key: TCP 3-Way Handshake Latency
     source_device: mon-grafana01
@@ -2622,7 +2744,8 @@ dashboards:
     panel_title: TLS Cryptographic Handshake Time
     panel_description: Duration of cryptographic TLS session negotiation (ClientHello to Finished). Measures cryptographic
       overhead distinct from the initial TCP socket connect time. High handshake durations point to slow cryptographic key
-      exchange, large certificate chains, or server CPU throttling.
+      exchange, large certificate chains, or server CPU throttling. Missing data indicates collector outage, agent failure,
+      or network disruption; values are preserved as null gaps.
     metric_name: TLS Cryptographic Handshake Time
     zabbix_item_key: TLS Cryptographic Handshake Time
     source_device: mon-grafana01
@@ -2642,7 +2765,8 @@ dashboards:
     panel_title: HTTP Time To First Byte (TTFB)
     panel_description: 'Time To First Byte: duration from HTTP request transmission until the first response byte arrives.
       Measures upstream application processing latency, distinct from TCP and TLS setup times. High TTFB with low TCP/TLS
-      times isolates application server or database performance issues.'
+      times isolates application server or database performance issues. Missing data indicates collector outage, agent failure,
+      or network disruption; values are preserved as null gaps.'
     metric_name: HTTP Time To First Byte (TTFB)
     zabbix_item_key: HTTP Time To First Byte (TTFB)
     source_device: mon-grafana01
@@ -2662,7 +2786,8 @@ dashboards:
     panel_title: Path Analysis Navigation
     panel_description: Direct contextual navigation link to the Network Path Analysis dashboard for the selected endpoint.
       Opens hop-by-hop Paris traceroute, latency waterfall, and CoPP guard status. Use when gateway metrics or service probes
-      indicate network transit degradation.
+      indicate network transit degradation. Missing data indicates collector outage, agent failure, or network disruption;
+      values are preserved as null gaps.
     metric_name: Path Analysis Navigation
     zabbix_item_key: Path Analysis Navigation
     source_device: mon-grafana01
@@ -2682,7 +2807,8 @@ dashboards:
     panel_title: Voice Assurance Navigation
     panel_description: Direct contextual navigation link to the Voice Service Correlation dashboard for the selected endpoint.
       Correlates edge network metrics against synthetic Asterisk voice calls and ITU-T G.107 MOS scores. Use when investigating
-      voice quality degradation, jitter, or call setup failures.
+      voice quality degradation, jitter, or call setup failures. Missing data indicates collector outage, agent failure, or
+      network disruption; values are preserved as null gaps.
     metric_name: Voice Assurance Navigation
     zabbix_item_key: Voice Assurance Navigation
     source_device: mon-grafana01
@@ -2708,7 +2834,8 @@ dashboards:
     panel_title: Total Enrolled Endpoints
     panel_description: Measures the total inventory count of enrolled endpoint probe hosts discovered in Zabbix. A static
       inventory count establishes the fleet denominator for availability calculations. It does not indicate active data transmission
-      or device health; compare against Active Reporting Endpoints to identify dormant or decommissioned endpoints.
+      or device health; compare against Active Reporting Endpoints to identify dormant or decommissioned endpoints. Missing
+      data indicates collector outage, agent failure, or network disruption; values are preserved as null gaps.
     metric_name: Total Enrolled Endpoints
     zabbix_item_key: Total Enrolled Endpoints
     source_device: mon-grafana01
@@ -2728,7 +2855,8 @@ dashboards:
     panel_title: Active Reporting Endpoints
     panel_description: Measures the number of endpoint agents actively transmitting telemetry samples to the ingestion gateway
       within the reporting interval. Healthy fleets should show active counts matching enrolled inventory. Values significantly
-      lower than total enrolled indicate fleet disconnects, host reboots, or gateway communication failures.
+      lower than total enrolled indicate fleet disconnects, host reboots, or gateway communication failures. Missing data
+      indicates collector outage, agent failure, or network disruption; values are preserved as null gaps.
     metric_name: Active Reporting Endpoints
     zabbix_item_key: Active Reporting Endpoints
     source_device: mon-grafana01
@@ -2749,7 +2877,8 @@ dashboards:
     panel_description: Counts endpoints currently firing warning or average severity triggers for first-hop gateway latency
       (>50ms), packet loss (>20%), or degraded Wi-Fi. Elevated counts highlight localized physical or edge network access
       impairment before wide-area transit is reached. Note that edge degradation does not automatically prove WAN or cloud
-      service failure.
+      service failure. Missing data indicates collector outage, agent failure, or network disruption; values are preserved
+      as null gaps.
     metric_name: Degraded Edge Endpoints
     zabbix_item_key: Degraded Edge Endpoints
     source_device: mon-grafana01
@@ -2790,7 +2919,8 @@ dashboards:
     panel_description: Displays the distribution of primary active network interface types (Ethernet, Wi-Fi, VPN, Cellular)
       currently utilized by reporting endpoints. Useful for diagnosing interface-specific degradation clusters (e.g. airport
       lounge Wi-Fi saturation vs wired operations centers). Note that multi-homed endpoints report only their primary default
-      route egress interface.
+      route egress interface. Missing data indicates collector outage, agent failure, or network disruption; values are preserved
+      as null gaps.
     metric_name: Active Primary Interface Distribution
     zabbix_item_key: Active Primary Interface Distribution
     source_device: mon-grafana01
@@ -2810,7 +2940,8 @@ dashboards:
     panel_title: Telemetric Environment Provenance
     panel_description: Classifies reporting endpoints by their cryptographic execution provenance (PHYSICAL_PRODUCTION, CONTAINER_SIMULATION,
       LAB_MOCK). Ensures operators can verify that production metrics originate from authentic physical endpoints rather than
-      lab harnesses. Provenance is enforced and stamped server-side by the Nawari Ingestion Gateway.
+      lab harnesses. Provenance is enforced and stamped server-side by the Nawari Ingestion Gateway. Missing data indicates
+      collector outage, agent failure, or network disruption; values are preserved as null gaps.
     metric_name: Telemetric Environment Provenance
     zabbix_item_key: Telemetric Environment Provenance
     source_device: mon-grafana01
@@ -2830,7 +2961,8 @@ dashboards:
     panel_title: Fleet Default Gateway Latency
     panel_description: Measures round-trip time (RTT) between endpoint agents and their local default gateways across the
       fleet. Sustained values above 50 ms indicate local subnet congestion, duplex mismatches, or Wi-Fi interference. Low
-      gateway latency confirms local edge health but does not guarantee WAN transit or cloud application availability.
+      gateway latency confirms local edge health but does not guarantee WAN transit or cloud application availability. Missing
+      data indicates collector outage, agent failure, or network disruption; values are preserved as null gaps.
     metric_name: Fleet Default Gateway Latency
     zabbix_item_key: Fleet Default Gateway Latency
     source_device: mon-grafana01
@@ -2850,7 +2982,8 @@ dashboards:
     panel_title: Fleet Default Gateway Packet Loss
     panel_description: Measures ICMP probe packet loss percentage between endpoints and their first-hop gateway. Values above
       0% indicate physical link errors, wireless RF collisions, or local switch buffer exhaustion. Loss at the default gateway
-      directly impairs real-time voice and video streams across the access layer.
+      directly impairs real-time voice and video streams across the access layer. Missing data indicates collector outage,
+      agent failure, or network disruption; values are preserved as null gaps.
     metric_name: Fleet Default Gateway Packet Loss
     zabbix_item_key: Fleet Default Gateway Packet Loss
     source_device: mon-grafana01
@@ -2871,7 +3004,8 @@ dashboards:
     panel_description: Measures transport socket reachability (L4 TCP 3-way handshake) from endpoints to perimeter SBC/voice
       edge devices on port 5061. Values of 1 indicate the transport socket was established; 0 indicates network firewall drops
       or server downtime. Crucially, TCP connect success does not verify SIP registration, TLS handshake, or bidirectional
-      audio RTP flow.
+      audio RTP flow. Missing data indicates collector outage, agent failure, or network disruption; values are preserved
+      as null gaps.
     metric_name: Voice Gateway (5061/tcp) Reachability
     zabbix_item_key: Voice Gateway (5061/tcp) Reachability
     source_device: mon-grafana01
@@ -2891,7 +3025,8 @@ dashboards:
     panel_title: DNS Resolution Latency
     panel_description: Measures the query resolution time for corporate and external hostnames against configured nameservers.
       Elevated resolution times (>50 ms) or timeouts indicate recursive resolver saturation, cache thrashing, or upstream
-      DNS transit failures. High DNS resolution latency delays all subsequent web and voice session establishments.
+      DNS transit failures. High DNS resolution latency delays all subsequent web and voice session establishments. Missing
+      data indicates collector outage, agent failure, or network disruption; values are preserved as null gaps.
     metric_name: DNS Resolution Latency
     zabbix_item_key: DNS Resolution Latency
     source_device: mon-grafana01
@@ -2912,6 +3047,7 @@ dashboards:
     panel_description: Measures HTTP Time To First Byte (TTFB) from request transmission to initial response byte across monitored
       corporate web endpoints. Elevated TTFB indicates server-side application processing delays, backend database bottlenecks,
       or reverse proxy queuing. TTFB measures server processing latency, distinct from TCP connect and TLS negotiation times.
+      Missing data indicates collector outage, agent failure, or network disruption; values are preserved as null gaps.
     metric_name: Corporate HTTP Services TTFB
     zabbix_item_key: Corporate HTTP Services TTFB
     source_device: mon-grafana01
@@ -2932,7 +3068,8 @@ dashboards:
     panel_description: Tabular inventory of all discovered endpoint agents showing host identity, active interface, default
       gateway RTT, packet loss, and environment provenance. Enables rapid drill-down from fleet-level trends to specific impaired
       workstations or flight operations terminals. Telemetry marked STALE indicates an endpoint has stopped reporting and
-      requires local investigation.
+      requires local investigation. Missing data indicates collector outage, agent failure, or network disruption; values
+      are preserved as null gaps.
     metric_name: Discovered Endpoints Inventory & Operational Status
     zabbix_item_key: Discovered Endpoints Inventory & Operational Status
     source_device: mon-grafana01
@@ -2978,7 +3115,8 @@ dashboards:
     panel_title: Interface Operational Status
     panel_description: 'Current operational state of the selected network interface. Values: Up (1) or Down (2). Source: IF-MIB::ifOperStatus
       (OID .1.3.6.1.2.1.2.2.1.8). Limitations: Reflects physical layer link status and data-link state; does not verify IP
-      routing or application-layer reachability.'
+      routing or application-layer reachability. Missing data indicates collector outage, agent failure, or network disruption;
+      values are preserved as null gaps.'
     metric_name: Interface Operational Status
     zabbix_item_key: Interface Operational Status
     source_device: mon-grafana01
@@ -2998,7 +3136,8 @@ dashboards:
     panel_title: Configured Interface Speed
     panel_description: 'Negotiated or statically configured transmission speed of the network interface. Units: Bits per second
       (bps, formatted as Mbps/Gbps). Source: IF-MIB::ifHighSpeed (OID .1.3.6.1.2.1.31.1.1.1.15). Limitations: Speed duplex
-      mismatch can lead to massive packet loss and throughput collapse.'
+      mismatch can lead to massive packet loss and throughput collapse. Missing data indicates collector outage, agent failure,
+      or network disruption; values are preserved as null gaps.'
     metric_name: Configured Interface Speed
     zabbix_item_key: Configured Interface Speed
     source_device: mon-grafana01
@@ -3018,7 +3157,8 @@ dashboards:
     panel_title: Administrative State
     panel_description: 'Desired administrative configuration state of the interface set by network administrators. Values:
       Up (1), Down (2), Testing (3). Source: IF-MIB::ifAdminStatus (OID .1.3.6.1.2.1.2.2.1.7). Limitations: If Admin State
-      is Down, the port was intentionally shut down by policy.'
+      is Down, the port was intentionally shut down by policy. Missing data indicates collector outage, agent failure, or
+      network disruption; values are preserved as null gaps.'
     metric_name: Administrative State
     zabbix_item_key: Administrative State
     source_device: mon-grafana01
@@ -3038,7 +3178,8 @@ dashboards:
     panel_title: Bandwidth Ingress / Egress (bits/sec)
     panel_description: 'Real-time inbound (RX) and outbound (TX) traffic throughput on the selected network interface. Units:
       Bits per second (bps) calculated from 64-bit high-capacity octet counters. Source: IF-MIB::ifHCInOctets / ifHCOutOctets.
-      Limitations: Polling interval is 30 seconds; sub-second bursts are averaged across the polling window.'
+      Limitations: Polling interval is 30 seconds; sub-second bursts are averaged across the polling window. Missing data
+      indicates collector outage, agent failure, or network disruption; values are preserved as null gaps.'
     metric_name: Bandwidth Ingress / Egress (bits/sec)
     zabbix_item_key: Bandwidth Ingress / Egress (bits/sec)
     source_device: mon-grafana01
@@ -3058,7 +3199,8 @@ dashboards:
     panel_title: Packet Error Rates (in/out errors/sec)
     panel_description: 'Rate of corrupt, malformed, or CRC-failing packets received or transmitted on the interface. Units:
       Errors per second. Source: IF-MIB::ifInErrors / ifOutErrors. Limitations: Non-zero error rates indicate physical cable
-      degradation, transceiver fault, or electromagnetic interference.'
+      degradation, transceiver fault, or electromagnetic interference. Missing data indicates collector outage, agent failure,
+      or network disruption; values are preserved as null gaps.'
     metric_name: Packet Error Rates (in/out errors/sec)
     zabbix_item_key: Packet Error Rates (in/out errors/sec)
     source_device: mon-grafana01
@@ -3078,7 +3220,8 @@ dashboards:
     panel_title: Packet Discard Rates (in/out pps)
     panel_description: 'Rate of valid inbound and outbound packets dropped due to internal queue or buffer exhaustion. Units:
       Packets per second (pps). Source: IF-MIB::ifInDiscards / ifOutDiscards. Limitations: Indicates egress queue congestion
-      or policing drops; warrants investigation into QoS queue configuration.'
+      or policing drops; warrants investigation into QoS queue configuration. Missing data indicates collector outage, agent
+      failure, or network disruption; values are preserved as null gaps.'
     metric_name: Packet Discard Rates (in/out pps)
     zabbix_item_key: Packet Discard Rates (in/out pps)
     source_device: mon-grafana01
@@ -3103,7 +3246,8 @@ dashboards:
   - panel_id: 2
     panel_title: Action Execution Lifecycle Distribution
     panel_description: Distribution of operational remediation actions across the execution lifecycle. Tracks active executions,
-      verification checkpoints, and automated rollbacks.
+      verification checkpoints, and automated rollbacks. Missing data indicates collector outage, agent failure, or network
+      disruption; values are preserved as null gaps.
     metric_name: Actions Pending Approval
     zabbix_item_key: Actions Pending Approval
     source_device: mon-grafana01
@@ -3122,7 +3266,8 @@ dashboards:
   - panel_id: 3
     panel_title: Operational Dead-Man Circuit Breaker Status
     panel_description: Operational dead-man circuit breaker status. Automatically trips into LOCKED state if 3 consecutive
-      remediation playbooks fail within 15 minutes, halting further autonomous actions until manual NOC reset.
+      remediation playbooks fail within 15 minutes, halting further autonomous actions until manual NOC reset. Missing data
+      indicates collector outage, agent failure, or network disruption; values are preserved as null gaps.
     metric_name: Dead-Man Circuit Breaker Tripped
     zabbix_item_key: Dead-Man Circuit Breaker Tripped
     source_device: mon-grafana01
@@ -3141,7 +3286,8 @@ dashboards:
   - panel_id: 5
     panel_title: Pending Operator Approvals & Blast-Radius Risk Board
     panel_description: Real-time queue of pending operational actions awaiting human operator authorization. Enforces Two-Person
-      Rule for high-risk mutations with single-use HMAC-SHA256 tokens expiring in 15 minutes.
+      Rule for high-risk mutations with single-use HMAC-SHA256 tokens expiring in 15 minutes. Missing data indicates collector
+      outage, agent failure, or network disruption; values are preserved as null gaps.
     metric_name: Pending Approval Items
     zabbix_item_key: Pending Approval Items
     source_device: mon-grafana01
@@ -3160,7 +3306,8 @@ dashboards:
   - panel_id: 7
     panel_title: Pre- vs Post-Remediation Service Health Verification
     panel_description: Independent post-action verification metrics proving true service recovery. Actions declaring exit
-      code 0 must independently prove metric restoration before incident closure.
+      code 0 must independently prove metric restoration before incident closure. Missing data indicates collector outage,
+      agent failure, or network disruption; values are preserved as null gaps.
     metric_name: Pre-Remediation Metric Level
     zabbix_item_key: Pre-Remediation Metric Level
     source_device: mon-grafana01
@@ -3179,7 +3326,8 @@ dashboards:
   - panel_id: 8
     panel_title: Cryptographically Chained Immutable Audit Stream (SHA-256)
     panel_description: Tamper-evident operational audit ledger. Every proposal, approval, execution, and rollback is recorded
-      in an immutable SHA-256 block hash chain adhering to aviation compliance standards.
+      in an immutable SHA-256 block hash chain adhering to aviation compliance standards. Missing data indicates collector
+      outage, agent failure, or network disruption; values are preserved as null gaps.
     metric_name: Audit Block Stream
     zabbix_item_key: Audit Block Stream
     source_device: mon-grafana01
@@ -3203,7 +3351,8 @@ dashboards:
   metrics:
   - panel_id: 2
     panel_title: Active Edge Collectors
-    panel_description: Total count of active and communicating edge collector instances across outstation hubs.
+    panel_description: Total count of active and communicating edge collector instances across outstation hubs. Missing data
+      indicates collector outage, agent failure, or network disruption; values are preserved as null gaps.
     metric_name: Active Edge Collectors Count
     zabbix_item_key: Active Edge Collectors Count
     source_device: mon-grafana01
@@ -3222,7 +3371,8 @@ dashboards:
   - panel_id: 3
     panel_title: Max Outstation Clock Drift
     panel_description: 'Measured NTP clock drift between outstation edge devices and Central Hub master clock (Warning: >
-      250ms).'
+      250ms). Missing data indicates collector outage, agent failure, or network disruption; values are preserved as null
+      gaps.'
     metric_name: Max Outstation Clock Drift
     zabbix_item_key: Max Outstation Clock Drift
     source_device: mon-grafana01
@@ -3241,6 +3391,7 @@ dashboards:
   - panel_id: 4
     panel_title: Fleet Total Spool Backlog
     panel_description: Total volume of telemetry records queued across all outstation SQLite spools waiting for circuit restoration.
+      Missing data indicates collector outage, agent failure, or network disruption; values are preserved as null gaps.
     metric_name: Fleet Total Spool Backlog
     zabbix_item_key: Fleet Total Spool Backlog
     source_device: mon-grafana01
@@ -3259,7 +3410,8 @@ dashboards:
   - panel_id: 6
     panel_title: Outstation Spool Storage & Replay Queue Matrix
     panel_description: 'Individual outstation edge collector operational metrics: spool file size (MB), buffered records,
-      in-flight records, and last sync timestamp.'
+      in-flight records, and last sync timestamp. Missing data indicates collector outage, agent failure, or network disruption;
+      values are preserved as null gaps.'
     metric_name: Outstation Spool Utilization Matrix
     zabbix_item_key: Outstation Spool Utilization Matrix
     source_device: mon-grafana01
@@ -3284,7 +3436,8 @@ dashboards:
   - panel_id: 2
     panel_title: Global Station Availability
     panel_description: Overall proportion of Kenya Airways flight operations stations currently online with active primary
-      or secondary WAN circuits.
+      or secondary WAN circuits. Missing data indicates collector outage, agent failure, or network disruption; values are
+      preserved as null gaps.
     metric_name: Fleet Station Availability Rate
     zabbix_item_key: Fleet Station Availability Rate
     source_device: mon-grafana01
@@ -3302,7 +3455,8 @@ dashboards:
     validation_status: VERIFIED_INTEGRATION
   - panel_id: 3
     panel_title: Active P1 / P2 Incidents
-    panel_description: Count of active P1 Critical and P2 High operational incidents across the global network.
+    panel_description: Count of active P1 Critical and P2 High operational incidents across the global network. Missing data
+      indicates collector outage, agent failure, or network disruption; values are preserved as null gaps.
     metric_name: Active P1 P2 Incidents
     zabbix_item_key: Active P1 P2 Incidents
     source_device: mon-grafana01
@@ -3321,7 +3475,8 @@ dashboards:
   - panel_id: 4
     panel_title: Service Tier Health Summary
     panel_description: Health status across Tier 1 (Mission-Critical), Tier 2 (Business-Critical), and Tier 3 (Corporate)
-      aviation services.
+      aviation services. Missing data indicates collector outage, agent failure, or network disruption; values are preserved
+      as null gaps.
     metric_name: Service Tier Status Matrix
     zabbix_item_key: Service Tier Status Matrix
     source_device: mon-grafana01
@@ -3340,6 +3495,7 @@ dashboards:
   - panel_id: 6
     panel_title: Regional Health Index Trends
     panel_description: Multi-region health index across Kenya Domestic, East Africa Regional, Europe, and Middle East outstations.
+      Missing data indicates collector outage, agent failure, or network disruption; values are preserved as null gaps.
     metric_name: Regional Health Kenya Domestic
     zabbix_item_key: Regional Health Kenya Domestic
     source_device: mon-grafana01
@@ -3358,7 +3514,8 @@ dashboards:
   - panel_id: 7
     panel_title: Notification Channel Health & DLQ Backlog
     panel_description: Operational notification delivery rate and Dead Letter Queue (DLQ) state across SMTP Email, SMS Paging,
-      and ServiceNow ITSM.
+      and ServiceNow ITSM. Missing data indicates collector outage, agent failure, or network disruption; values are preserved
+      as null gaps.
     metric_name: Notification Channel Delivery Matrix
     zabbix_item_key: Notification Channel Delivery Matrix
     source_device: mon-grafana01
@@ -3383,7 +3540,8 @@ dashboards:
   - panel_id: 2
     panel_title: Outstation WAN Circuit Status Matrix (Primary & Secondary)
     panel_description: Real-time circuit operational status across Kenya Airways core hub, domestic stations, regional outstations,
-      and long-haul international terminals.
+      and long-haul international terminals. Missing data indicates collector outage, agent failure, or network disruption;
+      values are preserved as null gaps.
     metric_name: Outstation Circuit Status Matrix
     zabbix_item_key: Outstation Circuit Status Matrix
     source_device: mon-grafana01
@@ -3402,7 +3560,8 @@ dashboards:
   - panel_id: 3
     panel_title: Trans-WAN Round-Trip Latency (JKIA Hub to Outstations)
     panel_description: 'Round-trip network latency from JKIA Head Office to global outstations (Target: Domestic < 40ms, Regional
-      < 80ms, International < 160ms).'
+      < 80ms, International < 160ms). Missing data indicates collector outage, agent failure, or network disruption; values
+      are preserved as null gaps.'
     metric_name: WAN Latency MBA
     zabbix_item_key: WAN Latency MBA
     source_device: mon-grafana01
@@ -3420,7 +3579,8 @@ dashboards:
     validation_status: VERIFIED_INTEGRATION
   - panel_id: 5
     panel_title: Voice Quality Listening MOS by Station
-    panel_description: 'Synthetic voice Listening MOS score across primary outstations (Tier 1 Aviation SLA: MOS >= 4.0).'
+    panel_description: 'Synthetic voice Listening MOS score across primary outstations (Tier 1 Aviation SLA: MOS >= 4.0).
+      Missing data indicates collector outage, agent failure, or network disruption; values are preserved as null gaps.'
     metric_name: Voice MOS MBA
     zabbix_item_key: Voice MOS MBA
     source_device: mon-asterisk01
@@ -3439,7 +3599,8 @@ dashboards:
     validation_status: SIMULATED
   - panel_id: 6
     panel_title: Trans-WAN Voice Packet Jitter Trends
-    panel_description: Trans-WAN packet jitter and packet loss percentage over outstation voice paths.
+    panel_description: Trans-WAN packet jitter and packet loss percentage over outstation voice paths. Missing data indicates
+      collector outage, agent failure, or network disruption; values are preserved as null gaps.
     metric_name: Voice Jitter MBA
     zabbix_item_key: Voice Jitter MBA
     source_device: mon-grafana01
@@ -3458,6 +3619,7 @@ dashboards:
   - panel_id: 8
     panel_title: Buffered Spool Queue Depth by Station (Offline Records)
     panel_description: Number of telemetry records currently spooled on outstation disk waiting for WAN circuit recovery.
+      Missing data indicates collector outage, agent failure, or network disruption; values are preserved as null gaps.
     metric_name: Spool Buffered MBA
     zabbix_item_key: Spool Buffered MBA
     source_device: mon-grafana01
@@ -3476,7 +3638,8 @@ dashboards:
   - panel_id: 9
     panel_title: Post-Restoration Spool Drain & Replay Velocity
     panel_description: Rate of replayed telemetry ingestion following outstation circuit restoration. Records marked with
-      REPLAYED quality to protect live SLI metrics.
+      REPLAYED quality to protect live SLI metrics. Missing data indicates collector outage, agent failure, or network disruption;
+      values are preserved as null gaps.
     metric_name: Replay Ingestion Rate
     zabbix_item_key: Replay Ingestion Rate
     source_device: mon-grafana01
@@ -3500,7 +3663,8 @@ dashboards:
   metrics:
   - panel_id: 2
     panel_title: Incidents by Lifecycle State
-    panel_description: Distribution of active incidents across lifecycle stages.
+    panel_description: Distribution of active incidents across lifecycle stages. Missing data indicates collector outage,
+      agent failure, or network disruption; values are preserved as null gaps.
     metric_name: Incidents by Lifecycle State
     zabbix_item_key: Incidents by Lifecycle State
     source_device: mon-grafana01
@@ -3518,7 +3682,8 @@ dashboards:
     validation_status: VERIFIED_INTEGRATION
   - panel_id: 3
     panel_title: Max Unacknowledged Incident Age (SLA 15m)
-    panel_description: 'Unacknowledged incidents nearing or exceeding SLA escalation timers (Tier 1: 15 mins).'
+    panel_description: 'Unacknowledged incidents nearing or exceeding SLA escalation timers (Tier 1: 15 mins). Missing data
+      indicates collector outage, agent failure, or network disruption; values are preserved as null gaps.'
     metric_name: Max Unacknowledged Incident Age
     zabbix_item_key: Max Unacknowledged Incident Age
     source_device: mon-grafana01
@@ -3537,7 +3702,8 @@ dashboards:
   - panel_id: 5
     panel_title: Active Recovery Verification Pipelines (Consecutive Healthy Chains)
     panel_description: Active recovery verification pipelines requiring >= 3 consecutive fresh healthy observations before
-      incident closure.
+      incident closure. Missing data indicates collector outage, agent failure, or network disruption; values are preserved
+      as null gaps.
     metric_name: Active Recovery Verification Pipeline
     zabbix_item_key: Active Recovery Verification Pipeline
     source_device: mon-grafana01
@@ -3562,7 +3728,8 @@ dashboards:
   - panel_id: 2
     panel_title: Active Multi-Domain Statistical Anomalies
     panel_description: Real-time count of active statistical deviations across domains evaluated against dynamic diurnal baselines
-      (|Z| >= 3.0 with 3-cycle persistence). High values indicate widespread operational anomalies.
+      (|Z| >= 3.0 with 3-cycle persistence). High values indicate widespread operational anomalies. Missing data indicates
+      collector outage, agent failure, or network disruption; values are preserved as null gaps.
     metric_name: Active Anomaly Count (Voice)
     zabbix_item_key: Active Anomaly Count (Voice)
     source_device: mon-grafana01
@@ -3581,7 +3748,8 @@ dashboards:
   - panel_id: 3
     panel_title: Time-to-Exhaustion (TTE) Horizon (Safe Capacity Limit)
     panel_description: Projects estimated hours until critical resource ceilings (SBCE licensed session pool, switch uplink
-      bandwidth) reach safe operational limits (85%) or hard saturation (100%). Gated on R^2 >= 0.70 fit quality.
+      bandwidth) reach safe operational limits (85%) or hard saturation (100%). Gated on R^2 >= 0.70 fit quality. Missing
+      data indicates collector outage, agent failure, or network disruption; values are preserved as null gaps.
     metric_name: TTE Safe Horizon (SBCE Sessions)
     zabbix_item_key: TTE Safe Horizon (SBCE Sessions)
     source_device: mon-grafana01
@@ -3601,7 +3769,8 @@ dashboards:
     panel_title: Dynamic Baseline Bands vs Real-Time Metric Telemetry
     panel_description: "Compares observed metric values against dynamic historical diurnal baseline bands ([\u03BC - 2.5\u03C3\
       , \u03BC + 2.5\u03C3]) computed per hour and day-of-week. Excursions outside the shaded corridor trigger statistical\
-      \ anomaly evaluations."
+      \ anomaly evaluations. Missing data indicates collector outage, agent failure, or network disruption; values are preserved\
+      \ as null gaps."
     metric_name: Observed Metric Value
     zabbix_item_key: Observed Metric Value
     source_device: mon-grafana01
@@ -3620,7 +3789,8 @@ dashboards:
   - panel_id: 6
     panel_title: Voice MOS Degradation Trajectory & Predictive Horizon
     panel_description: Calculates voice quality drift velocity (dMOS/dt). Projects forward MOS at 15-minute and 30-minute
-      horizons. Negative slopes steeper than -0.15 MOS/10min trigger early degradation pre-alarms.
+      horizons. Negative slopes steeper than -0.15 MOS/10min trigger early degradation pre-alarms. Missing data indicates
+      collector outage, agent failure, or network disruption; values are preserved as null gaps.
     metric_name: Current Voice MOS
     zabbix_item_key: Current Voice MOS
     source_device: mon-grafana01
@@ -3639,7 +3809,8 @@ dashboards:
   - panel_id: 8
     panel_title: Top Evidence-Ranked Hypotheses (Supporting vs Contradicting)
     panel_description: Displays evidence-ranked diagnostic hypotheses. Evaluates cross-domain evidence across topology, counting
-      supporting vs contradicting facts to compute net rank scores.
+      supporting vs contradicting facts to compute net rank scores. Missing data indicates collector outage, agent failure,
+      or network disruption; values are preserved as null gaps.
     metric_name: Ranked Diagnostic Hypotheses
     zabbix_item_key: Ranked Diagnostic Hypotheses
     source_device: mon-grafana01
@@ -3658,7 +3829,8 @@ dashboards:
   - panel_id: 9
     panel_title: Carrier Trunk Signaling Drift (Post-Dial Delay)
     panel_description: Monitors carrier SIP signaling latency drift. Progressive PDD inflation indicates upstream carrier
-      proxy congestion or queuing prior to hard trunk failures.
+      proxy congestion or queuing prior to hard trunk failures. Missing data indicates collector outage, agent failure, or
+      network disruption; values are preserved as null gaps.
     metric_name: Post-Dial Delay (Safaricom Trunk)
     zabbix_item_key: Post-Dial Delay (Safaricom Trunk)
     source_device: nawari-sbce-01
@@ -3683,7 +3855,8 @@ dashboards:
   - panel_id: 2
     panel_title: Departure Control System (DCS Core) Availability SLI
     panel_description: Availability SLI for Departure Control System (Amadeus Altea Core, Airport Check-in Desks, Gate Boarding
-      Scanners).
+      Scanners). Missing data indicates collector outage, agent failure, or network disruption; values are preserved as null
+      gaps.
     metric_name: SLI DCS Global
     zabbix_item_key: SLI DCS Global
     source_device: mon-grafana01
@@ -3702,6 +3875,7 @@ dashboards:
   - panel_id: 3
     panel_title: Flight Operations & Dispatch Availability SLI
     panel_description: Availability SLI for Flight Operations & Dispatch (Jeppesen FliteDeck, OFP Delivery, Core JKIA DC Switches).
+      Missing data indicates collector outage, agent failure, or network disruption; values are preserved as null gaps.
     metric_name: SLI Flight Ops Dispatch
     zabbix_item_key: SLI Flight Ops Dispatch
     source_device: mon-grafana01
@@ -3720,7 +3894,8 @@ dashboards:
   - panel_id: 4
     panel_title: Air-to-Ground & Ramp Voice Availability SLI
     panel_description: Availability SLI for Air-to-Ground & Ramp Operations Voice (Avaya Session Manager, SBCE, Dispatcher
-      SIP Extensions).
+      SIP Extensions). Missing data indicates collector outage, agent failure, or network disruption; values are preserved
+      as null gaps.
     metric_name: SLI Ramp Voice
     zabbix_item_key: SLI Ramp Voice
     source_device: mon-grafana01
@@ -3739,7 +3914,8 @@ dashboards:
   - panel_id: 6
     panel_title: Error Budget Burn Rate (1x = Budget Normal, > 2x = Paging Alert)
     panel_description: Multi-window Error Budget Burn Rate across aviation services. 1x consumes budget in 30 days; > 2x consumes
-      budget in 14 days; > 14.4x consumes 100% of budget in 2 days.
+      budget in 14 days; > 14.4x consumes 100% of budget in 2 days. Missing data indicates collector outage, agent failure,
+      or network disruption; values are preserved as null gaps.
     metric_name: Burn Rate DCS Global
     zabbix_item_key: Burn Rate DCS Global
     source_device: mon-grafana01
@@ -3757,7 +3933,8 @@ dashboards:
     validation_status: VERIFIED_INTEGRATION
   - panel_id: 7
     panel_title: 'Remaining Error Budget Minutes (Tier 1: 21.6 mins / month max downtime)'
-    panel_description: Remaining error budget minutes before contractual or design SLA breach.
+    panel_description: Remaining error budget minutes before contractual or design SLA breach. Missing data indicates collector
+      outage, agent failure, or network disruption; values are preserved as null gaps.
     metric_name: Remaining Budget Minutes DCS
     zabbix_item_key: Remaining Budget Minutes DCS
     source_device: mon-grafana01
@@ -3776,7 +3953,8 @@ dashboards:
   - panel_id: 9
     panel_title: Active Business Service Incidents Stream
     panel_description: Active correlated incidents impacting aviation business services, showing impacted station, failed
-      dependency, and recovery verification state.
+      dependency, and recovery verification state. Missing data indicates collector outage, agent failure, or network disruption;
+      values are preserved as null gaps.
     metric_name: Active Service Incidents
     zabbix_item_key: Active Service Incidents
     source_device: mon-grafana01
@@ -3802,7 +3980,8 @@ dashboards:
     panel_title: Core Switch SNMP Status
     panel_description: 'SNMP reachability status of Kenya Airways core distribution and datacenter switches. Values: 1 = Available/Responding,
       0 = Timeout/Unreachable. Source: Zabbix zabbix[host,snmp,available] internal metric. Limitations: Verifies UDP/161 polling
-      response; does not measure packet forwarding throughput.'
+      response; does not measure packet forwarding throughput. Missing data indicates collector outage, agent failure, or
+      network disruption; values are preserved as null gaps.'
     metric_name: Core Switch SNMP Status
     zabbix_item_key: Core Switch SNMP Status
     source_device: mon-grafana01
@@ -3822,7 +4001,8 @@ dashboards:
     panel_title: System Uptime
     panel_description: 'Continuous operating time since the switch was last reloaded or rebooted. Units: Seconds (formatted
       as Days, Hours, Minutes). Source: SNMPv2-MIB::sysUpTime (OID .1.3.6.1.2.1.1.3.0). Limitations: Uptime resets during
-      firmware upgrades, power cycles, or kernel crash reboots.'
+      firmware upgrades, power cycles, or kernel crash reboots. Missing data indicates collector outage, agent failure, or
+      network disruption; values are preserved as null gaps.'
     metric_name: System Uptime
     zabbix_item_key: System Uptime
     source_device: mon-grafana01
@@ -3843,7 +4023,8 @@ dashboards:
     panel_description: 'Round-trip ping response time between the Nawari monitoring collector and the core switch management
       interface. Units: Milliseconds (ms). Source: Zabbix icmppingsec metric. Warning: > 10ms, Critical: > 50ms. Limitations:
       Control plane ICMP response is low priority and may spike during high control plane CPU without impacting forwarding
-      plane traffic.'
+      plane traffic. Missing data indicates collector outage, agent failure, or network disruption; values are preserved as
+      null gaps.'
     metric_name: ICMP Latency
     zabbix_item_key: ICMP Latency
     source_device: nawari-cm-01
@@ -3863,7 +4044,8 @@ dashboards:
     panel_title: Active Network Problems
     panel_description: 'Total count of unresolved active alerts and threshold breaches currently open against core network
       infrastructure in Zabbix. Source: Zabbix Problems API filtered for Network Infrastructure host group. Limitations: Count
-      reflects unacknowledged and acknowledged active problem events.'
+      reflects unacknowledged and acknowledged active problem events. Missing data indicates collector outage, agent failure,
+      or network disruption; values are preserved as null gaps.'
     metric_name: Active Network Problems
     zabbix_item_key: Active Network Problems
     source_device: mon-grafana01
@@ -3883,7 +4065,8 @@ dashboards:
     panel_title: Discovered Physical & Logical Interfaces (mock-core-switch-01)
     panel_description: 'Inventory table of all discovered physical Ethernet, port-channel, and VLAN interfaces on the core
       switch, detailing operational status, speed, and traffic statistics. Source: Zabbix Low-Level Discovery (LLD) on IF-MIB.
-      Limitations: Updated every 1 hour by discovery rule.'
+      Limitations: Updated every 1 hour by discovery rule. Missing data indicates collector outage, agent failure, or network
+      disruption; values are preserved as null gaps.'
     metric_name: Discovered Physical & Logical Interfaces (mock-core-switch-01)
     zabbix_item_key: Discovered Physical & Logical Interfaces (mock-core-switch-01)
     source_device: mon-grafana01
@@ -3903,7 +4086,8 @@ dashboards:
     panel_title: Live Network Alert Feed (Zabbix Problems)
     panel_description: 'Live streaming feed of unresolved network problem events ordered by severity (Information, Warning,
       Average, High, Disaster). Source: Zabbix Problems integration. Limitations: Real-time event feed depends on active WebSocket/polling
-      connection to Zabbix API.'
+      connection to Zabbix API. Missing data indicates collector outage, agent failure, or network disruption; values are
+      preserved as null gaps.'
     metric_name: Live Network Alert Feed (Zabbix Problems)
     zabbix_item_key: Live Network Alert Feed (Zabbix Problems)
     source_device: mon-grafana01
@@ -3929,7 +4113,8 @@ dashboards:
     panel_title: End-to-End Latency
     panel_description: Measures the total round-trip time between the endpoint and the destination target along the discovered
       path. Sudden increases in end-to-end latency indicate routing shifts, congested transit links, or bufferbloat. Note
-      that traceroute RTT may differ slightly from TCP application latency due to different network priority queues.
+      that traceroute RTT may differ slightly from TCP application latency due to different network priority queues. Missing
+      data indicates collector outage, agent failure, or network disruption; values are preserved as null gaps.
     metric_name: End-to-End Latency
     zabbix_item_key: End-to-End Latency
     source_device: mon-grafana01
@@ -3950,7 +4135,7 @@ dashboards:
     panel_description: Percentage of probe packets lost between the endpoint and the final destination target. Values above
       0% indicate severe path impairment that causes TCP retransmissions and degraded voice/video quality. Must be evaluated
       alongside intermediate hop loss; loss at the target is true circuit loss, whereas intermediate non-responses may be
-      CoPP.
+      CoPP. Missing data indicates collector outage, agent failure, or network disruption; values are preserved as null gaps.
     metric_name: End-to-End Packet Loss
     zabbix_item_key: End-to-End Packet Loss
     source_device: mon-grafana01
@@ -3970,7 +4155,8 @@ dashboards:
     panel_title: Total Path Hops
     panel_description: The number of layer-3 routing hops traversed between the endpoint and the destination target. Significant
       changes in hop count indicate dynamic route re-convergence, BGP shifts, or failover to backup circuits. Path length
-      alone does not determine latency, but abrupt hop count increases often correlate with path suboptimality.
+      alone does not determine latency, but abrupt hop count increases often correlate with path suboptimality. Missing data
+      indicates collector outage, agent failure, or network disruption; values are preserved as null gaps.
     metric_name: Total Path Hops
     zabbix_item_key: Total Path Hops
     source_device: mon-grafana01
@@ -3990,7 +4176,8 @@ dashboards:
     panel_title: Path Route Stability
     panel_description: Indicates whether the network forwarding path has remained stable or diverged from its baseline hash
       signature (0=STABLE, 1=ROUTE CHANGED). Frequent route changes signal flapping links, asymmetric routing, or ECMP churn.
-      Route flapping introduces transient packet reordering and jitter that degrade real-time traffic.
+      Route flapping introduces transient packet reordering and jitter that degrade real-time traffic. Missing data indicates
+      collector outage, agent failure, or network disruption; values are preserved as null gaps.
     metric_name: Path Route Stability
     zabbix_item_key: Path Route Stability
     source_device: mon-grafana01
@@ -4011,6 +4198,7 @@ dashboards:
     panel_description: Technical notice explaining Control Plane Policing (CoPP) mechanics in modern router backbones. Transit
       data packets are prioritized in hardware ASICs, while ICMP Time Exceeded packets are rate-limited by router CPUs. Hops
       showing packet loss or timeouts must not be classified as network failures if downstream hops and destinations are responsive.
+      Missing data indicates collector outage, agent failure, or network disruption; values are preserved as null gaps.
     metric_name: CoPP Guard Architectural Interpretation
     zabbix_item_key: CoPP Guard Architectural Interpretation
     source_device: mon-grafana01
@@ -4031,7 +4219,8 @@ dashboards:
     panel_description: Detailed hop-by-hop breakdown showing router IP addresses, reverse DNS hostnames, autonomous system
       numbers (ASN), average RTT, packet loss, and CoPP status. Identifies exactly which network transit hop introduces latency
       or packet loss. Non-responsive hops marked COPP_RATE_LIMITED indicate benign control plane filtering rather than link
-      failure.
+      failure. Missing data indicates collector outage, agent failure, or network disruption; values are preserved as null
+      gaps.
     metric_name: Discovered Hop Details (IP, RTT, Packet Loss, CoPP Status)
     zabbix_item_key: Discovered Hop Details (IP, RTT, Packet Loss, CoPP Status)
     source_device: mon-grafana01
@@ -4052,6 +4241,7 @@ dashboards:
     panel_description: Visualizes cumulative round-trip latency as packets traverse each successive hop toward the target.
       Sharp increases (>40 ms) between consecutive hops isolate congested physical spans, submarine cable transitions, or
       satellite links. Helps distinguish whether latency originates in the local LAN, enterprise WAN, or third-party ISP transit.
+      Missing data indicates collector outage, agent failure, or network disruption; values are preserved as null gaps.
     metric_name: Hop Latency Progression Waterfall (Detecting >40ms Latency Jumps)
     zabbix_item_key: Hop Latency Progression Waterfall (Detecting >40ms Latency Jumps)
     source_device: mon-grafana01
@@ -4071,7 +4261,8 @@ dashboards:
     panel_title: Route Divergence History (Path Signature Hash Transitions)
     panel_description: Tracks changes in the SHA-256 path signature over time, showing when routing topology shifted. Spikes
       to 1 indicate an detected change in IP hop sequence, transit ASNs, or interface path. Correlate path change events with
-      latency jumps or voice quality drops to determine whether ISP routing updates caused service degradation.
+      latency jumps or voice quality drops to determine whether ISP routing updates caused service degradation. Missing data
+      indicates collector outage, agent failure, or network disruption; values are preserved as null gaps.
     metric_name: Route Divergence History (Path Signature Hash Transitions)
     zabbix_item_key: Route Divergence History (Path Signature Hash Transitions)
     source_device: mon-grafana01
@@ -4096,7 +4287,8 @@ dashboards:
   - panel_id: 2
     panel_title: Enterprise Network Topology (Node Graph)
     panel_description: Interactive Layer 2 and Layer 3 topological graph displaying confirmed switches, routers, SBCs, endpoints,
-      and links with real-time operational status and bandwidth.
+      and links with real-time operational status and bandwidth. Missing data indicates collector outage, agent failure, or
+      network disruption; values are preserved as null gaps.
     metric_name: Enterprise Network Topology (Node Graph)
     zabbix_item_key: Enterprise Network Topology (Node Graph)
     source_device: mon-grafana01
@@ -4115,7 +4307,8 @@ dashboards:
   - panel_id: 4
     panel_title: Topology Change Audit Log
     panel_description: Chronological audit log of physical link transitions, neighbor additions/losses, and route modifications
-      detected by the topology engine.
+      detected by the topology engine. Missing data indicates collector outage, agent failure, or network disruption; values
+      are preserved as null gaps.
     metric_name: Topology Change Audit Log
     zabbix_item_key: Topology Change Audit Log
     source_device: mon-grafana01

@@ -211,7 +211,7 @@ def test_avaya_cm_zabbix_template_safety_constraints():
             assert delay in ("1h", "3600s", "3600"), f"IP Voice Item {item.get('name')} delay '{delay}' violates >= 1h polling limit"
 
     desc = cm_tmpl.get("description", "")
-    assert "avCmMeasIpVoStatSumDataLstHrTable" in desc
+    assert "avCmMeasIpVoStatHrData" in desc or "avCmMeasIpVoStatSumDataLstHrTable" in desc
     assert "1h" in desc or "1 hour" in desc
 
 

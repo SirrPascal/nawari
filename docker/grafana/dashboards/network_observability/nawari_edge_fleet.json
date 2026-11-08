@@ -1,5 +1,7 @@
 {
-  "annotations": { "list": [] },
+  "annotations": {
+    "list": []
+  },
   "description": "Nawari Distributed Edge Fleet Diagnostics: Outstation Spool Utilization, Store-and-Forward Replay Backlog, Clock Drift Skew, and Collector Authentication.",
   "editable": true,
   "fiscalYearStartMonth": 0,
@@ -10,41 +12,78 @@
   "panels": [
     {
       "collapsed": false,
-      "gridPos": { "h": 1, "w": 24, "x": 0, "y": 0 },
+      "gridPos": {
+        "h": 1,
+        "w": 24,
+        "x": 0,
+        "y": 0
+      },
       "id": 1,
       "title": "Outstation Edge Collector Fleet Availability & Health",
       "type": "row"
     },
     {
-      "datasource": { "type": "alexanderzobnin-zabbix-datasource", "uid": "PA67C5EADE9207728" },
-      "description": "Total count of active and communicating edge collector instances across outstation hubs.",
+      "datasource": {
+        "type": "alexanderzobnin-zabbix-datasource",
+        "uid": "PA67C5EADE9207728"
+      },
+      "description": "Total count of active and communicating edge collector instances across outstation hubs. Missing data indicates collector outage, agent failure, or network disruption; values are preserved as null gaps.",
       "fieldConfig": {
         "defaults": {
-          "color": { "mode": "thresholds" },
+          "color": {
+            "mode": "thresholds"
+          },
           "thresholds": {
             "mode": "absolute",
             "steps": [
-              { "color": "red", "value": null },
-              { "color": "yellow", "value": 10 },
-              { "color": "green", "value": 14 }
+              {
+                "color": "red",
+                "value": null
+              },
+              {
+                "color": "yellow",
+                "value": 10
+              },
+              {
+                "color": "green",
+                "value": 14
+              }
             ]
           },
           "unit": "short"
         }
       },
-      "gridPos": { "h": 6, "w": 8, "x": 0, "y": 1 },
+      "gridPos": {
+        "h": 6,
+        "w": 8,
+        "x": 0,
+        "y": 1
+      },
       "id": 2,
       "options": {
         "orientation": "auto",
-        "reduceOptions": { "calcs": ["lastNotNull"], "values": false }
+        "reduceOptions": {
+          "calcs": [
+            "lastNotNull"
+          ],
+          "values": false
+        }
       },
       "pluginVersion": "11.0.0",
       "targets": [
         {
-          "application": { "name": "Edge Fleet" },
-          "group": { "name": "Outstations" },
-          "host": { "name": "mon-grafana01" },
-          "item": { "name": "Active Edge Collectors Count" },
+          "application": {
+            "name": "Edge Fleet"
+          },
+          "group": {
+            "name": "Outstations"
+          },
+          "host": {
+            "name": "mon-grafana01"
+          },
+          "item": {
+            "name": "Active Edge Collectors Count"
+          },
           "refId": "ActiveCollectors"
         }
       ],
@@ -52,35 +91,67 @@
       "type": "stat"
     },
     {
-      "datasource": { "type": "alexanderzobnin-zabbix-datasource", "uid": "PA67C5EADE9207728" },
-      "description": "Measured NTP clock drift between outstation edge devices and Central Hub master clock (Warning: > 250ms).",
+      "datasource": {
+        "type": "alexanderzobnin-zabbix-datasource",
+        "uid": "PA67C5EADE9207728"
+      },
+      "description": "Measured NTP clock drift between outstation edge devices and Central Hub master clock (Warning: > 250ms). Missing data indicates collector outage, agent failure, or network disruption; values are preserved as null gaps.",
       "fieldConfig": {
         "defaults": {
-          "color": { "mode": "thresholds" },
+          "color": {
+            "mode": "thresholds"
+          },
           "thresholds": {
             "mode": "absolute",
             "steps": [
-              { "color": "green", "value": null },
-              { "color": "yellow", "value": 250 },
-              { "color": "red", "value": 1000 }
+              {
+                "color": "green",
+                "value": null
+              },
+              {
+                "color": "yellow",
+                "value": 250
+              },
+              {
+                "color": "red",
+                "value": 1000
+              }
             ]
           },
           "unit": "ms"
         }
       },
-      "gridPos": { "h": 6, "w": 8, "x": 8, "y": 1 },
+      "gridPos": {
+        "h": 6,
+        "w": 8,
+        "x": 8,
+        "y": 1
+      },
       "id": 3,
       "options": {
         "orientation": "auto",
-        "reduceOptions": { "calcs": ["max"], "values": false }
+        "reduceOptions": {
+          "calcs": [
+            "max"
+          ],
+          "values": false
+        }
       },
       "pluginVersion": "11.0.0",
       "targets": [
         {
-          "application": { "name": "Edge Fleet" },
-          "group": { "name": "Outstations" },
-          "host": { "name": "mon-grafana01" },
-          "item": { "name": "Max Outstation Clock Drift" },
+          "application": {
+            "name": "Edge Fleet"
+          },
+          "group": {
+            "name": "Outstations"
+          },
+          "host": {
+            "name": "mon-grafana01"
+          },
+          "item": {
+            "name": "Max Outstation Clock Drift"
+          },
           "refId": "MaxClockDrift"
         }
       ],
@@ -88,35 +159,67 @@
       "type": "stat"
     },
     {
-      "datasource": { "type": "alexanderzobnin-zabbix-datasource", "uid": "PA67C5EADE9207728" },
-      "description": "Total volume of telemetry records queued across all outstation SQLite spools waiting for circuit restoration.",
+      "datasource": {
+        "type": "alexanderzobnin-zabbix-datasource",
+        "uid": "PA67C5EADE9207728"
+      },
+      "description": "Total volume of telemetry records queued across all outstation SQLite spools waiting for circuit restoration. Missing data indicates collector outage, agent failure, or network disruption; values are preserved as null gaps.",
       "fieldConfig": {
         "defaults": {
-          "color": { "mode": "thresholds" },
+          "color": {
+            "mode": "thresholds"
+          },
           "thresholds": {
             "mode": "absolute",
             "steps": [
-              { "color": "green", "value": null },
-              { "color": "yellow", "value": 1000 },
-              { "color": "red", "value": 5000 }
+              {
+                "color": "green",
+                "value": null
+              },
+              {
+                "color": "yellow",
+                "value": 1000
+              },
+              {
+                "color": "red",
+                "value": 5000
+              }
             ]
           },
           "unit": "short"
         }
       },
-      "gridPos": { "h": 6, "w": 8, "x": 16, "y": 1 },
+      "gridPos": {
+        "h": 6,
+        "w": 8,
+        "x": 16,
+        "y": 1
+      },
       "id": 4,
       "options": {
         "orientation": "auto",
-        "reduceOptions": { "calcs": ["sum"], "values": false }
+        "reduceOptions": {
+          "calcs": [
+            "sum"
+          ],
+          "values": false
+        }
       },
       "pluginVersion": "11.0.0",
       "targets": [
         {
-          "application": { "name": "Edge Fleet" },
-          "group": { "name": "Outstations" },
-          "host": { "name": "mon-grafana01" },
-          "item": { "name": "Fleet Total Spool Backlog" },
+          "application": {
+            "name": "Edge Fleet"
+          },
+          "group": {
+            "name": "Outstations"
+          },
+          "host": {
+            "name": "mon-grafana01"
+          },
+          "item": {
+            "name": "Fleet Total Spool Backlog"
+          },
           "refId": "TotalSpoolBacklog"
         }
       ],
@@ -125,33 +228,63 @@
     },
     {
       "collapsed": false,
-      "gridPos": { "h": 1, "w": 24, "x": 0, "y": 7 },
+      "gridPos": {
+        "h": 1,
+        "w": 24,
+        "x": 0,
+        "y": 7
+      },
       "id": 5,
       "title": "Outstation Spool Disk Utilization & Replay Health",
       "type": "row"
     },
     {
-      "datasource": { "type": "alexanderzobnin-zabbix-datasource", "uid": "PA67C5EADE9207728" },
-      "description": "Individual outstation edge collector operational metrics: spool file size (MB), buffered records, in-flight records, and last sync timestamp.",
+      "datasource": {
+        "type": "alexanderzobnin-zabbix-datasource",
+        "uid": "PA67C5EADE9207728"
+      },
+      "description": "Individual outstation edge collector operational metrics: spool file size (MB), buffered records, in-flight records, and last sync timestamp. Missing data indicates collector outage, agent failure, or network disruption; values are preserved as null gaps.",
       "fieldConfig": {
         "defaults": {
-          "color": { "mode": "thresholds" },
+          "color": {
+            "mode": "thresholds"
+          },
           "thresholds": {
             "mode": "absolute",
-            "steps": [{ "color": "green", "value": null }]
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              }
+            ]
           }
         }
       },
-      "gridPos": { "h": 8, "w": 24, "x": 0, "y": 8 },
+      "gridPos": {
+        "h": 8,
+        "w": 24,
+        "x": 0,
+        "y": 8
+      },
       "id": 6,
-      "options": { "showHeader": true },
+      "options": {
+        "showHeader": true
+      },
       "pluginVersion": "11.0.0",
       "targets": [
         {
-          "application": { "name": "Edge Fleet" },
-          "group": { "name": "Outstations" },
-          "host": { "name": "mon-grafana01" },
-          "item": { "name": "Outstation Spool Utilization Matrix" },
+          "application": {
+            "name": "Edge Fleet"
+          },
+          "group": {
+            "name": "Outstations"
+          },
+          "host": {
+            "name": "mon-grafana01"
+          },
+          "item": {
+            "name": "Outstation Spool Utilization Matrix"
+          },
           "refId": "SpoolMatrix"
         }
       ],
@@ -161,13 +294,31 @@
   ],
   "refresh": "30s",
   "schemaVersion": 39,
-  "tags": ["nawari", "edge", "spool", "fleet", "outstations", "kenya-airways"],
-  "templating": { "list": [] },
-  "time": { "from": "now-6h", "to": "now" },
-  "timepicker": { "refresh_intervals": ["10s", "30s", "1m", "5m"] },
+  "tags": [
+    "nawari",
+    "edge",
+    "spool",
+    "fleet",
+    "outstations",
+    "kenya-airways"
+  ],
+  "templating": {
+    "list": []
+  },
+  "time": {
+    "from": "now-6h",
+    "to": "now"
+  },
+  "timepicker": {
+    "refresh_intervals": [
+      "10s",
+      "30s",
+      "1m",
+      "5m"
+    ]
+  },
   "timezone": "browser",
-  "title": "Nawari — Distributed Edge Collector Fleet & Spool Storage",
+  "title": "Nawari \u2014 Distributed Edge Collector Fleet & Spool Storage",
   "uid": "nawari-edge-fleet",
   "version": 1
 }
-

@@ -12,7 +12,12 @@
   "panels": [
     {
       "collapsed": false,
-      "gridPos": { "h": 1, "w": 24, "x": 0, "y": 0 },
+      "gridPos": {
+        "h": 1,
+        "w": 24,
+        "x": 0,
+        "y": 0
+      },
       "id": 1,
       "title": "Tier 1 Mission-Critical Aviation Services SLA/SLO (Target: 99.95%)",
       "type": "row"
@@ -22,40 +27,70 @@
         "type": "alexanderzobnin-zabbix-datasource",
         "uid": "PA67C5EADE9207728"
       },
-      "description": "Availability SLI for Departure Control System (Amadeus Altea Core, Airport Check-in Desks, Gate Boarding Scanners).",
+      "description": "Availability SLI for Departure Control System (Amadeus Altea Core, Airport Check-in Desks, Gate Boarding Scanners). Missing data indicates collector outage, agent failure, or network disruption; values are preserved as null gaps.",
       "fieldConfig": {
         "defaults": {
-          "color": { "mode": "thresholds" },
+          "color": {
+            "mode": "thresholds"
+          },
           "mappings": [],
           "max": 100,
           "min": 95,
           "thresholds": {
             "mode": "absolute",
             "steps": [
-              { "color": "red", "value": null },
-              { "color": "yellow", "value": 99.5 },
-              { "color": "green", "value": 99.95 }
+              {
+                "color": "red",
+                "value": null
+              },
+              {
+                "color": "yellow",
+                "value": 99.5
+              },
+              {
+                "color": "green",
+                "value": 99.95
+              }
             ]
           },
           "unit": "percent"
         },
         "overrides": []
       },
-      "gridPos": { "h": 6, "w": 8, "x": 0, "y": 1 },
+      "gridPos": {
+        "h": 6,
+        "w": 8,
+        "x": 0,
+        "y": 1
+      },
       "id": 2,
       "options": {
         "orientation": "auto",
-        "reduceOptions": { "calcs": ["lastNotNull"], "fields": "", "values": false },
+        "reduceOptions": {
+          "calcs": [
+            "lastNotNull"
+          ],
+          "fields": "",
+          "values": false
+        },
         "showThresholdLabels": false,
         "showThresholdMarkers": true
       },
       "pluginVersion": "11.0.0",
       "targets": [
         {
-          "application": { "name": "Service SLA" },
-          "group": { "name": "Business Services" },
-          "host": { "name": "mon-grafana01" },
-          "item": { "name": "SLI DCS Global" },
+          "application": {
+            "name": "Service SLA"
+          },
+          "group": {
+            "name": "Business Services"
+          },
+          "host": {
+            "name": "mon-grafana01"
+          },
+          "item": {
+            "name": "SLI DCS Global"
+          },
           "refId": "DcsSli"
         }
       ],
@@ -67,40 +102,70 @@
         "type": "alexanderzobnin-zabbix-datasource",
         "uid": "PA67C5EADE9207728"
       },
-      "description": "Availability SLI for Flight Operations & Dispatch (Jeppesen FliteDeck, OFP Delivery, Core JKIA DC Switches).",
+      "description": "Availability SLI for Flight Operations & Dispatch (Jeppesen FliteDeck, OFP Delivery, Core JKIA DC Switches). Missing data indicates collector outage, agent failure, or network disruption; values are preserved as null gaps.",
       "fieldConfig": {
         "defaults": {
-          "color": { "mode": "thresholds" },
+          "color": {
+            "mode": "thresholds"
+          },
           "mappings": [],
           "max": 100,
           "min": 95,
           "thresholds": {
             "mode": "absolute",
             "steps": [
-              { "color": "red", "value": null },
-              { "color": "yellow", "value": 99.5 },
-              { "color": "green", "value": 99.95 }
+              {
+                "color": "red",
+                "value": null
+              },
+              {
+                "color": "yellow",
+                "value": 99.5
+              },
+              {
+                "color": "green",
+                "value": 99.95
+              }
             ]
           },
           "unit": "percent"
         },
         "overrides": []
       },
-      "gridPos": { "h": 6, "w": 8, "x": 8, "y": 1 },
+      "gridPos": {
+        "h": 6,
+        "w": 8,
+        "x": 8,
+        "y": 1
+      },
       "id": 3,
       "options": {
         "orientation": "auto",
-        "reduceOptions": { "calcs": ["lastNotNull"], "fields": "", "values": false },
+        "reduceOptions": {
+          "calcs": [
+            "lastNotNull"
+          ],
+          "fields": "",
+          "values": false
+        },
         "showThresholdLabels": false,
         "showThresholdMarkers": true
       },
       "pluginVersion": "11.0.0",
       "targets": [
         {
-          "application": { "name": "Service SLA" },
-          "group": { "name": "Business Services" },
-          "host": { "name": "mon-grafana01" },
-          "item": { "name": "SLI Flight Ops Dispatch" },
+          "application": {
+            "name": "Service SLA"
+          },
+          "group": {
+            "name": "Business Services"
+          },
+          "host": {
+            "name": "mon-grafana01"
+          },
+          "item": {
+            "name": "SLI Flight Ops Dispatch"
+          },
           "refId": "FlightOpsSli"
         }
       ],
@@ -112,40 +177,70 @@
         "type": "alexanderzobnin-zabbix-datasource",
         "uid": "PA67C5EADE9207728"
       },
-      "description": "Availability SLI for Air-to-Ground & Ramp Operations Voice (Avaya Session Manager, SBCE, Dispatcher SIP Extensions).",
+      "description": "Availability SLI for Air-to-Ground & Ramp Operations Voice (Avaya Session Manager, SBCE, Dispatcher SIP Extensions). Missing data indicates collector outage, agent failure, or network disruption; values are preserved as null gaps.",
       "fieldConfig": {
         "defaults": {
-          "color": { "mode": "thresholds" },
+          "color": {
+            "mode": "thresholds"
+          },
           "mappings": [],
           "max": 100,
           "min": 95,
           "thresholds": {
             "mode": "absolute",
             "steps": [
-              { "color": "red", "value": null },
-              { "color": "yellow", "value": 99.5 },
-              { "color": "green", "value": 99.95 }
+              {
+                "color": "red",
+                "value": null
+              },
+              {
+                "color": "yellow",
+                "value": 99.5
+              },
+              {
+                "color": "green",
+                "value": 99.95
+              }
             ]
           },
           "unit": "percent"
         },
         "overrides": []
       },
-      "gridPos": { "h": 6, "w": 8, "x": 16, "y": 1 },
+      "gridPos": {
+        "h": 6,
+        "w": 8,
+        "x": 16,
+        "y": 1
+      },
       "id": 4,
       "options": {
         "orientation": "auto",
-        "reduceOptions": { "calcs": ["lastNotNull"], "fields": "", "values": false },
+        "reduceOptions": {
+          "calcs": [
+            "lastNotNull"
+          ],
+          "fields": "",
+          "values": false
+        },
         "showThresholdLabels": false,
         "showThresholdMarkers": true
       },
       "pluginVersion": "11.0.0",
       "targets": [
         {
-          "application": { "name": "Service SLA" },
-          "group": { "name": "Business Services" },
-          "host": { "name": "mon-grafana01" },
-          "item": { "name": "SLI Ramp Voice" },
+          "application": {
+            "name": "Service SLA"
+          },
+          "group": {
+            "name": "Business Services"
+          },
+          "host": {
+            "name": "mon-grafana01"
+          },
+          "item": {
+            "name": "SLI Ramp Voice"
+          },
           "refId": "RampVoiceSli"
         }
       ],
@@ -154,7 +249,12 @@
     },
     {
       "collapsed": false,
-      "gridPos": { "h": 1, "w": 24, "x": 0, "y": 7 },
+      "gridPos": {
+        "h": 1,
+        "w": 24,
+        "x": 0,
+        "y": 7
+      },
       "id": 5,
       "title": "Error Budget Consumption & Burn Rate Surveillance (30-Day Window)",
       "type": "row"
@@ -164,10 +264,12 @@
         "type": "alexanderzobnin-zabbix-datasource",
         "uid": "PA67C5EADE9207728"
       },
-      "description": "Multi-window Error Budget Burn Rate across aviation services. 1x consumes budget in 30 days; > 2x consumes budget in 14 days; > 14.4x consumes 100% of budget in 2 days.",
+      "description": "Multi-window Error Budget Burn Rate across aviation services. 1x consumes budget in 30 days; > 2x consumes budget in 14 days; > 14.4x consumes 100% of budget in 2 days. Missing data indicates collector outage, agent failure, or network disruption; values are preserved as null gaps.",
       "fieldConfig": {
         "defaults": {
-          "color": { "mode": "palette-classic" },
+          "color": {
+            "mode": "palette-classic"
+          },
           "custom": {
             "axisBorderShow": false,
             "axisCenteredZero": false,
@@ -183,42 +285,91 @@
           "thresholds": {
             "mode": "absolute",
             "steps": [
-              { "color": "green", "value": null },
-              { "color": "yellow", "value": 1.0 },
-              { "color": "red", "value": 2.0 }
+              {
+                "color": "green",
+                "value": null
+              },
+              {
+                "color": "yellow",
+                "value": 1.0
+              },
+              {
+                "color": "red",
+                "value": 2.0
+              }
             ]
           },
           "unit": "short"
         },
         "overrides": []
       },
-      "gridPos": { "h": 8, "w": 14, "x": 0, "y": 8 },
+      "gridPos": {
+        "h": 8,
+        "w": 14,
+        "x": 0,
+        "y": 8
+      },
       "id": 6,
       "options": {
-        "legend": { "calcs": ["mean", "max", "lastNotNull"], "displayMode": "table", "placement": "bottom" },
-        "tooltip": { "mode": "multi", "sort": "desc" }
+        "legend": {
+          "calcs": [
+            "mean",
+            "max",
+            "lastNotNull"
+          ],
+          "displayMode": "table",
+          "placement": "bottom"
+        },
+        "tooltip": {
+          "mode": "multi",
+          "sort": "desc"
+        }
       },
       "pluginVersion": "11.0.0",
       "targets": [
         {
-          "application": { "name": "Error Budget" },
-          "group": { "name": "Business Services" },
-          "host": { "name": "mon-grafana01" },
-          "item": { "name": "Burn Rate DCS Global" },
+          "application": {
+            "name": "Error Budget"
+          },
+          "group": {
+            "name": "Business Services"
+          },
+          "host": {
+            "name": "mon-grafana01"
+          },
+          "item": {
+            "name": "Burn Rate DCS Global"
+          },
           "refId": "BurnDCS"
         },
         {
-          "application": { "name": "Error Budget" },
-          "group": { "name": "Business Services" },
-          "host": { "name": "mon-grafana01" },
-          "item": { "name": "Burn Rate Flight Ops" },
+          "application": {
+            "name": "Error Budget"
+          },
+          "group": {
+            "name": "Business Services"
+          },
+          "host": {
+            "name": "mon-grafana01"
+          },
+          "item": {
+            "name": "Burn Rate Flight Ops"
+          },
           "refId": "BurnFlightOps"
         },
         {
-          "application": { "name": "Error Budget" },
-          "group": { "name": "Business Services" },
-          "host": { "name": "mon-grafana01" },
-          "item": { "name": "Burn Rate Ramp Voice" },
+          "application": {
+            "name": "Error Budget"
+          },
+          "group": {
+            "name": "Business Services"
+          },
+          "host": {
+            "name": "mon-grafana01"
+          },
+          "item": {
+            "name": "Burn Rate Ramp Voice"
+          },
           "refId": "BurnVoice"
         }
       ],
@@ -230,45 +381,83 @@
         "type": "alexanderzobnin-zabbix-datasource",
         "uid": "PA67C5EADE9207728"
       },
-      "description": "Remaining error budget minutes before contractual or design SLA breach.",
+      "description": "Remaining error budget minutes before contractual or design SLA breach. Missing data indicates collector outage, agent failure, or network disruption; values are preserved as null gaps.",
       "fieldConfig": {
         "defaults": {
-          "color": { "mode": "thresholds" },
+          "color": {
+            "mode": "thresholds"
+          },
           "mappings": [],
           "thresholds": {
             "mode": "absolute",
             "steps": [
-              { "color": "red", "value": null },
-              { "color": "yellow", "value": 15 },
-              { "color": "green", "value": 21.6 }
+              {
+                "color": "red",
+                "value": null
+              },
+              {
+                "color": "yellow",
+                "value": 15
+              },
+              {
+                "color": "green",
+                "value": 21.6
+              }
             ]
           },
           "unit": "m"
         },
         "overrides": []
       },
-      "gridPos": { "h": 8, "w": 10, "x": 14, "y": 8 },
+      "gridPos": {
+        "h": 8,
+        "w": 10,
+        "x": 14,
+        "y": 8
+      },
       "id": 7,
       "options": {
         "orientation": "auto",
-        "reduceOptions": { "calcs": ["lastNotNull"], "fields": "", "values": false },
+        "reduceOptions": {
+          "calcs": [
+            "lastNotNull"
+          ],
+          "fields": "",
+          "values": false
+        },
         "showThresholdLabels": false,
         "showThresholdMarkers": true
       },
       "pluginVersion": "11.0.0",
       "targets": [
         {
-          "application": { "name": "Error Budget" },
-          "group": { "name": "Business Services" },
-          "host": { "name": "mon-grafana01" },
-          "item": { "name": "Remaining Budget Minutes DCS" },
+          "application": {
+            "name": "Error Budget"
+          },
+          "group": {
+            "name": "Business Services"
+          },
+          "host": {
+            "name": "mon-grafana01"
+          },
+          "item": {
+            "name": "Remaining Budget Minutes DCS"
+          },
           "refId": "RemBudgetDCS"
         },
         {
-          "application": { "name": "Error Budget" },
-          "group": { "name": "Business Services" },
-          "host": { "name": "mon-grafana01" },
-          "item": { "name": "Remaining Budget Minutes Flight Ops" },
+          "application": {
+            "name": "Error Budget"
+          },
+          "group": {
+            "name": "Business Services"
+          },
+          "host": {
+            "name": "mon-grafana01"
+          },
+          "item": {
+            "name": "Remaining Budget Minutes Flight Ops"
+          },
           "refId": "RemBudgetFlightOps"
         }
       ],
@@ -277,7 +466,12 @@
     },
     {
       "collapsed": false,
-      "gridPos": { "h": 1, "w": 24, "x": 0, "y": 16 },
+      "gridPos": {
+        "h": 1,
+        "w": 24,
+        "x": 0,
+        "y": 16
+      },
       "id": 8,
       "title": "Active Correlated Incidents & Resolution Lifecycle",
       "type": "row"
@@ -287,31 +481,58 @@
         "type": "alexanderzobnin-zabbix-datasource",
         "uid": "PA67C5EADE9207728"
       },
-      "description": "Active correlated incidents impacting aviation business services, showing impacted station, failed dependency, and recovery verification state.",
+      "description": "Active correlated incidents impacting aviation business services, showing impacted station, failed dependency, and recovery verification state. Missing data indicates collector outage, agent failure, or network disruption; values are preserved as null gaps.",
       "fieldConfig": {
         "defaults": {
-          "color": { "mode": "thresholds" },
+          "color": {
+            "mode": "thresholds"
+          },
           "mappings": [],
           "thresholds": {
             "mode": "absolute",
-            "steps": [{ "color": "green", "value": null }]
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              }
+            ]
           }
         },
         "overrides": []
       },
-      "gridPos": { "h": 8, "w": 24, "x": 0, "y": 17 },
+      "gridPos": {
+        "h": 8,
+        "w": 24,
+        "x": 0,
+        "y": 17
+      },
       "id": 9,
       "options": {
-        "footer": { "enablePagination": true, "fields": "", "reducer": ["sum"], "show": false },
+        "footer": {
+          "enablePagination": true,
+          "fields": "",
+          "reducer": [
+            "sum"
+          ],
+          "show": false
+        },
         "showHeader": true
       },
       "pluginVersion": "11.0.0",
       "targets": [
         {
-          "application": { "name": "Incident Management" },
-          "group": { "name": "Service Assurance" },
-          "host": { "name": "mon-grafana01" },
-          "item": { "name": "Active Service Incidents" },
+          "application": {
+            "name": "Incident Management"
+          },
+          "group": {
+            "name": "Service Assurance"
+          },
+          "host": {
+            "name": "mon-grafana01"
+          },
+          "item": {
+            "name": "Active Service Incidents"
+          },
           "refId": "Incidents"
         }
       ],
@@ -321,7 +542,14 @@
   ],
   "refresh": "30s",
   "schemaVersion": 39,
-  "tags": ["nawari", "services", "sla", "slo", "aviation", "kenya-airways"],
+  "tags": [
+    "nawari",
+    "services",
+    "sla",
+    "slo",
+    "aviation",
+    "kenya-airways"
+  ],
   "templating": {
     "list": []
   },
@@ -330,11 +558,15 @@
     "to": "now"
   },
   "timepicker": {
-    "refresh_intervals": ["10s", "30s", "1m", "5m"]
+    "refresh_intervals": [
+      "10s",
+      "30s",
+      "1m",
+      "5m"
+    ]
   },
   "timezone": "browser",
-  "title": "Nawari — Aviation Business Service Catalogue & SLA/SLO Assurance",
+  "title": "Nawari \u2014 Aviation Business Service Catalogue & SLA/SLO Assurance",
   "uid": "nawari-service-catalog-sla",
   "version": 1
 }
-

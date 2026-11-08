@@ -141,7 +141,7 @@
       ],
       "title": "Call Transaction Outcome",
       "type": "stat",
-      "description": "Signaling outcome of the most recent synthetic voice test call (e.g., Completed 200 OK, Busy 486, Timeout 408, Service Unavailable 503). Source: Synthetic Asterisk probe AMI event logs. Limitations: Reflects synthetic probe calls between test extensions; does not evaluate live customer or agent calls."
+      "description": "Signaling outcome of the most recent synthetic voice test call (e.g., Completed 200 OK, Busy 486, Timeout 408, Service Unavailable 503). Source: Synthetic Asterisk probe AMI event logs. Limitations: Reflects synthetic probe calls between test extensions; does not evaluate live customer or agent calls. Missing data indicates collector outage, agent failure, or network disruption; values are preserved as null gaps."
     },
     {
       "datasource": {
@@ -244,7 +244,7 @@
       ],
       "title": "Estimated MOS (ITU-T G.107) [SYNTHETIC \u2014 ASTERISK]",
       "type": "gauge",
-      "description": "Estimated Mean Opinion Score (MOS) calculated strictly for synthetic test calls via ITU-T G.107 E-model based on measured packet loss, jitter, and delay. Scale: 1.0 (unusable) to 4.5 (toll quality). Warning: < 3.6, Critical: < 3.1. Source: Synthetic Asterisk voice probe. Limitations: Synthetic probe only; real subscriber calls are NOT included."
+      "description": "Estimated Mean Opinion Score (MOS) calculated strictly for synthetic test calls via ITU-T G.107 E-model based on measured packet loss, jitter, and delay. Scale: 1.0 (unusable) to 4.5 (toll quality). Warning: < 3.6, Critical: < 3.1. Source: Synthetic Asterisk voice probe. Limitations: Synthetic probe only; real subscriber calls are NOT included. Missing data indicates collector outage, agent failure, or network disruption; values are preserved as null gaps."
     },
     {
       "datasource": {
@@ -358,7 +358,7 @@
       ],
       "title": "Media Path Directionality",
       "type": "stat",
-      "description": "Designates the media routing path of the tested voice session (e.g., Inbound Carrier DMZ, Outbound PSTN, Internal Inter-Station). Source: Synthetic probe call profile configuration. Limitations: Validates designated routing profile under test."
+      "description": "Designates the media routing path of the tested voice session (e.g., Inbound Carrier DMZ, Outbound PSTN, Internal Inter-Station). Source: Synthetic probe call profile configuration. Limitations: Validates designated routing profile under test. Missing data indicates collector outage, agent failure, or network disruption; values are preserved as null gaps."
     },
     {
       "datasource": {
@@ -455,7 +455,7 @@
       ],
       "title": "Call Setup Latency",
       "type": "stat",
-      "description": "Elapsed duration from initial SIP INVITE transmission to receiving the first 18x progress response (Post-Dial Delay / PDD). Units: Milliseconds (ms). Warning: > 1500ms, Critical: > 3000ms. Source: Synthetic Asterisk probe SIP signaling timer. Limitations: Measures synthetic signaling latency across SBCE."
+      "description": "Elapsed duration from initial SIP INVITE transmission to receiving the first 18x progress response (Post-Dial Delay / PDD). Units: Milliseconds (ms). Warning: > 1500ms, Critical: > 3000ms. Source: Synthetic Asterisk probe SIP signaling timer. Limitations: Measures synthetic signaling latency across SBCE. Missing data indicates collector outage, agent failure, or network disruption; values are preserved as null gaps."
     },
     {
       "datasource": {
@@ -558,7 +558,7 @@
       ],
       "title": "R-Factor (Transmission Quality) [SYNTHETIC \u2014 ASTERISK]",
       "type": "gauge",
-      "description": "Transmission rating factor (R) calculated via ITU-T G.107 E-model for synthetic test calls. Scale: 0 to 100 (R >= 80 indicates toll quality, R < 60 is unacceptable). Source: Synthetic Asterisk probe RTCP calculation. Limitations: Strictly synthetic test call calculation."
+      "description": "Transmission rating factor (R) calculated via ITU-T G.107 E-model for synthetic test calls. Scale: 0 to 100 (R >= 80 indicates toll quality, R < 60 is unacceptable). Source: Synthetic Asterisk probe RTCP calculation. Limitations: Strictly synthetic test call calculation. Missing data indicates collector outage, agent failure, or network disruption; values are preserved as null gaps."
     },
     {
       "datasource": {
@@ -660,7 +660,7 @@
       ],
       "title": "Telemetry Provenance Mode",
       "type": "stat",
-      "description": "Explicit operational indicator distinguishing between SIMULATED/MOCK synthetic test environments and physical production infrastructure. Values: MOCK_SIMULATED (Blue) or PHYSICAL_PRODUCTION (Purple). Source: Voice probe environment provenance metric. Purpose: Guarantees full operator awareness of telemetry origin."
+      "description": "Explicit operational indicator distinguishing between SIMULATED/MOCK synthetic test environments and physical production infrastructure. Values: MOCK_SIMULATED (Blue) or PHYSICAL_PRODUCTION (Purple). Source: Voice probe environment provenance metric. Purpose: Guarantees full operator awareness of telemetry origin. Missing data indicates collector outage, agent failure, or network disruption; values are preserved as null gaps."
     },
     {
       "collapsed": false,
@@ -747,7 +747,7 @@
       ],
       "title": "Call Setup Latency History",
       "type": "timeseries",
-      "description": "Historical time-series trend of Post-Dial Delay (PDD) and session setup duration across consecutive synthetic voice probe runs. Units: Milliseconds (ms). Source: Synthetic Asterisk probe logs. Limitations: Useful for identifying carrier signaling latency drift over diurnal cycles."
+      "description": "Historical time-series trend of Post-Dial Delay (PDD) and session setup duration across consecutive synthetic voice probe runs. Units: Milliseconds (ms). Source: Synthetic Asterisk probe logs. Limitations: Useful for identifying carrier signaling latency drift over diurnal cycles. Missing data indicates collector outage, agent failure, or network disruption; values are preserved as null gaps."
     },
     {
       "datasource": {
@@ -820,7 +820,7 @@
       ],
       "title": "SIP Response Code History",
       "type": "timeseries",
-      "description": "Distribution of SIP response codes (1xx progress, 2xx success, 4xx client errors, 5xx server failures) returned during synthetic probe campaigns. Source: Synthetic Asterisk SIP transaction logs. Limitations: Differentiates client busy/offline states from carrier 503 outages."
+      "description": "Distribution of SIP response codes (1xx progress, 2xx success, 4xx client errors, 5xx server failures) returned during synthetic probe campaigns. Source: Synthetic Asterisk SIP transaction logs. Limitations: Differentiates client busy/offline states from carrier 503 outages. Missing data indicates collector outage, agent failure, or network disruption; values are preserved as null gaps."
     },
     {
       "collapsed": false,
@@ -929,7 +929,7 @@
       ],
       "title": "Estimated MOS Trend & SLA Thresholds [SYNTHETIC \u2014 ASTERISK]",
       "type": "timeseries",
-      "description": "Continuous time-series trend of estimated Mean Opinion Score (MOS) from synthetic voice probes plotted against SLA contractual limits (Toll Quality = 4.0, Minimum Acceptable = 3.6). Source: Synthetic Asterisk probe ITU-T G.107 calculation. Limitations: Measures synthetic probe stream quality only."
+      "description": "Continuous time-series trend of estimated Mean Opinion Score (MOS) from synthetic voice probes plotted against SLA contractual limits (Toll Quality = 4.0, Minimum Acceptable = 3.6). Source: Synthetic Asterisk probe ITU-T G.107 calculation. Limitations: Measures synthetic probe stream quality only. Missing data indicates collector outage, agent failure, or network disruption; values are preserved as null gaps."
     },
     {
       "datasource": {
@@ -1082,7 +1082,7 @@
       ],
       "title": "RTP Jitter & Packet Loss Impairments [SYNTHETIC \u2014 ASTERISK]",
       "type": "timeseries",
-      "description": "Measured RTP packet loss percentage and jitter (ms) recorded during synthetic probe voice calls. Source: Asterisk RTCP reports. Target: Packet loss < 1%, Jitter < 20ms. Limitations: Reflects acoustic path between synthetic probe endpoints."
+      "description": "Measured RTP packet loss percentage and jitter (ms) recorded during synthetic probe voice calls. Source: Asterisk RTCP reports. Target: Packet loss < 1%, Jitter < 20ms. Limitations: Reflects acoustic path between synthetic probe endpoints. Missing data indicates collector outage, agent failure, or network disruption; values are preserved as null gaps."
     },
     {
       "collapsed": false,
@@ -1201,7 +1201,7 @@
       ],
       "title": "SBCE Signaling (A1) & Media (B1) Traffic Throughput [REAL \u2014 SBCE SNMP]",
       "type": "timeseries",
-      "description": "Real-time physical interface throughput on Avaya SBCE interface A1 (External DMZ carrier signaling) and B1 (Internal Core media). Units: Bits per second (bps). Source: Avaya SBCE IF-MIB via Zabbix SNMPv3. Note: This panel displays REAL infrastructure traffic, distinct from synthetic probe metrics."
+      "description": "Real-time physical interface throughput on Avaya SBCE interface A1 (External DMZ carrier signaling) and B1 (Internal Core media). Units: Bits per second (bps). Source: Avaya SBCE IF-MIB via Zabbix SNMPv3. Note: This panel displays REAL infrastructure traffic, distinct from synthetic probe metrics. Missing data indicates collector outage, agent failure, or network disruption; values are preserved as null gaps."
     },
     {
       "datasource": {
@@ -1294,7 +1294,7 @@
       ],
       "title": "SBCE CPU Utilization [REAL \u2014 SBCE SNMP]",
       "type": "timeseries",
-      "description": "Processor core utilization on the Avaya SBCE appliance. Units: Percentage (0\u2013100%). Source: HOST-RESOURCES-MIB via Zabbix. Note: Real appliance hardware telemetry."
+      "description": "Processor core utilization on the Avaya SBCE appliance. Units: Percentage (0\u2013100%). Source: HOST-RESOURCES-MIB via Zabbix. Note: Real appliance hardware telemetry. Missing data indicates collector outage, agent failure, or network disruption; values are preserved as null gaps."
     }
   ],
   "refresh": "10s",

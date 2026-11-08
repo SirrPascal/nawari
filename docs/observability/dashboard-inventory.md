@@ -1,6 +1,6 @@
 # Nawari Enterprise Observability — Operational Dashboard & Metric Catalogue
 
-**Generated:** `2026-11-08T10:58:22.634013+00:00`  
+**Generated:** `2026-11-08T11:29:24.171093+00:00`  
 **Standard:** Nawari Phase 13.1 Telemetry Integrity & Operational Separation  
 **Target Environment:** Kenya Airways Ground Network & Global Outstation Fleet  
 
@@ -42,7 +42,7 @@ Nawari structures its operational telemetry into two top-level Grafana domain fo
 | **Nawari — Distributed Edge Collector Fleet & Spool Storage** | `nawari-edge-fleet` | 4 | Total count of active and communicating edge collector instances across outstati... |
 | **Nawari — Enterprise Executive Overview & Fleet Availability** | `nawari-enterprise-overview` | 5 | Overall proportion of Kenya Airways flight operations stations currently online ... |
 | **Nawari — Global Outstation Network & WAN Telemetry** | `nawari-global-outstations` | 6 | Real-time circuit operational status across Kenya Airways core hub, domestic sta... |
-| **Nawari — Incident Operations, Escalation & Verified Recovery** | `nawari-incident-operations` | 3 | Distribution of active incidents across lifecycle stages.... |
+| **Nawari — Incident Operations, Escalation & Verified Recovery** | `nawari-incident-operations` | 3 | Distribution of active incidents across lifecycle stages. Missing data indicates... |
 | **Nawari — Predictive Intelligence, Dynamic Baselines & Degradation Assurance** | `nawari-predictive-intelligence` | 6 | Real-time count of active statistical deviations across domains evaluated agains... |
 | **Nawari — Aviation Business Service Catalogue & SLA/SLO Assurance** | `nawari-service-catalog-sla` | 6 | Availability SLI for Departure Control System (Amadeus Altea Core, Airport Check... |
 | **Nawari — Network Infrastructure Overview** | `nawari-net-overview` | 6 | SNMP reachability status of Kenya Airways core distribution and datacenter switc... |
@@ -303,8 +303,8 @@ Nawari structures its operational telemetry into two top-level Grafana domain fo
 | :---: | :--- | :---: | :--- | :--- | :---: | :---: |
 | 2 | **CM Processor Reachability [REAL — ZABBIX]** | `stat` | `REAL_ZABBIX_TELEMETRY` | Zabbix Telemetry Engine (SNMPv2c/v3, ICMP pin | `short` | < 30 seconds |
 | 3 | **Active Telephony Alarms (Hourly Scan) [REAL — AVAYA SNMP]** | `stat` | `REAL_AVAYA_SNMP` | Avaya Communication Manager 8.1.0 MIB (avCmMe | `alarms` | 1–2 hours (CM internal hourly measurement bucket) |
-| 4 | **Call Rate Attempts (5-min) [REAL — AVAYA SNMP]** | `timeseries` | `REAL_AVAYA_SNMP` | Avaya Communication Manager 8.1.0 MIB (avCmMe | `calls` | 1–2 hours (CM internal hourly measurement bucket) |
-| 5 | **Call Rate Completed (5-min) [REAL — AVAYA SNMP]** | `timeseries` | `REAL_AVAYA_SNMP` | Avaya Communication Manager 8.1.0 MIB (avCmMe | `calls` | 1–2 hours (CM internal hourly measurement bucket) |
+| 4 | **Call Processing Hourly Status [REAL — AVAYA SNMP]** | `timeseries` | `REAL_AVAYA_SNMP` | Avaya Communication Manager 8.1.0 MIB (avCmMe | `calls` | 1–2 hours (CM internal hourly measurement bucket) |
+| 5 | **Call Rate Completed Calls (Hourly Measurement) [REAL — AVAYA SNMP]** | `timeseries` | `REAL_AVAYA_SNMP` | Avaya Communication Manager 8.1.0 MIB (avCmMe | `calls` | 1–2 hours (CM internal hourly measurement bucket) |
 | 7 | **Real-Call Packet Loss % (Last Hour) [REAL — AVAYA SNMP]** | `stat` | `REAL_AVAYA_SNMP` | Avaya Communication Manager 8.1.0 MIB (avCmMe | `percent` | 1–2 hours (CM internal hourly measurement bucket) |
 | 8 | **Real-Call Peak Jitter (Last Hour) [REAL — AVAYA SNMP]** | `stat` | `REAL_AVAYA_SNMP` | Avaya Communication Manager 8.1.0 MIB (avCmMe | `ms` | 1–2 hours (CM internal hourly measurement bucket) |
 | 9 | **Real-Call Peak Delay (Last Hour) [REAL — AVAYA SNMP]** | `stat` | `REAL_AVAYA_SNMP` | Avaya Communication Manager 8.1.0 MIB (avCmMe | `ms` | 1–2 hours (CM internal hourly measurement bucket) |
