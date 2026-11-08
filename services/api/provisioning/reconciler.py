@@ -134,8 +134,20 @@ class Reconciler:
                 logger.info(f"Updating Host: {dh.host} (ID: {item.target_id})")
                 self._apply_host_updates(item.target_id, dh, item.details, group_map, tpl_map)
 
+        # 4. Reconcile Administrators, User Groups, Media, and Alert Actions
+        try:
+            self.reconcile_notifications()
+        except Exception as e:
+            logger.warning(f"Notification reconciliation encountered an error: {e}")
+
         logger.info("Reconciliation run completed.")
         return report
+
+    def reconcile_notifications(self) -> dict[str, Any]:
+        """Reconcile designated administrators, user group, media, and alert actions."""
+        from services.api.provisioning.notification_reconciler import NotificationReconciler
+        nr = NotificationReconciler(self.client)
+        return nr.reconcile_all()
 
     def _build_host_create_payload(
         self,

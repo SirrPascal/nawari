@@ -3,9 +3,21 @@
 # ==============================================================================
 version: "1"
 
+host_groups:
+  - name: "Voice Infrastructure"
+    description: "Core and perimeter voice telephony infrastructure"
+  - name: "Avaya Infrastructure"
+    description: "Avaya Aura telephony platforms and media gateways"
+  - name: "Edge SBC"
+    description: "Perimeter Session Border Controllers"
+  - name: "SIP Carrier Trunks"
+    description: "External PSTN and Carrier SIP Interconnects"
+  - name: "Communications Applications"
+    description: "Contact Centre and Voice Recording platforms"
+
 hosts:
   # ----------------------------------------------------------------------------
-  # Avaya Session Border Controller Enterprise (Primary SBCE)
+  # 1. Avaya Session Border Controller Enterprise (Primary SBCE)
   # ----------------------------------------------------------------------------
   - host: "avaya-sbce-01"
     name: "Avaya SBCE Primary (HQ-DMZ)"
@@ -14,6 +26,7 @@ hosts:
     groups:
       - "Voice Infrastructure"
       - "Edge SBC"
+      - "Avaya Infrastructure"
     templates:
       - "Nawari Avaya SBCE by SNMP"
     interfaces:
@@ -27,9 +40,9 @@ hosts:
           securityname: "${AVAYA_SBCE_SNMP_SEC_NAME:-Admin}"
           securitylevel: "authPriv"
           authprotocol: "${AVAYA_SBCE_SNMP_AUTH_PROTO:-SHA256}"
-          authpassphrase: "${AVAYA_SBCE_SNMP_AUTH_PASS}"
+          authpassphrase: "${AVAYA_SBCE_SNMP_AUTH_PASS:-replace_with_sbce_auth_phrase}"
           privprotocol: "${AVAYA_SBCE_SNMP_PRIV_PROTO:-AES128}"
-          privpassphrase: "${AVAYA_SBCE_SNMP_PRIV_PASS}"
+          privpassphrase: "${AVAYA_SBCE_SNMP_PRIV_PASS:-replace_with_sbce_priv_phrase}"
     macros:
       - macro: "{$SNMP_PORT}"
         value: "161"
@@ -47,5 +60,159 @@ hosts:
         value: "sbc"
       - tag: "tier"
         value: "tier-1"
+      - tag: "site"
+        value: "hq-datacenter"
+
+  # ----------------------------------------------------------------------------
+  # 2. Avaya Session Manager (Primary SM)
+  # ----------------------------------------------------------------------------
+  - host: "avaya-sm-01"
+    name: "Avaya Session Manager Primary (HQ-CORE)"
+    description: "Core SIP routing engine and entity link manager - Pride Centre"
+    status: 0 # Monitored
+    groups:
+      - "Voice Infrastructure"
+      - "Avaya Infrastructure"
+    templates:
+      - "Nawari Avaya Session Manager by SNMP"
+    interfaces:
+      - type: snmp
+        ip: "${AVAYA_SM_HOST:-10.2.156.22}"
+        port: "${AVAYA_SM_SNMP_PORT:-161}"
+        main: 1
+        useip: 1
+        details:
+          version: 3
+          securityname: "${AVAYA_SM_SNMP_SEC_NAME:-Admin}"
+          securitylevel: "authPriv"
+          authprotocol: "${AVAYA_SM_SNMP_AUTH_PROTO:-SHA256}"
+          authpassphrase: "${AVAYA_SM_SNMP_AUTH_PASS:-replace_with_sm_auth_phrase}"
+          privprotocol: "${AVAYA_SM_SNMP_PRIV_PROTO:-AES128}"
+          privpassphrase: "${AVAYA_SM_SNMP_PRIV_PASS:-replace_with_sm_priv_phrase}"
+    tags:
+      - tag: "vendor"
+        value: "avaya"
+      - tag: "role"
+        value: "session-manager"
+      - tag: "site"
+        value: "hq-datacenter"
+
+  # ----------------------------------------------------------------------------
+  # 3. Avaya Communication Manager (Duplex CM)
+  # ----------------------------------------------------------------------------
+  - host: "avaya-cm-01"
+    name: "Avaya Communication Manager Duplex (HQ-CORE)"
+    description: "Enterprise call control, dial plan engine and media statistics processor"
+    status: 0 # Monitored
+    groups:
+      - "Voice Infrastructure"
+      - "Avaya Infrastructure"
+    templates:
+      - "Nawari Avaya Communication Manager by SNMP"
+    interfaces:
+      - type: snmp
+        ip: "${AVAYA_CM_HOST:-10.102.10.25}"
+        port: "${AVAYA_CM_SNMP_PORT:-161}"
+        main: 1
+        useip: 1
+        details:
+          version: 3
+          securityname: "${AVAYA_CM_SNMP_SEC_NAME:-Admin}"
+          securitylevel: "authPriv"
+          authprotocol: "${AVAYA_CM_SNMP_AUTH_PROTO:-SHA256}"
+          authpassphrase: "${AVAYA_CM_SNMP_AUTH_PASS:-replace_with_cm_auth_phrase}"
+          privprotocol: "${AVAYA_CM_SNMP_PRIV_PROTO:-AES128}"
+          privpassphrase: "${AVAYA_CM_SNMP_PRIV_PASS:-replace_with_cm_priv_phrase}"
+    tags:
+      - tag: "vendor"
+        value: "avaya"
+      - tag: "role"
+        value: "communication-manager"
+      - tag: "site"
+        value: "hq-datacenter"
+
+  # ----------------------------------------------------------------------------
+  # 4. Avaya G450 Media Gateway
+  # ----------------------------------------------------------------------------
+  - host: "avaya-g450-01"
+    name: "Avaya G450 Media Gateway (HQ-GATEWAY)"
+    description: "TDM E1/ISDN voice gateway and local DSP media resource - Pride Centre"
+    status: 0 # Monitored
+    groups:
+      - "Voice Infrastructure"
+      - "Avaya Infrastructure"
+    templates:
+      - "Nawari Avaya G450 Media Gateway by SNMP"
+    interfaces:
+      - type: snmp
+        ip: "${AVAYA_G450_HOST:-10.2.156.60}"
+        port: "${AVAYA_G450_SNMP_PORT:-161}"
+        main: 1
+        useip: 1
+        details:
+          version: 3
+          securityname: "${AVAYA_G450_SNMP_SEC_NAME:-Admin}"
+          securitylevel: "authPriv"
+          authprotocol: "${AVAYA_G450_SNMP_AUTH_PROTO:-SHA256}"
+          authpassphrase: "${AVAYA_G450_SNMP_AUTH_PASS:-replace_with_g450_auth_phrase}"
+          privprotocol: "${AVAYA_G450_SNMP_PRIV_PROTO:-AES128}"
+          privpassphrase: "${AVAYA_G450_SNMP_PRIV_PASS:-replace_with_g450_priv_phrase}"
+    tags:
+      - tag: "vendor"
+        value: "avaya"
+      - tag: "role"
+        value: "media-gateway"
+      - tag: "site"
+        value: "hq-datacenter"
+
+  # ----------------------------------------------------------------------------
+  # 5. Safaricom SIP Carrier Interconnect
+  # ----------------------------------------------------------------------------
+  - host: "sip-trunk-carrier-01"
+    name: "Safaricom SIP Carrier Interconnect (Primary)"
+    description: "External carrier SIP trunk interconnect terminating at Pride Centre"
+    status: 0 # Monitored
+    groups:
+      - "Voice Infrastructure"
+      - "SIP Carrier Trunks"
+    templates:
+      - "Nawari SIP Trunk by Trapper"
+    interfaces:
+      - type: 1 # Agent listener interface for trapper / synthetic items
+        ip: "127.0.0.1"
+        port: "10050"
+        main: 1
+        useip: 1
+    tags:
+      - tag: "vendor"
+        value: "safaricom"
+      - tag: "role"
+        value: "sip-trunk"
+      - tag: "site"
+        value: "hq-datacenter"
+
+  # ----------------------------------------------------------------------------
+  # 6. Avaya CMS and WFO Contact Centre & Recording
+  # ----------------------------------------------------------------------------
+  - host: "avaya-cms-01"
+    name: "Avaya CMS and WFO Recording (HQ-APP)"
+    description: "Call Management System and Verint Compliance Voice Recording platform"
+    status: 0 # Monitored
+    groups:
+      - "Voice Infrastructure"
+      - "Communications Applications"
+    templates:
+      - "Nawari Avaya CMS and WFO by Trapper"
+    interfaces:
+      - type: 1
+        ip: "127.0.0.1"
+        port: "10050"
+        main: 1
+        useip: 1
+    tags:
+      - tag: "vendor"
+        value: "avaya"
+      - tag: "role"
+        value: "contact-centre"
       - tag: "site"
         value: "hq-datacenter"

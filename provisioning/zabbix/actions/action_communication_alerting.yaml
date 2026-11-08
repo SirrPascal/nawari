@@ -1,53 +1,56 @@
 zabbix_export:
   version: '7.4'
   actions:
-    - name: 'Nawari Communication Infrastructure Notifications'
+    - name: 'Nawari Avaya & Communication Alerting'
       events_source: TRIGGERS
       status: ENABLED
       esc_period: 30m
       pause_suppressed: 'YES'
       filter:
-        evaltype: OR
+        evaltype: AND_OR
         conditions:
-          - conditiontype: TRIGGER_TAG
-            operator: EQUAL
-            tag: scope
-            value: availability
-          - conditiontype: TRIGGER_TAG
-            operator: EQUAL
-            tag: scope
-            value: performance
+          - conditiontype: TRIGGER_SEVERITY
+            operator: GREATER_OR_EQUAL
+            value: WARNING
           - conditiontype: HOST_GROUP
             operator: EQUAL
             value: 'Voice Infrastructure'
           - conditiontype: HOST_GROUP
             operator: EQUAL
+            value: 'Avaya Infrastructure'
+          - conditiontype: HOST_GROUP
+            operator: EQUAL
             value: 'Edge SBC'
           - conditiontype: HOST_GROUP
             operator: EQUAL
-            value: 'Telephony'
+            value: 'SIP Carrier Trunks'
+          - conditiontype: HOST_GROUP
+            operator: EQUAL
+            value: 'Communications Applications'
+          - conditiontype: HOST_GROUP
+            operator: EQUAL
+            value: 'Synthetic Probes'
       operations:
         - operationtype: MESSAGE
           esc_step_from: 1
           esc_step_to: 1
           user_groups:
-            - name: 'NOC / VOC Duty Operators'
-          mediatype:
-            name: 'Microsoft 365 Email'
+            - name: 'Nawari Avaya & Communications Administrators'
+          message:
+            default_message: 'YES'
         - operationtype: MESSAGE
           esc_step_from: 2
-          esc_step_to: 5
-          esc_period: 30m
+          esc_step_to: 0
+          esc_period: 1800s
           user_groups:
-            - name: 'NOC / VOC Duty Operators'
-          mediatype:
-            name: 'Microsoft 365 Email'
+            - name: 'Nawari Avaya & Communications Administrators'
+          message:
+            default_message: 'YES'
       recovery_operations:
         - operationtype: RECOVERY_MESSAGE
-          mediatype:
-            name: 'Microsoft 365 Email'
+          message:
+            default_message: 'YES'
       update_operations:
         - operationtype: UPDATE_MESSAGE
-          mediatype:
-            name: 'Microsoft 365 Email'
-
+          message:
+            default_message: 'YES'

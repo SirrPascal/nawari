@@ -1,0 +1,77 @@
+# ==============================================================================
+# NAWARI — Avaya & Communications Administrators User Group & Notification Recipients
+# ==============================================================================
+version: "1"
+
+user_groups:
+  - name: "Nawari Avaya & Communications Administrators"
+    description: "Designated voice engineering administrators receiving Avaya, SIP, and communications infrastructure alerts"
+    gui_access: 0 # System default
+    users_status: 0 # Enabled
+    host_group_permissions:
+      - group: "Voice Infrastructure"
+        permission: 2 # Read-only
+      - group: "Avaya Infrastructure"
+        permission: 2
+      - group: "Edge SBC"
+        permission: 2
+      - group: "SIP Carrier Trunks"
+        permission: 2
+      - group: "Communications Applications"
+        permission: 2
+      - group: "Synthetic Probes"
+        permission: 2
+
+users:
+  - username: "john.gacomo"
+    name: "John"
+    surname: "Gacomo"
+    role: "Admin role"
+    groups:
+      - "Nawari Avaya & Communications Administrators"
+    medias:
+      - mediatype: "Email"
+        sendto: "John.Gacomo@kenya-airways.com"
+        active: 0 # Enabled
+        severity: 63 # Information (1), Warning (2), Average (4), High (8), Disaster (16), Not classified (32) = 63
+        period: "1-7,00:00-24:00"
+
+  - username: "robinson.wainaina"
+    name: "Robinson"
+    surname: "Wainaina"
+    role: "Admin role"
+    groups:
+      - "Nawari Avaya & Communications Administrators"
+    medias:
+      - mediatype: "Email"
+        sendto: "Robinson.Wainaina@kenya-airways.com"
+        active: 0 # Enabled
+        severity: 63
+        period: "1-7,00:00-24:00"
+
+  - username: "pascal.gathungu"
+    name: "Pascal"
+    surname: "Gathungu"
+    role: "Admin role"
+    groups:
+      - "Nawari Avaya & Communications Administrators"
+    medias:
+      - mediatype: "Email"
+        sendto: "Pascal.Gathungu@kenya-airways.com"
+        active: 0 # Enabled
+        severity: 63
+        period: "1-7,00:00-24:00"
+
+  - username: "mercy.vaati"
+    name: "Mercy"
+    surname: "Vaati"
+    role: "Admin role"
+    groups:
+      - "Nawari Avaya & Communications Administrators"
+    medias:
+      - mediatype: "Email"
+        sendto: "Mercy.Vaati@kenya-airways.com"
+        active: 0 # Enabled
+        severity: 63
+        period: "1-7,00:00-24:00"
+

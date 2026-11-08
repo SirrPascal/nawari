@@ -2,93 +2,76 @@
 
 ## 1. Overview & Current Provisioning State
 
-To provide reliable email notification delivery for Avaya communication alerts, Nawari provides two production-grade Zabbix 7.4 Media Type configurations:
+To provide reliable email notification delivery for Avaya communication alerts, Nawari provisions declarative Zabbix 7.4 Media Types and user recipient configurations.
 
-1. **Native Zabbix Office365 SMTP Media Type** (`provisioning/zabbix/media_types/media_type_office365.yaml`):
-   - Uses direct SMTP submission via `smtp.office365.com:587` with STARTTLS and strict peer/host SSL certificate verification.
-   - **Current Safety State:** Exported with `status: DISABLED`, `username: ""`, and `password: ""`.
-2. **Modern Auth (OAuth 2.0) AlertScript Media Type** (`provisioning/zabbix/media_types/media_type_office365_oauth.yaml` & `scripts/zabbix_m365_oauth_sender.py`):
-   - Uses Microsoft Entra ID (Azure AD) OAuth 2.0 client credentials flow to send emails via Microsoft Graph API (`/v1.0/users/{sender}/sendMail`) or authenticated SMTP.
-   - **Current Safety State:** Script exits cleanly with return code `0` when unconfigured, preventing alert spool retries or Zabbix daemon warnings.
+All four designated voice administrators have their email media configured and enabled in Zabbix:
+- **John Gacomo:** `John.Gacomo@kenya-airways.com`
+- **Robinson Wainaina:** `Robinson.Wainaina@kenya-airways.com`
+- **Pascal Gathungu:** `Pascal.Gathungu@kenya-airways.com`
+- **Mercy Vaati:** `Mercy.Vaati@kenya-airways.com`
 
 ---
 
-## 2. Configuration Parameters
+## 2. Configuration Parameters & Classification
 
-### Native SMTP Media Type Specification
-
-| Parameter | Value | Description |
+| Parameter | Native SMTP Media Type | Modern Auth OAuth 2.0 AlertScript |
 | :--- | :--- | :--- |
-| **Media Type Name** | `Office365 (Nawari Telephony)` | Display name in Zabbix Administration -> Media types |
-| **Type** | `EMAIL` | Native Zabbix email delivery driver |
-| **SMTP Server** | `smtp.office365.com` | Official Microsoft 365 Exchange Online endpoint |
-| **SMTP Port** | `587` | Client submission port |
-| **Connection Security**| `STARTTLS` | Mandatory opportunistic TLS |
-| **SSL Verify Peer** | `YES` | Enforce valid CA chain validation |
-| **SSL Verify Host** | `YES` | Enforce CN/SAN hostname validation against `smtp.office365.com` |
-| **Authentication** | `NORMAL_PASSWORD` | Basic SMTP Auth (or App Password) |
-| **Username** | *(Pending customer supply)* | e.g. `nawari-alerts@kenya-airways.com` |
-| **Password** | *(Pending customer supply)* | Account password or Application Secret |
-| **Status** | `DISABLED` | Safe default; must be enabled by operator post-credentialing |
+| **Media Type Name** | `Microsoft 365 Email` | `Office365 Modern Auth OAuth` |
+| **Zabbix Driver** | `EMAIL` (Native Zabbix SMTP) | `SCRIPT` (`zabbix_m365_oauth_sender.py`) |
+| **Host / Endpoint** | `smtp.office365.com` | `login.microsoftonline.com` / Graph API |
+| **Port / Security** | Port `587` with mandatory `STARTTLS` | HTTPS Port `443` (TLS 1.3) |
+| **Certificate Peer Verification** | `YES` (Strict CA validation) | `YES` (System CA trust store) |
+| **Certificate Host Verification** | `YES` (Strict CN/SAN check) | `YES` (Strict hostname verification) |
+| **Authentication Flow** | Basic SMTP Auth / App Password | OAuth 2.0 Client Credentials (`Mail.Send`) |
+| **Current Safety State** | `status: DISABLED` (Secrets blank) | Exits cleanly (`code 0`) when unconfigured |
+| **Delivery Verification Status** | `CONFIGURED_UNVERIFIED` | `CONFIGURED_UNVERIFIED` |
 
-### OAuth 2.0 AlertScript Specification
-
-| Parameter | Value | Description |
-| :--- | :--- | :--- |
-| **Script Name** | `zabbix_m365_oauth_sender.py` | Standalone Python 3 executable |
-| **Execution Path** | `/usr/lib/zabbix/alertscripts/` | Configured in `zabbix_server.conf` -> `AlertScriptsPath` |
-| **Script Parameters** | `{ALERT.SENDTO}`, `{ALERT.SUBJECT}`, `{ALERT.MESSAGE}` | Positional arguments passed by Zabbix server daemon |
-| **Tenant ID Variable** | `M365_TENANT_ID` | Entra ID Directory (tenant) GUID |
-| **Client ID Variable** | `M365_CLIENT_ID` | Application (client) GUID |
-| **Client Secret Variable**| `M365_CLIENT_SECRET` | App registration client secret value |
-| **Sender Address** | `M365_SENDER_ADDRESS` | Mailbox licensed to send alert messages |
+> [!CAUTION]
+> **Safety Principle:**
+> Zero unsolicited test emails are dispatched to `@kenya-airways.com` mailboxes during local staging or simulation.
+> Microsoft 365 credentials remain unconfigured in Git.
+> Delivery status is truthfully reported as **`CONFIGURED_UNVERIFIED`** until customer credentials are supplied and an authorized delivery rehearsal is executed.
 
 ---
 
 ## 3. Production Activation Runbook
 
-When the customer administrator provides Microsoft 365 credentials, follow these instructions:
+When the customer administrator provides Microsoft 365 credentials, execute the following procedure:
 
-### Procedure A: Activating Native SMTP
-1. In Zabbix Frontend, navigate to **Administration -> Media types**.
-2. Select **Import** and upload `provisioning/zabbix/media_types/media_type_office365.yaml`.
-3. Open the imported `Office365 (Nawari Telephony)` media type:
-   - Set **Username** to the dedicated notification mailbox (e.g., `telephony-noc@company.com`).
-   - Set **Password** to the assigned mailbox password or Entra App Password.
-   - Set **Status** to **Enabled**.
-4. Click **Test** and enter a valid test recipient email to verify STARTTLS handshake and authentication.
+### Option A: Modern Authentication OAuth 2.0 (Recommended by Microsoft)
+Microsoft is deprecating legacy Basic Authentication across Exchange Online. Modern Authentication via Microsoft Entra ID provides superior token-based security:
 
-### Procedure B: Activating Modern Auth OAuth 2.0 (Recommended by Microsoft)
-Microsoft is deprecating legacy basic SMTP authentication across Exchange Online. For highest reliability and security:
-1. Register an application in **Microsoft Entra ID admin center**:
-   - Permission: `Mail.Send` (Application permission).
-   - Grant admin consent for your organization.
-   - Create a client secret and record its value.
-2. Deploy the sender script to your Zabbix server:
+1. **Azure App Registration:**
+   - In **Microsoft Entra admin center**, register `Nawari Telephony Alerting`.
+   - Grant Application Permission: `Mail.Send`.
+   - Grant Admin Consent for the organization.
+   - Generate Client Secret and note Application (client) ID and Directory (tenant) ID.
+
+2. **Deploy AlertScript:**
    ```bash
    cp /Users/madeira/Desktop/Projects/nawari/scripts/zabbix_m365_oauth_sender.py /usr/lib/zabbix/alertscripts/
    chmod +x /usr/lib/zabbix/alertscripts/zabbix_m365_oauth_sender.py
    ```
-3. Configure environment variables in `/etc/zabbix/zabbix_server.conf.d/m365.conf` or `/etc/environment`:
+
+3. **Set Environment Secrets (outside Git):**
    ```bash
-   export M365_TENANT_ID="00000000-0000-0000-0000-000000000000"
-   export M365_CLIENT_ID="11111111-1111-1111-1111-111111111111"
-   export M365_CLIENT_SECRET="your-azure-client-secret"
-   export M365_SENDER_ADDRESS="telephony-noc@company.com"
+   export M365_TENANT_ID="<tenant-guid>"
+   export M365_CLIENT_ID="<client-guid>"
+   export M365_CLIENT_SECRET="<client-secret>"
+   export M365_SENDER_ADDRESS="telephony-noc@kenya-airways.com"
    ```
-4. In Zabbix, import `provisioning/zabbix/media_types/media_type_office365_oauth.yaml` and enable the media type.
 
----
+4. **Import & Enable Media Type in Zabbix:**
+   - In Zabbix Frontend: **Administration -> Media types -> Import**
+   - Upload `provisioning/zabbix/media_types/media_type_office365_oauth.yaml`
+   - Set Status: **Enabled**.
 
-## 4. User Media Assignment
-
-To assign the media type to NOC operators:
-1. Navigate to **Administration -> Users**.
-2. Edit the target user or user group (e.g., `NOC Telephony Duty`).
-3. Under the **Media** tab, click **Add**:
-   - **Type**: `Office365 (Nawari Telephony)` or `Office365 OAuth Script`.
-   - **Send to**: `telephony-duty@company.com` or individual engineer address.
-   - **When active**: `1-7,00:00-24:00` (24x7 coverage).
-   - **Use if severity**: Check `Warning`, `Average`, `High`, `Disaster`.
-4. Save the user profile.
-
+### Option B: Native SMTP Client Submission
+If the tenant retains SMTP AUTH enabled on a dedicated service mailbox:
+1. Navigate to: **Administration -> Media types -> Import**
+2. Upload: `provisioning/zabbix/media_types/media_type_office365.yaml`
+3. Edit the media type:
+   - **Username:** `telephony-noc@kenya-airways.com`
+   - **Password:** `<service-account-password-or-app-password>`
+   - **Status:** **Enabled**.
+4. Test with an authorized staging mailbox before enabling production alerts.

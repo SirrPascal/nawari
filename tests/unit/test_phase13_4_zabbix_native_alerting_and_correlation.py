@@ -347,3 +347,164 @@ def test_07_python_alert_engine_migration_status():
     assert engine.operational_mode == "PASSIVE_MIGRATED_TO_ZABBIX"
     # Ensure all 45 rules are still preserved for reference and testing
     assert len(COMMUNICATION_ALERT_RULES) == 45
+
+
+def test_08_declarative_designated_administrator_recipients_and_media():
+    """Verify communication_administrators.yaml specifies all 4 named administrators with exact emails."""
+    users_yaml = PROJECT_ROOT / "provisioning/zabbix/users/communication_administrators.yaml"
+    assert users_yaml.is_file(), f"{users_yaml} must exist"
+
+    with open(users_yaml) as f:
+        data = yaml.safe_load(f)
+
+    # 1. User group verification
+    user_groups = data.get("user_groups", [])
+    assert any(g.get("name") == "Nawari Avaya & Communications Administrators" for g in user_groups)
+
+    # 2. Four exact recipients
+    expected = {
+        "john.gacomo": "John.Gacomo@kenya-airways.com",
+        "robinson.wainaina": "Robinson.Wainaina@kenya-airways.com",
+        "pascal.gathungu": "Pascal.Gathungu@kenya-airways.com",
+        "mercy.vaati": "Mercy.Vaati@kenya-airways.com",
+    }
+
+    users = data.get("users", [])
+    assert len(users) == 4, f"Expected 4 administrators, found {len(users)}"
+
+    found_users = {}
+    for u in users:
+        uname = u.get("username")
+        found_users[uname] = u
+        assert uname in expected, f"Unexpected administrator username: {uname}"
+        assert "Nawari Avaya & Communications Administrators" in u.get("groups", [])
+        medias = u.get("medias", [])
+        assert len(medias) >= 1
+        m = medias[0]
+        assert m.get("sendto") == expected[uname]
+        assert m.get("active") == 0
+        assert m.get("severity") == 63
+        assert m.get("period") == "1-7,00:00-24:00"
+
+    assert len(found_users) == 4
+
+
+def test_09_declarative_action_targets_designated_admin_group():
+    """Verify action_communication_alerting.yaml targets Nawari Avaya & Communications Administrators."""
+    action_yaml = ACTIONS_DIR / "action_communication_alerting.yaml"
+    assert action_yaml.is_file()
+
+    with open(action_yaml) as f:
+        data = yaml.safe_load(f)
+
+    actions = data.get("zabbix_export", {}).get("actions", [])
+    assert len(actions) > 0
+    act = actions[0]
+
+    assert act.get("name") == "Nawari Avaya & Communication Alerting"
+    assert act.get("status") in ("ENABLED", 0)
+    assert act.get("pause_suppressed") in ("YES", 1, True)
+
+    # Verify operations target group
+    ops = act.get("operations", [])
+    assert len(ops) >= 2
+    op1 = ops[0]
+    target_groups_1 = [g.get("name") for g in op1.get("user_groups", [])]
+    assert "Nawari Avaya & Communications Administrators" in target_groups_1
+
+    op2 = ops[1]
+    target_groups_2 = [g.get("name") for g in op2.get("user_groups", [])]
+    assert "Nawari Avaya & Communications Administrators" in target_groups_2
+    assert op2.get("esc_period") in ("1800s", "30m", 1800)
+
+
+def test_10_notification_reconciler_idempotency_and_group_resolution():
+    """Verify NotificationReconciler executes idempotently against mock or live client."""
+    from services.api.provisioning.notification_reconciler import (
+        ADMIN_USER_GROUP,
+        ACTION_NAME,
+        DESIGNATED_ADMINISTRATORS,
+        NotificationReconciler,
+    )
+
+    class MockZabbixClient:
+        def __init__(self):
+            self.calls = []
+            self.user_groups = [{"usrgrpid": "14", "name": ADMIN_USER_GROUP}]
+            self.users = []
+            self.mediatypes = [{"mediatypeid": "1", "name": "Email"}]
+            self.roles = [{"roleid": "2", "name": "Admin role"}]
+            self.hostgroups = [
+                {"groupid": str(i), "name": name}
+                for i, name in enumerate(
+                    [
+                        "Voice Infrastructure",
+                        "Avaya Infrastructure",
+                        "Edge SBC",
+                        "SIP Carrier Trunks",
+                        "Communications Applications",
+                        "Synthetic Probes",
+                    ],
+                    20,
+                )
+            ]
+            self.actions = []
+
+        def call(self, method: str, params: Dict[str, Any], requires_auth: bool = True) -> Any:
+            self.calls.append((method, params))
+            if method == "usergroup.get":
+                return self.user_groups
+            elif method == "usergroup.create":
+                gid = str(len(self.user_groups) + 14)
+                self.user_groups.append({"usrgrpid": gid, "name": params["name"]})
+                return {"usrgrpids": [gid]}
+            elif method == "mediatype.get":
+                return self.mediatypes
+            elif method == "role.get":
+                return self.roles
+            elif method == "hostgroup.get":
+                return self.hostgroups
+            elif method == "user.get":
+                filter_uname = params.get("filter", {}).get("username")
+                if filter_uname:
+                    return [u for u in self.users if u["username"] == filter_uname]
+                return self.users
+            elif method == "user.create":
+                uid = str(len(self.users) + 1)
+                new_u = {
+                    "userid": uid,
+                    "username": params["username"],
+                    "name": params.get("name"),
+                    "surname": params.get("surname"),
+                    "usrgrps": params.get("usrgrps", []),
+                    "medias": params.get("medias", []),
+                }
+                self.users.append(new_u)
+                return {"userids": [uid]}
+            elif method == "user.update":
+                return {"userids": [params["userid"]]}
+            elif method == "action.get":
+                return self.actions
+            elif method == "action.create":
+                aid = str(len(self.actions) + 1)
+                self.actions.append({"actionid": aid, "name": params["name"]})
+                return {"actionids": [aid]}
+            elif method == "action.update":
+                return {"actionids": [params["actionid"]]}
+            return []
+
+    mock_client = MockZabbixClient()
+    reconciler = NotificationReconciler(mock_client)
+
+    # 1. First run creates users and action
+    res1 = reconciler.reconcile_all()
+    assert res1["recipients_count"] == 4
+    assert len(mock_client.users) == 4
+    assert len(mock_client.actions) == 1
+
+    # 2. Second run is idempotent (0 creates, updates if needed)
+    res2 = reconciler.reconcile_all()
+    assert res2["recipients_count"] == 4
+    assert len(mock_client.users) == 4
+    assert len(mock_client.actions) == 1
+
