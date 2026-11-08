@@ -1,0 +1,28 @@
+# Nawari Enterprise Deployment Bundle: regional-proxy
+# Target: Outstation Regional Hub Micro-Appliance (1 vCPU, 512 MiB RAM)
+# Container Ceiling: <= 256 MiB Total RAM
+services:
+  nawari-proxy:
+    image: nawari/regional-proxy:1.0.0-phase13
+    container_name: nawari-regional-proxy
+    restart: always
+    environment:
+      NAWARI_PROFILE: regional-proxy
+      CENTRAL_HUB_ENDPOINT: ${CENTRAL_HUB_ENDPOINT:-https://nawari-core.internal.kenya-airways.com/api/v1/telemetry}
+      AUTH_TOKEN: ${NAWARI_EDGE_TOKEN:-nawari-edge-shared-token-2026}
+    volumes:
+      - proxy_spool:/var/spool/nawari
+    deploy:
+      resources:
+        limits:
+          cpus: "0.40"
+          memory: 256M
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8081/health"]
+      interval: 15s
+      timeout: 5s
+      retries: 3
+
+volumes:
+  proxy_spool:
+

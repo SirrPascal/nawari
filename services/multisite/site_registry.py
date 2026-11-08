@@ -374,17 +374,33 @@ class MultiSiteRegistry:
                 orphaned.extend(station.facilities.keys())
         return orphaned
 
-    def update_circuit_status(self, station_id: str, circuit_id: str, status: str) -> bool:
-        """Update operational status of a specific circuit."""
-        station = self.get_station(station_id)
-        if not station:
+    def update_circuit_status(self, station_or_circuit_id: str, circuit_id_or_status: str, status: Optional[str] = None) -> bool:
+        """Update operational status of a specific circuit.
+        Supports both:
+          update_circuit_status(station_id, circuit_id, status)
+          update_circuit_status(circuit_id, status)
+        """
+        if status is None:
+            target_circuit_id = station_or_circuit_id
+            target_status = circuit_id_or_status.upper()
+            found = False
+            for station in self._stations.values():
+                for c in station.wan_circuits:
+                    if c.circuit_id == target_circuit_id:
+                        c.status = target_status
+                        c.last_observed = datetime.now(timezone.utc).isoformat()
+                        found = True
+            return found
+        else:
+            station = self.get_station(station_or_circuit_id)
+            if not station:
+                return False
+            for c in station.wan_circuits:
+                if c.circuit_id == circuit_id_or_status:
+                    c.status = status.upper()
+                    c.last_observed = datetime.now(timezone.utc).isoformat()
+                    return True
             return False
-        for c in station.wan_circuits:
-            if c.circuit_id == circuit_id:
-                c.status = status.upper()
-                c.last_observed = datetime.now(timezone.utc).isoformat()
-                return True
-        return False
 
     def calculate_station_health(self, station_id: str) -> Dict[str, Any]:
         """Compute operational health score for a specific station based on WAN circuits and facilities."""

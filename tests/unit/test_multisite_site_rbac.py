@@ -22,7 +22,7 @@ from services.multisite.site_rbac import (
 
 @pytest.fixture
 def rbac_engine():
-    return SiteAwareRBACEngine()
+    return SiteAwareRBACEngine(is_simulation_mode=True)
 
 
 @pytest.fixture
@@ -97,6 +97,41 @@ def test_domain_specialization_scoping(rbac_engine):
             target_domain="NETWORK",
         )
     assert "not authorized for infrastructure domain 'NETWORK'" in str(exc_info.value)
+
+
+def test_role_escalation_and_revocation(rbac_engine):
+    # 1. Read-only auditor cannot perform mutating action
+    with pytest.raises(InsufficientRolePermission) as exc:
+        rbac_engine.authorize_operator_action(
+            user_id="USR-READONLY-AUDIT",
+            target_station_id="JKIA-HUB",
+            risk_tier=ActionRiskTier.TIER_1_LOW,
+        )
+    assert "Read-only auditor" in str(exc.value)
+
+    # 2. Revoked user cannot perform any actions
+    assert rbac_engine.revoke_user("USR-VOICE-ENG") is True
+    with pytest.raises(InsufficientRolePermission) as exc_rev:
+        rbac_engine.authorize_operator_action(
+            user_id="USR-VOICE-ENG",
+            target_domain="VOICE",
+        )
+    assert "account is REVOKED" in str(exc_rev.value)
+
+    # 3. Unauthenticated / unknown user
+    with pytest.raises(ScopeAuthorizationError) as exc_unauth:
+        rbac_engine.authorize_operator_action(user_id="NONEXISTENT-OPERATOR")
+    assert "not found" in str(exc_unauth.value)
+
+
+def test_production_action_blocked_in_simulation_mode(rbac_engine, sample_envelope):
+    with pytest.raises(PermissionError) as exc:
+        rbac_engine.authorize_operator_action(
+            user_id="USR-GLOBAL-ADMIN",
+            target_station_id="MBA-STATION",
+            target_env="PRODUCTION",  # Target env is production
+        )
+    assert "Production action blocked: system is running in simulation/staging mode" in str(exc.value)
 
 
 def test_three_distinct_identities_cardinality_enforcement(rbac_engine, sample_envelope):
@@ -195,4 +230,3 @@ def test_single_use_nonce_anti_replay_and_expiration(rbac_engine, sample_envelop
     with pytest.raises(TokenExpiredOrReplayed) as exc_info:
         rbac_engine.verify_token(expired_token, sample_envelope)
     assert "has expired" in str(exc_info.value)
-

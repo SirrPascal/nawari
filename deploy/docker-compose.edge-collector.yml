@@ -1,0 +1,31 @@
+# Nawari Enterprise Deployment Bundle: edge-collector
+# Target: Remote Outstation Gateway (1 vCPU, 512 MiB RAM)
+# Container Ceiling: <= 128 MiB Total RAM
+services:
+  nawari-edge:
+    image: nawari/edge-collector:1.0.0-phase13
+    container_name: nawari-edge-collector
+    restart: always
+    environment:
+      NAWARI_PROFILE: edge-collector
+      STATION_ID: ${STATION_ID:-MBA-STATION}
+      CENTRAL_HUB_ENDPOINT: ${CENTRAL_HUB_ENDPOINT:-https://nawari-core.internal.kenya-airways.com/api/v1/telemetry}
+      AUTH_TOKEN: ${NAWARI_EDGE_TOKEN:-nawari-edge-shared-token-2026}
+      MAX_SPOOL_SIZE_MB: "50"
+      RATE_LIMIT_PER_SEC: "50"
+    volumes:
+      - edge_spool:/var/spool/nawari
+    deploy:
+      resources:
+        limits:
+          cpus: "0.25"
+          memory: 128M
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8082/health"]
+      interval: 15s
+      timeout: 5s
+      retries: 3
+
+volumes:
+  edge_spool:
+

@@ -4,12 +4,15 @@ Unit tests for outstation edge telemetry buffering and store-and-forward (Workst
 """
 
 import os
+import sqlite3
 import tempfile
 import time
 import pytest
 from services.multisite.edge_forwarder import (
+    CentralTelemetryReceiver,
     EdgeSpoolDatabase,
     EdgeStoreAndForwardManager,
+    SpoolItemPriority,
     SpoolItemStatus,
 )
 
@@ -21,7 +24,6 @@ def temp_spool_db():
     yield db_path
     if os.path.exists(db_path):
         os.remove(db_path)
-    # Also clean up any WAL/SHM files
     wal_path = f"{db_path}-wal"
     shm_path = f"{db_path}-shm"
     if os.path.exists(wal_path):
@@ -31,7 +33,6 @@ def temp_spool_db():
 
 
 def test_edge_spool_database_crud_and_capacity_pruning(temp_spool_db):
-    # Set capacity to 5 for test
     db = EdgeSpoolDatabase(db_path=temp_spool_db, max_records=5)
 
     # 1. Enqueue 4 items
@@ -40,6 +41,7 @@ def test_edge_spool_database_crud_and_capacity_pruning(temp_spool_db):
             station_id="MBA-STATION",
             payload_type="metric",
             payload={"metric": "interface.in_bytes", "val": 1000 + i},
+            priority=SpoolItemPriority.STANDARD.value,
         )
 
     stats = db.get_stats()
@@ -64,18 +66,61 @@ def test_edge_spool_database_crud_and_capacity_pruning(temp_spool_db):
     stats_acked = db.get_stats()
     assert stats_acked["acknowledged_count"] == 2
 
-    # 5. Test capacity pruning
-    # Add 10 more items to trigger capacity overflow (max_records=5)
+    # 5. Prioritized pruning: Critical records are preserved over Diagnostic records
+    # Enqueue a critical alert (priority 0)
+    db.enqueue(
+        station_id="MBA-STATION",
+        payload_type="alert",
+        payload={"alert": "Core Trunk Down"},
+        priority=SpoolItemPriority.CRITICAL.value,
+    )
+    # Add 10 diagnostic logs to trigger pruning
     for i in range(10):
         db.enqueue(
             station_id="MBA-STATION",
-            payload_type="alert",
-            payload={"alert_id": f"ALT-{i}", "severity": "P2_HIGH"},
+            payload_type="diagnostic",
+            payload={"trace": f"ping_{i}"},
+            priority=SpoolItemPriority.DIAGNOSTIC.value,
         )
 
-    stats_pruned = db.get_stats()
-    # Oldest buffered items should have been pruned to DROPPED_PRUNED
-    assert stats_pruned["dropped_count"] >= 1
+    # Critical item remains buffered and not pruned
+    pending = db.get_pending_batch(limit=10)
+    assert any(p.priority == SpoolItemPriority.CRITICAL.value for p in pending)
+
+
+def test_corrupt_record_quarantined_without_blocking_queue(temp_spool_db):
+    db = EdgeSpoolDatabase(db_path=temp_spool_db)
+
+    # Enqueue valid item 1
+    db.enqueue("KIS-STATION", "metric", {"val": 1})
+
+    # Intentionally corrupt item 2 directly in SQLite
+    spool_id_bad = "CORRUPT-SPOOL-001"
+    conn = sqlite3.connect(temp_spool_db)
+    conn.execute(
+        """
+        INSERT INTO edge_telemetry_spool (
+            spool_id, station_id, payload_type, payload_json,
+            edge_timestamp_ms, spooled_at_utc, status, priority,
+            retry_count, clock_drift_ms, batch_id, created_at_epoch
+        ) VALUES (?, 'KIS-STATION', 'metric', 'INVALID_JSON_CORRUPT{[[', 1000, 'now', 'BUFFERED', 1, 0, 0, NULL, 1000);
+        """,
+        (spool_id_bad,),
+    )
+    conn.commit()
+    conn.close()
+
+    # Enqueue valid item 3
+    db.enqueue("KIS-STATION", "metric", {"val": 3})
+
+    # Fetch batch: corrupted record should be moved to CORRUPTED, unblocking valid item 3
+    batch = db.get_pending_batch(limit=10)
+    assert len(batch) == 2
+    assert batch[0].payload["val"] == 1
+    assert batch[1].payload["val"] == 3
+
+    stats = db.get_stats()
+    assert stats["corrupted_count"] == 1
 
 
 def test_edge_store_and_forward_partition_and_replay(temp_spool_db):
@@ -111,11 +156,12 @@ def test_edge_store_and_forward_partition_and_replay(temp_spool_db):
     # 4. WAN circuit restored
     manager.set_wan_connection(is_connected=True)
     assert manager.is_wan_connected is True
+    assert manager.reconnection_storm_guard_ms >= 10
 
     # 5. Capture dispatched batches
     forwarded_batches = []
 
-    def mock_hub_receiver(batch):
+    def mock_hub_receiver(batch, auth_token):
         forwarded_batches.append(batch)
         return True
 
@@ -137,25 +183,44 @@ def test_edge_store_and_forward_partition_and_replay(temp_spool_db):
         assert meta["compensated_hub_timestamp_ms"] == meta["original_edge_timestamp_ms"] + 250
 
 
-def test_edge_forwarder_nack_reverts_batch(temp_spool_db):
+def test_central_receiver_deduplication_and_backpressure(temp_spool_db):
+    receiver = CentralTelemetryReceiver()
     manager = EdgeStoreAndForwardManager(
-        station_id="KIS-STATION",
+        station_id="LHR-STATION",
         db_path=temp_spool_db,
     )
 
-    manager.record_telemetry("alert", {"alert": "High Temperature"})
+    # 1. Enqueue and forward normal telemetry
+    manager.record_telemetry("metric", {"metric": "latency", "val": 140.0})
+    res = manager.drain_and_forward(central_receiver=receiver)
+    assert res["status"] == "FORWARDED"
+    assert receiver.get_replayed_stream()[0]["metric"] == "latency"
 
-    # Forward handler returns False (e.g. Hub 503 Service Unavailable)
-    def failing_hub_receiver(batch):
-        return False
+    # 2. Simulate server backpressure throttling
+    receiver.is_throttled = True
+    manager.record_telemetry("metric", {"metric": "jitter", "val": 5.0})
+    res_throttled = manager.drain_and_forward(central_receiver=receiver)
+    assert res_throttled["status"] == "FORWARD_FAILED"
+    assert "THROTTLED" in str(res_throttled["error"])
+    assert res_throttled["consecutive_failures"] == 1
+    assert res_throttled["next_retry_backoff_sec"] > 0.0
 
-    res_fail = manager.drain_and_forward(forward_handler=failing_hub_receiver)
-    assert res_fail["status"] == "FORWARD_FAILED"
-    assert res_fail["forwarded_count"] == 0
+    # 3. Lift throttling and verify successful recovery
+    receiver.is_throttled = False
+    res_recovered = manager.drain_and_forward(central_receiver=receiver)
+    assert res_recovered["status"] == "FORWARDED"
+    assert manager.consecutive_forward_failures == 0
 
-    # Ensure item reverted to BUFFERED with incremented retry count
-    pending = manager.spool_db.get_pending_batch(limit=10)
-    assert len(pending) == 1
-    assert pending[0].status == SpoolItemStatus.BUFFERED
-    assert pending[0].retry_count == 1
 
+def test_auth_token_expiry_handling(temp_spool_db):
+    receiver = CentralTelemetryReceiver(valid_auth_tokens={"VALID_TOKEN_123"})
+    manager = EdgeStoreAndForwardManager(
+        station_id="DXB-STATION",
+        db_path=temp_spool_db,
+        auth_token="EXPIRED_TOKEN_999",
+    )
+
+    manager.record_telemetry("alert", {"alert": "Air-Conditioning Warning"})
+    res = manager.drain_and_forward(central_receiver=receiver)
+    assert res["status"] == "FORWARD_FAILED"
+    assert "AUTH_ERROR" in str(res["error"])

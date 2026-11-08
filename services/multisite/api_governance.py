@@ -193,6 +193,40 @@ class HardenedAuditLedger:
 
         return block
 
+    def append_action_audit_entry(
+        self,
+        actor_id: str,
+        action_name: str,
+        station_id: str,
+        target_entity: str,
+        source: str,
+        before_state: Dict[str, Any],
+        after_state: Dict[str, Any],
+        approval_references: List[str],
+        execution_result: str,
+        verification_result: str,
+        incident_id: str,
+        alert_id: str,
+    ) -> AuditBlock:
+        """Structured helper for Phase 12 & 13 operational action audit records."""
+        payload = {
+            "target_entity": target_entity,
+            "source": source,
+            "before_state": before_state,
+            "after_state": after_state,
+            "approval_references": approval_references,
+            "execution_result": execution_result,
+            "verification_result": verification_result,
+            "incident_id": incident_id,
+            "alert_id": alert_id,
+        }
+        return self.append_event(
+            event_type=f"OPERATIONAL_ACTION:{action_name}",
+            actor_id=actor_id,
+            station_id=station_id,
+            payload=payload,
+        )
+
     def verify_integrity(self) -> Dict[str, Any]:
         """Exhaustively verify chain cryptographic integrity."""
         if not self._chain:

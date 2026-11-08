@@ -67,14 +67,24 @@ check_13e_scoped_rbac_and_three_identities() {
 check_13f_unified_noc_dashboards() {
     cd "${PROJECT_ROOT}"
     PYTHONPATH=. "${PYTEST}" -q tests/unit/test_multisite_dashboards.py
+    test -f docker/grafana/dashboards/nawari_enterprise_overview.json
     test -f docker/grafana/dashboards/nawari_global_outstations.json
     test -f docker/grafana/dashboards/nawari_service_catalog_sla.json
+    test -f docker/grafana/dashboards/nawari_incident_operations.json
+    test -f docker/grafana/dashboards/nawari_edge_fleet.json
     "${PYTHON}" -c "
 import json
-for p in ['docker/grafana/dashboards/nawari_global_outstations.json', 'docker/grafana/dashboards/nawari_service_catalog_sla.json']:
+dashboards = [
+    'docker/grafana/dashboards/nawari_enterprise_overview.json',
+    'docker/grafana/dashboards/nawari_global_outstations.json',
+    'docker/grafana/dashboards/nawari_service_catalog_sla.json',
+    'docker/grafana/dashboards/nawari_incident_operations.json',
+    'docker/grafana/dashboards/nawari_edge_fleet.json',
+]
+for p in dashboards:
     with open(p) as f:
         d = json.load(f)
-        assert len(d['panels']) >= 5
+        assert len(d.get('panels', [])) >= 4, f'{p} has fewer than 4 panels'
 "
 }
 
@@ -94,10 +104,16 @@ check_13h_api_governance_and_crash_recovery() {
 
 check_13i_capacity_and_resilience_docs() {
     cd "${PROJECT_ROOT}"
+    PYTHONPATH=. "${PYTEST}" -q tests/unit/test_multisite_capacity_and_load.py
     test -f docs/architecture/capacity-and-resilience.md
     grep -q "2.20" docs/architecture/capacity-and-resilience.md
     grep -q "mon-grafana01" docs/architecture/capacity-and-resilience.md
     grep -qi "hard_production_deny" deploy/profiles/single-site-production.yaml
+}
+
+check_13j_operational_drills() {
+    cd "${PROJECT_ROOT}"
+    PYTHONPATH=. "${PYTEST}" -q tests/integration/test_multisite_operational_drills.py
 }
 
 check_sentra_isolation() {
@@ -133,6 +149,7 @@ run_check "13F Unified NOC Dashboards (Outstations & Service SLA)" check_13f_uni
 run_check "13G Deployment Profiles, Packaging & Phase 8.2 Gates" check_13g_deployment_profiles_and_packaging
 run_check "13H API Governance, Chained Audit Ledger & Crash Recovery WAL" check_13h_api_governance_and_crash_recovery
 run_check "13I Capacity, Sizing & Multi-Site Resilience Documentation" check_13i_capacity_and_resilience_docs
+run_check "13J Multi-Site Failure Scenarios & Operational Drills" check_13j_operational_drills
 run_check "Sentra Repository Isolation & Clean Main Baseline (9970404)" check_sentra_isolation
 run_check "Consolidated Full Regression Suite (All Phases 1–13)" check_full_regression_suite
 

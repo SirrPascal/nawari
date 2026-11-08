@@ -573,7 +573,7 @@ class SLIEvaluationEngine:
         self,
         service_id: str,
         duration_minutes: float,
-        health_index: float,
+        health_index: float = 0.0,
         is_available: bool = True,
         is_performance_met: bool = True,
         is_unknown: bool = False,

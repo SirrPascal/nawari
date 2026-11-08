@@ -1,0 +1,70 @@
+# Nawari Enterprise Deployment Bundle: hub-full
+# Target: Ubuntu 24.04 LTS Host mon-grafana01 (2 vCPUs, 7.8 GiB RAM)
+# Hard Container Ceiling: <= 2.20 GiB Total RAM
+services:
+  nawari-postgres:
+    image: postgres:16.2-alpine
+    container_name: nawari-postgres
+    restart: always
+    environment:
+      POSTGRES_USER: ${POSTGRES_USER:-nawari}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-nawari_secret_2026}
+      POSTGRES_DB: ${POSTGRES_DB:-nawari_assurance}
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    deploy:
+      resources:
+        limits:
+          cpus: "0.50"
+          memory: 512M
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U $$POSTGRES_USER -d $$POSTGRES_DB"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  nawari-core:
+    image: nawari/core:1.0.0-phase13
+    container_name: nawari-core
+    restart: always
+    depends_on:
+      nawari-postgres:
+        condition: service_healthy
+    environment:
+      NAWARI_PROFILE: ${NAWARI_PROFILE:-staging}
+      NAWARI_ENV: ${NAWARI_ENV:-staging}
+      POSTGRES_HOST: nawari-postgres
+    deploy:
+      resources:
+        limits:
+          cpus: "0.50"
+          memory: 280M
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8080/health"]
+      interval: 15s
+      timeout: 5s
+      retries: 3
+
+  nawari-grafana:
+    image: grafana/grafana:11.0.0
+    container_name: nawari-grafana
+    restart: always
+    environment:
+      GF_SECURITY_ADMIN_USER: ${GRAFANA_ADMIN_USER:-admin}
+      GF_SECURITY_ADMIN_PASSWORD: ${GRAFANA_ADMIN_PASSWORD:-admin}
+      GF_USERS_ALLOW_SIGN_UP: "false"
+    volumes:
+      - grafana_data:/var/lib/grafana
+      - ../docker/grafana/dashboards:/var/lib/grafana/dashboards
+    deploy:
+      resources:
+        limits:
+          cpus: "0.30"
+          memory: 280M
+    ports:
+      - "3000:3000"
+
+volumes:
+  postgres_data:
+  grafana_data:
+

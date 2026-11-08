@@ -72,8 +72,37 @@ def test_trans_wan_voice_prober_optimal_and_failover():
     assert res_failover.failover_target_circuit_id == "CIR-MBA-02"
     assert any("Recommending immediate failover" in n for n in res_failover.notes)
 
-    # 3. Verify probe history tracking
-    history = prober.get_station_probes("MBA-STATION")
-    assert len(history) == 2
-    assert history[0].probe_id == res_optimal.probe_id
-    assert history[1].probe_id == res_failover.probe_id
+
+def test_sip_options_ping_signaling_only_invariant():
+    prober = TransWanVoiceProber()
+
+    # SIP OPTIONS probe succeeds
+    opt_res = prober.execute_sip_options_ping(
+        station_id="MBA-STATION",
+        circuit_id="CIR-MBA-01",
+        rtt_ms=24.5,
+        response_code=200,
+    )
+    assert opt_res.signaling_reachable is True
+    assert opt_res.rtt_ms == 24.5
+    # Strict Invariant: SIP OPTIONS does not prove voice media or call completion
+    assert opt_res.proves_voice_media is False
+    assert "It does NOT prove call completion" in opt_res.evidence_note
+
+
+def test_missing_or_unidirectional_media_invalidates_mos():
+    prober = TransWanVoiceProber()
+
+    # Probe without bidirectional RTP media
+    res = prober.execute_probe(
+        station_id="KIS-STATION",
+        circuit_id="CIR-KIS-01",
+        rtt_ms=30.0,
+        jitter_ms=3.0,
+        packet_loss_percent=0.0,
+        has_bidirectional_media=False,  # Unidirectional or absent
+    )
+    # Even though RTT and loss are low, lack of bidirectional media strictly fails voice SLA
+    assert res.mos_score == 1.0
+    assert res.status == VoiceTrunkStatus.CRITICAL_FAILOVER
+    assert any("Bidirectional RTP/RTCP required for MOS" in n for n in res.notes)

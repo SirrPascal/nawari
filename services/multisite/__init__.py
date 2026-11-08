@@ -54,12 +54,15 @@ from services.multisite.recovery_verifier import (
     TelemetrySourceType,
 )
 from services.multisite.edge_forwarder import (
+    CentralTelemetryReceiver,
     EdgeSpoolDatabase,
     EdgeStoreAndForwardManager,
     SpoolItem,
+    SpoolItemPriority,
     SpoolItemStatus,
 )
 from services.multisite.wan_voice_probes import (
+    SipOptionsResult,
     TransWanVoiceProber,
     VoiceProbeResult,
     VoiceTrunkStatus,
@@ -137,10 +140,13 @@ __all__ = [
     "TelemetrySourceProfile",
     "TelemetrySourceType",
     # 13D
+    "CentralTelemetryReceiver",
     "EdgeSpoolDatabase",
     "EdgeStoreAndForwardManager",
     "SpoolItem",
+    "SpoolItemPriority",
     "SpoolItemStatus",
+    "SipOptionsResult",
     "TransWanVoiceProber",
     "VoiceProbeResult",
     "VoiceTrunkStatus",

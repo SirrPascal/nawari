@@ -25,7 +25,9 @@ class TelemetrySourceType(str, Enum):
     """Categorization of monitoring sources with distinct freshness requirements."""
     SYNTHETIC_PROBE = "SYNTHETIC_PROBE" # Synthetic TCP/HTTP probe (runs every 10-15s)
     VOICE_PROBE = "VOICE_PROBE"         # Synthetic SIP/RTP test call (runs every 15-30s)
+    VOICE_SYNTHETIC_PROBE = "VOICE_PROBE" # Alias for voice synthetic test calls
     SNMP_POLLING = "SNMP_POLLING"       # Zabbix interface SNMP polling (runs every 60s)
+    SNMP_POLL = "SNMP_POLLING"          # Alias for SNMP polling
     ENDPOINT_AGENT = "ENDPOINT_AGENT"   # Desktop/terminal agent telemetry (runs every 120s)
     CUSTOM = "CUSTOM"
 

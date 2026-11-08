@@ -28,6 +28,33 @@ class VoiceTrunkStatus(str, Enum):
 
 
 @dataclass
+class SipOptionsResult:
+    """Represents a lightweight SIP OPTIONS signaling heartbeat."""
+    probe_id: str
+    station_id: str
+    circuit_id: str
+    rtt_ms: float
+    response_code: int
+    signaling_reachable: bool
+    proves_voice_media: bool = False
+    evidence_note: str = "SIP OPTIONS establishes signaling-level reachability only. It does NOT prove call completion or bidirectional RTP media."
+    timestamp: str = field(default_factory=lambda: datetime.now(timezone.utc).isoformat())
+
+    def to_dict(self) -> Dict[str, Any]:
+        return {
+            "probe_id": self.probe_id,
+            "station_id": self.station_id,
+            "circuit_id": self.circuit_id,
+            "rtt_ms": round(self.rtt_ms, 2),
+            "response_code": self.response_code,
+            "signaling_reachable": self.signaling_reachable,
+            "proves_voice_media": self.proves_voice_media,
+            "evidence_note": self.evidence_note,
+            "timestamp": self.timestamp,
+        }
+
+
+@dataclass
 class VoiceProbeResult:
     """Represents a discrete synthetic voice probe across an outstation WAN circuit."""
     probe_id: str
@@ -43,6 +70,7 @@ class VoiceProbeResult:
     status: VoiceTrunkStatus
     failover_recommended: bool
     failover_target_circuit_id: Optional[str]
+    has_bidirectional_media: bool = True
     notes: List[str] = field(default_factory=list)
     timestamp: str = field(default_factory=lambda: datetime.now(timezone.utc).isoformat())
 
@@ -136,6 +164,28 @@ class TransWanVoiceProber:
             "AMS-STATION": {"primary": "CIR-AMS-01", "secondary": "CIR-AMS-02"},
         }
 
+    def execute_sip_options_ping(
+        self,
+        station_id: str,
+        circuit_id: str,
+        rtt_ms: float,
+        response_code: int = 200,
+    ) -> SipOptionsResult:
+        """Lightweight SIP OPTIONS signaling probe.
+
+        Invariant: Validates signaling reachability only.
+        MUST NOT be used to assert bidirectional RTP media delivery or MOS quality.
+        """
+        reachable = (response_code == 200)
+        return SipOptionsResult(
+            probe_id=f"OPTIONS-{uuid.uuid4().hex[:8].upper()}",
+            station_id=station_id,
+            circuit_id=circuit_id,
+            rtt_ms=rtt_ms,
+            response_code=response_code,
+            signaling_reachable=reachable,
+        )
+
     def execute_probe(
         self,
         station_id: str,
@@ -145,40 +195,48 @@ class TransWanVoiceProber:
         packet_loss_percent: float,
         hub_endpoint: str = "10.10.10.15:5060",
         edge_endpoint: str = "10.20.1.10:5060",
+        has_bidirectional_media: bool = True,
     ) -> VoiceProbeResult:
         """Evaluate voice quality for a specific station circuit probe."""
-        one_way_delay = rtt_ms / 2.0
-        r_factor = WanVoiceQualityEvaluator.calculate_r_factor(
-            one_way_delay_ms=one_way_delay,
-            packet_loss_percent=packet_loss_percent,
-            jitter_ms=jitter_ms,
-        )
-        mos = WanVoiceQualityEvaluator.calculate_mos(r_factor)
-
         notes: List[str] = []
         failover_recommended = False
         target_circuit: Optional[str] = None
 
-        # Evaluate against aviation voice SLA standards:
-        # Tier 1 voice SLA requires MOS >= 4.0, RTT <= 100ms, loss <= 1.0%
-        if mos >= 4.0 and rtt_ms <= 100.0 and packet_loss_percent <= 1.0 and jitter_ms <= 20.0:
-            status = VoiceTrunkStatus.OPTIMAL
-            notes.append("Voice path meets Tier 1 Mission-Critical SLA criteria.")
-        elif mos >= 3.5 and rtt_ms <= 250.0 and packet_loss_percent <= 3.0:
-            status = VoiceTrunkStatus.DEGRADED
-            notes.append("Voice quality degraded (elevated delay/jitter); non-critical distortion present.")
-        else:
+        if not has_bidirectional_media:
+            # Unidirectional or missing media invalidates MOS calculation
+            notes.append("INSUFFICIENT MEDIA: Bidirectional RTP/RTCP required for MOS; signaling alone cannot establish voice quality.")
+            r_factor = 0.0
+            mos = 1.0
             status = VoiceTrunkStatus.CRITICAL_FAILOVER
             failover_recommended = True
-            notes.append(f"Voice SLA breached: MOS={mos:.2f}, RTT={rtt_ms:.1f}ms, Loss={packet_loss_percent:.2f}%.")
+        else:
+            one_way_delay = rtt_ms / 2.0
+            r_factor = WanVoiceQualityEvaluator.calculate_r_factor(
+                one_way_delay_ms=one_way_delay,
+                packet_loss_percent=packet_loss_percent,
+                jitter_ms=jitter_ms,
+            )
+            mos = WanVoiceQualityEvaluator.calculate_mos(r_factor)
 
+            if mos >= 4.0 and rtt_ms <= 100.0 and packet_loss_percent <= 1.0 and jitter_ms <= 20.0:
+                status = VoiceTrunkStatus.OPTIMAL
+                notes.append("Voice path meets Tier 1 Mission-Critical SLA criteria.")
+            elif mos >= 3.5 and rtt_ms <= 250.0 and packet_loss_percent <= 3.0:
+                status = VoiceTrunkStatus.DEGRADED
+                notes.append("Voice quality degraded (elevated delay/jitter); non-critical distortion present.")
+            else:
+                status = VoiceTrunkStatus.CRITICAL_FAILOVER
+                failover_recommended = True
+                notes.append(f"Voice SLA breached: MOS={mos:.2f}, RTT={rtt_ms:.1f}ms, Loss={packet_loss_percent:.2f}%.")
+
+        if failover_recommended:
             # Determine failover circuit
             st_circuits = self._circuit_redundancy_map.get(station_id, {})
             if circuit_id == st_circuits.get("primary"):
                 target_circuit = st_circuits.get("secondary")
                 notes.append(f"CRITICAL: Recommending immediate failover from primary {circuit_id} to secondary circuit {target_circuit}.")
             else:
-                notes.append(f"CRITICAL: Primary and secondary paths impaired; recommend local PSTN survivability breakout.")
+                notes.append("CRITICAL: Primary and secondary paths impaired; recommend local PSTN survivability breakout.")
 
         result = VoiceProbeResult(
             probe_id=f"PROBE-{uuid.uuid4().hex[:8].upper()}",
@@ -194,6 +252,7 @@ class TransWanVoiceProber:
             status=status,
             failover_recommended=failover_recommended,
             failover_target_circuit_id=target_circuit,
+            has_bidirectional_media=has_bidirectional_media,
             notes=notes,
         )
 
