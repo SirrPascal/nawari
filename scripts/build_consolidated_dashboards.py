@@ -16,7 +16,7 @@ DASHBOARDS_DIR = ROOT / "docker/grafana/dashboards"
 NET_DIR = DASHBOARDS_DIR / "network_observability"
 COMM_DIR = DASHBOARDS_DIR / "communication_observability"
 ENDPOINT_DIR = ROOT / "provisioning/endpoint/dashboards"
-OUTPUT_DIR = DASHBOARDS_DIR / "consolidated"
+OUTPUT_DIR = ROOT / "provisioning/dashboards/consolidated"
 
 OUTPUT_DIR.mkdir(parents=True, exist_ok=True)
 
@@ -357,3 +357,4 @@ def main():
 
 if __name__ == "__main__":
     main()
+

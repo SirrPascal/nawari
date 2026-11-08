@@ -10,7 +10,7 @@ from pathlib import Path
 import pytest
 
 ROOT = Path(__file__).resolve().parent.parent.parent
-CONSOLIDATED_DIR = ROOT / "docker/grafana/dashboards/consolidated"
+CONSOLIDATED_DIR = ROOT / "provisioning/dashboards/consolidated"
 AUDIT_INVENTORY = ROOT / "docs/dashboards/raw_inventory.json"
 MATRIX_FILE = ROOT / "docs/dashboards/dashboard-consolidation-matrix.md"
 NAV_ARCH_FILE = ROOT / "docs/dashboards/dashboard-navigation-architecture.md"
@@ -126,3 +126,4 @@ def test_documentation_deliverables_exist():
     for doc in req_docs[:4]:
         assert doc.is_file(), f"Document {doc.name} must exist"
         assert len(doc.read_text()) > 100, f"Document {doc.name} must not be empty"
+
