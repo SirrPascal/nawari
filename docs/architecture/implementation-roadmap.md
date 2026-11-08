@@ -177,32 +177,50 @@ Evaluate, do not automatically deploy:
 - Staging simulated telemetry vs. production telemetry evidence categorization (`CONFIGURED_UNVERIFIED`).
 - Phase 13.7: Deterministic notification lifecycle validation, tag-based routing, retirement of legacy Action 7, and zero platform branding enforcement.
 
-### Phase 13.8 — Zabbix Runtime Notification Verification & Service-Outage Semantics
+### Phase 13.8 — Native Alerting Architecture & Controlled Operational Transition
 
-- **Runtime Execution Verification:** Execution of Actions 10–15 within the live Zabbix 7.4 event engine via `ZabbixSender`, querying `alert.get` for real dispatch records.
-- **Service-Outage vs. Total-Outage Semantics:**
-  - `total_outage` (Action 10): Strictly reserved for complete loss of primary site transport or core network failure (`mock-core-switch-01` / `core-gw-01`). Dispatches to all 5 recipients (Voice Administrators + Central IT Service Desk).
-  - `service_outage` (Action 11): Component/appliance unreachability (single SBCE, single G450, single Session Manager, or single SIP trunk). Dispatches to the 4 Voice Administrators (Group 14), avoiding Service Desk alert storms when telephony survives on redundant paths.
-- **Recovery Semantics:** Clear differentiation between ICMP host reachability (L3 link up) and higher-layer voice service restoration (SIP OPTIONS / synthetic call pass).
-- **Macro Expansion & Zero Branding:** Zabbix server native engine expands all macros (`{HOST.NAME}`, `{EVENT.NAME}`, `{EVENT.SEVERITY}`, `{EVENT.DURATION}`). Recipient-facing messages contain zero platform branding ("Nawari", "Zabbix", "Grafana").
-- **Delivery Boundary:** Email media type preserved in `CONFIGURED_UNVERIFIED` state; zero live external transmissions to `@kenya-airways.com` during staging validation.
+The Phase 13.8 milestone is partitioned into three rigorous engineering phases to ensure technically defensible thresholds and actionable notifications before production telemetry commissioning:
 
-**Exit gate:** live Zabbix API confirms 100% action mutual exclusivity, valid macro expansion, correct recipient group targeting, and passing `verify_phase13.sh`.
+#### Phase 13.8A — Trigger Threshold Rationalisation & Alert Policy Engineering (Current)
+- **Authoritative Threshold Register:** Full inventory and specification of every trigger across all 10 templates and 12 monitored hosts using the 16-field metadata schema.
+- **Five-Question Framework:** Every threshold answers: What is measured, acceptable range, alert boundary, persistence duration, and recovery evidence.
+- **Severity Model Standard:** 5 Zabbix severities mapped strictly to operational impact (Information, Warning, Average, High, Disaster). Prohibits severity inflation.
+- **Metric vs. Outage Decoupling:** Decouples raw metric measurement $\to$ threshold evaluation $\to$ trigger severity $\to$ service-impact correlation $\to$ notification classification (`total_outage`, `service_outage`, `synthetic_failure`, `degradation`, `component_failure`, `monitoring_failure`).
+- **Persistence & Anti-Flapping Hysteresis:** Establishes mathematical hysteresis margins (e.g. `min(5m) > 90%` problem, `max(5m) < 80%` recovery) and consecutive failure counts.
+- **Rate-Based Interface Metrics:** Enforces 64-bit rate calculations for utilization, errors, and discards; strictly prohibits static thresholds on raw cumulative counters.
+- **Gated Telemetry Isolation:** Formal identification and gating of unsupported/unverified metrics (e.g. G450 DSP utilization, live per-call RTCP jitter, deep EMS licensing) without fictitious active triggers.
+
+**Exit gate:** 100% trigger inventory documented in authoritative register; automated audit suite (`test_phase13_8a_threshold_rationalisation.py`) passes 10/10 tests.
+
+#### Phase 13.8B — Zabbix Template Threshold & Recovery Expression Implementation
+- Deploy approved thresholds, persistence expressions, and recovery hysteresis into Zabbix template YAMLs and live Zabbix API.
+- Update trigger prototypes for LLD network interfaces.
+- Reconcile trigger priorities and expression syntax.
+
+**Exit gate:** Zabbix API confirms zero syntax errors, valid recovery modes (`recovery_mode: 1`), and reconciled trigger definitions.
+
+#### Phase 13.8C — Alert Behaviour, Event Classification & Runtime Notification Verification
+- Validate live event engine dispatches via `ZabbixSender` across Actions 10–15.
+- Verify native macro expansion (`{EVENT.DURATION}`, `{HOST.NAME}`, `{EVENT.SEVERITY}`) and zero platform branding.
+- Confirm recipient targeting (Action 10 to all 5 recipients; Actions 11–12 to 4 Voice Admins; Service Desk excluded from component alerts).
+- Maintain Email media type in `CONFIGURED_UNVERIFIED` state (zero external email transmissions).
+
+**Exit gate:** Live Zabbix API confirms 100% action mutual exclusivity, valid macro expansion, correct recipient group targeting, and passing `verify_phase13.sh`.
 
 ---
 
-## Controlled Production Transition & Phase 8.2 Commissioning Gate
+## Phase 13.9 — Controlled Read-Only Production Telemetry Commissioning Gate (Phase 8.2 Gate)
 
 The transition from staging validation to live production monitoring is strictly gated. Staging runtime proof does not permit automatic production mutation.
 
 ```
 +-------------------------------------------------------------------------+
-| Phase 13.8 Staging Runtime Verification & Service Semantics (ACCEPTED)   |
+| Phase 13.8C Staging Runtime Verification & Alert Policy (ACCEPTED)      |
 +-------------------------------------------------------------------------+
                                     |
                                     v
 +-------------------------------------------------------------------------+
-| PHASE 8.2: CONTROLLED READ-ONLY PRODUCTION TELEMETRY COMMISSIONING GATE |
+| PHASE 13.9 / PHASE 8.2: CONTROLLED PRODUCTION TELEMETRY COMMISSIONING   |
 |                                                                         |
 | 1. Read-Only Production Telemetry Ingestion:                            |
 |    - Connect to production Avaya SNMP interfaces (CM, SM, SBCE, G450)   |
