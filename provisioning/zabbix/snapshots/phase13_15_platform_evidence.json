@@ -1,0 +1,61 @@
+{
+  "metadata": {
+    "phase": "13.15",
+    "title": "Platform Resilience, Security & Capacity Audit",
+    "timestamp": "2026-11-08T16:49:36.563274+00:00",
+    "nawari_commit": "4331669",
+    "sentra_commit": "9970404",
+    "hard_production_deny": true,
+    "status": "VALIDATED_STAGING"
+  },
+  "container_fleet_status": {
+    "nawari-asterisk": "Up 23 hours (healthy)",
+    "nawari-mock-snmp": "Up 23 hours",
+    "nawari-grafana": "Up 2 hours (healthy)",
+    "nawari-zabbix-web": "Up 24 hours (healthy)",
+    "nawari-zabbix-server": "Up 25 minutes (healthy)",
+    "nawari-postgres": "Up 24 hours (healthy)",
+    "nawari-snmptraps": "Up 24 hours"
+  },
+  "database_sizing": {
+    "total_size": "101 MB",
+    "top_tables": {
+      "history": "21 MB",
+      "items": "13 MB",
+      "history_uint": "4968 kB",
+      "valuemap_mapping": "4304 kB",
+      "item_preproc": "3680 kB"
+    }
+  },
+  "zabbix_internal_health": {
+    "history_syncer_busy_pct": 0.15623680432395912,
+    "config_syncer_busy_pct": 0.42137198719029156,
+    "escalator_busy_pct": 0.2364066193853428,
+    "icmp_busy_pct": 7.817942041727251
+  },
+  "capacity_and_sizing_model": {
+    "monitored_items_count": 422,
+    "values_per_second": 7.03,
+    "values_per_day": 607680.0,
+    "daily_history_growth_mb": 28.98,
+    "seven_day_history_mb": 202.84,
+    "yearly_trends_mb": 451.26,
+    "annual_storage_footprint_gb": 1.64
+  },
+  "rbac_audit": {
+    "super_admins": [
+      "Admin"
+    ],
+    "admin_recipients_count": 5,
+    "least_privilege_enforced": true
+  },
+  "backup_and_dr": {
+    "pg_dump_configured": true,
+    "database_target": "zabbix",
+    "wal_archive_ready": true,
+    "grafana_provisioning_persisted": true,
+    "automated_cron_schedule": "0 2 * * * (Daily 02:00 EAT)",
+    "rpo_objective_hours": 1.0,
+    "rto_objective_minutes": 15.0
+  }
+}
