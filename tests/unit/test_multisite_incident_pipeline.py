@@ -11,6 +11,7 @@ from services.multisite.incident_pipeline import (
     IncidentRecord,
     IncidentSeverity,
     IncidentStatus,
+    InvalidStateTransitionError,
     OperationalAlert,
 )
 
@@ -295,4 +296,128 @@ def test_concurrent_worker_duplicate_prevention():
     assert created_count == 1
     assert dedup_count == 9
     assert len(mgr.get_active_incidents()) == 1
+
+
+def test_incident_lifecycle_formal_state_transitions_and_forbidden_jumps():
+    """Verify formal state lifecycle:
+    NEW/DETECTED -> CORRELATED -> ACKNOWLEDGED -> INVESTIGATING -> REMEDIATING -> VERIFYING -> RESOLVED -> CLOSED.
+    Also verify reopen, suppression, failed remediation, approval denial, and forbidden jumps.
+    """
+    mgr = IncidentManager()
+    alert = OperationalAlert(
+        alert_id="ALT-LIFE-01",
+        source="ZABBIX",
+        entity_id="SW-DC1-01",
+        metric_name="icmpping",
+        observed_value=0,
+        severity=IncidentSeverity.P1_CRITICAL,
+        summary="Switch reachability lost",
+        event_timestamp=datetime.now(timezone.utc).isoformat(),
+        station_id="JKIA-HUB",
+    )
+    inc, _ = mgr.ingest_alert(alert)
+    iid = inc.incident_id
+    assert inc.status == IncidentStatus.DETECTED
+
+    # 1. Forward progression
+    mgr.transition_state(iid, IncidentStatus.CORRELATED, "correlator", "Alert grouped with related alarms")
+    assert inc.status == IncidentStatus.CORRELATED
+
+    mgr.transition_state(iid, IncidentStatus.ACKNOWLEDGED, "duty_operator", "NOC operator took ownership")
+    assert inc.status == IncidentStatus.ACKNOWLEDGED
+
+    mgr.transition_state(iid, IncidentStatus.INVESTIGATING, "net_eng", "Investigating link topology and optics")
+    assert inc.status == IncidentStatus.INVESTIGATING
+
+    mgr.transition_state(iid, IncidentStatus.REMEDIATING, "net_eng", "Applying interface bounce via playbook")
+    assert inc.status == IncidentStatus.REMEDIATING
+
+    # 2. Failed remediation handling: fall back to investigating
+    mgr.transition_state(iid, IncidentStatus.INVESTIGATING, "net_eng", "Bounce failed; escalating investigation")
+    assert inc.status == IncidentStatus.INVESTIGATING
+
+    # Re-enter remediation
+    mgr.transition_state(iid, IncidentStatus.REMEDIATING, "net_eng", "Applying alternate fiber route failover")
+    assert inc.status == IncidentStatus.REMEDIATING
+
+    mgr.transition_state(iid, IncidentStatus.VERIFYING, "net_eng", "Monitoring post-failover ping telemetry")
+    assert inc.status == IncidentStatus.VERIFYING
+
+    # 3. Verification failure handling: retry remediation
+    mgr.transition_state(iid, IncidentStatus.REMEDIATING, "net_eng", "Verification detected packet loss; retuning")
+    assert inc.status == IncidentStatus.REMEDIATING
+
+    mgr.transition_state(iid, IncidentStatus.VERIFYING, "net_eng", "Verifying retuned route")
+    assert inc.status == IncidentStatus.VERIFYING
+
+    # Verification passes -> RESOLVED
+    mgr.transition_state(iid, IncidentStatus.RESOLVED, "net_eng", "Route clean; 0 packet loss confirmed")
+    assert inc.status == IncidentStatus.RESOLVED
+    assert inc.resolved_at is not None
+
+    # Sign-off -> CLOSED
+    mgr.transition_state(iid, IncidentStatus.CLOSED, "noc_lead", "Incident reviewed and closed")
+    assert inc.status == IncidentStatus.CLOSED
+    assert inc.closed_at is not None
+
+    # 4. Reopen post-closure
+    mgr.transition_state(iid, IncidentStatus.REOPENED, "noc_lead", "Route flapped again post-closure")
+    assert inc.status == IncidentStatus.REOPENED
+    assert inc.resolved_at is None
+    assert inc.closed_at is None
+
+    # 5. Forbidden state transitions must raise InvalidStateTransitionError
+    # Cannot jump from REOPENED directly to CLOSED without resolution
+    with pytest.raises(InvalidStateTransitionError):
+        mgr.transition_state(iid, IncidentStatus.CLOSED, "bad_actor", "Illegal skip to CLOSED")
+
+    # Move to RESOLVED then CLOSED
+    mgr.transition_state(iid, IncidentStatus.RESOLVED, "net_eng", "Resolved again")
+    mgr.transition_state(iid, IncidentStatus.CLOSED, "noc_lead", "Closed again")
+
+    # Cannot jump from CLOSED directly to REMEDIATING without reopening
+    with pytest.raises(InvalidStateTransitionError):
+        mgr.transition_state(iid, IncidentStatus.REMEDIATING, "bad_actor", "Illegal direct remediate on closed")
+
+    # 6. Test suppression and approval denial branches on a new incident
+    alt_suppress = OperationalAlert(
+        alert_id="ALT-SUPP-01",
+        source="ZABBIX",
+        entity_id="CIR-MBA-01",
+        metric_name="maintenance_ping",
+        observed_value=0,
+        severity=IncidentSeverity.P3_MEDIUM,
+        summary="Maintenance window noise",
+        event_timestamp=datetime.now(timezone.utc).isoformat(),
+        station_id="MBA-STATION",
+    )
+    inc_supp, _ = mgr.ingest_alert(alt_suppress)
+    sid = inc_supp.incident_id
+
+    # DETECTED -> SUPPRESSED -> CLOSED
+    mgr.transition_state(sid, IncidentStatus.SUPPRESSED, "noc_operator", "Entity in scheduled maintenance")
+    assert inc_supp.status == IncidentStatus.SUPPRESSED
+    mgr.transition_state(sid, IncidentStatus.CLOSED, "noc_lead", "Closed under suppression")
+    assert inc_supp.status == IncidentStatus.CLOSED
+
+    # Test BLOCKED_APPROVAL_DENIED
+    alt_denied = OperationalAlert(
+        alert_id="ALT-DENY-01",
+        source="ZABBIX",
+        entity_id="SW-MBA-01",
+        metric_name="high_temp",
+        observed_value=85,
+        severity=IncidentSeverity.P2_HIGH,
+        summary="High temperature alert",
+        event_timestamp=datetime.now(timezone.utc).isoformat(),
+        station_id="MBA-STATION",
+    )
+    inc_deny, _ = mgr.ingest_alert(alt_denied)
+    did = inc_deny.incident_id
+    mgr.transition_state(did, IncidentStatus.CORRELATED, "system", "Correlated")
+    mgr.transition_state(did, IncidentStatus.BLOCKED_APPROVAL_DENIED, "change_mgr", "Approval denied: freeze window")
+    assert inc_deny.status == IncidentStatus.BLOCKED_APPROVAL_DENIED
+    # Can return to INVESTIGATING or CLOSE
+    mgr.transition_state(did, IncidentStatus.INVESTIGATING, "net_eng", "Investigating alternative manual workaround")
+    assert inc_deny.status == IncidentStatus.INVESTIGATING
 

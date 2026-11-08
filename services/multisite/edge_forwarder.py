@@ -109,6 +109,8 @@ class EdgeSpoolDatabase:
         self.max_spool_size_mb = max_spool_size_mb
         self.allow_critical_prune = allow_critical_prune
         self.emergency_log_path = emergency_log_path or os.path.join(str(Path(self.db_path).parent), "spool_emergency.log")
+        self.EMERGENCY_MEMORY_BUFFER_MAX: int = 1000
+        self._emergency_memory_buffer: List[Dict[str, Any]] = []
         Path(self.db_path).parent.mkdir(parents=True, exist_ok=True)
         self._init_db()
 
@@ -163,18 +165,33 @@ class EdgeSpoolDatabase:
             return 0
 
     def _write_emergency_audit_event(self, event_type: str, details: Dict[str, Any]) -> None:
-        """Durable fallback emergency event writer when spool capacity or disk is saturated."""
+        """Durable fallback emergency event writer when spool capacity or disk is saturated.
+        If disk writes fail (e.g. disk full / ENOSPC or permission errors), safely preserves
+        events in the memory ring buffer.
+        """
+        entry = {
+            "timestamp": datetime.now(timezone.utc).isoformat(),
+            "event_type": event_type,
+            "db_path": self.db_path,
+            "details": details,
+        }
         try:
-            entry = {
-                "timestamp": datetime.now(timezone.utc).isoformat(),
-                "event_type": event_type,
-                "db_path": self.db_path,
-                "details": details,
-            }
             with open(self.emergency_log_path, "a") as f:
                 f.write(json.dumps(entry) + "\n")
+        except OSError as exc:
+            logger.critical("EMERGENCY DISK LOG WRITE FAILED (disk full / IO error: %s). Preserving in emergency memory buffer.", exc)
+            self._emergency_memory_buffer.append(entry)
+            if len(self._emergency_memory_buffer) > self.EMERGENCY_MEMORY_BUFFER_MAX:
+                self._emergency_memory_buffer.pop(0)
         except Exception as exc:
-            logger.error("Failed to write emergency log entry: %s", exc)
+            logger.error("Failed to write emergency log entry: %s. Preserving in emergency memory buffer.", exc)
+            self._emergency_memory_buffer.append(entry)
+            if len(self._emergency_memory_buffer) > self.EMERGENCY_MEMORY_BUFFER_MAX:
+                self._emergency_memory_buffer.pop(0)
+
+    def get_emergency_memory_buffer(self) -> List[Dict[str, Any]]:
+        """Retrieve in-memory emergency events recorded during disk or filesystem starvation."""
+        return list(self._emergency_memory_buffer)
 
     def get_disk_size_bytes(self) -> int:
         """Calculate total SQLite file size on disk including WAL and SHM."""

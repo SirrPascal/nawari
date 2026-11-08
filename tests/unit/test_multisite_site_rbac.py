@@ -230,3 +230,137 @@ def test_single_use_nonce_anti_replay_and_expiration(rbac_engine, sample_envelop
     with pytest.raises(TokenExpiredOrReplayed) as exc_info:
         rbac_engine.verify_token(expired_token, sample_envelope)
     assert "has expired" in str(exc_info.value)
+
+
+def test_token_cancellation_and_revocation(rbac_engine, sample_envelope):
+    """Verify that explicitly cancelled approval tokens are rejected immediately."""
+    token = rbac_engine.issue_approval_token("USR-GLOBAL-ADMIN", sample_envelope)
+    assert rbac_engine.verify_token(token, sample_envelope) is True
+
+    # Cancel token
+    rbac_engine.cancel_approval_token(token.token_id, reason="Emergency freeze invoked by CISO")
+    assert rbac_engine.is_token_cancelled(token.token_id) is True
+
+    with pytest.raises(TokenTamperedOrInvalid) as exc_info:
+        rbac_engine.verify_token(token, sample_envelope)
+    assert "was cancelled" in str(exc_info.value)
+    assert "Emergency freeze invoked by CISO" in str(exc_info.value)
+
+
+def test_hmac_secret_key_rotation_grace_period(sample_envelope):
+    """Verify that during secret rotation, tokens signed with the old secret remain valid
+    during grace period, but are rejected once the grace period expires.
+    """
+    engine = SiteAwareRBACEngine(hmac_secret="initial-secret-key-1", is_simulation_mode=True)
+    token_old = engine.issue_approval_token("USR-GLOBAL-ADMIN", sample_envelope)
+    assert engine.verify_token(token_old, sample_envelope) is True
+
+    # Rotate secret with 1-hour grace period
+    engine.rotate_signing_secret(new_secret="new-rotated-secret-key-2", grace_period_seconds=3600.0)
+
+    # Token signed with old key remains valid during grace period
+    assert engine.verify_token(token_old, sample_envelope) is True
+
+    # New token signed with new key is valid
+    token_new = engine.issue_approval_token("USR-CIO-EXEC", sample_envelope)
+    assert engine.verify_token(token_new, sample_envelope) is True
+
+    # Expire grace period
+    engine._previous_secret_expiry = time.time() - 10.0
+
+    # Old token must now be rejected
+    with pytest.raises(TokenTamperedOrInvalid) as exc_info:
+        engine.verify_token(token_old, sample_envelope)
+    assert "Signature mismatch" in str(exc_info.value)
+
+    # New token remains valid
+    assert engine.verify_token(token_new, sample_envelope) is True
+
+
+def test_revoked_approver_token_rejected(rbac_engine, sample_envelope):
+    """Verify that tokens issued to an approver who is subsequently revoked cannot be verified."""
+    token = rbac_engine.issue_approval_token("USR-CIO-EXEC", sample_envelope)
+    assert rbac_engine.verify_token(token, sample_envelope) is True
+
+    # Revoke user
+    rbac_engine.revoke_user("USR-CIO-EXEC")
+
+    # Verifying token must fail due to account revocation
+    with pytest.raises(InsufficientRolePermission) as exc_info:
+        rbac_engine.verify_token(token, sample_envelope)
+    assert "has been revoked" in str(exc_info.value)
+
+
+def test_parameter_tampering_comprehensive(rbac_engine, sample_envelope):
+    """Verify that altering any canonical parameter in the envelope invalidates token signature."""
+    sample_envelope.target_entity_id = "SW-MBA-01"
+    token = rbac_engine.issue_approval_token("USR-GLOBAL-ADMIN", sample_envelope)
+    assert rbac_engine.verify_token(token, sample_envelope) is True
+
+    # 1. Tampering target_entity_id
+    tampered_entity = ActionOperationalEnvelope(
+        action_id=sample_envelope.action_id,
+        incident_id=sample_envelope.incident_id,
+        alert_id=sample_envelope.alert_id,
+        playbook_id=sample_envelope.playbook_id,
+        playbook_version=sample_envelope.playbook_version,
+        plan_hash=sample_envelope.plan_hash,
+        target_env=sample_envelope.target_env,
+        risk_tier=sample_envelope.risk_tier,
+        change_window_id=sample_envelope.change_window_id,
+        parameters_hash=sample_envelope.parameters_hash,
+        target_entity_id="SW-MBA-02",  # TAMPERED
+    )
+    with pytest.raises(TokenTamperedOrInvalid):
+        rbac_engine.verify_token(token, tampered_entity)
+
+    # 2. Tampering change_window_id
+    tampered_cw = ActionOperationalEnvelope(
+        action_id=sample_envelope.action_id,
+        incident_id=sample_envelope.incident_id,
+        alert_id=sample_envelope.alert_id,
+        playbook_id=sample_envelope.playbook_id,
+        playbook_version=sample_envelope.playbook_version,
+        plan_hash=sample_envelope.plan_hash,
+        target_env=sample_envelope.target_env,
+        risk_tier=sample_envelope.risk_tier,
+        change_window_id="CW-TAMPERED-ID",  # TAMPERED
+        parameters_hash=sample_envelope.parameters_hash,
+        target_entity_id=sample_envelope.target_entity_id,
+    )
+    with pytest.raises(TokenTamperedOrInvalid):
+        rbac_engine.verify_token(token, tampered_cw)
+
+    # 3. Tampering target_env
+    tampered_env = ActionOperationalEnvelope(
+        action_id=sample_envelope.action_id,
+        incident_id=sample_envelope.incident_id,
+        alert_id=sample_envelope.alert_id,
+        playbook_id=sample_envelope.playbook_id,
+        playbook_version=sample_envelope.playbook_version,
+        plan_hash=sample_envelope.plan_hash,
+        target_env="PRODUCTION",  # TAMPERED
+        risk_tier=sample_envelope.risk_tier,
+        change_window_id=sample_envelope.change_window_id,
+        parameters_hash=sample_envelope.parameters_hash,
+        target_entity_id=sample_envelope.target_entity_id,
+    )
+    with pytest.raises(TokenTamperedOrInvalid):
+        rbac_engine.verify_token(token, tampered_env)
+
+    # 4. Tampering playbook_version
+    tampered_ver = ActionOperationalEnvelope(
+        action_id=sample_envelope.action_id,
+        incident_id=sample_envelope.incident_id,
+        alert_id=sample_envelope.alert_id,
+        playbook_id=sample_envelope.playbook_id,
+        playbook_version="9.9.9",  # TAMPERED
+        plan_hash=sample_envelope.plan_hash,
+        target_env=sample_envelope.target_env,
+        risk_tier=sample_envelope.risk_tier,
+        change_window_id=sample_envelope.change_window_id,
+        parameters_hash=sample_envelope.parameters_hash,
+        target_entity_id=sample_envelope.target_entity_id,
+    )
+    with pytest.raises(TokenTamperedOrInvalid):
+        rbac_engine.verify_token(token, tampered_ver)

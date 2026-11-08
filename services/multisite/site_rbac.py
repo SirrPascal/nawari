@@ -166,6 +166,7 @@ class ActionOperationalEnvelope:
     target_station_id: Optional[str] = None
     target_facility_id: Optional[str] = None
     target_domain: Optional[str] = None
+    target_entity_id: Optional[str] = None
 
     def compute_canonical_string(self, nonce: str, expires_at: float) -> str:
         """Construct canonical envelope representation for cryptographic signing."""
@@ -180,6 +181,7 @@ class ActionOperationalEnvelope:
             f"TIER={self.risk_tier.value}:"
             f"CW={self.change_window_id}:"
             f"PARAMS={self.parameters_hash}:"
+            f"ENTITY={self.target_entity_id or ''}:"
             f"NONCE={nonce}:"
             f"EXPIRES={expires_at:.3f}"
         )
@@ -211,9 +213,12 @@ class SiteAwareRBACEngine:
         is_simulation_mode: bool = True,
     ) -> None:
         self.secret = hmac_secret.encode("utf-8")
+        self._previous_secret: Optional[bytes] = None
+        self._previous_secret_expiry: Optional[float] = None
         self.is_simulation_mode = is_simulation_mode
         self._consumed_nonces: Set[str] = set()
         self._consumed_token_ids: Set[str] = set()
+        self._cancelled_tokens: Dict[str, str] = {}
         self._user_directory: Dict[str, UserProfile] = {}
         self._init_default_directory()
 
@@ -428,10 +433,32 @@ class SiteAwareRBACEngine:
             issued_at=now,
         )
 
+    def cancel_approval_token(self, token_id: str, reason: str = "Manually cancelled by operator") -> bool:
+        """Explicitly revoke/cancel an issued approval token."""
+        self._cancelled_tokens[token_id] = reason
+        logger.warning("Approval token '%s' was cancelled: %s", token_id, reason)
+        return True
+
+    def is_token_cancelled(self, token_id: str) -> bool:
+        """Check if an approval token was explicitly cancelled."""
+        return token_id in self._cancelled_tokens
+
+    def rotate_signing_secret(self, new_secret: str, grace_period_seconds: float = 3600.0) -> None:
+        """Rotate HMAC signing secret while retaining previous secret for verification during grace period."""
+        self._previous_secret = self.secret
+        self._previous_secret_expiry = time.time() + grace_period_seconds
+        self.secret = new_secret.encode("utf-8")
+        logger.info("Rotated HMAC signing secret; previous secret valid for %.1f seconds.", grace_period_seconds)
+
     def verify_token(self, token: BoundApprovalToken, envelope: ActionOperationalEnvelope) -> bool:
-        """Verify token signature, freshness, and anti-replay nonce."""
+        """Verify token signature, freshness, cancellation status, and anti-replay nonce."""
         if token.token_id in self._consumed_token_ids:
             raise TokenExpiredOrReplayed(f"Approval token '{token.token_id}' was already consumed.")
+
+        if token.token_id in self._cancelled_tokens:
+            raise TokenTamperedOrInvalid(
+                f"Approval token '{token.token_id}' was cancelled: {self._cancelled_tokens[token.token_id]}"
+            )
 
         if token.nonce in self._consumed_nonces:
             raise TokenExpiredOrReplayed(f"Token nonce '{token.nonce}' has already been used.")
@@ -439,11 +466,21 @@ class SiteAwareRBACEngine:
         if token.is_expired():
             raise TokenExpiredOrReplayed(f"Approval token '{token.token_id}' has expired.")
 
+        approver = self.get_user(token.approver_id)
+        if approver and approver.is_revoked:
+            raise InsufficientRolePermission(f"Approver '{token.approver_id}' has been revoked.")
+
         # Re-compute expected signature
         canonical_data = envelope.compute_canonical_string(nonce=token.nonce, expires_at=token.expires_at)
         expected_sig = hmac.new(self.secret, canonical_data.encode("utf-8"), hashlib.sha256).hexdigest()
 
-        if not hmac.compare_digest(expected_sig, token.signature):
+        sig_valid = hmac.compare_digest(expected_sig, token.signature)
+        if not sig_valid and self._previous_secret is not None:
+            if self._previous_secret_expiry is not None and time.time() <= self._previous_secret_expiry:
+                prev_sig = hmac.new(self._previous_secret, canonical_data.encode("utf-8"), hashlib.sha256).hexdigest()
+                sig_valid = hmac.compare_digest(prev_sig, token.signature)
+
+        if not sig_valid:
             raise TokenTamperedOrInvalid(
                 f"Signature mismatch on token '{token.token_id}'. Token does not match operational envelope."
             )

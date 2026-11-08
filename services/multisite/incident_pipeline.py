@@ -25,9 +25,15 @@ from enum import Enum
 from typing import Any, Dict, List, Optional, Set, Tuple
 
 
+class InvalidStateTransitionError(ValueError):
+    """Raised when an incident state transition violates the operational lifecycle matrix."""
+    pass
+
+
 class IncidentStatus(str, Enum):
     """Lifecycle status of an operational incident."""
     DETECTED = "DETECTED"
+    NEW = "DETECTED"  # Canonical alias for newly detected incident
     CORRELATED = "CORRELATED"
     ACKNOWLEDGED = "ACKNOWLEDGED"
     INVESTIGATING = "INVESTIGATING"
@@ -36,6 +42,74 @@ class IncidentStatus(str, Enum):
     RESOLVED = "RESOLVED"
     CLOSED = "CLOSED"
     REOPENED = "REOPENED"
+    SUPPRESSED = "SUPPRESSED"
+    BLOCKED_APPROVAL_DENIED = "BLOCKED_APPROVAL_DENIED"
+
+
+ALLOWED_INCIDENT_TRANSITIONS: Dict[IncidentStatus, Set[IncidentStatus]] = {
+    IncidentStatus.DETECTED: {
+        IncidentStatus.CORRELATED,
+        IncidentStatus.ACKNOWLEDGED,
+        IncidentStatus.INVESTIGATING,
+        IncidentStatus.SUPPRESSED,
+        IncidentStatus.RESOLVED,
+    },
+    IncidentStatus.CORRELATED: {
+        IncidentStatus.ACKNOWLEDGED,
+        IncidentStatus.INVESTIGATING,
+        IncidentStatus.REMEDIATING,
+        IncidentStatus.SUPPRESSED,
+        IncidentStatus.BLOCKED_APPROVAL_DENIED,
+        IncidentStatus.RESOLVED,
+    },
+    IncidentStatus.ACKNOWLEDGED: {
+        IncidentStatus.DETECTED,              # Unacknowledge / reject
+        IncidentStatus.INVESTIGATING,
+        IncidentStatus.REMEDIATING,
+        IncidentStatus.SUPPRESSED,
+        IncidentStatus.BLOCKED_APPROVAL_DENIED,
+        IncidentStatus.RESOLVED,
+    },
+    IncidentStatus.INVESTIGATING: {
+        IncidentStatus.REMEDIATING,
+        IncidentStatus.BLOCKED_APPROVAL_DENIED,
+        IncidentStatus.RESOLVED,
+        IncidentStatus.SUPPRESSED,
+    },
+    IncidentStatus.REMEDIATING: {
+        IncidentStatus.VERIFYING,
+        IncidentStatus.INVESTIGATING,          # Failed remediation -> fall back to investigating
+        IncidentStatus.BLOCKED_APPROVAL_DENIED, # Approval revoked or denied
+        IncidentStatus.RESOLVED,               # Direct resolution if playbook confirms fix
+    },
+    IncidentStatus.VERIFYING: {
+        IncidentStatus.RESOLVED,               # Verification passed
+        IncidentStatus.REMEDIATING,            # Verification failed -> re-attempt remediation
+        IncidentStatus.INVESTIGATING,          # Verification failed -> escalate back to investigation
+    },
+    IncidentStatus.RESOLVED: {
+        IncidentStatus.CLOSED,                 # Operational sign-off
+        IncidentStatus.REOPENED,               # Recurrence / failed resolution
+    },
+    IncidentStatus.CLOSED: {
+        IncidentStatus.REOPENED,               # Incident reopened post-closure
+    },
+    IncidentStatus.REOPENED: {
+        IncidentStatus.CORRELATED,
+        IncidentStatus.ACKNOWLEDGED,
+        IncidentStatus.INVESTIGATING,
+        IncidentStatus.REMEDIATING,
+        IncidentStatus.RESOLVED,
+    },
+    IncidentStatus.SUPPRESSED: {
+        IncidentStatus.CORRELATED,
+        IncidentStatus.CLOSED,
+    },
+    IncidentStatus.BLOCKED_APPROVAL_DENIED: {
+        IncidentStatus.INVESTIGATING,          # Return to investigation after denial
+        IncidentStatus.CLOSED,                 # Closed as rejected/no action
+    },
+}
 
 
 class IncidentSeverity(str, Enum):
@@ -374,11 +448,21 @@ class IncidentManager:
             return True
 
     def transition_state(self, incident_id: str, new_status: IncidentStatus, operator_id: str, note: str) -> bool:
-        """Advance incident state through formal lifecycle."""
+        """Advance incident state through formal lifecycle with matrix validation."""
         with self._lock:
             inc = self._incidents.get(incident_id)
             if not inc:
                 return False
+
+            if new_status == inc.status:
+                return True
+
+            allowed = ALLOWED_INCIDENT_TRANSITIONS.get(inc.status, set())
+            if new_status not in allowed:
+                raise InvalidStateTransitionError(
+                    f"Invalid incident state transition for '{incident_id}': "
+                    f"transition from '{inc.status.value}' to '{new_status.value}' is forbidden by lifecycle policy."
+                )
 
             inc.status = new_status
             now_iso = datetime.now(timezone.utc).isoformat()
@@ -387,6 +471,9 @@ class IncidentManager:
                 self.correlation_engine.register_entity_up(inc.root_cause_alert.entity_id)
             elif new_status == IncidentStatus.CLOSED:
                 inc.closed_at = now_iso
+            elif new_status == IncidentStatus.REOPENED:
+                inc.resolved_at = None
+                inc.closed_at = None
 
             inc.add_work_note(operator_id, f"Transitioned state to {new_status.value}. {note}")
             return True

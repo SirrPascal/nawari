@@ -66,6 +66,8 @@ class ServiceComponentDependency:
     is_mandatory: bool = True  # If mandatory and down, service is down regardless of others
     weight: float = 1.0
     is_redundant: bool = False
+    redundancy_group: Optional[str] = None  # e.g. "WAN_CIRCUITS", "CORE_ROUTERS"
+    is_primary: bool = False                # True if designated primary member of redundancy group
     station_id: Optional[str] = None  # None if global core component
 
 
@@ -210,6 +212,9 @@ class ServiceCatalog:
         weighted_sum = 0.0
         has_unknown = False
 
+        # Collect redundancy group memberships
+        redundancy_groups: Dict[str, List[Tuple[ServiceComponentDependency, bool, str, str]]] = {}
+
         for dep in service.dependencies:
             comp_info = component_states.get(dep.component_id, {
                 "state": "MISSING",
@@ -258,10 +263,15 @@ class ServiceCatalog:
             if is_up:
                 up_count += 1
 
-            # Check Mandatory / Critical Dependency Failure
-            if dep.is_mandatory and not is_up:
-                mandatory_failure = True
-                notes.append(f"CRITICAL DEPENDENCY FAILED: Mandatory component '{dep.component_id}' is {state} ({quality}).")
+            if dep.redundancy_group:
+                if dep.redundancy_group not in redundancy_groups:
+                    redundancy_groups[dep.redundancy_group] = []
+                redundancy_groups[dep.redundancy_group].append((dep, is_up, state, quality))
+            else:
+                # Check Non-Redundant Mandatory / Critical Dependency Failure
+                if dep.is_mandatory and not is_up:
+                    mandatory_failure = True
+                    notes.append(f"CRITICAL DEPENDENCY FAILED: Mandatory component '{dep.component_id}' is {state} ({quality}).")
 
             evidence[dep.component_id] = {
                 "observed_state": state,
@@ -270,11 +280,43 @@ class ServiceCatalog:
                 "weight": dep.weight,
                 "effective_value": state_val,
                 "is_redundant": dep.is_redundant,
+                "redundancy_group": dep.redundancy_group,
+                "is_primary": dep.is_primary,
                 "station_id": dep.station_id,
             }
 
             weighted_sum += dep.weight * state_val
             total_weight += dep.weight
+
+        # Evaluate Redundancy Groups
+        has_redundancy_degraded = False
+        for group_name, members in redundancy_groups.items():
+            total_members = len(members)
+            up_members = sum(1 for m_dep, m_up, _, _ in members if m_up)
+            primary_member = next((m_dep for m_dep, _, _, _ in members if m_dep.is_primary), None)
+            primary_is_up = True
+            if primary_member is not None:
+                primary_is_up = any(m_up for m_dep, m_up, _, _ in members if m_dep == primary_member)
+
+            if up_members == 0:
+                # Complete exhaustion of redundancy group -> service critical down
+                mandatory_failure = True
+                notes.append(
+                    f"CRITICAL DEPENDENCY FAILED: Redundancy group '{group_name}' completely exhausted "
+                    f"(0/{total_members} members available)."
+                )
+            elif up_members < total_members:
+                has_redundancy_degraded = True
+                if not primary_is_up:
+                    notes.append(
+                        f"PRIMARY FAILOVER ACTIVE: Redundancy group '{group_name}' operating on secondary backup "
+                        f"({up_members}/{total_members} available)."
+                    )
+                else:
+                    notes.append(
+                        f"REDUNDANCY DEGRADED: Redundancy group '{group_name}' member offline "
+                        f"({up_members}/{total_members} available)."
+                    )
 
         # Apply Dependency Semantics
         if mandatory_failure and service.dependency_logic == DependencyLogic.MANDATORY_AND:
@@ -295,6 +337,11 @@ class ServiceCatalog:
                 status = "DEGRADED"
             else:
                 status = "CRITICAL_DOWN"
+
+        # Apply Redundancy Degraded Semantics
+        if has_redundancy_degraded and status == "HEALTHY":
+            status = "DEGRADED"
+            base_health = min(base_health, 0.70)
 
         # Upstream service dependency propagation:
         if service.parent_services and upstream_service_health:
@@ -415,8 +462,8 @@ class ServiceCatalog:
             dependency_logic=DependencyLogic.MANDATORY_AND,
             proposed_design_slo=99.95,
             dependencies=[
-                ServiceComponentDependency("CIR-MBA-01", "CIRCUIT", is_mandatory=False, weight=0.6, is_redundant=True, station_id="MBA-STATION"),
-                ServiceComponentDependency("CIR-MBA-02", "CIRCUIT", is_mandatory=False, weight=0.3, is_redundant=True, station_id="MBA-STATION"),
+                ServiceComponentDependency("CIR-MBA-01", "CIRCUIT", is_mandatory=False, weight=0.6, is_redundant=True, redundancy_group="MBA_WAN_CIRCUITS", is_primary=True, station_id="MBA-STATION"),
+                ServiceComponentDependency("CIR-MBA-02", "CIRCUIT", is_mandatory=False, weight=0.3, is_redundant=True, redundancy_group="MBA_WAN_CIRCUITS", is_primary=False, station_id="MBA-STATION"),
                 ServiceComponentDependency("SW-MBA-01", "SWITCH", is_mandatory=True, weight=0.1, is_redundant=False, station_id="MBA-STATION"),
             ],
         ))
@@ -432,8 +479,8 @@ class ServiceCatalog:
             dependency_logic=DependencyLogic.MANDATORY_AND,
             proposed_design_slo=99.95,
             dependencies=[
-                ServiceComponentDependency("CIR-LHR-01", "CIRCUIT", is_mandatory=False, weight=0.6, is_redundant=True, station_id="LHR-STATION"),
-                ServiceComponentDependency("CIR-LHR-02", "CIRCUIT", is_mandatory=False, weight=0.4, is_redundant=True, station_id="LHR-STATION"),
+                ServiceComponentDependency("CIR-LHR-01", "CIRCUIT", is_mandatory=False, weight=0.6, is_redundant=True, redundancy_group="LHR_WAN_CIRCUITS", is_primary=True, station_id="LHR-STATION"),
+                ServiceComponentDependency("CIR-LHR-02", "CIRCUIT", is_mandatory=False, weight=0.4, is_redundant=True, redundancy_group="LHR_WAN_CIRCUITS", is_primary=False, station_id="LHR-STATION"),
             ],
         ))
 

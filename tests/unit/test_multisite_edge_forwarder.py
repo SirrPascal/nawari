@@ -313,3 +313,113 @@ def test_central_receiver_queue_depth_saturation_backpressure():
     assert res2["status"] == "BACKPRESSURE_THROTTLED"
     assert receiver.is_throttled is True
 
+
+def test_emergency_log_disk_full_fallback_to_memory_buffer(temp_spool_db):
+    """Verify that when the emergency log file encounters disk exhaustion (ENOSPC),
+    the process does NOT crash and preserves the audit events in an in-memory ring buffer.
+    """
+    from unittest.mock import patch
+    emergency_log = f"{temp_spool_db}.emergency.log"
+    db = EdgeSpoolDatabase(
+        db_path=temp_spool_db,
+        max_records=2,
+        allow_critical_prune=False,
+        emergency_log_path=emergency_log,
+    )
+
+    # Fill spool with critical records
+    db.enqueue("MBA-STATION", "alert", {"p1": "A1"}, priority=SpoolItemPriority.CRITICAL.value)
+    db.enqueue("MBA-STATION", "alert", {"p1": "A2"}, priority=SpoolItemPriority.CRITICAL.value)
+
+    # Mock open() to raise OSError(28, "No space left on device") when writing to emergency log
+    with patch("builtins.open", side_effect=OSError(28, "No space left on device")):
+        with pytest.raises(SpoolCriticalCapacityExhaustedError):
+            db.enqueue("MBA-STATION", "alert", {"p1": "A3_OVERFLOW"}, priority=SpoolItemPriority.CRITICAL.value)
+
+    # Process did not crash; event was safely preserved in memory buffer
+    mem_buffer = db.get_emergency_memory_buffer()
+    assert len(mem_buffer) >= 1
+    assert mem_buffer[0]["event_type"] == "SPOOL_SATURATION_CRITICAL_BACKPRESSURE"
+    assert mem_buffer[0]["details"]["count"] == 2
+
+
+def test_crash_recovery_in_flight_idempotent_central_receipt(temp_spool_db):
+    """Demonstrate that when in-flight records are recovered back to BUFFERED after an unacknowledged
+    crash, re-forwarding them to CentralTelemetryReceiver is completely idempotent and produces
+    zero duplicate state mutations or corrupted streams.
+    """
+    mgr = EdgeStoreAndForwardManager(
+        station_id="MBA-STATION",
+        db_path=temp_spool_db,
+        auth_token="nawari-edge-shared-token-2026",
+    )
+    receiver = CentralTelemetryReceiver(valid_auth_tokens={"nawari-edge-shared-token-2026"})
+
+    # Record 3 events
+    s1 = mgr.record_telemetry("voice_rtcp", {"mos": 4.2, "jitter_ms": 12}, priority=SpoolItemPriority.STANDARD.value)
+    s2 = mgr.record_telemetry("voice_rtcp", {"mos": 4.1, "jitter_ms": 15}, priority=SpoolItemPriority.STANDARD.value)
+    s3 = mgr.record_telemetry("p1_alert", {"component": "SW-MBA-01", "state": "DOWN"}, priority=SpoolItemPriority.CRITICAL.value)
+
+    # Drain to receiver
+    res_fwd = mgr.drain_and_forward(batch_size=10, central_receiver=receiver)
+    assert res_fwd["status"] == "FORWARDED"
+    assert res_fwd["forwarded_count"] == 3
+
+    # Receiver has 3 records
+    assert len(receiver.get_replayed_stream()) == 3
+
+    # Now simulate a network / edge crash scenario:
+    # Set status back to IN_FLIGHT directly in DB to simulate crash right before batch ACK completed
+    with mgr.spool_db._get_connection() as conn:
+        conn.execute("UPDATE edge_telemetry_spool SET status = 'IN_FLIGHT', batch_id = 'BATCH-CRASH-01';")
+        conn.commit()
+
+    # Daemon restarts: new manager instance pointing to same DB
+    restarted_mgr = EdgeStoreAndForwardManager(
+        station_id="MBA-STATION",
+        db_path=temp_spool_db,
+        auth_token="nawari-edge-shared-token-2026",
+    )
+    # On startup, recover_in_flight() resets the 3 records back to BUFFERED
+    stats = restarted_mgr.spool_db.get_stats()
+    assert stats["buffered_count"] == 3
+    assert stats["in_flight_count"] == 0
+
+    # Re-forward the recovered batch to CentralTelemetryReceiver
+    res_retry = restarted_mgr.drain_and_forward(batch_size=10, central_receiver=receiver)
+    assert res_retry["status"] == "FORWARDED"
+
+    # Crucial idempotency check:
+    # Receiver rejected all 3 as duplicates, replayed stream STILL has exactly 3 records!
+    assert len(receiver.get_replayed_stream()) == 3
+    assert len(receiver._seen_event_ids) == 3
+
+
+def test_spool_50mb_size_limit_saturation_with_critical_p0_records(temp_spool_db):
+    """Verify that when the spool reaches its configured size limit (e.g. 50 MB) containing
+    strictly P0 critical records, lower priority pruning cannot free space and explicit
+    SpoolCriticalCapacityExhaustedError backpressure is enforced.
+    """
+    emergency_log = f"{temp_spool_db}.size_emerg.log"
+    # Configure tiny size limit (0.0001 MB = ~100 bytes) to trigger size-based ceiling
+    db = EdgeSpoolDatabase(
+        db_path=temp_spool_db,
+        max_records=10000,
+        max_spool_size_mb=0.0001,
+        allow_critical_prune=False,
+        emergency_log_path=emergency_log,
+    )
+
+    # Initial record creates SQLite file (~8 KB minimum for SQLite DB + WAL)
+    # The existing file size exceeds 0.0001 MB
+    with pytest.raises(SpoolCriticalCapacityExhaustedError) as exc_info:
+        db.enqueue("MBA-STATION", "alert", {"p1": "MISSION_CRITICAL_FAILURE"}, priority=SpoolItemPriority.CRITICAL.value)
+
+    assert "SPOOL_CRITICAL_OVERFLOW" in str(exc_info.value)
+    assert os.path.exists(emergency_log)
+    with open(emergency_log) as f:
+        content = f.read()
+    assert "SPOOL_SATURATION_CRITICAL_BACKPRESSURE" in content
+    if os.path.exists(emergency_log):
+        os.remove(emergency_log)
+

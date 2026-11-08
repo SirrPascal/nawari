@@ -170,3 +170,72 @@ def test_multidimensional_sli_and_coverage():
     assert res.unknown_minutes == 50.0
     assert res.coverage_percent < 100.0
     assert res.total_expected_minutes == 43150.0
+
+
+def test_nuanced_service_dependency_semantics_four_scenarios():
+    """Verify precision service dependency evaluation across 4 distinct operational scenarios:
+    1. Mandatory non-redundant component failure -> CRITICAL_DOWN
+    2. Primary failover active (primary down, secondary up) -> DEGRADED
+    3. Redundancy group member failure (secondary down, primary up) -> DEGRADED
+    4. Redundancy group complete exhaustion (all members down) -> CRITICAL_DOWN
+    """
+    catalog = ServiceCatalog(auto_seed=True)
+
+    # Base upstream DCS global dependencies healthy
+    base_states = {
+        "CIR-NBO-01": {"state": "ACTIVE", "quality": "FRESH"},
+        "CIR-NBO-02": {"state": "ACTIVE", "quality": "FRESH"},
+        "SW-DC1-01": {"state": "ACTIVE", "quality": "FRESH"},
+    }
+
+    # Scenario 1: Mandatory non-redundant failure (SW-MBA-01 down) -> CRITICAL_DOWN
+    states_scen1 = {
+        **base_states,
+        "CIR-MBA-01": {"state": "ACTIVE", "quality": "FRESH"},
+        "CIR-MBA-02": {"state": "ACTIVE", "quality": "FRESH"},
+        "SW-MBA-01": {"state": "DOWN", "quality": "FRESH"},
+    }
+    res1 = catalog.evaluate_service_health("SVC-DCS-MBA", states_scen1)
+    assert res1.status == "CRITICAL_DOWN"
+    assert res1.is_mandatory_failed is True
+    assert res1.health_index == 0.0
+    assert any("Mandatory component 'SW-MBA-01'" in n for n in res1.evaluation_notes)
+
+    # Scenario 2: Primary failover active (CIR-MBA-01 down, CIR-MBA-02 up, switch up) -> DEGRADED
+    states_scen2 = {
+        **base_states,
+        "CIR-MBA-01": {"state": "DOWN", "quality": "FRESH"},
+        "CIR-MBA-02": {"state": "ACTIVE", "quality": "FRESH"},
+        "SW-MBA-01": {"state": "ACTIVE", "quality": "FRESH"},
+    }
+    res2 = catalog.evaluate_service_health("SVC-DCS-MBA", states_scen2)
+    assert res2.status == "DEGRADED"
+    assert res2.is_mandatory_failed is False
+    assert 0.0 < res2.health_index <= 0.70
+    assert any("PRIMARY FAILOVER ACTIVE" in n for n in res2.evaluation_notes)
+
+    # Scenario 3: Redundancy member degraded (CIR-MBA-02 down, CIR-MBA-01 up, switch up) -> DEGRADED
+    states_scen3 = {
+        **base_states,
+        "CIR-MBA-01": {"state": "ACTIVE", "quality": "FRESH"},
+        "CIR-MBA-02": {"state": "DOWN", "quality": "FRESH"},
+        "SW-MBA-01": {"state": "ACTIVE", "quality": "FRESH"},
+    }
+    res3 = catalog.evaluate_service_health("SVC-DCS-MBA", states_scen3)
+    assert res3.status == "DEGRADED"
+    assert res3.is_mandatory_failed is False
+    assert 0.0 < res3.health_index <= 0.70
+    assert any("REDUNDANCY DEGRADED" in n for n in res3.evaluation_notes)
+
+    # Scenario 4: Redundancy group complete exhaustion (both circuits down, switch up) -> CRITICAL_DOWN
+    states_scen4 = {
+        **base_states,
+        "CIR-MBA-01": {"state": "DOWN", "quality": "FRESH"},
+        "CIR-MBA-02": {"state": "DOWN", "quality": "FRESH"},
+        "SW-MBA-01": {"state": "ACTIVE", "quality": "FRESH"},
+    }
+    res4 = catalog.evaluate_service_health("SVC-DCS-MBA", states_scen4)
+    assert res4.status == "CRITICAL_DOWN"
+    assert res4.is_mandatory_failed is True
+    assert res4.health_index == 0.0
+    assert any("completely exhausted" in n for n in res4.evaluation_notes)
