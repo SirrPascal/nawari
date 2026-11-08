@@ -6,7 +6,7 @@ version: "1"
 
 hosts:
   - host: "nawari-voice-probe-01"
-    name: "Nawari Voice Synthetic Probe 01"
+    name: "Voice Synthetic Probe 01"
     description: "Synthetic voice quality, SIP signaling, and media telemetry probe."
     status: 0  # Monitored
     groups:

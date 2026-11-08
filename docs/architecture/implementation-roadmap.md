@@ -138,6 +138,107 @@ Evaluate, do not automatically deploy:
 
 **Exit gate:** restore test, security review, image scan, configuration reconciliation, monitoring self-observation and approved network validation are complete.
 
+## Phase 10 — Multi-Host Provisioning Automation & Pipeline Hardening
+
+- Containerized service topology orchestration across dedicated monitoring nodes.
+- Automated health gating and idempotency validation.
+- Zero-drift Zabbix desired-state provisioning engine (`provisioning_orchestrator.py`).
+- Deterministic verification suite (`scripts/verify_phase10.sh`).
+
+**Exit gate:** all provisioning runs converge with zero duplicate objects and zero unhandled exceptions.
+
+## Phase 11 — Security Controls, Auditing & Access Boundaries
+
+- Least-privilege API tokens and role-based access control (RBAC).
+- Read-only datasource isolation for Grafana.
+- Air-gapped secret handling and environmental isolation.
+- Strict repository boundary enforcement: `sentra` working tree preserved clean at baseline commit `9970404`.
+
+**Exit gate:** security audit script passes 100%; zero leaked credentials or unauthorized write scopes.
+
+## Phase 12 — Production-Scale Performance & Resiliency Testing
+
+- High-throughput Zabbix Trapper ingestion stress-testing (1,000+ metrics/sec).
+- Time-series metric retention and database partitioning verification.
+- Simulated network failure recovery drills (core switch, carrier trunk, probe node).
+- Zero-loss message queue buffering under container restart.
+
+**Exit gate:** synthetic load generates zero packet drops; metric backlog resolves within 30 seconds of service restoration.
+
+## Phase 13 — Avaya Multi-Device Observability, Native Alerting & Communication
+
+- Separation of Avaya infrastructure dashboards into dedicated, scoped views:
+  - Communication Manager Duplex Pair (`avaya-cm-01`, `avaya-cm-02`)
+  - Session Manager Cluster (`avaya-sm-01`, `avaya-sm-02`)
+  - Session Border Controller Enterprise (`avaya-sbce-01`, `avaya-sbce-02`)
+  - G450 Media Gateway Fleet (`avaya-g450-01`)
+  - Carrier SIP Interconnects (`sip-trunk-carrier-01`)
+- Zabbix native trigger and action architecture replacing dual-engine evaluation.
+- Staging simulated telemetry vs. production telemetry evidence categorization (`CONFIGURED_UNVERIFIED`).
+- Phase 13.7: Deterministic notification lifecycle validation, tag-based routing, retirement of legacy Action 7, and zero platform branding enforcement.
+
+### Phase 13.8 — Zabbix Runtime Notification Verification & Service-Outage Semantics
+
+- **Runtime Execution Verification:** Execution of Actions 10–15 within the live Zabbix 7.4 event engine via `ZabbixSender`, querying `alert.get` for real dispatch records.
+- **Service-Outage vs. Total-Outage Semantics:**
+  - `total_outage` (Action 10): Strictly reserved for complete loss of primary site transport or core network failure (`mock-core-switch-01` / `core-gw-01`). Dispatches to all 5 recipients (Voice Administrators + Central IT Service Desk).
+  - `service_outage` (Action 11): Component/appliance unreachability (single SBCE, single G450, single Session Manager, or single SIP trunk). Dispatches to the 4 Voice Administrators (Group 14), avoiding Service Desk alert storms when telephony survives on redundant paths.
+- **Recovery Semantics:** Clear differentiation between ICMP host reachability (L3 link up) and higher-layer voice service restoration (SIP OPTIONS / synthetic call pass).
+- **Macro Expansion & Zero Branding:** Zabbix server native engine expands all macros (`{HOST.NAME}`, `{EVENT.NAME}`, `{EVENT.SEVERITY}`, `{EVENT.DURATION}`). Recipient-facing messages contain zero platform branding ("Nawari", "Zabbix", "Grafana").
+- **Delivery Boundary:** Email media type preserved in `CONFIGURED_UNVERIFIED` state; zero live external transmissions to `@kenya-airways.com` during staging validation.
+
+**Exit gate:** live Zabbix API confirms 100% action mutual exclusivity, valid macro expansion, correct recipient group targeting, and passing `verify_phase13.sh`.
+
+---
+
+## Controlled Production Transition & Phase 8.2 Commissioning Gate
+
+The transition from staging validation to live production monitoring is strictly gated. Staging runtime proof does not permit automatic production mutation.
+
+```
++-------------------------------------------------------------------------+
+| Phase 13.8 Staging Runtime Verification & Service Semantics (ACCEPTED)   |
++-------------------------------------------------------------------------+
+                                    |
+                                    v
++-------------------------------------------------------------------------+
+| PHASE 8.2: CONTROLLED READ-ONLY PRODUCTION TELEMETRY COMMISSIONING GATE |
+|                                                                         |
+| 1. Read-Only Production Telemetry Ingestion:                            |
+|    - Connect to production Avaya SNMP interfaces (CM, SM, SBCE, G450)   |
+|    - Validate official Avaya OIDs against live appliances               |
+|    - Receive production SNMP traps and Syslog feeds                     |
+|                                                                         |
+| 2. Microsoft 365 OAuth 2.0 Email Media Commissioning:                   |
+|    - Configure Azure AD / Entra ID Client ID, Tenant ID & Secret        |
+|    - Transition Email Media Type from CONFIGURED_UNVERIFIED to VERIFIED |
+|    - Perform single-recipient test before enabling all-group broadcast |
+|                                                                         |
+| 3. Mandatory Safety Enforcement:                                        |
+|    - mon-grafana01 mutation lock remains locked                         |
+|    - HARD_PRODUCTION_DENY remains enforced: ZERO automated carrier     |
+|      failovers, gateway reboots, or production configuration mutations  |
++-------------------------------------------------------------------------+
+                                    |
+                                    v
++-------------------------------------------------------------------------+
+| Executive Operational Sign-off (KQ IT Service Desk & Voice Engineering) |
++-------------------------------------------------------------------------+
+                                    |
+                                    v
++-------------------------------------------------------------------------+
+| Live Production Delivery & Active Service Assurance                     |
++-------------------------------------------------------------------------+
+```
+
+### Safety & Mutation Policy: HARD_PRODUCTION_DENY
+
+At all stages of deployment, Nawari operates under strict read-only assurance principles:
+- **`HARD_PRODUCTION_DENY`**: The `AutomationPolicyEngine` unconditionally denies and blocks any automated operational action targeting production infrastructure (`ActionState.BLOCKED`). Automated failovers, trunk rerouting, and appliance reboots must never occur without manual engineer execution.
+- **Repository Isolation**: The upstream `sentra` repository remains completely isolated at baseline commit `9970404`. No code, configuration, or operational dependencies may alter the Sentra working tree.
+
+---
+
 ## Initial implementation order
 
 1. Review these documents and approve boundaries.

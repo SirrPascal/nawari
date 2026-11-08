@@ -125,21 +125,60 @@ TOTAL_OUTAGE_RECOVERY_MESSAGE = (
 )
 
 
-def classify_trigger_description(desc: str) -> str:
-    """Deterministically classify a trigger into its notification_class tag value."""
+def classify_trigger_description(desc: str, strict_service_semantics: bool = False) -> str:
+    """Deterministically classify a trigger into its notification_class tag value.
+
+    Args:
+        desc: The trigger description string.
+        strict_service_semantics: When True (Phase 13.8 service-outage semantics),
+            distinguishes isolated voice component/host unreachability (e.g. single SBCE,
+            single G450, single SIP trunk) as 'service_outage' rather than 'total_outage'.
+            True 'total_outage' is reserved for network core / core transport failures
+            affecting the entire site or cluster-wide outages.
+    """
     d = desc.lower()
+
+    if strict_service_semantics:
+        if any(k in d for k in [
+            "total network core transport failure",
+            "network core transport failure",
+            "network core down",
+            "total outage",
+            "core switch unreachable",
+            "unavailable by icmp ping",
+            "device unreachable by icmp ping",
+            "core cluster failure",
+            "all session managers unreachable",
+            "all carrier routes down"
+        ]):
+            return "total_outage"
+        elif any(k in d for k in [
+            "appliance unreachable", "host unavailable", "processor unreachable",
+            "chassis unreachable", "endpoint unreachable",
+            "sip entity down", "deny new service", "unregistered from communication manager",
+            "consecutive options probe failures", "dns srv/a resolution failure",
+            "recording pipeline health failure"
+        ]):
+            return "service_outage"
+    else:
+        if any(k in d for k in [
+            "total network core transport failure",
+            "network core transport failure",
+            "network core down",
+            "total outage",
+            "core switch unreachable",
+            "appliance unreachable", "host unavailable", "processor unreachable",
+            "chassis unreachable", "endpoint unreachable", "unavailable by icmp ping"
+        ]):
+            return "total_outage"
+        elif any(k in d for k in [
+            "sip entity down", "deny new service", "unregistered from communication manager",
+            "consecutive options probe failures", "dns srv/a resolution failure",
+            "recording pipeline health failure"
+        ]):
+            return "service_outage"
+
     if any(k in d for k in [
-        "appliance unreachable", "host unavailable", "processor unreachable",
-        "chassis unreachable", "endpoint unreachable", "unavailable by icmp ping"
-    ]):
-        return "total_outage"
-    elif any(k in d for k in [
-        "sip entity down", "deny new service", "unregistered from communication manager",
-        "consecutive options probe failures", "dns srv/a resolution failure",
-        "recording pipeline health failure"
-    ]):
-        return "service_outage"
-    elif any(k in d for k in [
         "synthetic voice", "synthetic probe", "one-way audio"
     ]):
         return "synthetic_failure"
@@ -167,6 +206,11 @@ def classify_trigger_description(desc: str) -> str:
     ]):
         return "degradation"
     return "degradation"
+
+
+def classify_service_outage_semantics(desc: str) -> str:
+    """Phase 13.8 helper to classify triggers using strict service-outage semantics."""
+    return classify_trigger_description(desc, strict_service_semantics=True)
 
 
 class NotificationReconciler:
@@ -399,6 +443,10 @@ class NotificationReconciler:
         tag_stats = self.reconcile_trigger_tags()
         actions = self.ensure_structured_actions(admin_group_id, total_outage_group_id)
 
+        # Phase 13.8: Ensure User Groups 14 and 15 have read permissions across monitored host groups
+        self.ensure_group_permissions(admin_group_id)
+        self.ensure_group_permissions(total_outage_group_id)
+
         # Phase 13.7: Gracefully supersede and disable legacy Action 7 to guarantee mutual exclusivity
         # and prevent duplicate notifications for the four administrators who belong to both groups.
         legacy_actions = self.client.call("action.get", {"filter": {"name": ACTION_NAME}})
@@ -414,6 +462,16 @@ class NotificationReconciler:
             "tag_stats": tag_stats,
             "structured_actions": actions,
         }
+
+    def ensure_group_permissions(self, group_id: str) -> None:
+        """Ensure the user group has read permission (2) across all host groups."""
+        try:
+            hgrps = self.client.call("hostgroup.get", {"output": ["groupid"]})
+            if hgrps:
+                rights = [{"id": str(g["groupid"]), "permission": 2} for g in hgrps]
+                self.client.call("usergroup.update", {"usrgrpid": group_id, "hostgroup_rights": rights})
+        except Exception as e:
+            logger.debug(f"Failed to update hostgroup_rights for group {group_id}: {e}")
 
     def ensure_group(self, group_name: str, description: str) -> str:
         """Ensure a user group exists and return its groupid."""

@@ -684,3 +684,59 @@ def calculate_downtime_delta(
         "observed_duration_str": format_zabbix_duration(observed_duration),
         "delta_seconds": delta,
     }
+
+
+def differentiate_host_vs_service_recovery(
+    trigger_name: str,
+    host_name: str,
+    duration_str: str = "0s",
+) -> Dict[str, Any]:
+    """Provide service-restoration evidence analysis distinguishing host ping from service recovery.
+
+    A recovered ICMP reachability check on a host restores reachability, NOT full service.
+    Service restoration requires service-level evidence:
+    - SIP entity registration status
+    - SIP trunk availability (OPTIONS 200 OK)
+    - Call routing availability
+    - Successful synthetic call completion
+    """
+    t_lower = trigger_name.lower()
+    is_host_reachability = any(k in t_lower for k in ["icmp", "ping", "unreachable by icmp ping", "unavailable by icmp ping"])
+    is_sip_trunk = any(k in t_lower for k in ["options", "sip trunk", "sip entity"])
+    is_synthetic = any(k in t_lower for k in ["synthetic", "mos", "one-way audio"])
+
+    if is_host_reachability:
+        recovery_type = "HOST_REACHABILITY_RESTORED"
+        operational_interpretation = (
+            f"Network reachability to {host_name} has resumed. "
+            "Higher-layer voice daemons, SIP registrations, and call routing require service-level verification."
+        )
+        service_restored_proven = False
+    elif is_sip_trunk:
+        recovery_type = "SIP_TRUNK_SIGNALING_RESTORED"
+        operational_interpretation = (
+            f"SIP signaling response on {host_name} has recovered. "
+            "Inbound and outbound trunk capacity is operational."
+        )
+        service_restored_proven = True
+    elif is_synthetic:
+        recovery_type = "SYNTHETIC_PROBE_VALIDATED"
+        operational_interpretation = (
+            f"Automated synthetic voice probe on {host_name} completed successfully. "
+            "End-to-end voice path media quality confirmed."
+        )
+        service_restored_proven = True
+    else:
+        recovery_type = "SUBSYSTEM_RESTORED"
+        operational_interpretation = f"Subsystem condition on {host_name} has cleared."
+        service_restored_proven = True
+
+    return {
+        "host_name": host_name,
+        "trigger_name": trigger_name,
+        "duration_str": duration_str,
+        "recovery_type": recovery_type,
+        "operational_interpretation": operational_interpretation,
+        "service_restored_proven": service_restored_proven,
+    }
+
