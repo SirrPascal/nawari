@@ -1,0 +1,220 @@
+{
+  "metadata": {
+    "phase": "13.14",
+    "title": "Dashboard & Reporting Operational Acceptance",
+    "timestamp": "2026-11-08T16:47:42.239084+00:00",
+    "nawari_commit": "ad20ec8",
+    "sentra_commit": "9970404",
+    "hard_production_deny": true,
+    "status": "VALIDATED_STAGING"
+  },
+  "dashboard_inventory": {
+    "total_dashboards": 24,
+    "communication_dashboards_count": 11,
+    "network_dashboards_count": 13,
+    "total_panels_audited": 282,
+    "panel_type_distribution": {
+      "row": 82,
+      "gauge": 23,
+      "stat": 86,
+      "timeseries": 57,
+      "table": 17,
+      "alexanderzobnin-zabbix-problems-panel": 4,
+      "text": 4,
+      "piechart": 5,
+      "bargauge": 3,
+      "nodeGraph": 1
+    },
+    "provenance_distribution": {
+      "PHYSICAL_LIVE": 219,
+      "SYNTHETIC_PROBE": 42,
+      "SIMULATED": 0,
+      "CALCULATED": 21,
+      "UNSPECIFIED": 0
+    },
+    "dashboards": [
+      {
+        "uid": "nawari-cms-contact-centre",
+        "title": "Nawari \u2014 Avaya Call Management System (CMS) & Contact Centre Performance",
+        "folder": "Communication Observability",
+        "panel_count": 12,
+        "variables": []
+      },
+      {
+        "uid": "nawari-communication-manager",
+        "title": "Nawari \u2014 Avaya Aura Communication Manager (CM) Call Processing & IP Voice Performance",
+        "folder": "Communication Observability",
+        "panel_count": 14,
+        "variables": []
+      },
+      {
+        "uid": "nawari-g450-gateway",
+        "title": "Nawari \u2014 Avaya G450 Media Gateway Appliance & Physical Telephony Health",
+        "folder": "Communication Observability",
+        "panel_count": 11,
+        "variables": []
+      },
+      {
+        "uid": "nawari-sbce-health",
+        "title": "Nawari \u2014 Avaya SBCE Operational Health",
+        "folder": "Communication Observability",
+        "panel_count": 19,
+        "variables": []
+      },
+      {
+        "uid": "nawari-session-manager",
+        "title": "Nawari \u2014 Avaya Aura Session Manager (ASM) Operational Health & SIP Entity Routing",
+        "folder": "Communication Observability",
+        "panel_count": 12,
+        "variables": []
+      },
+      {
+        "uid": "nawari-voice-correlation",
+        "title": "Nawari \u2014 Cross-Domain Voice & Endpoint Telemetry Correlation",
+        "folder": "Communication Observability",
+        "panel_count": 14,
+        "variables": [
+          "group",
+          "endpoint"
+        ]
+      },
+      {
+        "uid": "nawari-voice-service-assurance",
+        "title": "Nawari \u2014 Voice Service Assurance & Media Quality",
+        "folder": "Communication Observability",
+        "panel_count": 16,
+        "variables": []
+      },
+      {
+        "uid": "nawari-comm-overview",
+        "title": "Nawari \u2014 Enterprise Communication Services Overview & Executive Service Assurance",
+        "folder": "Communication Observability",
+        "panel_count": 16,
+        "variables": []
+      },
+      {
+        "uid": "nawari-sip-trunks",
+        "title": "Nawari \u2014 Carrier SIP Trunks, Signaling Ladders & Perimeter Session Routing",
+        "folder": "Communication Observability",
+        "panel_count": 10,
+        "variables": []
+      },
+      {
+        "uid": "nawari-voice-intelligence",
+        "title": "Nawari \u2014 Communications Intelligence & Voice Service Assurance",
+        "folder": "Communication Observability",
+        "panel_count": 15,
+        "variables": []
+      },
+      {
+        "uid": "nawari-recording-wfo",
+        "title": "Nawari \u2014 Voice Recording & Workforce Optimisation (WFO) Operational Health",
+        "folder": "Communication Observability",
+        "panel_count": 13,
+        "variables": []
+      },
+      {
+        "uid": "nawari-endpoint-detail",
+        "title": "Nawari \u2014 Endpoint Deep-Dive & Edge Experience",
+        "folder": "Network Observability",
+        "panel_count": 23,
+        "variables": [
+          "group",
+          "endpoint"
+        ]
+      },
+      {
+        "uid": "nawari-endpoint-fleet",
+        "title": "Nawari \u2014 Endpoint Fleet Observability Overview",
+        "folder": "Network Observability",
+        "panel_count": 19,
+        "variables": []
+      },
+      {
+        "uid": "nawari-interface-health",
+        "title": "Nawari \u2014 Interface Traffic & Performance Health",
+        "folder": "Network Observability",
+        "panel_count": 9,
+        "variables": [
+          "group",
+          "host",
+          "interface"
+        ]
+      },
+      {
+        "uid": "nawari-controlled-operations",
+        "title": "Nawari \u2014 Controlled Operational Actions & Automated Remediation",
+        "folder": "Network Observability",
+        "panel_count": 8,
+        "variables": []
+      },
+      {
+        "uid": "nawari-edge-fleet",
+        "title": "Nawari \u2014 Distributed Edge Collector Fleet & Spool Storage",
+        "folder": "Network Observability",
+        "panel_count": 6,
+        "variables": []
+      },
+      {
+        "uid": "nawari-enterprise-overview",
+        "title": "Nawari \u2014 Enterprise Executive Overview & Fleet Availability",
+        "folder": "Network Observability",
+        "panel_count": 7,
+        "variables": []
+      },
+      {
+        "uid": "nawari-global-outstations",
+        "title": "Nawari \u2014 Global Outstation Network & WAN Telemetry",
+        "folder": "Network Observability",
+        "panel_count": 9,
+        "variables": []
+      },
+      {
+        "uid": "nawari-incident-operations",
+        "title": "Nawari \u2014 Incident Operations, Escalation & Verified Recovery",
+        "folder": "Network Observability",
+        "panel_count": 5,
+        "variables": []
+      },
+      {
+        "uid": "nawari-predictive-intelligence",
+        "title": "Nawari \u2014 Predictive Intelligence, Dynamic Baselines & Degradation Assurance",
+        "folder": "Network Observability",
+        "panel_count": 9,
+        "variables": []
+      },
+      {
+        "uid": "nawari-service-catalog-sla",
+        "title": "Nawari \u2014 Aviation Business Service Catalogue & SLA/SLO Assurance",
+        "folder": "Network Observability",
+        "panel_count": 9,
+        "variables": []
+      },
+      {
+        "uid": "nawari-net-overview",
+        "title": "Nawari \u2014 Network Infrastructure Overview",
+        "folder": "Network Observability",
+        "panel_count": 9,
+        "variables": []
+      },
+      {
+        "uid": "nawari-path-analysis",
+        "title": "Nawari \u2014 Network Path & Directional Hop Analysis",
+        "folder": "Network Observability",
+        "panel_count": 13,
+        "variables": [
+          "group",
+          "endpoint",
+          "target"
+        ]
+      },
+      {
+        "uid": "nawari-network-topology",
+        "title": "Nawari \u2014 Network Topology & Service Dependencies",
+        "folder": "Network Observability",
+        "panel_count": 4,
+        "variables": []
+      }
+    ]
+  }
+}
