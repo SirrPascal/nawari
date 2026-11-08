@@ -1,0 +1,42 @@
+# Nawari Deployment Profile: single-site-production
+# Designation: Live Central Hub Production (Pride Centre / JKIA Data Centers).
+# STRICTLY GATED BEHIND PHASE 8.2 PHYSICAL COMMISSIONING.
+
+profile_name: "single-site-production"
+tier: "PRODUCTION_CENTRAL_HUB"
+description: "Single-site live production deployment for Kenya Airways HQ and JKIA Hub."
+live_mutation_allowed: true
+production_gate_required: true
+phase_8_2_commissioning_required: true
+
+components:
+  hub_core:
+    enabled: true
+    memory_limit_mb: 1024
+  postgresql_ha:
+    enabled: true
+    memory_limit_mb: 1024
+  zabbix_ha_cluster:
+    enabled: true
+    memory_limit_mb: 1536
+  grafana_enterprise:
+    enabled: true
+    memory_limit_mb: 512
+  action_engine:
+    enabled: true
+    dry_run_only: false
+    sandbox_mode: false
+    two_person_rule_enforced: true
+    require_three_distinct_identities: true
+
+security_interlocks:
+  hard_production_deny_default: true
+  audit_ledger_immutable: true
+  require_signed_approval_tokens: true
+
+networking:
+  listen_host: "0.0.0.0"
+  api_port: 8443
+  tls_required: true
+  mtls_required: true
+

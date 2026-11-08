@@ -1,0 +1,42 @@
+# Nawari Deployment Profile: staging
+# Designation: Pre-production validation environment on mon-grafana01 or staging VM.
+# Full container stack within <= 2.20 GiB envelope. Gated actions.
+
+profile_name: "staging"
+tier: "PRE_PRODUCTION_STAGING"
+description: "Realistic staging environment with full container stack and controlled simulation feeds."
+live_mutation_allowed: false
+production_gate_required: false
+
+components:
+  hub_core:
+    enabled: true
+    memory_limit_mb: 768
+  postgresql:
+    enabled: true
+    memory_limit_mb: 512
+  zabbix_server:
+    enabled: true
+    memory_limit_mb: 768
+  grafana:
+    enabled: true
+    memory_limit_mb: 280
+  voice_assurance:
+    enabled: true
+    memory_limit_mb: 128
+  action_engine:
+    enabled: true
+    dry_run_only: false
+    sandbox_mode: true
+    two_person_rule_enforced: true
+    require_three_distinct_identities: true
+
+host_resource_budget:
+  max_container_memory_mb: 2252  # 2.20 GiB hard limit
+  target_host: "mon-grafana01"
+
+networking:
+  listen_host: "0.0.0.0"
+  api_port: 8443
+  tls_required: true
+

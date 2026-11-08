@@ -1,0 +1,33 @@
+# Nawari Deployment Profile: simulation
+# Designation: Completely air-gapped synthetic and mock testing.
+# Zero autonomous live mutations. Zero real hardware interaction.
+
+profile_name: "simulation"
+tier: "DEVELOPMENT_SIMULATION"
+description: "Synthetic testing environment for unit, integration, and failure injection testing."
+live_mutation_allowed: false
+production_gate_required: false
+
+components:
+  hub_core:
+    enabled: true
+    memory_limit_mb: 512
+  zabbix_mock:
+    enabled: true
+  grafana_dashboards:
+    enabled: true
+  voice_assurance_synthetic:
+    enabled: true
+  edge_forwarders:
+    enabled: true
+    mock_mode: true
+  action_engine:
+    enabled: true
+    dry_run_only: true
+    two_person_rule_enforced: true
+
+networking:
+  listen_host: "127.0.0.1"
+  api_port: 8080
+  tls_required: false
+

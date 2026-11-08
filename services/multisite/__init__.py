@@ -53,6 +53,50 @@ from services.multisite.recovery_verifier import (
     TelemetrySourceProfile,
     TelemetrySourceType,
 )
+from services.multisite.edge_forwarder import (
+    EdgeSpoolDatabase,
+    EdgeStoreAndForwardManager,
+    SpoolItem,
+    SpoolItemStatus,
+)
+from services.multisite.wan_voice_probes import (
+    TransWanVoiceProber,
+    VoiceProbeResult,
+    VoiceTrunkStatus,
+    WanVoiceQualityEvaluator,
+)
+from services.multisite.site_rbac import (
+    ActionOperationalEnvelope,
+    ActionRiskTier,
+    BoundApprovalToken,
+    InsufficientRolePermission,
+    RBACScope,
+    ScopeAuthorizationError,
+    SiteAwareRBACEngine,
+    ThreeIdentityCardinalityViolation,
+    TokenExpiredOrReplayed,
+    TokenTamperedOrInvalid,
+    UserProfile,
+    UserRole,
+)
+from services.multisite.packaging import (
+    DeploymentProfileManager,
+    DeploymentTier,
+    PackagingTarget,
+    ProductionGatingViolation,
+    SystemdServiceConfig,
+    SystemdUnitGenerator,
+)
+from services.multisite.api_governance import (
+    AuditBlock,
+    AuditChainCorruptionType,
+    HardenedAuditLedger,
+    IdempotencyRegistry,
+    LeaseBasedEntityLock,
+    TokenBucketRateLimiter,
+    WALActionState,
+    WriteAheadActionJournal,
+)
 
 __all__ = [
     # 13A
@@ -92,4 +136,42 @@ __all__ = [
     "RecoveryObservation",
     "TelemetrySourceProfile",
     "TelemetrySourceType",
+    # 13D
+    "EdgeSpoolDatabase",
+    "EdgeStoreAndForwardManager",
+    "SpoolItem",
+    "SpoolItemStatus",
+    "TransWanVoiceProber",
+    "VoiceProbeResult",
+    "VoiceTrunkStatus",
+    "WanVoiceQualityEvaluator",
+    # 13E
+    "ActionOperationalEnvelope",
+    "ActionRiskTier",
+    "BoundApprovalToken",
+    "InsufficientRolePermission",
+    "RBACScope",
+    "ScopeAuthorizationError",
+    "SiteAwareRBACEngine",
+    "ThreeIdentityCardinalityViolation",
+    "TokenExpiredOrReplayed",
+    "TokenTamperedOrInvalid",
+    "UserProfile",
+    "UserRole",
+    # 13G
+    "DeploymentProfileManager",
+    "DeploymentTier",
+    "PackagingTarget",
+    "ProductionGatingViolation",
+    "SystemdServiceConfig",
+    "SystemdUnitGenerator",
+    # 13H
+    "AuditBlock",
+    "AuditChainCorruptionType",
+    "HardenedAuditLedger",
+    "IdempotencyRegistry",
+    "LeaseBasedEntityLock",
+    "TokenBucketRateLimiter",
+    "WALActionState",
+    "WriteAheadActionJournal",
 ]

@@ -1,0 +1,42 @@
+# Nawari Deployment Profile: multi-site-production
+# Designation: Globally distributed multi-site production deployment.
+# STRICTLY GATED BEHIND PHASE 8.2 PHYSICAL COMMISSIONING.
+
+profile_name: "multi-site-production"
+tier: "PRODUCTION_MULTI_SITE_GLOBAL"
+description: "Distributed enterprise airline platform spanning JKIA hub, domestic stations, and international outstations."
+live_mutation_allowed: true
+production_gate_required: true
+phase_8_2_commissioning_required: true
+
+components:
+  hub_cluster:
+    enabled: true
+    data_centers: ["DC1_PRIDE_CENTRE", "DC2_OLD_AIRPORT_CARGO"]
+  regional_proxies:
+    enabled: true
+    regions: ["DOMESTIC_KENYA", "REGIONAL_EAST_AFRICA", "INTERNATIONAL_EUROPE", "INTERNATIONAL_MIDDLE_EAST"]
+    max_memory_per_proxy_mb: 256
+  edge_collectors:
+    enabled: true
+    outstations: ["MBA", "KIS", "EDL", "MYD", "EBB", "DAR", "KGL", "ADD", "JUB", "LHR", "DXB", "AMS", "JNB", "JFK"]
+    max_memory_per_agent_mb: 128
+    local_spool_enabled: true
+  action_engine:
+    enabled: true
+    dry_run_only: false
+    sandbox_mode: false
+    two_person_rule_enforced: true
+    require_three_distinct_identities: true
+
+security_interlocks:
+  hard_production_deny_default: true
+  audit_ledger_immutable: true
+  require_signed_approval_tokens: true
+  multi_site_rbac_enforced: true
+
+networking:
+  trans_wan_encryption: "TLS_1_3_OR_IPSEC"
+  mtls_required: true
+  rate_limit_replay_records_per_sec: 50
+
