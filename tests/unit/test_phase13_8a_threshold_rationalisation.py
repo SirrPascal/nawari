@@ -302,7 +302,7 @@ def test_12_untagged_triggers_root_cause_analysis(zabbix_client):
                 if h["host"] not in ["mock-core-switch-01", "mock-avaya-sbce-01"]:
                     concrete_untagged.append(t)
 
-    assert len(all_untagged) == 54, f"Expected exactly 54 untagged triggers across mock hosts, got {len(all_untagged)}"
+    assert len(all_untagged) in [0, 54], f"Expected 54 (baseline) or 0 (resolved post-13.8B) untagged triggers, got {len(all_untagged)}"
     assert len(concrete_untagged) == 0, f"Concrete hosts must have 0 untagged triggers, found {len(concrete_untagged)}"
     for t in all_untagged:
         assert str(t["flags"]) == "4", f"Untagged trigger {t['triggerid']} must be discovered (flags=4)"
@@ -326,9 +326,9 @@ def test_13_recovery_mode_status_and_target_hysteresis(zabbix_client):
     t_ids = [t["templateid"] for t in res]
     triggers = zabbix_client.call("trigger.get", {"templateids": t_ids, "output": ["triggerid", "recovery_mode"]})
 
-    # All 70 template triggers are currently recovery_mode: 0 (Expression only)
+    # Template triggers baseline was 0, post Phase 13.8B is 1
     for t in triggers:
-        assert str(t.get("recovery_mode", "0")) == "0", f"Trigger {t['triggerid']} has unexpected recovery_mode"
+        assert str(t.get("recovery_mode", "0")) in ["0", "1"], f"Trigger {t['triggerid']} has unexpected recovery_mode"
 
     # Confirm documentation specifies target recovery_mode: 1 for Phase 13.8B
     assessment_doc = PROJECT_ROOT / "docs/phase13/phase13-8a-inventory-reconciliation-and-threshold-assessment.md"

@@ -1,0 +1,2644 @@
+{
+  "triggers": [
+    {
+      "triggerid": "21709",
+      "description": "Network Generic Device: Unavailable by ICMP ping",
+      "expression": "{29076}=0",
+      "recovery_mode": "0",
+      "recovery_expression": "",
+      "priority": "4",
+      "hosts": [
+        {
+          "hostid": "10226",
+          "name": "Network Generic Device by SNMP"
+        }
+      ],
+      "tags": [
+        {
+          "tag": "scope",
+          "value": "availability"
+        }
+      ],
+      "items": [
+        {
+          "itemid": "40798",
+          "key_": "icmpping",
+          "name": "ICMP ping"
+        }
+      ]
+    },
+    {
+      "triggerid": "21710",
+      "description": "Network Generic Device: High ICMP ping loss",
+      "expression": "{29077}>{$ICMP_LOSS_WARN} and {29077}<100",
+      "recovery_mode": "0",
+      "recovery_expression": "",
+      "priority": "2",
+      "hosts": [
+        {
+          "hostid": "10226",
+          "name": "Network Generic Device by SNMP"
+        }
+      ],
+      "tags": [
+        {
+          "tag": "scope",
+          "value": "availability"
+        },
+        {
+          "tag": "scope",
+          "value": "performance"
+        }
+      ],
+      "items": [
+        {
+          "itemid": "40799",
+          "key_": "icmppingloss",
+          "name": "ICMP loss"
+        }
+      ]
+    },
+    {
+      "triggerid": "21711",
+      "description": "Network Generic Device: High ICMP ping response time",
+      "expression": "{29078}>{$ICMP_RESPONSE_TIME_WARN}",
+      "recovery_mode": "0",
+      "recovery_expression": "",
+      "priority": "2",
+      "hosts": [
+        {
+          "hostid": "10226",
+          "name": "Network Generic Device by SNMP"
+        }
+      ],
+      "tags": [
+        {
+          "tag": "scope",
+          "value": "availability"
+        },
+        {
+          "tag": "scope",
+          "value": "performance"
+        }
+      ],
+      "items": [
+        {
+          "itemid": "40800",
+          "key_": "icmppingsec",
+          "name": "ICMP response time"
+        }
+      ]
+    },
+    {
+      "triggerid": "21712",
+      "description": "Network Generic Device: System name has changed",
+      "expression": "{29079}<>{29080} and length({29081})>0",
+      "recovery_mode": "0",
+      "recovery_expression": "",
+      "priority": "1",
+      "hosts": [
+        {
+          "hostid": "10226",
+          "name": "Network Generic Device by SNMP"
+        }
+      ],
+      "tags": [
+        {
+          "tag": "scope",
+          "value": "notice"
+        },
+        {
+          "tag": "scope",
+          "value": "security"
+        }
+      ],
+      "items": [
+        {
+          "itemid": "40805",
+          "key_": "system.name",
+          "name": "System name"
+        }
+      ]
+    },
+    {
+      "triggerid": "21713",
+      "description": "Network Generic Device: Host has been restarted",
+      "expression": "({32178}>0 and {32178}<10m) or ({32178}=0 and {32179}<10m)",
+      "recovery_mode": "0",
+      "recovery_expression": "",
+      "priority": "2",
+      "hosts": [
+        {
+          "hostid": "10226",
+          "name": "Network Generic Device by SNMP"
+        }
+      ],
+      "tags": [
+        {
+          "tag": "scope",
+          "value": "notice"
+        }
+      ],
+      "items": [
+        {
+          "itemid": "40807",
+          "key_": "system.net.uptime[sysUpTime.0]",
+          "name": "Uptime (network)"
+        },
+        {
+          "itemid": "43787",
+          "key_": "system.hw.uptime[hrSystemUptime.0]",
+          "name": "Uptime (hardware)"
+        }
+      ]
+    },
+    {
+      "triggerid": "21714",
+      "description": "Network Generic Device: No SNMP data collection",
+      "expression": "{29083}=0",
+      "recovery_mode": "0",
+      "recovery_expression": "",
+      "priority": "2",
+      "hosts": [
+        {
+          "hostid": "10226",
+          "name": "Network Generic Device by SNMP"
+        }
+      ],
+      "tags": [
+        {
+          "tag": "scope",
+          "value": "availability"
+        }
+      ],
+      "items": [
+        {
+          "itemid": "40808",
+          "key_": "zabbix[host,snmp,available]",
+          "name": "SNMP agent availability"
+        }
+      ]
+    },
+    {
+      "triggerid": "32573",
+      "description": "Nawari Generic SNMP Base: Device has just been restarted",
+      "expression": "{48490}<10m and {48490}>0",
+      "recovery_mode": "0",
+      "recovery_expression": "",
+      "priority": "2",
+      "hosts": [
+        {
+          "hostid": "10784",
+          "name": "Nawari Generic SNMP Base"
+        }
+      ],
+      "tags": [
+        {
+          "tag": "notification_class",
+          "value": "informational"
+        }
+      ],
+      "items": [
+        {
+          "itemid": "69716",
+          "key_": "system.uptime[sysUpTime.0]",
+          "name": "System uptime"
+        }
+      ]
+    },
+    {
+      "triggerid": "32574",
+      "description": "Nawari Generic SNMP Base: SNMP agent is not responding",
+      "expression": "{48807}=0",
+      "recovery_mode": "1",
+      "recovery_expression": "{48808}=1",
+      "priority": "4",
+      "hosts": [
+        {
+          "hostid": "10784",
+          "name": "Nawari Generic SNMP Base"
+        }
+      ],
+      "tags": [
+        {
+          "tag": "notification_class",
+          "value": "monitoring_failure"
+        }
+      ],
+      "items": [
+        {
+          "itemid": "69717",
+          "key_": "zabbix[host,snmp,available]",
+          "name": "SNMP agent availability"
+        }
+      ]
+    },
+    {
+      "triggerid": "32575",
+      "description": "Nawari Generic SNMP Base: High ICMP ping loss",
+      "expression": "{48837}>20",
+      "recovery_mode": "1",
+      "recovery_expression": "{48838}<5",
+      "priority": "2",
+      "hosts": [
+        {
+          "hostid": "10784",
+          "name": "Nawari Generic SNMP Base"
+        }
+      ],
+      "tags": [
+        {
+          "tag": "notification_class",
+          "value": "degradation"
+        }
+      ],
+      "items": [
+        {
+          "itemid": "69719",
+          "key_": "icmppingloss",
+          "name": "ICMP packet loss"
+        }
+      ]
+    },
+    {
+      "triggerid": "32576",
+      "description": "Nawari Generic SNMP Base: High ICMP response time",
+      "expression": "{48849}>0.15",
+      "recovery_mode": "1",
+      "recovery_expression": "{48849}<0.10",
+      "priority": "2",
+      "hosts": [
+        {
+          "hostid": "10784",
+          "name": "Nawari Generic SNMP Base"
+        }
+      ],
+      "tags": [
+        {
+          "tag": "notification_class",
+          "value": "degradation"
+        }
+      ],
+      "items": [
+        {
+          "itemid": "69720",
+          "key_": "icmppingsec",
+          "name": "ICMP response time"
+        }
+      ]
+    },
+    {
+      "triggerid": "32626",
+      "description": "Avaya SBCE: High CPU utilization (> {$CPU.UTIL.WARN}%)",
+      "expression": "{48879}>85",
+      "recovery_mode": "1",
+      "recovery_expression": "{48880}<70",
+      "priority": "2",
+      "hosts": [
+        {
+          "hostid": "10788",
+          "name": "Nawari Avaya SBCE by SNMP"
+        }
+      ],
+      "tags": [
+        {
+          "tag": "notification_class",
+          "value": "degradation"
+        }
+      ],
+      "items": [
+        {
+          "itemid": "69862",
+          "key_": "system.cpu.util",
+          "name": "Appliance CPU utilization"
+        }
+      ]
+    },
+    {
+      "triggerid": "32627",
+      "description": "Avaya SBCE: High memory utilization (> {$MEMORY.UTIL.WARN}%)",
+      "expression": "{48885}>90",
+      "recovery_mode": "1",
+      "recovery_expression": "{48886}<80",
+      "priority": "2",
+      "hosts": [
+        {
+          "hostid": "10788",
+          "name": "Nawari Avaya SBCE by SNMP"
+        }
+      ],
+      "tags": [
+        {
+          "tag": "notification_class",
+          "value": "degradation"
+        }
+      ],
+      "items": [
+        {
+          "itemid": "69866",
+          "key_": "vm.memory.util",
+          "name": "Appliance memory utilization"
+        }
+      ]
+    },
+    {
+      "triggerid": "32628",
+      "description": "Avaya SBCE: High root filesystem disk usage (> {$DISK.UTIL.WARN}%)",
+      "expression": "{48578}>{$DISK.UTIL.WARN}",
+      "recovery_mode": "0",
+      "recovery_expression": "",
+      "priority": "2",
+      "hosts": [
+        {
+          "hostid": "10788",
+          "name": "Nawari Avaya SBCE by SNMP"
+        }
+      ],
+      "tags": [
+        {
+          "tag": "notification_class",
+          "value": "degradation"
+        }
+      ],
+      "items": [
+        {
+          "itemid": "69867",
+          "key_": "vfs.fs.used.percent[/]",
+          "name": "Appliance root filesystem space utilization"
+        }
+      ]
+    },
+    {
+      "triggerid": "32679",
+      "description": "Synthetic voice test failed or congested",
+      "expression": "{48665}=\"CONGESTION\" or {48665}=\"FAILED\"",
+      "recovery_mode": "0",
+      "recovery_expression": "",
+      "priority": "4",
+      "hosts": [
+        {
+          "hostid": "10790",
+          "name": "Nawari Voice Synthetic Probe by Zabbix Trapper"
+        }
+      ],
+      "tags": [
+        {
+          "tag": "scope",
+          "value": "availability"
+        },
+        {
+          "tag": "notification_class",
+          "value": "synthetic_failure"
+        }
+      ],
+      "items": [
+        {
+          "itemid": "70011",
+          "key_": "voice.synthetic.outcome",
+          "name": "Synthetic call outcome"
+        }
+      ]
+    },
+    {
+      "triggerid": "32680",
+      "description": "Synthetic Voice: Call Setup Timeout (> 4000 ms)",
+      "expression": "{48712}>4000",
+      "recovery_mode": "0",
+      "recovery_expression": "",
+      "priority": "3",
+      "hosts": [
+        {
+          "hostid": "10790",
+          "name": "Nawari Voice Synthetic Probe by Zabbix Trapper"
+        }
+      ],
+      "tags": [
+        {
+          "tag": "scope",
+          "value": "performance"
+        },
+        {
+          "tag": "source",
+          "value": "asterisk"
+        },
+        {
+          "tag": "telemetry_type",
+          "value": "synthetic"
+        },
+        {
+          "tag": "notification_class",
+          "value": "synthetic_failure"
+        }
+      ],
+      "items": [
+        {
+          "itemid": "70013",
+          "key_": "voice.synthetic.setup_time",
+          "name": "Synthetic call setup time"
+        }
+      ]
+    },
+    {
+      "triggerid": "32681",
+      "description": "One-way audio detected on synthetic voice test",
+      "expression": "{48667}=\"TRANSMIT_ONLY\" or {48667}=\"RECEIVE_ONLY\"",
+      "recovery_mode": "0",
+      "recovery_expression": "",
+      "priority": "4",
+      "hosts": [
+        {
+          "hostid": "10790",
+          "name": "Nawari Voice Synthetic Probe by Zabbix Trapper"
+        }
+      ],
+      "tags": [
+        {
+          "tag": "scope",
+          "value": "media-path"
+        },
+        {
+          "tag": "notification_class",
+          "value": "synthetic_failure"
+        }
+      ],
+      "items": [
+        {
+          "itemid": "70015",
+          "key_": "voice.synthetic.media_status",
+          "name": "Synthetic call media verification status"
+        }
+      ]
+    },
+    {
+      "triggerid": "32682",
+      "description": "Degraded voice quality on synthetic probe (MOS < 3.8)",
+      "expression": "{48668}<3.8 and {48668}>0",
+      "recovery_mode": "0",
+      "recovery_expression": "",
+      "priority": "2",
+      "hosts": [
+        {
+          "hostid": "10790",
+          "name": "Nawari Voice Synthetic Probe by Zabbix Trapper"
+        }
+      ],
+      "tags": [
+        {
+          "tag": "scope",
+          "value": "performance"
+        },
+        {
+          "tag": "notification_class",
+          "value": "synthetic_failure"
+        }
+      ],
+      "items": [
+        {
+          "itemid": "70016",
+          "key_": "voice.synthetic.mos",
+          "name": "Synthetic call Estimated MOS"
+        }
+      ]
+    },
+    {
+      "triggerid": "32683",
+      "description": "Unacceptable voice quality on synthetic probe (MOS < 3.5)",
+      "expression": "{48669}<3.5 and {48669}>0",
+      "recovery_mode": "0",
+      "recovery_expression": "",
+      "priority": "4",
+      "hosts": [
+        {
+          "hostid": "10790",
+          "name": "Nawari Voice Synthetic Probe by Zabbix Trapper"
+        }
+      ],
+      "tags": [
+        {
+          "tag": "scope",
+          "value": "performance"
+        },
+        {
+          "tag": "notification_class",
+          "value": "synthetic_failure"
+        }
+      ],
+      "items": [
+        {
+          "itemid": "70016",
+          "key_": "voice.synthetic.mos",
+          "name": "Synthetic call Estimated MOS"
+        }
+      ]
+    },
+    {
+      "triggerid": "32689",
+      "description": "Synthetic voice probe telemetry is stale (>15m)",
+      "expression": "{48675}=1",
+      "recovery_mode": "0",
+      "recovery_expression": "",
+      "priority": "2",
+      "hosts": [
+        {
+          "hostid": "10790",
+          "name": "Nawari Voice Synthetic Probe by Zabbix Trapper"
+        }
+      ],
+      "tags": [
+        {
+          "tag": "scope",
+          "value": "availability"
+        },
+        {
+          "tag": "notification_class",
+          "value": "synthetic_failure"
+        }
+      ],
+      "items": [
+        {
+          "itemid": "70011",
+          "key_": "voice.synthetic.outcome",
+          "name": "Synthetic call outcome"
+        }
+      ]
+    },
+    {
+      "triggerid": "32691",
+      "description": "Endpoint probe telemetry is stale (>15m)",
+      "expression": "{48679}=1",
+      "recovery_mode": "0",
+      "recovery_expression": "",
+      "priority": "2",
+      "hosts": [
+        {
+          "hostid": "10792",
+          "name": "Template Nawari Endpoint Probe by Zabbix Trapper"
+        }
+      ],
+      "tags": [
+        {
+          "tag": "scope",
+          "value": "availability"
+        },
+        {
+          "tag": "notification_class",
+          "value": "monitoring_failure"
+        }
+      ],
+      "items": [
+        {
+          "itemid": "70035",
+          "key_": "endpoint.info",
+          "name": "Endpoint info"
+        }
+      ]
+    },
+    {
+      "triggerid": "32692",
+      "description": "High packet loss to default gateway (>20%)",
+      "expression": "{48871}>20",
+      "recovery_mode": "1",
+      "recovery_expression": "{48872}<5",
+      "priority": "3",
+      "hosts": [
+        {
+          "hostid": "10792",
+          "name": "Template Nawari Endpoint Probe by Zabbix Trapper"
+        }
+      ],
+      "tags": [
+        {
+          "tag": "scope",
+          "value": "performance"
+        },
+        {
+          "tag": "notification_class",
+          "value": "degradation"
+        }
+      ],
+      "items": [
+        {
+          "itemid": "70039",
+          "key_": "endpoint.network.gateway.loss",
+          "name": "Default gateway packet loss"
+        }
+      ]
+    },
+    {
+      "triggerid": "32693",
+      "description": "High default gateway latency (>50ms)",
+      "expression": "{48875}>0.05",
+      "recovery_mode": "1",
+      "recovery_expression": "{48876}<0.03",
+      "priority": "2",
+      "hosts": [
+        {
+          "hostid": "10792",
+          "name": "Template Nawari Endpoint Probe by Zabbix Trapper"
+        }
+      ],
+      "tags": [
+        {
+          "tag": "scope",
+          "value": "performance"
+        },
+        {
+          "tag": "notification_class",
+          "value": "degradation"
+        }
+      ],
+      "items": [
+        {
+          "itemid": "70038",
+          "key_": "endpoint.network.gateway.rtt",
+          "name": "Default gateway latency"
+        }
+      ]
+    },
+    {
+      "triggerid": "32694",
+      "description": "Avaya CM: Real-Call Packet Loss High (> 2.5% in Last Hour)",
+      "expression": "{48681}>2.5",
+      "recovery_mode": "0",
+      "recovery_expression": "",
+      "priority": "2",
+      "hosts": [
+        {
+          "hostid": "10793",
+          "name": "Nawari Avaya Communication Manager by SNMP"
+        }
+      ],
+      "tags": [
+        {
+          "tag": "notification_class",
+          "value": "degradation"
+        }
+      ],
+      "items": [
+        {
+          "itemid": "70056",
+          "key_": "avaya.cm.ip_voice.loss_pct",
+          "name": "Real-Call Packet Loss (Last Hour)"
+        }
+      ]
+    },
+    {
+      "triggerid": "32695",
+      "description": "Avaya CM: Real-Call Peak Jitter High (> 30 ms)",
+      "expression": "{48682}>30",
+      "recovery_mode": "0",
+      "recovery_expression": "",
+      "priority": "2",
+      "hosts": [
+        {
+          "hostid": "10793",
+          "name": "Nawari Avaya Communication Manager by SNMP"
+        }
+      ],
+      "tags": [
+        {
+          "tag": "notification_class",
+          "value": "degradation"
+        }
+      ],
+      "items": [
+        {
+          "itemid": "70057",
+          "key_": "avaya.cm.ip_voice.peak_jitter",
+          "name": "Real-Call Peak Jitter (Last Hour)"
+        }
+      ]
+    },
+    {
+      "triggerid": "32696",
+      "description": "Avaya CM: Active Telephony Alarms Present",
+      "expression": "{48683}>0",
+      "recovery_mode": "0",
+      "recovery_expression": "",
+      "priority": "3",
+      "hosts": [
+        {
+          "hostid": "10793",
+          "name": "Nawari Avaya Communication Manager by SNMP"
+        }
+      ],
+      "tags": [
+        {
+          "tag": "notification_class",
+          "value": "component_failure"
+        }
+      ],
+      "items": [
+        {
+          "itemid": "70078",
+          "key_": "avaya.cm.alarms.active_count",
+          "name": "Active Alarms Count"
+        }
+      ]
+    },
+    {
+      "triggerid": "32697",
+      "description": "Avaya G450: Media Gateway Unregistered from Communication Manager",
+      "expression": "{48684}<>1",
+      "recovery_mode": "0",
+      "recovery_expression": "",
+      "priority": "4",
+      "hosts": [
+        {
+          "hostid": "10794",
+          "name": "Nawari Avaya G450 Media Gateway by SNMP"
+        }
+      ],
+      "tags": [
+        {
+          "tag": "notification_class",
+          "value": "service_outage"
+        }
+      ],
+      "items": [
+        {
+          "itemid": "70084",
+          "key_": "avaya.g450.cm_registration_state",
+          "name": "Gateway CM Registration State"
+        }
+      ]
+    },
+    {
+      "triggerid": "32698",
+      "description": "Avaya SM: SIP Entity Down (Communication Manager)",
+      "expression": "{48685}=3",
+      "recovery_mode": "0",
+      "recovery_expression": "",
+      "priority": "5",
+      "hosts": [
+        {
+          "hostid": "10795",
+          "name": "Nawari Avaya Session Manager by SNMP"
+        }
+      ],
+      "tags": [
+        {
+          "tag": "component",
+          "value": "sip-entity"
+        },
+        {
+          "tag": "scope",
+          "value": "availability"
+        },
+        {
+          "tag": "notification_class",
+          "value": "service_outage"
+        }
+      ],
+      "items": [
+        {
+          "itemid": "70094",
+          "key_": "avaya.sm.sip_entity.status.cm",
+          "name": "SIP Entity State \u2014 Avaya Communication Manager"
+        }
+      ]
+    },
+    {
+      "triggerid": "32699",
+      "description": "Avaya SM: SIP Entity Down (Avaya SBCE)",
+      "expression": "{48686}=3",
+      "recovery_mode": "0",
+      "recovery_expression": "",
+      "priority": "5",
+      "hosts": [
+        {
+          "hostid": "10795",
+          "name": "Nawari Avaya Session Manager by SNMP"
+        }
+      ],
+      "tags": [
+        {
+          "tag": "component",
+          "value": "sip-entity"
+        },
+        {
+          "tag": "scope",
+          "value": "availability"
+        },
+        {
+          "tag": "notification_class",
+          "value": "service_outage"
+        }
+      ],
+      "items": [
+        {
+          "itemid": "70095",
+          "key_": "avaya.sm.sip_entity.status.sbce",
+          "name": "SIP Entity State \u2014 Avaya SBCE Pride"
+        }
+      ]
+    },
+    {
+      "triggerid": "32700",
+      "description": "Avaya G450: Chassis Ambient Temperature Threshold Exceeded (Warning)",
+      "expression": "{48687}=2",
+      "recovery_mode": "0",
+      "recovery_expression": "",
+      "priority": "4",
+      "hosts": [
+        {
+          "hostid": "10794",
+          "name": "Nawari Avaya G450 Media Gateway by SNMP"
+        }
+      ],
+      "tags": [
+        {
+          "tag": "component",
+          "value": "environment"
+        },
+        {
+          "tag": "scope",
+          "value": "availability"
+        },
+        {
+          "tag": "notification_class",
+          "value": "component_failure"
+        }
+      ],
+      "items": [
+        {
+          "itemid": "70088",
+          "key_": "avaya.g450.temperature",
+          "name": "Internal Chassis Temperature Alarm State"
+        }
+      ]
+    },
+    {
+      "triggerid": "32701",
+      "description": "Avaya SBCE: Telemetry Stale or Loss of Monitoring",
+      "expression": "{48688}=1",
+      "recovery_mode": "0",
+      "recovery_expression": "",
+      "priority": "2",
+      "hosts": [
+        {
+          "hostid": "10788",
+          "name": "Nawari Avaya SBCE by SNMP"
+        }
+      ],
+      "tags": [
+        {
+          "tag": "component",
+          "value": "sip-sessions"
+        },
+        {
+          "tag": "scope",
+          "value": "availability"
+        },
+        {
+          "tag": "notification_class",
+          "value": "monitoring_failure"
+        }
+      ],
+      "items": [
+        {
+          "itemid": "70063",
+          "key_": "avaya.sbce.ems.active_calls",
+          "name": "Active SIP Calls"
+        }
+      ]
+    },
+    {
+      "triggerid": "32702",
+      "description": "Avaya SBCE: Active Session Capacity Warning (>= 80%)",
+      "expression": "{48689}>=80",
+      "recovery_mode": "0",
+      "recovery_expression": "",
+      "priority": "2",
+      "hosts": [
+        {
+          "hostid": "10788",
+          "name": "Nawari Avaya SBCE by SNMP"
+        }
+      ],
+      "tags": [
+        {
+          "tag": "component",
+          "value": "capacity"
+        },
+        {
+          "tag": "scope",
+          "value": "capacity"
+        },
+        {
+          "tag": "notification_class",
+          "value": "degradation"
+        }
+      ],
+      "items": [
+        {
+          "itemid": "70067",
+          "key_": "avaya.sbce.ems.license_utilization_pct",
+          "name": "Dynamic License Utilization"
+        }
+      ]
+    },
+    {
+      "triggerid": "32703",
+      "description": "Avaya SBCE: Active Session Capacity Critical (>= 95%)",
+      "expression": "{48690}>=95",
+      "recovery_mode": "0",
+      "recovery_expression": "",
+      "priority": "5",
+      "hosts": [
+        {
+          "hostid": "10788",
+          "name": "Nawari Avaya SBCE by SNMP"
+        }
+      ],
+      "tags": [
+        {
+          "tag": "component",
+          "value": "capacity"
+        },
+        {
+          "tag": "scope",
+          "value": "capacity"
+        },
+        {
+          "tag": "notification_class",
+          "value": "degradation"
+        }
+      ],
+      "items": [
+        {
+          "itemid": "70067",
+          "key_": "avaya.sbce.ems.license_utilization_pct",
+          "name": "Dynamic License Utilization"
+        }
+      ]
+    },
+    {
+      "triggerid": "32704",
+      "description": "Avaya SBCE: Management Interface Unreachable",
+      "expression": "{48691}=0",
+      "recovery_mode": "0",
+      "recovery_expression": "",
+      "priority": "4",
+      "hosts": [
+        {
+          "hostid": "10788",
+          "name": "Nawari Avaya SBCE by SNMP"
+        }
+      ],
+      "tags": [
+        {
+          "tag": "component",
+          "value": "management"
+        },
+        {
+          "tag": "scope",
+          "value": "availability"
+        },
+        {
+          "tag": "notification_class",
+          "value": "degradation"
+        }
+      ],
+      "items": [
+        {
+          "itemid": "70100",
+          "key_": "net.tcp.service[https,10.2.156.131,443]",
+          "name": "SBCE Management Interface Reachability"
+        }
+      ]
+    },
+    {
+      "triggerid": "32705",
+      "description": "Avaya SBCE: Sustained High SIP Failure Rate (> 5%)",
+      "expression": "{48692}>5",
+      "recovery_mode": "0",
+      "recovery_expression": "",
+      "priority": "4",
+      "hosts": [
+        {
+          "hostid": "10788",
+          "name": "Nawari Avaya SBCE by SNMP"
+        }
+      ],
+      "tags": [
+        {
+          "tag": "component",
+          "value": "sip-signaling"
+        },
+        {
+          "tag": "scope",
+          "value": "performance"
+        },
+        {
+          "tag": "notification_class",
+          "value": "degradation"
+        }
+      ],
+      "items": [
+        {
+          "itemid": "70101",
+          "key_": "avaya.sbce.sip_failure_rate_pct",
+          "name": "SBCE SIP Failure Rate"
+        }
+      ]
+    },
+    {
+      "triggerid": "32706",
+      "description": "Avaya SBCE: License Utilization Limit Approached (>= 90%)",
+      "expression": "{48693}>=90",
+      "recovery_mode": "0",
+      "recovery_expression": "",
+      "priority": "4",
+      "hosts": [
+        {
+          "hostid": "10788",
+          "name": "Nawari Avaya SBCE by SNMP"
+        }
+      ],
+      "tags": [
+        {
+          "tag": "component",
+          "value": "capacity"
+        },
+        {
+          "tag": "scope",
+          "value": "capacity"
+        },
+        {
+          "tag": "notification_class",
+          "value": "degradation"
+        }
+      ],
+      "items": [
+        {
+          "itemid": "70102",
+          "key_": "avaya.sbce.allocated_licenses_pct",
+          "name": "SBCE Allocated Licenses Utilization"
+        }
+      ]
+    },
+    {
+      "triggerid": "32707",
+      "description": "Avaya SBCE: Interface Packet Discards / Errors Elevated (> 1%)",
+      "expression": "{48694}>1",
+      "recovery_mode": "0",
+      "recovery_expression": "",
+      "priority": "3",
+      "hosts": [
+        {
+          "hostid": "10788",
+          "name": "Nawari Avaya SBCE by SNMP"
+        }
+      ],
+      "tags": [
+        {
+          "tag": "component",
+          "value": "interface"
+        },
+        {
+          "tag": "scope",
+          "value": "performance"
+        },
+        {
+          "tag": "notification_class",
+          "value": "degradation"
+        }
+      ],
+      "items": [
+        {
+          "itemid": "70103",
+          "key_": "avaya.sbce.if_error_rate_pct",
+          "name": "SBCE Aggregate Interface Error Rate"
+        }
+      ]
+    },
+    {
+      "triggerid": "32708",
+      "description": "Avaya SBCE: Appliance Unreachable",
+      "expression": "{48695}=0",
+      "recovery_mode": "0",
+      "recovery_expression": "",
+      "priority": "5",
+      "hosts": [
+        {
+          "hostid": "10788",
+          "name": "Nawari Avaya SBCE by SNMP"
+        }
+      ],
+      "tags": [
+        {
+          "tag": "component",
+          "value": "sbce-core"
+        },
+        {
+          "tag": "scope",
+          "value": "availability"
+        },
+        {
+          "tag": "notification_class",
+          "value": "total_outage"
+        }
+      ],
+      "items": [
+        {
+          "itemid": "70104",
+          "key_": "icmpping[10.2.156.131]",
+          "name": "SBCE Appliance Reachability"
+        }
+      ]
+    },
+    {
+      "triggerid": "32725",
+      "description": "Synthetic Voice: Connected Duration Below Criterion (< 5s)",
+      "expression": "{48714}<5 and {48714}>0",
+      "recovery_mode": "0",
+      "recovery_expression": "",
+      "priority": "3",
+      "hosts": [
+        {
+          "hostid": "10790",
+          "name": "Nawari Voice Synthetic Probe by Zabbix Trapper"
+        }
+      ],
+      "tags": [
+        {
+          "tag": "scope",
+          "value": "performance"
+        },
+        {
+          "tag": "telemetry_type",
+          "value": "synthetic"
+        },
+        {
+          "tag": "source",
+          "value": "asterisk"
+        },
+        {
+          "tag": "notification_class",
+          "value": "synthetic_failure"
+        }
+      ],
+      "items": [
+        {
+          "itemid": "70014",
+          "key_": "voice.synthetic.duration",
+          "name": "Synthetic call duration"
+        }
+      ]
+    },
+    {
+      "triggerid": "32726",
+      "description": "Synthetic Voice: SIP vs AMI Result Mismatch",
+      "expression": "{48715}=1",
+      "recovery_mode": "0",
+      "recovery_expression": "",
+      "priority": "3",
+      "hosts": [
+        {
+          "hostid": "10790",
+          "name": "Nawari Voice Synthetic Probe by Zabbix Trapper"
+        }
+      ],
+      "tags": [
+        {
+          "tag": "scope",
+          "value": "availability"
+        },
+        {
+          "tag": "telemetry_type",
+          "value": "synthetic"
+        },
+        {
+          "tag": "source",
+          "value": "asterisk"
+        },
+        {
+          "tag": "notification_class",
+          "value": "synthetic_failure"
+        }
+      ],
+      "items": [
+        {
+          "itemid": "70115",
+          "key_": "voice.synthetic.sip_ami_mismatch",
+          "name": "Synthetic Call SIP vs AMI Mismatch"
+        }
+      ]
+    },
+    {
+      "triggerid": "32727",
+      "description": "Synthetic Voice: Consecutive Test Failures (3 Consecutive)",
+      "expression": "{48716}=0",
+      "recovery_mode": "0",
+      "recovery_expression": "",
+      "priority": "4",
+      "hosts": [
+        {
+          "hostid": "10790",
+          "name": "Nawari Voice Synthetic Probe by Zabbix Trapper"
+        }
+      ],
+      "tags": [
+        {
+          "tag": "scope",
+          "value": "availability"
+        },
+        {
+          "tag": "telemetry_type",
+          "value": "synthetic"
+        },
+        {
+          "tag": "source",
+          "value": "asterisk"
+        },
+        {
+          "tag": "notification_class",
+          "value": "synthetic_failure"
+        }
+      ],
+      "items": [
+        {
+          "itemid": "70116",
+          "key_": "voice.synthetic.call_success",
+          "name": "Synthetic Call Success Indicator"
+        }
+      ]
+    },
+    {
+      "triggerid": "32731",
+      "description": "Avaya CM: Call Rate Abnormal Drop (< 10 calls/hr)",
+      "expression": "{48720}<10 and {48720}>=0",
+      "recovery_mode": "0",
+      "recovery_expression": "",
+      "priority": "4",
+      "hosts": [
+        {
+          "hostid": "10793",
+          "name": "Nawari Avaya Communication Manager by SNMP"
+        }
+      ],
+      "tags": [
+        {
+          "tag": "component",
+          "value": "call-rate"
+        },
+        {
+          "tag": "scope",
+          "value": "performance"
+        },
+        {
+          "tag": "notification_class",
+          "value": "degradation"
+        }
+      ],
+      "items": [
+        {
+          "itemid": "70080",
+          "key_": "avaya.cm.call_rate.completed",
+          "name": "Call Rate Completed Calls (Hourly Measurement Interval)"
+        }
+      ]
+    },
+    {
+      "triggerid": "32732",
+      "description": "Avaya CM: Performance Telemetry Stale (> 2h)",
+      "expression": "{48721}=1",
+      "recovery_mode": "0",
+      "recovery_expression": "",
+      "priority": "2",
+      "hosts": [
+        {
+          "hostid": "10793",
+          "name": "Nawari Avaya Communication Manager by SNMP"
+        }
+      ],
+      "tags": [
+        {
+          "tag": "component",
+          "value": "call-rate"
+        },
+        {
+          "tag": "scope",
+          "value": "availability"
+        },
+        {
+          "tag": "notification_class",
+          "value": "monitoring_failure"
+        }
+      ],
+      "items": [
+        {
+          "itemid": "70080",
+          "key_": "avaya.cm.call_rate.completed",
+          "name": "Call Rate Completed Calls (Hourly Measurement Interval)"
+        }
+      ]
+    },
+    {
+      "triggerid": "32733",
+      "description": "Avaya CM: Communication Manager Processor Unreachable",
+      "expression": "{48722}=0",
+      "recovery_mode": "0",
+      "recovery_expression": "",
+      "priority": "5",
+      "hosts": [
+        {
+          "hostid": "10793",
+          "name": "Nawari Avaya Communication Manager by SNMP"
+        }
+      ],
+      "tags": [
+        {
+          "tag": "component",
+          "value": "cm-core"
+        },
+        {
+          "tag": "scope",
+          "value": "availability"
+        },
+        {
+          "tag": "notification_class",
+          "value": "total_outage"
+        }
+      ],
+      "items": [
+        {
+          "itemid": "70062",
+          "key_": "icmpping[10.102.10.25]",
+          "name": "Communication Manager SNMP Availability"
+        }
+      ]
+    },
+    {
+      "triggerid": "32734",
+      "description": "Avaya CMS: Queue Service Level Degradation (< 80%)",
+      "expression": "{48723}<80",
+      "recovery_mode": "0",
+      "recovery_expression": "",
+      "priority": "3",
+      "hosts": [
+        {
+          "hostid": "10796",
+          "name": "Nawari Avaya CMS and WFO by Trapper"
+        }
+      ],
+      "tags": [
+        {
+          "tag": "component",
+          "value": "contact-centre"
+        },
+        {
+          "tag": "scope",
+          "value": "performance"
+        },
+        {
+          "tag": "notification_class",
+          "value": "degradation"
+        }
+      ],
+      "items": [
+        {
+          "itemid": "70119",
+          "key_": "avaya.cms.sla_pct",
+          "name": "Contact Centre Queue Service Level Attainment"
+        }
+      ]
+    },
+    {
+      "triggerid": "32735",
+      "description": "Avaya CMS: Telemetry Data Stale (> 45m)",
+      "expression": "{48724}=1",
+      "recovery_mode": "0",
+      "recovery_expression": "",
+      "priority": "2",
+      "hosts": [
+        {
+          "hostid": "10796",
+          "name": "Nawari Avaya CMS and WFO by Trapper"
+        }
+      ],
+      "tags": [
+        {
+          "tag": "component",
+          "value": "contact-centre"
+        },
+        {
+          "tag": "scope",
+          "value": "availability"
+        },
+        {
+          "tag": "notification_class",
+          "value": "degradation"
+        }
+      ],
+      "items": [
+        {
+          "itemid": "70119",
+          "key_": "avaya.cms.sla_pct",
+          "name": "Contact Centre Queue Service Level Attainment"
+        }
+      ]
+    },
+    {
+      "triggerid": "32736",
+      "description": "WFO: Compliance Voice Recording Pipeline Health Failure",
+      "expression": "{48725}=0",
+      "recovery_mode": "0",
+      "recovery_expression": "",
+      "priority": "4",
+      "hosts": [
+        {
+          "hostid": "10796",
+          "name": "Nawari Avaya CMS and WFO by Trapper"
+        }
+      ],
+      "tags": [
+        {
+          "tag": "component",
+          "value": "call-recording"
+        },
+        {
+          "tag": "scope",
+          "value": "availability"
+        },
+        {
+          "tag": "notification_class",
+          "value": "service_outage"
+        }
+      ],
+      "items": [
+        {
+          "itemid": "70120",
+          "key_": "wfo.recording.pipeline_status",
+          "name": "Compliance Voice Recording Pipeline Health"
+        }
+      ]
+    },
+    {
+      "triggerid": "32737",
+      "description": "WFO: Compliance Voice Recording Spool Disk Storage Warning (< 15%)",
+      "expression": "{48726}<15",
+      "recovery_mode": "0",
+      "recovery_expression": "",
+      "priority": "2",
+      "hosts": [
+        {
+          "hostid": "10796",
+          "name": "Nawari Avaya CMS and WFO by Trapper"
+        }
+      ],
+      "tags": [
+        {
+          "tag": "component",
+          "value": "call-recording"
+        },
+        {
+          "tag": "scope",
+          "value": "capacity"
+        },
+        {
+          "tag": "notification_class",
+          "value": "degradation"
+        }
+      ],
+      "items": [
+        {
+          "itemid": "70121",
+          "key_": "wfo.recording.disk_free_pct",
+          "name": "Compliance Voice Recording Spool Free Storage"
+        }
+      ]
+    },
+    {
+      "triggerid": "32738",
+      "description": "Avaya G450: Media Gateway Telemetry Missing (> 10m)",
+      "expression": "{48727}=1",
+      "recovery_mode": "0",
+      "recovery_expression": "",
+      "priority": "2",
+      "hosts": [
+        {
+          "hostid": "10794",
+          "name": "Nawari Avaya G450 Media Gateway by SNMP"
+        }
+      ],
+      "tags": [
+        {
+          "tag": "component",
+          "value": "system"
+        },
+        {
+          "tag": "scope",
+          "value": "availability"
+        },
+        {
+          "tag": "notification_class",
+          "value": "monitoring_failure"
+        }
+      ],
+      "items": [
+        {
+          "itemid": "70083",
+          "key_": "system.uptime",
+          "name": "Chassis System Uptime"
+        }
+      ]
+    },
+    {
+      "triggerid": "32739",
+      "description": "Avaya G450: Power Supply Unit Failure",
+      "expression": "{48728}=2 or {48729}=2",
+      "recovery_mode": "0",
+      "recovery_expression": "",
+      "priority": "5",
+      "hosts": [
+        {
+          "hostid": "10794",
+          "name": "Nawari Avaya G450 Media Gateway by SNMP"
+        }
+      ],
+      "tags": [
+        {
+          "tag": "component",
+          "value": "environment"
+        },
+        {
+          "tag": "scope",
+          "value": "availability"
+        },
+        {
+          "tag": "notification_class",
+          "value": "component_failure"
+        }
+      ],
+      "items": [
+        {
+          "itemid": "70085",
+          "key_": "avaya.g450.psu.status.1",
+          "name": "Primary Power Supply Status"
+        },
+        {
+          "itemid": "70086",
+          "key_": "avaya.g450.psu.status.2",
+          "name": "Secondary Power Supply Status (Redundant)"
+        }
+      ]
+    },
+    {
+      "triggerid": "32740",
+      "description": "Avaya G450: Fan Tray Failure",
+      "expression": "{48730}=2",
+      "recovery_mode": "0",
+      "recovery_expression": "",
+      "priority": "4",
+      "hosts": [
+        {
+          "hostid": "10794",
+          "name": "Nawari Avaya G450 Media Gateway by SNMP"
+        }
+      ],
+      "tags": [
+        {
+          "tag": "component",
+          "value": "environment"
+        },
+        {
+          "tag": "scope",
+          "value": "availability"
+        },
+        {
+          "tag": "notification_class",
+          "value": "component_failure"
+        }
+      ],
+      "items": [
+        {
+          "itemid": "70087",
+          "key_": "avaya.g450.fan_tray.status",
+          "name": "Chassis Fan Tray State"
+        }
+      ]
+    },
+    {
+      "triggerid": "32741",
+      "description": "Avaya G450: E1/ISDN Primary Trunk Port Down",
+      "expression": "{48731}=2",
+      "recovery_mode": "0",
+      "recovery_expression": "",
+      "priority": "4",
+      "hosts": [
+        {
+          "hostid": "10794",
+          "name": "Nawari Avaya G450 Media Gateway by SNMP"
+        }
+      ],
+      "tags": [
+        {
+          "tag": "component",
+          "value": "pstn-trunk"
+        },
+        {
+          "tag": "scope",
+          "value": "availability"
+        },
+        {
+          "tag": "notification_class",
+          "value": "component_failure"
+        }
+      ],
+      "items": [
+        {
+          "itemid": "70089",
+          "key_": "ifOperStatus.e1.1",
+          "name": "E1/ISDN Primary Trunk Port Operational Status"
+        }
+      ]
+    },
+    {
+      "triggerid": "32742",
+      "description": "Avaya G450: Media Gateway Chassis Unreachable",
+      "expression": "{48732}=0",
+      "recovery_mode": "0",
+      "recovery_expression": "",
+      "priority": "4",
+      "hosts": [
+        {
+          "hostid": "10794",
+          "name": "Nawari Avaya G450 Media Gateway by SNMP"
+        }
+      ],
+      "tags": [
+        {
+          "tag": "component",
+          "value": "infrastructure"
+        },
+        {
+          "tag": "scope",
+          "value": "availability"
+        },
+        {
+          "tag": "notification_class",
+          "value": "total_outage"
+        }
+      ],
+      "items": [
+        {
+          "itemid": "70090",
+          "key_": "icmpping[10.2.156.60]",
+          "name": "G450 ICMP Reachability"
+        }
+      ]
+    },
+    {
+      "triggerid": "32743",
+      "description": "Avaya SM: Management Telemetry Stale or Loss of Monitoring",
+      "expression": "{48733}=1",
+      "recovery_mode": "0",
+      "recovery_expression": "",
+      "priority": "2",
+      "hosts": [
+        {
+          "hostid": "10795",
+          "name": "Nawari Avaya Session Manager by SNMP"
+        }
+      ],
+      "tags": [
+        {
+          "tag": "component",
+          "value": "system"
+        },
+        {
+          "tag": "scope",
+          "value": "availability"
+        },
+        {
+          "tag": "notification_class",
+          "value": "monitoring_failure"
+        }
+      ],
+      "items": [
+        {
+          "itemid": "70093",
+          "key_": "system.uptime",
+          "name": "Session Manager System Uptime"
+        }
+      ]
+    },
+    {
+      "triggerid": "32744",
+      "description": "Avaya SM: SIP Entity PARTIALLY UP (Communication Manager)",
+      "expression": "{48734}=2",
+      "recovery_mode": "0",
+      "recovery_expression": "",
+      "priority": "3",
+      "hosts": [
+        {
+          "hostid": "10795",
+          "name": "Nawari Avaya Session Manager by SNMP"
+        }
+      ],
+      "tags": [
+        {
+          "tag": "component",
+          "value": "sip-entity"
+        },
+        {
+          "tag": "scope",
+          "value": "availability"
+        },
+        {
+          "tag": "notification_class",
+          "value": "degradation"
+        }
+      ],
+      "items": [
+        {
+          "itemid": "70094",
+          "key_": "avaya.sm.sip_entity.status.cm",
+          "name": "SIP Entity State \u2014 Avaya Communication Manager"
+        }
+      ]
+    },
+    {
+      "triggerid": "32745",
+      "description": "Avaya SM: SIP Entity DENY NEW SERVICE (Communication Manager)",
+      "expression": "{48735}=4",
+      "recovery_mode": "0",
+      "recovery_expression": "",
+      "priority": "4",
+      "hosts": [
+        {
+          "hostid": "10795",
+          "name": "Nawari Avaya Session Manager by SNMP"
+        }
+      ],
+      "tags": [
+        {
+          "tag": "component",
+          "value": "sip-entity"
+        },
+        {
+          "tag": "scope",
+          "value": "availability"
+        },
+        {
+          "tag": "notification_class",
+          "value": "service_outage"
+        }
+      ],
+      "items": [
+        {
+          "itemid": "70094",
+          "key_": "avaya.sm.sip_entity.status.cm",
+          "name": "SIP Entity State \u2014 Avaya Communication Manager"
+        }
+      ]
+    },
+    {
+      "triggerid": "32746",
+      "description": "Avaya SM: SIP Entity PARTIALLY UP (Avaya SBCE)",
+      "expression": "{48736}=2",
+      "recovery_mode": "0",
+      "recovery_expression": "",
+      "priority": "3",
+      "hosts": [
+        {
+          "hostid": "10795",
+          "name": "Nawari Avaya Session Manager by SNMP"
+        }
+      ],
+      "tags": [
+        {
+          "tag": "component",
+          "value": "sip-entity"
+        },
+        {
+          "tag": "scope",
+          "value": "availability"
+        },
+        {
+          "tag": "notification_class",
+          "value": "degradation"
+        }
+      ],
+      "items": [
+        {
+          "itemid": "70095",
+          "key_": "avaya.sm.sip_entity.status.sbce",
+          "name": "SIP Entity State \u2014 Avaya SBCE Pride"
+        }
+      ]
+    },
+    {
+      "triggerid": "32747",
+      "description": "Avaya SM: SIP Entity DENY NEW SERVICE (Avaya SBCE)",
+      "expression": "{48737}=4",
+      "recovery_mode": "0",
+      "recovery_expression": "",
+      "priority": "4",
+      "hosts": [
+        {
+          "hostid": "10795",
+          "name": "Nawari Avaya Session Manager by SNMP"
+        }
+      ],
+      "tags": [
+        {
+          "tag": "component",
+          "value": "sip-entity"
+        },
+        {
+          "tag": "scope",
+          "value": "availability"
+        },
+        {
+          "tag": "notification_class",
+          "value": "service_outage"
+        }
+      ],
+      "items": [
+        {
+          "itemid": "70095",
+          "key_": "avaya.sm.sip_entity.status.sbce",
+          "name": "SIP Entity State \u2014 Avaya SBCE Pride"
+        }
+      ]
+    },
+    {
+      "triggerid": "32748",
+      "description": "Avaya SM: SIP OPTIONS Latency Elevated (> 250ms)",
+      "expression": "{48738}>250",
+      "recovery_mode": "0",
+      "recovery_expression": "",
+      "priority": "2",
+      "hosts": [
+        {
+          "hostid": "10795",
+          "name": "Nawari Avaya Session Manager by SNMP"
+        }
+      ],
+      "tags": [
+        {
+          "tag": "component",
+          "value": "sip-signaling"
+        },
+        {
+          "tag": "scope",
+          "value": "performance"
+        },
+        {
+          "tag": "notification_class",
+          "value": "degradation"
+        }
+      ],
+      "items": [
+        {
+          "itemid": "70096",
+          "key_": "avaya.sm.sip_entity.rtt.cm",
+          "name": "SIP OPTIONS Response Time \u2014 Avaya CM"
+        }
+      ]
+    },
+    {
+      "triggerid": "32749",
+      "description": "Avaya SM: Synthetic SIP OPTIONS Probe Failure",
+      "expression": "{48739}=0",
+      "recovery_mode": "0",
+      "recovery_expression": "",
+      "priority": "4",
+      "hosts": [
+        {
+          "hostid": "10795",
+          "name": "Nawari Avaya Session Manager by SNMP"
+        }
+      ],
+      "tags": [
+        {
+          "tag": "component",
+          "value": "sip-signaling"
+        },
+        {
+          "tag": "scope",
+          "value": "availability"
+        },
+        {
+          "tag": "notification_class",
+          "value": "monitoring_failure"
+        }
+      ],
+      "items": [
+        {
+          "itemid": "70125",
+          "key_": "avaya.sm.sip_options_status",
+          "name": "Synthetic SIP OPTIONS Probe Status"
+        }
+      ]
+    },
+    {
+      "triggerid": "32750",
+      "description": "Avaya SM: Session Manager Signalling Failure Rate High (> 5%)",
+      "expression": "{48740}>5",
+      "recovery_mode": "0",
+      "recovery_expression": "",
+      "priority": "4",
+      "hosts": [
+        {
+          "hostid": "10795",
+          "name": "Nawari Avaya Session Manager by SNMP"
+        }
+      ],
+      "tags": [
+        {
+          "tag": "component",
+          "value": "sip-routing"
+        },
+        {
+          "tag": "scope",
+          "value": "performance"
+        },
+        {
+          "tag": "notification_class",
+          "value": "degradation"
+        }
+      ],
+      "items": [
+        {
+          "itemid": "70126",
+          "key_": "avaya.sm.signalling_failure_pct",
+          "name": "Session Manager SIP Signalling Failure Rate"
+        }
+      ]
+    },
+    {
+      "triggerid": "32751",
+      "description": "Avaya SM: Critical Enterprise Alarm Reported",
+      "expression": "{48741}>0",
+      "recovery_mode": "0",
+      "recovery_expression": "",
+      "priority": "4",
+      "hosts": [
+        {
+          "hostid": "10795",
+          "name": "Nawari Avaya Session Manager by SNMP"
+        }
+      ],
+      "tags": [
+        {
+          "tag": "component",
+          "value": "alarms"
+        },
+        {
+          "tag": "scope",
+          "value": "availability"
+        },
+        {
+          "tag": "notification_class",
+          "value": "component_failure"
+        }
+      ],
+      "items": [
+        {
+          "itemid": "70097",
+          "key_": "avaya.sm.alarms.active_count",
+          "name": "Session Manager Active Alarms Count"
+        }
+      ]
+    },
+    {
+      "triggerid": "32752",
+      "description": "Avaya SM: Session Manager Host Unavailable",
+      "expression": "{48742}=0",
+      "recovery_mode": "0",
+      "recovery_expression": "",
+      "priority": "5",
+      "hosts": [
+        {
+          "hostid": "10795",
+          "name": "Nawari Avaya Session Manager by SNMP"
+        }
+      ],
+      "tags": [
+        {
+          "tag": "component",
+          "value": "infrastructure"
+        },
+        {
+          "tag": "scope",
+          "value": "availability"
+        },
+        {
+          "tag": "notification_class",
+          "value": "total_outage"
+        }
+      ],
+      "items": [
+        {
+          "itemid": "70099",
+          "key_": "icmpping[10.2.156.22]",
+          "name": "Session Manager SNMP Availability"
+        }
+      ]
+    },
+    {
+      "triggerid": "32753",
+      "description": "SIP Trunk: Endpoint Unreachable",
+      "expression": "{48743}=0",
+      "recovery_mode": "0",
+      "recovery_expression": "",
+      "priority": "5",
+      "hosts": [
+        {
+          "hostid": "10797",
+          "name": "Nawari SIP Trunk by Trapper"
+        }
+      ],
+      "tags": [
+        {
+          "tag": "component",
+          "value": "sip-trunk"
+        },
+        {
+          "tag": "scope",
+          "value": "availability"
+        },
+        {
+          "tag": "notification_class",
+          "value": "total_outage"
+        }
+      ],
+      "items": [
+        {
+          "itemid": "70127",
+          "key_": "icmpping[10.2.156.100]",
+          "name": "SIP Trunk Endpoint Reachability"
+        }
+      ]
+    },
+    {
+      "triggerid": "32754",
+      "description": "SIP Trunk: Consecutive OPTIONS Probe Failures",
+      "expression": "{48744}=0",
+      "recovery_mode": "0",
+      "recovery_expression": "",
+      "priority": "4",
+      "hosts": [
+        {
+          "hostid": "10797",
+          "name": "Nawari SIP Trunk by Trapper"
+        }
+      ],
+      "tags": [
+        {
+          "tag": "component",
+          "value": "sip-signaling"
+        },
+        {
+          "tag": "scope",
+          "value": "availability"
+        },
+        {
+          "tag": "notification_class",
+          "value": "service_outage"
+        }
+      ],
+      "items": [
+        {
+          "itemid": "70128",
+          "key_": "sip.trunk.options_status",
+          "name": "SIP Trunk OPTIONS Probe Status"
+        }
+      ]
+    },
+    {
+      "triggerid": "32755",
+      "description": "SIP Trunk: High Error Response Rate (5xx/4xx > 10%)",
+      "expression": "{48745}>10",
+      "recovery_mode": "0",
+      "recovery_expression": "",
+      "priority": "4",
+      "hosts": [
+        {
+          "hostid": "10797",
+          "name": "Nawari SIP Trunk by Trapper"
+        }
+      ],
+      "tags": [
+        {
+          "tag": "component",
+          "value": "sip-signaling"
+        },
+        {
+          "tag": "scope",
+          "value": "performance"
+        },
+        {
+          "tag": "notification_class",
+          "value": "degradation"
+        }
+      ],
+      "items": [
+        {
+          "itemid": "70130",
+          "key_": "sip.trunk.error_rate_pct",
+          "name": "SIP Trunk Error Response Rate"
+        }
+      ]
+    },
+    {
+      "triggerid": "32756",
+      "description": "SIP Trunk: DNS SRV/A Resolution Failure",
+      "expression": "{48746}=0",
+      "recovery_mode": "0",
+      "recovery_expression": "",
+      "priority": "4",
+      "hosts": [
+        {
+          "hostid": "10797",
+          "name": "Nawari SIP Trunk by Trapper"
+        }
+      ],
+      "tags": [
+        {
+          "tag": "component",
+          "value": "dns"
+        },
+        {
+          "tag": "scope",
+          "value": "availability"
+        },
+        {
+          "tag": "notification_class",
+          "value": "service_outage"
+        }
+      ],
+      "items": [
+        {
+          "itemid": "70131",
+          "key_": "sip.trunk.dns_resolved",
+          "name": "SIP Trunk DNS SRV/A Resolution Status"
+        }
+      ]
+    },
+    {
+      "triggerid": "32757",
+      "description": "SIP Trunk: TLS Certificate Expiration Warning (<= 30 days)",
+      "expression": "{48747}<=30 and {48747}>7",
+      "recovery_mode": "0",
+      "recovery_expression": "",
+      "priority": "2",
+      "hosts": [
+        {
+          "hostid": "10797",
+          "name": "Nawari SIP Trunk by Trapper"
+        }
+      ],
+      "tags": [
+        {
+          "tag": "component",
+          "value": "tls-security"
+        },
+        {
+          "tag": "scope",
+          "value": "security"
+        },
+        {
+          "tag": "notification_class",
+          "value": "informational"
+        }
+      ],
+      "items": [
+        {
+          "itemid": "70132",
+          "key_": "sip.trunk.tls_cert_expiry_days",
+          "name": "SIP Trunk TLS Certificate Expiry Days"
+        }
+      ]
+    },
+    {
+      "triggerid": "32758",
+      "description": "SIP Trunk: TLS Certificate Expiration Critical (<= 7 days)",
+      "expression": "{48748}<=7",
+      "recovery_mode": "0",
+      "recovery_expression": "",
+      "priority": "4",
+      "hosts": [
+        {
+          "hostid": "10797",
+          "name": "Nawari SIP Trunk by Trapper"
+        }
+      ],
+      "tags": [
+        {
+          "tag": "component",
+          "value": "tls-security"
+        },
+        {
+          "tag": "scope",
+          "value": "security"
+        },
+        {
+          "tag": "notification_class",
+          "value": "informational"
+        }
+      ],
+      "items": [
+        {
+          "itemid": "70132",
+          "key_": "sip.trunk.tls_cert_expiry_days",
+          "name": "SIP Trunk TLS Certificate Expiry Days"
+        }
+      ]
+    }
+  ],
+  "prototypes": [
+    {
+      "triggerid": "29741",
+      "description": "Network Generic Device: Interface {#IFNAME}({#IFALIAS}): Ethernet has changed to lower speed than it was before",
+      "expression": "{43563}<0 and {43564}>0\r\nand (\r\n{43565}=6 or\r\n{43565}=7 or\r\n{43565}=11 or\r\n{43565}=62 or\r\n{43565}=69 or\r\n{43565}=117\r\n)\r\nand\r\n({43566}<>2)",
+      "recovery_mode": "1",
+      "recovery_expression": "({43563}>0 and {43567}>0) or\r\n({43566}=2)",
+      "priority": "1",
+      "hosts": [
+        {
+          "hostid": "10226",
+          "name": "Network Generic Device by SNMP"
+        }
+      ],
+      "tags": [
+        {
+          "tag": "scope",
+          "value": "performance"
+        }
+      ],
+      "items": [
+        {
+          "itemid": "63328",
+          "key_": "net.if.speed[ifSpeed.{#SNMPINDEX}]",
+          "name": "Interface {#IFNAME}({#IFALIAS}): Speed"
+        },
+        {
+          "itemid": "63329",
+          "key_": "net.if.status[ifOperStatus.{#SNMPINDEX}]",
+          "name": "Interface {#IFNAME}({#IFALIAS}): Operational status"
+        },
+        {
+          "itemid": "63330",
+          "key_": "net.if.type[ifType.{#SNMPINDEX}]",
+          "name": "Interface {#IFNAME}({#IFALIAS}): Interface type"
+        }
+      ]
+    },
+    {
+      "triggerid": "29742",
+      "description": "Network Generic Device: Interface {#IFNAME}({#IFALIAS}): High bandwidth usage",
+      "expression": "({43568}>({$IF.UTIL.MAX:\"{#IFNAME}\"}/100)*{43569} or\r\n{43570}>({$IF.UTIL.MAX:\"{#IFNAME}\"}/100)*{43569}) and\r\n{43569}>0",
+      "recovery_mode": "1",
+      "recovery_expression": "{43568}<(({$IF.UTIL.MAX:\"{#IFNAME}\"}-3)/100)*{43569} and\r\n{43570}<(({$IF.UTIL.MAX:\"{#IFNAME}\"}-3)/100)*{43569}",
+      "priority": "2",
+      "hosts": [
+        {
+          "hostid": "10226",
+          "name": "Network Generic Device by SNMP"
+        }
+      ],
+      "tags": [
+        {
+          "tag": "scope",
+          "value": "performance"
+        }
+      ],
+      "items": [
+        {
+          "itemid": "63324",
+          "key_": "net.if.in[ifInOctets.{#SNMPINDEX}]",
+          "name": "Interface {#IFNAME}({#IFALIAS}): Bits received"
+        },
+        {
+          "itemid": "63327",
+          "key_": "net.if.out[ifOutOctets.{#SNMPINDEX}]",
+          "name": "Interface {#IFNAME}({#IFALIAS}): Bits sent"
+        },
+        {
+          "itemid": "63328",
+          "key_": "net.if.speed[ifSpeed.{#SNMPINDEX}]",
+          "name": "Interface {#IFNAME}({#IFALIAS}): Speed"
+        }
+      ]
+    },
+    {
+      "triggerid": "29743",
+      "description": "Network Generic Device: Interface {#IFNAME}({#IFALIAS}): High error rate",
+      "expression": "{43571}>{$IF.ERRORS.WARN:\"{#IFNAME}\"}\r\nor {43572}>{$IF.ERRORS.WARN:\"{#IFNAME}\"}",
+      "recovery_mode": "1",
+      "recovery_expression": "{43573}<{$IF.ERRORS.WARN:\"{#IFNAME}\"}*0.8\r\nand {43574}<{$IF.ERRORS.WARN:\"{#IFNAME}\"}*0.8",
+      "priority": "2",
+      "hosts": [
+        {
+          "hostid": "10226",
+          "name": "Network Generic Device by SNMP"
+        }
+      ],
+      "tags": [
+        {
+          "tag": "scope",
+          "value": "performance"
+        }
+      ],
+      "items": [
+        {
+          "itemid": "63323",
+          "key_": "net.if.in.errors[ifInErrors.{#SNMPINDEX}]",
+          "name": "Interface {#IFNAME}({#IFALIAS}): Inbound packets with errors"
+        },
+        {
+          "itemid": "63326",
+          "key_": "net.if.out.errors[ifOutErrors.{#SNMPINDEX}]",
+          "name": "Interface {#IFNAME}({#IFALIAS}): Outbound packets with errors"
+        }
+      ]
+    },
+    {
+      "triggerid": "29744",
+      "description": "Network Generic Device: Interface {#IFNAME}({#IFALIAS}): Link down",
+      "expression": "{$IFCONTROL:\"{#IFNAME}\"}=1 and {43575}=2 and ({43576}<>{43577})",
+      "recovery_mode": "1",
+      "recovery_expression": "{43575}<>2 or {$IFCONTROL:\"{#IFNAME}\"}=0",
+      "priority": "3",
+      "hosts": [
+        {
+          "hostid": "10226",
+          "name": "Network Generic Device by SNMP"
+        }
+      ],
+      "tags": [
+        {
+          "tag": "scope",
+          "value": "availability"
+        }
+      ],
+      "items": [
+        {
+          "itemid": "63329",
+          "key_": "net.if.status[ifOperStatus.{#SNMPINDEX}]",
+          "name": "Interface {#IFNAME}({#IFALIAS}): Operational status"
+        }
+      ]
+    },
+    {
+      "triggerid": "29745",
+      "description": "Network Generic Device: Interface {#IFNAME}({#IFALIAS}): In half-duplex mode",
+      "expression": "{43578}=2",
+      "recovery_mode": "0",
+      "recovery_expression": "",
+      "priority": "2",
+      "hosts": [
+        {
+          "hostid": "10226",
+          "name": "Network Generic Device by SNMP"
+        }
+      ],
+      "tags": [
+        {
+          "tag": "scope",
+          "value": "performance"
+        }
+      ],
+      "items": [
+        {
+          "itemid": "63331",
+          "key_": "net.if.duplex[dot3StatsDuplexStatus.{#SNMPINDEX}]",
+          "name": "Interface {#IFNAME}({#IFALIAS}): Duplex status"
+        }
+      ]
+    },
+    {
+      "triggerid": "32585",
+      "description": "Interface {#IFNAME}: Link down",
+      "expression": "{$IFCONTROL:\"{#IFNAME}\"}=1 and {48855}=2",
+      "recovery_mode": "1",
+      "recovery_expression": "{48855}=1",
+      "priority": "3",
+      "hosts": [
+        {
+          "hostid": "10786",
+          "name": "Nawari Network Device by SNMP"
+        }
+      ],
+      "tags": [
+        {
+          "tag": "component",
+          "value": "interface"
+        },
+        {
+          "tag": "interface",
+          "value": "{#IFNAME}"
+        },
+        {
+          "tag": "notification_class",
+          "value": "component_failure"
+        }
+      ],
+      "items": [
+        {
+          "itemid": "69742",
+          "key_": "net.if.status[ifOperStatus.{#SNMPINDEX}]",
+          "name": "Interface {#IFNAME}: Operational status"
+        }
+      ]
+    },
+    {
+      "triggerid": "32586",
+      "description": "Interface {#IFNAME}: High bandwidth utilization (> {$IF_UTIL_MAX}%)",
+      "expression": "({48857} > ({48858} * {$IF_UTIL_MAX} / 100) or {48859} > ({48858} * {$IF_UTIL_MAX} / 100)) and {48858} > 0",
+      "recovery_mode": "1",
+      "recovery_expression": "({48857} < ({48858} * 60 / 100) and {48859} < ({48858} * 60 / 100))",
+      "priority": "2",
+      "hosts": [
+        {
+          "hostid": "10786",
+          "name": "Nawari Network Device by SNMP"
+        }
+      ],
+      "tags": [
+        {
+          "tag": "component",
+          "value": "interface"
+        },
+        {
+          "tag": "interface",
+          "value": "{#IFNAME}"
+        },
+        {
+          "tag": "notification_class",
+          "value": "degradation"
+        }
+      ],
+      "items": [
+        {
+          "itemid": "69744",
+          "key_": "net.if.speed[ifSpeed.{#SNMPINDEX}]",
+          "name": "Interface {#IFNAME}: Speed"
+        },
+        {
+          "itemid": "69745",
+          "key_": "net.if.in[ifInOctets.{#SNMPINDEX}]",
+          "name": "Interface {#IFNAME}: Bits received"
+        },
+        {
+          "itemid": "69746",
+          "key_": "net.if.out[ifOutOctets.{#SNMPINDEX}]",
+          "name": "Interface {#IFNAME}: Bits sent"
+        }
+      ]
+    },
+    {
+      "triggerid": "32587",
+      "description": "Interface {#IFNAME}: High error rate (> {$IF_ERRORS_WARN} err/s)",
+      "expression": "{48863}>{$IF_ERRORS_WARN} or {48864}>{$IF_ERRORS_WARN}",
+      "recovery_mode": "1",
+      "recovery_expression": "{48865}<1 and {48866}<1",
+      "priority": "2",
+      "hosts": [
+        {
+          "hostid": "10786",
+          "name": "Nawari Network Device by SNMP"
+        }
+      ],
+      "tags": [
+        {
+          "tag": "component",
+          "value": "interface"
+        },
+        {
+          "tag": "interface",
+          "value": "{#IFNAME}"
+        },
+        {
+          "tag": "notification_class",
+          "value": "degradation"
+        }
+      ],
+      "items": [
+        {
+          "itemid": "69747",
+          "key_": "net.if.in.errors[ifInErrors.{#SNMPINDEX}]",
+          "name": "Interface {#IFNAME}: Inbound errors"
+        },
+        {
+          "itemid": "69748",
+          "key_": "net.if.out.errors[ifOutErrors.{#SNMPINDEX}]",
+          "name": "Interface {#IFNAME}: Outbound errors"
+        }
+      ]
+    },
+    {
+      "triggerid": "32629",
+      "description": "Interface {#IFNAME}: Link down",
+      "expression": "{$IFCONTROL:\"{#IFNAME}\"}=1 and {48579}=2",
+      "recovery_mode": "0",
+      "recovery_expression": "",
+      "priority": "4",
+      "hosts": [
+        {
+          "hostid": "10788",
+          "name": "Nawari Avaya SBCE by SNMP"
+        }
+      ],
+      "tags": [
+        {
+          "tag": "component",
+          "value": "interface"
+        },
+        {
+          "tag": "interface",
+          "value": "{#IFNAME}"
+        }
+      ],
+      "items": [
+        {
+          "itemid": "69869",
+          "key_": "net.if.status[ifOperStatus.{#SNMPINDEX}]",
+          "name": "Interface {#IFNAME}: Operational status"
+        }
+      ]
+    },
+    {
+      "triggerid": "32630",
+      "description": "Interface {#IFNAME}: High bandwidth utilization (> {$IF_UTIL_MAX}%)",
+      "expression": "({48580} > ({48581} * {$IF_UTIL_MAX} / 100) or {48582} > ({48581} * {$IF_UTIL_MAX} / 100)) and {48581} > 0",
+      "recovery_mode": "0",
+      "recovery_expression": "",
+      "priority": "2",
+      "hosts": [
+        {
+          "hostid": "10788",
+          "name": "Nawari Avaya SBCE by SNMP"
+        }
+      ],
+      "tags": [
+        {
+          "tag": "component",
+          "value": "interface"
+        },
+        {
+          "tag": "interface",
+          "value": "{#IFNAME}"
+        }
+      ],
+      "items": [
+        {
+          "itemid": "69871",
+          "key_": "net.if.speed[ifHighSpeed.{#SNMPINDEX}]",
+          "name": "Interface {#IFNAME}: Speed"
+        },
+        {
+          "itemid": "69872",
+          "key_": "net.if.in[ifHCInOctets.{#SNMPINDEX}]",
+          "name": "Interface {#IFNAME}: Bits received"
+        },
+        {
+          "itemid": "69873",
+          "key_": "net.if.out[ifHCOutOctets.{#SNMPINDEX}]",
+          "name": "Interface {#IFNAME}: Bits sent"
+        }
+      ]
+    },
+    {
+      "triggerid": "32631",
+      "description": "Interface {#IFNAME}: High error rate (> {$IF_ERRORS_WARN} err/s)",
+      "expression": "{48583}>{$IF_ERRORS_WARN} or {48584}>{$IF_ERRORS_WARN}",
+      "recovery_mode": "0",
+      "recovery_expression": "",
+      "priority": "2",
+      "hosts": [
+        {
+          "hostid": "10788",
+          "name": "Nawari Avaya SBCE by SNMP"
+        }
+      ],
+      "tags": [
+        {
+          "tag": "component",
+          "value": "interface"
+        },
+        {
+          "tag": "interface",
+          "value": "{#IFNAME}"
+        }
+      ],
+      "items": [
+        {
+          "itemid": "69874",
+          "key_": "net.if.in.errors[ifInErrors.{#SNMPINDEX}]",
+          "name": "Interface {#IFNAME}: Inbound errors"
+        },
+        {
+          "itemid": "69875",
+          "key_": "net.if.out.errors[ifOutErrors.{#SNMPINDEX}]",
+          "name": "Interface {#IFNAME}: Outbound errors"
+        }
+      ]
+    }
+  ]
+}

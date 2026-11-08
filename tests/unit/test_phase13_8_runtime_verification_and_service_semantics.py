@@ -124,7 +124,9 @@ def test_02_live_zabbix_runtime_synthetic_failure_execution(zabbix_env):
     initial_alerts = client.call("alert.get", {"output": ["alertid"]})
     initial_ids = {a["alertid"] for a in initial_alerts}
 
-    # 1. Trigger synthetic failure (MOS = 2.2 < 3.5)
+    # 1. Trigger synthetic failure (MOS = 2.2 < 3.5, persistence window #2)
+    sender.send([ZabbixMetric(host="nawari-voice-probe-01", key="voice.synthetic.mos", value=2.2)])
+    time.sleep(1)
     resp = sender.send([ZabbixMetric(host="nawari-voice-probe-01", key="voice.synthetic.mos", value=2.2)])
     assert resp.response == "success"
     time.sleep(4)
@@ -166,12 +168,20 @@ def test_03_live_zabbix_runtime_service_outage_execution(zabbix_env):
     """Verify live Zabbix runtime execution of SIP Trunk Service Outage (Action 11)."""
     client, sender = zabbix_env
 
+    # 0. Ensure SIP trunk initial state is clean
+    for _ in range(3):
+        sender.send([ZabbixMetric(host="sip-trunk-carrier-01", key="sip.trunk.options_status", value=1)])
+        time.sleep(0.5)
+    time.sleep(2)
+
     initial_alerts = client.call("alert.get", {"output": ["alertid"]})
     initial_ids = {a["alertid"] for a in initial_alerts}
 
-    # 1. Trigger SIP Trunk OPTIONS failure (status = 0)
-    resp = sender.send([ZabbixMetric(host="sip-trunk-carrier-01", key="sip.trunk.options_status", value=0)])
-    assert resp.response == "success"
+    # 1. Trigger SIP Trunk OPTIONS failure (status = 0, persistence count(#4, 0, "eq") >= 3)
+    for _ in range(3):
+        resp = sender.send([ZabbixMetric(host="sip-trunk-carrier-01", key="sip.trunk.options_status", value=0)])
+        assert resp.response == "success"
+        time.sleep(1)
     time.sleep(4)
 
     alerts = client.call("alert.get", {"output": "extend"})
@@ -186,9 +196,11 @@ def test_03_live_zabbix_runtime_service_outage_execution(zabbix_env):
     assert "[SERVICE OUTAGE]" in sample["subject"]
     assert "Safaricom SIP Carrier Interconnect (Primary)" in sample["subject"]
 
-    # 2. Recover SIP Trunk (status = 1)
-    resp_rec = sender.send([ZabbixMetric(host="sip-trunk-carrier-01", key="sip.trunk.options_status", value=1)])
-    assert resp_rec.response == "success"
+    # 2. Recover SIP Trunk (status = 1, recovery persistence count(#3, 1, "eq") = 3)
+    for _ in range(3):
+        resp_rec = sender.send([ZabbixMetric(host="sip-trunk-carrier-01", key="sip.trunk.options_status", value=1)])
+        assert resp_rec.response == "success"
+        time.sleep(1)
     time.sleep(4)
 
     alerts_post = client.call("alert.get", {"output": "extend"})

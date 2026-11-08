@@ -1,351 +1,283 @@
 zabbix_export:
   version: '7.4'
   template_groups:
-  - uuid: 36bff6c29af64692839d077febfc7079
-    name: Templates/Network devices
-  - uuid: a571017302484a0d8ea62287c24f6a9e
-    name: Templates/Applications
+    - uuid: a571017302484a0d8ea62287c24f6a9e
+      name: Templates/Applications
+    - uuid: 36bff6c29af64692839d077febfc7079
+      name: 'Templates/Network devices'
   templates:
-  - uuid: c1a2b3c4d5e6470dafc431b51c17924f
-    template: Nawari Avaya Communication Manager by SNMP
-    name: Nawari Avaya Communication Manager by SNMP
-    description: 'Nawari Avaya Aura Communication Manager (CM 8.1.0) Performance and
-      IP Voice Quality Template.
-
-      Collects real-call transport and call processing metrics from official Avaya
-      MIB tables (OID 1.3.6.1.4.1.6889.2.73):
-
-      - avCmMeasIpVoStatHrData (1.3.6.1.4.1.6889.2.73.8.1.67, mapping to avCmMeasIpVoStatSumDataLstHrTable
-      SAT data): Hourly network-region IP voice statistics (loss %, peak jitter, peak
-      delay, codec, echo cancellation, network region). Delay strictly >= 1h (caching
-      interval 600s).
-
-      - avCmAlarms (1.3.6.1.4.1.6889.2.73.8.1.5): Active alarms count. Delay >= 1h
-      (CPU conservation limit). Traps handle real-time alarms.
-
-      - avCmListMeasCallRateTotal (1.3.6.1.4.1.6889.2.73.8.1.145): Total completed
-      calls from hourly measurement report. Polling strictly capped at 5 minutes (delay:
-      5m) to prevent impact on CM processor. Note: measurement interval is hourly
-      report.
-
-      Requires ''IP Voice Stats Summary? y'' enabled under ''change system-parameters
-      ip-options''.
-
-      '
-    groups:
-    - name: Templates/Applications
-    - name: Templates/Network devices
-    items:
-    - uuid: 88aa11bb22cc470dafc431b51c179201
-      name: Real-Call Packet Loss (Last Hour)
-      type: SNMP_AGENT
-      snmp_oid: 1.3.6.1.4.1.6889.2.73.8.1.67.1.10.1
-      key: avaya.cm.ip_voice.loss_pct
-      delay: 1h
-      value_type: FLOAT
-      units: '%'
-      description: 'Percentage of IP audio packets lost during active calls in the
-        last completed hour across primary network region.
-
-        Source: Avaya CM SNMP table avCmMeasIpVoStatHrData (OID 1.3.6.1.4.1.6889.2.73.8.1.67
-        leaf .10). Polling interval: 1 hour. Caching interval: 600s.
-
-        '
-      tags:
-      - tag: component
-        value: voice-transport
-      - tag: provenance
-        value: REAL_AVAYA_SNMP
-      triggers:
-      - uuid: 88aa11bb22cc470dafc431b51c179211
-        expression: last(/Nawari Avaya Communication Manager by SNMP/avaya.cm.ip_voice.loss_pct)>2.5
-        name: 'Avaya CM: Real-Call Packet Loss High (> 2.5% in Last Hour)'
-        priority: WARNING
-        description: Hourly real-call packet loss on Avaya Communication Manager exceeded
-          2.5% threshold.
-        tags:
-        - tag: notification_class
-          value: degradation
-    - uuid: 88aa11bb22cc470dafc431b51c179202
-      name: Real-Call Peak Jitter (Last Hour)
-      type: SNMP_AGENT
-      snmp_oid: 1.3.6.1.4.1.6889.2.73.8.1.67.1.11.1
-      key: avaya.cm.ip_voice.peak_jitter
-      delay: 1h
-      value_type: FLOAT
-      units: ms
-      description: 'Maximum interarrival packet jitter in milliseconds observed during
-        active calls in the last completed hour.
-
-        Source: Avaya CM SNMP table avCmMeasIpVoStatHrData (OID 1.3.6.1.4.1.6889.2.73.8.1.67
-        leaf .11). Polling interval: 1 hour. Caching interval: 600s.
-
-        '
-      tags:
-      - tag: component
-        value: voice-transport
-      - tag: provenance
-        value: REAL_AVAYA_SNMP
-      triggers:
-      - uuid: 88aa11bb22cc470dafc431b51c179212
-        expression: last(/Nawari Avaya Communication Manager by SNMP/avaya.cm.ip_voice.peak_jitter)>30
-        name: 'Avaya CM: Real-Call Peak Jitter High (> 30 ms)'
-        priority: WARNING
-        description: Hourly real-call peak jitter on Avaya Communication Manager exceeded
-          30 ms.
-        tags:
-        - tag: notification_class
-          value: degradation
-    - uuid: 88aa11bb22cc470dafc431b51c179203
-      name: Real-Call Peak Two-Way Delay (Last Hour)
-      type: SNMP_AGENT
-      snmp_oid: 1.3.6.1.4.1.6889.2.73.8.1.67.1.12.1
-      key: avaya.cm.ip_voice.peak_delay
-      delay: 1h
-      value_type: FLOAT
-      units: ms
-      description: 'Maximum two-way round-trip audio packet delay in milliseconds
-        observed during active calls in the last completed hour.
-
-        Source: Avaya CM SNMP table avCmMeasIpVoStatHrData (OID 1.3.6.1.4.1.6889.2.73.8.1.67
-        leaf .12). Polling interval: 1 hour.
-
-        '
-      tags:
-      - tag: component
-        value: voice-transport
-      - tag: provenance
-        value: REAL_AVAYA_SNMP
-    - uuid: 88aa11bb22cc470dafc431b51c179204
-      name: Real-Call Hourly Average Jitter
-      type: SNMP_AGENT
-      snmp_oid: 1.3.6.1.4.1.6889.2.73.8.1.67.1.11.1
-      key: avaya.cm.ip_voice.avg_jitter
-      delay: 1h
-      value_type: FLOAT
-      units: ms
-      description: 'Average interarrival packet jitter in milliseconds calculated
-        across calls in the last completed hour.
-
-        Source: Avaya CM SNMP table avCmMeasIpVoStatHrData (OID 1.3.6.1.4.1.6889.2.73.8.1.67).
-        Polling interval: 1 hour.
-
-        '
-      tags:
-      - tag: component
-        value: voice-transport
-      - tag: provenance
-        value: REAL_AVAYA_SNMP
-    - uuid: 88aa11bb22cc470dafc431b51c179205
-      name: Real-Call Evaluated Calls Count
-      type: SNMP_AGENT
-      snmp_oid: 1.3.6.1.4.1.6889.2.73.8.1.67.1.2.1
-      key: avaya.cm.ip_voice.call_count
-      delay: 1h
-      value_type: UNSIGNED
-      units: calls
-      description: 'Total number of IP voice calls evaluated by Communication Manager
-        during the last completed hour.
-
-        Source: Avaya CM SNMP table avCmMeasIpVoStatHrData (OID 1.3.6.1.4.1.6889.2.73.8.1.67).
-        Polling interval: 1 hour.
-
-        '
-      tags:
-      - tag: component
-        value: call-volume
-      - tag: provenance
-        value: REAL_AVAYA_SNMP
-    - uuid: 88aa11bb22cc470dafc431b51c179206
-      name: Negotiated Audio Codec
-      type: SNMP_AGENT
-      snmp_oid: 1.3.6.1.4.1.6889.2.73.8.1.67.1.8.1
-      key: avaya.cm.ip_voice.codec
-      delay: 1h
-      value_type: CHAR
-      description: 'Primary negotiated voice compression algorithm / codec (e.g. G.711A,
-        G.711U, G.729) in the active network region.
-
-        Source: Avaya CM SNMP table avCmMeasIpVoStatHrData (OID 1.3.6.1.4.1.6889.2.73.8.1.67
-        leaf .8). Polling interval: 1 hour.
-
-        '
-      tags:
-      - tag: component
-        value: codec
-      - tag: provenance
-        value: REAL_AVAYA_SNMP
-    - uuid: 88aa11bb22cc470dafc431b51c179208
-      name: Active Alarms Count
-      type: SNMP_AGENT
-      snmp_oid: 1.3.6.1.4.1.6889.2.73.8.1.5.1.2.1
-      key: avaya.cm.alarms.active_count
-      delay: 1h
-      value_type: UNSIGNED
-      units: alarms
-      description: "Total number of unresolved active alarms currently registered\
-        \ on the Communication Manager server.\nSource: Avaya CM 8.1 SNMP table avCmAlarmsTable\
-        \ (group OID 1.3.6.1.4.1.6889.2.73.8.1.5).\nPolling interval: strictly 1 hour\
-        \ (vendor specified CPU conservation limit).\nNote: Discrepancy resolved in\
-        \ Phase 13.2 audit \u2014 replaced legacy G3 OID (6889.2.8.1.13) with official\
-        \ Aura CM 8.1 OID (6889.2.73.8.1.5).\n"
-      tags:
-      - tag: component
-        value: alarms
-      - tag: provenance
-        value: REAL_AVAYA_SNMP
-      triggers:
-      - uuid: 88aa11bb22cc470dafc431b51c179218
-        expression: last(/Nawari Avaya Communication Manager by SNMP/avaya.cm.alarms.active_count)>0
-        name: 'Avaya CM: Active Telephony Alarms Present'
-        priority: AVERAGE
-        description: Communication Manager has active alarm conditions requiring engineering
-          review.
-        tags:
-        - tag: notification_class
-          value: component_failure
-    - uuid: 88aa11bb22cc470dafc431b51c179209
-      name: Call Rate Total Attempts (Hourly Measurement Interval)
-      type: SNMP_AGENT
-      snmp_oid: 1.3.6.1.4.1.6889.2.73.8.1.145.1.2.1
-      key: avaya.cm.call_rate.attempts
-      delay: 5m
-      value_type: UNSIGNED
-      units: calls
-      description: 'Total call attempts processed by Communication Manager in the
-        current hourly measurement block from list measurements call-rate total.
-
-        Source: Avaya CM 8.1 SNMP table avCmListMeasCallRateTotalTable (group OID
-        1.3.6.1.4.1.6889.2.73.8.1.145, leaf .1.2.1).
-
-        Polling interval: strictly 5 minutes (vendor specified rate-limiting bound).
-        Note: measurement interval is an hourly measurement block, not a rolling 5-minute
-        counter.
-
-        '
-      tags:
-      - tag: component
-        value: call-rate
-      - tag: provenance
-        value: REAL_AVAYA_SNMP
-    - uuid: 88aa11bb22cc470dafc431b51c179210
-      name: Call Rate Completed Calls (Hourly Measurement Interval)
-      type: SNMP_AGENT
-      snmp_oid: 1.3.6.1.4.1.6889.2.73.8.1.145.1.3.1
-      key: avaya.cm.call_rate.completed
-      delay: 5m
-      value_type: UNSIGNED
-      units: calls
-      description: 'Total successfully completed call connections processed in the
-        current hourly measurement block from list measurements call-rate total.
-
-        Source: Avaya CM 8.1 SNMP table avCmListMeasCallRateTotalTable (group OID
-        1.3.6.1.4.1.6889.2.73.8.1.145, leaf .1.3.1).
-
-        Polling interval: strictly 5 minutes (vendor specified rate-limiting bound).
-        Note: measurement interval is an hourly measurement block, not a rolling 5-minute
-        counter.
-
-        '
-      tags:
-      - tag: component
-        value: call-rate
-      - tag: provenance
-        value: REAL_AVAYA_SNMP
-      triggers:
-      - uuid: 88aa11bb22cc470dafc431b51c179220
-        expression: last(/Nawari Avaya Communication Manager by SNMP/avaya.cm.call_rate.completed)<10
-          and last(/Nawari Avaya Communication Manager by SNMP/avaya.cm.call_rate.completed)>=0
-        name: 'Avaya CM: Call Rate Abnormal Drop (< 10 calls/hr)'
-        priority: HIGH
-        description: Completed call rate in the hourly measurement block dropped abnormally
-          below minimum operational baseline.
-        tags:
-        - tag: component
-          value: call-rate
-        - tag: scope
-          value: performance
-        - tag: notification_class
-          value: degradation
-      - uuid: 88aa11bb22cc470dafc431b51c179221
-        expression: nodata(/Nawari Avaya Communication Manager by SNMP/avaya.cm.call_rate.completed,2h)=1
-        name: 'Avaya CM: Performance Telemetry Stale (> 2h)'
-        priority: WARNING
-        description: No hourly call rate measurement block received within the 2-hour
-          freshness window.
-        tags:
-        - tag: component
-          value: call-rate
-        - tag: scope
-          value: availability
-        - tag: notification_class
-          value: monitoring_failure
-    - uuid: 88aa11bb22cc470dafc431b51c179213
-      name: Echo Cancellation Status
-      type: SNMP_AGENT
-      snmp_oid: 1.3.6.1.4.1.6889.2.73.8.1.67.1.13.1
-      key: avaya.cm.ip_voice.echo_cancellation
-      delay: 1h
-      value_type: CHAR
-      description: 'Operational status of hardware/software echo cancellation on voice
-        paths for the measured network region.
-
-        Source: Avaya CM SNMP table avCmMeasIpVoStatHrData (OID 1.3.6.1.4.1.6889.2.73.8.1.67
-        leaf .13). Polling interval: 1 hour.
-
-        '
-      tags:
-      - tag: component
-        value: voice-transport
-      - tag: provenance
-        value: REAL_AVAYA_SNMP
-    - uuid: 88aa11bb22cc470dafc431b51c179214
-      name: Voice Telemetry Network Region ID
-      type: SNMP_AGENT
-      snmp_oid: 1.3.6.1.4.1.6889.2.73.8.1.67.1.1.1
-      key: avaya.cm.ip_voice.network_region
-      delay: 1h
-      value_type: UNSIGNED
-      description: 'Numeric network region identifier corresponding to the reported
-        hourly voice measurement statistics.
-
-        Source: Avaya CM SNMP table avCmMeasIpVoStatHrData (OID 1.3.6.1.4.1.6889.2.73.8.1.67
-        leaf .1). Polling interval: 1 hour.
-
-        '
-      tags:
-      - tag: component
-        value: voice-transport
-      - tag: provenance
-        value: REAL_AVAYA_SNMP
-    - uuid: 88aa11bb22cc470dafc431b51c179207
-      name: Communication Manager SNMP Availability
-      type: SIMPLE
-      key: icmpping[10.102.10.25]
-      delay: 1m
-      value_type: UNSIGNED
-      description: 'Network ICMP reachability to the Avaya Communication Manager processor
-        interface.
-
-        1 = UP, 0 = DOWN. Polling interval: 1 minute.
-
-        '
-      tags:
-      - tag: component
-        value: infrastructure
-      - tag: provenance
-        value: REAL_ZABBIX
-      triggers:
-      - uuid: 88aa11bb22cc470dafc431b51c179219
-        expression: last(/Nawari Avaya Communication Manager by SNMP/icmpping[10.102.10.25])=0
-        name: 'Avaya CM: Communication Manager Processor Unreachable'
-        priority: DISASTER
-        description: Communication Manager call processor interface is unresponsive
-          to network ICMP polling.
-        tags:
-        - tag: component
-          value: cm-core
-        - tag: scope
-          value: availability
-        - tag: notification_class
-          value: total_outage
+    - uuid: c1a2b3c4d5e6470dafc431b51c17924f
+      template: 'Nawari Avaya Communication Manager by SNMP'
+      name: 'Nawari Avaya Communication Manager by SNMP'
+      description: |
+        Nawari Avaya Aura Communication Manager (CM 8.1.0) Performance and IP Voice Quality Template.
+        Collects real-call transport and call processing metrics from official Avaya MIB tables (OID 1.3.6.1.4.1.6889.2.73):
+        - avCmMeasIpVoStatHrData (1.3.6.1.4.1.6889.2.73.8.1.67, mapping to avCmMeasIpVoStatSumDataLstHrTable SAT data): Hourly network-region IP voice statistics (loss %, peak jitter, peak delay, codec, echo cancellation, network region). Delay strictly >= 1h (caching interval 600s).
+        - avCmAlarms (1.3.6.1.4.1.6889.2.73.8.1.5): Active alarms count. Delay >= 1h (CPU conservation limit). Traps handle real-time alarms.
+        - avCmListMeasCallRateTotal (1.3.6.1.4.1.6889.2.73.8.1.145): Total completed calls from hourly measurement report. Polling strictly capped at 5 minutes (delay: 5m) to prevent impact on CM processor. Note: measurement interval is hourly report.
+        Requires 'IP Voice Stats Summary? y' enabled under 'change system-parameters ip-options'.
+      groups:
+        - name: Templates/Applications
+        - name: 'Templates/Network devices'
+      items:
+        - uuid: 88aa11bb22cc470dafc431b51c179208
+          name: 'Active Alarms Count'
+          type: SNMP_AGENT
+          snmp_oid: 1.3.6.1.4.1.6889.2.73.8.1.5.1.2.1
+          key: avaya.cm.alarms.active_count
+          delay: 1h
+          units: alarms
+          description: |
+            Total number of unresolved active alarms currently registered  on the Communication Manager server.
+            Source: Avaya CM 8.1 SNMP table avCmAlarmsTable  (group OID 1.3.6.1.4.1.6889.2.73.8.1.5).
+            Polling interval: strictly 1 hour  (vendor specified CPU conservation limit).
+            Note: Discrepancy resolved in  Phase 13.2 audit — replaced legacy G3 OID (6889.2.8.1.13) with official  Aura CM 8.1 OID (6889.2.73.8.1.5).
+          tags:
+            - tag: component
+              value: alarms
+            - tag: provenance
+              value: REAL_AVAYA_SNMP
+          triggers:
+            - uuid: 88aa11bb22cc470dafc431b51c179218
+              expression: 'last(/Nawari Avaya Communication Manager by SNMP/avaya.cm.alarms.active_count)>0'
+              recovery_mode: RECOVERY_EXPRESSION
+              recovery_expression: 'last(/Nawari Avaya Communication Manager by SNMP/avaya.cm.alarms.active_count)=0'
+              name: 'Avaya CM: Active Telephony Alarms Present'
+              priority: AVERAGE
+              description: 'Communication Manager has active alarm conditions requiring engineering review.'
+              tags:
+                - tag: notification_class
+                  value: component_failure
+        - uuid: 88aa11bb22cc470dafc431b51c179209
+          name: 'Call Rate Total Attempts (Hourly Measurement Interval)'
+          type: SNMP_AGENT
+          snmp_oid: 1.3.6.1.4.1.6889.2.73.8.1.145.1.2.1
+          key: avaya.cm.call_rate.attempts
+          delay: 5m
+          units: calls
+          description: |
+            Total call attempts processed by Communication Manager in the current hourly measurement block from list measurements call-rate total.
+            Source: Avaya CM 8.1 SNMP table avCmListMeasCallRateTotalTable (group OID 1.3.6.1.4.1.6889.2.73.8.1.145, leaf .1.2.1).
+            Polling interval: strictly 5 minutes (vendor specified rate-limiting bound). Note: measurement interval is an hourly measurement block, not a rolling 5-minute counter.
+          tags:
+            - tag: component
+              value: call-rate
+            - tag: provenance
+              value: REAL_AVAYA_SNMP
+        - uuid: 88aa11bb22cc470dafc431b51c179210
+          name: 'Call Rate Completed Calls (Hourly Measurement Interval)'
+          type: SNMP_AGENT
+          snmp_oid: 1.3.6.1.4.1.6889.2.73.8.1.145.1.3.1
+          key: avaya.cm.call_rate.completed
+          delay: 5m
+          units: calls
+          description: |
+            Total successfully completed call connections processed in the current hourly measurement block from list measurements call-rate total.
+            Source: Avaya CM 8.1 SNMP table avCmListMeasCallRateTotalTable (group OID 1.3.6.1.4.1.6889.2.73.8.1.145, leaf .1.3.1).
+            Polling interval: strictly 5 minutes (vendor specified rate-limiting bound). Note: measurement interval is an hourly measurement block, not a rolling 5-minute counter.
+          tags:
+            - tag: component
+              value: call-rate
+            - tag: provenance
+              value: REAL_AVAYA_SNMP
+          triggers:
+            - uuid: 88aa11bb22cc470dafc431b51c179220
+              expression: 'last(/Nawari Avaya Communication Manager by SNMP/avaya.cm.call_rate.completed)<10 and last(/Nawari Avaya Communication Manager by SNMP/avaya.cm.call_rate.completed)>=0'
+              recovery_mode: RECOVERY_EXPRESSION
+              recovery_expression: 'last(/Nawari Avaya Communication Manager by SNMP/avaya.cm.call_rate.completed)>=30'
+              name: 'Avaya CM: Call Rate Abnormal Drop (< 10 calls/hr)'
+              priority: HIGH
+              description: 'Completed call rate in the hourly measurement block dropped abnormally below minimum operational baseline.'
+              tags:
+                - tag: component
+                  value: call-rate
+                - tag: notification_class
+                  value: degradation
+                - tag: scope
+                  value: performance
+            - uuid: 88aa11bb22cc470dafc431b51c179221
+              expression: 'nodata(/Nawari Avaya Communication Manager by SNMP/avaya.cm.call_rate.completed,2h)=1'
+              recovery_mode: RECOVERY_EXPRESSION
+              recovery_expression: 'nodata(/Nawari Avaya Communication Manager by SNMP/avaya.cm.call_rate.completed,2h)=0'
+              name: 'Avaya CM: Performance Telemetry Stale (> 2h)'
+              priority: WARNING
+              description: 'No hourly call rate measurement block received within the 2-hour freshness window.'
+              tags:
+                - tag: component
+                  value: call-rate
+                - tag: notification_class
+                  value: monitoring_failure
+                - tag: scope
+                  value: availability
+        - uuid: 88aa11bb22cc470dafc431b51c179204
+          name: 'Real-Call Hourly Average Jitter'
+          type: SNMP_AGENT
+          snmp_oid: 1.3.6.1.4.1.6889.2.73.8.1.67.1.11.1
+          key: avaya.cm.ip_voice.avg_jitter
+          delay: 1h
+          value_type: FLOAT
+          units: ms
+          description: |
+            Average interarrival packet jitter in milliseconds calculated across calls in the last completed hour.
+            Source: Avaya CM SNMP table avCmMeasIpVoStatHrData (OID 1.3.6.1.4.1.6889.2.73.8.1.67). Polling interval: 1 hour.
+          tags:
+            - tag: component
+              value: voice-transport
+            - tag: provenance
+              value: REAL_AVAYA_SNMP
+        - uuid: 88aa11bb22cc470dafc431b51c179205
+          name: 'Real-Call Evaluated Calls Count'
+          type: SNMP_AGENT
+          snmp_oid: 1.3.6.1.4.1.6889.2.73.8.1.67.1.2.1
+          key: avaya.cm.ip_voice.call_count
+          delay: 1h
+          units: calls
+          description: |
+            Total number of IP voice calls evaluated by Communication Manager during the last completed hour.
+            Source: Avaya CM SNMP table avCmMeasIpVoStatHrData (OID 1.3.6.1.4.1.6889.2.73.8.1.67). Polling interval: 1 hour.
+          tags:
+            - tag: component
+              value: call-volume
+            - tag: provenance
+              value: REAL_AVAYA_SNMP
+        - uuid: 88aa11bb22cc470dafc431b51c179206
+          name: 'Negotiated Audio Codec'
+          type: SNMP_AGENT
+          snmp_oid: 1.3.6.1.4.1.6889.2.73.8.1.67.1.8.1
+          key: avaya.cm.ip_voice.codec
+          delay: 1h
+          value_type: CHAR
+          description: |
+            Primary negotiated voice compression algorithm / codec (e.g. G.711A, G.711U, G.729) in the active network region.
+            Source: Avaya CM SNMP table avCmMeasIpVoStatHrData (OID 1.3.6.1.4.1.6889.2.73.8.1.67 leaf .8). Polling interval: 1 hour.
+          tags:
+            - tag: component
+              value: codec
+            - tag: provenance
+              value: REAL_AVAYA_SNMP
+        - uuid: 88aa11bb22cc470dafc431b51c179213
+          name: 'Echo Cancellation Status'
+          type: SNMP_AGENT
+          snmp_oid: 1.3.6.1.4.1.6889.2.73.8.1.67.1.13.1
+          key: avaya.cm.ip_voice.echo_cancellation
+          delay: 1h
+          value_type: CHAR
+          description: |
+            Operational status of hardware/software echo cancellation on voice paths for the measured network region.
+            Source: Avaya CM SNMP table avCmMeasIpVoStatHrData (OID 1.3.6.1.4.1.6889.2.73.8.1.67 leaf .13). Polling interval: 1 hour.
+          tags:
+            - tag: component
+              value: voice-transport
+            - tag: provenance
+              value: REAL_AVAYA_SNMP
+        - uuid: 88aa11bb22cc470dafc431b51c179201
+          name: 'Real-Call Packet Loss (Last Hour)'
+          type: SNMP_AGENT
+          snmp_oid: 1.3.6.1.4.1.6889.2.73.8.1.67.1.10.1
+          key: avaya.cm.ip_voice.loss_pct
+          delay: 1h
+          value_type: FLOAT
+          units: '%'
+          description: |
+            Percentage of IP audio packets lost during active calls in the last completed hour across primary network region.
+            Source: Avaya CM SNMP table avCmMeasIpVoStatHrData (OID 1.3.6.1.4.1.6889.2.73.8.1.67 leaf .10). Polling interval: 1 hour. Caching interval: 600s.
+          tags:
+            - tag: component
+              value: voice-transport
+            - tag: provenance
+              value: REAL_AVAYA_SNMP
+          triggers:
+            - uuid: 88aa11bb22cc470dafc431b51c179211
+              expression: 'min(/Nawari Avaya Communication Manager by SNMP/avaya.cm.ip_voice.loss_pct,1h)>2.5'
+              recovery_mode: RECOVERY_EXPRESSION
+              recovery_expression: 'max(/Nawari Avaya Communication Manager by SNMP/avaya.cm.ip_voice.loss_pct,1h)<0.8'
+              name: 'Avaya CM: Real-Call Packet Loss High (> 2.5% in Last Hour)'
+              priority: WARNING
+              description: 'Hourly real-call packet loss on Avaya Communication Manager exceeded 2.5% threshold.'
+              tags:
+                - tag: notification_class
+                  value: degradation
+        - uuid: 88aa11bb22cc470dafc431b51c179214
+          name: 'Voice Telemetry Network Region ID'
+          type: SNMP_AGENT
+          snmp_oid: 1.3.6.1.4.1.6889.2.73.8.1.67.1.1.1
+          key: avaya.cm.ip_voice.network_region
+          delay: 1h
+          description: |
+            Numeric network region identifier corresponding to the reported hourly voice measurement statistics.
+            Source: Avaya CM SNMP table avCmMeasIpVoStatHrData (OID 1.3.6.1.4.1.6889.2.73.8.1.67 leaf .1). Polling interval: 1 hour.
+          tags:
+            - tag: component
+              value: voice-transport
+            - tag: provenance
+              value: REAL_AVAYA_SNMP
+        - uuid: 88aa11bb22cc470dafc431b51c179203
+          name: 'Real-Call Peak Two-Way Delay (Last Hour)'
+          type: SNMP_AGENT
+          snmp_oid: 1.3.6.1.4.1.6889.2.73.8.1.67.1.12.1
+          key: avaya.cm.ip_voice.peak_delay
+          delay: 1h
+          value_type: FLOAT
+          units: ms
+          description: |
+            Maximum two-way round-trip audio packet delay in milliseconds observed during active calls in the last completed hour.
+            Source: Avaya CM SNMP table avCmMeasIpVoStatHrData (OID 1.3.6.1.4.1.6889.2.73.8.1.67 leaf .12). Polling interval: 1 hour.
+          tags:
+            - tag: component
+              value: voice-transport
+            - tag: provenance
+              value: REAL_AVAYA_SNMP
+        - uuid: 88aa11bb22cc470dafc431b51c179202
+          name: 'Real-Call Peak Jitter (Last Hour)'
+          type: SNMP_AGENT
+          snmp_oid: 1.3.6.1.4.1.6889.2.73.8.1.67.1.11.1
+          key: avaya.cm.ip_voice.peak_jitter
+          delay: 1h
+          value_type: FLOAT
+          units: ms
+          description: |
+            Maximum interarrival packet jitter in milliseconds observed during active calls in the last completed hour.
+            Source: Avaya CM SNMP table avCmMeasIpVoStatHrData (OID 1.3.6.1.4.1.6889.2.73.8.1.67 leaf .11). Polling interval: 1 hour. Caching interval: 600s.
+          tags:
+            - tag: component
+              value: voice-transport
+            - tag: provenance
+              value: REAL_AVAYA_SNMP
+          triggers:
+            - uuid: 88aa11bb22cc470dafc431b51c179212
+              expression: 'min(/Nawari Avaya Communication Manager by SNMP/avaya.cm.ip_voice.peak_jitter,1h)>30'
+              recovery_mode: RECOVERY_EXPRESSION
+              recovery_expression: 'max(/Nawari Avaya Communication Manager by SNMP/avaya.cm.ip_voice.peak_jitter,1h)<15'
+              name: 'Avaya CM: Real-Call Peak Jitter High (> 30 ms)'
+              priority: WARNING
+              description: 'Hourly real-call peak jitter on Avaya Communication Manager exceeded 30 ms.'
+              tags:
+                - tag: notification_class
+                  value: degradation
+        - uuid: 88aa11bb22cc470dafc431b51c179207
+          name: 'Communication Manager SNMP Availability'
+          type: SIMPLE
+          key: 'icmpping[10.102.10.25]'
+          description: |
+            Network ICMP reachability to the Avaya Communication Manager processor interface.
+            1 = UP, 0 = DOWN. Polling interval: 1 minute.
+          tags:
+            - tag: component
+              value: infrastructure
+            - tag: provenance
+              value: REAL_ZABBIX
+          triggers:
+            - uuid: 88aa11bb22cc470dafc431b51c179219
+              expression: 'max(/Nawari Avaya Communication Manager by SNMP/icmpping[10.102.10.25],#3)=0'
+              recovery_mode: RECOVERY_EXPRESSION
+              recovery_expression: 'min(/Nawari Avaya Communication Manager by SNMP/icmpping[10.102.10.25],#2)=1'
+              name: 'Avaya CM: Communication Manager Processor Unreachable'
+              priority: DISASTER
+              description: 'Communication Manager call processor interface is unresponsive to network ICMP polling.'
+              tags:
+                - tag: component
+                  value: cm-core
+                - tag: notification_class
+                  value: total_outage
+                - tag: scope
+                  value: availability

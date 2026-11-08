@@ -1,194 +1,176 @@
 zabbix_export:
   version: '7.4'
   template_groups:
-  - uuid: 12ce2490200743cc9dbb103ee2ece67e
-    name: Templates/Telephony
-  - uuid: 36bff6c29af64692839d077febfc7079
-    name: Templates/Network devices
+    - uuid: 36bff6c29af64692839d077febfc7079
+      name: 'Templates/Network devices'
+    - uuid: 12ce2490200743cc9dbb103ee2ece67e
+      name: Templates/Telephony
   templates:
-  - uuid: f4a5b6c7d8e9470dafc431b51c179501
-    template: Nawari SIP Trunk by Trapper
-    name: Nawari SIP Trunk by Trapper
-    description: 'Nawari SIP Trunk & Carrier Signaling Monitoring Template.
-
-      Monitors external carrier SIP trunks (Safaricom, Airtel, Telkom Kenya, International
-      Carrier Gateways),
-
-      tracking active OPTIONS probe reachability, latency, error response ratios (4xx/5xx),
-      DNS resolution,
-
-      and TLS certificate lifecycle.
-
-      Important: Signaling reachability establishes Layer-5 session connectivity only;
-      it does NOT prove in-flight audio media quality.
-
-      '
-    groups:
-    - name: Templates/Telephony
-    - name: Templates/Network devices
-    items:
-    - uuid: f4a5b6c7d8e9470dafc431b51c179502
-      name: SIP Trunk Endpoint Reachability
-      type: SIMPLE
-      key: icmpping[10.2.156.100]
-      delay: 1m
-      value_type: UNSIGNED
-      description: Network ICMP ping reachability to carrier SIP signaling proxy/SBC
-        gateway IP.
-      tags:
-      - tag: component
-        value: sip-trunk
-      - tag: provenance
-        value: REAL_ZABBIX
-      triggers:
-      - uuid: f4a5b6c7d8e9470dafc431b51c179512
-        expression: last(/Nawari SIP Trunk by Trapper/icmpping[10.2.156.100])=0
-        name: 'SIP Trunk: Endpoint Unreachable'
-        priority: DISASTER
-        description: Carrier SIP trunk endpoint IP is unresponsive to network ICMP
-          ping.
-        tags:
-        - tag: component
-          value: sip-trunk
-        - tag: scope
-          value: availability
-        - tag: notification_class
-          value: total_outage
-    - uuid: f4a5b6c7d8e9470dafc431b51c179503
-      name: SIP Trunk OPTIONS Probe Status
-      type: TRAP
-      key: sip.trunk.options_status
-      delay: '0'
-      value_type: UNSIGNED
-      description: 'Nawari active SIP OPTIONS transaction outcome: 1 = 200 OK received,
-        0 = Failed / Timed out.
-
-        '
-      tags:
-      - tag: component
-        value: sip-signaling
-      - tag: provenance
-        value: NAWARI_SIP_PROBE
-      triggers:
-      - uuid: f4a5b6c7d8e9470dafc431b51c179513
-        expression: last(/Nawari SIP Trunk by Trapper/sip.trunk.options_status)=0
-        name: 'SIP Trunk: Consecutive OPTIONS Probe Failures'
-        priority: HIGH
-        description: SIP OPTIONS heartbeat probe to carrier trunk endpoint failed.
-        tags:
-        - tag: component
-          value: sip-signaling
-        - tag: scope
-          value: availability
-        - tag: notification_class
-          value: service_outage
-    - uuid: f4a5b6c7d8e9470dafc431b51c179504
-      name: SIP Trunk OPTIONS Response Time
-      type: TRAP
-      key: sip.trunk.options_rtt
-      delay: '0'
-      value_type: FLOAT
-      units: ms
-      description: Round-trip response time in milliseconds for active SIP OPTIONS
-        probes to carrier SBC.
-      tags:
-      - tag: component
-        value: sip-signaling
-      - tag: provenance
-        value: NAWARI_SIP_PROBE
-    - uuid: f4a5b6c7d8e9470dafc431b51c179505
-      name: SIP Trunk Error Response Rate
-      type: TRAP
-      key: sip.trunk.error_rate_pct
-      delay: '0'
-      value_type: FLOAT
-      units: '%'
-      description: Percentage of SIP requests returned with 4xx/5xx error responses
-        over 5 minutes.
-      tags:
-      - tag: component
-        value: sip-signaling
-      - tag: provenance
-        value: VERIFIED_INTEGRATION
-      triggers:
-      - uuid: f4a5b6c7d8e9470dafc431b51c179514
-        expression: min(/Nawari SIP Trunk by Trapper/sip.trunk.error_rate_pct,5m)>10
-        name: 'SIP Trunk: High Error Response Rate (5xx/4xx > 10%)'
-        priority: HIGH
-        description: Carrier SIP trunk exhibits sustained error response rate exceeding
-          10%.
-        tags:
-        - tag: component
-          value: sip-signaling
-        - tag: scope
-          value: performance
-        - tag: notification_class
-          value: degradation
-    - uuid: f4a5b6c7d8e9470dafc431b51c179506
-      name: SIP Trunk DNS SRV/A Resolution Status
-      type: TRAP
-      key: sip.trunk.dns_resolved
-      delay: '0'
-      value_type: UNSIGNED
-      description: DNS resolution status for carrier SIP FQDN (1 = Resolved successfully,
-        0 = NXDOMAIN / Timeout).
-      tags:
-      - tag: component
-        value: dns
-      - tag: provenance
-        value: VERIFIED_INTEGRATION
-      triggers:
-      - uuid: f4a5b6c7d8e9470dafc431b51c179515
-        expression: last(/Nawari SIP Trunk by Trapper/sip.trunk.dns_resolved)=0
-        name: 'SIP Trunk: DNS SRV/A Resolution Failure'
-        priority: HIGH
-        description: Carrier SIP proxy domain name failed to resolve via configured
-          DNS forwarders.
-        tags:
-        - tag: component
-          value: dns
-        - tag: scope
-          value: availability
-        - tag: notification_class
-          value: service_outage
-    - uuid: f4a5b6c7d8e9470dafc431b51c179507
-      name: SIP Trunk TLS Certificate Expiry Days
-      type: TRAP
-      key: sip.trunk.tls_cert_expiry_days
-      delay: '0'
-      value_type: FLOAT
-      units: days
-      description: Days remaining before expiration of carrier mutual TLS (mTLS) certificate.
-      tags:
-      - tag: component
-        value: tls-security
-      - tag: provenance
-        value: CONFIGURED_UNVERIFIED
-      triggers:
-      - uuid: f4a5b6c7d8e9470dafc431b51c179516
-        expression: last(/Nawari SIP Trunk by Trapper/sip.trunk.tls_cert_expiry_days)<=30
-          and last(/Nawari SIP Trunk by Trapper/sip.trunk.tls_cert_expiry_days)>7
-        name: 'SIP Trunk: TLS Certificate Expiration Warning (<= 30 days)'
-        priority: WARNING
-        description: Carrier SIP trunk mutual TLS certificate will expire within 30
-          days.
-        tags:
-        - tag: component
-          value: tls-security
-        - tag: scope
-          value: security
-        - tag: notification_class
-          value: informational
-      - uuid: f4a5b6c7d8e9470dafc431b51c179517
-        expression: last(/Nawari SIP Trunk by Trapper/sip.trunk.tls_cert_expiry_days)<=7
-        name: 'SIP Trunk: TLS Certificate Expiration Critical (<= 7 days)'
-        priority: HIGH
-        description: Carrier SIP trunk mutual TLS certificate will expire within 7
-          days. Urgent renewal required.
-        tags:
-        - tag: component
-          value: tls-security
-        - tag: scope
-          value: security
-        - tag: notification_class
-          value: informational
+    - uuid: f4a5b6c7d8e9470dafc431b51c179501
+      template: 'Nawari SIP Trunk by Trapper'
+      name: 'Nawari SIP Trunk by Trapper'
+      description: |
+        Nawari SIP Trunk & Carrier Signaling Monitoring Template.
+        Monitors external carrier SIP trunks (Safaricom, Airtel, Telkom Kenya, International Carrier Gateways),
+        tracking active OPTIONS probe reachability, latency, error response ratios (4xx/5xx), DNS resolution,
+        and TLS certificate lifecycle.
+        Important: Signaling reachability establishes Layer-5 session connectivity only; it does NOT prove in-flight audio media quality.
+      groups:
+        - name: 'Templates/Network devices'
+        - name: Templates/Telephony
+      items:
+        - uuid: f4a5b6c7d8e9470dafc431b51c179502
+          name: 'SIP Trunk Endpoint Reachability'
+          type: SIMPLE
+          key: 'icmpping[10.2.156.100]'
+          description: 'Network ICMP ping reachability to carrier SIP signaling proxy/SBC gateway IP.'
+          tags:
+            - tag: component
+              value: sip-trunk
+            - tag: provenance
+              value: REAL_ZABBIX
+          triggers:
+            - uuid: f4a5b6c7d8e9470dafc431b51c179512
+              expression: 'max(/Nawari SIP Trunk by Trapper/icmpping[10.2.156.100],#3)=0'
+              recovery_mode: RECOVERY_EXPRESSION
+              recovery_expression: 'min(/Nawari SIP Trunk by Trapper/icmpping[10.2.156.100],#2)=1'
+              name: 'SIP Trunk: Endpoint Unreachable'
+              priority: DISASTER
+              description: 'Carrier SIP trunk endpoint IP is unresponsive to network ICMP ping.'
+              tags:
+                - tag: component
+                  value: sip-trunk
+                - tag: notification_class
+                  value: total_outage
+                - tag: scope
+                  value: availability
+        - uuid: f4a5b6c7d8e9470dafc431b51c179506
+          name: 'SIP Trunk DNS SRV/A Resolution Status'
+          type: TRAP
+          key: sip.trunk.dns_resolved
+          description: 'DNS resolution status for carrier SIP FQDN (1 = Resolved successfully, 0 = NXDOMAIN / Timeout).'
+          tags:
+            - tag: component
+              value: dns
+            - tag: provenance
+              value: VERIFIED_INTEGRATION
+          triggers:
+            - uuid: f4a5b6c7d8e9470dafc431b51c179515
+              expression: 'count(/Nawari SIP Trunk by Trapper/sip.trunk.dns_resolved,#2,"eq",0)>=2'
+              recovery_mode: RECOVERY_EXPRESSION
+              recovery_expression: 'min(/Nawari SIP Trunk by Trapper/sip.trunk.dns_resolved,#1)=1'
+              name: 'SIP Trunk: DNS SRV/A Resolution Failure'
+              priority: HIGH
+              description: 'Carrier SIP proxy domain name failed to resolve via configured DNS forwarders.'
+              tags:
+                - tag: component
+                  value: dns
+                - tag: notification_class
+                  value: service_outage
+                - tag: scope
+                  value: availability
+        - uuid: f4a5b6c7d8e9470dafc431b51c179505
+          name: 'SIP Trunk Error Response Rate'
+          type: TRAP
+          key: sip.trunk.error_rate_pct
+          value_type: FLOAT
+          units: '%'
+          description: 'Percentage of SIP requests returned with 4xx/5xx error responses over 5 minutes.'
+          tags:
+            - tag: component
+              value: sip-signaling
+            - tag: provenance
+              value: VERIFIED_INTEGRATION
+          triggers:
+            - uuid: f4a5b6c7d8e9470dafc431b51c179514
+              expression: 'min(/Nawari SIP Trunk by Trapper/sip.trunk.error_rate_pct,5m)>10'
+              recovery_mode: RECOVERY_EXPRESSION
+              recovery_expression: 'max(/Nawari SIP Trunk by Trapper/sip.trunk.error_rate_pct,5m)<2'
+              name: 'SIP Trunk: High Error Response Rate (5xx/4xx > 10%)'
+              priority: HIGH
+              description: 'Carrier SIP trunk exhibits sustained error response rate exceeding 10%.'
+              tags:
+                - tag: component
+                  value: sip-signaling
+                - tag: notification_class
+                  value: degradation
+                - tag: scope
+                  value: performance
+        - uuid: f4a5b6c7d8e9470dafc431b51c179504
+          name: 'SIP Trunk OPTIONS Response Time'
+          type: TRAP
+          key: sip.trunk.options_rtt
+          value_type: FLOAT
+          units: ms
+          description: 'Round-trip response time in milliseconds for active SIP OPTIONS probes to carrier SBC.'
+          tags:
+            - tag: component
+              value: sip-signaling
+            - tag: provenance
+              value: NAWARI_SIP_PROBE
+        - uuid: f4a5b6c7d8e9470dafc431b51c179503
+          name: 'SIP Trunk OPTIONS Probe Status'
+          type: TRAP
+          key: sip.trunk.options_status
+          description: 'Nawari active SIP OPTIONS transaction outcome: 1 = 200 OK received, 0 = Failed / Timed out.'
+          tags:
+            - tag: component
+              value: sip-signaling
+            - tag: provenance
+              value: NAWARI_SIP_PROBE
+          triggers:
+            - uuid: f4a5b6c7d8e9470dafc431b51c179513
+              expression: 'count(/Nawari SIP Trunk by Trapper/sip.trunk.options_status,#4,"eq",0)>=3'
+              recovery_mode: RECOVERY_EXPRESSION
+              recovery_expression: 'count(/Nawari SIP Trunk by Trapper/sip.trunk.options_status,#3,"eq",1)=3'
+              name: 'SIP Trunk: Consecutive OPTIONS Probe Failures'
+              priority: HIGH
+              description: 'SIP OPTIONS heartbeat probe to carrier trunk endpoint failed.'
+              tags:
+                - tag: component
+                  value: sip-signaling
+                - tag: notification_class
+                  value: service_outage
+                - tag: scope
+                  value: availability
+        - uuid: f4a5b6c7d8e9470dafc431b51c179507
+          name: 'SIP Trunk TLS Certificate Expiry Days'
+          type: TRAP
+          key: sip.trunk.tls_cert_expiry_days
+          value_type: FLOAT
+          units: days
+          description: 'Days remaining before expiration of carrier mutual TLS (mTLS) certificate.'
+          tags:
+            - tag: component
+              value: tls-security
+            - tag: provenance
+              value: CONFIGURED_UNVERIFIED
+          triggers:
+            - uuid: f4a5b6c7d8e9470dafc431b51c179517
+              expression: 'last(/Nawari SIP Trunk by Trapper/sip.trunk.tls_cert_expiry_days)<=7'
+              recovery_mode: RECOVERY_EXPRESSION
+              recovery_expression: 'last(/Nawari SIP Trunk by Trapper/sip.trunk.tls_cert_expiry_days)>7'
+              name: 'SIP Trunk: TLS Certificate Expiration Critical (<= 7 days)'
+              priority: HIGH
+              description: 'Carrier SIP trunk mutual TLS certificate will expire within 7 days. Urgent renewal required.'
+              tags:
+                - tag: component
+                  value: tls-security
+                - tag: notification_class
+                  value: informational
+                - tag: scope
+                  value: security
+            - uuid: f4a5b6c7d8e9470dafc431b51c179516
+              expression: 'last(/Nawari SIP Trunk by Trapper/sip.trunk.tls_cert_expiry_days)<=30 and last(/Nawari SIP Trunk by Trapper/sip.trunk.tls_cert_expiry_days)>7'
+              recovery_mode: RECOVERY_EXPRESSION
+              recovery_expression: 'last(/Nawari SIP Trunk by Trapper/sip.trunk.tls_cert_expiry_days)>30'
+              name: 'SIP Trunk: TLS Certificate Expiration Warning (<= 30 days)'
+              priority: WARNING
+              description: 'Carrier SIP trunk mutual TLS certificate will expire within 30 days.'
+              tags:
+                - tag: component
+                  value: tls-security
+                - tag: notification_class
+                  value: informational
+                - tag: scope
+                  value: security

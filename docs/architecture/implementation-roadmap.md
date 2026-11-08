@@ -181,7 +181,7 @@ Evaluate, do not automatically deploy:
 
 The Phase 13.8 milestone is partitioned into three rigorous engineering phases to ensure technically defensible thresholds and actionable notifications before production telemetry commissioning:
 
-#### Phase 13.8A — Trigger Threshold Audit, Inventory Reconciliation & Alert Rationalisation (Current)
+#### Phase 13.8A — Trigger Threshold Audit, Inventory Reconciliation & Alert Rationalisation (Completed)
 - **Reconcile Live Trigger Inventory:** Account for 59 communication triggers (7 templates / 7 hosts), 70 broad template triggers (10 templates), 110 tagged classification triggers, and 142 live host triggers (88 tagged concrete triggers + 54 untagged discovered LLD interface triggers on lab hosts).
 - **Authoritative Threshold Register:** Full inventory and specification of every trigger across all 10 templates and 12 monitored hosts using the 16-field metadata schema.
 - **Five-Question Framework:** Every threshold answers: What is measured, acceptable range, alert boundary, persistence duration, and recovery evidence.
@@ -193,16 +193,19 @@ The Phase 13.8 milestone is partitioned into three rigorous engineering phases t
 - **Voice Metric Disambiguation:** Explicit separation between synthetic MOS (ITU-T G.107 E-model) and customer-call MOS; SIP transport latency separated from Call Setup Time.
 - **Gated Telemetry Isolation:** Formal identification and gating of unsupported/unverified metrics (e.g. G450 DSP utilization, live per-call RTCP jitter, deep EMS licensing) without fictitious active triggers.
 
-**Exit gate:** 100% trigger inventory documented in authoritative register; automated audit suite (`test_phase13_8a_threshold_rationalisation.py`) passes all tests.
+**Exit gate:** 100% trigger inventory documented in authoritative register; automated audit suite (`test_phase13_8a_threshold_rationalisation.py`) passes all tests. (ACCEPTED)
 
-#### Phase 13.8B — Zabbix Template Threshold & Recovery Expression Implementation
-- Deploy approved thresholds, persistence expressions, and recovery hysteresis into Zabbix template YAMLs and live Zabbix API.
-- Update trigger prototypes for LLD network interfaces to attach `notification_class` tags (eliminating the 54 untagged discovered triggers).
-- Reconcile trigger priorities and expression syntax.
+#### Phase 13.8B — Zabbix Template Threshold & Recovery Expression Implementation (Completed)
+- **Dual-Expression Recovery Hysteresis:** Deployed approved thresholds, persistence expressions, and recovery hysteresis into live Zabbix API and persistent YAML templates (`recovery_mode: 1`) across 67 template triggers and 11 trigger prototypes. Single approved informational exception: Trigger 21712 ("System name has changed", `recovery_mode: 0`).
+- **Prototype Tagging & Discovered Trigger Resolution:** Attached `notification_class` tags to all 11 LLD interface prototypes, propagating tags to all 54 dynamically discovered interface triggers on mock lab hosts via LLD task execution (eliminating 100% of untagged discovered triggers).
+- **Deadband Specification:** Configured anti-flapping deadbands across key metrics (WFO disk [15%, 20%], ICMP ping loss [5%, 20%], ICMP RTT [100ms, 150ms], SBCE CPU [70%, 85%], Synthetic Voice MOS [3.5, 3.8]).
+- **Live Runtime Hysteresis Validation:** Executed live injection scenarios verifying that triggers in deadband remain active and only clear upon reaching recovery threshold.
+- **Gated Telemetry Isolation:** Formally isolated 5 uncollected/unsupported metrics (`G450_DSP_UTIL`, `CM_CALL_RTCP_JITTER`, `EMS_SIP_SERVER_ERRORS`, `WFO_VERINT_PIPELINE`, `CARRIER_DEEP_SLA`) without active triggers.
+- **Declarative Template Synchronization:** Exported and synchronized updated definitions into native YAML files under `provisioning/zabbix/templates/` ensuring provisioning idempotency.
 
-**Exit gate:** Zabbix API confirms zero syntax errors, valid recovery modes (`recovery_mode: 1`), and reconciled trigger definitions.
+**Exit gate:** Zabbix API confirms zero syntax errors, 100% valid recovery modes (`recovery_mode: 1` on 67 triggers, 11 prototypes), 0 untagged discovered triggers, change manifest recorded (`phase13_8b_change_manifest.json`), runtime hysteresis verified (`phase13_8b_runtime_hysteresis_results.json`), and automated suite (`test_phase13_8b_threshold_implementation.py`) passes 9/9 tests. (ACCEPTED)
 
-#### Phase 13.8C — Alert Behaviour, Event Classification & Runtime Notification Verification
+#### Phase 13.8C — Alert Behaviour, Event Classification & Runtime Notification Verification (Current)
 - Validate live event engine dispatches via `ZabbixSender` across Actions 10–15.
 - Verify native macro expansion (`{EVENT.DURATION}`, `{HOST.NAME}`, `{EVENT.SEVERITY}`) and zero platform branding.
 - Confirm recipient targeting (Action 10 to all 5 recipients; Actions 11–12 to 4 Voice Admins; Service Desk excluded from component alerts).

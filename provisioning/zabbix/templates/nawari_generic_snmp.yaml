@@ -1,174 +1,168 @@
 zabbix_export:
   version: '7.4'
   template_groups:
-  - uuid: 36bff6c29af64692839d077febfc7079
-    name: Templates/Network devices
+    - uuid: 36bff6c29af64692839d077febfc7079
+      name: 'Templates/Network devices'
   templates:
-  - uuid: a2afca3b86e94acda74fc4c7e32cb990
-    template: Nawari Generic SNMP Base
-    name: Nawari Generic SNMP Base
-    description: 'Nawari Enterprise Base SNMP Template
-
-      Provides system identity, uptime, ICMP reachability, and SNMP daemon availability.
-
-      '
-    groups:
-    - name: Templates/Network devices
-    items:
-    - uuid: 092bbfe48f7945ffadaf4eb5ed118ad5
-      name: System name
-      type: SNMP_AGENT
-      snmp_oid: 1.3.6.1.2.1.1.5.0
-      key: system.name
-      delay: 1m
-      value_type: CHAR
-      description: The host name or administrative name of this managed node.
-      tags:
-      - tag: component
-        value: system
-    - uuid: cb0e56969b264e15a72ccf07b2ed6cd4
-      name: System description
-      type: SNMP_AGENT
-      snmp_oid: 1.3.6.1.2.1.1.1.0
-      key: system.descr[sysDescr.0]
-      delay: 1h
-      value_type: CHAR
-      description: System hardware and software description.
-      tags:
-      - tag: component
-        value: system
-    - uuid: eace5431d1a84a0badd8271bf00134d8
-      name: System contact
-      type: SNMP_AGENT
-      snmp_oid: 1.3.6.1.2.1.1.4.0
-      key: system.contact[sysContact.0]
-      delay: 1h
-      value_type: CHAR
-      description: Contact person for this managed node.
-      tags:
-      - tag: component
-        value: system
-    - uuid: e705537356064cb2a799546bd52952f2
-      name: System location
-      type: SNMP_AGENT
-      snmp_oid: 1.3.6.1.2.1.1.6.0
-      key: system.location[sysLocation.0]
-      delay: 1h
-      value_type: CHAR
-      description: Physical location of this node.
-      tags:
-      - tag: component
-        value: system
-    - uuid: 7d1384134d514268a6952b5d679af468
-      name: System object ID
-      type: SNMP_AGENT
-      snmp_oid: 1.3.6.1.2.1.1.2.0
-      key: system.objectid[sysObjectID.0]
-      delay: 1h
-      value_type: CHAR
-      description: Vendor authoritative identification of network management subsystem.
-      tags:
-      - tag: component
-        value: system
-    - uuid: 0e1f5c9777a94e66a0a11c3c64dd1c3f
-      name: System uptime
-      type: SNMP_AGENT
-      snmp_oid: 1.3.6.1.2.1.1.3.0
-      key: system.uptime[sysUpTime.0]
-      delay: 1m
-      value_type: FLOAT
-      units: uptime
-      preprocessing:
-      - type: MULTIPLIER
-        parameters:
-        - '0.01'
-      description: Time since network management portion of system was last re-initialized.
-      tags:
-      - tag: component
-        value: system
-      triggers:
-      - uuid: 483bc54afe9b464da648b0cba5738b94
-        expression: last(/Nawari Generic SNMP Base/system.uptime[sysUpTime.0])<10m
-          and last(/Nawari Generic SNMP Base/system.uptime[sysUpTime.0])>0
-        name: 'Nawari Generic SNMP Base: Device has just been restarted'
-        priority: WARNING
-        description: Device uptime is less than 10 minutes, indicating a recent reboot
-          or restart.
-        tags:
-        - tag: notification_class
-          value: informational
-    - uuid: 2e60185e4bcd4d62ab0daba390477d78
-      name: SNMP agent availability
-      type: INTERNAL
-      key: zabbix[host,snmp,available]
-      delay: 1m
-      value_type: UNSIGNED
-      description: SNMP agent availability check (1 - available, 0 - unavailable,
-        2 - unknown).
-      tags:
-      - tag: component
-        value: health
-      triggers:
-      - uuid: 0642280b9c3e4445a8f54ed115a6e0b0
-        expression: max(/Nawari Generic SNMP Base/zabbix[host,snmp,available],#3)=0
-        name: 'Nawari Generic SNMP Base: SNMP agent is not responding'
-        priority: HIGH
-        description: The SNMP poller failed to reach the device for 3 consecutive
-          checks.
-        tags:
-        - tag: notification_class
-          value: monitoring_failure
-    - uuid: 1e9c09c69efb451ea8f4e9bb516a45df
-      name: ICMP ping
-      type: SIMPLE
-      key: icmpping
-      delay: 1m
-      value_type: UNSIGNED
-      tags:
-      - tag: component
-        value: network
-    - uuid: d51bf1cb841a49a3a6875ae0b4f85d00
-      name: ICMP packet loss
-      type: SIMPLE
-      key: icmppingloss
-      delay: 1m
-      value_type: FLOAT
-      units: '%'
-      tags:
-      - tag: component
-        value: network
-      triggers:
-      - uuid: 1b5a761c14654f5baacbe05c4644385b
-        expression: min(/Nawari Generic SNMP Base/icmppingloss,5m)>{$ICMP_LOSS_WARN}
-        name: 'Nawari Generic SNMP Base: High ICMP ping loss'
-        priority: WARNING
-        description: ICMP packet loss exceeds threshold over a 5 minute interval.
-        tags:
-        - tag: notification_class
-          value: degradation
-    - uuid: 42b42d626e304876afaf1825bd1d612b
-      name: ICMP response time
-      type: SIMPLE
-      key: icmppingsec
-      delay: 1m
-      value_type: FLOAT
-      units: s
-      tags:
-      - tag: component
-        value: network
-      triggers:
-      - uuid: cd324d29fa384056aacf46515e309a4a
-        expression: avg(/Nawari Generic SNMP Base/icmppingsec,5m)>{$ICMP_RESPONSE_TIME_WARN}
-        name: 'Nawari Generic SNMP Base: High ICMP response time'
-        priority: WARNING
-        description: Average ICMP latency exceeds configured threshold over 5 minutes.
-        tags:
-        - tag: notification_class
-          value: degradation
-    macros:
-    - macro: '{$ICMP_LOSS_WARN}'
-      value: '20'
-      description: Warning threshold for ICMP packet loss in %
-    - macro: '{$ICMP_RESPONSE_TIME_WARN}'
-      value: '0.15'
-      description: Warning threshold for ICMP response latency in seconds
+    - uuid: a2afca3b86e94acda74fc4c7e32cb990
+      template: 'Nawari Generic SNMP Base'
+      name: 'Nawari Generic SNMP Base'
+      description: |
+        Nawari Enterprise Base SNMP Template
+        Provides system identity, uptime, ICMP reachability, and SNMP daemon availability.
+      groups:
+        - name: 'Templates/Network devices'
+      items:
+        - uuid: 1e9c09c69efb451ea8f4e9bb516a45df
+          name: 'ICMP ping'
+          type: SIMPLE
+          key: icmpping
+          tags:
+            - tag: component
+              value: network
+        - uuid: d51bf1cb841a49a3a6875ae0b4f85d00
+          name: 'ICMP packet loss'
+          type: SIMPLE
+          key: icmppingloss
+          value_type: FLOAT
+          units: '%'
+          tags:
+            - tag: component
+              value: network
+          triggers:
+            - uuid: 1b5a761c14654f5baacbe05c4644385b
+              expression: 'min(/Nawari Generic SNMP Base/icmppingloss,5m)>20'
+              recovery_mode: RECOVERY_EXPRESSION
+              recovery_expression: 'max(/Nawari Generic SNMP Base/icmppingloss,5m)<5'
+              name: 'Nawari Generic SNMP Base: High ICMP ping loss'
+              priority: WARNING
+              description: 'ICMP packet loss exceeds threshold over a 5 minute interval.'
+              tags:
+                - tag: notification_class
+                  value: degradation
+        - uuid: 42b42d626e304876afaf1825bd1d612b
+          name: 'ICMP response time'
+          type: SIMPLE
+          key: icmppingsec
+          value_type: FLOAT
+          units: s
+          tags:
+            - tag: component
+              value: network
+          triggers:
+            - uuid: cd324d29fa384056aacf46515e309a4a
+              expression: 'avg(/Nawari Generic SNMP Base/icmppingsec,5m)>0.15'
+              recovery_mode: RECOVERY_EXPRESSION
+              recovery_expression: 'avg(/Nawari Generic SNMP Base/icmppingsec,5m)<0.10'
+              name: 'Nawari Generic SNMP Base: High ICMP response time'
+              priority: WARNING
+              description: 'Average ICMP latency exceeds configured threshold over 5 minutes.'
+              tags:
+                - tag: notification_class
+                  value: degradation
+        - uuid: eace5431d1a84a0badd8271bf00134d8
+          name: 'System contact'
+          type: SNMP_AGENT
+          snmp_oid: 1.3.6.1.2.1.1.4.0
+          key: 'system.contact[sysContact.0]'
+          delay: 1h
+          value_type: CHAR
+          description: 'Contact person for this managed node.'
+          tags:
+            - tag: component
+              value: system
+        - uuid: cb0e56969b264e15a72ccf07b2ed6cd4
+          name: 'System description'
+          type: SNMP_AGENT
+          snmp_oid: 1.3.6.1.2.1.1.1.0
+          key: 'system.descr[sysDescr.0]'
+          delay: 1h
+          value_type: CHAR
+          description: 'System hardware and software description.'
+          tags:
+            - tag: component
+              value: system
+        - uuid: e705537356064cb2a799546bd52952f2
+          name: 'System location'
+          type: SNMP_AGENT
+          snmp_oid: 1.3.6.1.2.1.1.6.0
+          key: 'system.location[sysLocation.0]'
+          delay: 1h
+          value_type: CHAR
+          description: 'Physical location of this node.'
+          tags:
+            - tag: component
+              value: system
+        - uuid: 092bbfe48f7945ffadaf4eb5ed118ad5
+          name: 'System name'
+          type: SNMP_AGENT
+          snmp_oid: 1.3.6.1.2.1.1.5.0
+          key: system.name
+          value_type: CHAR
+          description: 'The host name or administrative name of this managed node.'
+          tags:
+            - tag: component
+              value: system
+        - uuid: 7d1384134d514268a6952b5d679af468
+          name: 'System object ID'
+          type: SNMP_AGENT
+          snmp_oid: 1.3.6.1.2.1.1.2.0
+          key: 'system.objectid[sysObjectID.0]'
+          delay: 1h
+          value_type: CHAR
+          description: 'Vendor authoritative identification of network management subsystem.'
+          tags:
+            - tag: component
+              value: system
+        - uuid: 0e1f5c9777a94e66a0a11c3c64dd1c3f
+          name: 'System uptime'
+          type: SNMP_AGENT
+          snmp_oid: 1.3.6.1.2.1.1.3.0
+          key: 'system.uptime[sysUpTime.0]'
+          value_type: FLOAT
+          units: uptime
+          description: 'Time since network management portion of system was last re-initialized.'
+          preprocessing:
+            - type: MULTIPLIER
+              parameters:
+                - '0.01'
+          tags:
+            - tag: component
+              value: system
+          triggers:
+            - uuid: 483bc54afe9b464da648b0cba5738b94
+              expression: 'last(/Nawari Generic SNMP Base/system.uptime[sysUpTime.0])<10m and last(/Nawari Generic SNMP Base/system.uptime[sysUpTime.0])>0'
+              recovery_mode: RECOVERY_EXPRESSION
+              recovery_expression: 'last(/Nawari Generic SNMP Base/system.uptime[sysUpTime.0])>=10m'
+              name: 'Nawari Generic SNMP Base: Device has just been restarted'
+              priority: WARNING
+              description: 'Device uptime is less than 10 minutes, indicating a recent reboot or restart.'
+              tags:
+                - tag: notification_class
+                  value: informational
+        - uuid: 2e60185e4bcd4d62ab0daba390477d78
+          name: 'SNMP agent availability'
+          type: INTERNAL
+          key: 'zabbix[host,snmp,available]'
+          description: 'SNMP agent availability check (1 - available, 0 - unavailable, 2 - unknown).'
+          tags:
+            - tag: component
+              value: health
+          triggers:
+            - uuid: 0642280b9c3e4445a8f54ed115a6e0b0
+              expression: 'max(/Nawari Generic SNMP Base/zabbix[host,snmp,available],#3)=0'
+              recovery_mode: RECOVERY_EXPRESSION
+              recovery_expression: 'min(/Nawari Generic SNMP Base/zabbix[host,snmp,available],#3)=1'
+              name: 'Nawari Generic SNMP Base: SNMP agent is not responding'
+              priority: HIGH
+              description: 'The SNMP poller failed to reach the device for 3 consecutive checks.'
+              tags:
+                - tag: notification_class
+                  value: monitoring_failure
+      macros:
+        - macro: '{$ICMP_LOSS_WARN}'
+          value: '20'
+          description: 'Warning threshold for ICMP packet loss in %'
+        - macro: '{$ICMP_RESPONSE_TIME_WARN}'
+          value: '0.15'
+          description: 'Warning threshold for ICMP response latency in seconds'

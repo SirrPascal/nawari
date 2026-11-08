@@ -75,6 +75,11 @@ gunzip -c "${DB_DUMP}" | docker exec -i "${POSTGRES_CONTAINER}" psql -U "${POSTG
 
 echo "    Database restoration stream complete."
 
+# Reload Zabbix Server configuration cache if running
+if docker ps --format '{{.Names}}' | grep -q "^${ZABBIX_SERVER_CONTAINER:-nawari-zabbix-server}$"; then
+    docker exec "${ZABBIX_SERVER_CONTAINER:-nawari-zabbix-server}" zabbix_server -R config_cache_reload >/dev/null 2>&1 || true
+fi
+
 # 4. Post-Restore Verification
 echo "--> Performing database sanity checks..."
 HOST_COUNT=$(docker exec "${POSTGRES_CONTAINER}" psql -U "${POSTGRES_USER}" -d "${POSTGRES_DB}" -t -A -c "SELECT COUNT(*) FROM hosts;" 2>/dev/null || echo "0")

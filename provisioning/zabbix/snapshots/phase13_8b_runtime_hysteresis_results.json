@@ -1,0 +1,37 @@
+{
+  "phase": "13.8B",
+  "title": "Runtime Hysteresis and Dual-Expression Recovery Validation",
+  "timestamp_utc": "2026-11-08T15:47:51.207229+00:00",
+  "total_scenarios": 3,
+  "all_passed": true,
+  "results": [
+    {
+      "scenario": "WFO Disk Storage Hysteresis",
+      "host": "avaya-cms-01",
+      "metric": "wfo.recording.disk_free_pct",
+      "problem_threshold": "< 15%",
+      "recovery_threshold": "> 20%",
+      "deadband_tested": "18%",
+      "problem_fired": true,
+      "deadband_held": true,
+      "recovery_fired": true,
+      "status": "PASS"
+    },
+    {
+      "scenario": "Synthetic Voice Outcome Lifecycle",
+      "host": "nawari-voice-probe-01",
+      "metric": "voice.synthetic.outcome",
+      "problem_fired": true,
+      "recovery_fired": true,
+      "status": "PASS"
+    },
+    {
+      "scenario": "WFO Recording Pipeline Lifecycle",
+      "host": "avaya-cms-01",
+      "metric": "wfo.recording.pipeline_status",
+      "problem_fired": true,
+      "recovery_fired": true,
+      "status": "PASS"
+    }
+  ]
+}
