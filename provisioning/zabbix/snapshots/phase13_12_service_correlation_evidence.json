@@ -1,0 +1,124 @@
+{
+  "metadata": {
+    "phase": "13.12",
+    "title": "Service Dependency Mapping & Event Correlation",
+    "timestamp": "2026-11-08T16:43:53.242480+00:00",
+    "nawari_commit": "8c4af7c",
+    "sentra_commit": "9970404",
+    "hard_production_deny": true,
+    "status": "VALIDATED_STAGING"
+  },
+  "service_catalog_summary": {
+    "total_services": 16,
+    "dag_cycles_detected": 0,
+    "expected_services_verified": [
+      "SVC-ENTERPRISE-NETWORK",
+      "SVC-WAN-CONNECTIVITY",
+      "SVC-SIP-CARRIER",
+      "SVC-CORP-TELEPHONY",
+      "SVC-CONTACT-CENTER-INBOUND",
+      "SVC-CONTACT-CENTER-OUTBOUND",
+      "SVC-IVR-SELFSERVICE",
+      "SVC-COMPLIANCE-RECORDING"
+    ]
+  },
+  "causality_scenarios": {
+    "scenario_a_single_sbce_failover": {
+      "incident_id": "INC-253C4D41",
+      "primary_root_cause": {
+        "eventid": "10001",
+        "host": "avaya-sbce-01",
+        "name": "SBCE: Signaling Interface Eth0 Link Down",
+        "severity": 4,
+        "clock": 1794156232.7167869
+      },
+      "service_id": "SVC-SIP-CARRIER",
+      "service_name": "Carrier Ingress & SIP Trunking",
+      "service_impact": "DEGRADED",
+      "causal_classification": "REDUNDANCY_FAILOVER",
+      "is_total_outage": false,
+      "recommended_action_id": 12,
+      "suppressed_symptoms_count": 0,
+      "suppressed_symptoms": [],
+      "justification": "HA Pair 'SBCE_HA_CLUSTER' member 'avaya-sbce-01' offline. Traffic absorbed by active partner 'avaya-sbce-02'. Service is DEGRADED, NOT a total outage.",
+      "timestamp": 1794156232.716825
+    },
+    "scenario_b_dual_sbce_exhaustion": {
+      "incident_id": "INC-607678A5",
+      "primary_root_cause": {
+        "eventid": "10002",
+        "host": "avaya-sbce-01",
+        "name": "SBCE: Power Supply 1 & 2 Failure",
+        "severity": 5,
+        "clock": 1794156232.716877
+      },
+      "service_id": "SVC-SIP-CARRIER",
+      "service_name": "Carrier Ingress & SIP Trunking",
+      "service_impact": "TOTAL_OUTAGE",
+      "causal_classification": "ROOT_CAUSE",
+      "is_total_outage": true,
+      "recommended_action_id": 10,
+      "suppressed_symptoms_count": 1,
+      "suppressed_symptoms": [
+        {
+          "eventid": "10003",
+          "host": "avaya-sbce-02",
+          "name": "SBCE: Node Kernel Panic / System Halt",
+          "severity": 5,
+          "clock": 1794156232.7168782
+        }
+      ],
+      "justification": "CRITICAL REDUNDANCY EXHAUSTION: All members of HA pair 'SBCE_HA_CLUSTER' (avaya-sbce-01, avaya-sbce-02) are down! Immediate total service outage.",
+      "timestamp": 1794156232.716896
+    },
+    "scenario_c_core_switch_root_cause": {
+      "incident_id": "INC-BEA878F1",
+      "primary_root_cause": {
+        "eventid": "20001",
+        "host": "jkia-core-sw01",
+        "name": "JKIA-CORE: Port-Channel 1 (Spine Uplink) Link Down",
+        "severity": 5,
+        "clock": 1794156232.716939
+      },
+      "service_id": "SVC-ENTERPRISE-NETWORK",
+      "service_name": "Kenya Airways Enterprise Network Core",
+      "service_impact": "DEGRADED",
+      "causal_classification": "ROOT_CAUSE",
+      "is_total_outage": false,
+      "recommended_action_id": 14,
+      "suppressed_symptoms_count": 3,
+      "suppressed_symptoms": [
+        {
+          "eventid": "20002",
+          "host": "avaya-cm-01",
+          "name": "Avaya CM: Host unreachable by ICMP ping",
+          "severity": 4,
+          "clock": 1794156233.716939
+        },
+        {
+          "eventid": "20003",
+          "host": "avaya-sm-01",
+          "name": "Avaya SM: SIP Service Heartbeat Timeout",
+          "severity": 4,
+          "clock": 1794156233.716939
+        },
+        {
+          "eventid": "20004",
+          "host": "avaya-g450-01",
+          "name": "G450: H.248 Link Out of Service",
+          "severity": 4,
+          "clock": 1794156234.71694
+        }
+      ],
+      "justification": "Core switch 'jkia-core-sw01' interface failure triggered downstream unreachable symptoms for 3 child hosts.",
+      "timestamp": 1794156232.71695
+    },
+    "scenario_d_flapping_dampening_active": true
+  },
+  "zabbix_service_tree_sync": {
+    "root_service_id": "2",
+    "total_services_in_zabbix": 9,
+    "created_count": 9,
+    "updated_count": 0
+  }
+}

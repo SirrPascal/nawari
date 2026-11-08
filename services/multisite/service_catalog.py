@@ -527,6 +527,133 @@ class ServiceCatalog:
             ],
         ))
 
+        # =====================================================================
+        # Phase 13.12: Kenya Airways Enterprise Network & Communications Services
+        # =====================================================================
+        self.register_service(BusinessService(
+            service_id="SVC-ENTERPRISE-NETWORK",
+            name="Kenya Airways Enterprise Network Core",
+            tier=ServiceTier.TIER_1_MISSION_CRITICAL,
+            scope=ServiceScope.GLOBAL,
+            description="Pride Centre campus core, JKIA terminal LAN, and Data Centre spine/leaf fabric",
+            dependency_logic=DependencyLogic.QUORUM,
+            quorum_count=1,
+            proposed_design_slo=99.99,
+            dependencies=[
+                ServiceComponentDependency("jkia-core-sw01", "SWITCH", is_mandatory=False, weight=0.5, is_redundant=True, redundancy_group="CORE_SWITCHES", is_primary=True, station_id="JKIA-HUB"),
+                ServiceComponentDependency("jkia-core-sw02", "SWITCH", is_mandatory=False, weight=0.5, is_redundant=True, redundancy_group="CORE_SWITCHES", is_primary=False, station_id="JKIA-HUB"),
+            ],
+        ))
+
+        self.register_service(BusinessService(
+            service_id="SVC-WAN-CONNECTIVITY",
+            name="WAN & Regional Outstation Connectivity",
+            tier=ServiceTier.TIER_1_MISSION_CRITICAL,
+            scope=ServiceScope.GLOBAL,
+            description="Multi-carrier MPLS and DIA connecting Pride DC with domestic, regional, and international outstations",
+            dependency_logic=DependencyLogic.QUORUM,
+            quorum_count=1,
+            proposed_design_slo=99.95,
+            parent_services=["SVC-ENTERPRISE-NETWORK"],
+            dependencies=[
+                ServiceComponentDependency("CIR-MPLS-SAFARICOM-01", "CIRCUIT", is_mandatory=False, weight=0.5, is_redundant=True, redundancy_group="WAN_CORE_CIRCUITS", is_primary=True, station_id="JKIA-HUB"),
+                ServiceComponentDependency("CIR-MPLS-TELKOM-01", "CIRCUIT", is_mandatory=False, weight=0.5, is_redundant=True, redundancy_group="WAN_CORE_CIRCUITS", is_primary=False, station_id="JKIA-HUB"),
+            ],
+        ))
+
+        self.register_service(BusinessService(
+            service_id="SVC-SIP-CARRIER",
+            name="Carrier Ingress & SIP Trunking",
+            tier=ServiceTier.TIER_1_MISSION_CRITICAL,
+            scope=ServiceScope.GLOBAL,
+            description="Redundant Session Border Controller (SBCE) cluster and upstream carrier SIP trunking",
+            dependency_logic=DependencyLogic.QUORUM,
+            quorum_count=1,
+            proposed_design_slo=99.99,
+            parent_services=["SVC-ENTERPRISE-NETWORK"],
+            dependencies=[
+                ServiceComponentDependency("avaya-sbce-01", "SBCE", is_mandatory=False, weight=0.5, is_redundant=True, redundancy_group="SBCE_HA_CLUSTER", is_primary=True, station_id="JKIA-HUB"),
+                ServiceComponentDependency("avaya-sbce-02", "SBCE", is_mandatory=False, weight=0.5, is_redundant=True, redundancy_group="SBCE_HA_CLUSTER", is_primary=False, station_id="JKIA-HUB"),
+            ],
+        ))
+
+        self.register_service(BusinessService(
+            service_id="SVC-CORP-TELEPHONY",
+            name="Corporate Telephony Core (Avaya Aura)",
+            tier=ServiceTier.TIER_1_MISSION_CRITICAL,
+            scope=ServiceScope.GLOBAL,
+            description="Avaya Communication Manager, Session Manager duplex, and G450 Media Gateways",
+            dependency_logic=DependencyLogic.QUORUM,
+            quorum_count=1,
+            proposed_design_slo=99.95,
+            parent_services=["SVC-ENTERPRISE-NETWORK", "SVC-SIP-CARRIER"],
+            dependencies=[
+                ServiceComponentDependency("avaya-cm-01", "SERVER", is_mandatory=False, weight=0.3, is_redundant=True, redundancy_group="CM_DUPLEX", is_primary=True, station_id="JKIA-HUB"),
+                ServiceComponentDependency("avaya-cm-02", "SERVER", is_mandatory=False, weight=0.3, is_redundant=True, redundancy_group="CM_DUPLEX", is_primary=False, station_id="JKIA-HUB"),
+                ServiceComponentDependency("avaya-sm-01", "SERVER", is_mandatory=False, weight=0.2, is_redundant=True, redundancy_group="SM_DUPLEX", is_primary=True, station_id="JKIA-HUB"),
+                ServiceComponentDependency("avaya-sm-02", "SERVER", is_mandatory=False, weight=0.2, is_redundant=True, redundancy_group="SM_DUPLEX", is_primary=False, station_id="JKIA-HUB"),
+            ],
+        ))
+
+        self.register_service(BusinessService(
+            service_id="SVC-CONTACT-CENTER-INBOUND",
+            name="Inbound Customer Contact Center (Elite ACD)",
+            tier=ServiceTier.TIER_1_MISSION_CRITICAL,
+            scope=ServiceScope.GLOBAL,
+            description="Passenger customer care queues, flight reservation desk, and platinum loyalty ACD lines",
+            dependency_logic=DependencyLogic.MANDATORY_AND,
+            proposed_design_slo=99.90,
+            parent_services=["SVC-CORP-TELEPHONY", "SVC-SIP-CARRIER"],
+            dependencies=[
+                ServiceComponentDependency("avaya-g450-01", "GATEWAY", is_mandatory=False, weight=0.5, is_redundant=True, redundancy_group="ACD_MEDIA_GATEWAYS", is_primary=True, station_id="JKIA-HUB"),
+                ServiceComponentDependency("avaya-g450-02", "GATEWAY", is_mandatory=False, weight=0.5, is_redundant=True, redundancy_group="ACD_MEDIA_GATEWAYS", is_primary=False, station_id="JKIA-HUB"),
+            ],
+        ))
+
+        self.register_service(BusinessService(
+            service_id="SVC-CONTACT-CENTER-OUTBOUND",
+            name="Outbound Contact Center & Automated Dialling",
+            tier=ServiceTier.TIER_2_BUSINESS_CRITICAL,
+            scope=ServiceScope.GLOBAL,
+            description="Flight reschedule notifications, ticket confirmation diallers, and agent blended campaigns",
+            dependency_logic=DependencyLogic.MANDATORY_AND,
+            proposed_design_slo=99.50,
+            parent_services=["SVC-CORP-TELEPHONY", "SVC-SIP-CARRIER"],
+            dependencies=[
+                ServiceComponentDependency("avaya-sm-01", "SERVER", is_mandatory=True, weight=0.5, is_redundant=False, station_id="JKIA-HUB"),
+                ServiceComponentDependency("avaya-g450-01", "GATEWAY", is_mandatory=True, weight=0.5, is_redundant=False, station_id="JKIA-HUB"),
+            ],
+        ))
+
+        self.register_service(BusinessService(
+            service_id="SVC-IVR-SELFSERVICE",
+            name="Interactive Voice Response (Experience Portal)",
+            tier=ServiceTier.TIER_2_BUSINESS_CRITICAL,
+            scope=ServiceScope.GLOBAL,
+            description="Avaya Experience Portal automated speech self-service, flight status IVR, and booking lookups",
+            dependency_logic=DependencyLogic.MANDATORY_AND,
+            proposed_design_slo=99.80,
+            parent_services=["SVC-CORP-TELEPHONY"],
+            dependencies=[
+                ServiceComponentDependency("avaya-sm-01", "SERVER", is_mandatory=True, weight=0.5, is_redundant=False, station_id="JKIA-HUB"),
+                ServiceComponentDependency("avaya-g450-01", "GATEWAY", is_mandatory=True, weight=0.5, is_redundant=False, station_id="JKIA-HUB"),
+            ],
+        ))
+
+        self.register_service(BusinessService(
+            service_id="SVC-COMPLIANCE-RECORDING",
+            name="Call Recording & Compliance (Verint WFO / CMS)",
+            tier=ServiceTier.TIER_2_BUSINESS_CRITICAL,
+            scope=ServiceScope.GLOBAL,
+            description="Verint WFO regulatory call recording, PCI-DSS compliance mute/unmute, and CMS operational reporting",
+            dependency_logic=DependencyLogic.MANDATORY_AND,
+            proposed_design_slo=99.80,
+            parent_services=["SVC-CORP-TELEPHONY"],
+            dependencies=[
+                ServiceComponentDependency("avaya-cms-01", "SERVER", is_mandatory=True, weight=1.0, is_redundant=False, station_id="JKIA-HUB"),
+            ],
+        ))
+
 
 @dataclass
 class SLOSpecification:
