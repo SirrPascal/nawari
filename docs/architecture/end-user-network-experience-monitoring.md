@@ -181,3 +181,33 @@ The EU-NEM pilot implementation has been verified on the running platform:
 - **Cryptographic Audit Snapshot:** `provisioning/zabbix/snapshots/eu_nem_pilot_evidence.json`.
 - **Automated Regression Suite:** `tests/unit/test_end_user_network_experience.py` (10/10 PASS).
 
+
+---
+
+## 9. Fleet Auto-Registration & Automated MDM Deployment
+
+For fleet scaling to 2,000+ laptops, manual host provisioning in Zabbix is replaced by **Zabbix Auto-Registration Action 16** (`eventsource: 2`):
+
+```mermaid
+sequenceDiagram
+    autonumber
+    participant Laptop as Employee Laptop (Intune/Jamf)
+    participant Zabbix as Zabbix Server (TCP 10051)
+    participant Action16 as Auto-Registration Action 16
+    participant Group as Host Group: Nawari / Endpoints / Pilot
+    participant Template as Template_Nawari_End_User_Network_Experience
+
+    Laptop->>Zabbix: Outbound Active Check with HostMetadata="nawari_nem"
+    Zabbix->>Action16: Match condition: HostMetadata contains "nawari_nem"
+    Action16->>Zabbix: Operation 1: Add Host
+    Action16->>Group: Operation 2: Assign to Host Group
+    Action16->>Template: Operation 3: Link EU-NEM Template (10 Items, 7 Triggers)
+    Zabbix-->>Laptop: Active Checks Configuration Payload (Poll intervals, Keys)
+    Laptop->>Zabbix: Telemetry Streaming Begins
+```
+
+### Deployment Automation Packages:
+- **Microsoft Intune / SCCM (Windows 11/10):**
+  [`Deploy-NawariNEM-Intune.ps1`](file:///Users/madeira/Desktop/Projects/nawari/provisioning/endpoint/windows/Deploy-NawariNEM-Intune.ps1) — Silently installs Zabbix Agent 2 MSI, injects `nawari_nem_probe.ps1`, sets `HostMetadata=nawari_nem`, configures persistent buffering, and starts the service.
+- **Jamf Pro / MDM (macOS Darwin):**
+  [`deploy_nawari_nem_macos.sh`](file:///Users/madeira/Desktop/Projects/nawari/provisioning/endpoint/macos/deploy_nawari_nem_macos.sh) — Installs `nawari_nem_probe.sh`, configures `zabbix_agent2.conf`, enables persistent buffering, and launches the agent daemon.

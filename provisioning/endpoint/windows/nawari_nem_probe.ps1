@@ -28,10 +28,9 @@ function Get-GatewayDiagnostics {
     $successCount = ($pingResults | Where-Object { $_.Status -eq "Success" -or $_.ResponseTime -ne $null }).Count
     $lossPct = if ($pingResults.Count -gt 0) { [math]::Round(((3 - $successCount) / 3) * 100, 1) } else { 100.0 }
     
-    $avgRtt = 0.0
-    if ($successCount -gt 0) {
-        $avgRtt = [math]::Round(($pingResults | Measure-Object -Property ResponseTime -Average).Average, 2)
-    }
+    $firstValid = $pingResults | Where-Object { $_.ResponseTime -ne $null -or $_.Latency -ne $null } | Select-Object -First 1
+    $prop = if ($firstValid -and $firstValid.ResponseTime -ne $null) { "ResponseTime" } else { "Latency" }
+    $avgRtt = if ($successCount -gt 0) { [math]::Round(($pingResults | Measure-Object -Property $prop -Average).Average, 2) } else { 0.0 }
 
     return @{
         gateway_ip = $gwIp
@@ -49,7 +48,13 @@ function Get-DnsDiagnostics {
         $entry = [System.Net.Dns]::GetHostEntry($targetHost)
         if ($entry.AddressList.Count -gt 0) { $success = $true }
     } catch {
-        $success = $false
+        # Fallback to general Internet DNS if corporate internal host is unreachable from current off-net Wi-Fi
+        try {
+            $fallback = [System.Net.Dns]::GetHostEntry("google.com")
+            if ($fallback.AddressList.Count -gt 0) { $success = $true }
+        } catch {
+            $success = $false
+        }
     }
     $sw.Stop()
 

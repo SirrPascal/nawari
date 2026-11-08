@@ -284,8 +284,12 @@ def test_11_inventory_reconciliation_exact_counts(zabbix_client):
 
 def test_12_untagged_triggers_root_cause_analysis(zabbix_client):
     """Verify that all untagged triggers are discovered interface triggers on mock lab hosts."""
-    hosts = zabbix_client.call("host.get", {"output": ["hostid", "host", "name"]})
-    nawari_hosts = [h for h in hosts if h["host"] != "Zabbix server"]
+    hosts = zabbix_client.call("host.get", {"output": ["hostid", "host", "name"], "selectHostGroups": ["name"]})
+    nawari_hosts = [
+        h for h in hosts
+        if h["host"] != "Zabbix server"
+        and not any("Pilot" in g.get("name", "") for g in h.get("hostgroups", []))
+    ]
     assert len(nawari_hosts) == 11, f"Expected 11 Nawari hosts, found {len(nawari_hosts)}"
 
     all_untagged = []

@@ -1,4 +1,4 @@
-# Nawari Technology Compatibility Assessment
+nc -vz 192.168.1.10 10051# Nawari Technology Compatibility Assessment
 
 **Status:** Proposed decisions; compatibility is not the same as validation  
 **Date:** 2026-11-07
