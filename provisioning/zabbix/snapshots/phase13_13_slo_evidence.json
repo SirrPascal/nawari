@@ -1,0 +1,134 @@
+{
+  "metadata": {
+    "phase": "13.13",
+    "title": "SLI, SLO & Error-Budget Implementation",
+    "timestamp": "2026-11-08T16:45:35.991622+00:00",
+    "nawari_commit": "3a99a1b",
+    "sentra_commit": "9970404",
+    "hard_production_deny": true,
+    "status": "VALIDATED_STAGING"
+  },
+  "authoritative_slos": {
+    "SVC-ENTERPRISE-NETWORK": {
+      "name": "Kenya Airways Enterprise Network Core",
+      "slo": 99.99,
+      "sla": 99.95,
+      "allowed_downtime_minutes_30d": 4.32
+    },
+    "SVC-WAN-CONNECTIVITY": {
+      "name": "WAN & Regional Outstation Connectivity",
+      "slo": 99.95,
+      "sla": 99.9,
+      "allowed_downtime_minutes_30d": 21.6
+    },
+    "SVC-SIP-CARRIER": {
+      "name": "Carrier Ingress & SIP Trunking",
+      "slo": 99.99,
+      "sla": 99.95,
+      "allowed_downtime_minutes_30d": 4.32
+    },
+    "SVC-CORP-TELEPHONY": {
+      "name": "Corporate Telephony Core (Avaya Aura)",
+      "slo": 99.95,
+      "sla": 99.9,
+      "allowed_downtime_minutes_30d": 21.6
+    },
+    "SVC-CONTACT-CENTER-INBOUND": {
+      "name": "Inbound Customer Contact Center (Elite ACD)",
+      "slo": 99.9,
+      "sla": 99.8,
+      "allowed_downtime_minutes_30d": 43.2
+    },
+    "SVC-IVR-SELFSERVICE": {
+      "name": "Interactive Voice Response (Experience Portal)",
+      "slo": 99.8,
+      "sla": 99.5,
+      "allowed_downtime_minutes_30d": 86.4
+    },
+    "SVC-MONITORING-PLATFORM": {
+      "name": "Observability & Monitoring Platform (Nawari Core)",
+      "slo": 99.95,
+      "sla": 99.9,
+      "allowed_downtime_minutes_30d": 21.6
+    }
+  },
+  "sli_pristine_sample": {
+    "service_id": "SVC-SIP-CARRIER",
+    "availability_sli": 100.0,
+    "performance_sli": 100.0,
+    "quality_sli": 100.0,
+    "coverage_percent": 100.0,
+    "total_expected_minutes": 1000.0,
+    "valid_operational_minutes": 1000.0,
+    "good_minutes": 1000.0,
+    "degraded_minutes": 0,
+    "outage_minutes": 0,
+    "unknown_minutes": 0,
+    "maintenance_minutes": 0.0,
+    "target_slo_percent": 99.99,
+    "contractual_sla_percent": 99.95,
+    "total_error_budget_minutes": 4.32,
+    "consumed_error_budget_minutes": 0.0,
+    "remaining_error_budget_minutes": 4.32,
+    "burn_rate": 0.0,
+    "is_slo_breached": false,
+    "is_sla_breached": false
+  },
+  "sli_missing_telemetry_sample": {
+    "service_id": "SVC-SIP-CARRIER",
+    "availability_sli": 76.9231,
+    "performance_sli": 76.9231,
+    "quality_sli": 76.9231,
+    "coverage_percent": 76.92,
+    "total_expected_minutes": 1300.0,
+    "valid_operational_minutes": 1300.0,
+    "good_minutes": 1000.0,
+    "degraded_minutes": 0,
+    "outage_minutes": 0,
+    "unknown_minutes": 300.0,
+    "maintenance_minutes": 0.0,
+    "target_slo_percent": 99.99,
+    "contractual_sla_percent": 99.95,
+    "total_error_budget_minutes": 4.32,
+    "consumed_error_budget_minutes": 150.0,
+    "remaining_error_budget_minutes": 0.0,
+    "burn_rate": 34.72,
+    "is_slo_breached": true,
+    "is_sla_breached": true
+  },
+  "burn_rate_scenarios": {
+    "critical_14_4x_page": {
+      "service_id": "SVC-SIP-CARRIER",
+      "service_name": "Carrier Ingress & SIP Trunking",
+      "alert_level": "CRITICAL_PAGE",
+      "burn_rate": 166.67,
+      "window_hours": 1.0,
+      "budget_consumed_pct": 23.15,
+      "time_to_exhaustion_hours": 3.3,
+      "slo_target_pct": 99.99,
+      "current_sli_pct": 76.9231,
+      "coverage_pct": 76.92,
+      "is_coverage_deficit": true,
+      "recommended_action_id": 10,
+      "justification": "CRITICAL ERROR BUDGET BURN: Service 'Carrier Ingress & SIP Trunking' experiencing 166.7x burn rate in 1-hour window (23.1% budget consumed). Complete budget exhaustion in ~3.3 hours.",
+      "timestamp": 1794156335.99151
+    },
+    "warning_6_0x_ticket": {
+      "service_id": "SVC-IVR-SELFSERVICE",
+      "service_name": "Interactive Voice Response (Experience Portal)",
+      "alert_level": "WARNING_TICKET",
+      "burn_rate": 6.94,
+      "window_hours": 6.0,
+      "budget_consumed_pct": 5.79,
+      "time_to_exhaustion_hours": 97.7,
+      "slo_target_pct": 99.8,
+      "current_sli_pct": 100.0,
+      "coverage_pct": 100.0,
+      "is_coverage_deficit": false,
+      "recommended_action_id": 13,
+      "justification": "WARNING ERROR BUDGET BURN: Service 'Interactive Voice Response (Experience Portal)' experiencing 6.9x burn rate in 6-hour window (5.8% budget consumed). Complete budget exhaustion in ~97.7 hours.",
+      "timestamp": 1794156335.99157
+    },
+    "nominal_quiescent": true
+  }
+}
