@@ -36,20 +36,28 @@ Nawari employs a deterministic, thread-safe incident lifecycle pipeline designed
                    | Incident State: CORRELATED    |
                    +---------------+---------------+
                                    |
-                         (Operator Acknowledged)
+                         (Operator Acknowledges)
+                                   v
+                   +-------------------------------+
+                   | Incident State: ACKNOWLEDGED  |
+                   +---------------+---------------+
+                                   |
+                         (Root Cause Analysis)
                                    v
                    +-------------------------------+
                    | Incident State: INVESTIGATING |
                    +---------------+---------------+
                                    |
-                         (Remediation Initiated)
+                         (Playbook Dispatched)
                                    v
                    +-------------------------------+
                    |  Incident State: REMEDIATING  |
                    +---------------+---------------+
                                    |
-                   +---------------+---------------+
-                   |   Recovery Verifier Engine    |
+                         (Actions Applied)
+                                   v
+                   +-------------------------------+
+                   |   Incident State: VERIFYING   |
                    | (3 Fresh Healthy Observations)|
                    +---------------+---------------+
                                    |
@@ -59,11 +67,37 @@ Nawari employs a deterministic, thread-safe incident lifecycle pipeline designed
                    |   Incident State: RESOLVED    |
                    +---------------+---------------+
                                    |
-                         (Hold Window Satisfied)
+                         (Operational Sign-Off)
                                    v
                    +-------------------------------+
                    |    Incident State: CLOSED     |
                    +-------------------------------+
+```
+
+### 1.1 Formal Incident Transition Matrix & Edge Case Paths
+
+In `services/multisite/incident_pipeline.py`, every state advance is enforced against the `ALLOWED_INCIDENT_TRANSITIONS` matrix. Attempting to bypass lifecycle stages raises `InvalidStateTransitionError`.
+
+| Current State | Permitted Next States | Operational Trigger / Condition |
+| :--- | :--- | :--- |
+| **`NEW` / `DETECTED`** | `CORRELATED`, `ACKNOWLEDGED`, `INVESTIGATING`, `SUPPRESSED`, `RESOLVED` | Ingestion, alert grouping, manual direct ownership, maintenance suppression, or transient clear. |
+| **`CORRELATED`** | `ACKNOWLEDGED`, `INVESTIGATING`, `REMEDIATING`, `SUPPRESSED`, `BLOCKED_APPROVAL_DENIED`, `RESOLVED` | NOC operator acknowledges alert, or Change Manager denies automated remediation. |
+| **`ACKNOWLEDGED`** | `DETECTED`, `INVESTIGATING`, `REMEDIATING`, `SUPPRESSED`, `BLOCKED_APPROVAL_DENIED`, `RESOLVED` | Operator investigates, rejects assignment, or invokes remediation playbook. |
+| **`INVESTIGATING`** | `REMEDIATING`, `BLOCKED_APPROVAL_DENIED`, `RESOLVED`, `SUPPRESSED` | Root-cause isolated; automated/manual playbook initiated, or issue resolved manually. |
+| **`REMEDIATING`** | `VERIFYING`, `INVESTIGATING`, `BLOCKED_APPROVAL_DENIED`, `RESOLVED` | Actions applied (`VERIFYING`), remediation failed (`INVESTIGATING`), or approval denied. |
+| **`VERIFYING`** | `RESOLVED`, `REMEDIATING`, `INVESTIGATING` | Telemetry clean (`RESOLVED`), verification failed with retry (`REMEDIATING`), or escalated (`INVESTIGATING`). |
+| **`RESOLVED`** | `CLOSED`, `REOPENED` | Hold window satisfied (`CLOSED`), or issue recurs within observation hold (`REOPENED`). |
+| **`CLOSED`** | `REOPENED` | Incident recurs post-closure; triggers immediate reactivation with incremented recurrence counter. |
+| **`REOPENED`** | `CORRELATED`, `ACKNOWLEDGED`, `INVESTIGATING`, `REMEDIATING`, `RESOLVED` | Reactivated incident proceeds through expedited triage and resolution. |
+| **`SUPPRESSED`** | `CORRELATED`, `CLOSED` | Un-muted post maintenance, or closed out upon maintenance window conclusion. |
+| **`BLOCKED_APPROVAL_DENIED`**| `INVESTIGATING`, `CLOSED` | Approver rejected automated execution; NOC returns to investigation for manual route or abandons. |
+
+> [!IMPORTANT]
+> **Strict Lifecycle Invariants:**
+> 1. **No Unilateral Skip to Closed:** An incident cannot jump directly from `NEW` to `CLOSED`. It must be formally resolved or suppressed first.
+> 2. **Remediation Failure Handling:** If a playbook fails execution, status reverts to `INVESTIGATING`, preventing false closure.
+> 3. **Verification Failure Handling:** If post-action telemetry fails to record 3 consecutive healthy observations, status falls back to `REMEDIATING` (for retry) or `INVESTIGATING` (for escalation).
+> 4. **Approval Rejection Path:** If an automated remediation is rejected by an authorizer, the incident transitions to `BLOCKED_APPROVAL_DENIED` with audit reason logged.
 ```
 
 ### 1.1 Ingestion & Deduplication
