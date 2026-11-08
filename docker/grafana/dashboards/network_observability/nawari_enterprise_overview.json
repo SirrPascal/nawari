@@ -1,0 +1,232 @@
+{
+  "annotations": { "list": [] },
+  "description": "Nawari Enterprise Global Overview: Fleet Site Availability, Regional Health Matrix, Service Tier Health, Active P1/P2 Outages, and Multi-Site SLA Compliance.",
+  "editable": true,
+  "fiscalYearStartMonth": 0,
+  "graphTooltip": 1,
+  "id": null,
+  "links": [],
+  "liveNow": false,
+  "panels": [
+    {
+      "collapsed": false,
+      "gridPos": { "h": 1, "w": 24, "x": 0, "y": 0 },
+      "id": 1,
+      "title": "Global Airline Operational Health & Outstation Availability",
+      "type": "row"
+    },
+    {
+      "datasource": { "type": "alexanderzobnin-zabbix-datasource", "uid": "PA67C5EADE9207728" },
+      "description": "Overall proportion of Kenya Airways flight operations stations currently online with active primary or secondary WAN circuits.",
+      "fieldConfig": {
+        "defaults": {
+          "color": { "mode": "thresholds" },
+          "max": 100,
+          "min": 0,
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              { "color": "red", "value": null },
+              { "color": "yellow", "value": 90 },
+              { "color": "green", "value": 95 }
+            ]
+          },
+          "unit": "percent"
+        }
+      },
+      "gridPos": { "h": 6, "w": 6, "x": 0, "y": 1 },
+      "id": 2,
+      "options": {
+        "orientation": "auto",
+        "reduceOptions": { "calcs": ["lastNotNull"], "values": false },
+        "showThresholdLabels": false,
+        "showThresholdMarkers": true
+      },
+      "pluginVersion": "11.0.0",
+      "targets": [
+        {
+          "application": { "name": "Global Health" },
+          "group": { "name": "Enterprise" },
+          "host": { "name": "mon-grafana01" },
+          "item": { "name": "Fleet Station Availability Rate" },
+          "refId": "FleetAvail"
+        }
+      ],
+      "title": "Global Station Availability",
+      "type": "gauge"
+    },
+    {
+      "datasource": { "type": "alexanderzobnin-zabbix-datasource", "uid": "PA67C5EADE9207728" },
+      "description": "Count of active P1 Critical and P2 High operational incidents across the global network.",
+      "fieldConfig": {
+        "defaults": {
+          "color": { "mode": "thresholds" },
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              { "color": "green", "value": null },
+              { "color": "yellow", "value": 1 },
+              { "color": "red", "value": 3 }
+            ]
+          },
+          "unit": "short"
+        }
+      },
+      "gridPos": { "h": 6, "w": 6, "x": 6, "y": 1 },
+      "id": 3,
+      "options": {
+        "orientation": "auto",
+        "reduceOptions": { "calcs": ["lastNotNull"], "values": false }
+      },
+      "pluginVersion": "11.0.0",
+      "targets": [
+        {
+          "application": { "name": "Incidents" },
+          "group": { "name": "Enterprise" },
+          "host": { "name": "mon-grafana01" },
+          "item": { "name": "Active P1 P2 Incidents" },
+          "refId": "P1P2Incidents"
+        }
+      ],
+      "title": "Active P1 / P2 Incidents",
+      "type": "stat"
+    },
+    {
+      "datasource": { "type": "alexanderzobnin-zabbix-datasource", "uid": "PA67C5EADE9207728" },
+      "description": "Health status across Tier 1 (Mission-Critical), Tier 2 (Business-Critical), and Tier 3 (Corporate) aviation services.",
+      "fieldConfig": {
+        "defaults": {
+          "color": { "mode": "thresholds" },
+          "mappings": [
+            {
+              "options": {
+                "0": { "color": "red", "text": "CRITICAL" },
+                "1": { "color": "green", "text": "HEALTHY" },
+                "2": { "color": "yellow", "text": "DEGRADED" }
+              },
+              "type": "value"
+            }
+          ],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [{ "color": "green", "value": null }]
+          }
+        }
+      },
+      "gridPos": { "h": 6, "w": 12, "x": 12, "y": 1 },
+      "id": 4,
+      "options": { "showHeader": true },
+      "pluginVersion": "11.0.0",
+      "targets": [
+        {
+          "application": { "name": "Service Health" },
+          "group": { "name": "Enterprise" },
+          "host": { "name": "mon-grafana01" },
+          "item": { "name": "Service Tier Status Matrix" },
+          "refId": "TierMatrix"
+        }
+      ],
+      "title": "Service Tier Health Summary",
+      "type": "table"
+    },
+    {
+      "collapsed": false,
+      "gridPos": { "h": 1, "w": 24, "x": 0, "y": 7 },
+      "id": 5,
+      "title": "Regional Health & Notification Delivery Pipeline",
+      "type": "row"
+    },
+    {
+      "datasource": { "type": "alexanderzobnin-zabbix-datasource", "uid": "PA67C5EADE9207728" },
+      "description": "Multi-region health index across Kenya Domestic, East Africa Regional, Europe, and Middle East outstations.",
+      "fieldConfig": {
+        "defaults": {
+          "color": { "mode": "palette-classic" },
+          "custom": {
+            "axisLabel": "Health Index (0.0 to 1.0)",
+            "drawStyle": "line",
+            "lineInterpolation": "smooth",
+            "lineWidth": 2
+          },
+          "max": 1.0,
+          "min": 0.0,
+          "unit": "short"
+        }
+      },
+      "gridPos": { "h": 8, "w": 14, "x": 0, "y": 8 },
+      "id": 6,
+      "options": {
+        "legend": { "calcs": ["mean", "lastNotNull"], "displayMode": "table", "placement": "bottom" }
+      },
+      "pluginVersion": "11.0.0",
+      "targets": [
+        {
+          "application": { "name": "Regional Health" },
+          "group": { "name": "Enterprise" },
+          "host": { "name": "mon-grafana01" },
+          "item": { "name": "Regional Health Kenya Domestic" },
+          "refId": "HealthDomestic"
+        },
+        {
+          "application": { "name": "Regional Health" },
+          "group": { "name": "Enterprise" },
+          "host": { "name": "mon-grafana01" },
+          "item": { "name": "Regional Health East Africa" },
+          "refId": "HealthEA"
+        },
+        {
+          "application": { "name": "Regional Health" },
+          "group": { "name": "Enterprise" },
+          "host": { "name": "mon-grafana01" },
+          "item": { "name": "Regional Health International" },
+          "refId": "HealthIntl"
+        }
+      ],
+      "title": "Regional Health Index Trends",
+      "type": "timeseries"
+    },
+    {
+      "datasource": { "type": "alexanderzobnin-zabbix-datasource", "uid": "PA67C5EADE9207728" },
+      "description": "Operational notification delivery rate and Dead Letter Queue (DLQ) state across SMTP Email, SMS Paging, and ServiceNow ITSM.",
+      "fieldConfig": {
+        "defaults": {
+          "color": { "mode": "thresholds" },
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              { "color": "green", "value": null },
+              { "color": "red", "value": 1 }
+            ]
+          },
+          "unit": "short"
+        }
+      },
+      "gridPos": { "h": 8, "w": 10, "x": 14, "y": 8 },
+      "id": 7,
+      "options": { "showHeader": true },
+      "pluginVersion": "11.0.0",
+      "targets": [
+        {
+          "application": { "name": "Notifications" },
+          "group": { "name": "Enterprise" },
+          "host": { "name": "mon-grafana01" },
+          "item": { "name": "Notification Channel Delivery Matrix" },
+          "refId": "NotifMatrix"
+        }
+      ],
+      "title": "Notification Channel Health & DLQ Backlog",
+      "type": "table"
+    }
+  ],
+  "refresh": "30s",
+  "schemaVersion": 39,
+  "tags": ["nawari", "enterprise", "overview", "multisite", "kenya-airways"],
+  "templating": { "list": [] },
+  "time": { "from": "now-6h", "to": "now" },
+  "timepicker": { "refresh_intervals": ["10s", "30s", "1m", "5m"] },
+  "timezone": "browser",
+  "title": "Nawari — Enterprise Executive Overview & Fleet Availability",
+  "uid": "nawari-enterprise-overview",
+  "version": 1
+}
+

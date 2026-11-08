@@ -1,23 +1,63 @@
 # Nawari NOC Dashboard Operator's Guide
 
 **Scope:** Unified Grafana Dashboards for Kenya Airways Global Operations  
-**Dashboards Directory:** `docker/grafana/dashboards/`  
+**Dashboards Provisioning Root:** `docker/grafana/dashboards/`  
+**Operational Folders:**
+- `Nawari / Network Observability` (`folderUid: nawari-network-obs`, directory: `network_observability/`) — 13 dashboards
+- `Nawari / Communication Observability` (`folderUid: nawari-comm-obs`, directory: `communication_observability/`) — 4 dashboards
 **Container Host:** `mon-grafana01` (Grafana port 3000)  
 **Security Tier:** Multi-Site Scoped RBAC Enabled  
+**Telemetry Integrity Standard:** Phase 13.1 (100% hover descriptions, zero null-as-zero coercion, signaling vs media separation)
 
 ---
 
-## 1. Overview of the NOC Suite
+## 1. Operational Domain Structure & Telemetry Integrity
 
-Phase 13 introduces five enterprise Grafana dashboards designed to give the Network Operations Centre (NOC), Station Duty Engineers, and Executive Leadership complete visibility across global flight operations, telecom trunks, WAN outstations, and business applications.
+Nawari enforces strict separation of operational domains into two provisioned Grafana folders:
 
-| Dashboard Title | File Name | Primary Audience | Core Focus |
-| :--- | :--- | :--- | :--- |
-| **Enterprise Global Overview** | `nawari_enterprise_overview.json` | Chief Information Officer, Head of IT, Central NOC Leads | Enterprise SLA compliance, global outstation status map, degraded mission-critical services, active P1/P2 incidents. |
-| **Global Outstation Directory** | `nawari_global_outstations.json` | Regional Managers, Station Duty Engineers, Network Ops | Station tiering, primary/secondary circuit health, facility status, IATA/ICAO code tracking, RTT & bandwidth telemetry. |
-| **Business Service Catalog & SLA** | `nawari_service_catalog_sla.json` | Service Owners, Airport Duty Managers, IT Leadership | Multi-dimensional SLIs (Availability, Performance, Quality, Coverage), Error Budget burn rates, contractual SLA breaches. |
-| **Incident Operations Center** | `nawari_incident_operations.json` | NOC Shift Engineers, Incident Commanders | Incident lifecycle state (NEW $\rightarrow$ CLOSED), MTTA/MTTR metrics, escalation queue, notification dead letters. |
-| **Edge Fleet & Spool Management** | `nawari_edge_fleet.json` | Edge Engineers, Systems Administrators | SQLite spool buffer sizes, priority pruning rates, replayed telemetry volume, clock drift, transmitter backoff status. |
+### 1.1 Nawari / Network Observability (`nawari-network-obs`)
+Dedicated to physical network topology, core switch and router telemetry, interface utilization, WAN circuits, outstation edge collectors, multi-dimensional business service SLIs, incident operations, and automated remediation playbooks.
+
+### 1.2 Nawari / Communication Observability (`nawari-comm-obs`)
+Dedicated to Avaya Aura Communication Manager (CM 8.1.0), Avaya Session Border Controllers (SBCE 8.1), Session Manager, carrier SIP trunks, call signaling ladders, and voice media quality diagnostics.
+
+### 1.3 Telemetry Integrity Rules
+1. **Mandatory Hover Tooltips:** Every visualization panel (134 total across all 17 dashboards) provides an operational description detailing its meaning, units, underlying datasource/OID, and limitations.
+2. **Signaling Reachability $\neq$ Media Quality:** A green SIP OPTIONS response or registered trunk confirms only layer-5 signaling reachability. It does NOT guarantee acceptable voice audio quality, low jitter, or absence of packet loss.
+3. **Synthetic Probe Isolation:** All synthetic Asterisk test calls are visibly labeled `[SYNTHETIC — ASTERISK]`. Operators must not conflate synthetic probe performance with live subscriber calls.
+4. **Honest Real-Call MOS Status:** Real-call MOS is explicitly displayed as `[NOT INSTRUMENTED — RTCP XR REQUIRED]` until RFC 3611 Block 7 telemetry is provisioned. Nawari never substitutes synthetic values or decorative gauges for real customer calls.
+5. **Avaya CM MIB Polling Constraints:** Avaya CM IP voice stats tables (`avCmMeasIpVoStatSumDataLstHrTable` and `avCmMeasIpVoStatHrJitterTable`) are polled at $\ge 1\text{ hour}$ intervals to protect CM call-processing CPU.
+6. **Null Preservation:** Missing data is displayed as gaps (`spanNulls: False`). Null values are never coerced to zero.
+
+Complete machine-readable and human-readable inventories are maintained in:
+- `docs/observability/dashboard-metric-catalogue.yaml`
+- `docs/observability/dashboard-inventory.md`
+
+---
+
+## 2. Overview of the Enterprise NOC Suite
+
+The 17 dashboards across both domains give the Network Operations Centre (NOC), Station Duty Engineers, and Executive Leadership complete visibility across global flight operations, telecom trunks, WAN outstations, and business applications.
+
+| Domain | Dashboard Title | File Name | Primary Audience | Core Focus |
+| :--- | :--- | :--- | :--- | :--- |
+| **Network** | **Enterprise Global Overview** | `nawari_enterprise_overview.json` | CIO, Head of IT, Central NOC Leads | Enterprise SLA compliance, global outstation status map, degraded mission-critical services, active P1/P2 incidents. |
+| **Network** | **Global Outstation Directory** | `nawari_global_outstations.json` | Regional Managers, Station Duty Engineers, NetOps | Station tiering, primary/secondary circuit health, facility status, IATA/ICAO code tracking, RTT & bandwidth telemetry. |
+| **Network** | **Business Service Catalog & SLA** | `nawari_service_catalog_sla.json` | Service Owners, Airport Duty Managers, IT Leadership | Multi-dimensional SLIs (Availability, Performance, Quality, Coverage), Error Budget burn rates, contractual SLA breaches. |
+| **Network** | **Incident Operations Center** | `nawari_incident_operations.json` | NOC Shift Engineers, Incident Commanders | Incident lifecycle state (NEW $\rightarrow$ CLOSED), MTTA/MTTR metrics, escalation queue, notification dead letters. |
+| **Network** | **Edge Fleet & Spool Management** | `nawari_edge_fleet.json` | Edge Engineers, Systems Administrators | SQLite spool buffer sizes, priority pruning rates, replayed telemetry volume, clock drift, transmitter backoff status. |
+| **Network** | **Network Infrastructure Overview** | `network_infrastructure_overview.json` | NOC Engineers | Core switch SNMP status, system uptime, ICMP latency, physical/logical interface inventory, active network alarms. |
+| **Network** | **Interface Traffic & Performance** | `interface_traffic_health.json` | NetOps Engineers | Interface operational/admin status, speed, ingress/egress bps, CRC error rates, packet discard rates. |
+| **Network** | **Network Path & Hop Analysis** | `network_path_analysis.json` | NetOps, Troubleshooting Leads | Directional traceroute hop analysis, end-to-end latency/loss, routing shifts, bufferbloat detection. |
+| **Network** | **Enterprise Network Topology** | `network_topology.json` | NetOps, Architecture | Interactive Layer 2/3 topology graph, device dependencies, link capacities. |
+| **Network** | **Endpoint Fleet Observability** | `endpoint_fleet_overview.json` | Desktop Support, Systems | Enrolled vs active endpoints, OS versions, gateway latency, Wi-Fi link quality distribution. |
+| **Network** | **Endpoint Deep-Dive** | `endpoint_detail.json` | Tier 2/3 Desktop Support | Single-endpoint host identity, adapter state, packet loss, local process health, network route diagnostics. |
+| **Network** | **Controlled Operations & Actions** | `nawari_controlled_operations.json` | Incident Commanders, SRE | Remediation action lifecycle, approval token audits, dead-man circuit breaker, rollback history. |
+| **Network** | **Predictive Intelligence & Baselines** | `nawari_predictive_intelligence.json` | Capacity Planners, Advanced Ops | Diurnal baseline deviations (|Z| >= 3.0), Time-to-Exhaustion (TTE) projections, carrier trunk latency drift. |
+| **Comm** | **Avaya SBCE Operational Health** | `avaya_sbce_operational_health.json` | Voice Engineers, Telecom Leads | SBCE 8.1 appliance health (CPU/RAM/Disk/Load), interface status (A1/B1/M1/M2), voice path errors/discards. |
+| **Comm** | **Voice Service Assurance & Quality** | `nawari-voice-service-assurance.json` | Voice Operations | Synthetic voice probe outcomes, ITU-T G.107 MOS/R-factor, setup latency trends, SBCE throughput. |
+| **Comm** | **Communications Intelligence** | `nawari_voice_intelligence.json` | Voice Engineers, Telecom NOC | SIP signaling latencies (PDD/TTA/Setup), SIP trunk registration, real vs synthetic voice separation, Avaya CM SNMP real-call loss/jitter, uninstrumented real MOS status. |
+| **Comm** | **Cross-Domain Voice & Endpoint** | `endpoint_voice_correlation.json` | Cross-Domain Escalation Teams | Correlation between endpoint Wi-Fi/NIC quality and voice audio jitter, gateway latency vs MOS. |
 
 ---
 

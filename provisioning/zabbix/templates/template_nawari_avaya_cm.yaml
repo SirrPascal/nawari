@@ -1,0 +1,149 @@
+zabbix_export:
+  version: '7.4'
+  template_groups:
+    - uuid: 36bff6c29af64692839d077febfc7079
+      name: 'Templates/Network devices'
+    - uuid: a571017302484a0d8ea62287c24f6a9e
+      name: 'Templates/Applications'
+  templates:
+    - uuid: c1a2b3c4d5e6470dafc431b51c17924f
+      template: 'Nawari Avaya Communication Manager by SNMP'
+      name: 'Nawari Avaya Communication Manager by SNMP'
+      description: |
+        Nawari Avaya Aura Communication Manager (CM 8.1.0) Performance and IP Voice Quality Template.
+        Collects real-call transport metrics from official Avaya MIB tables:
+        - avCmMeasIpVoStatSumDataLstHrTable (1.3.6.1.4.1.6889.2.73.8.1.77): Hourly real-call packet loss %, peak jitter, peak two-way delay.
+        - avCmMeasIpVoStatHrJitterTable (1.3.6.1.4.1.6889.2.73.8.1.66): Hourly average jitter and evaluated call counts.
+        Polling interval is strictly capped at 1 hour (delay: 1h) to prevent system impact on CM processor.
+        Requires 'IP Voice Stats Summary? y' enabled under 'change system-parameters ip-options'.
+      groups:
+        - name: 'Templates/Applications'
+        - name: 'Templates/Network devices'
+      items:
+        - uuid: 88aa11bb22cc470dafc431b51c179201
+          name: 'Real-Call Packet Loss (Last Hour)'
+          type: SNMP_AGENT
+          snmp_oid: 1.3.6.1.4.1.6889.2.73.8.1.77.1.6.1
+          key: avaya.cm.ip_voice.loss_pct
+          delay: 1h
+          value_type: FLOAT
+          units: '%'
+          description: |
+            Percentage of IP audio packets lost during active calls in the last completed hour across primary network region.
+            Source: Avaya CM SNMP table avCmMeasIpVoStatSumDataLstHrTable (leaf .6). Polling interval: 1 hour.
+          tags:
+            - tag: component
+              value: voice-transport
+            - tag: provenance
+              value: REAL_AVAYA_SNMP
+          triggers:
+            - uuid: 88aa11bb22cc470dafc431b51c179211
+              expression: 'last(/Nawari Avaya Communication Manager by SNMP/avaya.cm.ip_voice.loss_pct)>2.5'
+              name: 'Avaya CM: Real-Call Packet Loss High (> 2.5% in Last Hour)'
+              priority: WARNING
+              description: 'Hourly real-call packet loss on Avaya Communication Manager exceeded 2.5% threshold.'
+
+        - uuid: 88aa11bb22cc470dafc431b51c179202
+          name: 'Real-Call Peak Jitter (Last Hour)'
+          type: SNMP_AGENT
+          snmp_oid: 1.3.6.1.4.1.6889.2.73.8.1.77.1.7.1
+          key: avaya.cm.ip_voice.peak_jitter
+          delay: 1h
+          value_type: FLOAT
+          units: ms
+          description: |
+            Maximum interarrival packet jitter in milliseconds observed during active calls in the last completed hour.
+            Source: Avaya CM SNMP table avCmMeasIpVoStatSumDataLstHrTable (leaf .7). Polling interval: 1 hour.
+          tags:
+            - tag: component
+              value: voice-transport
+            - tag: provenance
+              value: REAL_AVAYA_SNMP
+          triggers:
+            - uuid: 88aa11bb22cc470dafc431b51c179212
+              expression: 'last(/Nawari Avaya Communication Manager by SNMP/avaya.cm.ip_voice.peak_jitter)>30'
+              name: 'Avaya CM: Real-Call Peak Jitter High (> 30 ms)'
+              priority: WARNING
+              description: 'Hourly real-call peak jitter on Avaya Communication Manager exceeded 30 ms.'
+
+        - uuid: 88aa11bb22cc470dafc431b51c179203
+          name: 'Real-Call Peak Two-Way Delay (Last Hour)'
+          type: SNMP_AGENT
+          snmp_oid: 1.3.6.1.4.1.6889.2.73.8.1.77.1.8.1
+          key: avaya.cm.ip_voice.peak_delay
+          delay: 1h
+          value_type: FLOAT
+          units: ms
+          description: |
+            Maximum two-way round-trip audio packet delay in milliseconds observed during active calls in the last completed hour.
+            Source: Avaya CM SNMP table avCmMeasIpVoStatSumDataLstHrTable (leaf .8). Polling interval: 1 hour.
+          tags:
+            - tag: component
+              value: voice-transport
+            - tag: provenance
+              value: REAL_AVAYA_SNMP
+
+        - uuid: 88aa11bb22cc470dafc431b51c179204
+          name: 'Real-Call Hourly Average Jitter'
+          type: SNMP_AGENT
+          snmp_oid: 1.3.6.1.4.1.6889.2.73.8.1.66.1.2.1
+          key: avaya.cm.ip_voice.avg_jitter
+          delay: 1h
+          value_type: FLOAT
+          units: ms
+          description: |
+            Average interarrival packet jitter in milliseconds calculated across all calls in the last completed hour.
+            Source: Avaya CM SNMP table avCmMeasIpVoStatHrJitterTable (leaf .2). Polling interval: 1 hour.
+          tags:
+            - tag: component
+              value: voice-transport
+            - tag: provenance
+              value: REAL_AVAYA_SNMP
+
+        - uuid: 88aa11bb22cc470dafc431b51c179205
+          name: 'Real-Call Evaluated Calls Count'
+          type: SNMP_AGENT
+          snmp_oid: 1.3.6.1.4.1.6889.2.73.8.1.66.1.4.1
+          key: avaya.cm.ip_voice.call_count
+          delay: 1h
+          value_type: UNSIGNED
+          units: calls
+          description: |
+            Total number of IP voice calls evaluated by Communication Manager during the last completed hour.
+            Source: Avaya CM SNMP table avCmMeasIpVoStatHrJitterTable (leaf .4). Polling interval: 1 hour.
+          tags:
+            - tag: component
+              value: call-volume
+            - tag: provenance
+              value: REAL_AVAYA_SNMP
+
+        - uuid: 88aa11bb22cc470dafc431b51c179206
+          name: 'Negotiated Audio Codec'
+          type: SNMP_AGENT
+          snmp_oid: 1.3.6.1.4.1.6889.2.73.8.1.77.1.3.1
+          key: avaya.cm.ip_voice.codec
+          delay: 1h
+          value_type: CHAR
+          description: |
+            Primary negotiated voice compression algorithm / codec (e.g. G.711A, G.711U, G.729) in the active network region.
+            Source: Avaya CM SNMP table avCmMeasIpVoStatSumDataLstHrTable (leaf .3). Polling interval: 1 hour.
+          tags:
+            - tag: component
+              value: codec
+            - tag: provenance
+              value: REAL_AVAYA_SNMP
+
+        - uuid: 88aa11bb22cc470dafc431b51c179207
+          name: 'Communication Manager SNMP Availability'
+          type: SIMPLE
+          key: 'icmpping[10.102.10.25]'
+          delay: 1m
+          value_type: UNSIGNED
+          description: |
+            Network ICMP reachability to the Avaya Communication Manager processor interface.
+            1 = UP, 0 = DOWN. Polling interval: 1 minute.
+          tags:
+            - tag: component
+              value: infrastructure
+            - tag: provenance
+              value: REAL_ZABBIX

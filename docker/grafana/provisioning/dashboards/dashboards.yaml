@@ -1,14 +1,26 @@
 apiVersion: 1
 
 providers:
-  - name: 'Nawari Dashboards'
+  - name: 'Nawari - Network Observability'
     orgId: 1
-    folder: 'Nawari'
+    folder: 'Nawari / Network Observability'
+    folderUid: 'nawari-network-obs'
     type: file
     disableDeletion: false
     editable: true
     updateIntervalSeconds: 30
     allowUiUpdates: true
     options:
-      path: /var/lib/grafana/dashboards
+      path: /var/lib/grafana/dashboards/network_observability
 
+  - name: 'Nawari - Communication Observability'
+    orgId: 1
+    folder: 'Nawari / Communication Observability'
+    folderUid: 'nawari-comm-obs'
+    type: file
+    disableDeletion: false
+    editable: true
+    updateIntervalSeconds: 30
+    allowUiUpdates: true
+    options:
+      path: /var/lib/grafana/dashboards/communication_observability

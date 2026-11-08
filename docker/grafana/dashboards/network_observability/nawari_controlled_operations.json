@@ -1,0 +1,292 @@
+{
+  "annotations": {
+    "list": []
+  },
+  "description": "Nawari Controlled Operational Actions, Human-in-the-Loop Approval Queue, Automated Remediation Playbooks, Rollback Safety, and Chained Audit Ledger.",
+  "editable": true,
+  "fiscalYearStartMonth": 0,
+  "graphTooltip": 1,
+  "id": null,
+  "links": [],
+  "liveNow": false,
+  "panels": [
+    {
+      "collapsed": false,
+      "gridPos": { "h": 1, "w": 24, "x": 0, "y": 0 },
+      "id": 1,
+      "title": "Operational Action Pipeline & Concurrency Health",
+      "type": "row"
+    },
+    {
+      "datasource": {
+        "type": "alexanderzobnin-zabbix-datasource",
+        "uid": "PA67C5EADE9207728"
+      },
+      "description": "Distribution of operational remediation actions across the execution lifecycle. Tracks active executions, verification checkpoints, and automated rollbacks.",
+      "fieldConfig": {
+        "defaults": {
+          "color": { "mode": "thresholds" },
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              { "color": "green", "value": null },
+              { "color": "yellow", "value": 2 },
+              { "color": "red", "value": 5 }
+            ]
+          },
+          "unit": "short"
+        },
+        "overrides": []
+      },
+      "gridPos": { "h": 7, "w": 12, "x": 0, "y": 1 },
+      "id": 2,
+      "options": {
+        "orientation": "auto",
+        "reduceOptions": { "calcs": ["lastNotNull"], "fields": "", "values": false },
+        "showThresholdLabels": false,
+        "showThresholdMarkers": true
+      },
+      "pluginVersion": "11.0.0",
+      "targets": [
+        {
+          "application": { "name": "Action Automation" },
+          "group": { "name": "Action Execution Service" },
+          "host": { "name": "mon-grafana01" },
+          "item": { "name": "Actions Pending Approval" },
+          "refId": "Pending"
+        },
+        {
+          "application": { "name": "Action Automation" },
+          "group": { "name": "Action Execution Service" },
+          "host": { "name": "mon-grafana01" },
+          "item": { "name": "Actions Executing" },
+          "refId": "Executing"
+        },
+        {
+          "application": { "name": "Action Automation" },
+          "group": { "name": "Action Execution Service" },
+          "host": { "name": "mon-grafana01" },
+          "item": { "name": "Actions Completed" },
+          "refId": "Completed"
+        },
+        {
+          "application": { "name": "Action Automation" },
+          "group": { "name": "Action Execution Service" },
+          "host": { "name": "mon-grafana01" },
+          "item": { "name": "Actions Rolled Back" },
+          "refId": "RolledBack"
+        }
+      ],
+      "title": "Action Execution Lifecycle Distribution",
+      "type": "bargauge"
+    },
+    {
+      "datasource": {
+        "type": "alexanderzobnin-zabbix-datasource",
+        "uid": "PA67C5EADE9207728"
+      },
+      "description": "Operational dead-man circuit breaker status. Automatically trips into LOCKED state if 3 consecutive remediation playbooks fail within 15 minutes, halting further autonomous actions until manual NOC reset.",
+      "fieldConfig": {
+        "defaults": {
+          "color": { "mode": "thresholds" },
+          "mappings": [
+            {
+              "options": {
+                "0": { "color": "green", "index": 0, "text": "HEALTHY / CLOSED" },
+                "1": { "color": "red", "index": 1, "text": "TRIPPED / LOCKED" }
+              },
+              "type": "value"
+            }
+          ],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              { "color": "green", "value": null },
+              { "color": "red", "value": 1 }
+            ]
+          }
+        },
+        "overrides": []
+      },
+      "gridPos": { "h": 7, "w": 12, "x": 12, "y": 1 },
+      "id": 3,
+      "options": {
+        "colorMode": "background",
+        "graphMode": "none",
+        "justifyMode": "auto",
+        "orientation": "auto",
+        "reduceOptions": { "calcs": ["lastNotNull"], "fields": "", "values": false },
+        "textMode": "auto"
+      },
+      "pluginVersion": "11.0.0",
+      "targets": [
+        {
+          "application": { "name": "Action Automation" },
+          "group": { "name": "Action Execution Service" },
+          "host": { "name": "mon-grafana01" },
+          "item": { "name": "Dead-Man Circuit Breaker Tripped" },
+          "refId": "Breaker"
+        }
+      ],
+      "title": "Operational Dead-Man Circuit Breaker Status",
+      "type": "stat"
+    },
+    {
+      "collapsed": false,
+      "gridPos": { "h": 1, "w": 24, "x": 0, "y": 8 },
+      "id": 4,
+      "title": "Human-in-the-Loop (HITL) Authorisation & Two-Person Queue",
+      "type": "row"
+    },
+    {
+      "datasource": {
+        "type": "alexanderzobnin-zabbix-datasource",
+        "uid": "PA67C5EADE9207728"
+      },
+      "description": "Real-time queue of pending operational actions awaiting human operator authorization. Enforces Two-Person Rule for high-risk mutations with single-use HMAC-SHA256 tokens expiring in 15 minutes.",
+      "fieldConfig": {
+        "defaults": {
+          "color": { "mode": "thresholds" },
+          "custom": { "align": "auto", "displayMode": "auto" },
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              { "color": "blue", "value": null },
+              { "color": "orange", "value": 1 }
+            ]
+          }
+        },
+        "overrides": []
+      },
+      "gridPos": { "h": 8, "w": 24, "x": 0, "y": 9 },
+      "id": 5,
+      "options": {
+        "footer": { "enablePagination": true, "fields": "", "reducer": ["sum"], "show": false },
+        "showHeader": true
+      },
+      "targets": [
+        {
+          "application": { "name": "Action Automation" },
+          "group": { "name": "Action Execution Service" },
+          "host": { "name": "mon-grafana01" },
+          "item": { "name": "Pending Approval Items" },
+          "refId": "Approvals"
+        }
+      ],
+      "title": "Pending Operator Approvals & Blast-Radius Risk Board",
+      "type": "table"
+    },
+    {
+      "collapsed": false,
+      "gridPos": { "h": 1, "w": 24, "x": 0, "y": 17 },
+      "id": 6,
+      "title": "Independent Verification & Tamper-Evident Audit Ledger",
+      "type": "row"
+    },
+    {
+      "datasource": {
+        "type": "alexanderzobnin-zabbix-datasource",
+        "uid": "PA67C5EADE9207728"
+      },
+      "description": "Independent post-action verification metrics proving true service recovery. Actions declaring exit code 0 must independently prove metric restoration before incident closure.",
+      "fieldConfig": {
+        "defaults": {
+          "color": { "mode": "palette-classic" },
+          "custom": {
+            "axisBorderShow": false,
+            "axisCenteredZero": false,
+            "axisColorMode": "text",
+            "axisLabel": "Latency / Quality",
+            "axisPlacement": "auto",
+            "fillOpacity": 15,
+            "lineWidth": 2,
+            "showPoints": "auto",
+            "spanNulls": false
+          },
+          "unit": "short"
+        },
+        "overrides": []
+      },
+      "gridPos": { "h": 8, "w": 12, "x": 0, "y": 18 },
+      "id": 7,
+      "options": {
+        "legend": { "displayMode": "table", "placement": "bottom", "calcs": ["lastNotNull", "mean"] },
+        "tooltip": { "mode": "multi", "sort": "desc" }
+      },
+      "targets": [
+        {
+          "application": { "name": "Action Automation" },
+          "group": { "name": "Action Execution Service" },
+          "host": { "name": "mon-grafana01" },
+          "item": { "name": "Pre-Remediation Metric Level" },
+          "refId": "PreMetric"
+        },
+        {
+          "application": { "name": "Action Automation" },
+          "group": { "name": "Action Execution Service" },
+          "host": { "name": "mon-grafana01" },
+          "item": { "name": "Post-Remediation Metric Level" },
+          "refId": "PostMetric"
+        }
+      ],
+      "title": "Pre- vs Post-Remediation Service Health Verification",
+      "type": "timeseries"
+    },
+    {
+      "datasource": {
+        "type": "alexanderzobnin-zabbix-datasource",
+        "uid": "PA67C5EADE9207728"
+      },
+      "description": "Tamper-evident operational audit ledger. Every proposal, approval, execution, and rollback is recorded in an immutable SHA-256 block hash chain adhering to aviation compliance standards.",
+      "fieldConfig": {
+        "defaults": {
+          "color": { "mode": "thresholds" },
+          "custom": { "align": "auto", "displayMode": "auto" },
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [{ "color": "green", "value": null }]
+          }
+        },
+        "overrides": []
+      },
+      "gridPos": { "h": 8, "w": 12, "x": 12, "y": 18 },
+      "id": 8,
+      "options": {
+        "footer": { "enablePagination": true, "fields": "", "reducer": ["sum"], "show": false },
+        "showHeader": true
+      },
+      "targets": [
+        {
+          "application": { "name": "Action Automation" },
+          "group": { "name": "Action Execution Service" },
+          "host": { "name": "mon-grafana01" },
+          "item": { "name": "Audit Block Stream" },
+          "refId": "AuditBlocks"
+        }
+      ],
+      "title": "Cryptographically Chained Immutable Audit Stream (SHA-256)",
+      "type": "table"
+    }
+  ],
+  "refresh": "30s",
+  "schemaVersion": 39,
+  "tags": ["nawari", "actions", "remediation", "governance", "kenya-airways"],
+  "templating": {
+    "list": []
+  },
+  "time": {
+    "from": "now-6h",
+    "to": "now"
+  },
+  "timepicker": {
+    "refresh_intervals": ["10s", "30s", "1m", "5m"]
+  },
+  "timezone": "browser",
+  "title": "Nawari — Controlled Operational Actions & Automated Remediation",
+  "uid": "nawari-controlled-operations",
+  "version": 1
+}
+
