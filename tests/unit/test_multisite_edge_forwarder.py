@@ -12,8 +12,10 @@ from services.multisite.edge_forwarder import (
     CentralTelemetryReceiver,
     EdgeSpoolDatabase,
     EdgeStoreAndForwardManager,
+    SpoolCriticalCapacityExhaustedError,
     SpoolItemPriority,
     SpoolItemStatus,
+    SpoolStorageError,
 )
 
 
@@ -224,3 +226,90 @@ def test_auth_token_expiry_handling(temp_spool_db):
     res = manager.drain_and_forward(central_receiver=receiver)
     assert res["status"] == "FORWARD_FAILED"
     assert "AUTH_ERROR" in str(res["error"])
+
+
+def test_in_flight_restart_recovery(temp_spool_db):
+    db1 = EdgeSpoolDatabase(db_path=temp_spool_db)
+    # Enqueue items
+    id1 = db1.enqueue("MBA-STATION", "metric", {"cpu": 10})
+    id2 = db1.enqueue("MBA-STATION", "metric", {"cpu": 20})
+
+    # Mark items in flight in batch B-999
+    db1.mark_in_flight([id1, id2], "B-999")
+    stats1 = db1.get_stats()
+    assert stats1["in_flight_count"] == 2
+    assert stats1["buffered_count"] == 0
+
+    # Simulate daemon crash and reboot (new database instance on same file)
+    db2 = EdgeSpoolDatabase(db_path=temp_spool_db)
+    # During startup _init_db(), recover_in_flight() must reset orphaned in-flight records
+    stats2 = db2.get_stats()
+    assert stats2["in_flight_count"] == 0
+    assert stats2["buffered_count"] == 2
+
+    # Verify they can be batched again
+    pending = db2.get_pending_batch(limit=10)
+    assert len(pending) == 2
+
+
+def test_critical_spool_saturation_backpressure_and_emergency_log(temp_spool_db):
+    emergency_log = f"{temp_spool_db}.emergency.log"
+    db = EdgeSpoolDatabase(
+        db_path=temp_spool_db,
+        max_records=3,
+        allow_critical_prune=False,  # Strict protection mode
+        emergency_log_path=emergency_log,
+    )
+
+    # Enqueue 3 critical items to completely fill capacity
+    for i in range(3):
+        db.enqueue("MBA-STATION", "alert", {"p1_alert": f"Trunk_{i}"}, priority=SpoolItemPriority.CRITICAL.value)
+
+    stats = db.get_stats()
+    assert stats["buffered_count"] == 3
+
+    # Attempting to enqueue a 4th critical item with 0 lower-priority items must trigger explicit backpressure
+    with pytest.raises(SpoolCriticalCapacityExhaustedError) as exc_info:
+        db.enqueue("MBA-STATION", "alert", {"p1_alert": "Trunk_OVERFLOW"}, priority=SpoolItemPriority.CRITICAL.value)
+
+    assert "SPOOL_CRITICAL_OVERFLOW" in str(exc_info.value)
+    # Verify emergency disk log was created with durable trace
+    assert os.path.exists(emergency_log)
+    with open(emergency_log) as f:
+        log_content = f.read()
+    assert "SPOOL_SATURATION_CRITICAL_BACKPRESSURE" in log_content
+
+    if os.path.exists(emergency_log):
+        os.remove(emergency_log)
+
+
+def test_sqlite_operational_write_failure_raises_spool_storage_error(temp_spool_db):
+    db = EdgeSpoolDatabase(db_path=temp_spool_db)
+
+    # Make SQLite database file read-only to simulate disk / filesystem write failure
+    os.chmod(temp_spool_db, 0o400)
+
+    try:
+        with pytest.raises(SpoolStorageError) as exc_info:
+            db.enqueue("KIS-STATION", "metric", {"val": 99})
+
+        assert "SPOOL_DISK_ERROR" in str(exc_info.value)
+    finally:
+        os.chmod(temp_spool_db, 0o600)
+
+
+def test_central_receiver_queue_depth_saturation_backpressure():
+    receiver = CentralTelemetryReceiver(max_queue_depth=5)
+    batch = [{"event_id": f"EV-{i}", "val": i} for i in range(5)]
+
+    # Ingest 5 items: reaches max queue depth
+    res1 = receiver.ingest_batch(batch, auth_token="nawari-edge-shared-token-2026")
+    assert res1["status"] == "INGESTED"
+    assert res1["ingested_count"] == 5
+
+    # Ingesting next batch triggers automatic backpressure throttling
+    batch2 = [{"event_id": "EV-OVERFLOW", "val": 999}]
+    res2 = receiver.ingest_batch(batch2, auth_token="nawari-edge-shared-token-2026")
+    assert res2["status"] == "BACKPRESSURE_THROTTLED"
+    assert receiver.is_throttled is True
+

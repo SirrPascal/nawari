@@ -106,3 +106,64 @@ def test_missing_or_unidirectional_media_invalidates_mos():
     assert res.mos_score == 1.0
     assert res.status == VoiceTrunkStatus.CRITICAL_FAILOVER
     assert any("Bidirectional RTP/RTCP required for MOS" in n for n in res.notes)
+
+
+def test_missing_rtcp_produces_unknown_and_distinguishes_delay_types():
+    prober = TransWanVoiceProber()
+
+    # 1. Missing RTCP telemetry must NOT fabricate MOS
+    res_no_rtcp = prober.execute_probe(
+        station_id="MBA-STATION",
+        circuit_id="CIR-MBA-01",
+        rtt_ms=40.0,
+        jitter_ms=5.0,
+        packet_loss_percent=0.0,
+        has_bidirectional_media=True,
+        rtcp_available=False,  # RTCP absent
+    )
+    assert res_no_rtcp.is_valid_mos is False
+    assert res_no_rtcp.mos_score is None
+    assert res_no_rtcp.r_factor is None
+    assert any("MISSING RTCP TELEMETRY" in n for n in res_no_rtcp.notes)
+
+    # 2. Measured RTCP-XR delay vs Estimated symmetric delay
+    res_estimated = prober.execute_probe(
+        station_id="MBA-STATION",
+        circuit_id="CIR-MBA-01",
+        rtt_ms=50.0,
+        jitter_ms=5.0,
+        packet_loss_percent=0.0,
+    )
+    assert res_estimated.delay_measurement_type == "ESTIMATED_SYMMETRIC_RTT"
+    assert res_estimated.estimated_one_way_delay_ms == 25.0
+    assert res_estimated.measured_one_way_delay_ms is None
+
+    res_measured = prober.execute_probe(
+        station_id="MBA-STATION",
+        circuit_id="CIR-MBA-01",
+        rtt_ms=50.0,
+        jitter_ms=5.0,
+        packet_loss_percent=0.0,
+        measured_one_way_delay_ms=32.0,  # Asymmetric WAN path measured via RTCP-XR
+    )
+    assert res_measured.delay_measurement_type == "MEASURED_RTCP_XR"
+    assert res_measured.measured_one_way_delay_ms == 32.0
+
+
+def test_contradictory_and_out_of_bounds_media_telemetry():
+    prober = TransWanVoiceProber()
+
+    # Out of bounds packet loss (150%) and negative jitter (-10ms)
+    res = prober.execute_probe(
+        station_id="LHR-STATION",
+        circuit_id="CIR-LHR-01",
+        rtt_ms=160.0,
+        jitter_ms=-10.0,
+        packet_loss_percent=150.0,
+    )
+    # Jitter clamped to 0, packet loss clamped to 100%, notes warning generated
+    assert res.jitter_ms == 0.0
+    assert res.packet_loss_percent == 100.0
+    assert any("CONTRADICTORY TELEMETRY" in n for n in res.notes)
+    assert res.status == VoiceTrunkStatus.CRITICAL_FAILOVER
+

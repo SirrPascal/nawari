@@ -40,6 +40,16 @@ class SpoolItemPriority(int, Enum):
     DIAGNOSTIC = 2  # Debug traces, high-frequency ping logs
 
 
+class SpoolStorageError(Exception):
+    """Base exception for edge spool disk and storage failures."""
+    pass
+
+
+class SpoolCriticalCapacityExhaustedError(SpoolStorageError):
+    """Raised when the spool is completely saturated with unprunable P0 critical records."""
+    pass
+
+
 @dataclass
 class SpoolItem:
     """Represents a discrete telemetry payload stored in the outstation spool."""
@@ -80,6 +90,8 @@ class EdgeSpoolDatabase:
     - 50 MB default disk size protection with prioritized pruning (Diagnostic -> Standard -> Critical).
     - Corrupt record quarantine without queue deadlock.
     - Transactional in-flight tracking with atomic batch acknowledgement.
+    - Automatic in-flight recovery on daemon restart.
+    - Explicit backpressure and emergency disk logging on critical overflow.
     """
 
     DEFAULT_MAX_SPOOL_SIZE_MB: float = 50.0
@@ -89,10 +101,14 @@ class EdgeSpoolDatabase:
         db_path: str,
         max_records: int = 50000,
         max_spool_size_mb: float = DEFAULT_MAX_SPOOL_SIZE_MB,
+        allow_critical_prune: bool = False,
+        emergency_log_path: Optional[str] = None,
     ) -> None:
         self.db_path = db_path
         self.max_records = max_records
         self.max_spool_size_mb = max_spool_size_mb
+        self.allow_critical_prune = allow_critical_prune
+        self.emergency_log_path = emergency_log_path or os.path.join(str(Path(self.db_path).parent), "spool_emergency.log")
         Path(self.db_path).parent.mkdir(parents=True, exist_ok=True)
         self._init_db()
 
@@ -125,6 +141,40 @@ class EdgeSpoolDatabase:
             conn.execute("CREATE INDEX IF NOT EXISTS idx_spool_priority ON edge_telemetry_spool(priority);")
             conn.execute("CREATE INDEX IF NOT EXISTS idx_spool_created ON edge_telemetry_spool(created_at_epoch);")
             conn.commit()
+        # Recover any orphaned in-flight records from prior crash/kill
+        self.recover_in_flight()
+
+    def recover_in_flight(self) -> int:
+        """Recover orphaned in-flight records back to BUFFERED on startup / crash recovery."""
+        try:
+            with self._get_connection() as conn:
+                cur = conn.execute(
+                    """
+                    UPDATE edge_telemetry_spool
+                    SET status = 'BUFFERED', batch_id = NULL
+                    WHERE status = 'IN_FLIGHT';
+                    """
+                )
+                conn.commit()
+                if cur.rowcount > 0:
+                    logger.info("Recovered %d orphaned in-flight records back to BUFFERED.", cur.rowcount)
+                return cur.rowcount
+        except sqlite3.OperationalError:
+            return 0
+
+    def _write_emergency_audit_event(self, event_type: str, details: Dict[str, Any]) -> None:
+        """Durable fallback emergency event writer when spool capacity or disk is saturated."""
+        try:
+            entry = {
+                "timestamp": datetime.now(timezone.utc).isoformat(),
+                "event_type": event_type,
+                "db_path": self.db_path,
+                "details": details,
+            }
+            with open(self.emergency_log_path, "a") as f:
+                f.write(json.dumps(entry) + "\n")
+        except Exception as exc:
+            logger.error("Failed to write emergency log entry: %s", exc)
 
     def get_disk_size_bytes(self) -> int:
         """Calculate total SQLite file size on disk including WAL and SHM."""
@@ -161,20 +211,42 @@ class EdgeSpoolDatabase:
             )
             pruned_count = cur_prune.rowcount
             if pruned_count < prune_qty:
-                # If only CRITICAL items remain and limit still breached, prune oldest critical as absolute last resort
-                conn.execute(
-                    """
-                    UPDATE edge_telemetry_spool
-                    SET status = 'DROPPED_PRUNED'
-                    WHERE spool_id IN (
-                        SELECT spool_id FROM edge_telemetry_spool
-                        WHERE status = 'BUFFERED'
-                        ORDER BY created_at_epoch ASC
-                        LIMIT ?
-                    );
-                    """,
-                    (prune_qty - pruned_count,),
-                )
+                # Lower-priority items exhausted. Check if remaining records are unprunable CRITICAL items.
+                if not self.allow_critical_prune:
+                    # Strict protection: do not silently drop P0 critical alerts; trigger backpressure!
+                    self._write_emergency_audit_event("SPOOL_SATURATION_CRITICAL_BACKPRESSURE", {
+                        "count": count,
+                        "max_records": self.max_records,
+                        "disk_bytes": disk_bytes,
+                        "max_bytes": max_bytes,
+                    })
+                    raise SpoolCriticalCapacityExhaustedError(
+                        f"SPOOL_CRITICAL_OVERFLOW: Spool capacity full of P0 critical records ({count}/{self.max_records}); "
+                        f"backpressure triggered to prevent silent critical alert loss."
+                    )
+                else:
+                    # Absolute last resort fallback: log critical warning and prune oldest critical
+                    cur_crit = conn.execute(
+                        """
+                        UPDATE edge_telemetry_spool
+                        SET status = 'DROPPED_PRUNED'
+                        WHERE spool_id IN (
+                            SELECT spool_id FROM edge_telemetry_spool
+                            WHERE status = 'BUFFERED'
+                            ORDER BY created_at_epoch ASC
+                            LIMIT ?
+                        );
+                        """,
+                        (prune_qty - pruned_count,),
+                    )
+                    self._write_emergency_audit_event("CRITICAL_RECORDS_PRUNED_LAST_RESORT", {
+                        "pruned_critical_count": cur_crit.rowcount,
+                    })
+                    logger.critical(
+                        "EMERGENCY: Spool full of critical records; pruned %d oldest critical items as last resort.",
+                        cur_crit.rowcount,
+                    )
+
             logger.warning(
                 "Spool capacity exceeded (records=%d/%d, disk=%d/%d bytes); pruned oldest low-priority items.",
                 count, self.max_records, disk_bytes, max_bytes,
@@ -195,34 +267,42 @@ class EdgeSpoolDatabase:
         edge_ts = edge_timestamp_ms if edge_timestamp_ms is not None else now_epoch
         spooled_at = datetime.now(timezone.utc).isoformat()
 
-        with self._get_connection() as conn:
-            self._enforce_capacity_guard(conn)
+        try:
+            with self._get_connection() as conn:
+                self._enforce_capacity_guard(conn)
 
-            conn.execute(
-                """
-                INSERT INTO edge_telemetry_spool (
-                    spool_id, station_id, payload_type, payload_json,
-                    edge_timestamp_ms, spooled_at_utc, status, priority,
-                    retry_count, clock_drift_ms, batch_id, created_at_epoch
-                ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?);
-                """,
-                (
-                    spool_id,
-                    station_id,
-                    payload_type,
-                    json.dumps(payload),
-                    edge_ts,
-                    spooled_at,
-                    SpoolItemStatus.BUFFERED.value,
-                    priority,
-                    0,
-                    clock_drift_ms,
-                    None,
-                    now_epoch,
-                ),
-            )
-            conn.commit()
-        return spool_id
+                conn.execute(
+                    """
+                    INSERT INTO edge_telemetry_spool (
+                        spool_id, station_id, payload_type, payload_json,
+                        edge_timestamp_ms, spooled_at_utc, status, priority,
+                        retry_count, clock_drift_ms, batch_id, created_at_epoch
+                    ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?);
+                    """,
+                    (
+                        spool_id,
+                        station_id,
+                        payload_type,
+                        json.dumps(payload),
+                        edge_ts,
+                        spooled_at,
+                        SpoolItemStatus.BUFFERED.value,
+                        priority,
+                        0,
+                        clock_drift_ms,
+                        None,
+                        now_epoch,
+                    ),
+                )
+                conn.commit()
+            return spool_id
+        except (sqlite3.OperationalError, sqlite3.DatabaseError) as exc:
+            self._write_emergency_audit_event("SPOOL_WRITE_FAILURE", {
+                "spool_id": spool_id,
+                "error": str(exc),
+                "payload_type": payload_type,
+            })
+            raise SpoolStorageError(f"SPOOL_DISK_ERROR: SQLite transaction failed: {exc}") from exc
 
     def get_pending_batch(self, limit: int = 100) -> List[SpoolItem]:
         """Fetch oldest pending buffered items, ordered by priority ASC (Critical first) then FIFO."""
@@ -365,7 +445,8 @@ class CentralTelemetryReceiver:
         if auth_token not in self.valid_tokens:
             raise PermissionError("INVALID_OR_EXPIRED_TOKEN: Telemetry ingestion authentication failed.")
 
-        if self.is_throttled:
+        if self.is_throttled or (len(self._live_telemetry_stream) + len(self._historical_replayed_stream) >= self.max_queue_depth):
+            self.is_throttled = True
             return {
                 "status": "BACKPRESSURE_THROTTLED",
                 "message": "Central hub ingestion capacity saturated; back off.",

@@ -35,10 +35,14 @@ The central host runs on dedicated on-premise compute at the Kenya Airways Pride
 | **Nawari Core (Phases 1–11)** | Topology & Analytics | 280 MiB | 195 MiB | 0.3 vCPU | In-memory DAG, E-model, baselines |
 | **Phase 12 Action Engine** | Remediation & Ledger | 25 MiB | 16 MiB | 0.1 vCPU | Chained audit ledger, two-person rules |
 | **Phase 13 Multi-Site & SLA** | Outstation Registry & SLI | 30 MiB | 20.5 MiB | 0.1 vCPU | Multi-dimensional SLIs, error budgets |
-| **Total Container Envelope** | — | **$\approx 2.15\text{ GiB}$** | **$1621.5\text{ MiB}$** | **$\le 15\%$ idle, $\le 65\%$ peak** | **Strictly $\le 2.20\text{ GiB}$ ($2252\text{ MiB}$)** |
+| **Total Container Envelope** | — | **$2151.0\text{ MiB}$ ($2.10\text{ GiB}$)** | **$1621.5\text{ MiB}$ ($1.58\text{ GiB}$)** | **$\le 15\%$ idle, $\le 65\%$ peak** | **Strictly $\le 2.20\text{ GiB}$ ($2252.8\text{ MiB}$)** |
 
 > [!NOTE]
-> Even under simulated 100-service multi-site loads with 5,000 intervals, Phase 13 consumes only **20.5 MiB RSS** and **8.58 ms CPU time**, fitting comfortably within the allocated 30 MiB boundary.
+> **Resource Arithmetic Reconciliation:**
+> - **Total Configured Container Limits:** $\sum \text{Limits} = 512 + 768 + 256 + 280 + 280 + 25 + 30 = 2151.0\text{ MiB} = 2.1006\text{ GiB} \le 2252.8\text{ MiB}$ ($2.20\text{ GiB}$).
+> - **Peak Stress Measured Container Memory:** $\sum \text{Peak RSS} = 385 + 590 + 185 + 230 + 195 + 16 + 20.5 = 1621.5\text{ MiB} = 1.5835\text{ GiB}$ (measured under concurrent multi-site replay, active voice calls, and full incident processing).
+> - **Steady-State Baseline Measured Memory:** $572.3\text{ MiB} = 0.5589\text{ GiB}$ (observed via live `docker stats` during normal monitoring).
+> - Even under simulated 100-service multi-site loads with 5,000 intervals, Phase 13 consumes only **20.5 MiB RSS** and **8.58 ms CPU time**, fitting comfortably within the allocated 30 MiB boundary.
 
 ---
 

@@ -15,10 +15,12 @@ Formally executes Scenarios A through I:
 """
 
 import os
+import subprocess
 import tempfile
 import time
 from datetime import datetime, timezone
 import pytest
+import yaml
 
 from services.multisite.api_governance import (
     HardenedAuditLedger,
@@ -439,3 +441,42 @@ def test_scenario_i_dashboard_data_integrity():
     # Availability is 50%, coverage is 50%
     assert sli.availability_sli == 50.0
     assert sli.coverage_percent == 50.0
+
+
+# ==============================================================================
+# Scenario J: Full Consolidated Regression & Sentra Isolation Gate
+# ==============================================================================
+
+def test_scenario_j_full_platform_regression_and_sentra_isolation():
+    """Scenario J: Full regression, repository isolation, and capacity budget verification."""
+    sentra_dir = "/Users/madeira/Desktop/Projects/sentra"
+    if os.path.exists(sentra_dir):
+        # 1. Sentra isolation audit: 100% clean, no uncommitted changes
+        res_stat = subprocess.run(["git", "-C", sentra_dir, "status", "--porcelain"], capture_output=True, text=True)
+        assert res_stat.returncode == 0
+        assert res_stat.stdout.strip() == "", f"Sentra repository has uncommitted changes: {res_stat.stdout}"
+
+        res_head = subprocess.run(["git", "-C", sentra_dir, "rev-parse", "--short", "HEAD"], capture_output=True, text=True)
+        assert res_head.returncode == 0
+        assert res_head.stdout.strip() == "9970404", f"Sentra repository is not at expected HEAD 9970404: {res_head.stdout}"
+
+    # 2. Host container memory ceiling validation (<= 2252.8 MiB)
+    staging_profile_path = os.path.join(os.path.dirname(__file__), "..", "..", "deploy", "profiles", "staging.yaml")
+    with open(staging_profile_path) as f:
+        stg_cfg = yaml.safe_load(f)
+    budget = stg_cfg.get("host_resource_budget", {})
+    max_mem_mb = budget.get("max_container_memory_mb", 0)
+    assert max_mem_mb <= 2252.8, f"Staging container budget {max_mem_mb} exceeds 2.20 GiB ceiling"
+
+    # 3. Verify all 10 Workstreams (13A-13J) modules are importable and integrated
+    import services.multisite as ms
+    assert hasattr(ms, "MultiSiteRegistry")
+    assert hasattr(ms, "ServiceCatalog")
+    assert hasattr(ms, "IncidentManager")
+    assert hasattr(ms, "NotificationRouter")
+    assert hasattr(ms, "MetricAwareRecoveryVerifier")
+    assert hasattr(ms, "EdgeStoreAndForwardManager")
+    assert hasattr(ms, "TransWanVoiceProber")
+    assert hasattr(ms, "SiteAwareRBACEngine")
+    assert hasattr(ms, "HardenedAuditLedger")
+

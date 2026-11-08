@@ -65,12 +65,17 @@ class VoiceProbeResult:
     rtt_ms: float
     jitter_ms: float
     packet_loss_percent: float
-    r_factor: float
-    mos_score: float
+    r_factor: Optional[float]
+    mos_score: Optional[float]
     status: VoiceTrunkStatus
     failover_recommended: bool
     failover_target_circuit_id: Optional[str]
     has_bidirectional_media: bool = True
+    rtcp_available: bool = True
+    is_valid_mos: bool = True
+    delay_measurement_type: str = "ESTIMATED_SYMMETRIC_RTT"
+    estimated_one_way_delay_ms: float = 0.0
+    measured_one_way_delay_ms: Optional[float] = None
     notes: List[str] = field(default_factory=list)
     timestamp: str = field(default_factory=lambda: datetime.now(timezone.utc).isoformat())
 
@@ -84,11 +89,17 @@ class VoiceProbeResult:
             "rtt_ms": round(self.rtt_ms, 2),
             "jitter_ms": round(self.jitter_ms, 2),
             "packet_loss_percent": round(self.packet_loss_percent, 2),
-            "r_factor": round(self.r_factor, 2),
-            "mos_score": round(self.mos_score, 2),
+            "r_factor": round(self.r_factor, 2) if self.r_factor is not None else None,
+            "mos_score": round(self.mos_score, 2) if self.mos_score is not None else None,
             "status": self.status.value,
             "failover_recommended": self.failover_recommended,
             "failover_target_circuit_id": self.failover_target_circuit_id,
+            "has_bidirectional_media": self.has_bidirectional_media,
+            "rtcp_available": self.rtcp_available,
+            "is_valid_mos": self.is_valid_mos,
+            "delay_measurement_type": self.delay_measurement_type,
+            "estimated_one_way_delay_ms": round(self.estimated_one_way_delay_ms, 2),
+            "measured_one_way_delay_ms": round(self.measured_one_way_delay_ms, 2) if self.measured_one_way_delay_ms is not None else None,
             "notes": self.notes,
             "timestamp": self.timestamp,
         }
@@ -196,21 +207,50 @@ class TransWanVoiceProber:
         hub_endpoint: str = "10.10.10.15:5060",
         edge_endpoint: str = "10.20.1.10:5060",
         has_bidirectional_media: bool = True,
+        rtcp_available: bool = True,
+        measured_one_way_delay_ms: Optional[float] = None,
     ) -> VoiceProbeResult:
         """Evaluate voice quality for a specific station circuit probe."""
         notes: List[str] = []
         failover_recommended = False
         target_circuit: Optional[str] = None
 
+        # Input sanitization and contradictory telemetry guards
+        if packet_loss_percent < 0.0 or packet_loss_percent > 100.0:
+            notes.append(f"CONTRADICTORY TELEMETRY: Invalid packet loss {packet_loss_percent}%. Clamped to valid range [0, 100].")
+            packet_loss_percent = max(0.0, min(100.0, packet_loss_percent))
+
+        if jitter_ms < 0.0:
+            notes.append(f"CONTRADICTORY TELEMETRY: Negative jitter {jitter_ms}ms reported. Normalizing to 0.0ms.")
+            jitter_ms = max(0.0, jitter_ms)
+
+        # Distinguish delay measurement
+        estimated_one_way = rtt_ms / 2.0
+        if measured_one_way_delay_ms is not None and measured_one_way_delay_ms >= 0.0:
+            one_way_delay = measured_one_way_delay_ms
+            delay_type = "MEASURED_RTCP_XR"
+        else:
+            one_way_delay = estimated_one_way
+            delay_type = "ESTIMATED_SYMMETRIC_RTT"
+
         if not has_bidirectional_media:
             # Unidirectional or missing media invalidates MOS calculation
             notes.append("INSUFFICIENT MEDIA: Bidirectional RTP/RTCP required for MOS; signaling alone cannot establish voice quality.")
             r_factor = 0.0
             mos = 1.0
+            is_valid_mos = False
             status = VoiceTrunkStatus.CRITICAL_FAILOVER
             failover_recommended = True
+        elif not rtcp_available:
+            # Media was present but RTCP report data missing
+            notes.append("MISSING RTCP TELEMETRY: Voice media was active, but RTCP sender/receiver reports are absent; quality cannot be measured.")
+            r_factor = None
+            mos = None
+            is_valid_mos = False
+            status = VoiceTrunkStatus.DEGRADED
+            failover_recommended = False
         else:
-            one_way_delay = rtt_ms / 2.0
+            is_valid_mos = True
             r_factor = WanVoiceQualityEvaluator.calculate_r_factor(
                 one_way_delay_ms=one_way_delay,
                 packet_loss_percent=packet_loss_percent,
@@ -253,6 +293,11 @@ class TransWanVoiceProber:
             failover_recommended=failover_recommended,
             failover_target_circuit_id=target_circuit,
             has_bidirectional_media=has_bidirectional_media,
+            rtcp_available=rtcp_available,
+            is_valid_mos=is_valid_mos,
+            delay_measurement_type=delay_type,
+            estimated_one_way_delay_ms=estimated_one_way,
+            measured_one_way_delay_ms=measured_one_way_delay_ms,
             notes=notes,
         )
 
