@@ -1,0 +1,71 @@
+{
+  "metadata": {
+    "phase": "13.10",
+    "title": "Avaya Voice Quality and Genuine Call Assurance",
+    "timestamp": "2026-11-08T16:33:45.539558+00:00",
+    "nawari_commit": "1e95e03",
+    "sentra_commit": "9970404",
+    "hard_production_deny": true,
+    "emodel_standard": "ITU-T G.107 (2015)",
+    "voice_assurance_status": "VALIDATED_STAGING"
+  },
+  "sip_parsing_evidence": {
+    "call_id": "call-89472918-nawari@10.2.156.131",
+    "initial_state": "CALLING",
+    "final_state": "CONFIRMED",
+    "cseq": [
+      101,
+      "INVITE"
+    ]
+  },
+  "session_correlation_evidence": {
+    "session_id": "sess-d36babb5866a9840",
+    "caller_masked": "+2547****456",
+    "callee_masked": "+2547****000",
+    "asterisk_uniqueid": "asterisk-1731080000.124",
+    "sip_call_id": "call-89472918-nawari@10.2.156.131",
+    "total_legs": 3,
+    "duration_seconds": 45.2,
+    "q850_cause": 16,
+    "operational_failure": false
+  },
+  "emodel_calculations": {
+    "nominal_g711a": {
+      "r_factor": 84.82,
+      "mos": 4.19,
+      "rating": "Excellent"
+    },
+    "degraded_g711a": {
+      "r_factor": 17.24,
+      "mos": 1.18,
+      "rating": "Degraded"
+    },
+    "missing_media_guard": {
+      "r_factor": null,
+      "mos": null,
+      "guard_active": true
+    }
+  },
+  "cause_code_classifications": {
+    "cause_16_normal": {
+      "q850": 16,
+      "category": "NORMAL",
+      "infrastructure_failure": false
+    },
+    "cause_34_congestion": {
+      "q850": 34,
+      "category": "TRUNK_CONGESTION",
+      "infrastructure_failure": true
+    },
+    "cause_17_user_busy": {
+      "q850": 17,
+      "category": "STATION_STATE",
+      "infrastructure_failure": false
+    }
+  },
+  "privacy_compliance": {
+    "test_input": "+254722123456",
+    "masked_output": "+2547****456",
+    "pii_retained": false
+  }
+}

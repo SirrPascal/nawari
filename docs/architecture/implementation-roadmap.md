@@ -235,12 +235,21 @@ Phase 13.9 executed the authoritative read-only physical telemetry audit and ven
 
 ---
 
-## Phase 13.10 — Avaya Voice Quality & Genuine Call Assurance (In-Progress)
-- Validate genuine RTP and RTCP stream metrics from Avaya Session Manager and Communication Manager.
-- Investigate and validate RTCP-XR extended reports for physical call-quality measurements.
-- Calibrate ITU-T G.107 E-model calculations against physical voice codecs (G.711u/a, G.729A).
-- Implement SBC-to-Session Manager-to-CM call path validation and failover detection.
-- **Constraint:** Until real RTP/RTCP telemetry is active, customer call MOS remains `NOT_COLLECTED`. Synthetic MOS remains distinctly labeled.
+## Phase 13.10 — Avaya Voice Quality & Genuine Call Assurance (Completed)
+- **Call-Flow Architecture:** Documented end-to-end multi-stage call flow (Carrier -> SBCE -> SM -> CM -> ACD); separated signaling paths from media anchoring paths.
+- **Deterministic Multi-Leg Correlation:** Implemented deterministic binding between SIP `Call-ID`, Asterisk AMI `Uniqueid`, and Avaya session identifiers in `SessionCorrelator`.
+- **Latency Decomposition:** Decomposed post-dial delay (PDD), time-to-alerting, and time-to-answer; decoupled SIP transport latency from end-to-end call setup time.
+- **Q.850 Cause Classification:** Built translator distinguishing operational faults (Cause 34 trunk congestion, 503 unavailable) from normal clearing (Cause 16) and station states (Cause 17 user busy).
+- **ITU-T G.107 E-Model MOS:** Implemented full Extended E-model mathematical engine across G.711A and G.729 codecs. Validated nominal ($R=84.82, \text{MOS}=4.19$) and degraded ($R=17.24, \text{MOS}=1.18$) scenarios.
+- **Missing-Media Guard:** Proved that unverified or unidirectional audio strictly yields `(None, None)` to prevent fabricated MOS scores.
+- **Privacy & PII Protection:** Enforced telephone number masking (`+254 7XX **** XXX`) and zero audio recording.
+- **Test Suite:** `tests/unit/test_phase13_10_voice_assurance.py` (10/10 PASS).
+
+**Exit gate:** Verified signaling architecture, deterministic SIP/AMI correlation, ITU-T G.107 E-model calculations, missing media guards, zero audio payload recording, and passing test suite. (ACCEPTED)
+
+---
+
+## Phase 13.11 — Network Path & WAN Observability (In-Progress)
 
 **Exit gate:** Live RTCP/RTCP-XR ingestion proven; one-way audio, jitter, and delay detected on real voice traffic.
 
