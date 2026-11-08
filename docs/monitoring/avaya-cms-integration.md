@@ -1,9 +1,14 @@
 # Nawari — Avaya Call Management System (CMS) Integration Architecture
 
-**Standard:** Nawari Phase 13.1 Contact Centre Observability  
-**Target System:** Avaya CMS (R19 / R20 / R21)  
-**Database Engine:** IBM Informix Dynamic Server (IDS)  
-**Access Model:** Read-Only ODBC / JDBC Connection over Encrypted TLS  
+**Standard:** Nawari Phase 13.2 Contact Centre Observability & Evidence Audit  
+**Integration Status:** `CONFIGURED_UNVERIFIED` — Architecture specification defined; pending physical deployment, release version, and Informix schema validation  
+**Target System (Candidate):** Avaya CMS (R19 / R20 / R21)  
+**Database Engine (Candidate):** IBM Informix Dynamic Server (IDS)  
+**Access Model:** Read-Only ODBC / JDBC Connection over Encrypted TLS (port 50000 candidate)  
+
+> [!IMPORTANT]
+> **Audit Status Notice (Phase 13.2):**
+> This integration architecture is maintained as `CONFIGURED_UNVERIFIED`. The exact CMS release, database port, Informix listener configuration, and data dictionary must be confirmed during on-site physical commissioning at JKIA before establishing live database polling. Live dashboards querying CMS ACD metrics will display `Not collected (CMS Validation Required)` until physical verification is complete.
 
 ---
 

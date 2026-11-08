@@ -1,6 +1,6 @@
 # Nawari Enterprise Observability — Operational Dashboard & Metric Catalogue
 
-**Generated:** `2026-11-08T10:36:21.189631+00:00`  
+**Generated:** `2026-11-08T10:58:22.634013+00:00`  
 **Standard:** Nawari Phase 13.1 Telemetry Integrity & Operational Separation  
 **Target Environment:** Kenya Airways Ground Network & Global Outstation Fleet  
 
@@ -322,12 +322,12 @@ Nawari structures its operational telemetry into two top-level Grafana domain fo
 | ID | Panel Title | Type | Provenance | Telemetry Source | Unit | Freshness |
 | :---: | :--- | :---: | :--- | :--- | :---: | :---: |
 | 2 | **G450 System Uptime [REAL — HARDWARE]** | `stat` | `REAL_ZABBIX_TELEMETRY` | Zabbix Telemetry Engine (SNMPv2c/v3, ICMP pin | `s` | < 30 seconds |
-| 3 | **CM Gateway Registration [REAL — AVAYA SNMP]** | `stat` | `REAL_AVAYA_SNMP` | Avaya Communication Manager 8.1.0 MIB (avCmMe | `short` | 1–2 hours (CM internal hourly measurement bucket) |
-| 4 | **Internal Temperature (°C) [REAL — HARDWARE]** | `gauge` | `REAL_ZABBIX_TELEMETRY` | Zabbix Telemetry Engine (SNMPv2c/v3, ICMP pin | `celsius` | < 30 seconds |
-| 5 | **Power Supply Status (PSU 1 & 2) [REAL — HARDWARE]** | `stat` | `REAL_ZABBIX_TELEMETRY` | Zabbix Telemetry Engine (SNMPv2c/v3, ICMP pin | `short` | < 30 seconds |
-| 7 | **E1 / ISDN PRI Physical Trunk State [REAL — HARDWARE]** | `stat` | `REAL_ZABBIX_TELEMETRY` | Zabbix Telemetry Engine (SNMPv2c/v3, ICMP pin | `short` | < 30 seconds |
+| 3 | **CM Gateway Registration [CONFIGURED — G450 MGP]** | `stat` | `REAL_ZABBIX_TELEMETRY` | Zabbix Telemetry Engine (SNMPv2c/v3, ICMP pin | `short` | < 30 seconds |
+| 4 | **Chassis Thermal State [EVENT TRAP — G450 MGP]** | `stat` | `REAL_ZABBIX_TELEMETRY` | Zabbix Telemetry Engine (SNMPv2c/v3, ICMP pin | `short` | < 30 seconds |
+| 5 | **Power Supply Status (PSU 1 & 2) [CONFIGURED — EVENT TRAP]** | `stat` | `REAL_ZABBIX_TELEMETRY` | Zabbix Telemetry Engine (SNMPv2c/v3, ICMP pin | `short` | < 30 seconds |
+| 7 | **E1 / ISDN PRI Physical Trunk State [CONFIGURED — IF-MIB]** | `stat` | `REAL_ZABBIX_TELEMETRY` | Zabbix Telemetry Engine (SNMPv2c/v3, ICMP pin | `short` | < 30 seconds |
 | 8 | **DSP Media Resource Channels [NOT COLLECTED — REQUIRES AUDIT]** | `stat` | `REAL_ZABBIX_TELEMETRY` | Zabbix Telemetry Engine (SNMPv2c/v3, ICMP pin | `short` | < 30 seconds |
-| 9 | **Chassis Fan Tray Operational State [REAL — HARDWARE]** | `stat` | `REAL_ZABBIX_TELEMETRY` | Zabbix Telemetry Engine (SNMPv2c/v3, ICMP pin | `short` | < 30 seconds |
+| 9 | **Chassis Fan Tray Operational State [CONFIGURED — EVENT TRAP]** | `stat` | `REAL_ZABBIX_TELEMETRY` | Zabbix Telemetry Engine (SNMPv2c/v3, ICMP pin | `short` | < 30 seconds |
 | 11 | **Installed Media Module Slot Inventory (V1-V8) [REAL — HARDWARE]** | `table` | `REAL_ZABBIX_TELEMETRY` | Zabbix Telemetry Engine (SNMPv2c/v3, ICMP pin | `short` | < 30 seconds |
 
 ### Nawari — Avaya SBCE Operational Health
@@ -366,11 +366,11 @@ Nawari structures its operational telemetry into two top-level Grafana domain fo
 | 3 | **SM Host RAM Utilization [REAL — HARDWARE]** | `gauge` | `REAL_ZABBIX_TELEMETRY` | Zabbix Telemetry Engine (SNMPv2c/v3, ICMP pin | `percent` | < 30 seconds |
 | 4 | **SM System Uptime [REAL — HARDWARE]** | `stat` | `REAL_ZABBIX_TELEMETRY` | Zabbix Telemetry Engine (SNMPv2c/v3, ICMP pin | `s` | < 30 seconds |
 | 5 | **TCP Established Sockets [REAL — HARDWARE]** | `timeseries` | `REAL_ZABBIX_TELEMETRY` | Zabbix Telemetry Engine (SNMPv2c/v3, ICMP pin | `sockets` | < 30 seconds |
-| 7 | **SIP Entity State — Avaya CM [REAL — AVAYA SNMP]** | `stat` | `REAL_AVAYA_SNMP` | Avaya Communication Manager 8.1.0 MIB (avCmMe | `short` | 1–2 hours (CM internal hourly measurement bucket) |
-| 8 | **SIP Entity State — Avaya SBCE [REAL — AVAYA SNMP]** | `stat` | `REAL_AVAYA_SNMP` | Avaya Communication Manager 8.1.0 MIB (avCmMe | `short` | 1–2 hours (CM internal hourly measurement bucket) |
-| 9 | **SIP OPTIONS Heartbeat Response Time [REAL — AVAYA SNMP]** | `timeseries` | `REAL_AVAYA_SNMP` | Avaya Communication Manager 8.1.0 MIB (avCmMe | `ms` | 1–2 hours (CM internal hourly measurement bucket) |
-| 11 | **Configured SIP Entity Topology & Link Status [REAL — AVAYA SNMP]** | `table` | `REAL_AVAYA_SNMP` | Avaya Communication Manager 8.1.0 MIB (avCmMe | `short` | 1–2 hours (CM internal hourly measurement bucket) |
-| 12 | **Session Manager Active Alarms [REAL — AVAYA SNMP]** | `stat` | `REAL_AVAYA_SNMP` | Avaya Communication Manager 8.1.0 MIB (avCmMe | `alarms` | 1–2 hours (CM internal hourly measurement bucket) |
+| 7 | **SIP Entity State — Avaya CM [CONFIGURED — ASM API/CLI]** | `stat` | `REAL_ZABBIX_TELEMETRY` | Zabbix Telemetry Engine (SNMPv2c/v3, ICMP pin | `short` | < 30 seconds |
+| 8 | **SIP Entity State — Avaya SBCE [CONFIGURED — ASM API/CLI]** | `stat` | `REAL_SBCE_SNMP` | Avaya SBCE 8.1 SNMPv3 Agent (IF-MIB / HOST-RE | `short` | < 30 seconds |
+| 9 | **SIP OPTIONS Heartbeat Response Time [NAWARI SIP PROBE]** | `timeseries` | `REAL_ZABBIX_TELEMETRY` | Zabbix Telemetry Engine (SNMPv2c/v3, ICMP pin | `ms` | < 30 seconds |
+| 11 | **Configured SIP Entity Topology & Link Status [CONFIGURED — ASM MODEL]** | `table` | `CORRELATED_ANALYTICS` | Nawari Unified Analytics & Correlation Engine | `short` | < 15 seconds |
+| 12 | **Session Manager Active Alarms [EVENT TRAP — AV-TRAP-MIB]** | `stat` | `REAL_ZABBIX_TELEMETRY` | Zabbix Telemetry Engine (SNMPv2c/v3, ICMP pin | `alarms` | < 30 seconds |
 
 ### Nawari — Cross-Domain Voice & Endpoint Telemetry Correlation
 - **UID:** `nawari-voice-correlation`

@@ -1,8 +1,13 @@
 # Nawari — Recording & Workforce Optimisation (WFO) Observability Architecture
 
-**Standard:** Nawari Phase 13.1 Compliance & Operational Observability  
-**Scope:** Telephony Voice Recording, Archival Storage & Operational Health  
-**Data Policy:** Strictly Operational Metadata (Audio Payload Excluded)  
+**Standard:** Nawari Phase 13.2 Compliance & Operational Observability Audit  
+**Integration Status:** `CONFIGURED_UNVERIFIED` — Generic architectural target defined; pending vendor product identification gate  
+**Scope:** Telephony Voice Recording Pipeline, Archival Storage & Operational Health  
+**Data Policy:** Strictly Operational Metadata (Audio Payload & PII Strictly Excluded)  
+
+> [!IMPORTANT]
+> **Audit Status Notice (Phase 13.2):**
+> Because "Recording / WFO" represents a broad functional product category rather than a specific commercial product, this integration is maintained in a `CONFIGURED_UNVERIFIED` state. Standard host telemetry (CPU, RAM, disk) may be monitored via OS agent, but recording pipeline throughput and queue depth metrics remain gated as `Not available — requires vendor/product confirmation` until Kenya Airways confirms whether Verint, NICE, Geomant, or AWOS is deployed.
 
 ---
 

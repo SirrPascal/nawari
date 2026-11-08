@@ -152,7 +152,7 @@
           "refId": "REG_STATE"
         }
       ],
-      "title": "CM Gateway Registration [REAL \u2014 AVAYA SNMP]",
+      "title": "CM Gateway Registration [CONFIGURED \u2014 G450 MGP]",
       "type": "stat"
     },
     {
@@ -160,14 +160,31 @@
         "type": "alexanderzobnin-zabbix-datasource",
         "uid": "PA67C5EADE9207728"
       },
-      "description": "Internal temperature reading of the G450 chassis motherboard in degrees Celsius. Normal: 20-45\u00b0C, Warning: > 50\u00b0C, Critical: > 60\u00b0C. Source: Avaya G450 Environmental Sensor MIB. Polling: 5m.",
+      "description": "Internal temperature alarm state of the G450 chassis processor. 1 = Normal (< 40\u00b0C), 2 = Thermal Warning, 3 = Critical Exceeded. Collection Mechanism: Ingested via G450 MGP SNMP traps (temperatureWarning, temperatureClear). Important: G450 exposes discrete thermal event traps rather than a continuous analog gauge (Audit Phase 13.2 correction). Provenance: CONFIGURED_UNVERIFIED.",
       "fieldConfig": {
         "defaults": {
           "color": {
             "mode": "thresholds"
           },
-          "max": 80,
-          "min": 0,
+          "mappings": [
+            {
+              "options": {
+                "1": {
+                  "color": "green",
+                  "text": "NORMAL (< 40\u00b0C)"
+                },
+                "2": {
+                  "color": "yellow",
+                  "text": "THERMAL WARNING"
+                },
+                "3": {
+                  "color": "red",
+                  "text": "CRITICAL EXCEEDED"
+                }
+              },
+              "type": "value"
+            }
+          ],
           "thresholds": {
             "mode": "absolute",
             "steps": [
@@ -177,15 +194,14 @@
               },
               {
                 "color": "yellow",
-                "value": 50
+                "value": 2
               },
               {
                 "color": "red",
-                "value": 60
+                "value": 3
               }
             ]
-          },
-          "unit": "celsius"
+          }
         },
         "overrides": []
       },
@@ -197,6 +213,9 @@
       },
       "id": 4,
       "options": {
+        "colorMode": "background",
+        "graphMode": "none",
+        "justifyMode": "auto",
         "orientation": "auto",
         "reduceOptions": {
           "calcs": [
@@ -205,8 +224,7 @@
           "fields": "",
           "values": false
         },
-        "showThresholdLabels": false,
-        "showThresholdMarkers": true
+        "textMode": "auto"
       },
       "targets": [
         {
@@ -217,20 +235,20 @@
             "name": "nawari-g450-01"
           },
           "item": {
-            "name": "Internal Chassis Temperature"
+            "name": "Internal Chassis Temperature Alarm State"
           },
           "refId": "TEMP"
         }
       ],
-      "title": "Internal Temperature (\u00b0C) [REAL \u2014 HARDWARE]",
-      "type": "gauge"
+      "title": "Chassis Thermal State [EVENT TRAP \u2014 G450 MGP]",
+      "type": "stat"
     },
     {
       "datasource": {
         "type": "alexanderzobnin-zabbix-datasource",
         "uid": "PA67C5EADE9207728"
       },
-      "description": "Operational state of Primary and Redundant Power Supply Units (PSU 1 and PSU 2). 1 = Normal, 2 = Fault/Failed, 3 = Not Installed. Source: Avaya G450 Power Subsystem MIB. Polling: 5m.",
+      "description": "Operational state of Primary and Redundant Power Supply Units (PSU 1 and PSU 2). 1 = Normal, 2 = Fault/Failed, 3 = Not Installed. Collection Mechanism: Ingested via G450 MGP SNMP traps (powerSupplyFailure / powerSupplyNormal) or chassis status. Provenance: CONFIGURED_UNVERIFIED.",
       "fieldConfig": {
         "defaults": {
           "color": {
@@ -318,7 +336,7 @@
           "refId": "PSU2"
         }
       ],
-      "title": "Power Supply Status (PSU 1 & 2) [REAL \u2014 HARDWARE]",
+      "title": "Power Supply Status (PSU 1 & 2) [CONFIGURED \u2014 EVENT TRAP]",
       "type": "stat"
     },
     {
@@ -410,7 +428,7 @@
           "refId": "E1_STATUS"
         }
       ],
-      "title": "E1 / ISDN PRI Physical Trunk State [REAL \u2014 HARDWARE]",
+      "title": "E1 / ISDN PRI Physical Trunk State [CONFIGURED \u2014 IF-MIB]",
       "type": "stat"
     },
     {
@@ -480,7 +498,7 @@
         "type": "alexanderzobnin-zabbix-datasource",
         "uid": "PA67C5EADE9207728"
       },
-      "description": "Operational cooling state of the G450 chassis fan tray unit. 1 = Normal, 2 = Fan Failure, 3 = Warning. Source: Avaya G450 Chassis MIB. Polling: 5m.",
+      "description": "Operational cooling state of the G450 chassis fan tray unit: 1 = Normal, 2 = Fan Failure, 3 = Warning. Collection Mechanism: Ingested via G450 MGP SNMP trap (fanFailure) or chassis status. Provenance: CONFIGURED_UNVERIFIED.",
       "fieldConfig": {
         "defaults": {
           "color": {
@@ -556,7 +574,7 @@
           "refId": "FAN"
         }
       ],
-      "title": "Chassis Fan Tray Operational State [REAL \u2014 HARDWARE]",
+      "title": "Chassis Fan Tray Operational State [CONFIGURED \u2014 EVENT TRAP]",
       "type": "stat"
     },
     {

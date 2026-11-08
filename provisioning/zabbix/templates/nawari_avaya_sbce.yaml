@@ -129,13 +129,14 @@ zabbix_export:
           units: calls
           description: |
             Number of currently active SIP calls reported by the Avaya SBCE statistics interface.
-            This is a current live session count, not a historical call-success rate.
+            Collection Mechanism: Ingested via Avaya SBCE EMS Statistics REST API or CLI scheduled export.
+            Status: CONFIGURED_UNVERIFIED (Phase 13.2 audit). Awaiting live physical EMS connection.
             Source: SBCE EMS SIP Statistics Interface.
           tags:
             - tag: component
               value: sip-sessions
             - tag: provenance
-              value: APPLICATION_DERIVED
+              value: CONFIGURED_UNVERIFIED
         - uuid: 4070a70cb0ff470dafc431b51c179252
           name: 'Active SIP Registrations'
           type: TRAP
@@ -145,12 +146,14 @@ zabbix_export:
           units: registrations
           description: |
             Current active subscriber SIP registrations registered across all transports (TCP, UDP, TLS) on Avaya SBCE.
+            Collection Mechanism: Ingested via Avaya SBCE EMS Statistics REST API.
+            Status: CONFIGURED_UNVERIFIED (Phase 13.2 audit). Awaiting live physical EMS connection.
             Source: SBCE EMS SIP Statistics.
           tags:
             - tag: component
               value: sip-registrations
             - tag: provenance
-              value: APPLICATION_DERIVED
+              value: CONFIGURED_UNVERIFIED
         - uuid: 4070a70cb0ff470dafc431b51c179253
           name: 'Active SRTP Encrypted Calls'
           type: TRAP
@@ -160,12 +163,14 @@ zabbix_export:
           units: calls
           description: |
             Count of active voice media sessions utilizing Secure Real-Time Transport Protocol (SRTP) encryption.
+            Collection Mechanism: Ingested via Avaya SBCE EMS Statistics REST API.
+            Status: CONFIGURED_UNVERIFIED (Phase 13.2 audit).
             Source: SBCE EMS SIP Statistics.
           tags:
             - tag: component
               value: media-security
             - tag: provenance
-              value: APPLICATION_DERIVED
+              value: CONFIGURED_UNVERIFIED
         - uuid: 4070a70cb0ff470dafc431b51c179254
           name: 'Direct-Media Bypass Calls'
           type: TRAP
@@ -175,12 +180,14 @@ zabbix_export:
           units: calls
           description: |
             Count of active call sessions operating in direct-media (endpoint-to-endpoint bypass) mode without SBCE media anchoring.
+            Collection Mechanism: Ingested via Avaya SBCE EMS Statistics REST API.
+            Status: CONFIGURED_UNVERIFIED (Phase 13.2 audit).
             Source: SBCE EMS SIP Statistics.
           tags:
             - tag: component
               value: media-flow
             - tag: provenance
-              value: APPLICATION_DERIVED
+              value: CONFIGURED_UNVERIFIED
         - uuid: 4070a70cb0ff470dafc431b51c179255
           name: 'Dynamic License Utilization'
           type: TRAP
@@ -190,13 +197,15 @@ zabbix_export:
           units: '%'
           description: |
             Hourly dynamic license utilization percentage on Avaya SBCE.
+            Collection Mechanism: Ingested via Avaya SBCE EMS License Usage Export.
             Note: License usage statistics are collected hourly by SBCE EMS; this must not be presented as a second-by-second live metric.
+            Status: CONFIGURED_UNVERIFIED (Phase 13.2 audit).
             Source: SBCE EMS License Usage Export.
           tags:
             - tag: component
               value: capacity
             - tag: provenance
-              value: APPLICATION_DERIVED
+              value: CONFIGURED_UNVERIFIED
       discovery_rules:
         - uuid: 4d62a0470270471ba69a3c710a8e9e8c
           name: 'SBCE interfaces discovery'

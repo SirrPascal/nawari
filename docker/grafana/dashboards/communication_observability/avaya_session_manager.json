@@ -274,7 +274,7 @@
         "type": "alexanderzobnin-zabbix-datasource",
         "uid": "PA67C5EADE9207728"
       },
-      "description": "SIP Entity Link Operational Status for Communication Manager reported by Session Manager SIP Entity Monitoring. 1 = UP, 2 = PARTIALLY UP, 3 = DOWN, 4 = DENY NEW SERVICE. Source: Avaya Session Manager MIB. Important: Proves SIP OPTIONS reachability only; does NOT guarantee voice audio media quality.",
+      "description": "SIP Entity Link Operational Status for Communication Manager. Values: 1 = UP, 2 = PARTIALLY UP, 3 = DOWN, 4 = DENY NEW SERVICE. Collection Mechanism: Ingested via Session Manager CLI export (`smstat`/`starety`) or System Manager REST API. Note: Not exposed via Session Manager SNMP agent; proves SIP OPTIONS reachability only, NOT audio media quality. Provenance: CONFIGURED_UNVERIFIED.",
       "fieldConfig": {
         "defaults": {
           "color": {
@@ -354,7 +354,7 @@
           "refId": "CM_ENTITY"
         }
       ],
-      "title": "SIP Entity State \u2014 Avaya CM [REAL \u2014 AVAYA SNMP]",
+      "title": "SIP Entity State \u2014 Avaya CM [CONFIGURED \u2014 ASM API/CLI]",
       "type": "stat"
     },
     {
@@ -362,7 +362,7 @@
         "type": "alexanderzobnin-zabbix-datasource",
         "uid": "PA67C5EADE9207728"
       },
-      "description": "SIP Entity Link Operational Status for Avaya SBCE Pride perimeter controller reported by Session Manager SIP Entity Monitoring. 1 = UP, 2 = PARTIALLY UP, 3 = DOWN, 4 = DENY NEW SERVICE. Source: Avaya Session Manager MIB. Warning if DOWN.",
+      "description": "SIP Entity Link Operational Status for Avaya SBCE Pride perimeter controller. Values: 1 = UP, 2 = PARTIALLY UP, 3 = DOWN, 4 = DENY NEW SERVICE. Collection Mechanism: Ingested via Session Manager CLI export or System Manager REST API. Note: Not exposed via Session Manager SNMP agent. Provenance: CONFIGURED_UNVERIFIED.",
       "fieldConfig": {
         "defaults": {
           "color": {
@@ -442,7 +442,7 @@
           "refId": "SBCE_ENTITY"
         }
       ],
-      "title": "SIP Entity State \u2014 Avaya SBCE [REAL \u2014 AVAYA SNMP]",
+      "title": "SIP Entity State \u2014 Avaya SBCE [CONFIGURED \u2014 ASM API/CLI]",
       "type": "stat"
     },
     {
@@ -450,7 +450,7 @@
         "type": "alexanderzobnin-zabbix-datasource",
         "uid": "PA67C5EADE9207728"
       },
-      "description": "Measured round-trip response time in milliseconds for SIP OPTIONS heartbeat pings sent by Session Manager to monitored entities (CM and SBCE). Units: Milliseconds (ms). Warning: > 100ms, Critical: > 250ms. Source: Session Manager SIP entity monitor. Polling: 60s.",
+      "description": "Measured round-trip response time in milliseconds for SIP OPTIONS heartbeat pings sent by Nawari SIP Probe Engine to monitored entities (CM and SBCE). Units: Milliseconds (ms). Collection Mechanism: Active SIP OPTIONS probing by Nawari (`NAWARI_SIP_PROBE`). Note: Not an SNMP metric.",
       "fieldConfig": {
         "defaults": {
           "custom": {
@@ -488,7 +488,7 @@
           "refId": "CM_OPTIONS_RTT"
         }
       ],
-      "title": "SIP OPTIONS Heartbeat Response Time [REAL \u2014 AVAYA SNMP]",
+      "title": "SIP OPTIONS Heartbeat Response Time [NAWARI SIP PROBE]",
       "type": "timeseries"
     },
     {
@@ -508,7 +508,7 @@
         "type": "alexanderzobnin-zabbix-datasource",
         "uid": "PA67C5EADE9207728"
       },
-      "description": "Comprehensive table of all SIP Entities configured in Session Manager (CM, SBCE Pride, SBCE DR, Media Gateways, PSTN SIP trunks) detailing IP address, transport (TLS/TCP/UDP), port, entity status, and measured OPTIONS latency. Source: Avaya Session Manager MIB.",
+      "description": "Comprehensive table of all SIP Entities configured in Session Manager (CM, SBCE Pride, SBCE DR, Media Gateways, PSTN SIP trunks) detailing IP address, transport (TLS/TCP/UDP), port, entity status, and measured OPTIONS latency. Source: Avaya Session Manager operational model / System Manager API export.",
       "fieldConfig": {
         "defaults": {},
         "overrides": []
@@ -540,7 +540,7 @@
           "refId": "ENTITIES"
         }
       ],
-      "title": "Configured SIP Entity Topology & Link Status [REAL \u2014 AVAYA SNMP]",
+      "title": "Configured SIP Entity Topology & Link Status [CONFIGURED \u2014 ASM MODEL]",
       "type": "table"
     },
     {
@@ -548,7 +548,7 @@
         "type": "alexanderzobnin-zabbix-datasource",
         "uid": "PA67C5EADE9207728"
       },
-      "description": "Total count of active enterprise alarms currently asserted on Session Manager. Source: avSessionManagerAlarms MIB tree. Polling: 5m. Warning: > 0 alarms.",
+      "description": "Total count of active enterprise alarms currently asserted on Session Manager. Source: AV-TRAP-MIB trap receiver / System Manager notification. Note: Ingested via SNMP trap or notification webhook; event-driven. Warning: > 0 alarms.",
       "fieldConfig": {
         "defaults": {
           "color": {
@@ -606,7 +606,7 @@
           "refId": "SM_ALARMS"
         }
       ],
-      "title": "Session Manager Active Alarms [REAL \u2014 AVAYA SNMP]",
+      "title": "Session Manager Active Alarms [EVENT TRAP \u2014 AV-TRAP-MIB]",
       "type": "stat"
     }
   ],

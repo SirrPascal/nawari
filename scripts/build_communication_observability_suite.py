@@ -437,7 +437,7 @@ def create_session_manager_dashboard():
             },
             {
                 "datasource": DATASOURCE,
-                "description": "SIP Entity Link Operational Status for Communication Manager reported by Session Manager SIP Entity Monitoring. 1 = UP, 2 = PARTIALLY UP, 3 = DOWN, 4 = DENY NEW SERVICE. Source: Avaya Session Manager MIB. Important: Proves SIP OPTIONS reachability only; does NOT guarantee voice audio media quality.",
+                "description": "SIP Entity Link Operational Status for Communication Manager. Values: 1 = UP, 2 = PARTIALLY UP, 3 = DOWN, 4 = DENY NEW SERVICE. Collection Mechanism: Ingested via Session Manager CLI export (`smstat`/`starety`) or System Manager REST API. Note: Not exposed via Session Manager SNMP agent; proves SIP OPTIONS reachability only, NOT audio media quality. Provenance: CONFIGURED_UNVERIFIED.",
                 "fieldConfig": {
                     "defaults": {
                         "color": {"mode": "thresholds"},
@@ -454,12 +454,12 @@ def create_session_manager_dashboard():
                 "targets": [
                     {"group": {"name": "Voice Infrastructure"}, "host": {"name": "nawari-sm-01"}, "item": {"name": "SIP Entity State — Avaya Communication Manager"}, "refId": "CM_ENTITY"}
                 ],
-                "title": "SIP Entity State — Avaya CM [REAL — AVAYA SNMP]",
+                "title": "SIP Entity State — Avaya CM [CONFIGURED — ASM API/CLI]",
                 "type": "stat"
             },
             {
                 "datasource": DATASOURCE,
-                "description": "SIP Entity Link Operational Status for Avaya SBCE Pride perimeter controller reported by Session Manager SIP Entity Monitoring. 1 = UP, 2 = PARTIALLY UP, 3 = DOWN, 4 = DENY NEW SERVICE. Source: Avaya Session Manager MIB. Warning if DOWN.",
+                "description": "SIP Entity Link Operational Status for Avaya SBCE Pride perimeter controller. Values: 1 = UP, 2 = PARTIALLY UP, 3 = DOWN, 4 = DENY NEW SERVICE. Collection Mechanism: Ingested via Session Manager CLI export or System Manager REST API. Note: Not exposed via Session Manager SNMP agent. Provenance: CONFIGURED_UNVERIFIED.",
                 "fieldConfig": {
                     "defaults": {
                         "color": {"mode": "thresholds"},
@@ -476,12 +476,12 @@ def create_session_manager_dashboard():
                 "targets": [
                     {"group": {"name": "Voice Infrastructure"}, "host": {"name": "nawari-sm-01"}, "item": {"name": "SIP Entity State — Avaya SBCE Pride"}, "refId": "SBCE_ENTITY"}
                 ],
-                "title": "SIP Entity State — Avaya SBCE [REAL — AVAYA SNMP]",
+                "title": "SIP Entity State — Avaya SBCE [CONFIGURED — ASM API/CLI]",
                 "type": "stat"
             },
             {
                 "datasource": DATASOURCE,
-                "description": "Measured round-trip response time in milliseconds for SIP OPTIONS heartbeat pings sent by Session Manager to monitored entities (CM and SBCE). Units: Milliseconds (ms). Warning: > 100ms, Critical: > 250ms. Source: Session Manager SIP entity monitor. Polling: 60s.",
+                "description": "Measured round-trip response time in milliseconds for SIP OPTIONS heartbeat pings sent by Nawari SIP Probe Engine to monitored entities (CM and SBCE). Units: Milliseconds (ms). Collection Mechanism: Active SIP OPTIONS probing by Nawari (`NAWARI_SIP_PROBE`). Note: Not an SNMP metric.",
                 "fieldConfig": {
                     "defaults": {
                         "custom": {"drawStyle": "line", "lineInterpolation": "smooth", "spanNulls": False},
@@ -495,7 +495,7 @@ def create_session_manager_dashboard():
                 "targets": [
                     {"group": {"name": "Voice Infrastructure"}, "host": {"name": "nawari-sm-01"}, "item": {"name": "SIP OPTIONS Response Time — Avaya CM"}, "refId": "CM_OPTIONS_RTT"}
                 ],
-                "title": "SIP OPTIONS Heartbeat Response Time [REAL — AVAYA SNMP]",
+                "title": "SIP OPTIONS Heartbeat Response Time [NAWARI SIP PROBE]",
                 "type": "timeseries"
             },
             {
@@ -507,7 +507,7 @@ def create_session_manager_dashboard():
             },
             {
                 "datasource": DATASOURCE,
-                "description": "Comprehensive table of all SIP Entities configured in Session Manager (CM, SBCE Pride, SBCE DR, Media Gateways, PSTN SIP trunks) detailing IP address, transport (TLS/TCP/UDP), port, entity status, and measured OPTIONS latency. Source: Avaya Session Manager MIB.",
+                "description": "Comprehensive table of all SIP Entities configured in Session Manager (CM, SBCE Pride, SBCE DR, Media Gateways, PSTN SIP trunks) detailing IP address, transport (TLS/TCP/UDP), port, entity status, and measured OPTIONS latency. Source: Avaya Session Manager operational model / System Manager API export.",
                 "fieldConfig": {"defaults": {}, "overrides": []},
                 "gridPos": {"h": 8, "w": 16, "x": 0, "y": 15},
                 "id": 11,
@@ -515,12 +515,12 @@ def create_session_manager_dashboard():
                 "targets": [
                     {"group": {"name": "Voice Infrastructure"}, "host": {"name": "nawari-sm-01"}, "application": {"name": "SIP Entity Monitoring"}, "item": {"name": "SIP Entity Summary Stream"}, "refId": "ENTITIES"}
                 ],
-                "title": "Configured SIP Entity Topology & Link Status [REAL — AVAYA SNMP]",
+                "title": "Configured SIP Entity Topology & Link Status [CONFIGURED — ASM MODEL]",
                 "type": "table"
             },
             {
                 "datasource": DATASOURCE,
-                "description": "Total count of active enterprise alarms currently asserted on Session Manager. Source: avSessionManagerAlarms MIB tree. Polling: 5m. Warning: > 0 alarms.",
+                "description": "Total count of active enterprise alarms currently asserted on Session Manager. Source: AV-TRAP-MIB trap receiver / System Manager notification. Note: Ingested via SNMP trap or notification webhook; event-driven. Warning: > 0 alarms.",
                 "fieldConfig": {
                     "defaults": {
                         "color": {"mode": "thresholds"},
@@ -535,7 +535,7 @@ def create_session_manager_dashboard():
                 "targets": [
                     {"group": {"name": "Voice Infrastructure"}, "host": {"name": "nawari-sm-01"}, "item": {"name": "Session Manager Active Alarms Count"}, "refId": "SM_ALARMS"}
                 ],
-                "title": "Session Manager Active Alarms [REAL — AVAYA SNMP]",
+                "title": "Session Manager Active Alarms [EVENT TRAP — AV-TRAP-MIB]",
                 "type": "stat"
             }
         ],
@@ -597,7 +597,7 @@ def create_communication_manager_dashboard():
             },
             {
                 "datasource": DATASOURCE,
-                "description": "Total active alarm conditions on Communication Manager. Source: Avaya CM MIB avCmAlarms (OID 1.3.6.1.4.1.6889.2.73.1). Polling interval: strictly 1 hour (delay: 1h) to prevent excessive CPU consumption on the CM call engine. Freshness: 1-2 hours.",
+                "description": "Total active alarm conditions on Communication Manager. Source: Avaya CM 8.1 MIB table avCmAlarmsTable (group OID 1.3.6.1.4.1.6889.2.73.8.1.5). Polling interval: strictly 1 hour (delay: 1h) to prevent excessive CPU consumption on the CM call engine. Freshness: 1-2 hours.",
                 "fieldConfig": {
                     "defaults": {
                         "color": {"mode": "thresholds"},
@@ -617,7 +617,7 @@ def create_communication_manager_dashboard():
             },
             {
                 "datasource": DATASOURCE,
-                "description": "Total call attempts processed by Communication Manager in 5-minute sampling intervals. Source: Avaya CM MIB table avCmListMeasCallRateTotal (OID 1.3.6.1.4.1.6889.2.73.8.1.1 leaf .2). Polling interval: 5 minutes. Freshness: 5 minutes.",
+                "description": "Total call attempts processed by Communication Manager in 5-minute sampling intervals. Source: Avaya CM 8.1 MIB table avCmListMeasCallRateTotalTable (group OID 1.3.6.1.4.1.6889.2.73.8.1.145 leaf .1.2.1). Polling interval: strictly 5 minutes. Freshness: 5 minutes.",
                 "fieldConfig": {
                     "defaults": {
                         "custom": {"drawStyle": "line", "lineInterpolation": "smooth", "spanNulls": False},
@@ -636,7 +636,7 @@ def create_communication_manager_dashboard():
             },
             {
                 "datasource": DATASOURCE,
-                "description": "Total successfully completed calls processed by Communication Manager in 5-minute sampling intervals. Source: Avaya CM MIB table avCmListMeasCallRateTotal leaf .3. Polling interval: 5 minutes.",
+                "description": "Total successfully completed calls processed by Communication Manager in 5-minute sampling intervals. Source: Avaya CM 8.1 MIB table avCmListMeasCallRateTotalTable (group OID 1.3.6.1.4.1.6889.2.73.8.1.145 leaf .1.3.1). Polling interval: strictly 5 minutes.",
                 "fieldConfig": {
                     "defaults": {
                         "custom": {"drawStyle": "line", "lineInterpolation": "smooth", "spanNulls": False},
@@ -853,34 +853,34 @@ def create_g450_dashboard():
                 "targets": [
                     {"group": {"name": "Voice Infrastructure"}, "host": {"name": "nawari-g450-01"}, "item": {"name": "Gateway CM Registration State"}, "refId": "REG_STATE"}
                 ],
-                "title": "CM Gateway Registration [REAL — AVAYA SNMP]",
+                "title": "CM Gateway Registration [CONFIGURED — G450 MGP]",
                 "type": "stat"
             },
             {
                 "datasource": DATASOURCE,
-                "description": "Internal temperature reading of the G450 chassis motherboard in degrees Celsius. Normal: 20-45°C, Warning: > 50°C, Critical: > 60°C. Source: Avaya G450 Environmental Sensor MIB. Polling: 5m.",
+                "description": "Internal temperature alarm state of the G450 chassis processor. 1 = Normal (< 40°C), 2 = Thermal Warning, 3 = Critical Exceeded. Collection Mechanism: Ingested via G450 MGP SNMP traps (temperatureWarning, temperatureClear). Important: G450 exposes discrete thermal event traps rather than a continuous analog gauge (Audit Phase 13.2 correction). Provenance: CONFIGURED_UNVERIFIED.",
                 "fieldConfig": {
                     "defaults": {
                         "color": {"mode": "thresholds"},
-                        "max": 80,
-                        "min": 0,
-                        "thresholds": {"mode": "absolute", "steps": [{"color": "green", "value": None}, {"color": "yellow", "value": 50}, {"color": "red", "value": 60}]},
-                        "unit": "celsius"
+                        "mappings": [
+                            {"options": {"1": {"color": "green", "text": "NORMAL (< 40°C)"}, "2": {"color": "yellow", "text": "THERMAL WARNING"}, "3": {"color": "red", "text": "CRITICAL EXCEEDED"}}, "type": "value"}
+                        ],
+                        "thresholds": {"mode": "absolute", "steps": [{"color": "green", "value": None}, {"color": "yellow", "value": 2}, {"color": "red", "value": 3}]}
                     },
                     "overrides": []
                 },
                 "gridPos": {"h": 6, "w": 6, "x": 12, "y": 1},
                 "id": 4,
-                "options": {"orientation": "auto", "reduceOptions": {"calcs": ["lastNotNull"], "fields": "", "values": False}, "showThresholdLabels": False, "showThresholdMarkers": True},
+                "options": {"colorMode": "background", "graphMode": "none", "justifyMode": "auto", "orientation": "auto", "reduceOptions": {"calcs": ["lastNotNull"], "fields": "", "values": False}, "textMode": "auto"},
                 "targets": [
-                    {"group": {"name": "Voice Infrastructure"}, "host": {"name": "nawari-g450-01"}, "item": {"name": "Internal Chassis Temperature"}, "refId": "TEMP"}
+                    {"group": {"name": "Voice Infrastructure"}, "host": {"name": "nawari-g450-01"}, "item": {"name": "Internal Chassis Temperature Alarm State"}, "refId": "TEMP"}
                 ],
-                "title": "Internal Temperature (°C) [REAL — HARDWARE]",
-                "type": "gauge"
+                "title": "Chassis Thermal State [EVENT TRAP — G450 MGP]",
+                "type": "stat"
             },
             {
                 "datasource": DATASOURCE,
-                "description": "Operational state of Primary and Redundant Power Supply Units (PSU 1 and PSU 2). 1 = Normal, 2 = Fault/Failed, 3 = Not Installed. Source: Avaya G450 Power Subsystem MIB. Polling: 5m.",
+                "description": "Operational state of Primary and Redundant Power Supply Units (PSU 1 and PSU 2). 1 = Normal, 2 = Fault/Failed, 3 = Not Installed. Collection Mechanism: Ingested via G450 MGP SNMP traps (powerSupplyFailure / powerSupplyNormal) or chassis status. Provenance: CONFIGURED_UNVERIFIED.",
                 "fieldConfig": {
                     "defaults": {
                         "color": {"mode": "thresholds"},
@@ -898,7 +898,7 @@ def create_g450_dashboard():
                     {"group": {"name": "Voice Infrastructure"}, "host": {"name": "nawari-g450-01"}, "item": {"name": "Primary Power Supply Status"}, "refId": "PSU1"},
                     {"group": {"name": "Voice Infrastructure"}, "host": {"name": "nawari-g450-01"}, "item": {"name": "Secondary Power Supply Status (Redundant)"}, "refId": "PSU2"}
                 ],
-                "title": "Power Supply Status (PSU 1 & 2) [REAL — HARDWARE]",
+                "title": "Power Supply Status (PSU 1 & 2) [CONFIGURED — EVENT TRAP]",
                 "type": "stat"
             },
             {
@@ -927,7 +927,7 @@ def create_g450_dashboard():
                 "targets": [
                     {"group": {"name": "Voice Infrastructure"}, "host": {"name": "nawari-g450-01"}, "item": {"name": "E1/ISDN Primary Trunk Port Operational Status"}, "refId": "E1_STATUS"}
                 ],
-                "title": "E1 / ISDN PRI Physical Trunk State [REAL — HARDWARE]",
+                "title": "E1 / ISDN PRI Physical Trunk State [CONFIGURED — IF-MIB]",
                 "type": "stat"
             },
             {
@@ -952,7 +952,7 @@ def create_g450_dashboard():
             },
             {
                 "datasource": DATASOURCE,
-                "description": "Operational cooling state of the G450 chassis fan tray unit. 1 = Normal, 2 = Fan Failure, 3 = Warning. Source: Avaya G450 Chassis MIB. Polling: 5m.",
+                "description": "Operational cooling state of the G450 chassis fan tray unit: 1 = Normal, 2 = Fan Failure, 3 = Warning. Collection Mechanism: Ingested via G450 MGP SNMP trap (fanFailure) or chassis status. Provenance: CONFIGURED_UNVERIFIED.",
                 "fieldConfig": {
                     "defaults": {
                         "color": {"mode": "thresholds"},
@@ -969,7 +969,7 @@ def create_g450_dashboard():
                 "targets": [
                     {"group": {"name": "Voice Infrastructure"}, "host": {"name": "nawari-g450-01"}, "item": {"name": "Chassis Fan Tray State"}, "refId": "FAN"}
                 ],
-                "title": "Chassis Fan Tray Operational State [REAL — HARDWARE]",
+                "title": "Chassis Fan Tray Operational State [CONFIGURED — EVENT TRAP]",
                 "type": "stat"
             },
             {
