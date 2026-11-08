@@ -113,17 +113,34 @@ def test_telemetry_integrity_and_null_handling_preserved():
 
 
 def test_documentation_deliverables_exist():
-    """Verify all 6 required documentation deliverables exist and are non-empty."""
+    """Verify all required documentation deliverables exist and are non-empty."""
     req_docs = [
         ROOT / "docs/dashboards/dashboard-inventory.md",
         ROOT / "docs/dashboards/dashboard-functional-audit.md",
         ROOT / "docs/dashboards/dashboard-consolidation-matrix.md",
         ROOT / "docs/dashboards/dashboard-navigation-architecture.md",
         ROOT / "docs/dashboards/dashboard-migration-report.md",
-        ROOT / "docs/dashboards/dashboard-acceptance-report.md"
+        ROOT / "docs/dashboards/dashboard-acceptance-report.md",
+        ROOT / "docs/phase13/phase13-14b-dashboard-operational-acceptance.md"
     ]
-    # Check the first 4 exist already
-    for doc in req_docs[:4]:
+    for doc in req_docs:
         assert doc.is_file(), f"Document {doc.name} must exist"
         assert len(doc.read_text()) > 100, f"Document {doc.name} must not be empty"
+
+
+def test_original_component_dashboards_recoverable_on_disk():
+    """Verify all 24 original component dashboards exist on disk and remain recoverable."""
+    net_dir = ROOT / "docker/grafana/dashboards/network_observability"
+    comm_dir = ROOT / "docker/grafana/dashboards/communication_observability"
+
+    assert net_dir.is_dir()
+    assert comm_dir.is_dir()
+
+    net_files = list(net_dir.glob("*.json"))
+    comm_files = list(comm_dir.glob("*.json"))
+
+    assert len(net_files) == 13, f"Expected 13 network dashboards on disk, found {len(net_files)}"
+    assert len(comm_files) == 11, f"Expected 11 communication dashboards on disk, found {len(comm_files)}"
+    assert len(net_files) + len(comm_files) == 24, "Expected exactly 24 original recoverable component dashboards"
+
 
