@@ -46,3 +46,4 @@ $$\text{Burn Rate} = \frac{\text{Observed Error Rate}}{\text{Allowed Unreliabili
 4. **Budget Exhaustion ($> 100\%$ consumed)**:
    - Complete change freeze across the affected service domain.
    - Mandatory post-mortem review submitted to Kenya Airways Head of Infrastructure.
+

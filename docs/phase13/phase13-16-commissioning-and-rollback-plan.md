@@ -100,3 +100,4 @@ sed -i '' 's/HARD_PRODUCTION_DENY=False/HARD_PRODUCTION_DENY=True/g' .env
 docker exec -i nawari-postgres psql -U zabbix -d zabbix < provisioning/zabbix/snapshots/phase13_8b_pre_mutation_baseline.sql
 ```
 Total rollback execution time: **< 2 minutes**.
+

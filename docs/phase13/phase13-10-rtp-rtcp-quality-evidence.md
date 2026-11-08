@@ -97,3 +97,4 @@ Nawari enforces strict separation between real call and synthetic call telemetry
 - **`voice.real_call.mos`:** Derived strictly from Avaya CM Table `.67` hourly regional voice stats or dedicated per-call RTCP collectors.
 - **`voice.synthetic.mos`:** Derived from the Asterisk test probe.
 - Dashboards and reports explicitly label synthetic voice results as **`[SYNTHETIC PROBE]`** to prevent operational teams from mistaking simulated tests for customer calls.
+

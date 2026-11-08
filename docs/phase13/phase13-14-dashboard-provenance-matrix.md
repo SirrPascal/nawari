@@ -36,3 +36,4 @@ Under Nawari policy, **no calculated, simulated, or synthetic metric may ever be
 - A green SIP OPTIONS check displays: *"Signaling reachability verified; does NOT verify bidirectional RTP media."*
 - An Extended E-model MOS score displays: *"Calculated from Delay, Jitter, and Packet Loss using ITU-T G.107."*
 - A missing telemetry interval displays: *"COVERAGE DEFICIT: Telemetry unconfirmed."*
+

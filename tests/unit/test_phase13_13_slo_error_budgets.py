@@ -149,3 +149,4 @@ def test_scheduled_maintenance_exclusion():
 def test_replay_telemetry_isolation():
     """Verify replayed telemetry classification strictly prevents live health establishment."""
     assert TelemetryQuality.REPLAYED.value == "REPLAYED"
+

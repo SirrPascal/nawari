@@ -38,3 +38,4 @@ For `SVC-SIP-CARRIER` (SLO $99.99\%$, monthly allowed downtime $4.32\text{ minut
   $$\text{Unreliability} = 1.0 - 0.9999 = 0.0001$$
   $$\text{Burn Rate} = \frac{0.01667}{0.0001} = 166.7x$$
 - Because $166.7x \gg 14.4x$, this triggers an immediate `CRITICAL_PAGE` with an estimated time-to-exhaustion of $3.3\text{ hours}$.
+

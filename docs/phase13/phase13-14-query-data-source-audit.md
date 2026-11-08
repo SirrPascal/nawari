@@ -30,3 +30,4 @@ All dynamic template variables were audited to prevent broken queries or unresol
 1. **Zero Raw Non-HC Counter Misuse**: All interface traffic queries utilize 64-bit High-Capacity counters (`ifHCInOctets`, `ifHCOutOctets`) with rate transformation (`* 8 / 60`), preventing counter wrap bugs on gigabit links.
 2. **PostgreSQL Parameterization**: SQL queries targeting `nawari_db` utilize Grafana macros (`$__timeFilter(created_at)`, `$__interval`) ensuring optimal index scans on partitioned tables.
 3. **Zero Broken JSON / Corrupted References**: All 282 panels execute without unhandled frontend runtime errors.
+

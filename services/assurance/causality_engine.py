@@ -326,3 +326,4 @@ class CausalityEngine:
             "total_zabbix_services": len(all_services),
             "services": all_services,
         }
+

@@ -79,3 +79,4 @@ The following production hardware addresses reside on Kenya Airways internal pri
 | EMS API Token     | Provision SBCE EMS API account    | KQ Telecoms Admin | Production Gate 8.2   |
 +-------------------+-----------------------------------+-------------------+-----------------------+
 ```
+

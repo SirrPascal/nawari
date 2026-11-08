@@ -227,3 +227,4 @@ def test_10_evidence_manifest_integrity():
     assert "telemetry_status_distribution" in meta
     assert "snmp_query_evidence" in data
     assert "production_target_reachability" in data
+

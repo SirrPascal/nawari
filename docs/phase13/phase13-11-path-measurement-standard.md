@@ -49,3 +49,4 @@ flowchart TD
 | **Trans-WAN Voice Loss** | RTP Packet Loss Rate | $> 1.0\%$ | $> 3.0\%$ | Loss $\le 0.5\%$ |
 | **Trans-WAN Voice Delay** | One-Way Delay ($T$) | $> 150.0\text{ms}$ | $> 250.0\text{ms}$ | $T \le 120.0\text{ms}$ |
 | **Application TCP SYN** | Connect RTT | $> 100.0\text{ms}$ | $> 500.0\text{ms}$ (or Timeout) | Connect RTT $< 50.0\text{ms}$ |
+

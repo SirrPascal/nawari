@@ -43,3 +43,4 @@ $$\text{Quality SLI} = \frac{\sum \text{Voice Call Intervals with } R \ge 80 \te
 ### D. Coverage SLI
 $$\text{Coverage SLI} = \frac{\text{Minutes with Fresh, Trustworthy Telemetry}}{\text{Total Expected Operational Minutes}} \times 100\%$$
 - If $\text{Coverage} < 80\%$, the engine automatically flags `COVERAGE_DEFICIT`, clamps availability, and prohibits claiming green compliance.
+

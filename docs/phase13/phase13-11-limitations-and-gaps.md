@@ -22,3 +22,4 @@ Under `HARD_PRODUCTION_DENY = True`, Phase 13.11 establishes algorithmic validat
 1. **Zero External Flooding**: Probe packet rates are capped at $\le 5$ packets per second per destination.
 2. **Zero Inbound Modification**: Traceroute and synthetic probing remain strictly read-only diagnostics; no router routing tables or interface policies are modified.
 3. **Sentra Repository Isolation**: The adjacent repository (`/Users/madeira/Desktop/Projects/sentra`) remains untouched on `main` at `9970404`.
+

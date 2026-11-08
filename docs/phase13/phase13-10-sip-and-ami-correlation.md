@@ -90,3 +90,4 @@ In high-concurrency environments, SIP UDP packets and AMI TCP notifications can 
 1. **Late AMI Arrival:** If SIP packets arrive before the AMI `OriginateResponse`, the session is keyed by `sip_call_id`. When the AMI message subsequently arrives containing both `ActionID` and `Uniqueid`, the correlator resolves the cross-reference and merges legs without creating duplicate sessions.
 2. **Duplicate Retransmissions:** SIP `INVITE` retransmissions sharing identical `Call-ID` and `CSeq` are identified by `SIPTransaction` and processed as retransmissions without distorting post-dial delay calculations.
 3. **Graceful Teardown Completion:** Once marked `TERMINATED`, subsequent `ACK` or `200 OK` packets for the teardown handshake update leg completion timestamps without re-opening the session.
+

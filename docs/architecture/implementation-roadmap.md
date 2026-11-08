@@ -213,6 +213,7 @@ The Phase 13.8 milestone is partitioned into three rigorous engineering phases t
 - **Macro Expansion & Zero Branding:** Audited 100% of problem and recovery notification messages; confirmed `{EVENT.DURATION}` expands dynamically (e.g. `Total Downtime: 1s`), with 0 occurrences of forbidden platform branding tokens (`Nawari`, `Zabbix`, `Grafana`).
 - **Recipient Routing & Service Desk Isolation:** Confirmed IT Service Desk (`it.servicedesk@kenya-airways.com`, User ID 6) is targeted only by Action 10 (`total_outage`), and is strictly excluded from Actions 11–15.
 - **Delivery Boundary:** Kept staging email and SMS media in `CONFIGURED_UNVERIFIED` state (zero outbound external emails or SMS dispatched).
+- **Production Commissioning Gate & Policy Enforcement:** Links Phase 13.8 to Phase 8.2 commissioning gate. Staging alerts and triggers are strictly gated until physical production network prerequisites are validated. `HARD_PRODUCTION_DENY` is enforced across all operational actions and dispatchers.
 - **Test Suite & Evidence:** Automated test suite `tests/unit/test_phase13_8c_notification_runtime.py` (10/10 PASS), combined Phase 13.8 suite (43/43 PASS), and evidence manifest `provisioning/zabbix/snapshots/phase13_8c_action_execution_evidence.json`.
 
 **Exit gate:** Live Zabbix API confirms 100% action mutual exclusivity, valid macro expansion, correct recipient group targeting, verified maintenance suppression, and passing regression gates. (ACCEPTED)

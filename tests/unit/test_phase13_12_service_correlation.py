@@ -198,3 +198,4 @@ def test_zabbix_service_tree_schema():
     report = engine.sync_to_zabbix_service_tree(mock_client)
     assert report["root_service_id"] == "mock-id-1"
     assert report["created_count"] == 9  # 1 root + 8 services
+

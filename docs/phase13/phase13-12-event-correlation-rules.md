@@ -56,3 +56,4 @@ Nawari's `CausalityEngine` prevents operational alert storms by evaluating incom
 - **Correlation Action**:
   - Propagate degradation status to all dependent child services in the DAG (e.g. if `SVC-CORP-TELEPHONY` is degraded, `SVC-IVR-SELFSERVICE` and `SVC-CONTACT-CENTER-INBOUND` inherit degraded status).
   - Record the originating parent service ID in the evaluation audit log.
+

@@ -60,3 +60,4 @@ Nawari's path observability architecture implements a multi-tier probe deploymen
 - **DNS Probe**: Validates resolution times and record integrity (e.g. `localhost`, `sbc.kenya-airways.com`).
 - **TCP Connect Probe**: Measures three-way handshake time ($RTT_{syn}$) against critical listener ports (`8088` Zabbix web, `5038` Asterisk AMI, `5060` SIP).
 - **HTTP/HTTPS Probe**: Measures total round-trip time, status codes, and payload response headers.
+

@@ -28,3 +28,4 @@ This matrix maps technical infrastructure failure modes to Kenya Airways busines
 - **Action 12 (`telephony_admin`)**: Dispatched for PBX, SBCE, SIP, and voice infrastructure degradations and failovers.
 - **Action 13 (`infrastructure_warning`)**: Dispatched for platform capacity, disk warnings, and environmental alerts.
 - **Action 14 (`network_reachability`)**: Dispatched for switch link drops, BGP peering drops, and WAN circuit issues.
+

@@ -42,3 +42,4 @@ However, in accordance with the **No Fabricated Completion** principle, this doc
 1. **Phase 13.11 Path Observability:** Expand synthetic probing across WAN/MPLS paths to major airports (JKIA, Mombasa, Kisumu).
 2. **Phase 13.13 SLI/SLO Framework:** Define voice availability and call completion objectives based on verified E-model MOS $\ge 3.8$ and Post-Dial Delay $< 500\text{ms}$.
 3. **Passive Packet Mirror Pipeline (Post-Phase 13.15):** In a future maintenance window, configure passive network TAP/SPAN on Voice VLAN 156 to ingest live customer RTCP packets without CPU overhead on Avaya Communication Manager.
+

@@ -136,3 +136,4 @@ def test_network_path_analysis_panels():
         d = json.load(f)
     titles = [p.get("title", "") for p in d.get("panels", [])]
     assert any("Path" in t or "Hop" in t or "Latency" in t or "Loss" in t for t in titles)
+

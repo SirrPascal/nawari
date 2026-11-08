@@ -120,3 +120,4 @@ In compliance with Kenya Airways SecOps and global telecommunications privacy re
 1. **Zero Audio Payload Storage:** Nawari captures packet headers, RTCP reports, and SIP transaction metadata. **No voice payloads, RTP packet bodies, or audio files are recorded or stored.**
 2. **Caller ID Pseudonymization:** All customer and passenger phone numbers are masked upon ingestion (`+254 722 123 456` $\to$ `+2547****456`).
 3. **No PII Retention:** Passenger names, ticket numbers, and credit card credentials are never parsed, indexed, or stored.
+

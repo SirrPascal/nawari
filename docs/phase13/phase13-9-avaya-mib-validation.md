@@ -97,3 +97,4 @@ Avaya Session Border Controller Enterprise (SBCE) requires distinct handling for
 1. **Purged Illegal Analog Sensors:** Removed non-existent `temperature.celsius` continuous analog sensors from G450 templates; replaced with discrete trap-derived states.
 2. **Corrected Polling Intervals:** Set CM Table `.67` to `1h` (3600s) and Table `.145` to `5m` (300s), fully respecting SAT cache boundaries.
 3. **Explicit Gating of Unverified Metrics:** Kept DSP utilization, live per-call RTCP jitter, and deep EMS errors strictly gated as `NOT_COLLECTED`.
+

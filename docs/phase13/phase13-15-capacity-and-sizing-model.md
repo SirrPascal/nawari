@@ -41,3 +41,4 @@ With a standard 50 GB NVMe partition dedicated to PostgreSQL and Docker volumes:
 $$\text{Storage Runway} = \frac{50\text{ GB}}{1.6\text{ GB/year}} > \mathbf{30\text{ Years}}$$
 
 The platform has zero storage risk under the current 422-item workload and can safely scale to 5,000+ monitored items without requiring additional disk provisioning.
+

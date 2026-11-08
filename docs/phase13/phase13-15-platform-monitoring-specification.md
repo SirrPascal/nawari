@@ -27,3 +27,4 @@ The monitoring platform itself must be monitored to ensure early detection of qu
 | **Active Connections** | `SELECT count(*) FROM pg_stat_activity` | 10 - 40 conns | > 80 connections (Max 100) |
 | **Dead Tuples Bloat** | `n_dead_tup` in `pg_stat_user_tables` | < 5% table rows | > 20% (Autovacuum required) |
 | **Transaction ID Wrap** | `age(datfrozenxid)` | < 100M txns | > 1.5 Billion (Emergency autovacuum) |
+

@@ -64,3 +64,4 @@ In the event of a total virtual machine failure on `mon-grafana01`:
    PYTHONPATH=. /usr/bin/python3 scripts/test_phase13_15_platform_audit.py
    ```
 Total recovery time: **< 12 minutes**.
+

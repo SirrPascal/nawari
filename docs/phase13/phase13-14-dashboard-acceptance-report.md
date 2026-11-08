@@ -46,3 +46,4 @@ Key achievements:
 | `nawari-net-overview` | Network Infrastructure Overview | 9 | Core/distribution switch availability |
 | `nawari-path-analysis` | Network Path & Directional Hop Analysis | 13 | Paris traceroute, CoPP guard, MPLS labels |
 | `nawari-network-topology` | Network Topology & Service Dependencies | 4 | L2/L3 topology graph & node links |
+

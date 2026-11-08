@@ -44,3 +44,4 @@ Every panel description is structured as follows:
 > **Classification**: `CALCULATED` (Derived from RTT, Jitter, Packet Loss, and Codec Impairment)  
 > **Operational Thresholds**: Warning < 4.0, Critical < 3.8 sustained for 3 samples  
 > **Runbook**: `docs/runbooks/SOP-VOICE-04-carrier-quality-degradation.md`
+

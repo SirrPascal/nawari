@@ -27,3 +27,4 @@ In accordance with Kenya Airways SRE policy, the following conditions are strict
 - **No Silent Denominator Shrinkage**: When telemetry is missing or unverified, the missing interval MUST NOT be omitted from the denominator. It must be counted as `unknown_minutes`, lowering the coverage score and reducing availability.
 - **Zero Fabrication of 100% Uptime**: When an outstation is disconnected or monitored via simulated fallbacks, the platform must report `COVERAGE_DEFICIT` and refuse to certify 100% compliance.
 - **Sentra Repository Isolation**: The adjacent repository (`/Users/madeira/Desktop/Projects/sentra`) remains untouched on `main` at `9970404`.
+

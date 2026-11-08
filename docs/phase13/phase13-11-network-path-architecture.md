@@ -88,3 +88,4 @@ In standard traceroute, varying the ICMP sequence number or UDP destination port
 Paris Traceroute eliminates this by adjusting the payload to compensate for the sequence number change:
 $$\text{Checksum}(\text{Payload}) = \text{TargetConstantSum}$$
 Every probe maintains an identical 16-bit 1's complement sum (verified in staging: `0x5432`). Transit routers hashing on packet header fields calculate the exact same hash, enforcing path invariance.
+

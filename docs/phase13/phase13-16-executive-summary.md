@@ -50,3 +50,4 @@ The **Nawari Observability Platform** provides 24/7 visibility across this compl
    - Storage runway > 15 years on 50 GB NVMe partitions.
    - RBAC least privilege: 1 Super Admin, 5 Admins.
    - Automated disaster recovery: RPO $\le 1.0\text{ hour}$, RTO $\le 15.0\text{ minutes}$.
+

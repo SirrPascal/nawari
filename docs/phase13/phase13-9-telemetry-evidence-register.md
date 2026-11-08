@@ -105,3 +105,4 @@ Computed Rate: ((2,000,000 - 1,000,000) * 8) / 10.0 = 800,000.00 bps (800 kbps) 
 | **System Uptime** | `7908851 Timeticks (21:58:08.51)` | Matches Zabbix history clock | **100% CORRELATED** |
 | **SNMPv3 Authentication** | User: `Admin_sha256`, Protocol: SHA-256 | Configured in Zabbix host macro `{$SNMP_SECNAME}` | **100% MATCH** |
 | **64-bit HC In Octets** | 19 interface counters traversed via IF-MIB | Discovered via LLD prototype `.1.3.6.1.2.1.31.1.1.1.6` | **100% MATCH** |
+

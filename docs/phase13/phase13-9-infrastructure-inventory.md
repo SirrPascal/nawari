@@ -108,3 +108,4 @@ Each device entry details physical/logical role, IP address, Zabbix host ID, mon
 - **Auth Protocol:** SHA-256 (`usmHMAC256SHA384AuthProtocol`)
 - **Priv Protocol:** AES-128 (`usmAesCfb128PrivProtocol`)
 - **Key Storage:** Stored in Zabbix host macros `{$SNMP_SECNAME}`, `{$SNMP_AUTH_PASSPHRASE}`, `{$SNMP_PRIV_PASSPHRASE}` with secret macro masking enabled (`type: 1`). Never logged or printed in clear text.
+
