@@ -71,10 +71,10 @@ def create_comm_overview():
                 },
                 "targets": [
                     {"group": {"name": "Voice Infrastructure"}, "host": {"name": "nawari-sbce-01"}, "item": {"name": "Appliance SNMP Reachability"}, "refId": "SBCE"},
-                    {"group": {"name": "Voice Infrastructure"}, "host": {"name": "nawari-sm-01"}, "item": {"name": "Session Manager SNMP Availability"}, "refId": "SM"},
-                    {"group": {"name": "Voice Infrastructure"}, "host": {"name": "nawari-cm-01"}, "item": {"name": "Communication Manager SNMP Availability"}, "refId": "CM"},
-                    {"group": {"name": "Voice Infrastructure"}, "host": {"name": "nawari-g450-01"}, "item": {"name": "G450 ICMP Reachability"}, "refId": "G450"},
-                    {"group": {"name": "Voice Infrastructure"}, "host": {"name": "nawari-cms-01"}, "item": {"name": "CMS Server Availability"}, "refId": "CMS"}
+                    {"group": {"name": "Voice Infrastructure"}, "host": {"name": "avaya-sm-01"}, "item": {"name": "Session Manager SNMP Availability"}, "refId": "SM"},
+                    {"group": {"name": "Voice Infrastructure"}, "host": {"name": "avaya-cm-01"}, "item": {"name": "Communication Manager SNMP Availability"}, "refId": "CM"},
+                    {"group": {"name": "Voice Infrastructure"}, "host": {"name": "avaya-g450-01"}, "item": {"name": "G450 ICMP Reachability"}, "refId": "G450"},
+                    {"group": {"name": "Voice Infrastructure"}, "host": {"name": "avaya-cms-01"}, "item": {"name": "CMS Server Availability"}, "refId": "CMS"}
                 ],
                 "title": "Avaya Core Telephony Platform Availability Grid [REAL — ZABBIX]",
                 "type": "stat"
@@ -94,8 +94,8 @@ def create_comm_overview():
                 "id": 3,
                 "options": {"colorMode": "value", "graphMode": "none", "justifyMode": "auto", "orientation": "auto", "reduceOptions": {"calcs": ["lastNotNull"], "fields": "", "values": False}, "textMode": "auto"},
                 "targets": [
-                    {"group": {"name": "Voice Infrastructure"}, "host": {"name": "nawari-cm-01"}, "item": {"name": "Active Alarms Count"}, "refId": "CM_ALARMS"},
-                    {"group": {"name": "Voice Infrastructure"}, "host": {"name": "nawari-sm-01"}, "item": {"name": "Session Manager Active Alarms Count"}, "refId": "SM_ALARMS"}
+                    {"group": {"name": "Voice Infrastructure"}, "host": {"name": "avaya-cm-01"}, "item": {"name": "Active Alarms Count"}, "refId": "CM_ALARMS"},
+                    {"group": {"name": "Voice Infrastructure"}, "host": {"name": "avaya-sm-01"}, "item": {"name": "Session Manager Active Alarms Count"}, "refId": "SM_ALARMS"}
                 ],
                 "title": "Active Telephony Alarms (CM & SM) [REAL — AVAYA SNMP]",
                 "type": "stat"
@@ -166,8 +166,8 @@ def create_comm_overview():
                 "id": 7,
                 "options": {"tooltip": {"mode": "multi"}},
                 "targets": [
-                    {"group": {"name": "Voice Infrastructure"}, "host": {"name": "nawari-cm-01"}, "item": {"name": "Call Rate Total Attempts (5-minute)"}, "refId": "ATTEMPTS"},
-                    {"group": {"name": "Voice Infrastructure"}, "host": {"name": "nawari-cm-01"}, "item": {"name": "Call Rate Completed Calls (5-minute)"}, "refId": "COMPLETED"}
+                    {"group": {"name": "Voice Infrastructure"}, "host": {"name": "avaya-cm-01"}, "item": {"name": "Call Rate Total Attempts (5-minute)"}, "refId": "ATTEMPTS"},
+                    {"group": {"name": "Voice Infrastructure"}, "host": {"name": "avaya-cm-01"}, "item": {"name": "Call Rate Completed Calls (5-minute)"}, "refId": "COMPLETED"}
                 ],
                 "title": "5-Minute Call Processing Rate (CM) [REAL — AVAYA SNMP]",
                 "type": "timeseries"
@@ -196,7 +196,7 @@ def create_comm_overview():
                 "id": 9,
                 "options": {"orientation": "auto", "reduceOptions": {"calcs": ["lastNotNull"], "fields": "", "values": False}, "showThresholdLabels": False, "showThresholdMarkers": True},
                 "targets": [
-                    {"group": {"name": "Contact Centre"}, "host": {"name": "nawari-cms-01"}, "item": {"name": "Overall Service Level Attainment"}, "refId": "CMS_SLA"}
+                    {"group": {"name": "Contact Centre"}, "host": {"name": "avaya-cms-01"}, "item": {"name": "Overall Service Level Attainment"}, "refId": "CMS_SLA"}
                 ],
                 "title": "Contact Centre Service Level (% in SLA) [APPLICATION — CMS]",
                 "type": "gauge"
@@ -216,8 +216,8 @@ def create_comm_overview():
                 "id": 10,
                 "options": {"colorMode": "value", "graphMode": "none", "justifyMode": "auto", "orientation": "auto", "reduceOptions": {"calcs": ["lastNotNull"], "fields": "", "values": False}, "textMode": "auto"},
                 "targets": [
-                    {"group": {"name": "Contact Centre"}, "host": {"name": "nawari-cms-01"}, "item": {"name": "Calls Waiting in Queue"}, "refId": "WAITING"},
-                    {"group": {"name": "Contact Centre"}, "host": {"name": "nawari-cms-01"}, "item": {"name": "Oldest Call Waiting Duration"}, "refId": "OLDEST"}
+                    {"group": {"name": "Contact Centre"}, "host": {"name": "avaya-cms-01"}, "item": {"name": "Calls Waiting in Queue"}, "refId": "WAITING"},
+                    {"group": {"name": "Contact Centre"}, "host": {"name": "avaya-cms-01"}, "item": {"name": "Oldest Call Waiting Duration"}, "refId": "OLDEST"}
                 ],
                 "title": "Queue Depth & Oldest Waiting Call [APPLICATION — CMS]",
                 "type": "stat"
@@ -230,7 +230,7 @@ def create_comm_overview():
                 "id": 11,
                 "options": {"legend": {"displayMode": "table", "placement": "right"}, "pieType": "pie"},
                 "targets": [
-                    {"group": {"name": "Contact Centre"}, "host": {"name": "nawari-cms-01"}, "item": {"name": "Agent Staffing by State"}, "refId": "AGENTS"}
+                    {"group": {"name": "Contact Centre"}, "host": {"name": "avaya-cms-01"}, "item": {"name": "Agent Staffing by State"}, "refId": "AGENTS"}
                 ],
                 "title": "Agent Staffing State Distribution [APPLICATION — CMS]",
                 "type": "piechart"
@@ -257,7 +257,7 @@ def create_comm_overview():
                 "id": 13,
                 "options": {"colorMode": "background", "graphMode": "none", "justifyMode": "auto", "orientation": "auto", "reduceOptions": {"calcs": ["lastNotNull"], "fields": "", "values": False}, "textMode": "auto"},
                 "targets": [
-                    {"group": {"name": "Avaya Infrastructure"}, "host": {"name": "avaya-cm-01.nawari.local"}, "item": {"name": "avCmRealCallEstimatedMos"}, "refId": "REAL_MOS"}
+                    {"group": {"name": "Avaya Infrastructure"}, "host": {"name": "avaya-cm-01"}, "item": {"name": "avCmRealCallEstimatedMos"}, "refId": "REAL_MOS"}
                 ],
                 "title": "Real-Call MOS [NOT INSTRUMENTED — RTCP XR REQUIRED]",
                 "type": "stat"
@@ -277,7 +277,7 @@ def create_comm_overview():
                 "id": 14,
                 "options": {"colorMode": "value", "graphMode": "none", "justifyMode": "auto", "orientation": "auto", "reduceOptions": {"calcs": ["lastNotNull"], "fields": "", "values": False}, "textMode": "auto"},
                 "targets": [
-                    {"group": {"name": "Voice Infrastructure"}, "host": {"name": "nawari-cm-01"}, "item": {"name": "Real-Call Packet Loss (Last Hour)"}, "refId": "CM_LOSS"}
+                    {"group": {"name": "Voice Infrastructure"}, "host": {"name": "avaya-cm-01"}, "item": {"name": "Real-Call Packet Loss (Last Hour)"}, "refId": "CM_LOSS"}
                 ],
                 "title": "Real-Call Packet Loss % (CM Last Hour) [REAL — AVAYA SNMP]",
                 "type": "stat"
@@ -369,7 +369,7 @@ def create_session_manager_dashboard():
                 "id": 2,
                 "options": {"orientation": "auto", "reduceOptions": {"calcs": ["lastNotNull"], "fields": "", "values": False}, "showThresholdLabels": False, "showThresholdMarkers": True},
                 "targets": [
-                    {"group": {"name": "Voice Infrastructure"}, "host": {"name": "nawari-sm-01"}, "item": {"name": "Session Manager Host CPU Utilization"}, "refId": "CPU"}
+                    {"group": {"name": "Voice Infrastructure"}, "host": {"name": "avaya-sm-01"}, "item": {"name": "Session Manager Host CPU Utilization"}, "refId": "CPU"}
                 ],
                 "title": "SM Host CPU Utilization [REAL — HARDWARE]",
                 "type": "gauge"
@@ -391,7 +391,7 @@ def create_session_manager_dashboard():
                 "id": 3,
                 "options": {"orientation": "auto", "reduceOptions": {"calcs": ["lastNotNull"], "fields": "", "values": False}, "showThresholdLabels": False, "showThresholdMarkers": True},
                 "targets": [
-                    {"group": {"name": "Voice Infrastructure"}, "host": {"name": "nawari-sm-01"}, "item": {"name": "Session Manager Host RAM Utilization"}, "refId": "RAM"}
+                    {"group": {"name": "Voice Infrastructure"}, "host": {"name": "avaya-sm-01"}, "item": {"name": "Session Manager Host RAM Utilization"}, "refId": "RAM"}
                 ],
                 "title": "SM Host RAM Utilization [REAL — HARDWARE]",
                 "type": "gauge"
@@ -404,7 +404,7 @@ def create_session_manager_dashboard():
                 "id": 4,
                 "options": {"colorMode": "value", "graphMode": "none", "justifyMode": "auto", "orientation": "auto", "reduceOptions": {"calcs": ["lastNotNull"], "fields": "", "values": False}, "textMode": "auto"},
                 "targets": [
-                    {"group": {"name": "Voice Infrastructure"}, "host": {"name": "nawari-sm-01"}, "item": {"name": "Session Manager System Uptime"}, "refId": "UPTIME"}
+                    {"group": {"name": "Voice Infrastructure"}, "host": {"name": "avaya-sm-01"}, "item": {"name": "Session Manager System Uptime"}, "refId": "UPTIME"}
                 ],
                 "title": "SM System Uptime [REAL — HARDWARE]",
                 "type": "stat"
@@ -423,7 +423,7 @@ def create_session_manager_dashboard():
                 "id": 5,
                 "options": {"tooltip": {"mode": "single"}},
                 "targets": [
-                    {"group": {"name": "Voice Infrastructure"}, "host": {"name": "nawari-sm-01"}, "item": {"name": "TCP Established Sockets"}, "refId": "TCP"}
+                    {"group": {"name": "Voice Infrastructure"}, "host": {"name": "avaya-sm-01"}, "item": {"name": "TCP Established Sockets"}, "refId": "TCP"}
                 ],
                 "title": "TCP Established Sockets [REAL — HARDWARE]",
                 "type": "timeseries"
@@ -452,7 +452,7 @@ def create_session_manager_dashboard():
                 "id": 7,
                 "options": {"colorMode": "background", "graphMode": "none", "justifyMode": "auto", "orientation": "auto", "reduceOptions": {"calcs": ["lastNotNull"], "fields": "", "values": False}, "textMode": "auto"},
                 "targets": [
-                    {"group": {"name": "Voice Infrastructure"}, "host": {"name": "nawari-sm-01"}, "item": {"name": "SIP Entity State — Avaya Communication Manager"}, "refId": "CM_ENTITY"}
+                    {"group": {"name": "Voice Infrastructure"}, "host": {"name": "avaya-sm-01"}, "item": {"name": "SIP Entity State — Avaya Communication Manager"}, "refId": "CM_ENTITY"}
                 ],
                 "title": "SIP Entity State — Avaya CM [CONFIGURED — ASM API/CLI]",
                 "type": "stat"
@@ -474,7 +474,7 @@ def create_session_manager_dashboard():
                 "id": 8,
                 "options": {"colorMode": "background", "graphMode": "none", "justifyMode": "auto", "orientation": "auto", "reduceOptions": {"calcs": ["lastNotNull"], "fields": "", "values": False}, "textMode": "auto"},
                 "targets": [
-                    {"group": {"name": "Voice Infrastructure"}, "host": {"name": "nawari-sm-01"}, "item": {"name": "SIP Entity State — Avaya SBCE Pride"}, "refId": "SBCE_ENTITY"}
+                    {"group": {"name": "Voice Infrastructure"}, "host": {"name": "avaya-sm-01"}, "item": {"name": "SIP Entity State — Avaya SBCE Pride"}, "refId": "SBCE_ENTITY"}
                 ],
                 "title": "SIP Entity State — Avaya SBCE [CONFIGURED — ASM API/CLI]",
                 "type": "stat"
@@ -493,7 +493,7 @@ def create_session_manager_dashboard():
                 "id": 9,
                 "options": {"tooltip": {"mode": "multi"}},
                 "targets": [
-                    {"group": {"name": "Voice Infrastructure"}, "host": {"name": "nawari-sm-01"}, "item": {"name": "SIP OPTIONS Response Time — Avaya CM"}, "refId": "CM_OPTIONS_RTT"}
+                    {"group": {"name": "Voice Infrastructure"}, "host": {"name": "avaya-sm-01"}, "item": {"name": "SIP OPTIONS Response Time — Avaya CM"}, "refId": "CM_OPTIONS_RTT"}
                 ],
                 "title": "SIP OPTIONS Heartbeat Response Time [NAWARI SIP PROBE]",
                 "type": "timeseries"
@@ -513,7 +513,7 @@ def create_session_manager_dashboard():
                 "id": 11,
                 "options": {"showHeader": True},
                 "targets": [
-                    {"group": {"name": "Voice Infrastructure"}, "host": {"name": "nawari-sm-01"}, "application": {"name": "SIP Entity Monitoring"}, "item": {"name": "SIP Entity Summary Stream"}, "refId": "ENTITIES"}
+                    {"group": {"name": "Voice Infrastructure"}, "host": {"name": "avaya-sm-01"}, "application": {"name": "SIP Entity Monitoring"}, "item": {"name": "SIP Entity Summary Stream"}, "refId": "ENTITIES"}
                 ],
                 "title": "Configured SIP Entity Topology & Link Status [CONFIGURED — ASM MODEL]",
                 "type": "table"
@@ -533,7 +533,7 @@ def create_session_manager_dashboard():
                 "id": 12,
                 "options": {"colorMode": "value", "graphMode": "none", "justifyMode": "auto", "orientation": "auto", "reduceOptions": {"calcs": ["lastNotNull"], "fields": "", "values": False}, "textMode": "auto"},
                 "targets": [
-                    {"group": {"name": "Voice Infrastructure"}, "host": {"name": "nawari-sm-01"}, "item": {"name": "Session Manager Active Alarms Count"}, "refId": "SM_ALARMS"}
+                    {"group": {"name": "Voice Infrastructure"}, "host": {"name": "avaya-sm-01"}, "item": {"name": "Session Manager Active Alarms Count"}, "refId": "SM_ALARMS"}
                 ],
                 "title": "Session Manager Active Alarms [EVENT TRAP — AV-TRAP-MIB]",
                 "type": "stat"
@@ -590,7 +590,7 @@ def create_communication_manager_dashboard():
                 "id": 2,
                 "options": {"colorMode": "background", "graphMode": "none", "justifyMode": "auto", "orientation": "auto", "reduceOptions": {"calcs": ["lastNotNull"], "fields": "", "values": False}, "textMode": "auto"},
                 "targets": [
-                    {"group": {"name": "Voice Infrastructure"}, "host": {"name": "nawari-cm-01"}, "item": {"name": "Communication Manager SNMP Availability"}, "refId": "AVAIL"}
+                    {"group": {"name": "Voice Infrastructure"}, "host": {"name": "avaya-cm-01"}, "item": {"name": "Communication Manager SNMP Availability"}, "refId": "AVAIL"}
                 ],
                 "title": "CM Processor Reachability [REAL — ZABBIX]",
                 "type": "stat"
@@ -610,7 +610,7 @@ def create_communication_manager_dashboard():
                 "id": 3,
                 "options": {"colorMode": "value", "graphMode": "none", "justifyMode": "auto", "orientation": "auto", "reduceOptions": {"calcs": ["lastNotNull"], "fields": "", "values": False}, "textMode": "auto"},
                 "targets": [
-                    {"group": {"name": "Voice Infrastructure"}, "host": {"name": "nawari-cm-01"}, "item": {"name": "Active Alarms Count"}, "refId": "ALARMS"}
+                    {"group": {"name": "Voice Infrastructure"}, "host": {"name": "avaya-cm-01"}, "item": {"name": "Active Alarms Count"}, "refId": "ALARMS"}
                 ],
                 "title": "Active Telephony Alarms (Hourly Scan) [REAL — AVAYA SNMP]",
                 "type": "stat"
@@ -629,7 +629,7 @@ def create_communication_manager_dashboard():
                 "id": 4,
                 "options": {"tooltip": {"mode": "single"}},
                 "targets": [
-                    {"group": {"name": "Voice Infrastructure"}, "host": {"name": "nawari-cm-01"}, "item": {"name": "Call Rate Total Attempts (Hourly Measurement Interval)"}, "refId": "ATTEMPTS"}
+                    {"group": {"name": "Voice Infrastructure"}, "host": {"name": "avaya-cm-01"}, "item": {"name": "Call Rate Total Attempts (Hourly Measurement Interval)"}, "refId": "ATTEMPTS"}
                 ],
                 "title": "Call Processing Hourly Status [REAL — AVAYA SNMP]",
                 "type": "timeseries"
@@ -648,7 +648,7 @@ def create_communication_manager_dashboard():
                 "id": 5,
                 "options": {"tooltip": {"mode": "single"}},
                 "targets": [
-                    {"group": {"name": "Voice Infrastructure"}, "host": {"name": "nawari-cm-01"}, "item": {"name": "Call Rate Completed Calls (Hourly Measurement Interval)"}, "refId": "COMPLETED"}
+                    {"group": {"name": "Voice Infrastructure"}, "host": {"name": "avaya-cm-01"}, "item": {"name": "Call Rate Completed Calls (Hourly Measurement Interval)"}, "refId": "COMPLETED"}
                 ],
                 "title": "Call Rate Completed Calls (Hourly Measurement) [REAL — AVAYA SNMP]",
                 "type": "timeseries"
@@ -675,7 +675,7 @@ def create_communication_manager_dashboard():
                 "id": 7,
                 "options": {"colorMode": "value", "graphMode": "none", "justifyMode": "auto", "orientation": "auto", "reduceOptions": {"calcs": ["lastNotNull"], "fields": "", "values": False}, "textMode": "auto"},
                 "targets": [
-                    {"group": {"name": "Voice Infrastructure"}, "host": {"name": "nawari-cm-01"}, "item": {"name": "Real-Call Packet Loss (Last Hour)"}, "refId": "LOSS"}
+                    {"group": {"name": "Voice Infrastructure"}, "host": {"name": "avaya-cm-01"}, "item": {"name": "Real-Call Packet Loss (Last Hour)"}, "refId": "LOSS"}
                 ],
                 "title": "Real-Call Packet Loss % (Last Hour) [REAL — AVAYA SNMP]",
                 "type": "stat"
@@ -695,7 +695,7 @@ def create_communication_manager_dashboard():
                 "id": 8,
                 "options": {"colorMode": "value", "graphMode": "none", "justifyMode": "auto", "orientation": "auto", "reduceOptions": {"calcs": ["lastNotNull"], "fields": "", "values": False}, "textMode": "auto"},
                 "targets": [
-                    {"group": {"name": "Voice Infrastructure"}, "host": {"name": "nawari-cm-01"}, "item": {"name": "Real-Call Peak Jitter (Last Hour)"}, "refId": "PEAK_JITTER"}
+                    {"group": {"name": "Voice Infrastructure"}, "host": {"name": "avaya-cm-01"}, "item": {"name": "Real-Call Peak Jitter (Last Hour)"}, "refId": "PEAK_JITTER"}
                 ],
                 "title": "Real-Call Peak Jitter (Last Hour) [REAL — AVAYA SNMP]",
                 "type": "stat"
@@ -715,7 +715,7 @@ def create_communication_manager_dashboard():
                 "id": 9,
                 "options": {"colorMode": "value", "graphMode": "none", "justifyMode": "auto", "orientation": "auto", "reduceOptions": {"calcs": ["lastNotNull"], "fields": "", "values": False}, "textMode": "auto"},
                 "targets": [
-                    {"group": {"name": "Voice Infrastructure"}, "host": {"name": "nawari-cm-01"}, "item": {"name": "Real-Call Peak Two-Way Delay (Last Hour)"}, "refId": "PEAK_DELAY"}
+                    {"group": {"name": "Voice Infrastructure"}, "host": {"name": "avaya-cm-01"}, "item": {"name": "Real-Call Peak Two-Way Delay (Last Hour)"}, "refId": "PEAK_DELAY"}
                 ],
                 "title": "Real-Call Peak Delay (Last Hour) [REAL — AVAYA SNMP]",
                 "type": "stat"
@@ -735,7 +735,7 @@ def create_communication_manager_dashboard():
                 "id": 10,
                 "options": {"colorMode": "value", "graphMode": "none", "justifyMode": "auto", "orientation": "auto", "reduceOptions": {"calcs": ["lastNotNull"], "fields": "", "values": False}, "textMode": "auto"},
                 "targets": [
-                    {"group": {"name": "Voice Infrastructure"}, "host": {"name": "nawari-cm-01"}, "item": {"name": "Real-Call Hourly Average Jitter"}, "refId": "AVG_JITTER"}
+                    {"group": {"name": "Voice Infrastructure"}, "host": {"name": "avaya-cm-01"}, "item": {"name": "Real-Call Hourly Average Jitter"}, "refId": "AVG_JITTER"}
                 ],
                 "title": "Hourly Average Jitter [REAL — AVAYA SNMP]",
                 "type": "stat"
@@ -755,7 +755,7 @@ def create_communication_manager_dashboard():
                 "id": 12,
                 "options": {"colorMode": "value", "graphMode": "none", "justifyMode": "auto", "orientation": "auto", "reduceOptions": {"calcs": ["lastNotNull"], "fields": "", "values": False}, "textMode": "auto"},
                 "targets": [
-                    {"group": {"name": "Voice Infrastructure"}, "host": {"name": "nawari-cm-01"}, "item": {"name": "Negotiated Audio Codec"}, "refId": "CODEC"}
+                    {"group": {"name": "Voice Infrastructure"}, "host": {"name": "avaya-cm-01"}, "item": {"name": "Negotiated Audio Codec"}, "refId": "CODEC"}
                 ],
                 "title": "Negotiated Audio Codec [REAL — AVAYA SNMP]",
                 "type": "stat"
@@ -768,7 +768,7 @@ def create_communication_manager_dashboard():
                 "id": 13,
                 "options": {"colorMode": "value", "graphMode": "none", "justifyMode": "auto", "orientation": "auto", "reduceOptions": {"calcs": ["lastNotNull"], "fields": "", "values": False}, "textMode": "auto"},
                 "targets": [
-                    {"group": {"name": "Voice Infrastructure"}, "host": {"name": "nawari-cm-01"}, "item": {"name": "Echo Cancellation Status"}, "refId": "ECHO"}
+                    {"group": {"name": "Voice Infrastructure"}, "host": {"name": "avaya-cm-01"}, "item": {"name": "Echo Cancellation Status"}, "refId": "ECHO"}
                 ],
                 "title": "Echo Cancellation Status [REAL — AVAYA SNMP]",
                 "type": "stat"
@@ -781,7 +781,7 @@ def create_communication_manager_dashboard():
                 "id": 14,
                 "options": {"colorMode": "value", "graphMode": "none", "justifyMode": "auto", "orientation": "auto", "reduceOptions": {"calcs": ["lastNotNull"], "fields": "", "values": False}, "textMode": "auto"},
                 "targets": [
-                    {"group": {"name": "Voice Infrastructure"}, "host": {"name": "nawari-cm-01"}, "item": {"name": "Real-Call Evaluated Calls Count"}, "refId": "EVAL_CALLS"}
+                    {"group": {"name": "Voice Infrastructure"}, "host": {"name": "avaya-cm-01"}, "item": {"name": "Real-Call Evaluated Calls Count"}, "refId": "EVAL_CALLS"}
                 ],
                 "title": "Evaluated Calls Count in Last Hour [REAL — AVAYA SNMP]",
                 "type": "stat"
@@ -829,7 +829,7 @@ def create_g450_dashboard():
                 "id": 2,
                 "options": {"colorMode": "value", "graphMode": "none", "justifyMode": "auto", "orientation": "auto", "reduceOptions": {"calcs": ["lastNotNull"], "fields": "", "values": False}, "textMode": "auto"},
                 "targets": [
-                    {"group": {"name": "Voice Infrastructure"}, "host": {"name": "nawari-g450-01"}, "item": {"name": "Chassis System Uptime"}, "refId": "UPTIME"}
+                    {"group": {"name": "Voice Infrastructure"}, "host": {"name": "avaya-g450-01"}, "item": {"name": "Chassis System Uptime"}, "refId": "UPTIME"}
                 ],
                 "title": "G450 System Uptime [REAL — HARDWARE]",
                 "type": "stat"
@@ -851,7 +851,7 @@ def create_g450_dashboard():
                 "id": 3,
                 "options": {"colorMode": "background", "graphMode": "none", "justifyMode": "auto", "orientation": "auto", "reduceOptions": {"calcs": ["lastNotNull"], "fields": "", "values": False}, "textMode": "auto"},
                 "targets": [
-                    {"group": {"name": "Voice Infrastructure"}, "host": {"name": "nawari-g450-01"}, "item": {"name": "Gateway CM Registration State"}, "refId": "REG_STATE"}
+                    {"group": {"name": "Voice Infrastructure"}, "host": {"name": "avaya-g450-01"}, "item": {"name": "Gateway CM Registration State"}, "refId": "REG_STATE"}
                 ],
                 "title": "CM Gateway Registration [CONFIGURED — G450 MGP]",
                 "type": "stat"
@@ -873,7 +873,7 @@ def create_g450_dashboard():
                 "id": 4,
                 "options": {"colorMode": "background", "graphMode": "none", "justifyMode": "auto", "orientation": "auto", "reduceOptions": {"calcs": ["lastNotNull"], "fields": "", "values": False}, "textMode": "auto"},
                 "targets": [
-                    {"group": {"name": "Voice Infrastructure"}, "host": {"name": "nawari-g450-01"}, "item": {"name": "Internal Chassis Temperature Alarm State"}, "refId": "TEMP"}
+                    {"group": {"name": "Voice Infrastructure"}, "host": {"name": "avaya-g450-01"}, "item": {"name": "Internal Chassis Temperature Alarm State"}, "refId": "TEMP"}
                 ],
                 "title": "Chassis Thermal State [EVENT TRAP — G450 MGP]",
                 "type": "stat"
@@ -895,8 +895,8 @@ def create_g450_dashboard():
                 "id": 5,
                 "options": {"colorMode": "background", "graphMode": "none", "justifyMode": "auto", "orientation": "auto", "reduceOptions": {"calcs": ["lastNotNull"], "fields": "", "values": False}, "textMode": "auto"},
                 "targets": [
-                    {"group": {"name": "Voice Infrastructure"}, "host": {"name": "nawari-g450-01"}, "item": {"name": "Primary Power Supply Status"}, "refId": "PSU1"},
-                    {"group": {"name": "Voice Infrastructure"}, "host": {"name": "nawari-g450-01"}, "item": {"name": "Secondary Power Supply Status (Redundant)"}, "refId": "PSU2"}
+                    {"group": {"name": "Voice Infrastructure"}, "host": {"name": "avaya-g450-01"}, "item": {"name": "Primary Power Supply Status"}, "refId": "PSU1"},
+                    {"group": {"name": "Voice Infrastructure"}, "host": {"name": "avaya-g450-01"}, "item": {"name": "Secondary Power Supply Status (Redundant)"}, "refId": "PSU2"}
                 ],
                 "title": "Power Supply Status (PSU 1 & 2) [CONFIGURED — EVENT TRAP]",
                 "type": "stat"
@@ -925,7 +925,7 @@ def create_g450_dashboard():
                 "id": 7,
                 "options": {"colorMode": "background", "graphMode": "none", "justifyMode": "auto", "orientation": "auto", "reduceOptions": {"calcs": ["lastNotNull"], "fields": "", "values": False}, "textMode": "auto"},
                 "targets": [
-                    {"group": {"name": "Voice Infrastructure"}, "host": {"name": "nawari-g450-01"}, "item": {"name": "E1/ISDN Primary Trunk Port Operational Status"}, "refId": "E1_STATUS"}
+                    {"group": {"name": "Voice Infrastructure"}, "host": {"name": "avaya-g450-01"}, "item": {"name": "E1/ISDN Primary Trunk Port Operational Status"}, "refId": "E1_STATUS"}
                 ],
                 "title": "E1 / ISDN PRI Physical Trunk State [CONFIGURED — IF-MIB]",
                 "type": "stat"
@@ -945,7 +945,7 @@ def create_g450_dashboard():
                 "id": 8,
                 "options": {"colorMode": "background", "graphMode": "none", "justifyMode": "auto", "orientation": "auto", "reduceOptions": {"calcs": ["lastNotNull"], "fields": "", "values": False}, "textMode": "auto"},
                 "targets": [
-                    {"group": {"name": "Voice Infrastructure"}, "host": {"name": "nawari-g450-01"}, "item": {"name": "avG450DspChannelUtilization"}, "refId": "DSP"}
+                    {"group": {"name": "Voice Infrastructure"}, "host": {"name": "avaya-g450-01"}, "item": {"name": "avG450DspChannelUtilization"}, "refId": "DSP"}
                 ],
                 "title": "DSP Media Resource Channels [NOT COLLECTED — REQUIRES AUDIT]",
                 "type": "stat"
@@ -967,7 +967,7 @@ def create_g450_dashboard():
                 "id": 9,
                 "options": {"colorMode": "background", "graphMode": "none", "justifyMode": "auto", "orientation": "auto", "reduceOptions": {"calcs": ["lastNotNull"], "fields": "", "values": False}, "textMode": "auto"},
                 "targets": [
-                    {"group": {"name": "Voice Infrastructure"}, "host": {"name": "nawari-g450-01"}, "item": {"name": "Chassis Fan Tray State"}, "refId": "FAN"}
+                    {"group": {"name": "Voice Infrastructure"}, "host": {"name": "avaya-g450-01"}, "item": {"name": "Chassis Fan Tray State"}, "refId": "FAN"}
                 ],
                 "title": "Chassis Fan Tray Operational State [CONFIGURED — EVENT TRAP]",
                 "type": "stat"
@@ -987,7 +987,7 @@ def create_g450_dashboard():
                 "id": 11,
                 "options": {"showHeader": True},
                 "targets": [
-                    {"group": {"name": "Voice Infrastructure"}, "host": {"name": "nawari-g450-01"}, "application": {"name": "Media Modules"}, "item": {"name": "Discovered Media Modules Table"}, "refId": "MODULES"}
+                    {"group": {"name": "Voice Infrastructure"}, "host": {"name": "avaya-g450-01"}, "application": {"name": "Media Modules"}, "item": {"name": "Discovered Media Modules Table"}, "refId": "MODULES"}
                 ],
                 "title": "Installed Media Module Slot Inventory (V1-V8) [REAL — HARDWARE]",
                 "type": "table"
@@ -1044,7 +1044,7 @@ def create_cms_dashboard():
                 "id": 2,
                 "options": {"orientation": "auto", "reduceOptions": {"calcs": ["lastNotNull"], "fields": "", "values": False}, "showThresholdLabels": False, "showThresholdMarkers": True},
                 "targets": [
-                    {"group": {"name": "Contact Centre"}, "host": {"name": "nawari-cms-01"}, "item": {"name": "CMS Host CPU Utilization"}, "refId": "CPU"}
+                    {"group": {"name": "Contact Centre"}, "host": {"name": "avaya-cms-01"}, "item": {"name": "CMS Host CPU Utilization"}, "refId": "CPU"}
                 ],
                 "title": "CMS Host CPU Utilization [REAL — HARDWARE]",
                 "type": "gauge"
@@ -1066,7 +1066,7 @@ def create_cms_dashboard():
                 "id": 3,
                 "options": {"colorMode": "background", "graphMode": "none", "justifyMode": "auto", "orientation": "auto", "reduceOptions": {"calcs": ["lastNotNull"], "fields": "", "values": False}, "textMode": "auto"},
                 "targets": [
-                    {"group": {"name": "Contact Centre"}, "host": {"name": "nawari-cms-01"}, "item": {"name": "Informix Database Engine Status"}, "refId": "INFORMIX"}
+                    {"group": {"name": "Contact Centre"}, "host": {"name": "avaya-cms-01"}, "item": {"name": "Informix Database Engine Status"}, "refId": "INFORMIX"}
                 ],
                 "title": "Informix Database Engine Status [APPLICATION — CMS]",
                 "type": "stat"
@@ -1079,7 +1079,7 @@ def create_cms_dashboard():
                 "id": 4,
                 "options": {"colorMode": "value", "graphMode": "none", "justifyMode": "auto", "orientation": "auto", "reduceOptions": {"calcs": ["lastNotNull"], "fields": "", "values": False}, "textMode": "auto"},
                 "targets": [
-                    {"group": {"name": "Contact Centre"}, "host": {"name": "nawari-cms-01"}, "item": {"name": "CMS Ingestion Reporting Interval"}, "refId": "INTERVAL"}
+                    {"group": {"name": "Contact Centre"}, "host": {"name": "avaya-cms-01"}, "item": {"name": "CMS Ingestion Reporting Interval"}, "refId": "INTERVAL"}
                 ],
                 "title": "CMS Archiving Interval Configuration [APPLICATION — CMS]",
                 "type": "stat"
@@ -1108,7 +1108,7 @@ def create_cms_dashboard():
                 "id": 6,
                 "options": {"orientation": "auto", "reduceOptions": {"calcs": ["lastNotNull"], "fields": "", "values": False}, "showThresholdLabels": False, "showThresholdMarkers": True},
                 "targets": [
-                    {"group": {"name": "Contact Centre"}, "host": {"name": "nawari-cms-01"}, "item": {"name": "Overall Service Level Attainment"}, "refId": "SLA"}
+                    {"group": {"name": "Contact Centre"}, "host": {"name": "avaya-cms-01"}, "item": {"name": "Overall Service Level Attainment"}, "refId": "SLA"}
                 ],
                 "title": "Service Level Attainment (% in SLA) [APPLICATION — CMS]",
                 "type": "gauge"
@@ -1127,7 +1127,7 @@ def create_cms_dashboard():
                 "id": 7,
                 "options": {"tooltip": {"mode": "single"}},
                 "targets": [
-                    {"group": {"name": "Contact Centre"}, "host": {"name": "nawari-cms-01"}, "item": {"name": "Average Speed of Answer (ASA)"}, "refId": "ASA"}
+                    {"group": {"name": "Contact Centre"}, "host": {"name": "avaya-cms-01"}, "item": {"name": "Average Speed of Answer (ASA)"}, "refId": "ASA"}
                 ],
                 "title": "Average Speed of Answer (ASA, sec) [APPLICATION — CMS]",
                 "type": "timeseries"
@@ -1147,7 +1147,7 @@ def create_cms_dashboard():
                 "id": 8,
                 "options": {"colorMode": "value", "graphMode": "none", "justifyMode": "auto", "orientation": "auto", "reduceOptions": {"calcs": ["lastNotNull"], "fields": "", "values": False}, "textMode": "auto"},
                 "targets": [
-                    {"group": {"name": "Contact Centre"}, "host": {"name": "nawari-cms-01"}, "item": {"name": "Calls Waiting in Queue"}, "refId": "WAITING"}
+                    {"group": {"name": "Contact Centre"}, "host": {"name": "avaya-cms-01"}, "item": {"name": "Calls Waiting in Queue"}, "refId": "WAITING"}
                 ],
                 "title": "Calls Waiting in Queue [APPLICATION — CMS]",
                 "type": "stat"
@@ -1167,7 +1167,7 @@ def create_cms_dashboard():
                 "id": 9,
                 "options": {"colorMode": "value", "graphMode": "none", "justifyMode": "auto", "orientation": "auto", "reduceOptions": {"calcs": ["lastNotNull"], "fields": "", "values": False}, "textMode": "auto"},
                 "targets": [
-                    {"group": {"name": "Contact Centre"}, "host": {"name": "nawari-cms-01"}, "item": {"name": "Oldest Call Waiting Duration"}, "refId": "OLDEST"}
+                    {"group": {"name": "Contact Centre"}, "host": {"name": "avaya-cms-01"}, "item": {"name": "Oldest Call Waiting Duration"}, "refId": "OLDEST"}
                 ],
                 "title": "Oldest Call Waiting (sec) [APPLICATION — CMS]",
                 "type": "stat"
@@ -1193,9 +1193,9 @@ def create_cms_dashboard():
                 "id": 11,
                 "options": {"tooltip": {"mode": "multi"}},
                 "targets": [
-                    {"group": {"name": "Contact Centre"}, "host": {"name": "nawari-cms-01"}, "item": {"name": "Calls Offered"}, "refId": "OFFERED"},
-                    {"group": {"name": "Contact Centre"}, "host": {"name": "nawari-cms-01"}, "item": {"name": "Calls Answered"}, "refId": "ANSWERED"},
-                    {"group": {"name": "Contact Centre"}, "host": {"name": "nawari-cms-01"}, "item": {"name": "Abandoned Calls"}, "refId": "ABANDONED"}
+                    {"group": {"name": "Contact Centre"}, "host": {"name": "avaya-cms-01"}, "item": {"name": "Calls Offered"}, "refId": "OFFERED"},
+                    {"group": {"name": "Contact Centre"}, "host": {"name": "avaya-cms-01"}, "item": {"name": "Calls Answered"}, "refId": "ANSWERED"},
+                    {"group": {"name": "Contact Centre"}, "host": {"name": "avaya-cms-01"}, "item": {"name": "Abandoned Calls"}, "refId": "ABANDONED"}
                 ],
                 "title": "Calls Offered vs Answered vs Abandoned [APPLICATION — CMS]",
                 "type": "timeseries"
@@ -1208,7 +1208,7 @@ def create_cms_dashboard():
                 "id": 12,
                 "options": {"showHeader": True},
                 "targets": [
-                    {"group": {"name": "Contact Centre"}, "host": {"name": "nawari-cms-01"}, "application": {"name": "Skill Performance"}, "item": {"name": "Skill Group Performance Table"}, "refId": "SKILLS"}
+                    {"group": {"name": "Contact Centre"}, "host": {"name": "avaya-cms-01"}, "application": {"name": "Skill Performance"}, "item": {"name": "Skill Group Performance Table"}, "refId": "SKILLS"}
                 ],
                 "title": "Skill Group & Split Performance Breakdown [APPLICATION — CMS]",
                 "type": "table"
@@ -1263,7 +1263,7 @@ def create_recording_wfo_dashboard():
                 "id": 2,
                 "options": {"colorMode": "background", "graphMode": "none", "justifyMode": "auto", "orientation": "auto", "reduceOptions": {"calcs": ["lastNotNull"], "fields": "", "values": False}, "textMode": "auto"},
                 "targets": [
-                    {"group": {"name": "Recording Infrastructure"}, "host": {"name": "nawari-wfo-01"}, "item": {"name": "wfoProductSpecificationStatus"}, "refId": "WFO_STATUS"}
+                    {"group": {"name": "Recording Infrastructure"}, "host": {"name": "avaya-cms-01"}, "item": {"name": "wfoProductSpecificationStatus"}, "refId": "WFO_STATUS"}
                 ],
                 "title": "WFO Product Specification Status [PENDING VENDOR CONFIRMATION]",
                 "type": "stat"
@@ -1285,7 +1285,7 @@ def create_recording_wfo_dashboard():
                 "id": 3,
                 "options": {"colorMode": "background", "graphMode": "none", "justifyMode": "auto", "orientation": "auto", "reduceOptions": {"calcs": ["lastNotNull"], "fields": "", "values": False}, "textMode": "auto"},
                 "targets": [
-                    {"group": {"name": "Recording Infrastructure"}, "host": {"name": "nawari-wfo-01"}, "item": {"name": "Recorder-to-CM CTI Link State"}, "refId": "CTI"}
+                    {"group": {"name": "Recording Infrastructure"}, "host": {"name": "avaya-cms-01"}, "item": {"name": "Recorder-to-CM CTI Link State"}, "refId": "CTI"}
                 ],
                 "title": "Recorder-to-CM CTI Link State [APPLICATION — WFO]",
                 "type": "stat"
@@ -1298,7 +1298,7 @@ def create_recording_wfo_dashboard():
                 "id": 4,
                 "options": {"colorMode": "value", "graphMode": "none", "justifyMode": "auto", "orientation": "auto", "reduceOptions": {"calcs": ["lastNotNull"], "fields": "", "values": False}, "textMode": "auto"},
                 "targets": [
-                    {"group": {"name": "Recording Infrastructure"}, "host": {"name": "nawari-wfo-01"}, "item": {"name": "Recording Host Uptime"}, "refId": "UPTIME"}
+                    {"group": {"name": "Recording Infrastructure"}, "host": {"name": "avaya-cms-01"}, "item": {"name": "Recording Host Uptime"}, "refId": "UPTIME"}
                 ],
                 "title": "Recording Host Uptime [REAL — HARDWARE]",
                 "type": "stat"
@@ -1318,7 +1318,7 @@ def create_recording_wfo_dashboard():
                 "id": 6,
                 "options": {"colorMode": "value", "graphMode": "none", "justifyMode": "auto", "orientation": "auto", "reduceOptions": {"calcs": ["lastNotNull"], "fields": "", "values": False}, "textMode": "auto"},
                 "targets": [
-                    {"group": {"name": "Recording Infrastructure"}, "host": {"name": "nawari-wfo-01"}, "item": {"name": "Active Concurrent Recording Sessions"}, "refId": "SESSIONS"}
+                    {"group": {"name": "Recording Infrastructure"}, "host": {"name": "avaya-cms-01"}, "item": {"name": "Active Concurrent Recording Sessions"}, "refId": "SESSIONS"}
                 ],
                 "title": "Active Recording Sessions [APPLICATION — WFO]",
                 "type": "stat"
@@ -1337,7 +1337,7 @@ def create_recording_wfo_dashboard():
                 "id": 7,
                 "options": {"tooltip": {"mode": "single"}},
                 "targets": [
-                    {"group": {"name": "Recording Infrastructure"}, "host": {"name": "nawari-wfo-01"}, "item": {"name": "Recording Ingestion Rate"}, "refId": "INGESTION"}
+                    {"group": {"name": "Recording Infrastructure"}, "host": {"name": "avaya-cms-01"}, "item": {"name": "Recording Ingestion Rate"}, "refId": "INGESTION"}
                 ],
                 "title": "Ingestion Rate (Calls/min) [APPLICATION — WFO]",
                 "type": "timeseries"
@@ -1357,7 +1357,7 @@ def create_recording_wfo_dashboard():
                 "id": 8,
                 "options": {"colorMode": "value", "graphMode": "none", "justifyMode": "auto", "orientation": "auto", "reduceOptions": {"calcs": ["lastNotNull"], "fields": "", "values": False}, "textMode": "auto"},
                 "targets": [
-                    {"group": {"name": "Recording Infrastructure"}, "host": {"name": "nawari-wfo-01"}, "item": {"name": "Recording Capture Failure Count"}, "refId": "FAILURES"}
+                    {"group": {"name": "Recording Infrastructure"}, "host": {"name": "avaya-cms-01"}, "item": {"name": "Recording Capture Failure Count"}, "refId": "FAILURES"}
                 ],
                 "title": "Recording Failures Count [APPLICATION — WFO]",
                 "type": "stat"
@@ -1379,7 +1379,7 @@ def create_recording_wfo_dashboard():
                 "id": 9,
                 "options": {"orientation": "auto", "reduceOptions": {"calcs": ["lastNotNull"], "fields": "", "values": False}, "showThresholdLabels": False, "showThresholdMarkers": True},
                 "targets": [
-                    {"group": {"name": "Recording Infrastructure"}, "host": {"name": "nawari-wfo-01"}, "item": {"name": "Ingestion Buffer Queue Depth"}, "refId": "QUEUE"}
+                    {"group": {"name": "Recording Infrastructure"}, "host": {"name": "avaya-cms-01"}, "item": {"name": "Ingestion Buffer Queue Depth"}, "refId": "QUEUE"}
                 ],
                 "title": "Ingestion Queue Depth [APPLICATION — WFO]",
                 "type": "gauge"
@@ -1408,7 +1408,7 @@ def create_recording_wfo_dashboard():
                 "id": 11,
                 "options": {"orientation": "auto", "reduceOptions": {"calcs": ["lastNotNull"], "fields": "", "values": False}, "showThresholdLabels": False, "showThresholdMarkers": True},
                 "targets": [
-                    {"group": {"name": "Recording Infrastructure"}, "host": {"name": "nawari-wfo-01"}, "item": {"name": "Recording Storage Partition Utilization"}, "refId": "STORAGE"}
+                    {"group": {"name": "Recording Infrastructure"}, "host": {"name": "avaya-cms-01"}, "item": {"name": "Recording Storage Partition Utilization"}, "refId": "STORAGE"}
                 ],
                 "title": "Recording Storage Utilization (%) [REAL — HARDWARE]",
                 "type": "gauge"
@@ -1428,7 +1428,7 @@ def create_recording_wfo_dashboard():
                 "id": 12,
                 "options": {"colorMode": "value", "graphMode": "none", "justifyMode": "auto", "orientation": "auto", "reduceOptions": {"calcs": ["lastNotNull"], "fields": "", "values": False}, "textMode": "auto"},
                 "targets": [
-                    {"group": {"name": "Recording Infrastructure"}, "host": {"name": "nawari-wfo-01"}, "item": {"name": "Projected Days-to-Full (Storage TTE)"}, "refId": "TTE"}
+                    {"group": {"name": "Recording Infrastructure"}, "host": {"name": "avaya-cms-01"}, "item": {"name": "Projected Days-to-Full (Storage TTE)"}, "refId": "TTE"}
                 ],
                 "title": "Projected Days-to-Full (Storage TTE) [PREDICTIVE]",
                 "type": "stat"
@@ -1450,7 +1450,7 @@ def create_recording_wfo_dashboard():
                 "id": 13,
                 "options": {"orientation": "auto", "reduceOptions": {"calcs": ["lastNotNull"], "fields": "", "values": False}, "showThresholdLabels": False, "showThresholdMarkers": True},
                 "targets": [
-                    {"group": {"name": "Recording Infrastructure"}, "host": {"name": "nawari-wfo-01"}, "item": {"name": "Daily Archival Transfer Success Rate"}, "refId": "ARCHIVE"}
+                    {"group": {"name": "Recording Infrastructure"}, "host": {"name": "avaya-cms-01"}, "item": {"name": "Daily Archival Transfer Success Rate"}, "refId": "ARCHIVE"}
                 ],
                 "title": "Daily Archival Success Rate (%) [APPLICATION — WFO]",
                 "type": "gauge"

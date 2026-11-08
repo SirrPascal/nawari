@@ -90,10 +90,10 @@
             "name": "Voice Infrastructure"
           },
           "host": {
-            "name": "nawari-sbce-01"
+            "name": "avaya-sbce-01"
           },
           "item": {
-            "name": "Appliance SNMP Reachability"
+            "name": "SBCE Appliance Reachability"
           },
           "refId": "SBCE"
         },
@@ -102,7 +102,7 @@
             "name": "Voice Infrastructure"
           },
           "host": {
-            "name": "nawari-sm-01"
+            "name": "avaya-sm-01"
           },
           "item": {
             "name": "Session Manager SNMP Availability"
@@ -114,7 +114,7 @@
             "name": "Voice Infrastructure"
           },
           "host": {
-            "name": "nawari-cm-01"
+            "name": "avaya-cm-01"
           },
           "item": {
             "name": "Communication Manager SNMP Availability"
@@ -126,7 +126,7 @@
             "name": "Voice Infrastructure"
           },
           "host": {
-            "name": "nawari-g450-01"
+            "name": "avaya-g450-01"
           },
           "item": {
             "name": "G450 ICMP Reachability"
@@ -138,10 +138,10 @@
             "name": "Voice Infrastructure"
           },
           "host": {
-            "name": "nawari-cms-01"
+            "name": "avaya-cms-01"
           },
           "item": {
-            "name": "CMS Server Availability"
+            "name": "Compliance Voice Recording Pipeline Health"
           },
           "refId": "CMS"
         }
@@ -204,7 +204,7 @@
             "name": "Voice Infrastructure"
           },
           "host": {
-            "name": "nawari-cm-01"
+            "name": "avaya-cm-01"
           },
           "item": {
             "name": "Active Alarms Count"
@@ -216,7 +216,7 @@
             "name": "Voice Infrastructure"
           },
           "host": {
-            "name": "nawari-sm-01"
+            "name": "avaya-sm-01"
           },
           "item": {
             "name": "Session Manager Active Alarms Count"
@@ -298,10 +298,10 @@
             "name": "Voice Infrastructure"
           },
           "host": {
-            "name": "nawari-sbce-01"
+            "name": "avaya-sbce-01"
           },
           "item": {
-            "name": "Active Audio Sessions"
+            "name": "Active SIP Calls"
           },
           "refId": "ACTIVE_SESSIONS"
         }
@@ -378,10 +378,10 @@
             "name": "Voice Infrastructure"
           },
           "host": {
-            "name": "nawari-sbce-01"
+            "name": "sip-trunk-carrier-01"
           },
           "item": {
-            "name": "Safaricom Primary SIP Trunk Operational Status"
+            "name": "SIP Trunk Endpoint Reachability"
           },
           "refId": "SAFARICOM"
         },
@@ -390,10 +390,10 @@
             "name": "Voice Infrastructure"
           },
           "host": {
-            "name": "nawari-sbce-01"
+            "name": "sip-trunk-carrier-01"
           },
           "item": {
-            "name": "Airtel Secondary SIP Trunk Operational Status"
+            "name": "SIP Trunk OPTIONS Probe Status"
           },
           "refId": "AIRTEL"
         }
@@ -436,10 +436,10 @@
             "name": "Voice Infrastructure"
           },
           "host": {
-            "name": "nawari-cm-01"
+            "name": "avaya-cm-01"
           },
           "item": {
-            "name": "Call Rate Total Attempts (5-minute)"
+            "name": "Call Rate Total Attempts (Hourly Measurement Interval)"
           },
           "refId": "ATTEMPTS"
         },
@@ -448,10 +448,10 @@
             "name": "Voice Infrastructure"
           },
           "host": {
-            "name": "nawari-cm-01"
+            "name": "avaya-cm-01"
           },
           "item": {
-            "name": "Call Rate Completed Calls (5-minute)"
+            "name": "Call Rate Completed Calls (Hourly Measurement Interval)"
           },
           "refId": "COMPLETED"
         }
@@ -527,13 +527,13 @@
       "targets": [
         {
           "group": {
-            "name": "Contact Centre"
+            "name": "Voice Infrastructure"
           },
           "host": {
-            "name": "nawari-cms-01"
+            "name": "avaya-cms-01"
           },
           "item": {
-            "name": "Overall Service Level Attainment"
+            "name": "Contact Centre Queue Service Level Attainment"
           },
           "refId": "CMS_SLA"
         }
@@ -597,25 +597,25 @@
       "targets": [
         {
           "group": {
-            "name": "Contact Centre"
+            "name": "Voice Infrastructure"
           },
           "host": {
-            "name": "nawari-cms-01"
+            "name": "avaya-cms-01"
           },
           "item": {
-            "name": "Calls Waiting in Queue"
+            "name": "CMS Inbound Calls Offered"
           },
           "refId": "WAITING"
         },
         {
           "group": {
-            "name": "Contact Centre"
+            "name": "Voice Infrastructure"
           },
           "host": {
-            "name": "nawari-cms-01"
+            "name": "avaya-cms-01"
           },
           "item": {
-            "name": "Oldest Call Waiting Duration"
+            "name": "CMS Inbound Calls Answered"
           },
           "refId": "OLDEST"
         }
@@ -652,13 +652,13 @@
       "targets": [
         {
           "group": {
-            "name": "Contact Centre"
+            "name": "Voice Infrastructure"
           },
           "host": {
-            "name": "nawari-cms-01"
+            "name": "avaya-cms-01"
           },
           "item": {
-            "name": "Agent Staffing by State"
+            "name": "CMS Inbound Calls Abandoned"
           },
           "refId": "AGENTS"
         }
@@ -726,10 +726,10 @@
       "targets": [
         {
           "group": {
-            "name": "Avaya Infrastructure"
+            "name": "Voice Infrastructure"
           },
           "host": {
-            "name": "avaya-cm-01.nawari.local"
+            "name": "avaya-cm-01"
           },
           "item": {
             "name": "avCmRealCallEstimatedMos"
@@ -799,7 +799,7 @@
             "name": "Voice Infrastructure"
           },
           "host": {
-            "name": "nawari-cm-01"
+            "name": "avaya-cm-01"
           },
           "item": {
             "name": "Real-Call Packet Loss (Last Hour)"
@@ -869,13 +869,10 @@
             "name": "Voice Infrastructure"
           },
           "host": {
-            "name": "/.*/"
-          },
-          "application": {
-            "name": "Synthetic Voice Probes"
+            "name": "nawari-voice-probe-01"
           },
           "item": {
-            "name": "Estimated Mean Opinion Score (MOS)"
+            "name": "Synthetic call Estimated MOS"
           },
           "refId": "SYNTH_MOS"
         }
@@ -888,7 +885,7 @@
         "type": "alexanderzobnin-zabbix-datasource",
         "uid": "PA67C5EADE9207728"
       },
-      "description": "Audit inventory of all voice telemetry sources, underlying protocols, expected polling intervals, freshness guarantees, and operational status. Identifies whether data is actively updating or stale. Missing data indicates collector outage, agent failure, or network disruption; values are preserved as null gaps.",
+      "description": "Live operational problem stream displaying active Zabbix triggers firing across Avaya and Voice communication infrastructure hosts (SBCE, Session Manager, Communication Manager, G450 Gateway, Carrier Trunks, CMS, Voice Probe Agents). Source: Zabbix Problems API filtered for Voice & Avaya infrastructure host groups. Freshness: Real-time event state. Missing data indicates collector outage, agent failure, or network disruption; values are preserved as null gaps.",
       "fieldConfig": {
         "defaults": {},
         "overrides": []
@@ -901,27 +898,83 @@
       },
       "id": 16,
       "options": {
-        "showHeader": true
+        "customFields": [
+          {
+            "text": "Time",
+            "value": "time"
+          },
+          {
+            "text": "Recovery time",
+            "value": "r_time"
+          },
+          {
+            "text": "Severity",
+            "value": "severity"
+          },
+          {
+            "text": "Host",
+            "value": "host"
+          },
+          {
+            "text": "Problem",
+            "value": "problem"
+          },
+          {
+            "text": "Duration",
+            "value": "duration"
+          },
+          {
+            "text": "Ack",
+            "value": "ack"
+          }
+        ],
+        "fontSize": "100%",
+        "highlightBackground": true,
+        "highlightFullRow": false,
+        "limit": 50,
+        "problemFilter": "",
+        "showActions": true,
+        "showTags": true,
+        "sortProblems": "default",
+        "subTab": "problems"
       },
       "targets": [
         {
+          "application": {
+            "filter": ""
+          },
+          "datasource": {
+            "type": "alexanderzobnin-zabbix-datasource",
+            "uid": "PA67C5EADE9207728"
+          },
           "group": {
-            "name": "Voice Infrastructure"
+            "filter": "/Voice Infrastructure|Avaya Infrastructure|Edge SBC|SIP Carrier Trunks|Communications Applications/"
           },
           "host": {
-            "name": "/.*/"
-          },
-          "application": {
-            "name": "Telemetry Audit"
+            "filter": "/.*/"
           },
           "item": {
-            "name": "Telemetry Source Freshness Table"
+            "filter": ""
           },
-          "refId": "AUDIT"
+          "itemTag": {
+            "filter": ""
+          },
+          "mode": 1,
+          "options": {
+            "showDisabledItems": false
+          },
+          "refId": "A",
+          "resultFormat": "problems",
+          "tags": {
+            "filter": ""
+          },
+          "trigger": {
+            "filter": ""
+          }
         }
       ],
-      "title": "Voice Telemetry Source Freshness & Instrumentation Inventory [AUDIT]",
-      "type": "table"
+      "title": "Active Voice Infrastructure Problems [ZABBIX NATIVE EVENT ENGINE]",
+      "type": "alexanderzobnin-zabbix-problems-panel"
     }
   ],
   "refresh": "30s",

@@ -80,7 +80,7 @@
             "name": "Contact Centre"
           },
           "host": {
-            "name": "nawari-cms-01"
+            "name": "avaya-cms-01"
           },
           "item": {
             "name": "CMS Host CPU Utilization"
@@ -160,7 +160,7 @@
             "name": "Contact Centre"
           },
           "host": {
-            "name": "nawari-cms-01"
+            "name": "avaya-cms-01"
           },
           "item": {
             "name": "Informix Database Engine Status"
@@ -208,7 +208,7 @@
             "name": "Contact Centre"
           },
           "host": {
-            "name": "nawari-cms-01"
+            "name": "avaya-cms-01"
           },
           "item": {
             "name": "CMS Ingestion Reporting Interval"
@@ -290,10 +290,10 @@
             "name": "Contact Centre"
           },
           "host": {
-            "name": "nawari-cms-01"
+            "name": "avaya-cms-01"
           },
           "item": {
-            "name": "Overall Service Level Attainment"
+            "name": "Contact Centre Queue Service Level Attainment"
           },
           "refId": "SLA"
         }
@@ -336,7 +336,7 @@
             "name": "Contact Centre"
           },
           "host": {
-            "name": "nawari-cms-01"
+            "name": "avaya-cms-01"
           },
           "item": {
             "name": "Average Speed of Answer (ASA)"
@@ -406,7 +406,7 @@
             "name": "Contact Centre"
           },
           "host": {
-            "name": "nawari-cms-01"
+            "name": "avaya-cms-01"
           },
           "item": {
             "name": "Calls Waiting in Queue"
@@ -476,7 +476,7 @@
             "name": "Contact Centre"
           },
           "host": {
-            "name": "nawari-cms-01"
+            "name": "avaya-cms-01"
           },
           "item": {
             "name": "Oldest Call Waiting Duration"
@@ -534,10 +534,10 @@
             "name": "Contact Centre"
           },
           "host": {
-            "name": "nawari-cms-01"
+            "name": "avaya-cms-01"
           },
           "item": {
-            "name": "Calls Offered"
+            "name": "CMS Inbound Calls Offered"
           },
           "refId": "OFFERED"
         },
@@ -546,10 +546,10 @@
             "name": "Contact Centre"
           },
           "host": {
-            "name": "nawari-cms-01"
+            "name": "avaya-cms-01"
           },
           "item": {
-            "name": "Calls Answered"
+            "name": "CMS Inbound Calls Answered"
           },
           "refId": "ANSWERED"
         },
@@ -558,10 +558,10 @@
             "name": "Contact Centre"
           },
           "host": {
-            "name": "nawari-cms-01"
+            "name": "avaya-cms-01"
           },
           "item": {
-            "name": "Abandoned Calls"
+            "name": "CMS Inbound Calls Abandoned"
           },
           "refId": "ABANDONED"
         }
@@ -595,7 +595,7 @@
             "name": "Contact Centre"
           },
           "host": {
-            "name": "nawari-cms-01"
+            "name": "avaya-cms-01"
           },
           "application": {
             "name": "Skill Performance"

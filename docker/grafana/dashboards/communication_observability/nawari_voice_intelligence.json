@@ -293,7 +293,7 @@
             "name": "Avaya Infrastructure"
           },
           "host": {
-            "name": "avaya-cm-01.nawari.local"
+            "name": "avaya-cm-01"
           },
           "application": {
             "name": "Real Call Voice Telemetry"
@@ -421,7 +421,7 @@
             "name": "Avaya Infrastructure"
           },
           "host": {
-            "name": "avaya-cm-01.nawari.local"
+            "name": "avaya-cm-01"
           },
           "application": {
             "name": "Avaya CM IP Voice Hourly Stats"
@@ -474,7 +474,7 @@
             "name": "Avaya Infrastructure"
           },
           "host": {
-            "name": "avaya-cm-01.nawari.local"
+            "name": "avaya-cm-01"
           },
           "application": {
             "name": "Avaya CM IP Voice Hourly Stats"
@@ -489,7 +489,7 @@
             "name": "Avaya Infrastructure"
           },
           "host": {
-            "name": "avaya-cm-01.nawari.local"
+            "name": "avaya-cm-01"
           },
           "application": {
             "name": "Avaya CM IP Voice Hourly Stats"
@@ -702,7 +702,7 @@
             "name": "Voice Infrastructure"
           },
           "host": {
-            "name": "nawari-sbce-01"
+            "name": "avaya-sbce-01"
           },
           "item": {
             "name": "Active Audio Sessions"

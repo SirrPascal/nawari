@@ -1,6 +1,6 @@
 # Nawari Enterprise Observability — Operational Dashboard & Metric Catalogue
 
-**Generated:** `2026-11-08T11:29:24.171093+00:00`  
+**Generated:** `2026-11-08T13:07:45.924411+00:00`  
 **Standard:** Nawari Phase 13.1 Telemetry Integrity & Operational Separation  
 **Target Environment:** Kenya Airways Ground Network & Global Outstation Fleet  
 
@@ -422,7 +422,7 @@ Nawari structures its operational telemetry into two top-level Grafana domain fo
 | 2 | **Avaya Core Telephony Platform Availability Grid [REAL — ZABBIX]** | `stat` | `REAL_SBCE_SNMP` | Avaya SBCE 8.1 SNMPv3 Agent (IF-MIB / HOST-RE | `short` | < 30 seconds |
 | 3 | **Active Telephony Alarms (CM & SM) [REAL — AVAYA SNMP]** | `stat` | `REAL_AVAYA_SNMP` | Avaya Communication Manager 8.1.0 MIB (avCmMe | `alarms` | 1–2 hours (CM internal hourly measurement bucket) |
 | 5 | **Active SIP Calls on Perimeter SBCE [REAL — SBCE SNMP]** | `gauge` | `REAL_SBCE_SNMP` | Avaya SBCE 8.1 SNMPv3 Agent (IF-MIB / HOST-RE | `calls` | < 30 seconds |
-| 6 | **Carrier SIP Trunk Registration Status [REAL — ZABBIX]** | `stat` | `REAL_SBCE_SNMP` | Avaya SBCE 8.1 SNMPv3 Agent (IF-MIB / HOST-RE | `short` | < 30 seconds |
+| 6 | **Carrier SIP Trunk Registration Status [REAL — ZABBIX]** | `stat` | `REAL_ZABBIX_TELEMETRY` | Zabbix Telemetry Engine (SNMPv2c/v3, ICMP pin | `short` | < 30 seconds |
 | 7 | **5-Minute Call Processing Rate (CM) [REAL — AVAYA SNMP]** | `timeseries` | `REAL_AVAYA_SNMP` | Avaya Communication Manager 8.1.0 MIB (avCmMe | `calls` | 1–2 hours (CM internal hourly measurement bucket) |
 | 9 | **Contact Centre Service Level (% in SLA) [APPLICATION — CMS]** | `gauge` | `SERVICE_ASSURANCE_SLI` | Nawari Business Service SLI Engine (13B Stand | `percent` | < 60 seconds |
 | 10 | **Queue Depth & Oldest Waiting Call [APPLICATION — CMS]** | `stat` | `REAL_ZABBIX_TELEMETRY` | Zabbix Telemetry Engine (SNMPv2c/v3, ICMP pin | `short` | < 30 seconds |
@@ -430,7 +430,7 @@ Nawari structures its operational telemetry into two top-level Grafana domain fo
 | 13 | **Real-Call MOS [NOT INSTRUMENTED — RTCP XR REQUIRED]** | `stat` | `NOT_INSTRUMENTED` | None — Telemetry Not Instrumented (Requires R | `short` | N/A (Uninstrumented) |
 | 14 | **Real-Call Packet Loss % (CM Last Hour) [REAL — AVAYA SNMP]** | `stat` | `REAL_AVAYA_SNMP` | Avaya Communication Manager 8.1.0 MIB (avCmMe | `percent` | 1–2 hours (CM internal hourly measurement bucket) |
 | 15 | **Synthetic Voice MOS [SYNTHETIC — ASTERISK]** | `gauge` | `SYNTHETIC_PROBE` | Synthetic Asterisk Call Engine (AMI / RTCP Te | `none` | < 60 seconds (Probe Cycle Interval) |
-| 16 | **Voice Telemetry Source Freshness & Instrumentation Inventory [AUDIT]** | `table` | `REAL_ZABBIX_TELEMETRY` | Zabbix Telemetry Engine (SNMPv2c/v3, ICMP pin | `short` | < 30 seconds |
+| 16 | **Active Voice Infrastructure Problems [ZABBIX NATIVE EVENT ENGINE]** | `alexanderzobnin-zabbix-problems-panel` | `REAL_ZABBIX_TELEMETRY` | Zabbix Telemetry Engine (SNMPv2c/v3, ICMP pin | `short` | < 30 seconds |
 
 ### Nawari — Carrier SIP Trunks, Signaling Ladders & Perimeter Session Routing
 - **UID:** `nawari-sip-trunks`
@@ -440,9 +440,9 @@ Nawari structures its operational telemetry into two top-level Grafana domain fo
 
 | ID | Panel Title | Type | Provenance | Telemetry Source | Unit | Freshness |
 | :---: | :--- | :---: | :--- | :--- | :---: | :---: |
-| 2 | **Safaricom Primary SIP Trunk [REAL — ZABBIX]** | `stat` | `REAL_SBCE_SNMP` | Avaya SBCE 8.1 SNMPv3 Agent (IF-MIB / HOST-RE | `short` | < 30 seconds |
-| 3 | **Airtel Secondary SIP Trunk [REAL — ZABBIX]** | `stat` | `REAL_SBCE_SNMP` | Avaya SBCE 8.1 SNMPv3 Agent (IF-MIB / HOST-RE | `short` | < 30 seconds |
-| 4 | **Carrier SIP OPTIONS Round-Trip Latency [REAL — ZABBIX]** | `timeseries` | `REAL_SBCE_SNMP` | Avaya SBCE 8.1 SNMPv3 Agent (IF-MIB / HOST-RE | `ms` | < 30 seconds |
+| 2 | **Safaricom Primary SIP Trunk [REAL — ZABBIX]** | `stat` | `REAL_ZABBIX_TELEMETRY` | Zabbix Telemetry Engine (SNMPv2c/v3, ICMP pin | `short` | < 30 seconds |
+| 3 | **Airtel Secondary SIP Trunk [REAL — ZABBIX]** | `stat` | `REAL_ZABBIX_TELEMETRY` | Zabbix Telemetry Engine (SNMPv2c/v3, ICMP pin | `short` | < 30 seconds |
+| 4 | **Carrier SIP OPTIONS Round-Trip Latency [REAL — ZABBIX]** | `timeseries` | `REAL_ZABBIX_TELEMETRY` | Zabbix Telemetry Engine (SNMPv2c/v3, ICMP pin | `ms` | < 30 seconds |
 | 6 | **Signaling Phase Latencies (PDD vs TTA vs Setup) [SYNTHETIC — ASTERISK PROBE]** | `timeseries` | `SYNTHETIC_PROBE` | Synthetic Asterisk Call Engine (AMI / RTCP Te | `ms` | < 60 seconds (Probe Cycle Interval) |
 | 7 | **SIP Response Distribution (Station vs Trunk Outage) [SYNTHETIC — ASTERISK PROBE]** | `piechart` | `SYNTHETIC_PROBE` | Synthetic Asterisk Call Engine (AMI / RTCP Te | `short` | < 60 seconds (Probe Cycle Interval) |
 | 9 | **A1 Carrier DMZ Bandwidth (bps) [REAL — SBCE SNMP]** | `timeseries` | `REAL_SBCE_SNMP` | Avaya SBCE 8.1 SNMPv3 Agent (IF-MIB / HOST-RE | `bps` | < 30 seconds |

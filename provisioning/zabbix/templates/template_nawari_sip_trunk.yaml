@@ -22,7 +22,7 @@ zabbix_export:
         - uuid: f4a5b6c7d8e9470dafc431b51c179502
           name: 'SIP Trunk Endpoint Reachability'
           type: SIMPLE
-          key: sip.trunk.reachability
+          key: 'icmpping[10.2.156.100]'
           delay: 1m
           value_type: UNSIGNED
           description: 'Network ICMP ping reachability to carrier SIP signaling proxy/SBC gateway IP.'
@@ -33,7 +33,7 @@ zabbix_export:
               value: REAL_ZABBIX
           triggers:
             - uuid: f4a5b6c7d8e9470dafc431b51c179512
-              expression: 'last(/Nawari SIP Trunk by Trapper/sip.trunk.reachability)=0'
+              expression: 'last(/Nawari SIP Trunk by Trapper/icmpping[10.2.156.100])=0'
               name: 'SIP Trunk: Endpoint Unreachable'
               priority: DISASTER
               description: 'Carrier SIP trunk endpoint IP is unresponsive to network ICMP ping.'

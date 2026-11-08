@@ -1,5 +1,5 @@
 register_version: 1.0.0
-generated_at: '2026-11-08T11:29:19.655935+00:00'
+generated_at: '2026-11-08T13:07:45.799232+00:00'
 standard: Nawari Phase 13.2 Telemetry Evidence & Integration Audit
 validation_status_definitions:
   VERIFIED_LIVE: Confirmed against actual active physical production device telemetry streaming live.
@@ -90,8 +90,8 @@ dashboards:
     panel_description: "Percentage of contact centre callers answered within Kenya Airways service level threshold (80% answered\
       \ in 20 seconds). Source: Avaya CMS Informix read-only ODBC query on hsplit table. Freshness: 15\u201330 minutes. Missing\
       \ data indicates collector outage, agent failure, or network disruption; values are preserved as null gaps."
-    metric_name: Overall Service Level Attainment
-    zabbix_item_key: Overall Service Level Attainment
+    metric_name: Contact Centre Queue Service Level Attainment
+    zabbix_item_key: Contact Centre Queue Service Level Attainment
     source_device: nawari-cm-01
     source_ip: 10.102.10.25
     collection_mechanism: SNMP
@@ -170,8 +170,8 @@ dashboards:
     panel_description: "Historical volume trend comparing Calls Offered, Calls Answered, and Calls Abandoned over interval\
       \ buckets. Source: Avaya CMS Informix hsplit table. Freshness: 15\u201330 minutes. Missing data indicates collector\
       \ outage, agent failure, or network disruption; values are preserved as null gaps."
-    metric_name: Calls Offered
-    zabbix_item_key: Calls Offered
+    metric_name: CMS Inbound Calls Offered
+    zabbix_item_key: CMS Inbound Calls Offered
     source_device: nawari-cm-01
     source_ip: 10.102.10.25
     collection_mechanism: SNMP
@@ -240,7 +240,7 @@ dashboards:
       values are preserved as null gaps.'
     metric_name: Active Alarms Count
     zabbix_item_key: Active Alarms Count
-    source_device: nawari-cm-01
+    source_device: avaya-cm-01
     source_ip: 10.2.156.131
     collection_mechanism: SNMP
     exact_identifier: 1.3.6.1.2.1
@@ -261,7 +261,7 @@ dashboards:
       is not exposed as a 5-minute counter in this table. Missing data indicates collector timeout or SNMP failure.'
     metric_name: Call Rate Total Attempts (Hourly Measurement Interval)
     zabbix_item_key: Call Rate Total Attempts (Hourly Measurement Interval)
-    source_device: nawari-cm-01
+    source_device: avaya-cm-01
     source_ip: 10.2.156.131
     collection_mechanism: SNMP
     exact_identifier: 1.3.6.1.2.1
@@ -282,7 +282,7 @@ dashboards:
       block. Missing data indicates CM SNMP communication outage.'
     metric_name: Call Rate Completed Calls (Hourly Measurement Interval)
     zabbix_item_key: Call Rate Completed Calls (Hourly Measurement Interval)
-    source_device: nawari-cm-01
+    source_device: avaya-cm-01
     source_ip: 10.2.156.131
     collection_mechanism: SNMP
     exact_identifier: 1.3.6.1.2.1
@@ -303,7 +303,7 @@ dashboards:
       CM SNMP communication outage or unadministered IP options.'
     metric_name: Real-Call Packet Loss (Last Hour)
     zabbix_item_key: Real-Call Packet Loss (Last Hour)
-    source_device: nawari-cm-01
+    source_device: avaya-cm-01
     source_ip: 10.2.156.131
     collection_mechanism: SNMP
     exact_identifier: 1.3.6.1.2.1
@@ -323,7 +323,7 @@ dashboards:
       1 hour. Caching interval: 600s. Warning: > 20ms, Critical: > 30ms. Missing data indicates collector outage.'
     metric_name: Real-Call Peak Jitter (Last Hour)
     zabbix_item_key: Real-Call Peak Jitter (Last Hour)
-    source_device: nawari-cm-01
+    source_device: avaya-cm-01
     source_ip: 10.2.156.131
     collection_mechanism: SNMP
     exact_identifier: 1.3.6.1.2.1
@@ -344,7 +344,7 @@ dashboards:
       collector outage.'
     metric_name: Real-Call Peak Two-Way Delay (Last Hour)
     zabbix_item_key: Real-Call Peak Two-Way Delay (Last Hour)
-    source_device: nawari-cm-01
+    source_device: avaya-cm-01
     source_ip: 10.2.156.131
     collection_mechanism: SNMP
     exact_identifier: 1.3.6.1.2.1
@@ -364,7 +364,7 @@ dashboards:
       interval: 600s. Missing data indicates collector outage.'
     metric_name: Real-Call Hourly Average Jitter
     zabbix_item_key: Real-Call Hourly Average Jitter
-    source_device: nawari-cm-01
+    source_device: avaya-cm-01
     source_ip: 10.2.156.131
     collection_mechanism: SNMP
     exact_identifier: 1.3.6.1.2.1
@@ -384,7 +384,7 @@ dashboards:
       Polling interval: 1 hour. Missing data indicates collector outage.'
     metric_name: Negotiated Audio Codec
     zabbix_item_key: Negotiated Audio Codec
-    source_device: nawari-cm-01
+    source_device: avaya-cm-01
     source_ip: 10.2.156.131
     collection_mechanism: SNMP
     exact_identifier: 1.3.6.1.2.1
@@ -404,7 +404,7 @@ dashboards:
       1 hour. Missing data indicates collector outage.'
     metric_name: Echo Cancellation Status
     zabbix_item_key: Echo Cancellation Status
-    source_device: nawari-cm-01
+    source_device: avaya-cm-01
     source_ip: 10.2.156.131
     collection_mechanism: SNMP
     exact_identifier: 1.3.6.1.2.1
@@ -424,7 +424,7 @@ dashboards:
       interval: 1 hour. Missing data indicates collector outage.'
     metric_name: Real-Call Evaluated Calls Count
     zabbix_item_key: Real-Call Evaluated Calls Count
-    source_device: nawari-cm-01
+    source_device: avaya-cm-01
     source_ip: 10.2.156.131
     collection_mechanism: SNMP
     exact_identifier: 1.3.6.1.2.1
@@ -1603,9 +1603,9 @@ dashboards:
       status (1 = UP, 0 = DOWN). Source: Zabbix ICMP and SNMP health checks. Freshness: 60s. Limitation: Reflects management/control
       plane reachability only. Missing data indicates collector outage, agent failure, or network disruption; values are preserved
       as null gaps.'
-    metric_name: Appliance SNMP Reachability
-    zabbix_item_key: Appliance SNMP Reachability
-    source_device: nawari-sbce-01
+    metric_name: SBCE Appliance Reachability
+    zabbix_item_key: SBCE Appliance Reachability
+    source_device: avaya-sbce-01
     source_ip: 10.2.156.131
     collection_mechanism: SNMP
     exact_identifier: 1.3.6.1.2.1
@@ -1645,8 +1645,8 @@ dashboards:
       \ signaling/session capacity, not historical completed call volume. Source: Avaya SBCE EMS SIP Statistics Interface.\
       \ Freshness: 60s. Normal: 50\u2013350 calls, Critical: > 450 (approaching 500 session license limit). Missing data indicates\
       \ collector outage, agent failure, or network disruption; values are preserved as null gaps."
-    metric_name: Active Audio Sessions
-    zabbix_item_key: Active Audio Sessions
+    metric_name: Active SIP Calls
+    zabbix_item_key: Active SIP Calls
     source_device: nawari-sbce-01
     source_ip: 10.2.156.131
     collection_mechanism: TRAP / API
@@ -1667,8 +1667,8 @@ dashboards:
       Avaya SBCE. 1 = REGISTERED / UP, 0 = UNREGISTERED / DOWN. Source: Zabbix SIP monitoring on SBCE. Crucial Note: Proves
       layer-5 SIP signaling reachability only; does NOT guarantee voice audio quality or absence of media packet loss. Freshness:
       60s. Missing data indicates collector outage, agent failure, or network disruption; values are preserved as null gaps.'
-    metric_name: Safaricom Primary SIP Trunk Operational Status
-    zabbix_item_key: Safaricom Primary SIP Trunk Operational Status
+    metric_name: SIP Trunk Endpoint Reachability
+    zabbix_item_key: SIP Trunk Endpoint Reachability
     source_device: nawari-sbce-01
     source_ip: 10.2.156.131
     collection_mechanism: SNMP / TRAP
@@ -1688,8 +1688,8 @@ dashboards:
       every 5 minutes. Source: Avaya CM MIB table avCmListMeasCallRateTotal (OID 1.3.6.1.4.1.6889.2.73.8.1.1). Polling interval:
       5 minutes (vendor specified CPU limit). Freshness: 5 minutes. Missing data indicates collector outage, agent failure,
       or network disruption; values are preserved as null gaps.'
-    metric_name: Call Rate Total Attempts (5-minute)
-    zabbix_item_key: Call Rate Total Attempts (5-minute)
+    metric_name: Call Rate Total Attempts (Hourly Measurement Interval)
+    zabbix_item_key: Call Rate Total Attempts (Hourly Measurement Interval)
     source_device: nawari-cm-01
     source_ip: 10.102.10.25
     collection_mechanism: SNMP
@@ -1710,8 +1710,8 @@ dashboards:
       \ threshold (80% answered in 20 seconds). Source: Avaya CMS Informix database read-only integration. Warning: < 80%,\
       \ Critical: < 70%. Freshness: 15\u201330 minutes (matches CMS reporting archive interval). Missing data indicates collector\
       \ outage, agent failure, or network disruption; values are preserved as null gaps."
-    metric_name: Overall Service Level Attainment
-    zabbix_item_key: Overall Service Level Attainment
+    metric_name: Contact Centre Queue Service Level Attainment
+    zabbix_item_key: Contact Centre Queue Service Level Attainment
     source_device: nawari-cm-01
     source_ip: 10.102.10.25
     collection_mechanism: SNMP
@@ -1731,8 +1731,8 @@ dashboards:
       caller across all ACD skills. Source: Avaya CMS real-time reporting interface. Warning: Queue > 15 calls or Oldest >
       120s. Freshness: 60s. Missing data indicates collector outage, agent failure, or network disruption; values are preserved
       as null gaps.'
-    metric_name: Calls Waiting in Queue
-    zabbix_item_key: Calls Waiting in Queue
+    metric_name: CMS Inbound Calls Offered
+    zabbix_item_key: CMS Inbound Calls Offered
     source_device: nawari-cm-01
     source_ip: 10.102.10.25
     collection_mechanism: SNMP
@@ -1752,8 +1752,8 @@ dashboards:
       \ (on call), After Call Work (ACW), and Auxiliary (break/training). Source: Avaya CMS Informix database read-only query.\
       \ Freshness: 15\u201330 minutes. Missing data indicates collector outage, agent failure, or network disruption; values\
       \ are preserved as null gaps."
-    metric_name: Agent Staffing by State
-    zabbix_item_key: Agent Staffing by State
+    metric_name: CMS Inbound Calls Abandoned
+    zabbix_item_key: CMS Inbound Calls Abandoned
     source_device: nawari-cm-01
     source_ip: 10.102.10.25
     collection_mechanism: SNMP
@@ -1817,8 +1817,8 @@ dashboards:
       between Asterisk probes and test extensions. Scale: 1.0 to 4.5. Warning: < 3.6, Critical: < 3.1. Source: Synthetic Asterisk
       probe telemetry. Caution: Reflects synthetic probe calls ONLY; does NOT represent real customer calls. Missing data
       indicates collector outage, agent failure, or network disruption; values are preserved as null gaps.'
-    metric_name: Estimated Mean Opinion Score (MOS)
-    zabbix_item_key: Estimated Mean Opinion Score (MOS)
+    metric_name: Synthetic call Estimated MOS
+    zabbix_item_key: Synthetic call Estimated MOS
     source_device: mon-asterisk01
     source_ip: 127.0.0.1
     collection_mechanism: SYNTHETIC_PROBE
@@ -1834,13 +1834,14 @@ dashboards:
     supporting_evidence: '`services/voice/runner.py`, `tests/unit/test_sip_transaction_engine.py`'
     validation_status: SIMULATED
   - panel_id: 16
-    panel_title: Voice Telemetry Source Freshness & Instrumentation Inventory [AUDIT]
-    panel_description: Audit inventory of all voice telemetry sources, underlying protocols, expected polling intervals, freshness
-      guarantees, and operational status. Identifies whether data is actively updating or stale. Missing data indicates collector
-      outage, agent failure, or network disruption; values are preserved as null gaps.
-    metric_name: Telemetry Source Freshness Table
-    zabbix_item_key: Telemetry Source Freshness Table
-    source_device: /.*/
+    panel_title: Active Voice Infrastructure Problems [ZABBIX NATIVE EVENT ENGINE]
+    panel_description: 'Live operational problem stream displaying active Zabbix triggers firing across Avaya and Voice communication
+      infrastructure hosts (SBCE, Session Manager, Communication Manager, G450 Gateway, Carrier Trunks, CMS, Voice Probe Agents).
+      Source: Zabbix Problems API filtered for Voice & Avaya infrastructure host groups. Freshness: Real-time event state.
+      Missing data indicates collector outage, agent failure, or network disruption; values are preserved as null gaps.'
+    metric_name: Active Voice Infrastructure Problems [ZABBIX NATIVE EVENT ENGINE]
+    zabbix_item_key: Active Voice Infrastructure Problems [ZABBIX NATIVE EVENT ENGINE]
+    source_device: mon-grafana01
     source_ip: 10.2.156.131
     collection_mechanism: SNMP
     exact_identifier: 1.3.6.1.2.1
@@ -1865,8 +1866,8 @@ dashboards:
       A1. 1 = REGISTERED, 0 = UNREGISTERED / FAILED. Source: Zabbix SNMP/SIP OPTIONS check on SBCE. Crucial Note: Proves layer-5
       signaling reachability only; does NOT guarantee absence of voice packet loss or acceptable audio quality. Missing data
       indicates collector outage, agent failure, or network disruption; values are preserved as null gaps.'
-    metric_name: Safaricom Primary SIP Trunk Operational Status
-    zabbix_item_key: Safaricom Primary SIP Trunk Operational Status
+    metric_name: SIP Trunk Endpoint Reachability
+    zabbix_item_key: SIP Trunk Endpoint Reachability
     source_device: nawari-sbce-01
     source_ip: 10.2.156.131
     collection_mechanism: SNMP / TRAP
@@ -1885,8 +1886,8 @@ dashboards:
     panel_description: 'Operational registration state of the secondary Airtel SIP trunk terminating on Avaya SBCE interface
       A1. 1 = REGISTERED, 0 = UNREGISTERED / FAILED. Source: Zabbix SNMP/SIP OPTIONS check on SBCE. Signaling reachability
       only. Missing data indicates collector outage, agent failure, or network disruption; values are preserved as null gaps.'
-    metric_name: Airtel Secondary SIP Trunk Operational Status
-    zabbix_item_key: Airtel Secondary SIP Trunk Operational Status
+    metric_name: SIP Trunk OPTIONS Probe Status
+    zabbix_item_key: SIP Trunk OPTIONS Probe Status
     source_device: nawari-sbce-01
     source_ip: 10.2.156.131
     collection_mechanism: SNMP / TRAP
@@ -1906,8 +1907,8 @@ dashboards:
       (Safaricom vs Airtel). Units: Milliseconds (ms). Warning: > 50ms, Critical: > 100ms. Source: Zabbix SIP OPTIONS probe.
       Polling: 30s. Missing data indicates collector outage, agent failure, or network disruption; values are preserved as
       null gaps.'
-    metric_name: Safaricom SIP OPTIONS Round-Trip Latency
-    zabbix_item_key: Safaricom SIP OPTIONS Round-Trip Latency
+    metric_name: SIP Trunk OPTIONS Response Time
+    zabbix_item_key: SIP Trunk OPTIONS Response Time
     source_device: nawari-sbce-01
     source_ip: 10.2.156.131
     collection_mechanism: SIP_PROBE
@@ -1991,8 +1992,8 @@ dashboards:
       second. Source: IF-MIB ifInErrors / ifOutErrors. Any non-zero error rate directly degrades voice audio quality, causing
       clipping and metallic distortion. Missing data indicates collector outage, agent failure, or network disruption; values
       are preserved as null gaps.'
-    metric_name: Voice Path Packet Errors (rate)
-    zabbix_item_key: Voice Path Packet Errors (rate)
+    metric_name: SBCE Aggregate Interface Error Rate
+    zabbix_item_key: SBCE Aggregate Interface Error Rate
     source_device: nawari-sbce-01
     source_ip: 10.2.156.131
     collection_mechanism: SNMP
@@ -2153,7 +2154,7 @@ dashboards:
       failure, or network disruption; values are preserved as null gaps.'
     metric_name: avCmMeasIpVoStatSumDataLstHrPkJitter
     zabbix_item_key: avCmMeasIpVoStatSumDataLstHrPkJitter
-    source_device: avaya-cm-01.nawari.local
+    source_device: avaya-cm-01
     source_ip: 10.2.156.131
     collection_mechanism: SNMP
     exact_identifier: 1.3.6.1.2.1
@@ -2282,8 +2283,8 @@ dashboards:
       server cluster (TSAPI / DMCC / CSTA). 1 = Link Active, 0 = Link Down. Critical alert if down: halts call metadata association.
       Source: CTI daemon check. Polling: 60s. Missing data indicates collector outage, agent failure, or network disruption;
       values are preserved as null gaps.'
-    metric_name: Recorder-to-CM CTI Link State
-    zabbix_item_key: Recorder-to-CM CTI Link State
+    metric_name: Compliance Voice Recording Pipeline Health
+    zabbix_item_key: Compliance Voice Recording Pipeline Health
     source_device: nawari-cm-01
     source_ip: 10.102.10.25
     collection_mechanism: SNMP
@@ -2322,8 +2323,8 @@ dashboards:
     panel_description: 'Live count of concurrent telephone voice conversations currently being actively captured and recorded.
       Source: Recording daemon active session counter. Polling: 60s. Missing data indicates collector outage, agent failure,
       or network disruption; values are preserved as null gaps.'
-    metric_name: Active Concurrent Recording Sessions
-    zabbix_item_key: Active Concurrent Recording Sessions
+    metric_name: Compliance Voice Recording Pipeline Health
+    zabbix_item_key: Compliance Voice Recording Pipeline Health
     source_device: nawari-rec-01
     source_ip: 10.2.156.42
     collection_mechanism: API / TRAP
@@ -2364,8 +2365,8 @@ dashboards:
     panel_description: 'Count of failed recording operations (e.g. RTP stream missing, CTI timeout, codec mismatch) in the
       preceding hour. Source: Recording error log. Warning: > 0 failures. Missing data indicates collector outage, agent failure,
       or network disruption; values are preserved as null gaps.'
-    metric_name: Recording Capture Failure Count
-    zabbix_item_key: Recording Capture Failure Count
+    metric_name: Compliance Voice Recording Pipeline Health
+    zabbix_item_key: Compliance Voice Recording Pipeline Health
     source_device: nawari-rec-01
     source_ip: 10.2.156.42
     collection_mechanism: API / TRAP
@@ -2406,8 +2407,8 @@ dashboards:
     panel_description: 'Storage capacity utilization percentage across dedicated call recording storage volumes. Warning:
       > 80%, Critical: > 90%. Source: HOST-RESOURCES-MIB hrStorageUsed. Polling: 5m. Missing data indicates collector outage,
       agent failure, or network disruption; values are preserved as null gaps.'
-    metric_name: Recording Storage Partition Utilization
-    zabbix_item_key: Recording Storage Partition Utilization
+    metric_name: Compliance Voice Recording Spool Free Storage
+    zabbix_item_key: Compliance Voice Recording Spool Free Storage
     source_device: nawari-rec-01
     source_ip: 10.2.156.42
     collection_mechanism: SNMP

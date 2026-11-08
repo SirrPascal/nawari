@@ -1,5 +1,5 @@
 catalogue_version: 1.0.0
-generated_at: '2026-11-08T11:29:24.171093+00:00'
+generated_at: '2026-11-08T13:07:45.924411+00:00'
 nawari_architecture_version: Phase 13.1 Enterprise Observability
 integrity_standards:
   null_handling_policy: 'Preserve as NULL / Gaps (spanNulls: False). Coercing NULL
@@ -1944,7 +1944,7 @@ dashboards:
     provenance_type: SERVICE_ASSURANCE_SLI
     telemetry_source: Nawari Business Service SLI Engine (13B Standard)
     metric_keys:
-    - Overall Service Level Attainment
+    - Contact Centre Queue Service Level Attainment
     unit: percent
     refresh_interval: 60 seconds
     freshness_guarantee: < 60 seconds
@@ -2017,9 +2017,9 @@ dashboards:
     telemetry_source: Zabbix Telemetry Engine (SNMPv2c/v3, ICMP ping, Zabbix Agent
       LLD)
     metric_keys:
-    - Calls Offered
-    - Calls Answered
-    - Abandoned Calls
+    - CMS Inbound Calls Offered
+    - CMS Inbound Calls Answered
+    - CMS Inbound Calls Abandoned
     unit: calls
     refresh_interval: 30 seconds
     freshness_guarantee: < 30 seconds
@@ -3402,11 +3402,11 @@ dashboards:
     provenance_type: REAL_SBCE_SNMP
     telemetry_source: Avaya SBCE 8.1 SNMPv3 Agent (IF-MIB / HOST-RESOURCES-MIB / UCD-SNMP-MIB)
     metric_keys:
-    - Appliance SNMP Reachability
+    - SBCE Appliance Reachability
     - Session Manager SNMP Availability
     - Communication Manager SNMP Availability
     - G450 ICMP Reachability
-    - CMS Server Availability
+    - Compliance Voice Recording Pipeline Health
     unit: short
     refresh_interval: 30 seconds
     freshness_guarantee: < 30 seconds
@@ -3448,7 +3448,7 @@ dashboards:
     provenance_type: REAL_SBCE_SNMP
     telemetry_source: Avaya SBCE 8.1 SNMPv3 Agent (IF-MIB / HOST-RESOURCES-MIB / UCD-SNMP-MIB)
     metric_keys:
-    - Active Audio Sessions
+    - Active SIP Calls
     unit: calls
     refresh_interval: 30 seconds
     freshness_guarantee: < 30 seconds
@@ -3465,16 +3465,16 @@ dashboards:
       of media packet loss. Freshness: 60s. Missing data indicates collector outage,
       agent failure, or network disruption; values are preserved as null gaps.'
     datasource_type: alexanderzobnin-zabbix-datasource
-    provenance_type: REAL_SBCE_SNMP
-    telemetry_source: Avaya SBCE 8.1 SNMPv3 Agent (IF-MIB / HOST-RESOURCES-MIB / UCD-SNMP-MIB)
+    provenance_type: REAL_ZABBIX_TELEMETRY
+    telemetry_source: Zabbix Telemetry Engine (SNMPv2c/v3, ICMP ping, Zabbix Agent
+      LLD)
     metric_keys:
-    - Safaricom Primary SIP Trunk Operational Status
-    - Airtel Secondary SIP Trunk Operational Status
+    - SIP Trunk Endpoint Reachability
+    - SIP Trunk OPTIONS Probe Status
     unit: short
     refresh_interval: 30 seconds
     freshness_guarantee: < 30 seconds
-    operational_limitations: Reflects physical/virtual appliance operating metrics
-      and carrier interface traffic. Verifies transport/session plane capacity.
+    operational_limitations: Direct physical switch, router, and host metrics.
     null_handling: 'spanNulls: False (nulls preserved as gaps, never coerced to 0)'
   - panel_id: 7
     panel_title: "5-Minute Call Processing Rate (CM) [REAL \u2014 AVAYA SNMP]"
@@ -3490,8 +3490,8 @@ dashboards:
     telemetry_source: Avaya Communication Manager 8.1.0 MIB (avCmMeasIpVoStatSumDataLstHrTable
       / avCmMeasIpVoStatHrJitterTable)
     metric_keys:
-    - Call Rate Total Attempts (5-minute)
-    - Call Rate Completed Calls (5-minute)
+    - Call Rate Total Attempts (Hourly Measurement Interval)
+    - Call Rate Completed Calls (Hourly Measurement Interval)
     unit: calls
     refresh_interval: 1 hour (Polling restricted to >= 3600s to prevent CM CPU exhaustion)
     freshness_guarantee: "1\u20132 hours (CM internal hourly measurement bucket)"
@@ -3511,7 +3511,7 @@ dashboards:
     provenance_type: SERVICE_ASSURANCE_SLI
     telemetry_source: Nawari Business Service SLI Engine (13B Standard)
     metric_keys:
-    - Overall Service Level Attainment
+    - Contact Centre Queue Service Level Attainment
     unit: percent
     refresh_interval: 60 seconds
     freshness_guarantee: < 60 seconds
@@ -3531,8 +3531,8 @@ dashboards:
     telemetry_source: Zabbix Telemetry Engine (SNMPv2c/v3, ICMP ping, Zabbix Agent
       LLD)
     metric_keys:
-    - Calls Waiting in Queue
-    - Oldest Call Waiting Duration
+    - CMS Inbound Calls Offered
+    - CMS Inbound Calls Answered
     unit: short
     refresh_interval: 30 seconds
     freshness_guarantee: < 30 seconds
@@ -3551,7 +3551,7 @@ dashboards:
     telemetry_source: Zabbix Telemetry Engine (SNMPv2c/v3, ICMP ping, Zabbix Agent
       LLD)
     metric_keys:
-    - Agent Staffing by State
+    - CMS Inbound Calls Abandoned
     unit: short
     refresh_interval: 30 seconds
     freshness_guarantee: < 30 seconds
@@ -3613,8 +3613,7 @@ dashboards:
     provenance_type: SYNTHETIC_PROBE
     telemetry_source: Synthetic Asterisk Call Engine (AMI / RTCP Telemetry)
     metric_keys:
-    - Estimated Mean Opinion Score (MOS)
-    - app:Synthetic Voice Probes
+    - Synthetic call Estimated MOS
     unit: none
     refresh_interval: "30s\u201360s"
     freshness_guarantee: < 60 seconds (Probe Cycle Interval)
@@ -3623,19 +3622,20 @@ dashboards:
       voice conversations.
     null_handling: 'spanNulls: False (nulls preserved as gaps, never coerced to 0)'
   - panel_id: 16
-    panel_title: Voice Telemetry Source Freshness & Instrumentation Inventory [AUDIT]
-    panel_type: table
-    description: Audit inventory of all voice telemetry sources, underlying protocols,
-      expected polling intervals, freshness guarantees, and operational status. Identifies
-      whether data is actively updating or stale. Missing data indicates collector
-      outage, agent failure, or network disruption; values are preserved as null gaps.
+    panel_title: Active Voice Infrastructure Problems [ZABBIX NATIVE EVENT ENGINE]
+    panel_type: alexanderzobnin-zabbix-problems-panel
+    description: 'Live operational problem stream displaying active Zabbix triggers
+      firing across Avaya and Voice communication infrastructure hosts (SBCE, Session
+      Manager, Communication Manager, G450 Gateway, Carrier Trunks, CMS, Voice Probe
+      Agents). Source: Zabbix Problems API filtered for Voice & Avaya infrastructure
+      host groups. Freshness: Real-time event state. Missing data indicates collector
+      outage, agent failure, or network disruption; values are preserved as null gaps.'
     datasource_type: alexanderzobnin-zabbix-datasource
     provenance_type: REAL_ZABBIX_TELEMETRY
     telemetry_source: Zabbix Telemetry Engine (SNMPv2c/v3, ICMP ping, Zabbix Agent
       LLD)
     metric_keys:
-    - Telemetry Source Freshness Table
-    - app:Telemetry Audit
+    - Zabbix Item Query
     unit: short
     refresh_interval: 30 seconds
     freshness_guarantee: < 30 seconds
@@ -3659,15 +3659,15 @@ dashboards:
       or acceptable audio quality. Missing data indicates collector outage, agent
       failure, or network disruption; values are preserved as null gaps.'
     datasource_type: alexanderzobnin-zabbix-datasource
-    provenance_type: REAL_SBCE_SNMP
-    telemetry_source: Avaya SBCE 8.1 SNMPv3 Agent (IF-MIB / HOST-RESOURCES-MIB / UCD-SNMP-MIB)
+    provenance_type: REAL_ZABBIX_TELEMETRY
+    telemetry_source: Zabbix Telemetry Engine (SNMPv2c/v3, ICMP ping, Zabbix Agent
+      LLD)
     metric_keys:
-    - Safaricom Primary SIP Trunk Operational Status
+    - SIP Trunk Endpoint Reachability
     unit: short
     refresh_interval: 30 seconds
     freshness_guarantee: < 30 seconds
-    operational_limitations: Reflects physical/virtual appliance operating metrics
-      and carrier interface traffic. Verifies transport/session plane capacity.
+    operational_limitations: Direct physical switch, router, and host metrics.
     null_handling: 'spanNulls: False (nulls preserved as gaps, never coerced to 0)'
   - panel_id: 3
     panel_title: "Airtel Secondary SIP Trunk [REAL \u2014 ZABBIX]"
@@ -3678,15 +3678,15 @@ dashboards:
       Missing data indicates collector outage, agent failure, or network disruption;
       values are preserved as null gaps.'
     datasource_type: alexanderzobnin-zabbix-datasource
-    provenance_type: REAL_SBCE_SNMP
-    telemetry_source: Avaya SBCE 8.1 SNMPv3 Agent (IF-MIB / HOST-RESOURCES-MIB / UCD-SNMP-MIB)
+    provenance_type: REAL_ZABBIX_TELEMETRY
+    telemetry_source: Zabbix Telemetry Engine (SNMPv2c/v3, ICMP ping, Zabbix Agent
+      LLD)
     metric_keys:
-    - Airtel Secondary SIP Trunk Operational Status
+    - SIP Trunk OPTIONS Probe Status
     unit: short
     refresh_interval: 30 seconds
     freshness_guarantee: < 30 seconds
-    operational_limitations: Reflects physical/virtual appliance operating metrics
-      and carrier interface traffic. Verifies transport/session plane capacity.
+    operational_limitations: Direct physical switch, router, and host metrics.
     null_handling: 'spanNulls: False (nulls preserved as gaps, never coerced to 0)'
   - panel_id: 4
     panel_title: "Carrier SIP OPTIONS Round-Trip Latency [REAL \u2014 ZABBIX]"
@@ -3697,16 +3697,16 @@ dashboards:
       Polling: 30s. Missing data indicates collector outage, agent failure, or network
       disruption; values are preserved as null gaps.'
     datasource_type: alexanderzobnin-zabbix-datasource
-    provenance_type: REAL_SBCE_SNMP
-    telemetry_source: Avaya SBCE 8.1 SNMPv3 Agent (IF-MIB / HOST-RESOURCES-MIB / UCD-SNMP-MIB)
+    provenance_type: REAL_ZABBIX_TELEMETRY
+    telemetry_source: Zabbix Telemetry Engine (SNMPv2c/v3, ICMP ping, Zabbix Agent
+      LLD)
     metric_keys:
-    - Safaricom SIP OPTIONS Round-Trip Latency
-    - Airtel SIP OPTIONS Round-Trip Latency
+    - SIP Trunk OPTIONS Response Time
+    - SIP Trunk OPTIONS Response Time
     unit: ms
     refresh_interval: 30 seconds
     freshness_guarantee: < 30 seconds
-    operational_limitations: Reflects physical/virtual appliance operating metrics
-      and carrier interface traffic. Verifies transport/session plane capacity.
+    operational_limitations: Direct physical switch, router, and host metrics.
     null_handling: 'spanNulls: False (nulls preserved as gaps, never coerced to 0)'
   - panel_id: 6
     panel_title: "Signaling Phase Latencies (PDD vs TTA vs Setup) [SYNTHETIC \u2014\
@@ -3790,7 +3790,7 @@ dashboards:
     provenance_type: REAL_SBCE_SNMP
     telemetry_source: Avaya SBCE 8.1 SNMPv3 Agent (IF-MIB / HOST-RESOURCES-MIB / UCD-SNMP-MIB)
     metric_keys:
-    - Voice Path Packet Errors (rate)
+    - SBCE Aggregate Interface Error Rate
     unit: errors/s
     refresh_interval: 30 seconds
     freshness_guarantee: < 30 seconds
@@ -4092,7 +4092,7 @@ dashboards:
     telemetry_source: Zabbix Telemetry Engine (SNMPv2c/v3, ICMP ping, Zabbix Agent
       LLD)
     metric_keys:
-    - Recorder-to-CM CTI Link State
+    - Compliance Voice Recording Pipeline Health
     unit: short
     refresh_interval: 30 seconds
     freshness_guarantee: < 30 seconds
@@ -4127,7 +4127,7 @@ dashboards:
     telemetry_source: Zabbix Telemetry Engine (SNMPv2c/v3, ICMP ping, Zabbix Agent
       LLD)
     metric_keys:
-    - Active Concurrent Recording Sessions
+    - Compliance Voice Recording Pipeline Health
     unit: calls
     refresh_interval: 30 seconds
     freshness_guarantee: < 30 seconds
@@ -4163,7 +4163,7 @@ dashboards:
     telemetry_source: Zabbix Telemetry Engine (SNMPv2c/v3, ICMP ping, Zabbix Agent
       LLD)
     metric_keys:
-    - Recording Capture Failure Count
+    - Compliance Voice Recording Pipeline Health
     unit: calls
     refresh_interval: 30 seconds
     freshness_guarantee: < 30 seconds
@@ -4199,7 +4199,7 @@ dashboards:
     telemetry_source: Zabbix Telemetry Engine (SNMPv2c/v3, ICMP ping, Zabbix Agent
       LLD)
     metric_keys:
-    - Recording Storage Partition Utilization
+    - Compliance Voice Recording Spool Free Storage
     unit: percent
     refresh_interval: 30 seconds
     freshness_guarantee: < 30 seconds

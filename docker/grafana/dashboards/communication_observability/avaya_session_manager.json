@@ -80,7 +80,7 @@
             "name": "Voice Infrastructure"
           },
           "host": {
-            "name": "nawari-sm-01"
+            "name": "avaya-sm-01"
           },
           "item": {
             "name": "Session Manager Host CPU Utilization"
@@ -150,7 +150,7 @@
             "name": "Voice Infrastructure"
           },
           "host": {
-            "name": "nawari-sm-01"
+            "name": "avaya-sm-01"
           },
           "item": {
             "name": "Session Manager Host RAM Utilization"
@@ -200,7 +200,7 @@
             "name": "Voice Infrastructure"
           },
           "host": {
-            "name": "nawari-sm-01"
+            "name": "avaya-sm-01"
           },
           "item": {
             "name": "Session Manager System Uptime"
@@ -246,7 +246,7 @@
             "name": "Voice Infrastructure"
           },
           "host": {
-            "name": "nawari-sm-01"
+            "name": "avaya-sm-01"
           },
           "item": {
             "name": "TCP Established Sockets"
@@ -346,7 +346,7 @@
             "name": "Voice Infrastructure"
           },
           "host": {
-            "name": "nawari-sm-01"
+            "name": "avaya-sm-01"
           },
           "item": {
             "name": "SIP Entity State \u2014 Avaya Communication Manager"
@@ -434,7 +434,7 @@
             "name": "Voice Infrastructure"
           },
           "host": {
-            "name": "nawari-sm-01"
+            "name": "avaya-sm-01"
           },
           "item": {
             "name": "SIP Entity State \u2014 Avaya SBCE Pride"
@@ -480,7 +480,7 @@
             "name": "Voice Infrastructure"
           },
           "host": {
-            "name": "nawari-sm-01"
+            "name": "avaya-sm-01"
           },
           "item": {
             "name": "SIP OPTIONS Response Time \u2014 Avaya CM"
@@ -529,7 +529,7 @@
             "name": "Voice Infrastructure"
           },
           "host": {
-            "name": "nawari-sm-01"
+            "name": "avaya-sm-01"
           },
           "application": {
             "name": "SIP Entity Monitoring"
@@ -598,7 +598,7 @@
             "name": "Voice Infrastructure"
           },
           "host": {
-            "name": "nawari-sm-01"
+            "name": "avaya-sm-01"
           },
           "item": {
             "name": "Session Manager Active Alarms Count"

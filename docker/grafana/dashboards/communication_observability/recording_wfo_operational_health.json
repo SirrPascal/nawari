@@ -72,7 +72,7 @@
             "name": "Recording Infrastructure"
           },
           "host": {
-            "name": "nawari-wfo-01"
+            "name": "avaya-cms-01"
           },
           "item": {
             "name": "wfoProductSpecificationStatus"
@@ -152,10 +152,10 @@
             "name": "Recording Infrastructure"
           },
           "host": {
-            "name": "nawari-wfo-01"
+            "name": "avaya-cms-01"
           },
           "item": {
-            "name": "Recorder-to-CM CTI Link State"
+            "name": "Compliance Voice Recording Pipeline Health"
           },
           "refId": "CTI"
         }
@@ -202,7 +202,7 @@
             "name": "Recording Infrastructure"
           },
           "host": {
-            "name": "nawari-wfo-01"
+            "name": "avaya-cms-01"
           },
           "item": {
             "name": "Recording Host Uptime"
@@ -264,10 +264,10 @@
             "name": "Recording Infrastructure"
           },
           "host": {
-            "name": "nawari-wfo-01"
+            "name": "avaya-cms-01"
           },
           "item": {
-            "name": "Active Concurrent Recording Sessions"
+            "name": "Compliance Voice Recording Pipeline Health"
           },
           "refId": "SESSIONS"
         }
@@ -310,7 +310,7 @@
             "name": "Recording Infrastructure"
           },
           "host": {
-            "name": "nawari-wfo-01"
+            "name": "avaya-cms-01"
           },
           "item": {
             "name": "Recording Ingestion Rate"
@@ -376,10 +376,10 @@
             "name": "Recording Infrastructure"
           },
           "host": {
-            "name": "nawari-wfo-01"
+            "name": "avaya-cms-01"
           },
           "item": {
-            "name": "Recording Capture Failure Count"
+            "name": "Compliance Voice Recording Pipeline Health"
           },
           "refId": "FAILURES"
         }
@@ -446,7 +446,7 @@
             "name": "Recording Infrastructure"
           },
           "host": {
-            "name": "nawari-wfo-01"
+            "name": "avaya-cms-01"
           },
           "item": {
             "name": "Ingestion Buffer Queue Depth"
@@ -528,10 +528,10 @@
             "name": "Recording Infrastructure"
           },
           "host": {
-            "name": "nawari-wfo-01"
+            "name": "avaya-cms-01"
           },
           "item": {
-            "name": "Recording Storage Partition Utilization"
+            "name": "Compliance Voice Recording Spool Free Storage"
           },
           "refId": "STORAGE"
         }
@@ -598,7 +598,7 @@
             "name": "Recording Infrastructure"
           },
           "host": {
-            "name": "nawari-wfo-01"
+            "name": "avaya-cms-01"
           },
           "item": {
             "name": "Projected Days-to-Full (Storage TTE)"
@@ -668,7 +668,7 @@
             "name": "Recording Infrastructure"
           },
           "host": {
-            "name": "nawari-wfo-01"
+            "name": "avaya-cms-01"
           },
           "item": {
             "name": "Daily Archival Transfer Success Rate"

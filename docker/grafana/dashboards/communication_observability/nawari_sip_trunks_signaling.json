@@ -90,10 +90,10 @@
             "name": "Voice Infrastructure"
           },
           "host": {
-            "name": "nawari-sbce-01"
+            "name": "sip-trunk-carrier-01"
           },
           "item": {
-            "name": "Safaricom Primary SIP Trunk Operational Status"
+            "name": "SIP Trunk Endpoint Reachability"
           },
           "refId": "SAFARICOM"
         }
@@ -170,10 +170,10 @@
             "name": "Voice Infrastructure"
           },
           "host": {
-            "name": "nawari-sbce-01"
+            "name": "sip-trunk-carrier-01"
           },
           "item": {
-            "name": "Airtel Secondary SIP Trunk Operational Status"
+            "name": "SIP Trunk OPTIONS Probe Status"
           },
           "refId": "AIRTEL"
         }
@@ -216,10 +216,10 @@
             "name": "Voice Infrastructure"
           },
           "host": {
-            "name": "nawari-sbce-01"
+            "name": "sip-trunk-carrier-01"
           },
           "item": {
-            "name": "Safaricom SIP OPTIONS Round-Trip Latency"
+            "name": "SIP Trunk OPTIONS Response Time"
           },
           "refId": "SAF_RTT"
         },
@@ -228,10 +228,10 @@
             "name": "Voice Infrastructure"
           },
           "host": {
-            "name": "nawari-sbce-01"
+            "name": "sip-trunk-carrier-01"
           },
           "item": {
-            "name": "Airtel SIP OPTIONS Round-Trip Latency"
+            "name": "SIP Trunk OPTIONS Response Time"
           },
           "refId": "AIR_RTT"
         }
@@ -423,7 +423,7 @@
             "name": "Voice Infrastructure"
           },
           "host": {
-            "name": "nawari-sbce-01"
+            "name": "avaya-sbce-01"
           },
           "item": {
             "name": "A1 Interface Ingress Traffic (bps)"
@@ -435,7 +435,7 @@
             "name": "Voice Infrastructure"
           },
           "host": {
-            "name": "nawari-sbce-01"
+            "name": "avaya-sbce-01"
           },
           "item": {
             "name": "A1 Interface Egress Traffic (bps)"
@@ -497,10 +497,10 @@
             "name": "Voice Infrastructure"
           },
           "host": {
-            "name": "nawari-sbce-01"
+            "name": "avaya-sbce-01"
           },
           "item": {
-            "name": "Voice Path Packet Errors (rate)"
+            "name": "SBCE Aggregate Interface Error Rate"
           },
           "refId": "ERRORS"
         }
