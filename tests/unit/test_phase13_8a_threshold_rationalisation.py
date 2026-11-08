@@ -250,3 +250,109 @@ def test_10_roadmap_prerequisite_sequence():
     assert "Phase 13.8B" in roadmap_content, "Roadmap must document Phase 13.8B"
     assert "Phase 13.8C" in roadmap_content, "Roadmap must document Phase 13.8C"
     assert "Phase 13.9" in roadmap_content, "Roadmap must document Phase 13.9"
+
+
+def test_11_inventory_reconciliation_exact_counts(zabbix_client):
+    """Verify exact ground-truth trigger counts across Nawari templates and hosts."""
+    comm_templates = [
+        "Nawari Avaya SBCE by SNMP",
+        "Nawari Avaya Session Manager by SNMP",
+        "Nawari Voice Synthetic Probe by Zabbix Trapper",
+        "Nawari Avaya G450 Media Gateway by SNMP",
+        "Nawari Avaya Communication Manager by SNMP",
+        "Nawari SIP Trunk by Trapper",
+        "Nawari Avaya CMS and WFO by Trapper",
+    ]
+    all_nawari_templates = comm_templates + [
+        "Nawari Generic SNMP Base",
+        "Nawari Network Device by SNMP",
+        "Template Nawari Endpoint Probe by Zabbix Trapper",
+    ]
+
+    # Query communication templates
+    comm_res = zabbix_client.call("template.get", {"filter": {"name": comm_templates}, "output": ["templateid"]})
+    comm_ids = [t["templateid"] for t in comm_res]
+    comm_triggers = zabbix_client.call("trigger.get", {"templateids": comm_ids, "output": ["triggerid"]})
+    assert len(comm_triggers) == 59, f"Expected 59 communication triggers across 7 templates, got {len(comm_triggers)}"
+
+    # Query all 10 Nawari templates
+    all_res = zabbix_client.call("template.get", {"filter": {"name": all_nawari_templates}, "output": ["templateid"]})
+    all_ids = [t["templateid"] for t in all_res]
+    all_triggers = zabbix_client.call("trigger.get", {"templateids": all_ids, "output": ["triggerid"]})
+    assert len(all_triggers) == 70, f"Expected 70 triggers across all 10 Nawari templates, got {len(all_triggers)}"
+
+
+def test_12_untagged_triggers_root_cause_analysis(zabbix_client):
+    """Verify that all untagged triggers are discovered interface triggers on mock lab hosts."""
+    hosts = zabbix_client.call("host.get", {"output": ["hostid", "host", "name"]})
+    nawari_hosts = [h for h in hosts if h["host"] != "Zabbix server"]
+    assert len(nawari_hosts) == 11, f"Expected 11 Nawari hosts, found {len(nawari_hosts)}"
+
+    all_untagged = []
+    concrete_untagged = []
+    for h in nawari_hosts:
+        trigs = zabbix_client.call(
+            "trigger.get",
+            {"hostids": [h["hostid"]], "output": ["triggerid", "description", "flags"], "selectTags": "extend"}
+        )
+        for t in trigs:
+            has_nc = any(tag.get("tag") == "notification_class" for tag in t.get("tags", []))
+            if not has_nc:
+                all_untagged.append(t)
+                if h["host"] not in ["mock-core-switch-01", "mock-avaya-sbce-01"]:
+                    concrete_untagged.append(t)
+
+    assert len(all_untagged) == 54, f"Expected exactly 54 untagged triggers across mock hosts, got {len(all_untagged)}"
+    assert len(concrete_untagged) == 0, f"Concrete hosts must have 0 untagged triggers, found {len(concrete_untagged)}"
+    for t in all_untagged:
+        assert str(t["flags"]) == "4", f"Untagged trigger {t['triggerid']} must be discovered (flags=4)"
+
+
+def test_13_recovery_mode_status_and_target_hysteresis(zabbix_client):
+    """Verify that live template triggers currently have recovery_mode: 0, confirming hysteresis necessity."""
+    all_nawari_templates = [
+        "Nawari Generic SNMP Base",
+        "Nawari Network Device by SNMP",
+        "Nawari Avaya SBCE by SNMP",
+        "Nawari Voice Synthetic Probe by Zabbix Trapper",
+        "Template Nawari Endpoint Probe by Zabbix Trapper",
+        "Nawari Avaya CMS and WFO by Trapper",
+        "Nawari SIP Trunk by Trapper",
+        "Nawari Avaya Session Manager by SNMP",
+        "Nawari Avaya Communication Manager by SNMP",
+        "Nawari Avaya G450 Media Gateway by SNMP",
+    ]
+    res = zabbix_client.call("template.get", {"filter": {"name": all_nawari_templates}, "output": ["templateid"]})
+    t_ids = [t["templateid"] for t in res]
+    triggers = zabbix_client.call("trigger.get", {"templateids": t_ids, "output": ["triggerid", "recovery_mode"]})
+
+    # All 70 template triggers are currently recovery_mode: 0 (Expression only)
+    for t in triggers:
+        assert str(t.get("recovery_mode", "0")) == "0", f"Trigger {t['triggerid']} has unexpected recovery_mode"
+
+    # Confirm documentation specifies target recovery_mode: 1 for Phase 13.8B
+    assessment_doc = PROJECT_ROOT / "docs/phase13/phase13-8a-inventory-reconciliation-and-threshold-assessment.md"
+    assert assessment_doc.is_file()
+    assert "recovery_mode: 1" in assessment_doc.read_text()
+
+
+def test_14_full_eleven_milestone_roadmap_structure():
+    """Verify that implementation-roadmap.md formalises all 11 milestones from 13.8A to 13.16."""
+    roadmap_content = ROADMAP_FILE.read_text()
+    expected_milestones = [
+        "Phase 13.8A",
+        "Phase 13.8B",
+        "Phase 13.8C",
+        "Phase 13.9",
+        "Phase 13.10",
+        "Phase 13.11",
+        "Phase 13.12",
+        "Phase 13.13",
+        "Phase 13.14",
+        "Phase 13.15",
+        "Phase 13.16",
+    ]
+    for milestone in expected_milestones:
+        assert milestone in roadmap_content, f"Milestone {milestone} must be defined in roadmap"
+
+

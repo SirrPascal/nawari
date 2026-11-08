@@ -181,20 +181,23 @@ Evaluate, do not automatically deploy:
 
 The Phase 13.8 milestone is partitioned into three rigorous engineering phases to ensure technically defensible thresholds and actionable notifications before production telemetry commissioning:
 
-#### Phase 13.8A — Trigger Threshold Rationalisation & Alert Policy Engineering (Current)
+#### Phase 13.8A — Trigger Threshold Audit, Inventory Reconciliation & Alert Rationalisation (Current)
+- **Reconcile Live Trigger Inventory:** Account for 59 communication triggers (7 templates / 7 hosts), 70 broad template triggers (10 templates), 110 tagged classification triggers, and 142 live host triggers (88 tagged concrete triggers + 54 untagged discovered LLD interface triggers on lab hosts).
 - **Authoritative Threshold Register:** Full inventory and specification of every trigger across all 10 templates and 12 monitored hosts using the 16-field metadata schema.
 - **Five-Question Framework:** Every threshold answers: What is measured, acceptable range, alert boundary, persistence duration, and recovery evidence.
 - **Severity Model Standard:** 5 Zabbix severities mapped strictly to operational impact (Information, Warning, Average, High, Disaster). Prohibits severity inflation.
 - **Metric vs. Outage Decoupling:** Decouples raw metric measurement $\to$ threshold evaluation $\to$ trigger severity $\to$ service-impact correlation $\to$ notification classification (`total_outage`, `service_outage`, `synthetic_failure`, `degradation`, `component_failure`, `monitoring_failure`).
-- **Persistence & Anti-Flapping Hysteresis:** Establishes mathematical hysteresis margins (e.g. `min(5m) > 90%` problem, `max(5m) < 80%` recovery) and consecutive failure counts.
+- **Persistence & Anti-Flapping Hysteresis:** Establishes mathematical hysteresis margins (e.g. `min(5m) > 90%` problem, `max(5m) < 80%` recovery) and consecutive failure counts. Current status: 100% `recovery_mode: 0`; target: `recovery_mode: 1`.
 - **Rate-Based Interface Metrics:** Enforces 64-bit rate calculations for utilization, errors, and discards; strictly prohibits static thresholds on raw cumulative counters.
+- **Latency Zoning:** Distinct thresholds for LAN (<15ms), WAN (<45ms), and Outstations (<90ms).
+- **Voice Metric Disambiguation:** Explicit separation between synthetic MOS (ITU-T G.107 E-model) and customer-call MOS; SIP transport latency separated from Call Setup Time.
 - **Gated Telemetry Isolation:** Formal identification and gating of unsupported/unverified metrics (e.g. G450 DSP utilization, live per-call RTCP jitter, deep EMS licensing) without fictitious active triggers.
 
-**Exit gate:** 100% trigger inventory documented in authoritative register; automated audit suite (`test_phase13_8a_threshold_rationalisation.py`) passes 10/10 tests.
+**Exit gate:** 100% trigger inventory documented in authoritative register; automated audit suite (`test_phase13_8a_threshold_rationalisation.py`) passes all tests.
 
 #### Phase 13.8B — Zabbix Template Threshold & Recovery Expression Implementation
 - Deploy approved thresholds, persistence expressions, and recovery hysteresis into Zabbix template YAMLs and live Zabbix API.
-- Update trigger prototypes for LLD network interfaces.
+- Update trigger prototypes for LLD network interfaces to attach `notification_class` tags (eliminating the 54 untagged discovered triggers).
 - Reconcile trigger priorities and expression syntax.
 
 **Exit gate:** Zabbix API confirms zero syntax errors, valid recovery modes (`recovery_mode: 1`), and reconciled trigger definitions.
@@ -253,6 +256,80 @@ The transition from staging validation to live production monitoring is strictly
 
 At all stages of deployment, Nawari operates under strict read-only assurance principles:
 - **`HARD_PRODUCTION_DENY`**: The `AutomationPolicyEngine` unconditionally denies and blocks any automated operational action targeting production infrastructure (`ActionState.BLOCKED`). Automated failovers, trunk rerouting, and appliance reboots must never occur without manual engineer execution.
+- **Repository Isolation**: The upstream `sentra` repository remains completely isolated at baseline commit `9970404`. No code, configuration, or operational dependencies may alter the Sentra working tree.
+
+---
+
+## Phase 13.10 — Avaya Voice Quality & Genuine Call Assurance
+- Validate genuine RTP and RTCP stream metrics from Avaya Session Manager and Communication Manager.
+- Investigate and validate RTCP-XR extended reports for physical call-quality measurements.
+- Calibrate ITU-T G.107 E-model calculations against physical voice codecs (G.711u/a, G.729A).
+- Implement SBC-to-Session Manager-to-CM call path validation and failover detection.
+- **Constraint:** Until real RTP/RTCP telemetry is active, customer call MOS remains `NOT_COLLECTED`. Synthetic MOS remains distinctly labeled.
+
+**Exit gate:** Live RTCP/RTCP-XR ingestion proven; one-way audio, jitter, and delay detected on real voice traffic.
+
+---
+
+## Phase 13.11 — Network Path & WAN Observability
+- Deploy ThousandEyes-style multi-hop network path monitoring.
+- Continuous endpoint-to-gateway and gateway-to-core latency tracking.
+- Hop-by-hop packet loss, jitter, and route-change detection across WAN/MPLS circuits.
+- Synthetic probes executing DNS resolution, TCP three-way handshake time, and HTTP/HTTPS availability.
+- Trans-WAN outstation comparative telemetry (NBO HQ vs MBA, KIS, Outstations).
+
+**Exit gate:** Hop-by-hop path visualizer active; route flapping and transit provider latency anomalies accurately identified.
+
+---
+
+## Phase 13.12 — Service Dependency Mapping & Event Correlation
+- Formalise Kenya Airways business telephony and network dependency chains:
+  $$\text{External SIP Carrier} \longrightarrow \text{Avaya SBCE} \longrightarrow \text{Session Manager} \longrightarrow \text{Communication Manager} \longrightarrow \text{ACD / Hunt Groups} \longrightarrow \text{Voice Service}$$
+- Implement topology-aware root cause analysis (RCA) engine: suppress downstream symptom alerts when upstream root failure is identified.
+- Real-time impact blast-radius calculation: determine affected flights, contact centre queues, and outstation desks.
+
+**Exit gate:** Carrier failure simulation generates a single correlated Root Cause incident; suppresses 5+ downstream symptom alerts.
+
+---
+
+## Phase 13.13 — SLI, SLO & Error-Budget Implementation
+- Formalise quantitative Service Level Indicators (SLIs) across 7 critical airline services (WAN, Core Network, SIP Trunk, Enterprise Telephony, Call Processing, Outstations, Monitoring Platform).
+- Establish approved SLO targets based on operational requirements (no invented 99.99% targets without empirical methodology).
+- Implement error budget burn-rate alerting (multi-window multi-burn-rate alerting as per Google SRE standard).
+- Missing telemetry explicitly isolated from SLA calculation (never treated as 100% availability or false zero).
+
+**Exit gate:** SLI/SLO dashboards operational; error-budget depletion alerts firing accurately.
+
+---
+
+## Phase 13.14 — Dashboard & Reporting Acceptance
+- Systematic audit of all 24 Grafana dashboards and 200+ panels.
+- Telemetry provenance guarantee: every panel displays verified data source, physical units, and sampling interval.
+- Clear demarcation between Physical, Synthetic, Simulated, and Calculated metrics.
+- Enforce strict folder separation: Network Observability vs Communications Observability.
+- Deploy Unified Service Assurance Overview showing executive SLI state without mixing domain details.
+
+**Exit gate:** All 24 dashboards pass operational audit; zero ambiguous units or unlabeled synthetic values.
+
+---
+
+## Phase 13.15 — Monitoring Platform Resilience, Security & Capacity
+- Comprehensive health audit of Nawari monitoring infrastructure: Zabbix Server, PostgreSQL, Grafana, Asterisk, Collectors.
+- Fresh capacity and sizing audit of `mon-grafana01` (2 vCPU, 7.8 GiB RAM): evaluate queue delays, DB growth, and memory pressure.
+- Automated backup and point-in-time recovery verification for PostgreSQL and Zabbix configuration.
+- Security hardening: RBAC verification, SNMPv3 authPriv credentials audit, TLS certificate lifecycle tracking.
+
+**Exit gate:** Mon-grafana01 resource headroom confirmed; automated disaster recovery drill passes.
+
+---
+
+## Phase 13.16 — Operational Readiness & Production Handover
+- Complete operational handover package: verified network/Avaya topology, threshold register, alert routing matrix, runbooks.
+- Incident escalation procedures and contact rosters for Kenya Airways Voice and Network engineering teams.
+- Production commissioning and rollback runbooks with rollback decision tree.
+- Formal operational sign-off by Kenya Airways technical authorities.
+
+**Exit gate:** Stakeholder sign-off achieved; platform fully commissioned into 24/7 flight operations support.
 - **Repository Isolation**: The upstream `sentra` repository remains completely isolated at baseline commit `9970404`. No code, configuration, or operational dependencies may alter the Sentra working tree.
 
 ---
