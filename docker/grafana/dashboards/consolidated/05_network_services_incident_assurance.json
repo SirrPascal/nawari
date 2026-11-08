@@ -1,0 +1,1868 @@
+{
+  "annotations": {
+    "list": []
+  },
+  "editable": true,
+  "fiscalYearStartMonth": 0,
+  "graphTooltip": 1,
+  "id": null,
+  "links": [
+    {
+      "asDropdown": false,
+      "icon": "home",
+      "includeVars": true,
+      "keepTime": true,
+      "tags": [],
+      "targetBlank": false,
+      "title": "Home (Exec)",
+      "tooltip": "Enterprise Executive Overview",
+      "type": "link",
+      "url": "/d/nawari-enterprise-overview/0bff031"
+    },
+    {
+      "asDropdown": false,
+      "icon": "network",
+      "includeVars": true,
+      "keepTime": true,
+      "tags": [],
+      "targetBlank": false,
+      "title": "Network Ops",
+      "tooltip": "Network Operations Overview",
+      "type": "link",
+      "url": "/d/nawari-network-operations/network-operations"
+    },
+    {
+      "asDropdown": false,
+      "icon": "globe",
+      "includeVars": true,
+      "keepTime": true,
+      "tags": [],
+      "targetBlank": false,
+      "title": "WAN & Outstations",
+      "tooltip": "WAN, Path & Outstation Observability",
+      "type": "link",
+      "url": "/d/nawari-wan-path-outstation/wan-path-outstation"
+    },
+    {
+      "asDropdown": false,
+      "icon": "laptop",
+      "includeVars": true,
+      "keepTime": true,
+      "tags": [],
+      "targetBlank": false,
+      "title": "Endpoints & Users",
+      "tooltip": "Endpoint & User Experience",
+      "type": "link",
+      "url": "/d/nawari-endpoint-experience/endpoint-experience"
+    },
+    {
+      "asDropdown": false,
+      "icon": "heartbeat",
+      "includeVars": true,
+      "keepTime": true,
+      "tags": [],
+      "targetBlank": false,
+      "title": "Services & SLA",
+      "tooltip": "Network Services & Incident Assurance",
+      "type": "link",
+      "url": "/d/nawari-network-services-assurance/network-services-assurance"
+    },
+    {
+      "asDropdown": false,
+      "icon": "phone",
+      "includeVars": true,
+      "keepTime": true,
+      "tags": [],
+      "targetBlank": false,
+      "title": "Voice Overview",
+      "tooltip": "Communication Services Overview",
+      "type": "link",
+      "url": "/d/nawari-comm-overview/e353360"
+    },
+    {
+      "asDropdown": false,
+      "icon": "server",
+      "includeVars": true,
+      "keepTime": true,
+      "tags": [],
+      "targetBlank": false,
+      "title": "Avaya Infra",
+      "tooltip": "Avaya Infrastructure & Signaling",
+      "type": "link",
+      "url": "/d/nawari-avaya-infrastructure/avaya-infrastructure"
+    },
+    {
+      "asDropdown": false,
+      "icon": "volume-up",
+      "includeVars": true,
+      "keepTime": true,
+      "tags": [],
+      "targetBlank": false,
+      "title": "Voice Quality & CC",
+      "tooltip": "Voice Quality & Contact Centre",
+      "type": "link",
+      "url": "/d/nawari-voice-contact-centre/voice-contact-centre"
+    },
+    {
+      "asDropdown": false,
+      "icon": "share-alt",
+      "includeVars": true,
+      "keepTime": true,
+      "tags": [],
+      "targetBlank": false,
+      "title": "Cross-Domain",
+      "tooltip": "Cross-Domain Correlation & Operations",
+      "type": "link",
+      "url": "/d/nawari-voice-correlation/2983cfd"
+    },
+    {
+      "asDropdown": false,
+      "icon": "folder",
+      "includeVars": false,
+      "keepTime": true,
+      "tags": [],
+      "targetBlank": false,
+      "title": "Browse All",
+      "tooltip": "Browse All Dashboards",
+      "type": "link",
+      "url": "/dashboards"
+    }
+  ],
+  "liveNow": false,
+  "panels": [
+    {
+      "collapsed": false,
+      "gridPos": {
+        "h": 1,
+        "w": 24,
+        "x": 0,
+        "y": 0
+      },
+      "id": 1,
+      "panels": [],
+      "title": "Aviation Business Service Catalogue & Multi-Dimensional SLIs",
+      "type": "row"
+    },
+    {
+      "datasource": {
+        "type": "alexanderzobnin-zabbix-datasource",
+        "uid": "PA67C5EADE9207728"
+      },
+      "description": "Availability SLI for Departure Control System (Amadeus Altea Core, Airport Check-in Desks, Gate Boarding Scanners). Missing data indicates collector outage, agent failure, or network disruption; values are preserved as null gaps.",
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "thresholds"
+          },
+          "mappings": [],
+          "max": 100,
+          "min": 95,
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "red",
+                "value": null
+              },
+              {
+                "color": "yellow",
+                "value": 99.5
+              },
+              {
+                "color": "green",
+                "value": 99.95
+              }
+            ]
+          },
+          "unit": "percent"
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 6,
+        "w": 8,
+        "x": 0,
+        "y": 1
+      },
+      "id": 2,
+      "options": {
+        "orientation": "auto",
+        "reduceOptions": {
+          "calcs": [
+            "lastNotNull"
+          ],
+          "fields": "",
+          "values": false
+        },
+        "showThresholdLabels": false,
+        "showThresholdMarkers": true
+      },
+      "pluginVersion": "11.0.0",
+      "targets": [
+        {
+          "application": {
+            "name": "Service SLA"
+          },
+          "group": {
+            "name": "Business Services"
+          },
+          "host": {
+            "name": "mon-grafana01"
+          },
+          "item": {
+            "name": "SLI DCS Global"
+          },
+          "refId": "DcsSli"
+        }
+      ],
+      "title": "Departure Control System (DCS Core) Availability SLI",
+      "type": "gauge"
+    },
+    {
+      "datasource": {
+        "type": "alexanderzobnin-zabbix-datasource",
+        "uid": "PA67C5EADE9207728"
+      },
+      "description": "Availability SLI for Flight Operations & Dispatch (Jeppesen FliteDeck, OFP Delivery, Core JKIA DC Switches). Missing data indicates collector outage, agent failure, or network disruption; values are preserved as null gaps.",
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "thresholds"
+          },
+          "mappings": [],
+          "max": 100,
+          "min": 95,
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "red",
+                "value": null
+              },
+              {
+                "color": "yellow",
+                "value": 99.5
+              },
+              {
+                "color": "green",
+                "value": 99.95
+              }
+            ]
+          },
+          "unit": "percent"
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 6,
+        "w": 8,
+        "x": 8,
+        "y": 7
+      },
+      "id": 3,
+      "options": {
+        "orientation": "auto",
+        "reduceOptions": {
+          "calcs": [
+            "lastNotNull"
+          ],
+          "fields": "",
+          "values": false
+        },
+        "showThresholdLabels": false,
+        "showThresholdMarkers": true
+      },
+      "pluginVersion": "11.0.0",
+      "targets": [
+        {
+          "application": {
+            "name": "Service SLA"
+          },
+          "group": {
+            "name": "Business Services"
+          },
+          "host": {
+            "name": "mon-grafana01"
+          },
+          "item": {
+            "name": "SLI Flight Ops Dispatch"
+          },
+          "refId": "FlightOpsSli"
+        }
+      ],
+      "title": "Flight Operations & Dispatch Availability SLI",
+      "type": "gauge"
+    },
+    {
+      "datasource": {
+        "type": "alexanderzobnin-zabbix-datasource",
+        "uid": "PA67C5EADE9207728"
+      },
+      "description": "Availability SLI for Air-to-Ground & Ramp Operations Voice (Avaya Session Manager, SBCE, Dispatcher SIP Extensions). Missing data indicates collector outage, agent failure, or network disruption; values are preserved as null gaps.",
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "thresholds"
+          },
+          "mappings": [],
+          "max": 100,
+          "min": 95,
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "red",
+                "value": null
+              },
+              {
+                "color": "yellow",
+                "value": 99.5
+              },
+              {
+                "color": "green",
+                "value": 99.95
+              }
+            ]
+          },
+          "unit": "percent"
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 6,
+        "w": 8,
+        "x": 16,
+        "y": 13
+      },
+      "id": 4,
+      "options": {
+        "orientation": "auto",
+        "reduceOptions": {
+          "calcs": [
+            "lastNotNull"
+          ],
+          "fields": "",
+          "values": false
+        },
+        "showThresholdLabels": false,
+        "showThresholdMarkers": true
+      },
+      "pluginVersion": "11.0.0",
+      "targets": [
+        {
+          "application": {
+            "name": "Service SLA"
+          },
+          "group": {
+            "name": "Business Services"
+          },
+          "host": {
+            "name": "mon-grafana01"
+          },
+          "item": {
+            "name": "SLI Ramp Voice"
+          },
+          "refId": "RampVoiceSli"
+        }
+      ],
+      "title": "Air-to-Ground & Ramp Voice Availability SLI",
+      "type": "gauge"
+    },
+    {
+      "datasource": {
+        "type": "alexanderzobnin-zabbix-datasource",
+        "uid": "PA67C5EADE9207728"
+      },
+      "description": "Multi-window Error Budget Burn Rate across aviation services. 1x consumes budget in 30 days; > 2x consumes budget in 14 days; > 14.4x consumes 100% of budget in 2 days. Missing data indicates collector outage, agent failure, or network disruption; values are preserved as null gaps.",
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "palette-classic"
+          },
+          "custom": {
+            "axisBorderShow": false,
+            "axisCenteredZero": false,
+            "axisColorMode": "text",
+            "axisLabel": "Burn Rate Multiplier",
+            "drawStyle": "line",
+            "lineInterpolation": "smooth",
+            "lineWidth": 2,
+            "pointSize": 5,
+            "showPoints": "auto",
+            "spanNulls": false
+          },
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              },
+              {
+                "color": "yellow",
+                "value": 1.0
+              },
+              {
+                "color": "red",
+                "value": 2.0
+              }
+            ]
+          },
+          "unit": "short"
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 8,
+        "w": 14,
+        "x": 0,
+        "y": 19
+      },
+      "id": 5,
+      "options": {
+        "legend": {
+          "calcs": [
+            "mean",
+            "max",
+            "lastNotNull"
+          ],
+          "displayMode": "table",
+          "placement": "bottom"
+        },
+        "tooltip": {
+          "mode": "multi",
+          "sort": "desc"
+        }
+      },
+      "pluginVersion": "11.0.0",
+      "targets": [
+        {
+          "application": {
+            "name": "Error Budget"
+          },
+          "group": {
+            "name": "Business Services"
+          },
+          "host": {
+            "name": "mon-grafana01"
+          },
+          "item": {
+            "name": "Burn Rate DCS Global"
+          },
+          "refId": "BurnDCS"
+        },
+        {
+          "application": {
+            "name": "Error Budget"
+          },
+          "group": {
+            "name": "Business Services"
+          },
+          "host": {
+            "name": "mon-grafana01"
+          },
+          "item": {
+            "name": "Burn Rate Flight Ops"
+          },
+          "refId": "BurnFlightOps"
+        },
+        {
+          "application": {
+            "name": "Error Budget"
+          },
+          "group": {
+            "name": "Business Services"
+          },
+          "host": {
+            "name": "mon-grafana01"
+          },
+          "item": {
+            "name": "Burn Rate Ramp Voice"
+          },
+          "refId": "BurnVoice"
+        }
+      ],
+      "title": "Error Budget Burn Rate (1x = Budget Normal, > 2x = Paging Alert)",
+      "type": "timeseries"
+    },
+    {
+      "datasource": {
+        "type": "alexanderzobnin-zabbix-datasource",
+        "uid": "PA67C5EADE9207728"
+      },
+      "description": "Remaining error budget minutes before contractual or design SLA breach. Missing data indicates collector outage, agent failure, or network disruption; values are preserved as null gaps.",
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "thresholds"
+          },
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "red",
+                "value": null
+              },
+              {
+                "color": "yellow",
+                "value": 15
+              },
+              {
+                "color": "green",
+                "value": 21.6
+              }
+            ]
+          },
+          "unit": "m"
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 8,
+        "w": 10,
+        "x": 14,
+        "y": 27
+      },
+      "id": 6,
+      "options": {
+        "orientation": "auto",
+        "reduceOptions": {
+          "calcs": [
+            "lastNotNull"
+          ],
+          "fields": "",
+          "values": false
+        },
+        "showThresholdLabels": false,
+        "showThresholdMarkers": true
+      },
+      "pluginVersion": "11.0.0",
+      "targets": [
+        {
+          "application": {
+            "name": "Error Budget"
+          },
+          "group": {
+            "name": "Business Services"
+          },
+          "host": {
+            "name": "mon-grafana01"
+          },
+          "item": {
+            "name": "Remaining Budget Minutes DCS"
+          },
+          "refId": "RemBudgetDCS"
+        },
+        {
+          "application": {
+            "name": "Error Budget"
+          },
+          "group": {
+            "name": "Business Services"
+          },
+          "host": {
+            "name": "mon-grafana01"
+          },
+          "item": {
+            "name": "Remaining Budget Minutes Flight Ops"
+          },
+          "refId": "RemBudgetFlightOps"
+        }
+      ],
+      "title": "Remaining Error Budget Minutes (Tier 1: 21.6 mins / month max downtime)",
+      "type": "stat"
+    },
+    {
+      "datasource": {
+        "type": "alexanderzobnin-zabbix-datasource",
+        "uid": "PA67C5EADE9207728"
+      },
+      "description": "Active correlated incidents impacting aviation business services, showing impacted station, failed dependency, and recovery verification state. Missing data indicates collector outage, agent failure, or network disruption; values are preserved as null gaps.",
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "thresholds"
+          },
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              }
+            ]
+          }
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 8,
+        "w": 24,
+        "x": 0,
+        "y": 35
+      },
+      "id": 7,
+      "options": {
+        "footer": {
+          "enablePagination": true,
+          "fields": "",
+          "reducer": [
+            "sum"
+          ],
+          "show": false
+        },
+        "showHeader": true
+      },
+      "pluginVersion": "11.0.0",
+      "targets": [
+        {
+          "application": {
+            "name": "Incident Management"
+          },
+          "group": {
+            "name": "Service Assurance"
+          },
+          "host": {
+            "name": "mon-grafana01"
+          },
+          "item": {
+            "name": "Active Service Incidents"
+          },
+          "refId": "Incidents"
+        }
+      ],
+      "title": "Active Business Service Incidents Stream",
+      "type": "table"
+    },
+    {
+      "collapsed": false,
+      "gridPos": {
+        "h": 1,
+        "w": 24,
+        "x": 0,
+        "y": 43
+      },
+      "id": 8,
+      "panels": [],
+      "title": "Active Incidents, MTTR & Verified Recovery Lifecycle",
+      "type": "row"
+    },
+    {
+      "datasource": {
+        "type": "alexanderzobnin-zabbix-datasource",
+        "uid": "PA67C5EADE9207728"
+      },
+      "description": "Distribution of active incidents across lifecycle stages. Missing data indicates collector outage, agent failure, or network disruption; values are preserved as null gaps.",
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "thresholds"
+          },
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              }
+            ]
+          },
+          "unit": "short"
+        }
+      },
+      "gridPos": {
+        "h": 6,
+        "w": 12,
+        "x": 0,
+        "y": 44
+      },
+      "id": 9,
+      "options": {
+        "orientation": "auto",
+        "reduceOptions": {
+          "calcs": [
+            "lastNotNull"
+          ],
+          "values": false
+        }
+      },
+      "pluginVersion": "11.0.0",
+      "targets": [
+        {
+          "application": {
+            "name": "Incident Operations"
+          },
+          "group": {
+            "name": "Incidents"
+          },
+          "host": {
+            "name": "mon-grafana01"
+          },
+          "item": {
+            "name": "Incidents by Lifecycle State"
+          },
+          "refId": "IncByState"
+        }
+      ],
+      "title": "Incidents by Lifecycle State",
+      "type": "stat"
+    },
+    {
+      "datasource": {
+        "type": "alexanderzobnin-zabbix-datasource",
+        "uid": "PA67C5EADE9207728"
+      },
+      "description": "Unacknowledged incidents nearing or exceeding SLA escalation timers (Tier 1: 15 mins). Missing data indicates collector outage, agent failure, or network disruption; values are preserved as null gaps.",
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "thresholds"
+          },
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              },
+              {
+                "color": "yellow",
+                "value": 10
+              },
+              {
+                "color": "red",
+                "value": 15
+              }
+            ]
+          },
+          "unit": "m"
+        }
+      },
+      "gridPos": {
+        "h": 6,
+        "w": 12,
+        "x": 12,
+        "y": 50
+      },
+      "id": 10,
+      "options": {
+        "orientation": "auto",
+        "reduceOptions": {
+          "calcs": [
+            "max"
+          ],
+          "values": false
+        }
+      },
+      "pluginVersion": "11.0.0",
+      "targets": [
+        {
+          "application": {
+            "name": "Incident Operations"
+          },
+          "group": {
+            "name": "Incidents"
+          },
+          "host": {
+            "name": "mon-grafana01"
+          },
+          "item": {
+            "name": "Max Unacknowledged Incident Age"
+          },
+          "refId": "MaxUnackAge"
+        }
+      ],
+      "title": "Max Unacknowledged Incident Age (SLA 15m)",
+      "type": "stat"
+    },
+    {
+      "datasource": {
+        "type": "alexanderzobnin-zabbix-datasource",
+        "uid": "PA67C5EADE9207728"
+      },
+      "description": "Active recovery verification pipelines requiring >= 3 consecutive fresh healthy observations before incident closure. Missing data indicates collector outage, agent failure, or network disruption; values are preserved as null gaps.",
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "thresholds"
+          },
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              }
+            ]
+          }
+        }
+      },
+      "gridPos": {
+        "h": 8,
+        "w": 24,
+        "x": 0,
+        "y": 56
+      },
+      "id": 11,
+      "options": {
+        "showHeader": true
+      },
+      "pluginVersion": "11.0.0",
+      "targets": [
+        {
+          "application": {
+            "name": "Recovery Verification"
+          },
+          "group": {
+            "name": "Incidents"
+          },
+          "host": {
+            "name": "mon-grafana01"
+          },
+          "item": {
+            "name": "Active Recovery Verification Pipeline"
+          },
+          "refId": "RecoveryPipeline"
+        }
+      ],
+      "title": "Active Recovery Verification Pipelines (Consecutive Healthy Chains)",
+      "type": "table"
+    },
+    {
+      "collapsed": true,
+      "gridPos": {
+        "h": 1,
+        "w": 24,
+        "x": 0,
+        "y": 64
+      },
+      "id": 12,
+      "panels": [
+        {
+          "datasource": {
+            "type": "alexanderzobnin-zabbix-datasource",
+            "uid": "PA67C5EADE9207728"
+          },
+          "description": "Real-time count of active statistical deviations across domains evaluated against dynamic diurnal baselines (|Z| >= 3.0 with 3-cycle persistence). High values indicate widespread operational anomalies. Missing data indicates collector outage, agent failure, or network disruption; values are preserved as null gaps.",
+          "fieldConfig": {
+            "defaults": {
+              "color": {
+                "mode": "thresholds"
+              },
+              "mappings": [],
+              "thresholds": {
+                "mode": "absolute",
+                "steps": [
+                  {
+                    "color": "green",
+                    "value": null
+                  },
+                  {
+                    "color": "yellow",
+                    "value": 1
+                  },
+                  {
+                    "color": "red",
+                    "value": 5
+                  }
+                ]
+              },
+              "unit": "short"
+            },
+            "overrides": []
+          },
+          "gridPos": {
+            "h": 7,
+            "w": 8,
+            "x": 0,
+            "y": 0
+          },
+          "id": 13,
+          "options": {
+            "orientation": "auto",
+            "reduceOptions": {
+              "calcs": [
+                "lastNotNull"
+              ],
+              "fields": "",
+              "values": false
+            },
+            "showThresholdLabels": false,
+            "showThresholdMarkers": true
+          },
+          "pluginVersion": "11.0.0",
+          "targets": [
+            {
+              "application": {
+                "name": "Predictive Analytics"
+              },
+              "group": {
+                "name": "Analytics Engine"
+              },
+              "host": {
+                "name": "mon-grafana01"
+              },
+              "item": {
+                "name": "Active Anomaly Count (Voice)"
+              },
+              "refId": "VoiceAnom"
+            },
+            {
+              "application": {
+                "name": "Predictive Analytics"
+              },
+              "group": {
+                "name": "Analytics Engine"
+              },
+              "host": {
+                "name": "mon-grafana01"
+              },
+              "item": {
+                "name": "Active Anomaly Count (Network)"
+              },
+              "refId": "NetAnom"
+            },
+            {
+              "application": {
+                "name": "Predictive Analytics"
+              },
+              "group": {
+                "name": "Analytics Engine"
+              },
+              "host": {
+                "name": "mon-grafana01"
+              },
+              "item": {
+                "name": "Active Anomaly Count (Endpoints)"
+              },
+              "refId": "EpAnom"
+            }
+          ],
+          "title": "Active Multi-Domain Statistical Anomalies",
+          "type": "bargauge"
+        },
+        {
+          "datasource": {
+            "type": "alexanderzobnin-zabbix-datasource",
+            "uid": "PA67C5EADE9207728"
+          },
+          "description": "Projects estimated hours until critical resource ceilings (SBCE licensed session pool, switch uplink bandwidth) reach safe operational limits (85%) or hard saturation (100%). Gated on R^2 >= 0.70 fit quality. Missing data indicates collector outage, agent failure, or network disruption; values are preserved as null gaps.",
+          "fieldConfig": {
+            "defaults": {
+              "color": {
+                "mode": "thresholds"
+              },
+              "mappings": [],
+              "thresholds": {
+                "mode": "absolute",
+                "steps": [
+                  {
+                    "color": "red",
+                    "value": null
+                  },
+                  {
+                    "color": "orange",
+                    "value": 4
+                  },
+                  {
+                    "color": "yellow",
+                    "value": 12
+                  },
+                  {
+                    "color": "green",
+                    "value": 24
+                  }
+                ]
+              },
+              "unit": "h"
+            },
+            "overrides": []
+          },
+          "gridPos": {
+            "h": 7,
+            "w": 16,
+            "x": 8,
+            "y": 7
+          },
+          "id": 14,
+          "options": {
+            "orientation": "horizontal",
+            "reduceOptions": {
+              "calcs": [
+                "lastNotNull"
+              ],
+              "fields": "",
+              "values": false
+            },
+            "showThresholdLabels": true,
+            "showThresholdMarkers": true
+          },
+          "pluginVersion": "11.0.0",
+          "targets": [
+            {
+              "application": {
+                "name": "Predictive Analytics"
+              },
+              "group": {
+                "name": "Analytics Engine"
+              },
+              "host": {
+                "name": "mon-grafana01"
+              },
+              "item": {
+                "name": "TTE Safe Horizon (SBCE Sessions)"
+              },
+              "refId": "TTESbce"
+            },
+            {
+              "application": {
+                "name": "Predictive Analytics"
+              },
+              "group": {
+                "name": "Analytics Engine"
+              },
+              "host": {
+                "name": "mon-grafana01"
+              },
+              "item": {
+                "name": "TTE Safe Horizon (Core Uplink Bandwidth)"
+              },
+              "refId": "TTENet"
+            }
+          ],
+          "title": "Time-to-Exhaustion (TTE) Horizon (Safe Capacity Limit)",
+          "type": "bargauge"
+        },
+        {
+          "datasource": {
+            "type": "alexanderzobnin-zabbix-datasource",
+            "uid": "PA67C5EADE9207728"
+          },
+          "description": "Compares observed metric values against dynamic historical diurnal baseline bands ([\u03bc - 2.5\u03c3, \u03bc + 2.5\u03c3]) computed per hour and day-of-week. Excursions outside the shaded corridor trigger statistical anomaly evaluations. Missing data indicates collector outage, agent failure, or network disruption; values are preserved as null gaps.",
+          "fieldConfig": {
+            "defaults": {
+              "color": {
+                "mode": "palette-classic"
+              },
+              "custom": {
+                "axisBorderShow": false,
+                "axisCenteredZero": false,
+                "axisColorMode": "text",
+                "axisPlacement": "auto",
+                "fillOpacity": 15,
+                "lineWidth": 2,
+                "showPoints": "auto",
+                "spanNulls": false
+              },
+              "unit": "short"
+            },
+            "overrides": []
+          },
+          "gridPos": {
+            "h": 8,
+            "w": 14,
+            "x": 0,
+            "y": 14
+          },
+          "id": 15,
+          "options": {
+            "legend": {
+              "displayMode": "table",
+              "placement": "bottom",
+              "calcs": [
+                "lastNotNull",
+                "max",
+                "mean"
+              ]
+            },
+            "tooltip": {
+              "mode": "multi",
+              "sort": "desc"
+            }
+          },
+          "targets": [
+            {
+              "application": {
+                "name": "Predictive Analytics"
+              },
+              "group": {
+                "name": "Analytics Engine"
+              },
+              "host": {
+                "name": "mon-grafana01"
+              },
+              "item": {
+                "name": "Observed Metric Value"
+              },
+              "refId": "Actual"
+            },
+            {
+              "application": {
+                "name": "Predictive Analytics"
+              },
+              "group": {
+                "name": "Analytics Engine"
+              },
+              "host": {
+                "name": "mon-grafana01"
+              },
+              "item": {
+                "name": "Baseline Upper Bound (2.5\u03c3)"
+              },
+              "refId": "Upper"
+            },
+            {
+              "application": {
+                "name": "Predictive Analytics"
+              },
+              "group": {
+                "name": "Analytics Engine"
+              },
+              "host": {
+                "name": "mon-grafana01"
+              },
+              "item": {
+                "name": "Baseline Lower Bound (2.5\u03c3)"
+              },
+              "refId": "Lower"
+            }
+          ],
+          "title": "Dynamic Baseline Bands vs Real-Time Metric Telemetry",
+          "type": "timeseries"
+        },
+        {
+          "datasource": {
+            "type": "alexanderzobnin-zabbix-datasource",
+            "uid": "PA67C5EADE9207728"
+          },
+          "description": "Calculates voice quality drift velocity (dMOS/dt). Projects forward MOS at 15-minute and 30-minute horizons. Negative slopes steeper than -0.15 MOS/10min trigger early degradation pre-alarms. Missing data indicates collector outage, agent failure, or network disruption; values are preserved as null gaps.",
+          "fieldConfig": {
+            "defaults": {
+              "color": {
+                "mode": "palette-classic"
+              },
+              "custom": {
+                "axisBorderShow": false,
+                "axisCenteredZero": false,
+                "axisColorMode": "text",
+                "axisLabel": "MOS Score (1.0 - 4.5)",
+                "axisPlacement": "auto",
+                "fillOpacity": 10,
+                "lineWidth": 2,
+                "showPoints": "auto",
+                "spanNulls": false
+              },
+              "max": 4.5,
+              "min": 1.0,
+              "unit": "none"
+            },
+            "overrides": []
+          },
+          "gridPos": {
+            "h": 8,
+            "w": 10,
+            "x": 14,
+            "y": 22
+          },
+          "id": 16,
+          "options": {
+            "legend": {
+              "displayMode": "table",
+              "placement": "bottom",
+              "calcs": [
+                "lastNotNull",
+                "min",
+                "mean"
+              ]
+            },
+            "tooltip": {
+              "mode": "multi",
+              "sort": "desc"
+            }
+          },
+          "targets": [
+            {
+              "application": {
+                "name": "Predictive Analytics"
+              },
+              "group": {
+                "name": "Analytics Engine"
+              },
+              "host": {
+                "name": "mon-grafana01"
+              },
+              "item": {
+                "name": "Current Voice MOS"
+              },
+              "refId": "MOS"
+            },
+            {
+              "application": {
+                "name": "Predictive Analytics"
+              },
+              "group": {
+                "name": "Analytics Engine"
+              },
+              "host": {
+                "name": "mon-grafana01"
+              },
+              "item": {
+                "name": "Projected MOS (15m Horizon)"
+              },
+              "refId": "Proj15"
+            },
+            {
+              "application": {
+                "name": "Predictive Analytics"
+              },
+              "group": {
+                "name": "Analytics Engine"
+              },
+              "host": {
+                "name": "mon-grafana01"
+              },
+              "item": {
+                "name": "Projected MOS (30m Horizon)"
+              },
+              "refId": "Proj30"
+            }
+          ],
+          "title": "Voice MOS Degradation Trajectory & Predictive Horizon",
+          "type": "timeseries"
+        },
+        {
+          "datasource": {
+            "type": "alexanderzobnin-zabbix-datasource",
+            "uid": "PA67C5EADE9207728"
+          },
+          "description": "Displays evidence-ranked diagnostic hypotheses. Evaluates cross-domain evidence across topology, counting supporting vs contradicting facts to compute net rank scores. Missing data indicates collector outage, agent failure, or network disruption; values are preserved as null gaps.",
+          "fieldConfig": {
+            "defaults": {
+              "color": {
+                "mode": "thresholds"
+              },
+              "custom": {
+                "align": "auto",
+                "displayMode": "auto"
+              },
+              "mappings": [],
+              "thresholds": {
+                "mode": "absolute",
+                "steps": [
+                  {
+                    "color": "blue",
+                    "value": null
+                  },
+                  {
+                    "color": "orange",
+                    "value": 3
+                  },
+                  {
+                    "color": "red",
+                    "value": 5
+                  }
+                ]
+              }
+            },
+            "overrides": []
+          },
+          "gridPos": {
+            "h": 8,
+            "w": 14,
+            "x": 0,
+            "y": 30
+          },
+          "id": 17,
+          "options": {
+            "footer": {
+              "enablePagination": true,
+              "fields": "",
+              "reducer": [
+                "sum"
+              ],
+              "show": false
+            },
+            "showHeader": true
+          },
+          "targets": [
+            {
+              "application": {
+                "name": "Predictive Analytics"
+              },
+              "group": {
+                "name": "Analytics Engine"
+              },
+              "host": {
+                "name": "mon-grafana01"
+              },
+              "item": {
+                "name": "Ranked Diagnostic Hypotheses"
+              },
+              "refId": "Hypotheses"
+            }
+          ],
+          "title": "Top Evidence-Ranked Hypotheses (Supporting vs Contradicting)",
+          "type": "table"
+        },
+        {
+          "datasource": {
+            "type": "alexanderzobnin-zabbix-datasource",
+            "uid": "PA67C5EADE9207728"
+          },
+          "description": "Monitors carrier SIP signaling latency drift. Progressive PDD inflation indicates upstream carrier proxy congestion or queuing prior to hard trunk failures. Missing data indicates collector outage, agent failure, or network disruption; values are preserved as null gaps.",
+          "fieldConfig": {
+            "defaults": {
+              "color": {
+                "mode": "palette-classic"
+              },
+              "custom": {
+                "axisBorderShow": false,
+                "axisCenteredZero": false,
+                "axisColorMode": "text",
+                "axisLabel": "PDD (ms)",
+                "axisPlacement": "auto",
+                "fillOpacity": 15,
+                "lineWidth": 2,
+                "showPoints": "auto",
+                "spanNulls": false
+              },
+              "unit": "ms"
+            },
+            "overrides": []
+          },
+          "gridPos": {
+            "h": 8,
+            "w": 10,
+            "x": 14,
+            "y": 38
+          },
+          "id": 18,
+          "options": {
+            "legend": {
+              "displayMode": "table",
+              "placement": "bottom",
+              "calcs": [
+                "lastNotNull",
+                "max",
+                "mean"
+              ]
+            },
+            "tooltip": {
+              "mode": "multi",
+              "sort": "desc"
+            }
+          },
+          "targets": [
+            {
+              "application": {
+                "name": "Predictive Analytics"
+              },
+              "group": {
+                "name": "Analytics Engine"
+              },
+              "host": {
+                "name": "mon-grafana01"
+              },
+              "item": {
+                "name": "Post-Dial Delay (Safaricom Trunk)"
+              },
+              "refId": "PDDSafaricom"
+            },
+            {
+              "application": {
+                "name": "Predictive Analytics"
+              },
+              "group": {
+                "name": "Analytics Engine"
+              },
+              "host": {
+                "name": "mon-grafana01"
+              },
+              "item": {
+                "name": "Post-Dial Delay (Airtel Trunk)"
+              },
+              "refId": "PDDAirtel"
+            }
+          ],
+          "title": "Carrier Trunk Signaling Drift (Post-Dial Delay)",
+          "type": "timeseries"
+        }
+      ],
+      "title": "Predictive Intelligence, Dynamic Baselines & Degradation Assurance",
+      "type": "row"
+    },
+    {
+      "collapsed": true,
+      "gridPos": {
+        "h": 1,
+        "w": 24,
+        "x": 0,
+        "y": 65
+      },
+      "id": 19,
+      "panels": [
+        {
+          "datasource": {
+            "type": "alexanderzobnin-zabbix-datasource",
+            "uid": "PA67C5EADE9207728"
+          },
+          "description": "Distribution of operational remediation actions across the execution lifecycle. Tracks active executions, verification checkpoints, and automated rollbacks. Missing data indicates collector outage, agent failure, or network disruption; values are preserved as null gaps.",
+          "fieldConfig": {
+            "defaults": {
+              "color": {
+                "mode": "thresholds"
+              },
+              "mappings": [],
+              "thresholds": {
+                "mode": "absolute",
+                "steps": [
+                  {
+                    "color": "green",
+                    "value": null
+                  },
+                  {
+                    "color": "yellow",
+                    "value": 2
+                  },
+                  {
+                    "color": "red",
+                    "value": 5
+                  }
+                ]
+              },
+              "unit": "short"
+            },
+            "overrides": []
+          },
+          "gridPos": {
+            "h": 7,
+            "w": 12,
+            "x": 0,
+            "y": 0
+          },
+          "id": 20,
+          "options": {
+            "orientation": "auto",
+            "reduceOptions": {
+              "calcs": [
+                "lastNotNull"
+              ],
+              "fields": "",
+              "values": false
+            },
+            "showThresholdLabels": false,
+            "showThresholdMarkers": true
+          },
+          "pluginVersion": "11.0.0",
+          "targets": [
+            {
+              "application": {
+                "name": "Action Automation"
+              },
+              "group": {
+                "name": "Action Execution Service"
+              },
+              "host": {
+                "name": "mon-grafana01"
+              },
+              "item": {
+                "name": "Actions Pending Approval"
+              },
+              "refId": "Pending"
+            },
+            {
+              "application": {
+                "name": "Action Automation"
+              },
+              "group": {
+                "name": "Action Execution Service"
+              },
+              "host": {
+                "name": "mon-grafana01"
+              },
+              "item": {
+                "name": "Actions Executing"
+              },
+              "refId": "Executing"
+            },
+            {
+              "application": {
+                "name": "Action Automation"
+              },
+              "group": {
+                "name": "Action Execution Service"
+              },
+              "host": {
+                "name": "mon-grafana01"
+              },
+              "item": {
+                "name": "Actions Completed"
+              },
+              "refId": "Completed"
+            },
+            {
+              "application": {
+                "name": "Action Automation"
+              },
+              "group": {
+                "name": "Action Execution Service"
+              },
+              "host": {
+                "name": "mon-grafana01"
+              },
+              "item": {
+                "name": "Actions Rolled Back"
+              },
+              "refId": "RolledBack"
+            }
+          ],
+          "title": "Action Execution Lifecycle Distribution",
+          "type": "bargauge"
+        },
+        {
+          "datasource": {
+            "type": "alexanderzobnin-zabbix-datasource",
+            "uid": "PA67C5EADE9207728"
+          },
+          "description": "Operational dead-man circuit breaker status. Automatically trips into LOCKED state if 3 consecutive remediation playbooks fail within 15 minutes, halting further autonomous actions until manual NOC reset. Missing data indicates collector outage, agent failure, or network disruption; values are preserved as null gaps.",
+          "fieldConfig": {
+            "defaults": {
+              "color": {
+                "mode": "thresholds"
+              },
+              "mappings": [
+                {
+                  "options": {
+                    "0": {
+                      "color": "green",
+                      "index": 0,
+                      "text": "HEALTHY / CLOSED"
+                    },
+                    "1": {
+                      "color": "red",
+                      "index": 1,
+                      "text": "TRIPPED / LOCKED"
+                    }
+                  },
+                  "type": "value"
+                }
+              ],
+              "thresholds": {
+                "mode": "absolute",
+                "steps": [
+                  {
+                    "color": "green",
+                    "value": null
+                  },
+                  {
+                    "color": "red",
+                    "value": 1
+                  }
+                ]
+              }
+            },
+            "overrides": []
+          },
+          "gridPos": {
+            "h": 7,
+            "w": 12,
+            "x": 12,
+            "y": 7
+          },
+          "id": 21,
+          "options": {
+            "colorMode": "background",
+            "graphMode": "none",
+            "justifyMode": "auto",
+            "orientation": "auto",
+            "reduceOptions": {
+              "calcs": [
+                "lastNotNull"
+              ],
+              "fields": "",
+              "values": false
+            },
+            "textMode": "auto"
+          },
+          "pluginVersion": "11.0.0",
+          "targets": [
+            {
+              "application": {
+                "name": "Action Automation"
+              },
+              "group": {
+                "name": "Action Execution Service"
+              },
+              "host": {
+                "name": "mon-grafana01"
+              },
+              "item": {
+                "name": "Dead-Man Circuit Breaker Tripped"
+              },
+              "refId": "Breaker"
+            }
+          ],
+          "title": "Operational Dead-Man Circuit Breaker Status",
+          "type": "stat"
+        },
+        {
+          "datasource": {
+            "type": "alexanderzobnin-zabbix-datasource",
+            "uid": "PA67C5EADE9207728"
+          },
+          "description": "Real-time queue of pending operational actions awaiting human operator authorization. Enforces Two-Person Rule for high-risk mutations with single-use HMAC-SHA256 tokens expiring in 15 minutes. Missing data indicates collector outage, agent failure, or network disruption; values are preserved as null gaps.",
+          "fieldConfig": {
+            "defaults": {
+              "color": {
+                "mode": "thresholds"
+              },
+              "custom": {
+                "align": "auto",
+                "displayMode": "auto"
+              },
+              "mappings": [],
+              "thresholds": {
+                "mode": "absolute",
+                "steps": [
+                  {
+                    "color": "blue",
+                    "value": null
+                  },
+                  {
+                    "color": "orange",
+                    "value": 1
+                  }
+                ]
+              }
+            },
+            "overrides": []
+          },
+          "gridPos": {
+            "h": 8,
+            "w": 24,
+            "x": 0,
+            "y": 14
+          },
+          "id": 22,
+          "options": {
+            "footer": {
+              "enablePagination": true,
+              "fields": "",
+              "reducer": [
+                "sum"
+              ],
+              "show": false
+            },
+            "showHeader": true
+          },
+          "targets": [
+            {
+              "application": {
+                "name": "Action Automation"
+              },
+              "group": {
+                "name": "Action Execution Service"
+              },
+              "host": {
+                "name": "mon-grafana01"
+              },
+              "item": {
+                "name": "Pending Approval Items"
+              },
+              "refId": "Approvals"
+            }
+          ],
+          "title": "Pending Operator Approvals & Blast-Radius Risk Board",
+          "type": "table"
+        },
+        {
+          "datasource": {
+            "type": "alexanderzobnin-zabbix-datasource",
+            "uid": "PA67C5EADE9207728"
+          },
+          "description": "Independent post-action verification metrics proving true service recovery. Actions declaring exit code 0 must independently prove metric restoration before incident closure. Missing data indicates collector outage, agent failure, or network disruption; values are preserved as null gaps.",
+          "fieldConfig": {
+            "defaults": {
+              "color": {
+                "mode": "palette-classic"
+              },
+              "custom": {
+                "axisBorderShow": false,
+                "axisCenteredZero": false,
+                "axisColorMode": "text",
+                "axisLabel": "Latency / Quality",
+                "axisPlacement": "auto",
+                "fillOpacity": 15,
+                "lineWidth": 2,
+                "showPoints": "auto",
+                "spanNulls": false
+              },
+              "unit": "short"
+            },
+            "overrides": []
+          },
+          "gridPos": {
+            "h": 8,
+            "w": 12,
+            "x": 0,
+            "y": 22
+          },
+          "id": 23,
+          "options": {
+            "legend": {
+              "displayMode": "table",
+              "placement": "bottom",
+              "calcs": [
+                "lastNotNull",
+                "mean"
+              ]
+            },
+            "tooltip": {
+              "mode": "multi",
+              "sort": "desc"
+            }
+          },
+          "targets": [
+            {
+              "application": {
+                "name": "Action Automation"
+              },
+              "group": {
+                "name": "Action Execution Service"
+              },
+              "host": {
+                "name": "mon-grafana01"
+              },
+              "item": {
+                "name": "Pre-Remediation Metric Level"
+              },
+              "refId": "PreMetric"
+            },
+            {
+              "application": {
+                "name": "Action Automation"
+              },
+              "group": {
+                "name": "Action Execution Service"
+              },
+              "host": {
+                "name": "mon-grafana01"
+              },
+              "item": {
+                "name": "Post-Remediation Metric Level"
+              },
+              "refId": "PostMetric"
+            }
+          ],
+          "title": "Pre- vs Post-Remediation Service Health Verification",
+          "type": "timeseries"
+        },
+        {
+          "datasource": {
+            "type": "alexanderzobnin-zabbix-datasource",
+            "uid": "PA67C5EADE9207728"
+          },
+          "description": "Tamper-evident operational audit ledger. Every proposal, approval, execution, and rollback is recorded in an immutable SHA-256 block hash chain adhering to aviation compliance standards. Missing data indicates collector outage, agent failure, or network disruption; values are preserved as null gaps.",
+          "fieldConfig": {
+            "defaults": {
+              "color": {
+                "mode": "thresholds"
+              },
+              "custom": {
+                "align": "auto",
+                "displayMode": "auto"
+              },
+              "mappings": [],
+              "thresholds": {
+                "mode": "absolute",
+                "steps": [
+                  {
+                    "color": "green",
+                    "value": null
+                  }
+                ]
+              }
+            },
+            "overrides": []
+          },
+          "gridPos": {
+            "h": 8,
+            "w": 12,
+            "x": 12,
+            "y": 30
+          },
+          "id": 24,
+          "options": {
+            "footer": {
+              "enablePagination": true,
+              "fields": "",
+              "reducer": [
+                "sum"
+              ],
+              "show": false
+            },
+            "showHeader": true
+          },
+          "targets": [
+            {
+              "application": {
+                "name": "Action Automation"
+              },
+              "group": {
+                "name": "Action Execution Service"
+              },
+              "host": {
+                "name": "mon-grafana01"
+              },
+              "item": {
+                "name": "Audit Block Stream"
+              },
+              "refId": "AuditBlocks"
+            }
+          ],
+          "title": "Cryptographically Chained Immutable Audit Stream (SHA-256)",
+          "type": "table"
+        }
+      ],
+      "title": "Controlled Operational Actions & Remediation Circuit Breakers",
+      "type": "row"
+    }
+  ],
+  "refresh": "10s",
+  "schemaVersion": 38,
+  "style": "dark",
+  "tags": [
+    "nawari",
+    "network",
+    "service-assurance",
+    "incidents",
+    "tier3"
+  ],
+  "templating": {
+    "list": []
+  },
+  "time": {
+    "from": "now-1h",
+    "to": "now"
+  },
+  "timepicker": {
+    "refresh_intervals": [
+      "5s",
+      "10s",
+      "30s",
+      "1m",
+      "5m",
+      "15m",
+      "30m",
+      "1h",
+      "2h",
+      "1d"
+    ]
+  },
+  "timezone": "browser",
+  "title": "Nawari \u2014 Network Services & Incident Assurance",
+  "uid": "nawari-network-services-assurance",
+  "version": 1
+}

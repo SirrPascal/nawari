@@ -1,0 +1,3708 @@
+{
+  "annotations": {
+    "list": []
+  },
+  "editable": true,
+  "fiscalYearStartMonth": 0,
+  "graphTooltip": 1,
+  "id": null,
+  "links": [
+    {
+      "asDropdown": false,
+      "icon": "home",
+      "includeVars": true,
+      "keepTime": true,
+      "tags": [],
+      "targetBlank": false,
+      "title": "Home (Exec)",
+      "tooltip": "Enterprise Executive Overview",
+      "type": "link",
+      "url": "/d/nawari-enterprise-overview/0bff031"
+    },
+    {
+      "asDropdown": false,
+      "icon": "network",
+      "includeVars": true,
+      "keepTime": true,
+      "tags": [],
+      "targetBlank": false,
+      "title": "Network Ops",
+      "tooltip": "Network Operations Overview",
+      "type": "link",
+      "url": "/d/nawari-network-operations/network-operations"
+    },
+    {
+      "asDropdown": false,
+      "icon": "globe",
+      "includeVars": true,
+      "keepTime": true,
+      "tags": [],
+      "targetBlank": false,
+      "title": "WAN & Outstations",
+      "tooltip": "WAN, Path & Outstation Observability",
+      "type": "link",
+      "url": "/d/nawari-wan-path-outstation/wan-path-outstation"
+    },
+    {
+      "asDropdown": false,
+      "icon": "laptop",
+      "includeVars": true,
+      "keepTime": true,
+      "tags": [],
+      "targetBlank": false,
+      "title": "Endpoints & Users",
+      "tooltip": "Endpoint & User Experience",
+      "type": "link",
+      "url": "/d/nawari-endpoint-experience/endpoint-experience"
+    },
+    {
+      "asDropdown": false,
+      "icon": "heartbeat",
+      "includeVars": true,
+      "keepTime": true,
+      "tags": [],
+      "targetBlank": false,
+      "title": "Services & SLA",
+      "tooltip": "Network Services & Incident Assurance",
+      "type": "link",
+      "url": "/d/nawari-network-services-assurance/network-services-assurance"
+    },
+    {
+      "asDropdown": false,
+      "icon": "phone",
+      "includeVars": true,
+      "keepTime": true,
+      "tags": [],
+      "targetBlank": false,
+      "title": "Voice Overview",
+      "tooltip": "Communication Services Overview",
+      "type": "link",
+      "url": "/d/nawari-comm-overview/e353360"
+    },
+    {
+      "asDropdown": false,
+      "icon": "server",
+      "includeVars": true,
+      "keepTime": true,
+      "tags": [],
+      "targetBlank": false,
+      "title": "Avaya Infra",
+      "tooltip": "Avaya Infrastructure & Signaling",
+      "type": "link",
+      "url": "/d/nawari-avaya-infrastructure/avaya-infrastructure"
+    },
+    {
+      "asDropdown": false,
+      "icon": "volume-up",
+      "includeVars": true,
+      "keepTime": true,
+      "tags": [],
+      "targetBlank": false,
+      "title": "Voice Quality & CC",
+      "tooltip": "Voice Quality & Contact Centre",
+      "type": "link",
+      "url": "/d/nawari-voice-contact-centre/voice-contact-centre"
+    },
+    {
+      "asDropdown": false,
+      "icon": "share-alt",
+      "includeVars": true,
+      "keepTime": true,
+      "tags": [],
+      "targetBlank": false,
+      "title": "Cross-Domain",
+      "tooltip": "Cross-Domain Correlation & Operations",
+      "type": "link",
+      "url": "/d/nawari-voice-correlation/2983cfd"
+    },
+    {
+      "asDropdown": false,
+      "icon": "folder",
+      "includeVars": false,
+      "keepTime": true,
+      "tags": [],
+      "targetBlank": false,
+      "title": "Browse All",
+      "tooltip": "Browse All Dashboards",
+      "type": "link",
+      "url": "/dashboards"
+    }
+  ],
+  "liveNow": false,
+  "panels": [
+    {
+      "collapsed": false,
+      "gridPos": {
+        "h": 1,
+        "w": 24,
+        "x": 0,
+        "y": 0
+      },
+      "id": 1,
+      "panels": [],
+      "title": "Endpoint Fleet Observability & Presence Distribution",
+      "type": "row"
+    },
+    {
+      "datasource": {
+        "type": "alexanderzobnin-zabbix-datasource",
+        "uid": "PA67C5EADE9207728"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "fixed",
+            "fixedColor": "green"
+          },
+          "mappings": [],
+          "noValue": "0",
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              }
+            ]
+          }
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 4,
+        "w": 6,
+        "x": 0,
+        "y": 1
+      },
+      "id": 2,
+      "description": "Measures the total inventory count of enrolled endpoint probe hosts discovered in Zabbix. A static inventory count establishes the fleet denominator for availability calculations. It does not indicate active data transmission or device health; compare against Active Reporting Endpoints to identify dormant or decommissioned endpoints. Missing data indicates collector outage, agent failure, or network disruption; values are preserved as null gaps.",
+      "options": {
+        "colorMode": "value",
+        "graphMode": "none",
+        "justifyMode": "auto",
+        "orientation": "auto",
+        "reduceOptions": {
+          "calcs": [
+            "count"
+          ],
+          "fields": "",
+          "values": false
+        },
+        "textMode": "auto"
+      },
+      "pluginVersion": "11.6.0",
+      "targets": [
+        {
+          "application": {
+            "filter": ""
+          },
+          "datasource": {
+            "type": "alexanderzobnin-zabbix-datasource",
+            "uid": "PA67C5EADE9207728"
+          },
+          "group": {
+            "filter": "/.*Endpoint.*/"
+          },
+          "host": {
+            "filter": "/.*/"
+          },
+          "item": {
+            "filter": "Endpoint info"
+          },
+          "itemTag": {
+            "filter": ""
+          },
+          "mode": 0,
+          "options": {
+            "showDisabledItems": false
+          },
+          "refId": "A",
+          "resultFormat": "time_series",
+          "tags": {
+            "filter": ""
+          },
+          "trigger": {
+            "filter": ""
+          }
+        }
+      ],
+      "title": "Total Enrolled Endpoints",
+      "type": "stat"
+    },
+    {
+      "datasource": {
+        "type": "alexanderzobnin-zabbix-datasource",
+        "uid": "PA67C5EADE9207728"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "thresholds"
+          },
+          "mappings": [],
+          "noValue": "0",
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "red",
+                "value": null
+              },
+              {
+                "color": "green",
+                "value": 1
+              }
+            ]
+          }
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 4,
+        "w": 6,
+        "x": 6,
+        "y": 5
+      },
+      "id": 3,
+      "description": "Measures the number of endpoint agents actively transmitting telemetry samples to the ingestion gateway within the reporting interval. Healthy fleets should show active counts matching enrolled inventory. Values significantly lower than total enrolled indicate fleet disconnects, host reboots, or gateway communication failures. Missing data indicates collector outage, agent failure, or network disruption; values are preserved as null gaps.",
+      "options": {
+        "colorMode": "background",
+        "graphMode": "none",
+        "justifyMode": "auto",
+        "orientation": "auto",
+        "reduceOptions": {
+          "calcs": [
+            "count"
+          ],
+          "fields": "",
+          "values": false
+        },
+        "textMode": "auto"
+      },
+      "pluginVersion": "11.6.0",
+      "targets": [
+        {
+          "application": {
+            "filter": ""
+          },
+          "datasource": {
+            "type": "alexanderzobnin-zabbix-datasource",
+            "uid": "PA67C5EADE9207728"
+          },
+          "group": {
+            "filter": "/.*Endpoint.*/"
+          },
+          "host": {
+            "filter": "/.*/"
+          },
+          "item": {
+            "filter": "Default gateway packet loss"
+          },
+          "itemTag": {
+            "filter": ""
+          },
+          "mode": 0,
+          "options": {
+            "showDisabledItems": false
+          },
+          "refId": "A",
+          "resultFormat": "time_series",
+          "tags": {
+            "filter": ""
+          },
+          "trigger": {
+            "filter": ""
+          }
+        }
+      ],
+      "title": "Active Reporting Endpoints",
+      "type": "stat"
+    },
+    {
+      "datasource": {
+        "type": "alexanderzobnin-zabbix-datasource",
+        "uid": "PA67C5EADE9207728"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "thresholds"
+          },
+          "mappings": [],
+          "noValue": "0",
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              },
+              {
+                "color": "yellow",
+                "value": 1
+              },
+              {
+                "color": "red",
+                "value": 3
+              }
+            ]
+          }
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 4,
+        "w": 6,
+        "x": 12,
+        "y": 9
+      },
+      "id": 4,
+      "description": "Counts endpoints currently firing warning or average severity triggers for first-hop gateway latency (>50ms), packet loss (>20%), or degraded Wi-Fi. Elevated counts highlight localized physical or edge network access impairment before wide-area transit is reached. Note that edge degradation does not automatically prove WAN or cloud service failure. Missing data indicates collector outage, agent failure, or network disruption; values are preserved as null gaps.",
+      "options": {
+        "colorMode": "value",
+        "graphMode": "none",
+        "justifyMode": "auto",
+        "orientation": "auto",
+        "reduceOptions": {
+          "calcs": [
+            "count"
+          ],
+          "fields": "",
+          "values": false
+        },
+        "textMode": "auto"
+      },
+      "pluginVersion": "11.6.0",
+      "targets": [
+        {
+          "application": {
+            "filter": ""
+          },
+          "datasource": {
+            "type": "alexanderzobnin-zabbix-datasource",
+            "uid": "PA67C5EADE9207728"
+          },
+          "group": {
+            "filter": "/.*Endpoint.*/"
+          },
+          "host": {
+            "filter": "/.*/"
+          },
+          "item": {
+            "filter": "Default gateway packet loss"
+          },
+          "itemTag": {
+            "filter": ""
+          },
+          "mode": 0,
+          "options": {
+            "showDisabledItems": false
+          },
+          "refId": "A",
+          "resultFormat": "time_series",
+          "tags": {
+            "filter": ""
+          },
+          "trigger": {
+            "filter": "/.*loss.*/"
+          }
+        }
+      ],
+      "title": "Degraded Edge Endpoints",
+      "type": "stat"
+    },
+    {
+      "datasource": {
+        "type": "alexanderzobnin-zabbix-datasource",
+        "uid": "PA67C5EADE9207728"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "thresholds"
+          },
+          "mappings": [],
+          "noValue": "0",
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              },
+              {
+                "color": "red",
+                "value": 1
+              }
+            ]
+          }
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 4,
+        "w": 6,
+        "x": 18,
+        "y": 13
+      },
+      "id": 5,
+      "description": "Counts enrolled endpoints that have failed to submit heartbeat or telemetry samples for more than 15 minutes (nodata() = 1). A non-zero count signals agent process interruption, machine sleep/shutdown, or persistent network partition. Missing telemetry must never be interpreted as healthy zero-loss or zero-latency conditions.",
+      "options": {
+        "colorMode": "background",
+        "graphMode": "none",
+        "justifyMode": "auto",
+        "orientation": "auto",
+        "reduceOptions": {
+          "calcs": [
+            "count"
+          ],
+          "fields": "",
+          "values": false
+        },
+        "textMode": "auto"
+      },
+      "pluginVersion": "11.6.0",
+      "targets": [
+        {
+          "application": {
+            "filter": ""
+          },
+          "datasource": {
+            "type": "alexanderzobnin-zabbix-datasource",
+            "uid": "PA67C5EADE9207728"
+          },
+          "group": {
+            "filter": "/.*Endpoint.*/"
+          },
+          "host": {
+            "filter": "/.*/"
+          },
+          "item": {
+            "filter": ""
+          },
+          "itemTag": {
+            "filter": ""
+          },
+          "mode": 1,
+          "options": {
+            "showDisabledItems": false
+          },
+          "refId": "A",
+          "resultFormat": "problems",
+          "tags": {
+            "filter": ""
+          },
+          "trigger": {
+            "filter": "/.*stale.*/"
+          }
+        }
+      ],
+      "title": "Stale Endpoints (>15m SLA)",
+      "type": "stat"
+    },
+    {
+      "datasource": {
+        "type": "alexanderzobnin-zabbix-datasource",
+        "uid": "PA67C5EADE9207728"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "palette-classic"
+          },
+          "custom": {
+            "hideFrom": {
+              "legend": false,
+              "tooltip": false,
+              "viz": false
+            }
+          },
+          "mappings": [
+            {
+              "options": {
+                "0": {
+                  "color": "blue",
+                  "text": "Ethernet (Wired)"
+                },
+                "1": {
+                  "color": "purple",
+                  "text": "Wi-Fi (Wireless)"
+                },
+                "2": {
+                  "color": "orange",
+                  "text": "VPN / Remote"
+                },
+                "3": {
+                  "color": "gray",
+                  "text": "Other / Loopback"
+                }
+              },
+              "type": "value"
+            }
+          ]
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 6,
+        "w": 12,
+        "x": 0,
+        "y": 17
+      },
+      "id": 6,
+      "description": "Displays the distribution of primary active network interface types (Ethernet, Wi-Fi, VPN, Cellular) currently utilized by reporting endpoints. Useful for diagnosing interface-specific degradation clusters (e.g. airport lounge Wi-Fi saturation vs wired operations centers). Note that multi-homed endpoints report only their primary default route egress interface. Missing data indicates collector outage, agent failure, or network disruption; values are preserved as null gaps.",
+      "options": {
+        "displayLabels": [
+          "percent",
+          "name"
+        ],
+        "legend": {
+          "displayMode": "table",
+          "placement": "right",
+          "values": [
+            "value",
+            "percent"
+          ]
+        },
+        "pieType": "donut",
+        "reduceOptions": {
+          "calcs": [
+            "lastNotNull"
+          ],
+          "fields": "",
+          "values": false
+        },
+        "tooltip": {
+          "mode": "single"
+        }
+      },
+      "pluginVersion": "11.6.0",
+      "targets": [
+        {
+          "application": {
+            "filter": ""
+          },
+          "datasource": {
+            "type": "alexanderzobnin-zabbix-datasource",
+            "uid": "PA67C5EADE9207728"
+          },
+          "group": {
+            "filter": "/.*Endpoint.*/"
+          },
+          "host": {
+            "filter": "/.*/"
+          },
+          "item": {
+            "filter": "Network interface type"
+          },
+          "itemTag": {
+            "filter": ""
+          },
+          "mode": 0,
+          "options": {
+            "showDisabledItems": false
+          },
+          "refId": "A",
+          "resultFormat": "time_series",
+          "tags": {
+            "filter": ""
+          },
+          "trigger": {
+            "filter": ""
+          }
+        }
+      ],
+      "title": "Active Primary Interface Distribution",
+      "type": "piechart"
+    },
+    {
+      "datasource": {
+        "type": "alexanderzobnin-zabbix-datasource",
+        "uid": "PA67C5EADE9207728"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "palette-classic"
+          },
+          "custom": {
+            "hideFrom": {
+              "legend": false,
+              "tooltip": false,
+              "viz": false
+            }
+          },
+          "mappings": [
+            {
+              "options": {
+                "0": {
+                  "color": "blue",
+                  "text": "MOCK_SIMULATED (Dev)"
+                },
+                "1": {
+                  "color": "green",
+                  "text": "PHYSICAL_PRODUCTION (Enterprise)"
+                }
+              },
+              "type": "value"
+            }
+          ]
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 6,
+        "w": 12,
+        "x": 12,
+        "y": 23
+      },
+      "id": 7,
+      "description": "Classifies reporting endpoints by their cryptographic execution provenance (PHYSICAL_PRODUCTION, CONTAINER_SIMULATION, LAB_MOCK). Ensures operators can verify that production metrics originate from authentic physical endpoints rather than lab harnesses. Provenance is enforced and stamped server-side by the Nawari Ingestion Gateway. Missing data indicates collector outage, agent failure, or network disruption; values are preserved as null gaps.",
+      "options": {
+        "displayLabels": [
+          "percent",
+          "name"
+        ],
+        "legend": {
+          "displayMode": "table",
+          "placement": "right",
+          "values": [
+            "value",
+            "percent"
+          ]
+        },
+        "pieType": "donut",
+        "reduceOptions": {
+          "calcs": [
+            "lastNotNull"
+          ],
+          "fields": "",
+          "values": false
+        },
+        "tooltip": {
+          "mode": "single"
+        }
+      },
+      "pluginVersion": "11.6.0",
+      "targets": [
+        {
+          "application": {
+            "filter": ""
+          },
+          "datasource": {
+            "type": "alexanderzobnin-zabbix-datasource",
+            "uid": "PA67C5EADE9207728"
+          },
+          "group": {
+            "filter": "/.*Endpoint.*/"
+          },
+          "host": {
+            "filter": "/.*/"
+          },
+          "item": {
+            "filter": "Endpoint environment"
+          },
+          "itemTag": {
+            "filter": ""
+          },
+          "mode": 0,
+          "options": {
+            "showDisabledItems": false
+          },
+          "refId": "A",
+          "resultFormat": "time_series",
+          "tags": {
+            "filter": ""
+          },
+          "trigger": {
+            "filter": ""
+          }
+        }
+      ],
+      "title": "Telemetric Environment Provenance",
+      "type": "piechart"
+    },
+    {
+      "datasource": {
+        "type": "alexanderzobnin-zabbix-datasource",
+        "uid": "PA67C5EADE9207728"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "palette-classic"
+          },
+          "custom": {
+            "axisBorderShow": false,
+            "axisCenteredZero": false,
+            "axisColorMode": "text",
+            "axisLabel": "Latency (s)",
+            "axisPlacement": "auto",
+            "fillOpacity": 15,
+            "lineWidth": 2,
+            "scaleDistribution": {
+              "type": "linear"
+            },
+            "spanNulls": false
+          },
+          "mappings": [],
+          "noValue": "STALE / NO DATA",
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              },
+              {
+                "color": "yellow",
+                "value": 0.02
+              },
+              {
+                "color": "red",
+                "value": 0.05
+              }
+            ]
+          },
+          "unit": "s"
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 7,
+        "w": 12,
+        "x": 0,
+        "y": 29
+      },
+      "id": 8,
+      "description": "Measures round-trip time (RTT) between endpoint agents and their local default gateways across the fleet. Sustained values above 50 ms indicate local subnet congestion, duplex mismatches, or Wi-Fi interference. Low gateway latency confirms local edge health but does not guarantee WAN transit or cloud application availability. Missing data indicates collector outage, agent failure, or network disruption; values are preserved as null gaps.",
+      "options": {
+        "legend": {
+          "calcs": [
+            "mean",
+            "max",
+            "lastNotNull"
+          ],
+          "displayMode": "table",
+          "placement": "bottom"
+        },
+        "tooltip": {
+          "mode": "multi"
+        }
+      },
+      "pluginVersion": "11.6.0",
+      "targets": [
+        {
+          "application": {
+            "filter": ""
+          },
+          "datasource": {
+            "type": "alexanderzobnin-zabbix-datasource",
+            "uid": "PA67C5EADE9207728"
+          },
+          "group": {
+            "filter": "/.*Endpoint.*/"
+          },
+          "host": {
+            "filter": "/.*/"
+          },
+          "item": {
+            "filter": "Default gateway latency"
+          },
+          "itemTag": {
+            "filter": ""
+          },
+          "mode": 0,
+          "options": {
+            "showDisabledItems": false
+          },
+          "refId": "A",
+          "resultFormat": "time_series",
+          "tags": {
+            "filter": ""
+          },
+          "trigger": {
+            "filter": ""
+          }
+        }
+      ],
+      "title": "Fleet Default Gateway Latency",
+      "type": "timeseries"
+    },
+    {
+      "datasource": {
+        "type": "alexanderzobnin-zabbix-datasource",
+        "uid": "PA67C5EADE9207728"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "palette-classic"
+          },
+          "custom": {
+            "axisBorderShow": false,
+            "axisCenteredZero": false,
+            "axisColorMode": "text",
+            "axisLabel": "Loss (%)",
+            "axisPlacement": "auto",
+            "fillOpacity": 15,
+            "lineWidth": 2,
+            "scaleDistribution": {
+              "type": "linear"
+            },
+            "spanNulls": false
+          },
+          "mappings": [],
+          "noValue": "STALE / NO DATA",
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              },
+              {
+                "color": "yellow",
+                "value": 1
+              },
+              {
+                "color": "red",
+                "value": 20
+              }
+            ]
+          },
+          "unit": "percent"
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 7,
+        "w": 12,
+        "x": 12,
+        "y": 36
+      },
+      "id": 9,
+      "description": "Measures ICMP probe packet loss percentage between endpoints and their first-hop gateway. Values above 0% indicate physical link errors, wireless RF collisions, or local switch buffer exhaustion. Loss at the default gateway directly impairs real-time voice and video streams across the access layer. Missing data indicates collector outage, agent failure, or network disruption; values are preserved as null gaps.",
+      "options": {
+        "legend": {
+          "calcs": [
+            "mean",
+            "max",
+            "lastNotNull"
+          ],
+          "displayMode": "table",
+          "placement": "bottom"
+        },
+        "tooltip": {
+          "mode": "multi"
+        }
+      },
+      "pluginVersion": "11.6.0",
+      "targets": [
+        {
+          "application": {
+            "filter": ""
+          },
+          "datasource": {
+            "type": "alexanderzobnin-zabbix-datasource",
+            "uid": "PA67C5EADE9207728"
+          },
+          "group": {
+            "filter": "/.*Endpoint.*/"
+          },
+          "host": {
+            "filter": "/.*/"
+          },
+          "item": {
+            "filter": "Default gateway packet loss"
+          },
+          "itemTag": {
+            "filter": ""
+          },
+          "mode": 0,
+          "options": {
+            "showDisabledItems": false
+          },
+          "refId": "A",
+          "resultFormat": "time_series",
+          "tags": {
+            "filter": ""
+          },
+          "trigger": {
+            "filter": ""
+          }
+        }
+      ],
+      "title": "Fleet Default Gateway Packet Loss",
+      "type": "timeseries"
+    },
+    {
+      "datasource": {
+        "type": "alexanderzobnin-zabbix-datasource",
+        "uid": "PA67C5EADE9207728"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "thresholds"
+          },
+          "mappings": [
+            {
+              "options": {
+                "0": {
+                  "color": "red",
+                  "text": "DOWN / UNREACHABLE"
+                },
+                "1": {
+                  "color": "green",
+                  "text": "REACHABLE (TCP/TLS ESTABLISHED)"
+                }
+              },
+              "type": "value"
+            }
+          ],
+          "noValue": "STALE / NO DATA",
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "red",
+                "value": null
+              },
+              {
+                "color": "green",
+                "value": 1
+              }
+            ]
+          }
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 6,
+        "w": 8,
+        "x": 0,
+        "y": 43
+      },
+      "id": 10,
+      "description": "Measures transport socket reachability (L4 TCP 3-way handshake) from endpoints to perimeter SBC/voice edge devices on port 5061. Values of 1 indicate the transport socket was established; 0 indicates network firewall drops or server downtime. Crucially, TCP connect success does not verify SIP registration, TLS handshake, or bidirectional audio RTP flow. Missing data indicates collector outage, agent failure, or network disruption; values are preserved as null gaps.",
+      "options": {
+        "colorMode": "background",
+        "graphMode": "none",
+        "justifyMode": "auto",
+        "orientation": "auto",
+        "reduceOptions": {
+          "calcs": [
+            "lastNotNull"
+          ],
+          "fields": "",
+          "values": false
+        },
+        "textMode": "auto"
+      },
+      "pluginVersion": "11.6.0",
+      "targets": [
+        {
+          "application": {
+            "filter": ""
+          },
+          "datasource": {
+            "type": "alexanderzobnin-zabbix-datasource",
+            "uid": "PA67C5EADE9207728"
+          },
+          "group": {
+            "filter": "/.*Endpoint.*/"
+          },
+          "host": {
+            "filter": "/.*/"
+          },
+          "item": {
+            "filter": "/Service reachable .*/"
+          },
+          "itemTag": {
+            "filter": ""
+          },
+          "mode": 0,
+          "options": {
+            "showDisabledItems": false
+          },
+          "refId": "A",
+          "resultFormat": "time_series",
+          "tags": {
+            "filter": ""
+          },
+          "trigger": {
+            "filter": ""
+          }
+        }
+      ],
+      "title": "Voice Gateway (5061/tcp) Reachability",
+      "type": "stat"
+    },
+    {
+      "datasource": {
+        "type": "alexanderzobnin-zabbix-datasource",
+        "uid": "PA67C5EADE9207728"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "palette-classic"
+          },
+          "custom": {
+            "axisLabel": "Resolution Time (s)",
+            "fillOpacity": 15,
+            "lineWidth": 2,
+            "scaleDistribution": {
+              "type": "linear"
+            }
+          },
+          "mappings": [],
+          "noValue": "STALE / NO DATA",
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              },
+              {
+                "color": "yellow",
+                "value": 0.05
+              },
+              {
+                "color": "red",
+                "value": 0.2
+              }
+            ]
+          },
+          "unit": "s"
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 6,
+        "w": 8,
+        "x": 8,
+        "y": 49
+      },
+      "id": 11,
+      "description": "Measures the query resolution time for corporate and external hostnames against configured nameservers. Elevated resolution times (>50 ms) or timeouts indicate recursive resolver saturation, cache thrashing, or upstream DNS transit failures. High DNS resolution latency delays all subsequent web and voice session establishments. Missing data indicates collector outage, agent failure, or network disruption; values are preserved as null gaps.",
+      "options": {
+        "legend": {
+          "calcs": [
+            "mean",
+            "max"
+          ],
+          "displayMode": "table",
+          "placement": "bottom"
+        },
+        "tooltip": {
+          "mode": "multi"
+        }
+      },
+      "pluginVersion": "11.6.0",
+      "targets": [
+        {
+          "application": {
+            "filter": ""
+          },
+          "datasource": {
+            "type": "alexanderzobnin-zabbix-datasource",
+            "uid": "PA67C5EADE9207728"
+          },
+          "group": {
+            "filter": "/.*Endpoint.*/"
+          },
+          "host": {
+            "filter": "/.*/"
+          },
+          "item": {
+            "filter": "/DNS resolution time .*/"
+          },
+          "itemTag": {
+            "filter": ""
+          },
+          "mode": 0,
+          "options": {
+            "showDisabledItems": false
+          },
+          "refId": "A",
+          "resultFormat": "time_series",
+          "tags": {
+            "filter": ""
+          },
+          "trigger": {
+            "filter": ""
+          }
+        }
+      ],
+      "title": "DNS Resolution Latency",
+      "type": "timeseries"
+    },
+    {
+      "datasource": {
+        "type": "alexanderzobnin-zabbix-datasource",
+        "uid": "PA67C5EADE9207728"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "palette-classic"
+          },
+          "custom": {
+            "axisLabel": "TTFB (s)",
+            "fillOpacity": 15,
+            "lineWidth": 2,
+            "scaleDistribution": {
+              "type": "linear"
+            }
+          },
+          "mappings": [],
+          "noValue": "STALE / NO DATA",
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              },
+              {
+                "color": "yellow",
+                "value": 0.2
+              },
+              {
+                "color": "red",
+                "value": 0.8
+              }
+            ]
+          },
+          "unit": "s"
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 6,
+        "w": 8,
+        "x": 16,
+        "y": 55
+      },
+      "id": 12,
+      "description": "Measures HTTP Time To First Byte (TTFB) from request transmission to initial response byte across monitored corporate web endpoints. Elevated TTFB indicates server-side application processing delays, backend database bottlenecks, or reverse proxy queuing. TTFB measures server processing latency, distinct from TCP connect and TLS negotiation times. Missing data indicates collector outage, agent failure, or network disruption; values are preserved as null gaps.",
+      "options": {
+        "legend": {
+          "calcs": [
+            "mean",
+            "max"
+          ],
+          "displayMode": "table",
+          "placement": "bottom"
+        },
+        "tooltip": {
+          "mode": "multi"
+        }
+      },
+      "pluginVersion": "11.6.0",
+      "targets": [
+        {
+          "application": {
+            "filter": ""
+          },
+          "datasource": {
+            "type": "alexanderzobnin-zabbix-datasource",
+            "uid": "PA67C5EADE9207728"
+          },
+          "group": {
+            "filter": "/.*Endpoint.*/"
+          },
+          "host": {
+            "filter": "/.*/"
+          },
+          "item": {
+            "filter": "/HTTP TTFB .*/"
+          },
+          "itemTag": {
+            "filter": ""
+          },
+          "mode": 0,
+          "options": {
+            "showDisabledItems": false
+          },
+          "refId": "A",
+          "resultFormat": "time_series",
+          "tags": {
+            "filter": ""
+          },
+          "trigger": {
+            "filter": ""
+          }
+        }
+      ],
+      "title": "Corporate HTTP Services TTFB",
+      "type": "timeseries"
+    },
+    {
+      "datasource": {
+        "type": "alexanderzobnin-zabbix-datasource",
+        "uid": "PA67C5EADE9207728"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "thresholds"
+          },
+          "custom": {
+            "align": "auto",
+            "cellOptions": {
+              "type": "auto"
+            },
+            "inspect": false
+          },
+          "links": [
+            {
+              "title": "Drill-down to Endpoint Details",
+              "url": "/d/nawari-endpoint-detail/nawari-endpoint-detail?var-endpoint=${__data.fields.host}"
+            }
+          ],
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "blue",
+                "value": null
+              }
+            ]
+          }
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 8,
+        "w": 24,
+        "x": 0,
+        "y": 61
+      },
+      "id": 13,
+      "description": "Tabular inventory of all discovered endpoint agents showing host identity, active interface, default gateway RTT, packet loss, and environment provenance. Enables rapid drill-down from fleet-level trends to specific impaired workstations or flight operations terminals. Telemetry marked STALE indicates an endpoint has stopped reporting and requires local investigation. Missing data indicates collector outage, agent failure, or network disruption; values are preserved as null gaps.",
+      "options": {
+        "footer": {
+          "countRows": false,
+          "fields": "",
+          "reducer": [
+            "sum"
+          ],
+          "show": false
+        },
+        "showHeader": true,
+        "sortBy": []
+      },
+      "pluginVersion": "11.6.0",
+      "targets": [
+        {
+          "application": {
+            "filter": ""
+          },
+          "datasource": {
+            "type": "alexanderzobnin-zabbix-datasource",
+            "uid": "PA67C5EADE9207728"
+          },
+          "group": {
+            "filter": "/.*Endpoint.*/"
+          },
+          "host": {
+            "filter": "/.*/"
+          },
+          "item": {
+            "filter": "/Default gateway .*/"
+          },
+          "itemTag": {
+            "filter": ""
+          },
+          "mode": 0,
+          "options": {
+            "showDisabledItems": false
+          },
+          "refId": "A",
+          "resultFormat": "time_series",
+          "tags": {
+            "filter": ""
+          },
+          "trigger": {
+            "filter": ""
+          }
+        }
+      ],
+      "title": "Discovered Endpoints Inventory & Operational Status",
+      "type": "table"
+    },
+    {
+      "datasource": {
+        "type": "alexanderzobnin-zabbix-datasource",
+        "uid": "PA67C5EADE9207728"
+      },
+      "gridPos": {
+        "h": 8,
+        "w": 24,
+        "x": 0,
+        "y": 69
+      },
+      "id": 14,
+      "description": "Real-time operational problem feed displaying active Zabbix alarms across the endpoint fleet. Alarms highlight active edge degradations including gateway loss >20%, gateway RTT >50ms, and missing telemetry >15m. Acknowledging problems here suppresses redundant alerts while remediation is underway.",
+      "options": {
+        "columns": [
+          {
+            "text": "Severity",
+            "value": "severity"
+          },
+          {
+            "text": "Time",
+            "value": "time"
+          },
+          {
+            "text": "Recovery time",
+            "value": "r_time"
+          },
+          {
+            "text": "Status",
+            "value": "status"
+          },
+          {
+            "text": "Host",
+            "value": "host"
+          },
+          {
+            "text": "Problem",
+            "value": "problem"
+          },
+          {
+            "text": "Duration",
+            "value": "duration"
+          },
+          {
+            "text": "Ack",
+            "value": "ack"
+          }
+        ],
+        "fontSize": "100%",
+        "highlightBackground": true,
+        "highlightFullRow": false,
+        "limit": 50,
+        "problemFilter": "",
+        "showActions": true,
+        "showTags": true,
+        "sortProblems": "default",
+        "subTab": "problems"
+      },
+      "pluginVersion": "11.6.0",
+      "targets": [
+        {
+          "application": {
+            "filter": ""
+          },
+          "datasource": {
+            "type": "alexanderzobnin-zabbix-datasource",
+            "uid": "PA67C5EADE9207728"
+          },
+          "group": {
+            "filter": "/.*Endpoint.*/"
+          },
+          "host": {
+            "filter": "/.*/"
+          },
+          "item": {
+            "filter": ""
+          },
+          "itemTag": {
+            "filter": ""
+          },
+          "mode": 1,
+          "options": {
+            "showDisabledItems": false
+          },
+          "refId": "A",
+          "resultFormat": "problems",
+          "tags": {
+            "filter": ""
+          },
+          "trigger": {
+            "filter": ""
+          }
+        }
+      ],
+      "title": "Endpoint Active Problem Alarms (Gateway Loss, High RTT, Stale Telemetry)",
+      "type": "alexanderzobnin-zabbix-problems-panel"
+    },
+    {
+      "collapsed": false,
+      "gridPos": {
+        "h": 1,
+        "w": 24,
+        "x": 0,
+        "y": 77
+      },
+      "id": 15,
+      "panels": [],
+      "title": "Real-Time Active Probe Diagnostics (Pilot Fleet)",
+      "type": "row"
+    },
+    {
+      "datasource": {
+        "type": "alexanderzobnin-zabbix-datasource",
+        "uid": "PA67C5EADE9207728"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "fixed",
+            "fixedColor": "blue"
+          },
+          "mappings": [],
+          "noValue": "0",
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "blue",
+                "value": null
+              }
+            ]
+          }
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 4,
+        "w": 6,
+        "x": 0,
+        "y": 78
+      },
+      "id": 16,
+      "description": "Measures total enrolled pilot employee laptops in the EU-NEM host group. Establishes the fleet denominator for network experience calculations. Does not indicate active data transmission; compare with active reporting count. Missing data indicates collector outage; values preserved as null gaps.",
+      "options": {
+        "colorMode": "value",
+        "graphMode": "none",
+        "justifyMode": "auto",
+        "orientation": "auto",
+        "reduceOptions": {
+          "calcs": [
+            "lastNotNull"
+          ],
+          "fields": "",
+          "values": false
+        },
+        "textMode": "auto"
+      },
+      "pluginVersion": "11.6.0",
+      "targets": [
+        {
+          "datasource": {
+            "type": "alexanderzobnin-zabbix-datasource",
+            "uid": "PA67C5EADE9207728"
+          },
+          "group": {
+            "filter": "Nawari / Endpoints / Pilot"
+          },
+          "host": {
+            "filter": "/.*/"
+          },
+          "item": {
+            "filter": "Zabbix Agent 2 Availability"
+          },
+          "options": {
+            "count": true
+          },
+          "refId": "A"
+        }
+      ],
+      "title": "Pilot Laptops Enrolled",
+      "type": "stat"
+    },
+    {
+      "datasource": {
+        "type": "alexanderzobnin-zabbix-datasource",
+        "uid": "PA67C5EADE9207728"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "thresholds"
+          },
+          "mappings": [],
+          "noValue": "0",
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "red",
+                "value": null
+              },
+              {
+                "color": "green",
+                "value": 1
+              }
+            ]
+          }
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 4,
+        "w": 6,
+        "x": 6,
+        "y": 82
+      },
+      "id": 17,
+      "description": "Measures active Zabbix Agent 2 heartbeats received within the current polling window. Value 1 indicates online agent transmission. Does not indicate network quality or service health; evaluate gateway loss and DNS timing separately. Missing data indicates sleeping laptop or network disconnection; values preserved as null gaps.",
+      "options": {
+        "colorMode": "value",
+        "graphMode": "none",
+        "justifyMode": "auto",
+        "orientation": "auto",
+        "reduceOptions": {
+          "calcs": [
+            "lastNotNull"
+          ],
+          "fields": "",
+          "values": false
+        },
+        "textMode": "auto"
+      },
+      "pluginVersion": "11.6.0",
+      "targets": [
+        {
+          "datasource": {
+            "type": "alexanderzobnin-zabbix-datasource",
+            "uid": "PA67C5EADE9207728"
+          },
+          "group": {
+            "filter": "Nawari / Endpoints / Pilot"
+          },
+          "host": {
+            "filter": "/.*/"
+          },
+          "item": {
+            "filter": "Zabbix Agent 2 Availability"
+          },
+          "refId": "A"
+        }
+      ],
+      "title": "Active Reporting Laptops",
+      "type": "stat"
+    },
+    {
+      "datasource": {
+        "type": "alexanderzobnin-zabbix-datasource",
+        "uid": "PA67C5EADE9207728"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "thresholds"
+          },
+          "mappings": [
+            {
+              "options": {
+                "0": {
+                  "color": "red",
+                  "text": "Unreachable"
+                },
+                "1": {
+                  "color": "green",
+                  "text": "Reachable"
+                }
+              },
+              "type": "value"
+            }
+          ],
+          "noValue": "No Data",
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "red",
+                "value": null
+              },
+              {
+                "color": "green",
+                "value": 1
+              }
+            ]
+          }
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 4,
+        "w": 6,
+        "x": 12,
+        "y": 86
+      },
+      "id": 18,
+      "description": "Measures default gateway reachability state (1=reachable, 0=unreachable) evaluated directly from the laptop. Indicates edge layer-2/layer-3 attachment health. Does not indicate DNS or corporate application health. Missing data indicates offline endpoint; preserved as null gaps.",
+      "options": {
+        "colorMode": "value",
+        "graphMode": "none",
+        "justifyMode": "auto",
+        "orientation": "auto",
+        "reduceOptions": {
+          "calcs": [
+            "lastNotNull"
+          ],
+          "fields": "",
+          "values": false
+        },
+        "textMode": "auto"
+      },
+      "pluginVersion": "11.6.0",
+      "targets": [
+        {
+          "datasource": {
+            "type": "alexanderzobnin-zabbix-datasource",
+            "uid": "PA67C5EADE9207728"
+          },
+          "group": {
+            "filter": "Nawari / Endpoints / Pilot"
+          },
+          "host": {
+            "filter": "/.*/"
+          },
+          "item": {
+            "filter": "Default Gateway Reachable"
+          },
+          "refId": "A"
+        }
+      ],
+      "title": "Default Gateway Reachability",
+      "type": "stat"
+    },
+    {
+      "datasource": {
+        "type": "alexanderzobnin-zabbix-datasource",
+        "uid": "PA67C5EADE9207728"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "thresholds"
+          },
+          "mappings": [
+            {
+              "options": {
+                "0": {
+                  "color": "red",
+                  "text": "Failed"
+                },
+                "1": {
+                  "color": "green",
+                  "text": "Success"
+                }
+              },
+              "type": "value"
+            }
+          ],
+          "noValue": "No Data",
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "red",
+                "value": null
+              },
+              {
+                "color": "green",
+                "value": 1
+              }
+            ]
+          }
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 4,
+        "w": 6,
+        "x": 18,
+        "y": 90
+      },
+      "id": 19,
+      "description": "Measures corporate internal DNS resolution success rate (1=success, 0=failure) for Kenya Airways corporate hostnames. Differentiates name resolution failure from general network outage when gateway reachability is healthy. Missing data indicates offline endpoint; preserved as null gaps.",
+      "options": {
+        "colorMode": "value",
+        "graphMode": "none",
+        "justifyMode": "auto",
+        "orientation": "auto",
+        "reduceOptions": {
+          "calcs": [
+            "lastNotNull"
+          ],
+          "fields": "",
+          "values": false
+        },
+        "textMode": "auto"
+      },
+      "pluginVersion": "11.6.0",
+      "targets": [
+        {
+          "datasource": {
+            "type": "alexanderzobnin-zabbix-datasource",
+            "uid": "PA67C5EADE9207728"
+          },
+          "group": {
+            "filter": "Nawari / Endpoints / Pilot"
+          },
+          "host": {
+            "filter": "/.*/"
+          },
+          "item": {
+            "filter": "Corporate DNS Resolution Status"
+          },
+          "refId": "A"
+        }
+      ],
+      "title": "Corporate DNS Health",
+      "type": "stat"
+    },
+    {
+      "datasource": {
+        "type": "alexanderzobnin-zabbix-datasource",
+        "uid": "PA67C5EADE9207728"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "custom": {
+            "drawStyle": "line",
+            "lineInterpolation": "smooth",
+            "lineWidth": 2,
+            "spanNulls": false
+          },
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              },
+              {
+                "color": "orange",
+                "value": 50
+              },
+              {
+                "color": "red",
+                "value": 100
+              }
+            ]
+          },
+          "unit": "ms"
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 8,
+        "w": 12,
+        "x": 0,
+        "y": 94
+      },
+      "id": 20,
+      "description": "Measures round-trip time in milliseconds from employee laptops to their immediate local default gateway. Latency above 50ms indicates local Wi-Fi congestion or bufferbloat; above 100ms indicates severe local impairment. Missing data indicates offline endpoint; preserved as null gaps.",
+      "options": {
+        "legend": {
+          "displayMode": "table",
+          "placement": "bottom"
+        },
+        "tooltip": {
+          "mode": "multi"
+        }
+      },
+      "pluginVersion": "11.6.0",
+      "targets": [
+        {
+          "datasource": {
+            "type": "alexanderzobnin-zabbix-datasource",
+            "uid": "PA67C5EADE9207728"
+          },
+          "group": {
+            "filter": "Nawari / Endpoints / Pilot"
+          },
+          "host": {
+            "filter": "/.*/"
+          },
+          "item": {
+            "filter": "Default Gateway Round-Trip Time"
+          },
+          "refId": "A"
+        }
+      ],
+      "title": "Default Gateway Latency (RTT)",
+      "type": "timeseries"
+    },
+    {
+      "datasource": {
+        "type": "alexanderzobnin-zabbix-datasource",
+        "uid": "PA67C5EADE9207728"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "custom": {
+            "drawStyle": "line",
+            "lineInterpolation": "linear",
+            "lineWidth": 2,
+            "spanNulls": false
+          },
+          "mappings": [],
+          "max": 100,
+          "min": 0,
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              },
+              {
+                "color": "yellow",
+                "value": 5
+              },
+              {
+                "color": "red",
+                "value": 20
+              }
+            ]
+          },
+          "unit": "percent"
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 8,
+        "w": 12,
+        "x": 12,
+        "y": 102
+      },
+      "id": 21,
+      "description": "Measures packet loss percentage to the immediate default gateway. Loss above 5% causes noticeable voice and web degradation; loss above 20% triggers Zabbix degradation alert. Missing data indicates offline endpoint; preserved as null gaps.",
+      "options": {
+        "legend": {
+          "displayMode": "table",
+          "placement": "bottom"
+        },
+        "tooltip": {
+          "mode": "multi"
+        }
+      },
+      "pluginVersion": "11.6.0",
+      "targets": [
+        {
+          "datasource": {
+            "type": "alexanderzobnin-zabbix-datasource",
+            "uid": "PA67C5EADE9207728"
+          },
+          "group": {
+            "filter": "Nawari / Endpoints / Pilot"
+          },
+          "host": {
+            "filter": "/.*/"
+          },
+          "item": {
+            "filter": "Default Gateway Packet Loss"
+          },
+          "refId": "A"
+        }
+      ],
+      "title": "Default Gateway Packet Loss (%)",
+      "type": "timeseries"
+    },
+    {
+      "datasource": {
+        "type": "alexanderzobnin-zabbix-datasource",
+        "uid": "PA67C5EADE9207728"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "custom": {
+            "drawStyle": "line",
+            "lineInterpolation": "smooth",
+            "lineWidth": 2,
+            "spanNulls": false
+          },
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              },
+              {
+                "color": "yellow",
+                "value": 150
+              },
+              {
+                "color": "red",
+                "value": 300
+              }
+            ]
+          },
+          "unit": "ms"
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 8,
+        "w": 12,
+        "x": 0,
+        "y": 110
+      },
+      "id": 22,
+      "description": "Measures DNS query resolution time in milliseconds for internal Kenya Airways records. Response times above 150ms indicate resolver load; above 300ms triggers degradation alert. Missing data indicates offline endpoint; preserved as null gaps.",
+      "options": {
+        "legend": {
+          "displayMode": "table",
+          "placement": "bottom"
+        },
+        "tooltip": {
+          "mode": "multi"
+        }
+      },
+      "pluginVersion": "11.6.0",
+      "targets": [
+        {
+          "datasource": {
+            "type": "alexanderzobnin-zabbix-datasource",
+            "uid": "PA67C5EADE9207728"
+          },
+          "group": {
+            "filter": "Nawari / Endpoints / Pilot"
+          },
+          "host": {
+            "filter": "/.*/"
+          },
+          "item": {
+            "filter": "Corporate DNS Resolution Time"
+          },
+          "refId": "A"
+        }
+      ],
+      "title": "Corporate DNS Resolution Latency",
+      "type": "timeseries"
+    },
+    {
+      "datasource": {
+        "type": "alexanderzobnin-zabbix-datasource",
+        "uid": "PA67C5EADE9207728"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "custom": {
+            "drawStyle": "line",
+            "lineInterpolation": "linear",
+            "lineWidth": 2,
+            "spanNulls": false
+          },
+          "mappings": [],
+          "max": 100,
+          "min": 0,
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "red",
+                "value": null
+              },
+              {
+                "color": "yellow",
+                "value": 25
+              },
+              {
+                "color": "green",
+                "value": 50
+              }
+            ]
+          },
+          "unit": "percent"
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 8,
+        "w": 12,
+        "x": 12,
+        "y": 118
+      },
+      "id": 23,
+      "description": "Measures connected Wi-Fi link signal strength percentage. Values below 25% cause packet drops, increased latency, and frame retransmissions. Missing data indicates wired Ethernet or offline laptop; preserved as null gaps.",
+      "options": {
+        "legend": {
+          "displayMode": "table",
+          "placement": "bottom"
+        },
+        "tooltip": {
+          "mode": "multi"
+        }
+      },
+      "pluginVersion": "11.6.0",
+      "targets": [
+        {
+          "datasource": {
+            "type": "alexanderzobnin-zabbix-datasource",
+            "uid": "PA67C5EADE9207728"
+          },
+          "group": {
+            "filter": "Nawari / Endpoints / Pilot"
+          },
+          "host": {
+            "filter": "/.*/"
+          },
+          "item": {
+            "filter": "Wi-Fi Signal Strength"
+          },
+          "refId": "A"
+        }
+      ],
+      "title": "Wi-Fi Signal Quality (%)",
+      "type": "timeseries"
+    },
+    {
+      "collapsed": true,
+      "gridPos": {
+        "h": 1,
+        "w": 24,
+        "x": 0,
+        "y": 126
+      },
+      "id": 24,
+      "panels": [
+        {
+          "datasource": {
+            "type": "alexanderzobnin-zabbix-datasource",
+            "uid": "PA67C5EADE9207728"
+          },
+          "fieldConfig": {
+            "defaults": {
+              "color": {
+                "mode": "thresholds"
+              },
+              "mappings": [],
+              "noValue": "STALE / NO DATA",
+              "thresholds": {
+                "mode": "absolute",
+                "steps": [
+                  {
+                    "color": "blue",
+                    "value": null
+                  }
+                ]
+              }
+            },
+            "overrides": []
+          },
+          "gridPos": {
+            "h": 4,
+            "w": 10,
+            "x": 0,
+            "y": 0
+          },
+          "id": 25,
+          "description": "Displays the agent version, hostname, and operating system build of the selected endpoint. Confirms that the endpoint agent daemon is running the current approved software build. Note that hostname strings are reported by the local OS and are validated against the persistent agent UUID. Missing data indicates collector outage, agent failure, or network disruption; values are preserved as null gaps.",
+          "options": {
+            "colorMode": "none",
+            "graphMode": "none",
+            "justifyMode": "auto",
+            "orientation": "auto",
+            "reduceOptions": {
+              "calcs": [
+                "lastNotNull"
+              ],
+              "fields": "",
+              "values": false
+            },
+            "textMode": "auto"
+          },
+          "pluginVersion": "11.6.0",
+          "targets": [
+            {
+              "application": {
+                "filter": ""
+              },
+              "datasource": {
+                "type": "alexanderzobnin-zabbix-datasource",
+                "uid": "PA67C5EADE9207728"
+              },
+              "group": {
+                "filter": "$group"
+              },
+              "host": {
+                "filter": "$endpoint"
+              },
+              "item": {
+                "filter": "Endpoint info"
+              },
+              "itemTag": {
+                "filter": ""
+              },
+              "mode": 0,
+              "options": {
+                "showDisabledItems": false
+              },
+              "refId": "A",
+              "resultFormat": "time_series",
+              "tags": {
+                "filter": ""
+              },
+              "trigger": {
+                "filter": ""
+              }
+            }
+          ],
+          "title": "Agent Info & Host Identity",
+          "type": "stat"
+        },
+        {
+          "datasource": {
+            "type": "alexanderzobnin-zabbix-datasource",
+            "uid": "PA67C5EADE9207728"
+          },
+          "fieldConfig": {
+            "defaults": {
+              "color": {
+                "mode": "thresholds"
+              },
+              "mappings": [
+                {
+                  "options": {
+                    "0": {
+                      "color": "blue",
+                      "text": "Ethernet (Wired LAN)"
+                    },
+                    "1": {
+                      "color": "purple",
+                      "text": "Wi-Fi (Wireless 802.11)"
+                    },
+                    "2": {
+                      "color": "orange",
+                      "text": "VPN (Virtual Tunnel)"
+                    },
+                    "3": {
+                      "color": "gray",
+                      "text": "Other / Loopback"
+                    }
+                  },
+                  "type": "value"
+                }
+              ],
+              "noValue": "STALE / NO DATA",
+              "thresholds": {
+                "mode": "absolute",
+                "steps": [
+                  {
+                    "color": "blue",
+                    "value": null
+                  }
+                ]
+              }
+            },
+            "overrides": []
+          },
+          "gridPos": {
+            "h": 4,
+            "w": 7,
+            "x": 10,
+            "y": 4
+          },
+          "id": 26,
+          "description": "Identifies the physical or logical network adapter carrying the endpoint's default route (e.g. Ethernet, Wi-Fi, VPN). Determines whether wireless diagnostic panels (RSSI, link quality) are active or safely suppressed as N/A. Changing interface types during an active session can cause transient latency spikes or TCP resets. Missing data indicates collector outage, agent failure, or network disruption; values are preserved as null gaps.",
+          "options": {
+            "colorMode": "background",
+            "graphMode": "none",
+            "justifyMode": "auto",
+            "orientation": "auto",
+            "reduceOptions": {
+              "calcs": [
+                "lastNotNull"
+              ],
+              "fields": "",
+              "values": false
+            },
+            "textMode": "auto"
+          },
+          "pluginVersion": "11.6.0",
+          "targets": [
+            {
+              "application": {
+                "filter": ""
+              },
+              "datasource": {
+                "type": "alexanderzobnin-zabbix-datasource",
+                "uid": "PA67C5EADE9207728"
+              },
+              "group": {
+                "filter": "$group"
+              },
+              "host": {
+                "filter": "$endpoint"
+              },
+              "item": {
+                "filter": "Network interface type"
+              },
+              "itemTag": {
+                "filter": ""
+              },
+              "mode": 0,
+              "options": {
+                "showDisabledItems": false
+              },
+              "refId": "A",
+              "resultFormat": "time_series",
+              "tags": {
+                "filter": ""
+              },
+              "trigger": {
+                "filter": ""
+              }
+            }
+          ],
+          "title": "Active Interface",
+          "type": "stat"
+        },
+        {
+          "datasource": {
+            "type": "alexanderzobnin-zabbix-datasource",
+            "uid": "PA67C5EADE9207728"
+          },
+          "fieldConfig": {
+            "defaults": {
+              "color": {
+                "mode": "thresholds"
+              },
+              "mappings": [
+                {
+                  "options": {
+                    "0": {
+                      "color": "blue",
+                      "text": "MOCK_SIMULATED (Dev)"
+                    },
+                    "1": {
+                      "color": "green",
+                      "text": "PHYSICAL_PRODUCTION (Enterprise)"
+                    }
+                  },
+                  "type": "value"
+                }
+              ],
+              "noValue": "STALE / NO DATA",
+              "thresholds": {
+                "mode": "absolute",
+                "steps": [
+                  {
+                    "color": "blue",
+                    "value": null
+                  }
+                ]
+              }
+            },
+            "overrides": []
+          },
+          "gridPos": {
+            "h": 4,
+            "w": 7,
+            "x": 17,
+            "y": 8
+          },
+          "id": 27,
+          "description": "Indicates the execution environment trust tier (PHYSICAL_PRODUCTION, CONTAINER_SIMULATION, LAB_MOCK) stamped by the Nawari Gateway. Guarantees that diagnostic metrics reflect actual physical device hardware rather than lab test runners. Prevents accidental classification of simulated test workloads as enterprise field issues. Missing data indicates collector outage, agent failure, or network disruption; values are preserved as null gaps.",
+          "options": {
+            "colorMode": "background",
+            "graphMode": "none",
+            "justifyMode": "auto",
+            "orientation": "auto",
+            "reduceOptions": {
+              "calcs": [
+                "lastNotNull"
+              ],
+              "fields": "",
+              "values": false
+            },
+            "textMode": "auto"
+          },
+          "pluginVersion": "11.6.0",
+          "targets": [
+            {
+              "application": {
+                "filter": ""
+              },
+              "datasource": {
+                "type": "alexanderzobnin-zabbix-datasource",
+                "uid": "PA67C5EADE9207728"
+              },
+              "group": {
+                "filter": "$group"
+              },
+              "host": {
+                "filter": "$endpoint"
+              },
+              "item": {
+                "filter": "Endpoint environment"
+              },
+              "itemTag": {
+                "filter": ""
+              },
+              "mode": 0,
+              "options": {
+                "showDisabledItems": false
+              },
+              "refId": "A",
+              "resultFormat": "time_series",
+              "tags": {
+                "filter": ""
+              },
+              "trigger": {
+                "filter": ""
+              }
+            }
+          ],
+          "title": "Authoritative Provenance",
+          "type": "stat"
+        },
+        {
+          "datasource": {
+            "type": "alexanderzobnin-zabbix-datasource",
+            "uid": "PA67C5EADE9207728"
+          },
+          "fieldConfig": {
+            "defaults": {
+              "color": {
+                "mode": "palette-classic"
+              },
+              "custom": {
+                "axisLabel": "Latency (s)",
+                "fillOpacity": 15,
+                "lineWidth": 2,
+                "scaleDistribution": {
+                  "type": "linear"
+                }
+              },
+              "mappings": [],
+              "noValue": "STALE / NO DATA",
+              "thresholds": {
+                "mode": "absolute",
+                "steps": [
+                  {
+                    "color": "green",
+                    "value": null
+                  },
+                  {
+                    "color": "yellow",
+                    "value": 0.02
+                  },
+                  {
+                    "color": "red",
+                    "value": 0.05
+                  }
+                ]
+              },
+              "unit": "s"
+            },
+            "overrides": []
+          },
+          "gridPos": {
+            "h": 6,
+            "w": 12,
+            "x": 0,
+            "y": 12
+          },
+          "id": 28,
+          "description": "Measures the ICMP round-trip time between this endpoint and its first-hop default gateway. Values below 10 ms indicate healthy local Ethernet or enterprise Wi-Fi; values above 50 ms signal local access-layer congestion. Gateway latency reflects only the access link and does not measure wide-area network or cloud transit. Missing data indicates collector outage, agent failure, or network disruption; values are preserved as null gaps.",
+          "options": {
+            "legend": {
+              "calcs": [
+                "mean",
+                "max",
+                "lastNotNull"
+              ],
+              "displayMode": "table",
+              "placement": "bottom"
+            },
+            "tooltip": {
+              "mode": "single"
+            }
+          },
+          "pluginVersion": "11.6.0",
+          "targets": [
+            {
+              "application": {
+                "filter": ""
+              },
+              "datasource": {
+                "type": "alexanderzobnin-zabbix-datasource",
+                "uid": "PA67C5EADE9207728"
+              },
+              "group": {
+                "filter": "$group"
+              },
+              "host": {
+                "filter": "$endpoint"
+              },
+              "item": {
+                "filter": "Default gateway latency"
+              },
+              "itemTag": {
+                "filter": ""
+              },
+              "mode": 0,
+              "options": {
+                "showDisabledItems": false
+              },
+              "refId": "A",
+              "resultFormat": "time_series",
+              "tags": {
+                "filter": ""
+              },
+              "trigger": {
+                "filter": ""
+              }
+            }
+          ],
+          "title": "Default Gateway RTT Latency",
+          "type": "timeseries"
+        },
+        {
+          "datasource": {
+            "type": "alexanderzobnin-zabbix-datasource",
+            "uid": "PA67C5EADE9207728"
+          },
+          "fieldConfig": {
+            "defaults": {
+              "color": {
+                "mode": "palette-classic"
+              },
+              "custom": {
+                "axisLabel": "Packet Loss (%)",
+                "fillOpacity": 15,
+                "lineWidth": 2,
+                "scaleDistribution": {
+                  "type": "linear"
+                }
+              },
+              "mappings": [],
+              "noValue": "STALE / NO DATA",
+              "thresholds": {
+                "mode": "absolute",
+                "steps": [
+                  {
+                    "color": "green",
+                    "value": null
+                  },
+                  {
+                    "color": "yellow",
+                    "value": 1
+                  },
+                  {
+                    "color": "red",
+                    "value": 20
+                  }
+                ]
+              },
+              "unit": "percent"
+            },
+            "overrides": []
+          },
+          "gridPos": {
+            "h": 6,
+            "w": 12,
+            "x": 12,
+            "y": 18
+          },
+          "id": 29,
+          "description": "Measures the percentage of dropped ICMP echo requests sent to the local default gateway. Any sustained packet loss (>1%) degrades TCP throughput and causes audio dropouts on real-time voice calls. Loss at the first hop indicates faulty cabling, Wi-Fi channel contention, or local switch port congestion. Missing data indicates collector outage, agent failure, or network disruption; values are preserved as null gaps.",
+          "options": {
+            "legend": {
+              "calcs": [
+                "mean",
+                "max",
+                "lastNotNull"
+              ],
+              "displayMode": "table",
+              "placement": "bottom"
+            },
+            "tooltip": {
+              "mode": "single"
+            }
+          },
+          "pluginVersion": "11.6.0",
+          "targets": [
+            {
+              "application": {
+                "filter": ""
+              },
+              "datasource": {
+                "type": "alexanderzobnin-zabbix-datasource",
+                "uid": "PA67C5EADE9207728"
+              },
+              "group": {
+                "filter": "$group"
+              },
+              "host": {
+                "filter": "$endpoint"
+              },
+              "item": {
+                "filter": "Default gateway packet loss"
+              },
+              "itemTag": {
+                "filter": ""
+              },
+              "mode": 0,
+              "options": {
+                "showDisabledItems": false
+              },
+              "refId": "A",
+              "resultFormat": "time_series",
+              "tags": {
+                "filter": ""
+              },
+              "trigger": {
+                "filter": ""
+              }
+            }
+          ],
+          "title": "Default Gateway Packet Loss",
+          "type": "timeseries"
+        },
+        {
+          "datasource": {
+            "type": "alexanderzobnin-zabbix-datasource",
+            "uid": "PA67C5EADE9207728"
+          },
+          "fieldConfig": {
+            "defaults": {
+              "color": {
+                "mode": "thresholds"
+              },
+              "mappings": [],
+              "max": -30,
+              "min": -95,
+              "noValue": "N/A (WIRED/VPN)",
+              "thresholds": {
+                "mode": "absolute",
+                "steps": [
+                  {
+                    "color": "red",
+                    "value": null
+                  },
+                  {
+                    "color": "yellow",
+                    "value": -75
+                  },
+                  {
+                    "color": "green",
+                    "value": -65
+                  }
+                ]
+              },
+              "unit": "dBm"
+            },
+            "overrides": []
+          },
+          "gridPos": {
+            "h": 6,
+            "w": 6,
+            "x": 0,
+            "y": 24
+          },
+          "id": 30,
+          "description": "Measures Received Signal Strength Indicator (RSSI) in dBm for wireless connections. Values closer to zero indicate stronger signal (-50 dBm is excellent, below -75 dBm indicates poor coverage). Automatically displays N/A for wired Ethernet or VPN connections to prevent misleading zero readings. Missing data indicates collector outage, agent failure, or network disruption; values are preserved as null gaps.",
+          "options": {
+            "orientation": "auto",
+            "reduceOptions": {
+              "calcs": [
+                "lastNotNull"
+              ],
+              "fields": "",
+              "values": false
+            },
+            "showThresholdLabels": true,
+            "showThresholdMarkers": true
+          },
+          "pluginVersion": "11.6.0",
+          "targets": [
+            {
+              "application": {
+                "filter": ""
+              },
+              "datasource": {
+                "type": "alexanderzobnin-zabbix-datasource",
+                "uid": "PA67C5EADE9207728"
+              },
+              "group": {
+                "filter": "$group"
+              },
+              "host": {
+                "filter": "$endpoint"
+              },
+              "item": {
+                "filter": "Wi-Fi RSSI"
+              },
+              "itemTag": {
+                "filter": ""
+              },
+              "mode": 0,
+              "options": {
+                "showDisabledItems": false
+              },
+              "refId": "A",
+              "resultFormat": "time_series",
+              "tags": {
+                "filter": ""
+              },
+              "trigger": {
+                "filter": ""
+              }
+            }
+          ],
+          "title": "Wi-Fi RSSI Gauge",
+          "type": "gauge"
+        },
+        {
+          "datasource": {
+            "type": "alexanderzobnin-zabbix-datasource",
+            "uid": "PA67C5EADE9207728"
+          },
+          "fieldConfig": {
+            "defaults": {
+              "color": {
+                "mode": "palette-classic"
+              },
+              "custom": {
+                "axisLabel": "Signal Strength (dBm)",
+                "fillOpacity": 15,
+                "lineWidth": 2,
+                "scaleDistribution": {
+                  "type": "linear"
+                }
+              },
+              "mappings": [],
+              "noValue": "N/A (WIRED/VPN)",
+              "thresholds": {
+                "mode": "absolute",
+                "steps": [
+                  {
+                    "color": "red",
+                    "value": null
+                  },
+                  {
+                    "color": "yellow",
+                    "value": -75
+                  },
+                  {
+                    "color": "green",
+                    "value": -65
+                  }
+                ]
+              },
+              "unit": "dBm"
+            },
+            "overrides": []
+          },
+          "gridPos": {
+            "h": 6,
+            "w": 6,
+            "x": 6,
+            "y": 30
+          },
+          "id": 31,
+          "description": "Displays signal strength trends over time to identify roaming events, physical shielding, or intermittent RF fading. Rapid drops in RSSI typically coincide with user movement or environmental RF interference. Persistently weak signal forces the Wi-Fi adapter to fall back to lower modulation schemes, increasing latency. Missing data indicates collector outage, agent failure, or network disruption; values are preserved as null gaps.",
+          "options": {
+            "legend": {
+              "calcs": [
+                "mean",
+                "lastNotNull"
+              ],
+              "displayMode": "table",
+              "placement": "bottom"
+            },
+            "tooltip": {
+              "mode": "single"
+            }
+          },
+          "pluginVersion": "11.6.0",
+          "targets": [
+            {
+              "application": {
+                "filter": ""
+              },
+              "datasource": {
+                "type": "alexanderzobnin-zabbix-datasource",
+                "uid": "PA67C5EADE9207728"
+              },
+              "group": {
+                "filter": "$group"
+              },
+              "host": {
+                "filter": "$endpoint"
+              },
+              "item": {
+                "filter": "Wi-Fi RSSI"
+              },
+              "itemTag": {
+                "filter": ""
+              },
+              "mode": 0,
+              "options": {
+                "showDisabledItems": false
+              },
+              "refId": "A",
+              "resultFormat": "time_series",
+              "tags": {
+                "filter": ""
+              },
+              "trigger": {
+                "filter": ""
+              }
+            }
+          ],
+          "title": "Wi-Fi RSSI History",
+          "type": "timeseries"
+        },
+        {
+          "datasource": {
+            "type": "alexanderzobnin-zabbix-datasource",
+            "uid": "PA67C5EADE9207728"
+          },
+          "fieldConfig": {
+            "defaults": {
+              "color": {
+                "mode": "thresholds"
+              },
+              "mappings": [],
+              "max": 100,
+              "min": 0,
+              "noValue": "N/A (WIRED/VPN)",
+              "thresholds": {
+                "mode": "absolute",
+                "steps": [
+                  {
+                    "color": "red",
+                    "value": null
+                  },
+                  {
+                    "color": "yellow",
+                    "value": 50
+                  },
+                  {
+                    "color": "green",
+                    "value": 70
+                  }
+                ]
+              },
+              "unit": "percent"
+            },
+            "overrides": []
+          },
+          "gridPos": {
+            "h": 6,
+            "w": 6,
+            "x": 12,
+            "y": 36
+          },
+          "id": 32,
+          "description": "Normalized wireless link quality score from 0% to 100%, incorporating signal-to-noise ratio and packet retry rates. Scores above 70% support reliable voice communications; scores below 40% lead to severe packet jitter and audio clipping. Displays N/A on wired interfaces to enforce strict physical telemetry isolation. Missing data indicates collector outage, agent failure, or network disruption; values are preserved as null gaps.",
+          "options": {
+            "orientation": "auto",
+            "reduceOptions": {
+              "calcs": [
+                "lastNotNull"
+              ],
+              "fields": "",
+              "values": false
+            },
+            "showThresholdLabels": true,
+            "showThresholdMarkers": true
+          },
+          "pluginVersion": "11.6.0",
+          "targets": [
+            {
+              "application": {
+                "filter": ""
+              },
+              "datasource": {
+                "type": "alexanderzobnin-zabbix-datasource",
+                "uid": "PA67C5EADE9207728"
+              },
+              "group": {
+                "filter": "$group"
+              },
+              "host": {
+                "filter": "$endpoint"
+              },
+              "item": {
+                "filter": "Wi-Fi signal quality"
+              },
+              "itemTag": {
+                "filter": ""
+              },
+              "mode": 0,
+              "options": {
+                "showDisabledItems": false
+              },
+              "refId": "A",
+              "resultFormat": "time_series",
+              "tags": {
+                "filter": ""
+              },
+              "trigger": {
+                "filter": ""
+              }
+            }
+          ],
+          "title": "Wi-Fi Link Quality Gauge",
+          "type": "gauge"
+        },
+        {
+          "datasource": {
+            "type": "alexanderzobnin-zabbix-datasource",
+            "uid": "PA67C5EADE9207728"
+          },
+          "fieldConfig": {
+            "defaults": {
+              "color": {
+                "mode": "palette-classic"
+              },
+              "custom": {
+                "axisLabel": "Quality (%)",
+                "fillOpacity": 15,
+                "lineWidth": 2,
+                "scaleDistribution": {
+                  "type": "linear"
+                }
+              },
+              "mappings": [],
+              "noValue": "N/A (WIRED/VPN)",
+              "thresholds": {
+                "mode": "absolute",
+                "steps": [
+                  {
+                    "color": "red",
+                    "value": null
+                  },
+                  {
+                    "color": "yellow",
+                    "value": 50
+                  },
+                  {
+                    "color": "green",
+                    "value": 70
+                  }
+                ]
+              },
+              "unit": "percent"
+            },
+            "overrides": []
+          },
+          "gridPos": {
+            "h": 6,
+            "w": 6,
+            "x": 18,
+            "y": 42
+          },
+          "id": 33,
+          "description": "Tracks changes in wireless link stability over time, revealing intermittent RF interference or access point congestion. Correlate dips in link quality with default gateway loss and voice jitter to isolate wireless edge faults. Only active for Wi-Fi interfaces; remains N/A for wired or cellular connections. Missing data indicates collector outage, agent failure, or network disruption; values are preserved as null gaps.",
+          "options": {
+            "legend": {
+              "calcs": [
+                "mean",
+                "lastNotNull"
+              ],
+              "displayMode": "table",
+              "placement": "bottom"
+            },
+            "tooltip": {
+              "mode": "single"
+            }
+          },
+          "pluginVersion": "11.6.0",
+          "targets": [
+            {
+              "application": {
+                "filter": ""
+              },
+              "datasource": {
+                "type": "alexanderzobnin-zabbix-datasource",
+                "uid": "PA67C5EADE9207728"
+              },
+              "group": {
+                "filter": "$group"
+              },
+              "host": {
+                "filter": "$endpoint"
+              },
+              "item": {
+                "filter": "Wi-Fi signal quality"
+              },
+              "itemTag": {
+                "filter": ""
+              },
+              "mode": 0,
+              "options": {
+                "showDisabledItems": false
+              },
+              "refId": "A",
+              "resultFormat": "time_series",
+              "tags": {
+                "filter": ""
+              },
+              "trigger": {
+                "filter": ""
+              }
+            }
+          ],
+          "title": "Wi-Fi Link Quality History",
+          "type": "timeseries"
+        },
+        {
+          "datasource": {
+            "type": "alexanderzobnin-zabbix-datasource",
+            "uid": "PA67C5EADE9207728"
+          },
+          "fieldConfig": {
+            "defaults": {
+              "color": {
+                "mode": "palette-classic"
+              },
+              "custom": {
+                "axisLabel": "Resolution Latency (s)",
+                "fillOpacity": 15,
+                "lineWidth": 2,
+                "scaleDistribution": {
+                  "type": "linear"
+                }
+              },
+              "mappings": [],
+              "noValue": "STALE / NO DATA",
+              "thresholds": {
+                "mode": "absolute",
+                "steps": [
+                  {
+                    "color": "green",
+                    "value": null
+                  },
+                  {
+                    "color": "yellow",
+                    "value": 0.05
+                  },
+                  {
+                    "color": "red",
+                    "value": 0.2
+                  }
+                ]
+              },
+              "unit": "s"
+            },
+            "overrides": []
+          },
+          "gridPos": {
+            "h": 6,
+            "w": 16,
+            "x": 0,
+            "y": 48
+          },
+          "id": 34,
+          "description": "Measures the time required to resolve configured domain names using the endpoint's configured DNS servers. Values above 50 ms indicate DNS server overload or network delays between the endpoint and the resolver. This measurement reflects only name resolution, not subsequent TCP connection or HTTP response times. Missing data indicates collector outage, agent failure, or network disruption; values are preserved as null gaps.",
+          "options": {
+            "legend": {
+              "calcs": [
+                "mean",
+                "max",
+                "lastNotNull"
+              ],
+              "displayMode": "table",
+              "placement": "bottom"
+            },
+            "tooltip": {
+              "mode": "multi"
+            }
+          },
+          "pluginVersion": "11.6.0",
+          "targets": [
+            {
+              "application": {
+                "filter": ""
+              },
+              "datasource": {
+                "type": "alexanderzobnin-zabbix-datasource",
+                "uid": "PA67C5EADE9207728"
+              },
+              "group": {
+                "filter": "$group"
+              },
+              "host": {
+                "filter": "$endpoint"
+              },
+              "item": {
+                "filter": "/DNS resolution time .*/"
+              },
+              "itemTag": {
+                "filter": ""
+              },
+              "mode": 0,
+              "options": {
+                "showDisabledItems": false
+              },
+              "refId": "A",
+              "resultFormat": "time_series",
+              "tags": {
+                "filter": ""
+              },
+              "trigger": {
+                "filter": ""
+              }
+            }
+          ],
+          "title": "DNS Query Resolution Time by Target",
+          "type": "timeseries"
+        },
+        {
+          "datasource": {
+            "type": "alexanderzobnin-zabbix-datasource",
+            "uid": "PA67C5EADE9207728"
+          },
+          "fieldConfig": {
+            "defaults": {
+              "color": {
+                "mode": "thresholds"
+              },
+              "mappings": [
+                {
+                  "options": {
+                    "0": {
+                      "color": "green",
+                      "text": "NOERROR / SUCCESS"
+                    },
+                    "1": {
+                      "color": "orange",
+                      "text": "NXDOMAIN"
+                    },
+                    "2": {
+                      "color": "red",
+                      "text": "SERVFAIL"
+                    },
+                    "3": {
+                      "color": "red",
+                      "text": "TIMEOUT"
+                    },
+                    "4": {
+                      "color": "red",
+                      "text": "REFUSED"
+                    },
+                    "5": {
+                      "color": "red",
+                      "text": "ERROR"
+                    }
+                  },
+                  "type": "value"
+                }
+              ],
+              "noValue": "STALE / NO DATA",
+              "thresholds": {
+                "mode": "absolute",
+                "steps": [
+                  {
+                    "color": "green",
+                    "value": null
+                  },
+                  {
+                    "color": "red",
+                    "value": 1
+                  }
+                ]
+              }
+            },
+            "overrides": []
+          },
+          "gridPos": {
+            "h": 6,
+            "w": 8,
+            "x": 16,
+            "y": 54
+          },
+          "id": 35,
+          "description": "Displays the DNS response code returned by the resolver (NOERROR=0, NXDOMAIN=3, SERVFAIL=2, TIMEOUT=4). Non-zero RCODEs indicate DNS configuration errors, missing records, or resolver upstream lookup failures. An endpoint cannot establish network sessions if DNS resolution fails, even if underlying IP transport is healthy. Missing data indicates collector outage, agent failure, or network disruption; values are preserved as null gaps.",
+          "options": {
+            "colorMode": "background",
+            "graphMode": "none",
+            "justifyMode": "auto",
+            "orientation": "auto",
+            "reduceOptions": {
+              "calcs": [
+                "lastNotNull"
+              ],
+              "fields": "",
+              "values": false
+            },
+            "textMode": "auto"
+          },
+          "pluginVersion": "11.6.0",
+          "targets": [
+            {
+              "application": {
+                "filter": ""
+              },
+              "datasource": {
+                "type": "alexanderzobnin-zabbix-datasource",
+                "uid": "PA67C5EADE9207728"
+              },
+              "group": {
+                "filter": "$group"
+              },
+              "host": {
+                "filter": "$endpoint"
+              },
+              "item": {
+                "filter": "/DNS resolution status .*/"
+              },
+              "itemTag": {
+                "filter": ""
+              },
+              "mode": 0,
+              "options": {
+                "showDisabledItems": false
+              },
+              "refId": "A",
+              "resultFormat": "time_series",
+              "tags": {
+                "filter": ""
+              },
+              "trigger": {
+                "filter": ""
+              }
+            }
+          ],
+          "title": "DNS Target RCODE / Status",
+          "type": "stat"
+        },
+        {
+          "datasource": {
+            "type": "alexanderzobnin-zabbix-datasource",
+            "uid": "PA67C5EADE9207728"
+          },
+          "fieldConfig": {
+            "defaults": {
+              "color": {
+                "mode": "thresholds"
+              },
+              "mappings": [
+                {
+                  "options": {
+                    "0": {
+                      "color": "red",
+                      "text": "DOWN / UNREACHABLE"
+                    },
+                    "1": {
+                      "color": "green",
+                      "text": "REACHABLE (OK)"
+                    }
+                  },
+                  "type": "value"
+                }
+              ],
+              "noValue": "STALE / NO DATA",
+              "thresholds": {
+                "mode": "absolute",
+                "steps": [
+                  {
+                    "color": "red",
+                    "value": null
+                  },
+                  {
+                    "color": "green",
+                    "value": 1
+                  }
+                ]
+              }
+            },
+            "overrides": []
+          },
+          "gridPos": {
+            "h": 6,
+            "w": 6,
+            "x": 0,
+            "y": 60
+          },
+          "id": 36,
+          "description": "Reports whether TCP/TLS connections to monitored service targets succeeded (1=REACHABLE, 0=DOWN). A value of 0 indicates that the TCP handshake failed, was refused, or timed out. Transport reachability confirms socket connectivity across firewalls but does not verify application functionality or user authentication. Missing data indicates collector outage, agent failure, or network disruption; values are preserved as null gaps.",
+          "options": {
+            "colorMode": "background",
+            "graphMode": "none",
+            "justifyMode": "auto",
+            "orientation": "auto",
+            "reduceOptions": {
+              "calcs": [
+                "lastNotNull"
+              ],
+              "fields": "",
+              "values": false
+            },
+            "textMode": "auto"
+          },
+          "pluginVersion": "11.6.0",
+          "targets": [
+            {
+              "application": {
+                "filter": ""
+              },
+              "datasource": {
+                "type": "alexanderzobnin-zabbix-datasource",
+                "uid": "PA67C5EADE9207728"
+              },
+              "group": {
+                "filter": "$group"
+              },
+              "host": {
+                "filter": "$endpoint"
+              },
+              "item": {
+                "filter": "/Service reachable .*/"
+              },
+              "itemTag": {
+                "filter": ""
+              },
+              "mode": 0,
+              "options": {
+                "showDisabledItems": false
+              },
+              "refId": "A",
+              "resultFormat": "time_series",
+              "tags": {
+                "filter": ""
+              },
+              "trigger": {
+                "filter": ""
+              }
+            }
+          ],
+          "title": "Service Target Reachability",
+          "type": "stat"
+        },
+        {
+          "datasource": {
+            "type": "alexanderzobnin-zabbix-datasource",
+            "uid": "PA67C5EADE9207728"
+          },
+          "fieldConfig": {
+            "defaults": {
+              "color": {
+                "mode": "palette-classic"
+              },
+              "custom": {
+                "axisLabel": "TCP Handshake (s)",
+                "fillOpacity": 15,
+                "lineWidth": 2,
+                "scaleDistribution": {
+                  "type": "linear"
+                }
+              },
+              "mappings": [],
+              "noValue": "STALE / NO DATA",
+              "thresholds": {
+                "mode": "absolute",
+                "steps": [
+                  {
+                    "color": "green",
+                    "value": null
+                  },
+                  {
+                    "color": "yellow",
+                    "value": 0.05
+                  },
+                  {
+                    "color": "red",
+                    "value": 0.2
+                  }
+                ]
+              },
+              "unit": "s"
+            },
+            "overrides": []
+          },
+          "gridPos": {
+            "h": 6,
+            "w": 6,
+            "x": 6,
+            "y": 66
+          },
+          "id": 37,
+          "description": "Duration of the L4 TCP 3-way handshake (SYN to ACK). Represents pure transport-layer round-trip time, independent of subsequent TLS negotiation. Elevated values indicate network transit latency or server SYN backlog exhaustion. Missing data indicates collector outage, agent failure, or network disruption; values are preserved as null gaps.",
+          "options": {
+            "legend": {
+              "calcs": [
+                "mean",
+                "lastNotNull"
+              ],
+              "displayMode": "table",
+              "placement": "bottom"
+            },
+            "tooltip": {
+              "mode": "multi"
+            }
+          },
+          "pluginVersion": "11.6.0",
+          "targets": [
+            {
+              "application": {
+                "filter": ""
+              },
+              "datasource": {
+                "type": "alexanderzobnin-zabbix-datasource",
+                "uid": "PA67C5EADE9207728"
+              },
+              "group": {
+                "filter": "$group"
+              },
+              "host": {
+                "filter": "$endpoint"
+              },
+              "item": {
+                "filter": "/TCP connect time .*/"
+              },
+              "itemTag": {
+                "filter": ""
+              },
+              "mode": 0,
+              "options": {
+                "showDisabledItems": false
+              },
+              "refId": "A",
+              "resultFormat": "time_series",
+              "tags": {
+                "filter": ""
+              },
+              "trigger": {
+                "filter": ""
+              }
+            }
+          ],
+          "title": "TCP 3-Way Handshake Latency",
+          "type": "timeseries"
+        },
+        {
+          "datasource": {
+            "type": "alexanderzobnin-zabbix-datasource",
+            "uid": "PA67C5EADE9207728"
+          },
+          "fieldConfig": {
+            "defaults": {
+              "color": {
+                "mode": "palette-classic"
+              },
+              "custom": {
+                "axisLabel": "TLS Negotiation (s)",
+                "fillOpacity": 15,
+                "lineWidth": 2,
+                "scaleDistribution": {
+                  "type": "linear"
+                }
+              },
+              "mappings": [],
+              "noValue": "STALE / NO DATA",
+              "thresholds": {
+                "mode": "absolute",
+                "steps": [
+                  {
+                    "color": "green",
+                    "value": null
+                  },
+                  {
+                    "color": "yellow",
+                    "value": 0.08
+                  },
+                  {
+                    "color": "red",
+                    "value": 0.3
+                  }
+                ]
+              },
+              "unit": "s"
+            },
+            "overrides": []
+          },
+          "gridPos": {
+            "h": 6,
+            "w": 6,
+            "x": 12,
+            "y": 72
+          },
+          "id": 38,
+          "description": "Duration of cryptographic TLS session negotiation (ClientHello to Finished). Measures cryptographic overhead distinct from the initial TCP socket connect time. High handshake durations point to slow cryptographic key exchange, large certificate chains, or server CPU throttling. Missing data indicates collector outage, agent failure, or network disruption; values are preserved as null gaps.",
+          "options": {
+            "legend": {
+              "calcs": [
+                "mean",
+                "lastNotNull"
+              ],
+              "displayMode": "table",
+              "placement": "bottom"
+            },
+            "tooltip": {
+              "mode": "multi"
+            }
+          },
+          "pluginVersion": "11.6.0",
+          "targets": [
+            {
+              "application": {
+                "filter": ""
+              },
+              "datasource": {
+                "type": "alexanderzobnin-zabbix-datasource",
+                "uid": "PA67C5EADE9207728"
+              },
+              "group": {
+                "filter": "$group"
+              },
+              "host": {
+                "filter": "$endpoint"
+              },
+              "item": {
+                "filter": "/TLS handshake time .*/"
+              },
+              "itemTag": {
+                "filter": ""
+              },
+              "mode": 0,
+              "options": {
+                "showDisabledItems": false
+              },
+              "refId": "A",
+              "resultFormat": "time_series",
+              "tags": {
+                "filter": ""
+              },
+              "trigger": {
+                "filter": ""
+              }
+            }
+          ],
+          "title": "TLS Cryptographic Handshake Time",
+          "type": "timeseries"
+        },
+        {
+          "datasource": {
+            "type": "alexanderzobnin-zabbix-datasource",
+            "uid": "PA67C5EADE9207728"
+          },
+          "fieldConfig": {
+            "defaults": {
+              "color": {
+                "mode": "palette-classic"
+              },
+              "custom": {
+                "axisLabel": "HTTP Timings (s)",
+                "fillOpacity": 15,
+                "lineWidth": 2,
+                "scaleDistribution": {
+                  "type": "linear"
+                }
+              },
+              "mappings": [],
+              "noValue": "STALE / NO DATA",
+              "thresholds": {
+                "mode": "absolute",
+                "steps": [
+                  {
+                    "color": "green",
+                    "value": null
+                  },
+                  {
+                    "color": "yellow",
+                    "value": 0.2
+                  },
+                  {
+                    "color": "red",
+                    "value": 0.8
+                  }
+                ]
+              },
+              "unit": "s"
+            },
+            "overrides": []
+          },
+          "gridPos": {
+            "h": 6,
+            "w": 6,
+            "x": 18,
+            "y": 78
+          },
+          "id": 39,
+          "description": "Time To First Byte: duration from HTTP request transmission until the first response byte arrives. Measures upstream application processing latency, distinct from TCP and TLS setup times. High TTFB with low TCP/TLS times isolates application server or database performance issues. Missing data indicates collector outage, agent failure, or network disruption; values are preserved as null gaps.",
+          "options": {
+            "legend": {
+              "calcs": [
+                "mean",
+                "lastNotNull"
+              ],
+              "displayMode": "table",
+              "placement": "bottom"
+            },
+            "tooltip": {
+              "mode": "multi"
+            }
+          },
+          "pluginVersion": "11.6.0",
+          "targets": [
+            {
+              "application": {
+                "filter": ""
+              },
+              "datasource": {
+                "type": "alexanderzobnin-zabbix-datasource",
+                "uid": "PA67C5EADE9207728"
+              },
+              "group": {
+                "filter": "$group"
+              },
+              "host": {
+                "filter": "$endpoint"
+              },
+              "item": {
+                "filter": "/HTTP TTFB .*/"
+              },
+              "itemTag": {
+                "filter": ""
+              },
+              "mode": 0,
+              "options": {
+                "showDisabledItems": false
+              },
+              "refId": "A",
+              "resultFormat": "time_series",
+              "tags": {
+                "filter": ""
+              },
+              "trigger": {
+                "filter": ""
+              }
+            }
+          ],
+          "title": "HTTP Time To First Byte (TTFB)",
+          "type": "timeseries"
+        },
+        {
+          "gridPos": {
+            "h": 4,
+            "w": 12,
+            "x": 0,
+            "y": 84
+          },
+          "id": 40,
+          "description": "Direct contextual navigation link to the Network Path Analysis dashboard for the selected endpoint. Opens hop-by-hop Paris traceroute, latency waterfall, and CoPP guard status. Use when gateway metrics or service probes indicate network transit degradation. Missing data indicates collector outage, agent failure, or network disruption; values are preserved as null gaps.",
+          "options": {
+            "content": "### \ud83e\udded Directional Hop & Network Path Analysis\n\nAnalyze hop-by-hop latency build-up, CoPP rate-limiting guards, and route divergence from **$endpoint** across transit routers.\n\n\ud83d\udc49 **[Open Network Path Analysis for $endpoint](/d/nawari-path-analysis/nawari-path-analysis?var-endpoint=${endpoint})**",
+            "mode": "markdown"
+          },
+          "pluginVersion": "11.6.0",
+          "title": "Path Analysis Navigation",
+          "type": "text"
+        },
+        {
+          "gridPos": {
+            "h": 4,
+            "w": 12,
+            "x": 12,
+            "y": 88
+          },
+          "id": 41,
+          "description": "Direct contextual navigation link to the Voice Service Correlation dashboard for the selected endpoint. Correlates edge network metrics against synthetic Asterisk voice calls and ITU-T G.107 MOS scores. Use when investigating voice quality degradation, jitter, or call setup failures. Missing data indicates collector outage, agent failure, or network disruption; values are preserved as null gaps.",
+          "options": {
+            "content": "### \ud83c\udf99\ufe0f Cross-Domain Voice Service Assurance\n\nCorrelate edge gateway packet loss and Wi-Fi degradation from **$endpoint** against synthetic Asterisk voice calls and ITU-T G.107 MOS scores.\n\n\ud83d\udc49 **[Open Voice Service Correlation for $endpoint](/d/nawari-voice-correlation/nawari-voice-correlation?var-endpoint=${endpoint})**",
+            "mode": "markdown"
+          },
+          "pluginVersion": "11.6.0",
+          "title": "Voice Assurance Navigation",
+          "type": "text"
+        }
+      ],
+      "title": "Forensic Single-Endpoint Investigation ($endpoint)",
+      "type": "row"
+    }
+  ],
+  "refresh": "10s",
+  "schemaVersion": 38,
+  "style": "dark",
+  "tags": [
+    "nawari",
+    "network",
+    "endpoint",
+    "experience",
+    "tier3"
+  ],
+  "templating": {
+    "list": [
+      {
+        "current": {
+          "selected": true,
+          "text": "Endpoints",
+          "value": "Endpoints"
+        },
+        "datasource": {
+          "type": "alexanderzobnin-zabbix-datasource",
+          "uid": "PA67C5EADE9207728"
+        },
+        "definition": "*",
+        "hide": 0,
+        "includeAll": false,
+        "multi": false,
+        "name": "group",
+        "options": [],
+        "query": "*",
+        "refresh": 1,
+        "regex": "/.*Endpoint.*/",
+        "skipUrlSync": false,
+        "sort": 1,
+        "type": "query"
+      },
+      {
+        "current": {
+          "selected": true,
+          "text": "endpoint-probe-01",
+          "value": "endpoint-probe-01"
+        },
+        "datasource": {
+          "type": "alexanderzobnin-zabbix-datasource",
+          "uid": "PA67C5EADE9207728"
+        },
+        "definition": "$group.*",
+        "hide": 0,
+        "includeAll": false,
+        "multi": false,
+        "name": "endpoint",
+        "options": [],
+        "query": "$group.*",
+        "refresh": 1,
+        "regex": "",
+        "skipUrlSync": false,
+        "sort": 1,
+        "type": "query"
+      }
+    ]
+  },
+  "time": {
+    "from": "now-1h",
+    "to": "now"
+  },
+  "timepicker": {
+    "refresh_intervals": [
+      "5s",
+      "10s",
+      "30s",
+      "1m",
+      "5m",
+      "15m",
+      "30m",
+      "1h",
+      "2h",
+      "1d"
+    ]
+  },
+  "timezone": "browser",
+  "title": "Nawari \u2014 Endpoint & User Experience",
+  "uid": "nawari-endpoint-experience",
+  "version": 1
+}

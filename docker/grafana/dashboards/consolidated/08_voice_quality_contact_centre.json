@@ -1,0 +1,3356 @@
+{
+  "annotations": {
+    "list": []
+  },
+  "editable": true,
+  "fiscalYearStartMonth": 0,
+  "graphTooltip": 1,
+  "id": null,
+  "links": [
+    {
+      "asDropdown": false,
+      "icon": "home",
+      "includeVars": true,
+      "keepTime": true,
+      "tags": [],
+      "targetBlank": false,
+      "title": "Home (Exec)",
+      "tooltip": "Enterprise Executive Overview",
+      "type": "link",
+      "url": "/d/nawari-enterprise-overview/0bff031"
+    },
+    {
+      "asDropdown": false,
+      "icon": "network",
+      "includeVars": true,
+      "keepTime": true,
+      "tags": [],
+      "targetBlank": false,
+      "title": "Network Ops",
+      "tooltip": "Network Operations Overview",
+      "type": "link",
+      "url": "/d/nawari-network-operations/network-operations"
+    },
+    {
+      "asDropdown": false,
+      "icon": "globe",
+      "includeVars": true,
+      "keepTime": true,
+      "tags": [],
+      "targetBlank": false,
+      "title": "WAN & Outstations",
+      "tooltip": "WAN, Path & Outstation Observability",
+      "type": "link",
+      "url": "/d/nawari-wan-path-outstation/wan-path-outstation"
+    },
+    {
+      "asDropdown": false,
+      "icon": "laptop",
+      "includeVars": true,
+      "keepTime": true,
+      "tags": [],
+      "targetBlank": false,
+      "title": "Endpoints & Users",
+      "tooltip": "Endpoint & User Experience",
+      "type": "link",
+      "url": "/d/nawari-endpoint-experience/endpoint-experience"
+    },
+    {
+      "asDropdown": false,
+      "icon": "heartbeat",
+      "includeVars": true,
+      "keepTime": true,
+      "tags": [],
+      "targetBlank": false,
+      "title": "Services & SLA",
+      "tooltip": "Network Services & Incident Assurance",
+      "type": "link",
+      "url": "/d/nawari-network-services-assurance/network-services-assurance"
+    },
+    {
+      "asDropdown": false,
+      "icon": "phone",
+      "includeVars": true,
+      "keepTime": true,
+      "tags": [],
+      "targetBlank": false,
+      "title": "Voice Overview",
+      "tooltip": "Communication Services Overview",
+      "type": "link",
+      "url": "/d/nawari-comm-overview/e353360"
+    },
+    {
+      "asDropdown": false,
+      "icon": "server",
+      "includeVars": true,
+      "keepTime": true,
+      "tags": [],
+      "targetBlank": false,
+      "title": "Avaya Infra",
+      "tooltip": "Avaya Infrastructure & Signaling",
+      "type": "link",
+      "url": "/d/nawari-avaya-infrastructure/avaya-infrastructure"
+    },
+    {
+      "asDropdown": false,
+      "icon": "volume-up",
+      "includeVars": true,
+      "keepTime": true,
+      "tags": [],
+      "targetBlank": false,
+      "title": "Voice Quality & CC",
+      "tooltip": "Voice Quality & Contact Centre",
+      "type": "link",
+      "url": "/d/nawari-voice-contact-centre/voice-contact-centre"
+    },
+    {
+      "asDropdown": false,
+      "icon": "share-alt",
+      "includeVars": true,
+      "keepTime": true,
+      "tags": [],
+      "targetBlank": false,
+      "title": "Cross-Domain",
+      "tooltip": "Cross-Domain Correlation & Operations",
+      "type": "link",
+      "url": "/d/nawari-voice-correlation/2983cfd"
+    },
+    {
+      "asDropdown": false,
+      "icon": "folder",
+      "includeVars": false,
+      "keepTime": true,
+      "tags": [],
+      "targetBlank": false,
+      "title": "Browse All",
+      "tooltip": "Browse All Dashboards",
+      "type": "link",
+      "url": "/dashboards"
+    }
+  ],
+  "liveNow": false,
+  "panels": [
+    {
+      "collapsed": false,
+      "gridPos": {
+        "h": 1,
+        "w": 24,
+        "x": 0,
+        "y": 0
+      },
+      "id": 1,
+      "panels": [],
+      "title": "Voice Intelligence & Synthetic Probes (Asterisk PESQ / Real-Call Indicators)",
+      "type": "row"
+    },
+    {
+      "datasource": {
+        "type": "alexanderzobnin-zabbix-datasource",
+        "uid": "PA67C5EADE9207728"
+      },
+      "description": "Post-Dial Delay (PDD: INVITE to 18x), Time to Alerting (TTA: INVITE to 180 Ringing), and Time to Answer (TTOA: 180 to 200 OK) measured in milliseconds from synthetic Asterisk test calls. Source: Asterisk AMI synthetic call engine via Zabbix. Limitations: Reflects synthetic probe transactions only; does not represent live customer or agent calls. Missing data indicates collector outage, agent failure, or network disruption; values are preserved as null gaps.",
+      "fieldConfig": {
+        "defaults": {
+          "custom": {
+            "drawStyle": "line",
+            "lineInterpolation": "smooth",
+            "spanNulls": false
+          },
+          "unit": "ms"
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 8,
+        "w": 10,
+        "x": 0,
+        "y": 1
+      },
+      "id": 2,
+      "options": {
+        "tooltip": {
+          "mode": "multi"
+        }
+      },
+      "targets": [
+        {
+          "group": {
+            "name": "Voice Infrastructure"
+          },
+          "host": {
+            "name": "/.*/"
+          },
+          "application": {
+            "name": "Synthetic Voice Probes"
+          },
+          "item": {
+            "name": "Post-Dial Delay (PDD)"
+          },
+          "refId": "PDD"
+        },
+        {
+          "group": {
+            "name": "Voice Infrastructure"
+          },
+          "host": {
+            "name": "/.*/"
+          },
+          "application": {
+            "name": "Synthetic Voice Probes"
+          },
+          "item": {
+            "name": "Time to Alerting (TTA)"
+          },
+          "refId": "TTA"
+        },
+        {
+          "group": {
+            "name": "Voice Infrastructure"
+          },
+          "host": {
+            "name": "/.*/"
+          },
+          "application": {
+            "name": "Synthetic Voice Probes"
+          },
+          "item": {
+            "name": "Call Setup Duration"
+          },
+          "refId": "SETUP"
+        }
+      ],
+      "title": "Signaling Phase Latencies (PDD vs TTA vs Setup) [SYNTHETIC \u2014 ASTERISK PROBE]",
+      "type": "timeseries"
+    },
+    {
+      "datasource": {
+        "type": "alexanderzobnin-zabbix-datasource",
+        "uid": "PA67C5EADE9207728"
+      },
+      "description": "Categorization of SIP response events from synthetic test calls: differentiates normal station states (480 offline, 486 busy, 487 probe teardown) from true trunk/infrastructure failures (500, 502, 503, 504). Source: Synthetic Asterisk probe logs. Limitations: Synthetic probe calls only. Missing data indicates collector outage, agent failure, or network disruption; values are preserved as null gaps.",
+      "fieldConfig": {
+        "defaults": {
+          "unit": "short"
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 8,
+        "w": 8,
+        "x": 10,
+        "y": 9
+      },
+      "id": 3,
+      "options": {
+        "legend": {
+          "displayMode": "table",
+          "placement": "right"
+        },
+        "pieType": "pie"
+      },
+      "targets": [
+        {
+          "group": {
+            "name": "Voice Infrastructure"
+          },
+          "host": {
+            "name": "/.*/"
+          },
+          "application": {
+            "name": "Synthetic Voice Probes"
+          },
+          "item": {
+            "name": "SIP Responses by Category"
+          },
+          "refId": "SIP_CODES"
+        }
+      ],
+      "title": "SIP Response Distribution (Station vs Trunk) [SYNTHETIC \u2014 ASTERISK PROBE]",
+      "type": "piechart"
+    },
+    {
+      "datasource": {
+        "type": "alexanderzobnin-zabbix-datasource",
+        "uid": "PA67C5EADE9207728"
+      },
+      "description": "Real-time SIP trunk registration state and signaling reachability for Avaya SBCE / Session Manager carrier interconnects (e.g., Safaricom, Airtel SIP trunks). Source: Zabbix SNMP/SIP OPTIONS monitor on Avaya SBCE. Important: Proves layer-5 SIP signaling reachability only; does NOT guarantee voice audio media quality or absence of RTP packet loss. Missing data indicates collector outage, agent failure, or network disruption; values are preserved as null gaps.",
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "thresholds"
+          },
+          "mappings": [
+            {
+              "type": "value",
+              "options": {
+                "1": {
+                  "color": "green",
+                  "text": "REGISTERED (SIP UP)"
+                },
+                "0": {
+                  "color": "red",
+                  "text": "UNREGISTERED (DOWN)"
+                }
+              }
+            }
+          ],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "red",
+                "value": null
+              },
+              {
+                "color": "green",
+                "value": 1
+              }
+            ]
+          }
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 8,
+        "w": 6,
+        "x": 18,
+        "y": 17
+      },
+      "id": 4,
+      "options": {
+        "colorMode": "background",
+        "graphMode": "none",
+        "justifyMode": "auto",
+        "orientation": "auto",
+        "reduceOptions": {
+          "calcs": [
+            "lastNotNull"
+          ],
+          "fields": "",
+          "values": false
+        },
+        "textMode": "auto"
+      },
+      "targets": [
+        {
+          "group": {
+            "name": "Avaya Infrastructure"
+          },
+          "host": {
+            "name": "/.*sbce.*/"
+          },
+          "application": {
+            "name": "SIP Trunks"
+          },
+          "item": {
+            "name": "Safaricom Primary SIP Trunk Operational Status"
+          },
+          "refId": "TRUNK_STATUS"
+        }
+      ],
+      "title": "SIP Trunk Registration Status [REAL \u2014 ZABBIX]",
+      "type": "stat"
+    },
+    {
+      "datasource": {
+        "type": "alexanderzobnin-zabbix-datasource",
+        "uid": "PA67C5EADE9207728"
+      },
+      "description": "Real-call Mean Opinion Score (MOS). Status: Not instrumented \u2014 no validated real-call MOS telemetry source is configured (RTCP-XR RFC 3611 Block 7 / E-Model calculation on actual media streams is required). Displayed value is null/uninstrumented; synthetic MOS must never be substituted for real customer calls. Missing data indicates collector outage, agent failure, or network disruption; values are preserved as null gaps.",
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "thresholds"
+          },
+          "noValue": "Not Instrumented (RTCP-XR Required)",
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "semi-dark-blue",
+                "value": null
+              }
+            ]
+          }
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 8,
+        "w": 6,
+        "x": 0,
+        "y": 25
+      },
+      "id": 5,
+      "options": {
+        "colorMode": "background",
+        "graphMode": "none",
+        "justifyMode": "auto",
+        "orientation": "auto",
+        "reduceOptions": {
+          "calcs": [
+            "lastNotNull"
+          ],
+          "fields": "",
+          "values": false
+        },
+        "textMode": "auto"
+      },
+      "targets": [
+        {
+          "group": {
+            "name": "Avaya Infrastructure"
+          },
+          "host": {
+            "name": "avaya-cm-01"
+          },
+          "application": {
+            "name": "Real Call Voice Telemetry"
+          },
+          "item": {
+            "name": "avCmRealCallEstimatedMos"
+          },
+          "refId": "REAL_MOS"
+        }
+      ],
+      "title": "Real-Call MOS [NOT INSTRUMENTED \u2014 RTCP XR REQUIRED]",
+      "type": "stat"
+    },
+    {
+      "datasource": {
+        "type": "alexanderzobnin-zabbix-datasource",
+        "uid": "PA67C5EADE9207728"
+      },
+      "description": "Mean Opinion Score (MOS) estimated via ITU-T G.107 E-model strictly for synthetic test calls generated between Asterisk probes and test extensions. Source: Synthetic Asterisk probe RTCP telemetry via Zabbix. Caution: This metric reflects synthetic probe calls ONLY; it does NOT measure or represent real customer or staff calls. Missing data indicates collector outage, agent failure, or network disruption; values are preserved as null gaps.",
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "thresholds"
+          },
+          "max": 4.5,
+          "min": 1.0,
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "red",
+                "value": null
+              },
+              {
+                "color": "yellow",
+                "value": 3.6
+              },
+              {
+                "color": "green",
+                "value": 4.0
+              }
+            ]
+          },
+          "unit": "none"
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 8,
+        "w": 6,
+        "x": 6,
+        "y": 33
+      },
+      "id": 6,
+      "options": {
+        "colorMode": "value",
+        "graphMode": "area",
+        "justifyMode": "auto",
+        "orientation": "auto",
+        "reduceOptions": {
+          "calcs": [
+            "lastNotNull"
+          ],
+          "fields": "",
+          "values": false
+        },
+        "textMode": "auto"
+      },
+      "targets": [
+        {
+          "application": {
+            "name": "Synthetic Voice Probes"
+          },
+          "group": {
+            "name": "Voice Infrastructure"
+          },
+          "host": {
+            "name": "/.*/"
+          },
+          "item": {
+            "name": "Estimated Mean Opinion Score (MOS)"
+          },
+          "refId": "MOS"
+        }
+      ],
+      "title": "Synthetic Voice Quality Index (MOS) [SYNTHETIC \u2014 ASTERISK]",
+      "type": "stat"
+    },
+    {
+      "datasource": {
+        "type": "alexanderzobnin-zabbix-datasource",
+        "uid": "PA67C5EADE9207728"
+      },
+      "description": "Aggregated hourly packet loss percentage across real voice calls terminating on Avaya Communication Manager 8.1.0 media gateways. Source: Avaya CM MIB table avCmMeasIpVoStatSumDataLstHrTable (OID 1.3.6.1.4.1.6889.2.73.8.1.77). Interval: 1 hour (CM internal bucket calculation). Freshness: 1\u20132 hours. Limitations: Hourly aggregated snapshot; does not provide per-call real-time streaming telemetry. Missing data indicates collector outage, agent failure, or network disruption; values are preserved as null gaps.",
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "palette-classic"
+          },
+          "custom": {
+            "drawStyle": "line",
+            "lineInterpolation": "smooth",
+            "spanNulls": false
+          },
+          "unit": "percent",
+          "min": 0
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 8,
+        "w": 6,
+        "x": 12,
+        "y": 41
+      },
+      "id": 7,
+      "options": {
+        "tooltip": {
+          "mode": "multi"
+        }
+      },
+      "targets": [
+        {
+          "group": {
+            "name": "Avaya Infrastructure"
+          },
+          "host": {
+            "name": "avaya-cm-01"
+          },
+          "application": {
+            "name": "Avaya CM IP Voice Hourly Stats"
+          },
+          "item": {
+            "name": "avCmMeasIpVoStatSumDataLstHrPktLoss"
+          },
+          "refId": "CM_LOSS"
+        }
+      ],
+      "title": "Real-Call Packet Loss (CM SNMP) [REAL \u2014 AVAYA SNMP]",
+      "type": "timeseries"
+    },
+    {
+      "datasource": {
+        "type": "alexanderzobnin-zabbix-datasource",
+        "uid": "PA67C5EADE9207728"
+      },
+      "description": "Peak network jitter (ms) and peak one-way delay (ms) recorded across real voice sessions in Avaya Communication Manager. Source: Avaya CM MIB table avCmMeasIpVoStatSumDataLstHrTable (OID 1.3.6.1.4.1.6889.2.73.8.1.77) and avCmMeasIpVoStatHrJitterTable (OID 1.3.6.1.4.1.6889.2.73.8.1.66). Interval: 1 hour. Limitations: Reflects historical peak values during the preceding hour interval; not instantaneous jitter. Missing data indicates collector outage, agent failure, or network disruption; values are preserved as null gaps.",
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "palette-classic"
+          },
+          "custom": {
+            "drawStyle": "line",
+            "lineInterpolation": "smooth",
+            "spanNulls": false
+          },
+          "unit": "ms",
+          "min": 0
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 8,
+        "w": 6,
+        "x": 18,
+        "y": 49
+      },
+      "id": 8,
+      "options": {
+        "tooltip": {
+          "mode": "multi"
+        }
+      },
+      "targets": [
+        {
+          "group": {
+            "name": "Avaya Infrastructure"
+          },
+          "host": {
+            "name": "avaya-cm-01"
+          },
+          "application": {
+            "name": "Avaya CM IP Voice Hourly Stats"
+          },
+          "item": {
+            "name": "avCmMeasIpVoStatSumDataLstHrPkJitter"
+          },
+          "refId": "CM_JITTER"
+        },
+        {
+          "group": {
+            "name": "Avaya Infrastructure"
+          },
+          "host": {
+            "name": "avaya-cm-01"
+          },
+          "application": {
+            "name": "Avaya CM IP Voice Hourly Stats"
+          },
+          "item": {
+            "name": "avCmMeasIpVoStatSumDataLstHrPkDelay"
+          },
+          "refId": "CM_DELAY"
+        }
+      ],
+      "title": "Real-Call Peak Jitter & Delay [REAL \u2014 AVAYA SNMP]",
+      "type": "timeseries"
+    },
+    {
+      "datasource": {
+        "type": "alexanderzobnin-zabbix-datasource",
+        "uid": "PA67C5EADE9207728"
+      },
+      "description": "Synthetic voice call media impairment breakdown: network packet drop rate vs jitter buffer discard rate. Source: Synthetic Asterisk RTCP reports via Zabbix. Limitations: Reflects synthetic probe calls between test extensions. Missing data indicates collector outage, agent failure, or network disruption; values are preserved as null gaps.",
+      "fieldConfig": {
+        "defaults": {
+          "custom": {
+            "drawStyle": "line",
+            "lineInterpolation": "smooth",
+            "spanNulls": false
+          },
+          "unit": "percent"
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 8,
+        "w": 12,
+        "x": 0,
+        "y": 57
+      },
+      "id": 9,
+      "options": {
+        "tooltip": {
+          "mode": "multi"
+        }
+      },
+      "targets": [
+        {
+          "group": {
+            "name": "Voice Infrastructure"
+          },
+          "host": {
+            "name": "/.*/"
+          },
+          "application": {
+            "name": "Synthetic Voice Probes"
+          },
+          "item": {
+            "name": "Network Packet Loss (%)"
+          },
+          "refId": "NET_LOSS"
+        },
+        {
+          "group": {
+            "name": "Voice Infrastructure"
+          },
+          "host": {
+            "name": "/.*/"
+          },
+          "application": {
+            "name": "Synthetic Voice Probes"
+          },
+          "item": {
+            "name": "Jitter Buffer Discard Rate (%)"
+          },
+          "refId": "JB_DISCARDS"
+        }
+      ],
+      "title": "Network Packet Loss vs Jitter Buffer Discards [SYNTHETIC \u2014 ASTERISK]",
+      "type": "timeseries"
+    },
+    {
+      "datasource": {
+        "type": "alexanderzobnin-zabbix-datasource",
+        "uid": "PA67C5EADE9207728"
+      },
+      "description": "Synthetic round-trip mouth-to-ear voice latency (ITU-T G.114 target: <= 150ms). Source: Synthetic Asterisk probe RTP timestamps via Zabbix. Limitations: Synthetic probe path latency. Missing data indicates collector outage, agent failure, or network disruption; values are preserved as null gaps.",
+      "fieldConfig": {
+        "defaults": {
+          "custom": {
+            "drawStyle": "line",
+            "lineInterpolation": "smooth",
+            "spanNulls": false
+          },
+          "unit": "ms"
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 8,
+        "w": 12,
+        "x": 12,
+        "y": 65
+      },
+      "id": 10,
+      "options": {
+        "tooltip": {
+          "mode": "multi"
+        }
+      },
+      "targets": [
+        {
+          "group": {
+            "name": "Voice Infrastructure"
+          },
+          "host": {
+            "name": "/.*/"
+          },
+          "application": {
+            "name": "Synthetic Voice Probes"
+          },
+          "item": {
+            "name": "Mouth-to-Ear Latency (RTT)"
+          },
+          "refId": "RTT"
+        }
+      ],
+      "title": "Mouth-to-Ear Voice Latency (RTT) [SYNTHETIC \u2014 ASTERISK]",
+      "type": "timeseries"
+    },
+    {
+      "datasource": {
+        "type": "alexanderzobnin-zabbix-datasource",
+        "uid": "PA67C5EADE9207728"
+      },
+      "description": "Active concurrent call sessions and licensed capacity utilization on Avaya SBCE 8.1. Source: Avaya SBCE SNMP agent via Zabbix. Warning: > 400 sessions (80%), Critical: > 450 sessions (90%). Real hardware telemetry. Missing data indicates collector outage, agent failure, or network disruption; values are preserved as null gaps.",
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "thresholds"
+          },
+          "max": 500,
+          "min": 0,
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              },
+              {
+                "color": "yellow",
+                "value": 400
+              },
+              {
+                "color": "red",
+                "value": 450
+              }
+            ]
+          },
+          "unit": "short"
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 8,
+        "w": 8,
+        "x": 0,
+        "y": 73
+      },
+      "id": 11,
+      "options": {
+        "orientation": "auto",
+        "reduceOptions": {
+          "calcs": [
+            "lastNotNull"
+          ],
+          "fields": "",
+          "values": false
+        },
+        "showThresholdLabels": false,
+        "showThresholdMarkers": true
+      },
+      "targets": [
+        {
+          "application": {
+            "name": "Avaya SBCE Status"
+          },
+          "group": {
+            "name": "Voice Infrastructure"
+          },
+          "host": {
+            "name": "avaya-sbce-01"
+          },
+          "item": {
+            "name": "Active Audio Sessions"
+          },
+          "refId": "SESSIONS"
+        }
+      ],
+      "title": "SBCE Active Concurrent Sessions (Max 500) [REAL \u2014 SBCE SNMP]",
+      "type": "gauge"
+    },
+    {
+      "datasource": {
+        "type": "alexanderzobnin-zabbix-datasource",
+        "uid": "PA67C5EADE9207728"
+      },
+      "description": "Recent correlated voice calls with signaling outcome, Q.850 cause code, and topology verification status. Source: Nawari Voice Intelligence Engine. Missing data indicates collector outage, agent failure, or network disruption; values are preserved as null gaps.",
+      "fieldConfig": {
+        "defaults": {},
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 8,
+        "w": 16,
+        "x": 8,
+        "y": 81
+      },
+      "id": 12,
+      "options": {
+        "showHeader": true
+      },
+      "targets": [
+        {
+          "group": {
+            "name": "Voice Infrastructure"
+          },
+          "host": {
+            "name": "/.*/"
+          },
+          "application": {
+            "name": "Correlated Calls"
+          },
+          "item": {
+            "name": "Recent Correlated Calls Stream"
+          },
+          "refId": "CALLS"
+        }
+      ],
+      "title": "Recent Correlated Voice Call Sessions [CORRELATED PROBES]",
+      "type": "table"
+    },
+    {
+      "collapsed": true,
+      "gridPos": {
+        "h": 1,
+        "w": 24,
+        "x": 0,
+        "y": 89
+      },
+      "id": 13,
+      "panels": [
+        {
+          "datasource": {
+            "type": "alexanderzobnin-zabbix-datasource",
+            "uid": "PA67C5EADE9207728"
+          },
+          "fieldConfig": {
+            "defaults": {
+              "color": {
+                "mode": "thresholds"
+              },
+              "noValue": "STALE / NO DATA",
+              "mappings": [
+                {
+                  "options": {
+                    "ANSWERED": {
+                      "color": "green",
+                      "text": "ANSWERED (HEALTHY)"
+                    },
+                    "BUSY": {
+                      "color": "yellow",
+                      "text": "BUSY (USER REJECT)"
+                    },
+                    "CONGESTION": {
+                      "color": "red",
+                      "text": "CONGESTION (SIP 503)"
+                    },
+                    "TIMEOUT": {
+                      "color": "red",
+                      "text": "TIMEOUT (SIP 408)"
+                    },
+                    "FAILED": {
+                      "color": "red",
+                      "text": "FAILED"
+                    },
+                    "DRY_RUN": {
+                      "color": "blue",
+                      "text": "DRY RUN"
+                    },
+                    "SAFETY_BLOCKED": {
+                      "color": "orange",
+                      "text": "SAFETY BLOCKED"
+                    }
+                  },
+                  "type": "value"
+                }
+              ],
+              "thresholds": {
+                "mode": "absolute",
+                "steps": [
+                  {
+                    "color": "blue",
+                    "value": null
+                  }
+                ]
+              },
+              "custom": {
+                "spanNulls": false
+              }
+            },
+            "overrides": []
+          },
+          "gridPos": {
+            "h": 4,
+            "w": 4,
+            "x": 0,
+            "y": 0
+          },
+          "id": 14,
+          "options": {
+            "colorMode": "background",
+            "graphMode": "none",
+            "justifyMode": "auto",
+            "orientation": "auto",
+            "reduceOptions": {
+              "calcs": [
+                "lastNotNull"
+              ],
+              "fields": "",
+              "values": false
+            },
+            "textMode": "auto"
+          },
+          "pluginVersion": "11.6.0",
+          "targets": [
+            {
+              "application": {
+                "filter": ""
+              },
+              "datasource": {
+                "type": "alexanderzobnin-zabbix-datasource",
+                "uid": "PA67C5EADE9207728"
+              },
+              "group": {
+                "filter": "/Telephony/"
+              },
+              "host": {
+                "filter": "/.*voice-probe.*/"
+              },
+              "item": {
+                "filter": "Synthetic call outcome"
+              },
+              "itemTag": {
+                "filter": ""
+              },
+              "mode": 0,
+              "options": {
+                "showDisabledItems": false
+              },
+              "refId": "A",
+              "resultFormat": "time_series",
+              "tags": {
+                "filter": ""
+              },
+              "trigger": {
+                "filter": ""
+              }
+            }
+          ],
+          "title": "Call Transaction Outcome",
+          "type": "stat",
+          "description": "Signaling outcome of the most recent synthetic voice test call (e.g., Completed 200 OK, Busy 486, Timeout 408, Service Unavailable 503). Source: Synthetic Asterisk probe AMI event logs. Limitations: Reflects synthetic probe calls between test extensions; does not evaluate live customer or agent calls. Missing data indicates collector outage, agent failure, or network disruption; values are preserved as null gaps."
+        },
+        {
+          "datasource": {
+            "type": "alexanderzobnin-zabbix-datasource",
+            "uid": "PA67C5EADE9207728"
+          },
+          "fieldConfig": {
+            "defaults": {
+              "color": {
+                "mode": "thresholds"
+              },
+              "noValue": "UNKNOWN / NO DATA",
+              "mappings": [],
+              "max": 4.5,
+              "min": 1.0,
+              "thresholds": {
+                "mode": "absolute",
+                "steps": [
+                  {
+                    "color": "red",
+                    "value": null
+                  },
+                  {
+                    "color": "orange",
+                    "value": 3.1
+                  },
+                  {
+                    "color": "yellow",
+                    "value": 3.6
+                  },
+                  {
+                    "color": "green",
+                    "value": 4.0
+                  }
+                ]
+              },
+              "unit": "none",
+              "custom": {
+                "spanNulls": false
+              }
+            },
+            "overrides": []
+          },
+          "gridPos": {
+            "h": 4,
+            "w": 4,
+            "x": 4,
+            "y": 4
+          },
+          "id": 15,
+          "options": {
+            "minVizHeight": 75,
+            "minVizWidth": 75,
+            "orientation": "auto",
+            "reduceOptions": {
+              "calcs": [
+                "lastNotNull"
+              ],
+              "fields": "",
+              "values": false
+            },
+            "showThresholdLabels": true,
+            "showThresholdMarkers": true
+          },
+          "pluginVersion": "11.6.0",
+          "targets": [
+            {
+              "application": {
+                "filter": ""
+              },
+              "datasource": {
+                "type": "alexanderzobnin-zabbix-datasource",
+                "uid": "PA67C5EADE9207728"
+              },
+              "group": {
+                "filter": "/Telephony/"
+              },
+              "host": {
+                "filter": "/.*voice-probe.*/"
+              },
+              "item": {
+                "filter": "Synthetic call Estimated MOS"
+              },
+              "itemTag": {
+                "filter": ""
+              },
+              "mode": 0,
+              "options": {
+                "showDisabledItems": false
+              },
+              "refId": "A",
+              "resultFormat": "time_series",
+              "tags": {
+                "filter": ""
+              },
+              "trigger": {
+                "filter": ""
+              }
+            }
+          ],
+          "title": "Estimated MOS (ITU-T G.107) [SYNTHETIC \u2014 ASTERISK]",
+          "type": "gauge",
+          "description": "Estimated Mean Opinion Score (MOS) calculated strictly for synthetic test calls via ITU-T G.107 E-model based on measured packet loss, jitter, and delay. Scale: 1.0 (unusable) to 4.5 (toll quality). Warning: < 3.6, Critical: < 3.1. Source: Synthetic Asterisk voice probe. Limitations: Synthetic probe only; real subscriber calls are NOT included. Missing data indicates collector outage, agent failure, or network disruption; values are preserved as null gaps."
+        },
+        {
+          "datasource": {
+            "type": "alexanderzobnin-zabbix-datasource",
+            "uid": "PA67C5EADE9207728"
+          },
+          "fieldConfig": {
+            "defaults": {
+              "color": {
+                "mode": "thresholds"
+              },
+              "noValue": "UNKNOWN / NO DATA",
+              "mappings": [
+                {
+                  "options": {
+                    "BIDIRECTIONAL": {
+                      "color": "green",
+                      "text": "BIDIRECTIONAL (OK)"
+                    },
+                    "TRANSMIT_ONLY": {
+                      "color": "red",
+                      "text": "TRANSMIT ONLY (ONE-WAY)"
+                    },
+                    "RECEIVE_ONLY": {
+                      "color": "red",
+                      "text": "RECEIVE ONLY (ONE-WAY)"
+                    },
+                    "NO_MEDIA": {
+                      "color": "red",
+                      "text": "NO MEDIA FLOW"
+                    },
+                    "UNVERIFIED": {
+                      "color": "gray",
+                      "text": "UNVERIFIED"
+                    }
+                  },
+                  "type": "value"
+                }
+              ],
+              "thresholds": {
+                "mode": "absolute",
+                "steps": [
+                  {
+                    "color": "gray",
+                    "value": null
+                  }
+                ]
+              },
+              "custom": {
+                "spanNulls": false
+              }
+            },
+            "overrides": []
+          },
+          "gridPos": {
+            "h": 4,
+            "w": 4,
+            "x": 8,
+            "y": 8
+          },
+          "id": 16,
+          "options": {
+            "colorMode": "background",
+            "graphMode": "none",
+            "justifyMode": "auto",
+            "orientation": "auto",
+            "reduceOptions": {
+              "calcs": [
+                "lastNotNull"
+              ],
+              "fields": "",
+              "values": false
+            },
+            "textMode": "auto"
+          },
+          "pluginVersion": "11.6.0",
+          "targets": [
+            {
+              "application": {
+                "filter": ""
+              },
+              "datasource": {
+                "type": "alexanderzobnin-zabbix-datasource",
+                "uid": "PA67C5EADE9207728"
+              },
+              "group": {
+                "filter": "/Telephony/"
+              },
+              "host": {
+                "filter": "/.*voice-probe.*/"
+              },
+              "item": {
+                "filter": "Synthetic call media verification status"
+              },
+              "itemTag": {
+                "filter": ""
+              },
+              "mode": 0,
+              "options": {
+                "showDisabledItems": false
+              },
+              "refId": "A",
+              "resultFormat": "time_series",
+              "tags": {
+                "filter": ""
+              },
+              "trigger": {
+                "filter": ""
+              }
+            }
+          ],
+          "title": "Media Path Directionality",
+          "type": "stat",
+          "description": "Designates the media routing path of the tested voice session (e.g., Inbound Carrier DMZ, Outbound PSTN, Internal Inter-Station). Source: Synthetic probe call profile configuration. Limitations: Validates designated routing profile under test. Missing data indicates collector outage, agent failure, or network disruption; values are preserved as null gaps."
+        },
+        {
+          "datasource": {
+            "type": "alexanderzobnin-zabbix-datasource",
+            "uid": "PA67C5EADE9207728"
+          },
+          "fieldConfig": {
+            "defaults": {
+              "color": {
+                "mode": "thresholds"
+              },
+              "noValue": "NO DATA",
+              "mappings": [],
+              "thresholds": {
+                "mode": "absolute",
+                "steps": [
+                  {
+                    "color": "green",
+                    "value": null
+                  },
+                  {
+                    "color": "yellow",
+                    "value": 1500
+                  },
+                  {
+                    "color": "red",
+                    "value": 5000
+                  }
+                ]
+              },
+              "unit": "ms",
+              "custom": {
+                "spanNulls": false
+              }
+            },
+            "overrides": []
+          },
+          "gridPos": {
+            "h": 4,
+            "w": 4,
+            "x": 12,
+            "y": 12
+          },
+          "id": 17,
+          "options": {
+            "colorMode": "value",
+            "graphMode": "area",
+            "justifyMode": "auto",
+            "orientation": "auto",
+            "reduceOptions": {
+              "calcs": [
+                "lastNotNull"
+              ],
+              "fields": "",
+              "values": false
+            },
+            "textMode": "auto"
+          },
+          "pluginVersion": "11.6.0",
+          "targets": [
+            {
+              "application": {
+                "filter": ""
+              },
+              "datasource": {
+                "type": "alexanderzobnin-zabbix-datasource",
+                "uid": "PA67C5EADE9207728"
+              },
+              "group": {
+                "filter": "/Telephony/"
+              },
+              "host": {
+                "filter": "/.*voice-probe.*/"
+              },
+              "item": {
+                "filter": "Synthetic call setup time"
+              },
+              "itemTag": {
+                "filter": ""
+              },
+              "mode": 0,
+              "options": {
+                "showDisabledItems": false
+              },
+              "refId": "A",
+              "resultFormat": "time_series",
+              "tags": {
+                "filter": ""
+              },
+              "trigger": {
+                "filter": ""
+              }
+            }
+          ],
+          "title": "Call Setup Latency",
+          "type": "stat",
+          "description": "Elapsed duration from initial SIP INVITE transmission to receiving the first 18x progress response (Post-Dial Delay / PDD). Units: Milliseconds (ms). Warning: > 1500ms, Critical: > 3000ms. Source: Synthetic Asterisk probe SIP signaling timer. Limitations: Measures synthetic signaling latency across SBCE. Missing data indicates collector outage, agent failure, or network disruption; values are preserved as null gaps."
+        },
+        {
+          "datasource": {
+            "type": "alexanderzobnin-zabbix-datasource",
+            "uid": "PA67C5EADE9207728"
+          },
+          "fieldConfig": {
+            "defaults": {
+              "color": {
+                "mode": "thresholds"
+              },
+              "noValue": "NO DATA",
+              "mappings": [],
+              "max": 100,
+              "min": 0,
+              "thresholds": {
+                "mode": "absolute",
+                "steps": [
+                  {
+                    "color": "red",
+                    "value": null
+                  },
+                  {
+                    "color": "orange",
+                    "value": 60
+                  },
+                  {
+                    "color": "yellow",
+                    "value": 75
+                  },
+                  {
+                    "color": "green",
+                    "value": 85
+                  }
+                ]
+              },
+              "unit": "none",
+              "custom": {
+                "spanNulls": false
+              }
+            },
+            "overrides": []
+          },
+          "gridPos": {
+            "h": 4,
+            "w": 4,
+            "x": 16,
+            "y": 16
+          },
+          "id": 18,
+          "options": {
+            "minVizHeight": 75,
+            "minVizWidth": 75,
+            "orientation": "auto",
+            "reduceOptions": {
+              "calcs": [
+                "lastNotNull"
+              ],
+              "fields": "",
+              "values": false
+            },
+            "showThresholdLabels": false,
+            "showThresholdMarkers": true
+          },
+          "pluginVersion": "11.6.0",
+          "targets": [
+            {
+              "application": {
+                "filter": ""
+              },
+              "datasource": {
+                "type": "alexanderzobnin-zabbix-datasource",
+                "uid": "PA67C5EADE9207728"
+              },
+              "group": {
+                "filter": "/Telephony/"
+              },
+              "host": {
+                "filter": "/.*voice-probe.*/"
+              },
+              "item": {
+                "filter": "Synthetic call R-factor"
+              },
+              "itemTag": {
+                "filter": ""
+              },
+              "mode": 0,
+              "options": {
+                "showDisabledItems": false
+              },
+              "refId": "A",
+              "resultFormat": "time_series",
+              "tags": {
+                "filter": ""
+              },
+              "trigger": {
+                "filter": ""
+              }
+            }
+          ],
+          "title": "R-Factor (Transmission Quality) [SYNTHETIC \u2014 ASTERISK]",
+          "type": "gauge",
+          "description": "Transmission rating factor (R) calculated via ITU-T G.107 E-model for synthetic test calls. Scale: 0 to 100 (R >= 80 indicates toll quality, R < 60 is unacceptable). Source: Synthetic Asterisk probe RTCP calculation. Limitations: Strictly synthetic test call calculation. Missing data indicates collector outage, agent failure, or network disruption; values are preserved as null gaps."
+        },
+        {
+          "datasource": {
+            "type": "alexanderzobnin-zabbix-datasource",
+            "uid": "PA67C5EADE9207728"
+          },
+          "fieldConfig": {
+            "defaults": {
+              "color": {
+                "mode": "thresholds"
+              },
+              "noValue": "SIMULATED / MOCK",
+              "mappings": [
+                {
+                  "options": {
+                    "MOCK_SIMULATED": {
+                      "color": "blue",
+                      "text": "SIMULATED / MOCK"
+                    },
+                    "PHYSICAL_PRODUCTION": {
+                      "color": "purple",
+                      "text": "PHYSICAL PRODUCTION"
+                    }
+                  },
+                  "type": "value"
+                }
+              ],
+              "thresholds": {
+                "mode": "absolute",
+                "steps": [
+                  {
+                    "color": "blue",
+                    "value": null
+                  }
+                ]
+              },
+              "custom": {
+                "spanNulls": false
+              }
+            },
+            "overrides": []
+          },
+          "gridPos": {
+            "h": 4,
+            "w": 4,
+            "x": 20,
+            "y": 20
+          },
+          "id": 19,
+          "options": {
+            "colorMode": "background",
+            "graphMode": "none",
+            "justifyMode": "auto",
+            "orientation": "auto",
+            "reduceOptions": {
+              "calcs": [
+                "lastNotNull"
+              ],
+              "fields": "",
+              "values": false
+            },
+            "textMode": "auto"
+          },
+          "pluginVersion": "11.6.0",
+          "targets": [
+            {
+              "application": {
+                "filter": ""
+              },
+              "datasource": {
+                "type": "alexanderzobnin-zabbix-datasource",
+                "uid": "PA67C5EADE9207728"
+              },
+              "group": {
+                "filter": "/Telephony/"
+              },
+              "host": {
+                "filter": "/.*voice-probe.*/"
+              },
+              "item": {
+                "filter": "Synthetic probe environment provenance"
+              },
+              "itemTag": {
+                "filter": ""
+              },
+              "mode": 0,
+              "options": {
+                "showDisabledItems": false
+              },
+              "refId": "A",
+              "resultFormat": "time_series",
+              "tags": {
+                "filter": ""
+              },
+              "trigger": {
+                "filter": ""
+              }
+            }
+          ],
+          "title": "Telemetry Provenance Mode",
+          "type": "stat",
+          "description": "Explicit operational indicator distinguishing between SIMULATED/MOCK synthetic test environments and physical production infrastructure. Values: MOCK_SIMULATED (Blue) or PHYSICAL_PRODUCTION (Purple). Source: Voice probe environment provenance metric. Purpose: Guarantees full operator awareness of telemetry origin. Missing data indicates collector outage, agent failure, or network disruption; values are preserved as null gaps."
+        },
+        {
+          "datasource": {
+            "type": "alexanderzobnin-zabbix-datasource",
+            "uid": "PA67C5EADE9207728"
+          },
+          "fieldConfig": {
+            "defaults": {
+              "custom": {
+                "drawStyle": "line",
+                "lineInterpolation": "smooth",
+                "lineWidth": 2,
+                "pointSize": 5,
+                "showPoints": "auto",
+                "spanNulls": false
+              },
+              "unit": "ms"
+            },
+            "overrides": []
+          },
+          "gridPos": {
+            "h": 7,
+            "w": 12,
+            "x": 0,
+            "y": 24
+          },
+          "id": 20,
+          "options": {
+            "legend": {
+              "displayMode": "list",
+              "placement": "bottom"
+            },
+            "tooltip": {
+              "mode": "single"
+            }
+          },
+          "pluginVersion": "11.6.0",
+          "targets": [
+            {
+              "application": {
+                "filter": ""
+              },
+              "datasource": {
+                "type": "alexanderzobnin-zabbix-datasource",
+                "uid": "PA67C5EADE9207728"
+              },
+              "group": {
+                "filter": "/Telephony/"
+              },
+              "host": {
+                "filter": "/.*voice-probe.*/"
+              },
+              "item": {
+                "filter": "Synthetic call setup time"
+              },
+              "itemTag": {
+                "filter": ""
+              },
+              "mode": 0,
+              "options": {
+                "showDisabledItems": false
+              },
+              "refId": "A",
+              "resultFormat": "time_series",
+              "tags": {
+                "filter": ""
+              },
+              "trigger": {
+                "filter": ""
+              }
+            }
+          ],
+          "title": "Call Setup Latency History",
+          "type": "timeseries",
+          "description": "Historical time-series trend of Post-Dial Delay (PDD) and session setup duration across consecutive synthetic voice probe runs. Units: Milliseconds (ms). Source: Synthetic Asterisk probe logs. Limitations: Useful for identifying carrier signaling latency drift over diurnal cycles. Missing data indicates collector outage, agent failure, or network disruption; values are preserved as null gaps."
+        },
+        {
+          "datasource": {
+            "type": "alexanderzobnin-zabbix-datasource",
+            "uid": "PA67C5EADE9207728"
+          },
+          "fieldConfig": {
+            "defaults": {
+              "custom": {
+                "drawStyle": "points",
+                "pointSize": 7,
+                "showPoints": "always",
+                "spanNulls": false
+              },
+              "unit": "none"
+            },
+            "overrides": []
+          },
+          "gridPos": {
+            "h": 7,
+            "w": 12,
+            "x": 12,
+            "y": 31
+          },
+          "id": 21,
+          "options": {
+            "legend": {
+              "displayMode": "list",
+              "placement": "bottom"
+            },
+            "tooltip": {
+              "mode": "single"
+            }
+          },
+          "pluginVersion": "11.6.0",
+          "targets": [
+            {
+              "application": {
+                "filter": ""
+              },
+              "datasource": {
+                "type": "alexanderzobnin-zabbix-datasource",
+                "uid": "PA67C5EADE9207728"
+              },
+              "group": {
+                "filter": "/Telephony/"
+              },
+              "host": {
+                "filter": "/.*voice-probe.*/"
+              },
+              "item": {
+                "filter": "Synthetic call SIP status"
+              },
+              "itemTag": {
+                "filter": ""
+              },
+              "mode": 0,
+              "options": {
+                "showDisabledItems": false
+              },
+              "refId": "A",
+              "resultFormat": "time_series",
+              "tags": {
+                "filter": ""
+              },
+              "trigger": {
+                "filter": ""
+              }
+            }
+          ],
+          "title": "SIP Response Code History",
+          "type": "timeseries",
+          "description": "Distribution of SIP response codes (1xx progress, 2xx success, 4xx client errors, 5xx server failures) returned during synthetic probe campaigns. Source: Synthetic Asterisk SIP transaction logs. Limitations: Differentiates client busy/offline states from carrier 503 outages. Missing data indicates collector outage, agent failure, or network disruption; values are preserved as null gaps."
+        },
+        {
+          "datasource": {
+            "type": "alexanderzobnin-zabbix-datasource",
+            "uid": "PA67C5EADE9207728"
+          },
+          "fieldConfig": {
+            "defaults": {
+              "custom": {
+                "drawStyle": "line",
+                "lineInterpolation": "linear",
+                "lineWidth": 2,
+                "pointSize": 5,
+                "showPoints": "auto",
+                "spanNulls": false,
+                "thresholdsStyle": {
+                  "mode": "line"
+                }
+              },
+              "max": 4.5,
+              "min": 1.0,
+              "thresholds": {
+                "mode": "absolute",
+                "steps": [
+                  {
+                    "color": "red",
+                    "value": null
+                  },
+                  {
+                    "color": "yellow",
+                    "value": 3.5
+                  },
+                  {
+                    "color": "green",
+                    "value": 3.8
+                  }
+                ]
+              },
+              "unit": "none"
+            },
+            "overrides": []
+          },
+          "gridPos": {
+            "h": 8,
+            "w": 12,
+            "x": 0,
+            "y": 38
+          },
+          "id": 22,
+          "options": {
+            "legend": {
+              "displayMode": "list",
+              "placement": "bottom"
+            },
+            "tooltip": {
+              "mode": "single"
+            }
+          },
+          "pluginVersion": "11.6.0",
+          "targets": [
+            {
+              "application": {
+                "filter": ""
+              },
+              "datasource": {
+                "type": "alexanderzobnin-zabbix-datasource",
+                "uid": "PA67C5EADE9207728"
+              },
+              "group": {
+                "filter": "/Telephony/"
+              },
+              "host": {
+                "filter": "/.*voice-probe.*/"
+              },
+              "item": {
+                "filter": "Synthetic call Estimated MOS"
+              },
+              "itemTag": {
+                "filter": ""
+              },
+              "mode": 0,
+              "options": {
+                "showDisabledItems": false
+              },
+              "refId": "A",
+              "resultFormat": "time_series",
+              "tags": {
+                "filter": ""
+              },
+              "trigger": {
+                "filter": ""
+              }
+            }
+          ],
+          "title": "Estimated MOS Trend & SLA Thresholds [SYNTHETIC \u2014 ASTERISK]",
+          "type": "timeseries",
+          "description": "Continuous time-series trend of estimated Mean Opinion Score (MOS) from synthetic voice probes plotted against SLA contractual limits (Toll Quality = 4.0, Minimum Acceptable = 3.6). Source: Synthetic Asterisk probe ITU-T G.107 calculation. Limitations: Measures synthetic probe stream quality only. Missing data indicates collector outage, agent failure, or network disruption; values are preserved as null gaps."
+        },
+        {
+          "datasource": {
+            "type": "alexanderzobnin-zabbix-datasource",
+            "uid": "PA67C5EADE9207728"
+          },
+          "fieldConfig": {
+            "defaults": {
+              "custom": {
+                "drawStyle": "line",
+                "lineInterpolation": "smooth",
+                "lineWidth": 2,
+                "showPoints": "auto",
+                "spanNulls": false
+              }
+            },
+            "overrides": [
+              {
+                "matcher": {
+                  "id": "byName",
+                  "options": "Synthetic call RTP packet loss"
+                },
+                "properties": [
+                  {
+                    "id": "custom.axisPlacement",
+                    "value": "right"
+                  },
+                  {
+                    "id": "unit",
+                    "value": "percent"
+                  },
+                  {
+                    "id": "color",
+                    "value": {
+                      "fixedColor": "red",
+                      "mode": "fixed"
+                    }
+                  }
+                ]
+              },
+              {
+                "matcher": {
+                  "id": "byName",
+                  "options": "Synthetic call RTP jitter"
+                },
+                "properties": [
+                  {
+                    "id": "custom.axisPlacement",
+                    "value": "left"
+                  },
+                  {
+                    "id": "unit",
+                    "value": "ms"
+                  },
+                  {
+                    "id": "color",
+                    "value": {
+                      "fixedColor": "orange",
+                      "mode": "fixed"
+                    }
+                  }
+                ]
+              }
+            ]
+          },
+          "gridPos": {
+            "h": 8,
+            "w": 12,
+            "x": 12,
+            "y": 46
+          },
+          "id": 23,
+          "options": {
+            "legend": {
+              "displayMode": "list",
+              "placement": "bottom"
+            },
+            "tooltip": {
+              "mode": "multi"
+            }
+          },
+          "pluginVersion": "11.6.0",
+          "targets": [
+            {
+              "application": {
+                "filter": ""
+              },
+              "datasource": {
+                "type": "alexanderzobnin-zabbix-datasource",
+                "uid": "PA67C5EADE9207728"
+              },
+              "group": {
+                "filter": "/Telephony/"
+              },
+              "host": {
+                "filter": "/.*voice-probe.*/"
+              },
+              "item": {
+                "filter": "Synthetic call RTP jitter"
+              },
+              "itemTag": {
+                "filter": ""
+              },
+              "mode": 0,
+              "options": {
+                "showDisabledItems": false
+              },
+              "refId": "A",
+              "resultFormat": "time_series",
+              "tags": {
+                "filter": ""
+              },
+              "trigger": {
+                "filter": ""
+              }
+            },
+            {
+              "application": {
+                "filter": ""
+              },
+              "datasource": {
+                "type": "alexanderzobnin-zabbix-datasource",
+                "uid": "PA67C5EADE9207728"
+              },
+              "group": {
+                "filter": "/Telephony/"
+              },
+              "host": {
+                "filter": "/.*voice-probe.*/"
+              },
+              "item": {
+                "filter": "Synthetic call RTP packet loss"
+              },
+              "itemTag": {
+                "filter": ""
+              },
+              "mode": 0,
+              "options": {
+                "showDisabledItems": false
+              },
+              "refId": "B",
+              "resultFormat": "time_series",
+              "tags": {
+                "filter": ""
+              },
+              "trigger": {
+                "filter": ""
+              }
+            }
+          ],
+          "title": "RTP Jitter & Packet Loss Impairments [SYNTHETIC \u2014 ASTERISK]",
+          "type": "timeseries",
+          "description": "Measured RTP packet loss percentage and jitter (ms) recorded during synthetic probe voice calls. Source: Asterisk RTCP reports. Target: Packet loss < 1%, Jitter < 20ms. Limitations: Reflects acoustic path between synthetic probe endpoints. Missing data indicates collector outage, agent failure, or network disruption; values are preserved as null gaps."
+        },
+        {
+          "datasource": {
+            "type": "alexanderzobnin-zabbix-datasource",
+            "uid": "PA67C5EADE9207728"
+          },
+          "fieldConfig": {
+            "defaults": {
+              "custom": {
+                "drawStyle": "line",
+                "lineInterpolation": "smooth",
+                "lineWidth": 2,
+                "showPoints": "auto",
+                "spanNulls": false
+              },
+              "unit": "bps"
+            },
+            "overrides": []
+          },
+          "gridPos": {
+            "h": 8,
+            "w": 12,
+            "x": 0,
+            "y": 54
+          },
+          "id": 24,
+          "options": {
+            "legend": {
+              "displayMode": "list",
+              "placement": "bottom"
+            },
+            "tooltip": {
+              "mode": "multi"
+            }
+          },
+          "pluginVersion": "11.6.0",
+          "targets": [
+            {
+              "application": {
+                "filter": ""
+              },
+              "datasource": {
+                "type": "alexanderzobnin-zabbix-datasource",
+                "uid": "PA67C5EADE9207728"
+              },
+              "group": {
+                "filter": "/Voice Infrastructure|Edge SBC|Telephony/"
+              },
+              "host": {
+                "filter": "/.*sbce.*/"
+              },
+              "item": {
+                "filter": "/Bits received on (A1|B1)/"
+              },
+              "itemTag": {
+                "filter": ""
+              },
+              "mode": 0,
+              "options": {
+                "showDisabledItems": false
+              },
+              "refId": "A",
+              "resultFormat": "time_series",
+              "tags": {
+                "filter": ""
+              },
+              "trigger": {
+                "filter": ""
+              }
+            },
+            {
+              "application": {
+                "filter": ""
+              },
+              "datasource": {
+                "type": "alexanderzobnin-zabbix-datasource",
+                "uid": "PA67C5EADE9207728"
+              },
+              "group": {
+                "filter": "/Voice Infrastructure|Edge SBC|Telephony/"
+              },
+              "host": {
+                "filter": "/.*sbce.*/"
+              },
+              "item": {
+                "filter": "/Bits sent on (A1|B1)/"
+              },
+              "itemTag": {
+                "filter": ""
+              },
+              "mode": 0,
+              "options": {
+                "showDisabledItems": false
+              },
+              "refId": "B",
+              "resultFormat": "time_series",
+              "tags": {
+                "filter": ""
+              },
+              "trigger": {
+                "filter": ""
+              }
+            }
+          ],
+          "title": "SBCE Signaling (A1) & Media (B1) Traffic Throughput [REAL \u2014 SBCE SNMP]",
+          "type": "timeseries",
+          "description": "Real-time physical interface throughput on Avaya SBCE interface A1 (External DMZ carrier signaling) and B1 (Internal Core media). Units: Bits per second (bps). Source: Avaya SBCE IF-MIB via Zabbix SNMPv3. Note: This panel displays REAL infrastructure traffic, distinct from synthetic probe metrics. Missing data indicates collector outage, agent failure, or network disruption; values are preserved as null gaps."
+        },
+        {
+          "datasource": {
+            "type": "alexanderzobnin-zabbix-datasource",
+            "uid": "PA67C5EADE9207728"
+          },
+          "fieldConfig": {
+            "defaults": {
+              "custom": {
+                "drawStyle": "line",
+                "lineInterpolation": "smooth",
+                "lineWidth": 2,
+                "showPoints": "auto",
+                "spanNulls": false
+              },
+              "max": 100,
+              "min": 0,
+              "thresholds": {
+                "mode": "absolute",
+                "steps": [
+                  {
+                    "color": "green",
+                    "value": null
+                  },
+                  {
+                    "color": "yellow",
+                    "value": 75
+                  },
+                  {
+                    "color": "red",
+                    "value": 90
+                  }
+                ]
+              },
+              "unit": "percent"
+            },
+            "overrides": []
+          },
+          "gridPos": {
+            "h": 8,
+            "w": 12,
+            "x": 12,
+            "y": 62
+          },
+          "id": 25,
+          "options": {
+            "legend": {
+              "displayMode": "list",
+              "placement": "bottom"
+            },
+            "tooltip": {
+              "mode": "single"
+            }
+          },
+          "pluginVersion": "11.6.0",
+          "targets": [
+            {
+              "application": {
+                "filter": ""
+              },
+              "datasource": {
+                "type": "alexanderzobnin-zabbix-datasource",
+                "uid": "PA67C5EADE9207728"
+              },
+              "group": {
+                "filter": "/Voice Infrastructure|Edge SBC/"
+              },
+              "host": {
+                "filter": "/.*sbce.*/"
+              },
+              "item": {
+                "filter": "Appliance CPU load percentage"
+              },
+              "itemTag": {
+                "filter": ""
+              },
+              "mode": 0,
+              "options": {
+                "showDisabledItems": false
+              },
+              "refId": "A",
+              "resultFormat": "time_series",
+              "tags": {
+                "filter": ""
+              },
+              "trigger": {
+                "filter": ""
+              }
+            }
+          ],
+          "title": "SBCE CPU Utilization [REAL \u2014 SBCE SNMP]",
+          "type": "timeseries",
+          "description": "Processor core utilization on the Avaya SBCE appliance. Units: Percentage (0\u2013100%). Source: HOST-RESOURCES-MIB via Zabbix. Note: Real appliance hardware telemetry. Missing data indicates collector outage, agent failure, or network disruption; values are preserved as null gaps."
+        }
+      ],
+      "title": "Voice Media Quality, RTP Loss & Codec Distribution",
+      "type": "row"
+    },
+    {
+      "collapsed": true,
+      "gridPos": {
+        "h": 1,
+        "w": 24,
+        "x": 0,
+        "y": 90
+      },
+      "id": 26,
+      "panels": [
+        {
+          "datasource": {
+            "type": "alexanderzobnin-zabbix-datasource",
+            "uid": "PA67C5EADE9207728"
+          },
+          "description": "Processor core utilization on the Avaya Call Management System (CMS) server host. Units: Percentage (0-100%). Warning: 75%, Critical: 90%. Source: HOST-RESOURCES-MIB. Polling: 60s. Missing data indicates collector outage, agent failure, or network disruption; values are preserved as null gaps.",
+          "fieldConfig": {
+            "defaults": {
+              "color": {
+                "mode": "thresholds"
+              },
+              "max": 100,
+              "min": 0,
+              "thresholds": {
+                "mode": "absolute",
+                "steps": [
+                  {
+                    "color": "green",
+                    "value": null
+                  },
+                  {
+                    "color": "yellow",
+                    "value": 75
+                  },
+                  {
+                    "color": "red",
+                    "value": 90
+                  }
+                ]
+              },
+              "unit": "percent"
+            },
+            "overrides": []
+          },
+          "gridPos": {
+            "h": 6,
+            "w": 8,
+            "x": 0,
+            "y": 0
+          },
+          "id": 27,
+          "options": {
+            "orientation": "auto",
+            "reduceOptions": {
+              "calcs": [
+                "lastNotNull"
+              ],
+              "fields": "",
+              "values": false
+            },
+            "showThresholdLabels": false,
+            "showThresholdMarkers": true
+          },
+          "targets": [
+            {
+              "group": {
+                "name": "Contact Centre"
+              },
+              "host": {
+                "name": "avaya-cms-01"
+              },
+              "item": {
+                "name": "CMS Host CPU Utilization"
+              },
+              "refId": "CPU"
+            }
+          ],
+          "title": "CMS Host CPU Utilization [REAL \u2014 HARDWARE]",
+          "type": "gauge"
+        },
+        {
+          "datasource": {
+            "type": "alexanderzobnin-zabbix-datasource",
+            "uid": "PA67C5EADE9207728"
+          },
+          "description": "Operational state of the IBM Informix Dynamic Server (IDS) database engine underpinning CMS real-time and historical tables. 1 = Running / Online, 0 = Down / Offline. Source: Zabbix service check. Polling: 60s. Missing data indicates collector outage, agent failure, or network disruption; values are preserved as null gaps.",
+          "fieldConfig": {
+            "defaults": {
+              "color": {
+                "mode": "thresholds"
+              },
+              "mappings": [
+                {
+                  "options": {
+                    "1": {
+                      "color": "green",
+                      "text": "ONLINE (RUNNING)"
+                    },
+                    "0": {
+                      "color": "red",
+                      "text": "OFFLINE (STOPPED)"
+                    }
+                  },
+                  "type": "value"
+                }
+              ],
+              "thresholds": {
+                "mode": "absolute",
+                "steps": [
+                  {
+                    "color": "red",
+                    "value": null
+                  },
+                  {
+                    "color": "green",
+                    "value": 1
+                  }
+                ]
+              }
+            },
+            "overrides": []
+          },
+          "gridPos": {
+            "h": 6,
+            "w": 8,
+            "x": 8,
+            "y": 6
+          },
+          "id": 28,
+          "options": {
+            "colorMode": "background",
+            "graphMode": "none",
+            "justifyMode": "auto",
+            "orientation": "auto",
+            "reduceOptions": {
+              "calcs": [
+                "lastNotNull"
+              ],
+              "fields": "",
+              "values": false
+            },
+            "textMode": "auto"
+          },
+          "targets": [
+            {
+              "group": {
+                "name": "Contact Centre"
+              },
+              "host": {
+                "name": "avaya-cms-01"
+              },
+              "item": {
+                "name": "Informix Database Engine Status"
+              },
+              "refId": "INFORMIX"
+            }
+          ],
+          "title": "Informix Database Engine Status [APPLICATION \u2014 CMS]",
+          "type": "stat"
+        },
+        {
+          "datasource": {
+            "type": "alexanderzobnin-zabbix-datasource",
+            "uid": "PA67C5EADE9207728"
+          },
+          "description": "Configured historical archiving interval for Avaya CMS interval tables (15 minutes, 30 minutes, or 60 minutes). Nawari read-only ODBC ingestion synchronizes strictly to this interval, preserving original timestamps. Source: CMS system configuration. Missing data indicates collector outage, agent failure, or network disruption; values are preserved as null gaps.",
+          "fieldConfig": {
+            "defaults": {},
+            "overrides": []
+          },
+          "gridPos": {
+            "h": 6,
+            "w": 8,
+            "x": 16,
+            "y": 12
+          },
+          "id": 29,
+          "options": {
+            "colorMode": "value",
+            "graphMode": "none",
+            "justifyMode": "auto",
+            "orientation": "auto",
+            "reduceOptions": {
+              "calcs": [
+                "lastNotNull"
+              ],
+              "fields": "",
+              "values": false
+            },
+            "textMode": "auto"
+          },
+          "targets": [
+            {
+              "group": {
+                "name": "Contact Centre"
+              },
+              "host": {
+                "name": "avaya-cms-01"
+              },
+              "item": {
+                "name": "CMS Ingestion Reporting Interval"
+              },
+              "refId": "INTERVAL"
+            }
+          ],
+          "title": "CMS Archiving Interval Configuration [APPLICATION \u2014 CMS]",
+          "type": "stat"
+        },
+        {
+          "datasource": {
+            "type": "alexanderzobnin-zabbix-datasource",
+            "uid": "PA67C5EADE9207728"
+          },
+          "description": "Percentage of contact centre callers answered within Kenya Airways service level threshold (80% answered in 20 seconds). Source: Avaya CMS Informix read-only ODBC query on hsplit table. Freshness: 15\u201330 minutes. Missing data indicates collector outage, agent failure, or network disruption; values are preserved as null gaps.",
+          "fieldConfig": {
+            "defaults": {
+              "color": {
+                "mode": "thresholds"
+              },
+              "max": 100,
+              "min": 0,
+              "thresholds": {
+                "mode": "absolute",
+                "steps": [
+                  {
+                    "color": "red",
+                    "value": null
+                  },
+                  {
+                    "color": "yellow",
+                    "value": 70
+                  },
+                  {
+                    "color": "green",
+                    "value": 80
+                  }
+                ]
+              },
+              "unit": "percent"
+            },
+            "overrides": []
+          },
+          "gridPos": {
+            "h": 6,
+            "w": 6,
+            "x": 0,
+            "y": 18
+          },
+          "id": 30,
+          "options": {
+            "orientation": "auto",
+            "reduceOptions": {
+              "calcs": [
+                "lastNotNull"
+              ],
+              "fields": "",
+              "values": false
+            },
+            "showThresholdLabels": false,
+            "showThresholdMarkers": true
+          },
+          "targets": [
+            {
+              "group": {
+                "name": "Contact Centre"
+              },
+              "host": {
+                "name": "avaya-cms-01"
+              },
+              "item": {
+                "name": "Contact Centre Queue Service Level Attainment"
+              },
+              "refId": "SLA"
+            }
+          ],
+          "title": "Service Level Attainment (% in SLA) [APPLICATION \u2014 CMS]",
+          "type": "gauge"
+        },
+        {
+          "datasource": {
+            "type": "alexanderzobnin-zabbix-datasource",
+            "uid": "PA67C5EADE9207728"
+          },
+          "description": "Average Speed of Answer (ASA) in seconds: mean caller waiting time before an agent connects. Source: Avaya CMS Informix query. Warning: > 45s, Critical: > 90s. Missing data indicates collector outage, agent failure, or network disruption; values are preserved as null gaps.",
+          "fieldConfig": {
+            "defaults": {
+              "custom": {
+                "drawStyle": "line",
+                "lineInterpolation": "smooth",
+                "spanNulls": false
+              },
+              "unit": "s"
+            },
+            "overrides": []
+          },
+          "gridPos": {
+            "h": 6,
+            "w": 6,
+            "x": 6,
+            "y": 24
+          },
+          "id": 31,
+          "options": {
+            "tooltip": {
+              "mode": "single"
+            }
+          },
+          "targets": [
+            {
+              "group": {
+                "name": "Contact Centre"
+              },
+              "host": {
+                "name": "avaya-cms-01"
+              },
+              "item": {
+                "name": "Average Speed of Answer (ASA)"
+              },
+              "refId": "ASA"
+            }
+          ],
+          "title": "Average Speed of Answer (ASA, sec) [APPLICATION \u2014 CMS]",
+          "type": "timeseries"
+        },
+        {
+          "datasource": {
+            "type": "alexanderzobnin-zabbix-datasource",
+            "uid": "PA67C5EADE9207728"
+          },
+          "description": "Live number of customer calls currently waiting on hold across all reservation and ticketing skill queues. Source: CMS real-time stream. Warning: > 15 calls. Missing data indicates collector outage, agent failure, or network disruption; values are preserved as null gaps.",
+          "fieldConfig": {
+            "defaults": {
+              "color": {
+                "mode": "thresholds"
+              },
+              "thresholds": {
+                "mode": "absolute",
+                "steps": [
+                  {
+                    "color": "green",
+                    "value": null
+                  },
+                  {
+                    "color": "yellow",
+                    "value": 15
+                  },
+                  {
+                    "color": "red",
+                    "value": 30
+                  }
+                ]
+              },
+              "unit": "calls"
+            },
+            "overrides": []
+          },
+          "gridPos": {
+            "h": 6,
+            "w": 6,
+            "x": 12,
+            "y": 30
+          },
+          "id": 32,
+          "options": {
+            "colorMode": "value",
+            "graphMode": "none",
+            "justifyMode": "auto",
+            "orientation": "auto",
+            "reduceOptions": {
+              "calcs": [
+                "lastNotNull"
+              ],
+              "fields": "",
+              "values": false
+            },
+            "textMode": "auto"
+          },
+          "targets": [
+            {
+              "group": {
+                "name": "Contact Centre"
+              },
+              "host": {
+                "name": "avaya-cms-01"
+              },
+              "item": {
+                "name": "Calls Waiting in Queue"
+              },
+              "refId": "WAITING"
+            }
+          ],
+          "title": "Calls Waiting in Queue [APPLICATION \u2014 CMS]",
+          "type": "stat"
+        },
+        {
+          "datasource": {
+            "type": "alexanderzobnin-zabbix-datasource",
+            "uid": "PA67C5EADE9207728"
+          },
+          "description": "Duration in seconds of the single longest-waiting caller currently in queue. Source: CMS real-time report. Warning: > 120s, Critical: > 300s. Missing data indicates collector outage, agent failure, or network disruption; values are preserved as null gaps.",
+          "fieldConfig": {
+            "defaults": {
+              "color": {
+                "mode": "thresholds"
+              },
+              "thresholds": {
+                "mode": "absolute",
+                "steps": [
+                  {
+                    "color": "green",
+                    "value": null
+                  },
+                  {
+                    "color": "yellow",
+                    "value": 120
+                  },
+                  {
+                    "color": "red",
+                    "value": 300
+                  }
+                ]
+              },
+              "unit": "s"
+            },
+            "overrides": []
+          },
+          "gridPos": {
+            "h": 6,
+            "w": 6,
+            "x": 18,
+            "y": 36
+          },
+          "id": 33,
+          "options": {
+            "colorMode": "value",
+            "graphMode": "none",
+            "justifyMode": "auto",
+            "orientation": "auto",
+            "reduceOptions": {
+              "calcs": [
+                "lastNotNull"
+              ],
+              "fields": "",
+              "values": false
+            },
+            "textMode": "auto"
+          },
+          "targets": [
+            {
+              "group": {
+                "name": "Contact Centre"
+              },
+              "host": {
+                "name": "avaya-cms-01"
+              },
+              "item": {
+                "name": "Oldest Call Waiting Duration"
+              },
+              "refId": "OLDEST"
+            }
+          ],
+          "title": "Oldest Call Waiting (sec) [APPLICATION \u2014 CMS]",
+          "type": "stat"
+        },
+        {
+          "datasource": {
+            "type": "alexanderzobnin-zabbix-datasource",
+            "uid": "PA67C5EADE9207728"
+          },
+          "description": "Historical volume trend comparing Calls Offered, Calls Answered, and Calls Abandoned over interval buckets. Source: Avaya CMS Informix hsplit table. Freshness: 15\u201330 minutes. Missing data indicates collector outage, agent failure, or network disruption; values are preserved as null gaps.",
+          "fieldConfig": {
+            "defaults": {
+              "custom": {
+                "drawStyle": "line",
+                "lineInterpolation": "smooth",
+                "spanNulls": false
+              },
+              "unit": "calls"
+            },
+            "overrides": []
+          },
+          "gridPos": {
+            "h": 7,
+            "w": 12,
+            "x": 0,
+            "y": 42
+          },
+          "id": 34,
+          "options": {
+            "tooltip": {
+              "mode": "multi"
+            }
+          },
+          "targets": [
+            {
+              "group": {
+                "name": "Contact Centre"
+              },
+              "host": {
+                "name": "avaya-cms-01"
+              },
+              "item": {
+                "name": "CMS Inbound Calls Offered"
+              },
+              "refId": "OFFERED"
+            },
+            {
+              "group": {
+                "name": "Contact Centre"
+              },
+              "host": {
+                "name": "avaya-cms-01"
+              },
+              "item": {
+                "name": "CMS Inbound Calls Answered"
+              },
+              "refId": "ANSWERED"
+            },
+            {
+              "group": {
+                "name": "Contact Centre"
+              },
+              "host": {
+                "name": "avaya-cms-01"
+              },
+              "item": {
+                "name": "CMS Inbound Calls Abandoned"
+              },
+              "refId": "ABANDONED"
+            }
+          ],
+          "title": "Calls Offered vs Answered vs Abandoned [APPLICATION \u2014 CMS]",
+          "type": "timeseries"
+        },
+        {
+          "datasource": {
+            "type": "alexanderzobnin-zabbix-datasource",
+            "uid": "PA67C5EADE9207728"
+          },
+          "description": "Performance table breakdown by contact centre Skill Group / Split (e.g., Reservations English, French, Swahili, Flying Blue, Baggage Helpdesk) showing calls offered, answered, abandon %, ASA, and SLA compliance. Source: Avaya CMS read-only ODBC query. Missing data indicates collector outage, agent failure, or network disruption; values are preserved as null gaps.",
+          "fieldConfig": {
+            "defaults": {},
+            "overrides": []
+          },
+          "gridPos": {
+            "h": 7,
+            "w": 12,
+            "x": 12,
+            "y": 49
+          },
+          "id": 35,
+          "options": {
+            "showHeader": true
+          },
+          "targets": [
+            {
+              "group": {
+                "name": "Contact Centre"
+              },
+              "host": {
+                "name": "avaya-cms-01"
+              },
+              "application": {
+                "name": "Skill Performance"
+              },
+              "item": {
+                "name": "Skill Group Performance Table"
+              },
+              "refId": "SKILLS"
+            }
+          ],
+          "title": "Skill Group & Split Performance Breakdown [APPLICATION \u2014 CMS]",
+          "type": "table"
+        }
+      ],
+      "title": "Avaya Call Management System (CMS) & Contact Centre Performance",
+      "type": "row"
+    },
+    {
+      "collapsed": true,
+      "gridPos": {
+        "h": 1,
+        "w": 24,
+        "x": 0,
+        "y": 91
+      },
+      "id": 36,
+      "panels": [
+        {
+          "datasource": {
+            "type": "alexanderzobnin-zabbix-datasource",
+            "uid": "PA67C5EADE9207728"
+          },
+          "description": "Product specification and boundary requirements: WFO is an enterprise product category, not a specific product. Displays integration prerequisites (Verint / NICE / Geomant / AWOS verification required). Documents that Nawari collects operational metadata ONLY; voice audio recordings are strictly excluded. Missing data indicates collector outage, agent failure, or network disruption; values are preserved as null gaps.",
+          "fieldConfig": {
+            "defaults": {
+              "color": {
+                "mode": "thresholds"
+              },
+              "noValue": "Vendor Confirmation Required (Metadata Only)",
+              "thresholds": {
+                "mode": "absolute",
+                "steps": [
+                  {
+                    "color": "semi-dark-blue",
+                    "value": null
+                  }
+                ]
+              }
+            },
+            "overrides": []
+          },
+          "gridPos": {
+            "h": 6,
+            "w": 12,
+            "x": 0,
+            "y": 0
+          },
+          "id": 37,
+          "options": {
+            "colorMode": "background",
+            "graphMode": "none",
+            "justifyMode": "auto",
+            "orientation": "auto",
+            "reduceOptions": {
+              "calcs": [
+                "lastNotNull"
+              ],
+              "fields": "",
+              "values": false
+            },
+            "textMode": "auto"
+          },
+          "targets": [
+            {
+              "group": {
+                "name": "Recording Infrastructure"
+              },
+              "host": {
+                "name": "avaya-cms-01"
+              },
+              "item": {
+                "name": "wfoProductSpecificationStatus"
+              },
+              "refId": "WFO_STATUS"
+            }
+          ],
+          "title": "WFO Product Specification Status [PENDING VENDOR CONFIRMATION]",
+          "type": "stat"
+        },
+        {
+          "datasource": {
+            "type": "alexanderzobnin-zabbix-datasource",
+            "uid": "PA67C5EADE9207728"
+          },
+          "description": "Operational health of the CTI signaling link between Avaya Communication Manager and the recording server cluster (TSAPI / DMCC / CSTA). 1 = Link Active, 0 = Link Down. Critical alert if down: halts call metadata association. Source: CTI daemon check. Polling: 60s. Missing data indicates collector outage, agent failure, or network disruption; values are preserved as null gaps.",
+          "fieldConfig": {
+            "defaults": {
+              "color": {
+                "mode": "thresholds"
+              },
+              "mappings": [
+                {
+                  "options": {
+                    "1": {
+                      "color": "green",
+                      "text": "CTI LINK ACTIVE"
+                    },
+                    "0": {
+                      "color": "red",
+                      "text": "CTI LINK DOWN"
+                    }
+                  },
+                  "type": "value"
+                }
+              ],
+              "thresholds": {
+                "mode": "absolute",
+                "steps": [
+                  {
+                    "color": "red",
+                    "value": null
+                  },
+                  {
+                    "color": "green",
+                    "value": 1
+                  }
+                ]
+              }
+            },
+            "overrides": []
+          },
+          "gridPos": {
+            "h": 6,
+            "w": 6,
+            "x": 12,
+            "y": 6
+          },
+          "id": 38,
+          "options": {
+            "colorMode": "background",
+            "graphMode": "none",
+            "justifyMode": "auto",
+            "orientation": "auto",
+            "reduceOptions": {
+              "calcs": [
+                "lastNotNull"
+              ],
+              "fields": "",
+              "values": false
+            },
+            "textMode": "auto"
+          },
+          "targets": [
+            {
+              "group": {
+                "name": "Recording Infrastructure"
+              },
+              "host": {
+                "name": "avaya-cms-01"
+              },
+              "item": {
+                "name": "Compliance Voice Recording Pipeline Health"
+              },
+              "refId": "CTI"
+            }
+          ],
+          "title": "Recorder-to-CM CTI Link State [APPLICATION \u2014 WFO]",
+          "type": "stat"
+        },
+        {
+          "datasource": {
+            "type": "alexanderzobnin-zabbix-datasource",
+            "uid": "PA67C5EADE9207728"
+          },
+          "description": "Operating system uptime of the recording application host server. Source: MIB-II sysUpTime. Polling: 60s. Missing data indicates collector outage, agent failure, or network disruption; values are preserved as null gaps.",
+          "fieldConfig": {
+            "defaults": {
+              "unit": "s"
+            },
+            "overrides": []
+          },
+          "gridPos": {
+            "h": 6,
+            "w": 6,
+            "x": 18,
+            "y": 12
+          },
+          "id": 39,
+          "options": {
+            "colorMode": "value",
+            "graphMode": "none",
+            "justifyMode": "auto",
+            "orientation": "auto",
+            "reduceOptions": {
+              "calcs": [
+                "lastNotNull"
+              ],
+              "fields": "",
+              "values": false
+            },
+            "textMode": "auto"
+          },
+          "targets": [
+            {
+              "group": {
+                "name": "Recording Infrastructure"
+              },
+              "host": {
+                "name": "avaya-cms-01"
+              },
+              "item": {
+                "name": "Recording Host Uptime"
+              },
+              "refId": "UPTIME"
+            }
+          ],
+          "title": "Recording Host Uptime [REAL \u2014 HARDWARE]",
+          "type": "stat"
+        },
+        {
+          "datasource": {
+            "type": "alexanderzobnin-zabbix-datasource",
+            "uid": "PA67C5EADE9207728"
+          },
+          "description": "Live count of concurrent telephone voice conversations currently being actively captured and recorded. Source: Recording daemon active session counter. Polling: 60s. Missing data indicates collector outage, agent failure, or network disruption; values are preserved as null gaps.",
+          "fieldConfig": {
+            "defaults": {
+              "unit": "calls"
+            },
+            "overrides": []
+          },
+          "gridPos": {
+            "h": 6,
+            "w": 6,
+            "x": 0,
+            "y": 18
+          },
+          "id": 40,
+          "options": {
+            "colorMode": "value",
+            "graphMode": "none",
+            "justifyMode": "auto",
+            "orientation": "auto",
+            "reduceOptions": {
+              "calcs": [
+                "lastNotNull"
+              ],
+              "fields": "",
+              "values": false
+            },
+            "textMode": "auto"
+          },
+          "targets": [
+            {
+              "group": {
+                "name": "Recording Infrastructure"
+              },
+              "host": {
+                "name": "avaya-cms-01"
+              },
+              "item": {
+                "name": "Compliance Voice Recording Pipeline Health"
+              },
+              "refId": "SESSIONS"
+            }
+          ],
+          "title": "Active Recording Sessions [APPLICATION \u2014 WFO]",
+          "type": "stat"
+        },
+        {
+          "datasource": {
+            "type": "alexanderzobnin-zabbix-datasource",
+            "uid": "PA67C5EADE9207728"
+          },
+          "description": "Rate of recorded call metadata payloads ingested and indexed into the archive per minute. Source: WFO ingestion API. Polling: 60s. Missing data indicates collector outage, agent failure, or network disruption; values are preserved as null gaps.",
+          "fieldConfig": {
+            "defaults": {
+              "custom": {
+                "drawStyle": "line",
+                "lineInterpolation": "smooth",
+                "spanNulls": false
+              },
+              "unit": "cpm"
+            },
+            "overrides": []
+          },
+          "gridPos": {
+            "h": 6,
+            "w": 6,
+            "x": 6,
+            "y": 24
+          },
+          "id": 41,
+          "options": {
+            "tooltip": {
+              "mode": "single"
+            }
+          },
+          "targets": [
+            {
+              "group": {
+                "name": "Recording Infrastructure"
+              },
+              "host": {
+                "name": "avaya-cms-01"
+              },
+              "item": {
+                "name": "Recording Ingestion Rate"
+              },
+              "refId": "INGESTION"
+            }
+          ],
+          "title": "Ingestion Rate (Calls/min) [APPLICATION \u2014 WFO]",
+          "type": "timeseries"
+        },
+        {
+          "datasource": {
+            "type": "alexanderzobnin-zabbix-datasource",
+            "uid": "PA67C5EADE9207728"
+          },
+          "description": "Count of failed recording operations (e.g. RTP stream missing, CTI timeout, codec mismatch) in the preceding hour. Source: Recording error log. Warning: > 0 failures. Missing data indicates collector outage, agent failure, or network disruption; values are preserved as null gaps.",
+          "fieldConfig": {
+            "defaults": {
+              "color": {
+                "mode": "thresholds"
+              },
+              "thresholds": {
+                "mode": "absolute",
+                "steps": [
+                  {
+                    "color": "green",
+                    "value": null
+                  },
+                  {
+                    "color": "red",
+                    "value": 1
+                  }
+                ]
+              },
+              "unit": "calls"
+            },
+            "overrides": []
+          },
+          "gridPos": {
+            "h": 6,
+            "w": 6,
+            "x": 12,
+            "y": 30
+          },
+          "id": 42,
+          "options": {
+            "colorMode": "value",
+            "graphMode": "none",
+            "justifyMode": "auto",
+            "orientation": "auto",
+            "reduceOptions": {
+              "calcs": [
+                "lastNotNull"
+              ],
+              "fields": "",
+              "values": false
+            },
+            "textMode": "auto"
+          },
+          "targets": [
+            {
+              "group": {
+                "name": "Recording Infrastructure"
+              },
+              "host": {
+                "name": "avaya-cms-01"
+              },
+              "item": {
+                "name": "Compliance Voice Recording Pipeline Health"
+              },
+              "refId": "FAILURES"
+            }
+          ],
+          "title": "Recording Failures Count [APPLICATION \u2014 WFO]",
+          "type": "stat"
+        },
+        {
+          "datasource": {
+            "type": "alexanderzobnin-zabbix-datasource",
+            "uid": "PA67C5EADE9207728"
+          },
+          "description": "Number of call recording files currently buffered in local staging storage awaiting transfer to long-term archive. Warning: > 200 calls. Critical: > 500 calls. Source: Ingestion queue monitor. Missing data indicates collector outage, agent failure, or network disruption; values are preserved as null gaps.",
+          "fieldConfig": {
+            "defaults": {
+              "color": {
+                "mode": "thresholds"
+              },
+              "max": 1000,
+              "min": 0,
+              "thresholds": {
+                "mode": "absolute",
+                "steps": [
+                  {
+                    "color": "green",
+                    "value": null
+                  },
+                  {
+                    "color": "yellow",
+                    "value": 200
+                  },
+                  {
+                    "color": "red",
+                    "value": 500
+                  }
+                ]
+              },
+              "unit": "calls"
+            },
+            "overrides": []
+          },
+          "gridPos": {
+            "h": 6,
+            "w": 6,
+            "x": 18,
+            "y": 36
+          },
+          "id": 43,
+          "options": {
+            "orientation": "auto",
+            "reduceOptions": {
+              "calcs": [
+                "lastNotNull"
+              ],
+              "fields": "",
+              "values": false
+            },
+            "showThresholdLabels": false,
+            "showThresholdMarkers": true
+          },
+          "targets": [
+            {
+              "group": {
+                "name": "Recording Infrastructure"
+              },
+              "host": {
+                "name": "avaya-cms-01"
+              },
+              "item": {
+                "name": "Ingestion Buffer Queue Depth"
+              },
+              "refId": "QUEUE"
+            }
+          ],
+          "title": "Ingestion Queue Depth [APPLICATION \u2014 WFO]",
+          "type": "gauge"
+        },
+        {
+          "datasource": {
+            "type": "alexanderzobnin-zabbix-datasource",
+            "uid": "PA67C5EADE9207728"
+          },
+          "description": "Storage capacity utilization percentage across dedicated call recording storage volumes. Warning: > 80%, Critical: > 90%. Source: HOST-RESOURCES-MIB hrStorageUsed. Polling: 5m. Missing data indicates collector outage, agent failure, or network disruption; values are preserved as null gaps.",
+          "fieldConfig": {
+            "defaults": {
+              "color": {
+                "mode": "thresholds"
+              },
+              "max": 100,
+              "min": 0,
+              "thresholds": {
+                "mode": "absolute",
+                "steps": [
+                  {
+                    "color": "green",
+                    "value": null
+                  },
+                  {
+                    "color": "yellow",
+                    "value": 80
+                  },
+                  {
+                    "color": "red",
+                    "value": 90
+                  }
+                ]
+              },
+              "unit": "percent"
+            },
+            "overrides": []
+          },
+          "gridPos": {
+            "h": 6,
+            "w": 8,
+            "x": 0,
+            "y": 42
+          },
+          "id": 44,
+          "options": {
+            "orientation": "auto",
+            "reduceOptions": {
+              "calcs": [
+                "lastNotNull"
+              ],
+              "fields": "",
+              "values": false
+            },
+            "showThresholdLabels": false,
+            "showThresholdMarkers": true
+          },
+          "targets": [
+            {
+              "group": {
+                "name": "Recording Infrastructure"
+              },
+              "host": {
+                "name": "avaya-cms-01"
+              },
+              "item": {
+                "name": "Compliance Voice Recording Spool Free Storage"
+              },
+              "refId": "STORAGE"
+            }
+          ],
+          "title": "Recording Storage Utilization (%) [REAL \u2014 HARDWARE]",
+          "type": "gauge"
+        },
+        {
+          "datasource": {
+            "type": "alexanderzobnin-zabbix-datasource",
+            "uid": "PA67C5EADE9207728"
+          },
+          "description": "Projected remaining days before recording storage volume reaches 90% and 100% capacity saturation based on rolling 14-day daily ingestion trajectory. Source: Nawari Storage Capacity Forecaster. Warning: < 30 days. Missing data indicates collector outage, agent failure, or network disruption; values are preserved as null gaps.",
+          "fieldConfig": {
+            "defaults": {
+              "color": {
+                "mode": "thresholds"
+              },
+              "thresholds": {
+                "mode": "absolute",
+                "steps": [
+                  {
+                    "color": "red",
+                    "value": null
+                  },
+                  {
+                    "color": "yellow",
+                    "value": 30
+                  },
+                  {
+                    "color": "green",
+                    "value": 60
+                  }
+                ]
+              },
+              "unit": "d"
+            },
+            "overrides": []
+          },
+          "gridPos": {
+            "h": 6,
+            "w": 8,
+            "x": 8,
+            "y": 48
+          },
+          "id": 45,
+          "options": {
+            "colorMode": "value",
+            "graphMode": "none",
+            "justifyMode": "auto",
+            "orientation": "auto",
+            "reduceOptions": {
+              "calcs": [
+                "lastNotNull"
+              ],
+              "fields": "",
+              "values": false
+            },
+            "textMode": "auto"
+          },
+          "targets": [
+            {
+              "group": {
+                "name": "Recording Infrastructure"
+              },
+              "host": {
+                "name": "avaya-cms-01"
+              },
+              "item": {
+                "name": "Projected Days-to-Full (Storage TTE)"
+              },
+              "refId": "TTE"
+            }
+          ],
+          "title": "Projected Days-to-Full (Storage TTE) [PREDICTIVE]",
+          "type": "stat"
+        },
+        {
+          "datasource": {
+            "type": "alexanderzobnin-zabbix-datasource",
+            "uid": "PA67C5EADE9207728"
+          },
+          "description": "Percentage of completed daily call recordings successfully migrated and verified in the offsite long-term immutable archival tier. Target: 100%. Source: WFO Archival Verifier. Missing data indicates collector outage, agent failure, or network disruption; values are preserved as null gaps.",
+          "fieldConfig": {
+            "defaults": {
+              "color": {
+                "mode": "thresholds"
+              },
+              "max": 100,
+              "min": 0,
+              "thresholds": {
+                "mode": "absolute",
+                "steps": [
+                  {
+                    "color": "red",
+                    "value": null
+                  },
+                  {
+                    "color": "yellow",
+                    "value": 98
+                  },
+                  {
+                    "color": "green",
+                    "value": 99.9
+                  }
+                ]
+              },
+              "unit": "percent"
+            },
+            "overrides": []
+          },
+          "gridPos": {
+            "h": 6,
+            "w": 8,
+            "x": 16,
+            "y": 54
+          },
+          "id": 46,
+          "options": {
+            "orientation": "auto",
+            "reduceOptions": {
+              "calcs": [
+                "lastNotNull"
+              ],
+              "fields": "",
+              "values": false
+            },
+            "showThresholdLabels": false,
+            "showThresholdMarkers": true
+          },
+          "targets": [
+            {
+              "group": {
+                "name": "Recording Infrastructure"
+              },
+              "host": {
+                "name": "avaya-cms-01"
+              },
+              "item": {
+                "name": "Daily Archival Transfer Success Rate"
+              },
+              "refId": "ARCHIVE"
+            }
+          ],
+          "title": "Daily Archival Success Rate (%) [APPLICATION \u2014 WFO]",
+          "type": "gauge"
+        }
+      ],
+      "title": "Voice Recording & Workforce Optimisation (WFO) Compliance",
+      "type": "row"
+    }
+  ],
+  "refresh": "10s",
+  "schemaVersion": 38,
+  "style": "dark",
+  "tags": [
+    "nawari",
+    "communication",
+    "voice-quality",
+    "contact-centre",
+    "tier3"
+  ],
+  "templating": {
+    "list": []
+  },
+  "time": {
+    "from": "now-1h",
+    "to": "now"
+  },
+  "timepicker": {
+    "refresh_intervals": [
+      "5s",
+      "10s",
+      "30s",
+      "1m",
+      "5m",
+      "15m",
+      "30m",
+      "1h",
+      "2h",
+      "1d"
+    ]
+  },
+  "timezone": "browser",
+  "title": "Nawari \u2014 Voice Quality & Contact Centre",
+  "uid": "nawari-voice-contact-centre",
+  "version": 1
+}

@@ -1,0 +1,4306 @@
+{
+  "annotations": {
+    "list": []
+  },
+  "editable": true,
+  "fiscalYearStartMonth": 0,
+  "graphTooltip": 1,
+  "id": null,
+  "links": [
+    {
+      "asDropdown": false,
+      "icon": "home",
+      "includeVars": true,
+      "keepTime": true,
+      "tags": [],
+      "targetBlank": false,
+      "title": "Home (Exec)",
+      "tooltip": "Enterprise Executive Overview",
+      "type": "link",
+      "url": "/d/nawari-enterprise-overview/0bff031"
+    },
+    {
+      "asDropdown": false,
+      "icon": "network",
+      "includeVars": true,
+      "keepTime": true,
+      "tags": [],
+      "targetBlank": false,
+      "title": "Network Ops",
+      "tooltip": "Network Operations Overview",
+      "type": "link",
+      "url": "/d/nawari-network-operations/network-operations"
+    },
+    {
+      "asDropdown": false,
+      "icon": "globe",
+      "includeVars": true,
+      "keepTime": true,
+      "tags": [],
+      "targetBlank": false,
+      "title": "WAN & Outstations",
+      "tooltip": "WAN, Path & Outstation Observability",
+      "type": "link",
+      "url": "/d/nawari-wan-path-outstation/wan-path-outstation"
+    },
+    {
+      "asDropdown": false,
+      "icon": "laptop",
+      "includeVars": true,
+      "keepTime": true,
+      "tags": [],
+      "targetBlank": false,
+      "title": "Endpoints & Users",
+      "tooltip": "Endpoint & User Experience",
+      "type": "link",
+      "url": "/d/nawari-endpoint-experience/endpoint-experience"
+    },
+    {
+      "asDropdown": false,
+      "icon": "heartbeat",
+      "includeVars": true,
+      "keepTime": true,
+      "tags": [],
+      "targetBlank": false,
+      "title": "Services & SLA",
+      "tooltip": "Network Services & Incident Assurance",
+      "type": "link",
+      "url": "/d/nawari-network-services-assurance/network-services-assurance"
+    },
+    {
+      "asDropdown": false,
+      "icon": "phone",
+      "includeVars": true,
+      "keepTime": true,
+      "tags": [],
+      "targetBlank": false,
+      "title": "Voice Overview",
+      "tooltip": "Communication Services Overview",
+      "type": "link",
+      "url": "/d/nawari-comm-overview/e353360"
+    },
+    {
+      "asDropdown": false,
+      "icon": "server",
+      "includeVars": true,
+      "keepTime": true,
+      "tags": [],
+      "targetBlank": false,
+      "title": "Avaya Infra",
+      "tooltip": "Avaya Infrastructure & Signaling",
+      "type": "link",
+      "url": "/d/nawari-avaya-infrastructure/avaya-infrastructure"
+    },
+    {
+      "asDropdown": false,
+      "icon": "volume-up",
+      "includeVars": true,
+      "keepTime": true,
+      "tags": [],
+      "targetBlank": false,
+      "title": "Voice Quality & CC",
+      "tooltip": "Voice Quality & Contact Centre",
+      "type": "link",
+      "url": "/d/nawari-voice-contact-centre/voice-contact-centre"
+    },
+    {
+      "asDropdown": false,
+      "icon": "share-alt",
+      "includeVars": true,
+      "keepTime": true,
+      "tags": [],
+      "targetBlank": false,
+      "title": "Cross-Domain",
+      "tooltip": "Cross-Domain Correlation & Operations",
+      "type": "link",
+      "url": "/d/nawari-voice-correlation/2983cfd"
+    },
+    {
+      "asDropdown": false,
+      "icon": "folder",
+      "includeVars": false,
+      "keepTime": true,
+      "tags": [],
+      "targetBlank": false,
+      "title": "Browse All",
+      "tooltip": "Browse All Dashboards",
+      "type": "link",
+      "url": "/dashboards"
+    }
+  ],
+  "liveNow": false,
+  "panels": [
+    {
+      "collapsed": false,
+      "gridPos": {
+        "h": 1,
+        "w": 24,
+        "x": 0,
+        "y": 0
+      },
+      "id": 1,
+      "panels": [],
+      "title": "Session Border Controller (SBCE) Diagnostics & Perimeter Security",
+      "type": "row"
+    },
+    {
+      "datasource": {
+        "type": "alexanderzobnin-zabbix-datasource",
+        "uid": "PA67C5EADE9207728"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "thresholds"
+          },
+          "mappings": [
+            {
+              "options": {
+                "0": {
+                  "color": "red",
+                  "text": "DOWN"
+                },
+                "1": {
+                  "color": "green",
+                  "text": "AVAILABLE"
+                },
+                "2": {
+                  "color": "yellow",
+                  "text": "UNKNOWN"
+                }
+              },
+              "type": "value"
+            }
+          ],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "red",
+                "value": null
+              },
+              {
+                "color": "green",
+                "value": 1
+              }
+            ]
+          },
+          "custom": {
+            "spanNulls": false
+          }
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 4,
+        "w": 4,
+        "x": 0,
+        "y": 1
+      },
+      "id": 2,
+      "options": {
+        "colorMode": "value",
+        "graphMode": "none",
+        "justifyMode": "auto",
+        "orientation": "auto",
+        "reduceOptions": {
+          "calcs": [
+            "lastNotNull"
+          ],
+          "fields": "",
+          "values": false
+        },
+        "textMode": "auto"
+      },
+      "pluginVersion": "11.6.0",
+      "targets": [
+        {
+          "application": {
+            "filter": ""
+          },
+          "datasource": {
+            "type": "alexanderzobnin-zabbix-datasource",
+            "uid": "PA67C5EADE9207728"
+          },
+          "group": {
+            "filter": "/Voice Infrastructure|Edge SBC/"
+          },
+          "host": {
+            "filter": "/.*sbce.*/"
+          },
+          "item": {
+            "filter": "SNMP agent availability"
+          },
+          "itemTag": {
+            "filter": ""
+          },
+          "mode": 0,
+          "options": {
+            "showDisabledItems": false
+          },
+          "refId": "A",
+          "resultFormat": "time_series",
+          "tags": {
+            "filter": ""
+          },
+          "trigger": {
+            "filter": ""
+          }
+        }
+      ],
+      "title": "SNMPv3 Status",
+      "type": "stat",
+      "description": "Operational status of the SNMPv3 monitoring agent on the Avaya Session Border Controller Enterprise (SBCE 8.1). Value 1 indicates SNMP daemon is responding to polling requests; 0 indicates SNMP agent timeout or unreachable. Source: Zabbix SNMPv3 agent ping. Limitations: Verifies management plane reachability only; does not confirm media proxy or SIP signaling functionality. Missing data indicates collector outage, agent failure, or network disruption; values are preserved as null gaps."
+    },
+    {
+      "datasource": {
+        "type": "alexanderzobnin-zabbix-datasource",
+        "uid": "PA67C5EADE9207728"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "thresholds"
+          },
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "red",
+                "value": null
+              },
+              {
+                "color": "yellow",
+                "value": 300
+              },
+              {
+                "color": "green",
+                "value": 3600
+              }
+            ]
+          },
+          "unit": "s",
+          "custom": {
+            "spanNulls": false
+          }
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 4,
+        "w": 4,
+        "x": 4,
+        "y": 5
+      },
+      "id": 3,
+      "options": {
+        "colorMode": "value",
+        "graphMode": "area",
+        "justifyMode": "auto",
+        "orientation": "auto",
+        "reduceOptions": {
+          "calcs": [
+            "lastNotNull"
+          ],
+          "fields": "",
+          "values": false
+        },
+        "textMode": "auto"
+      },
+      "pluginVersion": "11.6.0",
+      "targets": [
+        {
+          "application": {
+            "filter": ""
+          },
+          "datasource": {
+            "type": "alexanderzobnin-zabbix-datasource",
+            "uid": "PA67C5EADE9207728"
+          },
+          "group": {
+            "filter": "/Voice Infrastructure|Edge SBC/"
+          },
+          "host": {
+            "filter": "/.*sbce.*/"
+          },
+          "item": {
+            "filter": "System uptime"
+          },
+          "itemTag": {
+            "filter": ""
+          },
+          "mode": 0,
+          "options": {
+            "showDisabledItems": false
+          },
+          "refId": "A",
+          "resultFormat": "time_series",
+          "tags": {
+            "filter": ""
+          },
+          "trigger": {
+            "filter": ""
+          }
+        }
+      ],
+      "title": "System Uptime",
+      "type": "stat",
+      "description": "Elapsed time since last reboot of the Avaya SBCE operating system (CentOS-based SBC OS). Units: Seconds (formatted as days, hours, minutes). Source: HOST-RESOURCES-MIB::hrSystemUptime (OID .1.3.6.1.2.1.25.1.1.0). Limitations: A sudden drop to zero indicates an unplanned reboot or power disruption. Missing data indicates collector outage, agent failure, or network disruption; values are preserved as null gaps."
+    },
+    {
+      "datasource": {
+        "type": "alexanderzobnin-zabbix-datasource",
+        "uid": "PA67C5EADE9207728"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "thresholds"
+          },
+          "mappings": [],
+          "max": 100,
+          "min": 0,
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              },
+              {
+                "color": "yellow",
+                "value": 75
+              },
+              {
+                "color": "red",
+                "value": 85
+              }
+            ]
+          },
+          "unit": "percent",
+          "custom": {
+            "spanNulls": false
+          }
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 4,
+        "w": 4,
+        "x": 8,
+        "y": 9
+      },
+      "id": 4,
+      "options": {
+        "orientation": "auto",
+        "reduceOptions": {
+          "calcs": [
+            "lastNotNull"
+          ],
+          "fields": "",
+          "values": false
+        },
+        "showThresholdLabels": false,
+        "showThresholdMarkers": true
+      },
+      "pluginVersion": "11.6.0",
+      "targets": [
+        {
+          "application": {
+            "filter": ""
+          },
+          "datasource": {
+            "type": "alexanderzobnin-zabbix-datasource",
+            "uid": "PA67C5EADE9207728"
+          },
+          "group": {
+            "filter": "/Voice Infrastructure|Edge SBC/"
+          },
+          "host": {
+            "filter": "/.*sbce.*/"
+          },
+          "item": {
+            "filter": "Appliance CPU utilization"
+          },
+          "itemTag": {
+            "filter": ""
+          },
+          "mode": 0,
+          "options": {
+            "showDisabledItems": false
+          },
+          "refId": "A",
+          "resultFormat": "time_series",
+          "tags": {
+            "filter": ""
+          },
+          "trigger": {
+            "filter": ""
+          }
+        }
+      ],
+      "title": "CPU Utilization",
+      "type": "gauge",
+      "description": "Total processor utilization across all cores of the Avaya SBCE appliance. Units: Percentage (0\u2013100%). Warning threshold: 75%, Critical: 90%. Source: HOST-RESOURCES-MIB::hrProcessorLoad (OID .1.3.6.1.2.1.25.3.3.1.2). Limitations: High CPU may cause delayed SIP transaction processing and audio transcoding artifacts. Missing data indicates collector outage, agent failure, or network disruption; values are preserved as null gaps."
+    },
+    {
+      "datasource": {
+        "type": "alexanderzobnin-zabbix-datasource",
+        "uid": "PA67C5EADE9207728"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "thresholds"
+          },
+          "mappings": [],
+          "max": 100,
+          "min": 0,
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              },
+              {
+                "color": "yellow",
+                "value": 80
+              },
+              {
+                "color": "red",
+                "value": 90
+              }
+            ]
+          },
+          "unit": "percent",
+          "custom": {
+            "spanNulls": false
+          }
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 4,
+        "w": 4,
+        "x": 12,
+        "y": 13
+      },
+      "id": 5,
+      "options": {
+        "orientation": "auto",
+        "reduceOptions": {
+          "calcs": [
+            "lastNotNull"
+          ],
+          "fields": "",
+          "values": false
+        },
+        "showThresholdLabels": false,
+        "showThresholdMarkers": true
+      },
+      "pluginVersion": "11.6.0",
+      "targets": [
+        {
+          "application": {
+            "filter": ""
+          },
+          "datasource": {
+            "type": "alexanderzobnin-zabbix-datasource",
+            "uid": "PA67C5EADE9207728"
+          },
+          "group": {
+            "filter": "/Voice Infrastructure|Edge SBC/"
+          },
+          "host": {
+            "filter": "/.*sbce.*/"
+          },
+          "item": {
+            "filter": "Appliance memory utilization"
+          },
+          "itemTag": {
+            "filter": ""
+          },
+          "mode": 0,
+          "options": {
+            "showDisabledItems": false
+          },
+          "refId": "A",
+          "resultFormat": "time_series",
+          "tags": {
+            "filter": ""
+          },
+          "trigger": {
+            "filter": ""
+          }
+        }
+      ],
+      "title": "RAM Utilization",
+      "type": "gauge",
+      "description": "Percentage of physical memory currently consumed on the Avaya SBCE. Units: Percentage (0\u2013100%). Source: HOST-RESOURCES-MIB memory allocation metrics. Warning: 80%, Critical: 95%. Limitations: Memory exhaustion can lead to Linux OOM killer terminating SIP signaling processes. Missing data indicates collector outage, agent failure, or network disruption; values are preserved as null gaps."
+    },
+    {
+      "datasource": {
+        "type": "alexanderzobnin-zabbix-datasource",
+        "uid": "PA67C5EADE9207728"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "thresholds"
+          },
+          "mappings": [],
+          "max": 100,
+          "min": 0,
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              },
+              {
+                "color": "yellow",
+                "value": 75
+              },
+              {
+                "color": "red",
+                "value": 85
+              }
+            ]
+          },
+          "unit": "percent",
+          "custom": {
+            "spanNulls": false
+          }
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 4,
+        "w": 4,
+        "x": 16,
+        "y": 17
+      },
+      "id": 6,
+      "options": {
+        "orientation": "auto",
+        "reduceOptions": {
+          "calcs": [
+            "lastNotNull"
+          ],
+          "fields": "",
+          "values": false
+        },
+        "showThresholdLabels": false,
+        "showThresholdMarkers": true
+      },
+      "pluginVersion": "11.6.0",
+      "targets": [
+        {
+          "application": {
+            "filter": ""
+          },
+          "datasource": {
+            "type": "alexanderzobnin-zabbix-datasource",
+            "uid": "PA67C5EADE9207728"
+          },
+          "group": {
+            "filter": "/Voice Infrastructure|Edge SBC/"
+          },
+          "host": {
+            "filter": "/.*sbce.*/"
+          },
+          "item": {
+            "filter": "Appliance root filesystem space utilization"
+          },
+          "itemTag": {
+            "filter": ""
+          },
+          "mode": 0,
+          "options": {
+            "showDisabledItems": false
+          },
+          "refId": "A",
+          "resultFormat": "time_series",
+          "tags": {
+            "filter": ""
+          },
+          "trigger": {
+            "filter": ""
+          }
+        }
+      ],
+      "title": "Root Disk Utilization",
+      "type": "gauge",
+      "description": "Disk space consumption on the root (/) filesystem partition of the Avaya SBCE appliance. Units: Percentage (0\u2013100%). Source: HOST-RESOURCES-MIB::hrStorageUsed (OID .1.3.6.1.2.1.25.2.3.1.6). Limitations: Log file accumulation (e.g., trace_sbc) can fill disk, leading to packet capture failure or service halt. Missing data indicates collector outage, agent failure, or network disruption; values are preserved as null gaps."
+    },
+    {
+      "datasource": {
+        "type": "alexanderzobnin-zabbix-datasource",
+        "uid": "PA67C5EADE9207728"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "thresholds"
+          },
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              },
+              {
+                "color": "yellow",
+                "value": 2
+              },
+              {
+                "color": "red",
+                "value": 4
+              }
+            ]
+          },
+          "custom": {
+            "spanNulls": false
+          }
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 4,
+        "w": 4,
+        "x": 20,
+        "y": 21
+      },
+      "id": 7,
+      "options": {
+        "colorMode": "value",
+        "graphMode": "area",
+        "justifyMode": "auto",
+        "orientation": "auto",
+        "reduceOptions": {
+          "calcs": [
+            "lastNotNull"
+          ],
+          "fields": "",
+          "values": false
+        },
+        "textMode": "auto"
+      },
+      "pluginVersion": "11.6.0",
+      "targets": [
+        {
+          "application": {
+            "filter": ""
+          },
+          "datasource": {
+            "type": "alexanderzobnin-zabbix-datasource",
+            "uid": "PA67C5EADE9207728"
+          },
+          "group": {
+            "filter": "/Voice Infrastructure|Edge SBC/"
+          },
+          "host": {
+            "filter": "/.*sbce.*/"
+          },
+          "item": {
+            "filter": "Appliance 1-minute load average"
+          },
+          "itemTag": {
+            "filter": ""
+          },
+          "mode": 0,
+          "options": {
+            "showDisabledItems": false
+          },
+          "refId": "A",
+          "resultFormat": "time_series",
+          "tags": {
+            "filter": ""
+          },
+          "trigger": {
+            "filter": ""
+          }
+        }
+      ],
+      "title": "Load Average (1m)",
+      "type": "stat",
+      "description": "One-minute system load average representing the number of runnable or waiting processes. Units: Scalar load average. Source: UCD-SNMP-MIB::laLoad.1 (OID .1.3.6.1.4.1.2021.10.1.3.1). Limitations: Sustained load higher than CPU core count indicates queue saturation and potential SIP packet drop. Missing data indicates collector outage, agent failure, or network disruption; values are preserved as null gaps."
+    },
+    {
+      "datasource": {
+        "type": "alexanderzobnin-zabbix-datasource",
+        "uid": "PA67C5EADE9207728"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "thresholds"
+          },
+          "mappings": [
+            {
+              "options": {
+                "1": {
+                  "color": "green",
+                  "text": "LINK UP"
+                },
+                "2": {
+                  "color": "red",
+                  "text": "LINK DOWN"
+                },
+                "3": {
+                  "color": "yellow",
+                  "text": "TESTING"
+                }
+              },
+              "type": "value"
+            }
+          ],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "red",
+                "value": null
+              },
+              {
+                "color": "green",
+                "value": 1
+              }
+            ]
+          },
+          "custom": {
+            "spanNulls": false
+          }
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 4,
+        "w": 6,
+        "x": 0,
+        "y": 25
+      },
+      "id": 8,
+      "options": {
+        "colorMode": "background",
+        "graphMode": "none",
+        "justifyMode": "auto",
+        "orientation": "auto",
+        "reduceOptions": {
+          "calcs": [
+            "lastNotNull"
+          ],
+          "fields": "",
+          "values": false
+        },
+        "textMode": "auto"
+      },
+      "pluginVersion": "11.6.0",
+      "targets": [
+        {
+          "application": {
+            "filter": ""
+          },
+          "datasource": {
+            "type": "alexanderzobnin-zabbix-datasource",
+            "uid": "PA67C5EADE9207728"
+          },
+          "group": {
+            "filter": "/Voice Infrastructure|Edge SBC/"
+          },
+          "host": {
+            "filter": "/.*sbce.*/"
+          },
+          "item": {
+            "filter": "Interface A1: Operational status"
+          },
+          "itemTag": {
+            "filter": ""
+          },
+          "mode": 0,
+          "options": {
+            "showDisabledItems": false
+          },
+          "refId": "A",
+          "resultFormat": "time_series",
+          "tags": {
+            "filter": ""
+          },
+          "trigger": {
+            "filter": ""
+          }
+        }
+      ],
+      "title": "A1 \u2014 External DMZ (SIP Signaling)",
+      "type": "stat",
+      "description": "Link operational status of physical interface A1 connecting the Avaya SBCE to the external DMZ and telecom service provider SIP trunks (e.g., Safaricom). 1 = Up, 2 = Down. Source: IF-MIB::ifOperStatus.1. Limitations: Down status causes immediate loss of external inbound/outbound telephony. Missing data indicates collector outage, agent failure, or network disruption; values are preserved as null gaps."
+    },
+    {
+      "datasource": {
+        "type": "alexanderzobnin-zabbix-datasource",
+        "uid": "PA67C5EADE9207728"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "thresholds"
+          },
+          "mappings": [
+            {
+              "options": {
+                "1": {
+                  "color": "green",
+                  "text": "LINK UP"
+                },
+                "2": {
+                  "color": "red",
+                  "text": "LINK DOWN"
+                },
+                "3": {
+                  "color": "yellow",
+                  "text": "TESTING"
+                }
+              },
+              "type": "value"
+            }
+          ],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "red",
+                "value": null
+              },
+              {
+                "color": "green",
+                "value": 1
+              }
+            ]
+          },
+          "custom": {
+            "spanNulls": false
+          }
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 4,
+        "w": 6,
+        "x": 6,
+        "y": 29
+      },
+      "id": 9,
+      "options": {
+        "colorMode": "background",
+        "graphMode": "none",
+        "justifyMode": "auto",
+        "orientation": "auto",
+        "reduceOptions": {
+          "calcs": [
+            "lastNotNull"
+          ],
+          "fields": "",
+          "values": false
+        },
+        "textMode": "auto"
+      },
+      "pluginVersion": "11.6.0",
+      "targets": [
+        {
+          "application": {
+            "filter": ""
+          },
+          "datasource": {
+            "type": "alexanderzobnin-zabbix-datasource",
+            "uid": "PA67C5EADE9207728"
+          },
+          "group": {
+            "filter": "/Voice Infrastructure|Edge SBC/"
+          },
+          "host": {
+            "filter": "/.*sbce.*/"
+          },
+          "item": {
+            "filter": "Interface B1: Operational status"
+          },
+          "itemTag": {
+            "filter": ""
+          },
+          "mode": 0,
+          "options": {
+            "showDisabledItems": false
+          },
+          "refId": "A",
+          "resultFormat": "time_series",
+          "tags": {
+            "filter": ""
+          },
+          "trigger": {
+            "filter": ""
+          }
+        }
+      ],
+      "title": "B1 \u2014 Internal Media & Core Signaling",
+      "type": "stat",
+      "description": "Link operational status of physical interface B1 connecting the Avaya SBCE to the internal core voice network (Avaya Aura Session Manager & Media Gateways). 1 = Up, 2 = Down. Source: IF-MIB::ifOperStatus.2. Limitations: Down status halts internal call routing between SBCE and Aura Core. Missing data indicates collector outage, agent failure, or network disruption; values are preserved as null gaps."
+    },
+    {
+      "datasource": {
+        "type": "alexanderzobnin-zabbix-datasource",
+        "uid": "PA67C5EADE9207728"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "thresholds"
+          },
+          "mappings": [
+            {
+              "options": {
+                "1": {
+                  "color": "green",
+                  "text": "LINK UP"
+                },
+                "2": {
+                  "color": "red",
+                  "text": "LINK DOWN"
+                },
+                "3": {
+                  "color": "yellow",
+                  "text": "TESTING"
+                }
+              },
+              "type": "value"
+            }
+          ],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "red",
+                "value": null
+              },
+              {
+                "color": "green",
+                "value": 1
+              }
+            ]
+          },
+          "custom": {
+            "spanNulls": false
+          }
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 4,
+        "w": 6,
+        "x": 12,
+        "y": 33
+      },
+      "id": 10,
+      "options": {
+        "colorMode": "background",
+        "graphMode": "none",
+        "justifyMode": "auto",
+        "orientation": "auto",
+        "reduceOptions": {
+          "calcs": [
+            "lastNotNull"
+          ],
+          "fields": "",
+          "values": false
+        },
+        "textMode": "auto"
+      },
+      "pluginVersion": "11.6.0",
+      "targets": [
+        {
+          "application": {
+            "filter": ""
+          },
+          "datasource": {
+            "type": "alexanderzobnin-zabbix-datasource",
+            "uid": "PA67C5EADE9207728"
+          },
+          "group": {
+            "filter": "/Voice Infrastructure|Edge SBC/"
+          },
+          "host": {
+            "filter": "/.*sbce.*/"
+          },
+          "item": {
+            "filter": "Interface M1: Operational status"
+          },
+          "itemTag": {
+            "filter": ""
+          },
+          "mode": 0,
+          "options": {
+            "showDisabledItems": false
+          },
+          "refId": "A",
+          "resultFormat": "time_series",
+          "tags": {
+            "filter": ""
+          },
+          "trigger": {
+            "filter": ""
+          }
+        }
+      ],
+      "title": "M1 \u2014 Primary Management",
+      "type": "stat",
+      "description": "Link operational status of interface M1 dedicated to out-of-band management and EMS web administration. 1 = Up, 2 = Down. Source: IF-MIB::ifOperStatus.3. Limitations: Interface failure prevents administrative access and EMS configuration synchronization but does not disrupt active call traffic. Missing data indicates collector outage, agent failure, or network disruption; values are preserved as null gaps."
+    },
+    {
+      "datasource": {
+        "type": "alexanderzobnin-zabbix-datasource",
+        "uid": "PA67C5EADE9207728"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "thresholds"
+          },
+          "mappings": [
+            {
+              "options": {
+                "1": {
+                  "color": "green",
+                  "text": "LINK UP"
+                },
+                "2": {
+                  "color": "red",
+                  "text": "LINK DOWN"
+                },
+                "3": {
+                  "color": "yellow",
+                  "text": "TESTING"
+                }
+              },
+              "type": "value"
+            }
+          ],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "red",
+                "value": null
+              },
+              {
+                "color": "green",
+                "value": 1
+              }
+            ]
+          },
+          "custom": {
+            "spanNulls": false
+          }
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 4,
+        "w": 6,
+        "x": 18,
+        "y": 37
+      },
+      "id": 11,
+      "options": {
+        "colorMode": "background",
+        "graphMode": "none",
+        "justifyMode": "auto",
+        "orientation": "auto",
+        "reduceOptions": {
+          "calcs": [
+            "lastNotNull"
+          ],
+          "fields": "",
+          "values": false
+        },
+        "textMode": "auto"
+      },
+      "pluginVersion": "11.6.0",
+      "targets": [
+        {
+          "application": {
+            "filter": ""
+          },
+          "datasource": {
+            "type": "alexanderzobnin-zabbix-datasource",
+            "uid": "PA67C5EADE9207728"
+          },
+          "group": {
+            "filter": "/Voice Infrastructure|Edge SBC/"
+          },
+          "host": {
+            "filter": "/.*sbce.*/"
+          },
+          "item": {
+            "filter": "Interface M2: Operational status"
+          },
+          "itemTag": {
+            "filter": ""
+          },
+          "mode": 0,
+          "options": {
+            "showDisabledItems": false
+          },
+          "refId": "A",
+          "resultFormat": "time_series",
+          "tags": {
+            "filter": ""
+          },
+          "trigger": {
+            "filter": ""
+          }
+        }
+      ],
+      "title": "M2 \u2014 Secondary / HA Heartbeat",
+      "type": "stat",
+      "description": "Link operational status of interface M2 used for High Availability (HA) clustering heartbeat and state synchronization between SBCE primary and standby appliances. 1 = Up, 2 = Down. Source: IF-MIB::ifOperStatus.4. Limitations: Loss of M2 heartbeat can trigger split-brain condition or disable automatic failover. Missing data indicates collector outage, agent failure, or network disruption; values are preserved as null gaps."
+    },
+    {
+      "datasource": {
+        "type": "alexanderzobnin-zabbix-datasource",
+        "uid": "PA67C5EADE9207728"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "palette-classic"
+          },
+          "custom": {
+            "axisCenteredZero": false,
+            "axisColorMode": "text",
+            "axisLabel": "Throughput",
+            "axisPlacement": "auto",
+            "barAlignment": 0,
+            "drawStyle": "line",
+            "fillOpacity": 15,
+            "gradientMode": "opacity",
+            "hideFrom": {
+              "legend": false,
+              "tooltip": false,
+              "viz": false
+            },
+            "lineInterpolation": "smooth",
+            "lineWidth": 2,
+            "pointSize": 5,
+            "scaleDistribution": {
+              "type": "linear"
+            },
+            "showPoints": "auto",
+            "spanNulls": false,
+            "stacking": {
+              "group": "A",
+              "mode": "none"
+            },
+            "thresholdsStyle": {
+              "mode": "line"
+            }
+          },
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              },
+              {
+                "color": "red",
+                "value": 800000000
+              }
+            ]
+          },
+          "unit": "bps"
+        },
+        "overrides": [
+          {
+            "matcher": {
+              "id": "byRegexp",
+              "options": ".*Bits received.*"
+            },
+            "properties": [
+              {
+                "id": "color",
+                "value": {
+                  "fixedColor": "green",
+                  "mode": "fixed"
+                }
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byRegexp",
+              "options": ".*Bits sent.*"
+            },
+            "properties": [
+              {
+                "id": "color",
+                "value": {
+                  "fixedColor": "blue",
+                  "mode": "fixed"
+                }
+              }
+            ]
+          }
+        ]
+      },
+      "gridPos": {
+        "h": 8,
+        "w": 12,
+        "x": 0,
+        "y": 41
+      },
+      "id": 12,
+      "options": {
+        "legend": {
+          "calcs": [
+            "mean",
+            "max",
+            "lastNotNull"
+          ],
+          "displayMode": "table",
+          "placement": "bottom",
+          "showLegend": true
+        },
+        "tooltip": {
+          "mode": "multi",
+          "sort": "desc"
+        }
+      },
+      "pluginVersion": "11.6.0",
+      "targets": [
+        {
+          "application": {
+            "filter": ""
+          },
+          "datasource": {
+            "type": "alexanderzobnin-zabbix-datasource",
+            "uid": "PA67C5EADE9207728"
+          },
+          "group": {
+            "filter": "/Voice Infrastructure|Edge SBC/"
+          },
+          "host": {
+            "filter": "/.*sbce.*/"
+          },
+          "item": {
+            "filter": "Interface A1: Bits received"
+          },
+          "itemTag": {
+            "filter": ""
+          },
+          "mode": 0,
+          "options": {
+            "showDisabledItems": false
+          },
+          "refId": "A",
+          "resultFormat": "time_series",
+          "tags": {
+            "filter": ""
+          },
+          "trigger": {
+            "filter": ""
+          }
+        },
+        {
+          "application": {
+            "filter": ""
+          },
+          "datasource": {
+            "type": "alexanderzobnin-zabbix-datasource",
+            "uid": "PA67C5EADE9207728"
+          },
+          "group": {
+            "filter": "/Voice Infrastructure|Edge SBC/"
+          },
+          "host": {
+            "filter": "/.*sbce.*/"
+          },
+          "item": {
+            "filter": "Interface A1: Bits sent"
+          },
+          "itemTag": {
+            "filter": ""
+          },
+          "mode": 0,
+          "options": {
+            "showDisabledItems": false
+          },
+          "refId": "B",
+          "resultFormat": "time_series",
+          "tags": {
+            "filter": ""
+          },
+          "trigger": {
+            "filter": ""
+          }
+        }
+      ],
+      "title": "A1 Carrier DMZ Traffic (bps)",
+      "type": "timeseries",
+      "description": "Bidirectional network bandwidth utilization on external interface A1 carrying carrier SIP signaling (UDP/TCP/TLS 5060/5061) and RTP media streams. Units: Bits per second (bps) with delta rate calculation. Source: IF-MIB::ifHCInOctets / ifHCOutOctets. Limitations: Polled at 30s intervals; short microbursts below polling window are smoothed. Missing data indicates collector outage, agent failure, or network disruption; values are preserved as null gaps."
+    },
+    {
+      "datasource": {
+        "type": "alexanderzobnin-zabbix-datasource",
+        "uid": "PA67C5EADE9207728"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "palette-classic"
+          },
+          "custom": {
+            "axisCenteredZero": false,
+            "axisColorMode": "text",
+            "axisLabel": "Throughput",
+            "axisPlacement": "auto",
+            "barAlignment": 0,
+            "drawStyle": "line",
+            "fillOpacity": 15,
+            "gradientMode": "opacity",
+            "hideFrom": {
+              "legend": false,
+              "tooltip": false,
+              "viz": false
+            },
+            "lineInterpolation": "smooth",
+            "lineWidth": 2,
+            "pointSize": 5,
+            "scaleDistribution": {
+              "type": "linear"
+            },
+            "showPoints": "auto",
+            "spanNulls": false,
+            "stacking": {
+              "group": "A",
+              "mode": "none"
+            },
+            "thresholdsStyle": {
+              "mode": "line"
+            }
+          },
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              },
+              {
+                "color": "red",
+                "value": 800000000
+              }
+            ]
+          },
+          "unit": "bps"
+        },
+        "overrides": [
+          {
+            "matcher": {
+              "id": "byRegexp",
+              "options": ".*Bits received.*"
+            },
+            "properties": [
+              {
+                "id": "color",
+                "value": {
+                  "fixedColor": "green",
+                  "mode": "fixed"
+                }
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byRegexp",
+              "options": ".*Bits sent.*"
+            },
+            "properties": [
+              {
+                "id": "color",
+                "value": {
+                  "fixedColor": "blue",
+                  "mode": "fixed"
+                }
+              }
+            ]
+          }
+        ]
+      },
+      "gridPos": {
+        "h": 8,
+        "w": 12,
+        "x": 12,
+        "y": 49
+      },
+      "id": 13,
+      "options": {
+        "legend": {
+          "calcs": [
+            "mean",
+            "max",
+            "lastNotNull"
+          ],
+          "displayMode": "table",
+          "placement": "bottom",
+          "showLegend": true
+        },
+        "tooltip": {
+          "mode": "multi",
+          "sort": "desc"
+        }
+      },
+      "pluginVersion": "11.6.0",
+      "targets": [
+        {
+          "application": {
+            "filter": ""
+          },
+          "datasource": {
+            "type": "alexanderzobnin-zabbix-datasource",
+            "uid": "PA67C5EADE9207728"
+          },
+          "group": {
+            "filter": "/Voice Infrastructure|Edge SBC/"
+          },
+          "host": {
+            "filter": "/.*sbce.*/"
+          },
+          "item": {
+            "filter": "Interface B1: Bits received"
+          },
+          "itemTag": {
+            "filter": ""
+          },
+          "mode": 0,
+          "options": {
+            "showDisabledItems": false
+          },
+          "refId": "A",
+          "resultFormat": "time_series",
+          "tags": {
+            "filter": ""
+          },
+          "trigger": {
+            "filter": ""
+          }
+        },
+        {
+          "application": {
+            "filter": ""
+          },
+          "datasource": {
+            "type": "alexanderzobnin-zabbix-datasource",
+            "uid": "PA67C5EADE9207728"
+          },
+          "group": {
+            "filter": "/Voice Infrastructure|Edge SBC/"
+          },
+          "host": {
+            "filter": "/.*sbce.*/"
+          },
+          "item": {
+            "filter": "Interface B1: Bits sent"
+          },
+          "itemTag": {
+            "filter": ""
+          },
+          "mode": 0,
+          "options": {
+            "showDisabledItems": false
+          },
+          "refId": "B",
+          "resultFormat": "time_series",
+          "tags": {
+            "filter": ""
+          },
+          "trigger": {
+            "filter": ""
+          }
+        }
+      ],
+      "title": "B1 Internal Media & Core Signaling Traffic (bps)",
+      "type": "timeseries",
+      "description": "Bidirectional network throughput on internal interface B1 carrying media streams between SBCE and Avaya Media Servers/Gateways. Units: Bits per second (bps). Source: IF-MIB::ifHCInOctets / ifHCOutOctets. Limitations: Bandwidth spikes correlate with concurrent active RTP call sessions. Missing data indicates collector outage, agent failure, or network disruption; values are preserved as null gaps."
+    },
+    {
+      "datasource": {
+        "type": "alexanderzobnin-zabbix-datasource",
+        "uid": "PA67C5EADE9207728"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "palette-classic"
+          },
+          "custom": {
+            "axisCenteredZero": false,
+            "axisColorMode": "text",
+            "axisLabel": "Errors / s",
+            "axisPlacement": "auto",
+            "barAlignment": 0,
+            "drawStyle": "line",
+            "fillOpacity": 10,
+            "gradientMode": "none",
+            "hideFrom": {
+              "legend": false,
+              "tooltip": false,
+              "viz": false
+            },
+            "lineInterpolation": "linear",
+            "lineWidth": 2,
+            "pointSize": 5,
+            "scaleDistribution": {
+              "type": "linear"
+            },
+            "showPoints": "auto",
+            "spanNulls": false,
+            "stacking": {
+              "group": "A",
+              "mode": "none"
+            },
+            "thresholdsStyle": {
+              "mode": "line"
+            }
+          },
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              },
+              {
+                "color": "red",
+                "value": 2
+              }
+            ]
+          },
+          "unit": "pps"
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 6,
+        "w": 6,
+        "x": 0,
+        "y": 57
+      },
+      "id": 14,
+      "options": {
+        "legend": {
+          "calcs": [
+            "max",
+            "lastNotNull"
+          ],
+          "displayMode": "list",
+          "placement": "bottom",
+          "showLegend": true
+        },
+        "tooltip": {
+          "mode": "multi",
+          "sort": "desc"
+        }
+      },
+      "pluginVersion": "11.6.0",
+      "targets": [
+        {
+          "application": {
+            "filter": ""
+          },
+          "datasource": {
+            "type": "alexanderzobnin-zabbix-datasource",
+            "uid": "PA67C5EADE9207728"
+          },
+          "group": {
+            "filter": "/Voice Infrastructure|Edge SBC/"
+          },
+          "host": {
+            "filter": "/.*sbce.*/"
+          },
+          "item": {
+            "filter": "/Interface (A1|B1): Inbound packets with errors/"
+          },
+          "itemTag": {
+            "filter": ""
+          },
+          "mode": 0,
+          "options": {
+            "showDisabledItems": false
+          },
+          "refId": "A",
+          "resultFormat": "time_series",
+          "tags": {
+            "filter": ""
+          },
+          "trigger": {
+            "filter": ""
+          }
+        },
+        {
+          "application": {
+            "filter": ""
+          },
+          "datasource": {
+            "type": "alexanderzobnin-zabbix-datasource",
+            "uid": "PA67C5EADE9207728"
+          },
+          "group": {
+            "filter": "/Voice Infrastructure|Edge SBC/"
+          },
+          "host": {
+            "filter": "/.*sbce.*/"
+          },
+          "item": {
+            "filter": "/Interface (A1|B1): Outbound packets with errors/"
+          },
+          "itemTag": {
+            "filter": ""
+          },
+          "mode": 0,
+          "options": {
+            "showDisabledItems": false
+          },
+          "refId": "B",
+          "resultFormat": "time_series",
+          "tags": {
+            "filter": ""
+          },
+          "trigger": {
+            "filter": ""
+          }
+        }
+      ],
+      "title": "Voice Path Packet Errors (rate)",
+      "type": "timeseries",
+      "description": "Rate of inbound and outbound frame/packet errors detected on voice-bearing interfaces (A1 and B1). Units: Errors per second. Source: IF-MIB::ifInErrors / ifOutErrors. Limitations: Any non-zero error rate directly degrades voice audio quality, causing robotic voice, clipping, and clicks. Missing data indicates collector outage, agent failure, or network disruption; values are preserved as null gaps."
+    },
+    {
+      "datasource": {
+        "type": "alexanderzobnin-zabbix-datasource",
+        "uid": "PA67C5EADE9207728"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "palette-classic"
+          },
+          "custom": {
+            "axisCenteredZero": false,
+            "axisColorMode": "text",
+            "axisLabel": "Discards / s",
+            "axisPlacement": "auto",
+            "barAlignment": 0,
+            "drawStyle": "line",
+            "fillOpacity": 10,
+            "gradientMode": "none",
+            "hideFrom": {
+              "legend": false,
+              "tooltip": false,
+              "viz": false
+            },
+            "lineInterpolation": "linear",
+            "lineWidth": 2,
+            "pointSize": 5,
+            "scaleDistribution": {
+              "type": "linear"
+            },
+            "showPoints": "auto",
+            "spanNulls": false,
+            "stacking": {
+              "group": "A",
+              "mode": "none"
+            },
+            "thresholdsStyle": {
+              "mode": "line"
+            }
+          },
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              },
+              {
+                "color": "red",
+                "value": 5
+              }
+            ]
+          },
+          "unit": "pps"
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 6,
+        "w": 6,
+        "x": 6,
+        "y": 63
+      },
+      "id": 15,
+      "options": {
+        "legend": {
+          "calcs": [
+            "max",
+            "lastNotNull"
+          ],
+          "displayMode": "list",
+          "placement": "bottom",
+          "showLegend": true
+        },
+        "tooltip": {
+          "mode": "multi",
+          "sort": "desc"
+        }
+      },
+      "pluginVersion": "11.6.0",
+      "targets": [
+        {
+          "application": {
+            "filter": ""
+          },
+          "datasource": {
+            "type": "alexanderzobnin-zabbix-datasource",
+            "uid": "PA67C5EADE9207728"
+          },
+          "group": {
+            "filter": "/Voice Infrastructure|Edge SBC/"
+          },
+          "host": {
+            "filter": "/.*sbce.*/"
+          },
+          "item": {
+            "filter": "/Interface (A1|B1): Inbound packets discarded/"
+          },
+          "itemTag": {
+            "filter": ""
+          },
+          "mode": 0,
+          "options": {
+            "showDisabledItems": false
+          },
+          "refId": "A",
+          "resultFormat": "time_series",
+          "tags": {
+            "filter": ""
+          },
+          "trigger": {
+            "filter": ""
+          }
+        },
+        {
+          "application": {
+            "filter": ""
+          },
+          "datasource": {
+            "type": "alexanderzobnin-zabbix-datasource",
+            "uid": "PA67C5EADE9207728"
+          },
+          "group": {
+            "filter": "/Voice Infrastructure|Edge SBC/"
+          },
+          "host": {
+            "filter": "/.*sbce.*/"
+          },
+          "item": {
+            "filter": "/Interface (A1|B1): Outbound packets discarded/"
+          },
+          "itemTag": {
+            "filter": ""
+          },
+          "mode": 0,
+          "options": {
+            "showDisabledItems": false
+          },
+          "refId": "B",
+          "resultFormat": "time_series",
+          "tags": {
+            "filter": ""
+          },
+          "trigger": {
+            "filter": ""
+          }
+        }
+      ],
+      "title": "Voice Path Packet Discards (rate)",
+      "type": "timeseries",
+      "description": "Rate of dropped inbound and outbound packets due to buffer overrun or NIC queue saturation on voice interfaces A1 and B1. Units: Packets per second (pps). Source: IF-MIB::ifInDiscards / ifOutDiscards. Limitations: Non-zero discards indicate interface or switch buffer congestion requiring QoS review. Missing data indicates collector outage, agent failure, or network disruption; values are preserved as null gaps."
+    },
+    {
+      "datasource": {
+        "type": "alexanderzobnin-zabbix-datasource",
+        "uid": "PA67C5EADE9207728"
+      },
+      "gridPos": {
+        "h": 6,
+        "w": 12,
+        "x": 12,
+        "y": 69
+      },
+      "id": 16,
+      "options": {
+        "customFields": [
+          {
+            "text": "Time",
+            "value": "time"
+          },
+          {
+            "text": "Recovery time",
+            "value": "r_time"
+          },
+          {
+            "text": "Severity",
+            "value": "severity"
+          },
+          {
+            "text": "Host",
+            "value": "host"
+          },
+          {
+            "text": "Problem",
+            "value": "problem"
+          },
+          {
+            "text": "Duration",
+            "value": "duration"
+          },
+          {
+            "text": "Ack",
+            "value": "ack"
+          }
+        ],
+        "fontSize": "100%",
+        "highlightBackground": true,
+        "highlightFullRow": false,
+        "limit": 50,
+        "problemFilter": "",
+        "showActions": true,
+        "showTags": true,
+        "sortProblems": "default",
+        "subTab": "problems"
+      },
+      "pluginVersion": "11.6.0",
+      "targets": [
+        {
+          "application": {
+            "filter": ""
+          },
+          "datasource": {
+            "type": "alexanderzobnin-zabbix-datasource",
+            "uid": "PA67C5EADE9207728"
+          },
+          "group": {
+            "filter": "/Voice Infrastructure|Edge SBC/"
+          },
+          "host": {
+            "filter": "/.*sbce.*/"
+          },
+          "item": {
+            "filter": ""
+          },
+          "itemTag": {
+            "filter": ""
+          },
+          "mode": 1,
+          "options": {
+            "showDisabledItems": false
+          },
+          "refId": "A",
+          "resultFormat": "problems",
+          "tags": {
+            "filter": ""
+          },
+          "trigger": {
+            "filter": ""
+          }
+        }
+      ],
+      "title": "Avaya SBCE Active Alarms & Problems Feed",
+      "type": "alexanderzobnin-zabbix-problems-panel",
+      "description": "Live real-time alarm stream of active operational problems and threshold violations originating from Avaya SBCE hosts in Zabbix. Source: Zabbix Problems API filtered for Avaya SBCE host group. Limitations: Reflected alarms depend on Zabbix trigger definitions and polling intervals. Missing data indicates collector outage, agent failure, or network disruption; values are preserved as null gaps."
+    },
+    {
+      "collapsed": true,
+      "gridPos": {
+        "h": 1,
+        "w": 24,
+        "x": 0,
+        "y": 75
+      },
+      "id": 17,
+      "panels": [
+        {
+          "datasource": {
+            "type": "alexanderzobnin-zabbix-datasource",
+            "uid": "PA67C5EADE9207728"
+          },
+          "description": "Processor core utilization on the Avaya Aura Session Manager appliance. Units: Percentage (0-100%). Warning: 75%, Critical: 90%. Source: HOST-RESOURCES-MIB via SNMPv3. Polling: 60s. Limitation: High CPU may delay SIP routing transaction processing. Missing data indicates collector outage, agent failure, or network disruption; values are preserved as null gaps.",
+          "fieldConfig": {
+            "defaults": {
+              "color": {
+                "mode": "thresholds"
+              },
+              "max": 100,
+              "min": 0,
+              "thresholds": {
+                "mode": "absolute",
+                "steps": [
+                  {
+                    "color": "green",
+                    "value": null
+                  },
+                  {
+                    "color": "yellow",
+                    "value": 75
+                  },
+                  {
+                    "color": "red",
+                    "value": 90
+                  }
+                ]
+              },
+              "unit": "percent"
+            },
+            "overrides": []
+          },
+          "gridPos": {
+            "h": 6,
+            "w": 6,
+            "x": 0,
+            "y": 0
+          },
+          "id": 18,
+          "options": {
+            "orientation": "auto",
+            "reduceOptions": {
+              "calcs": [
+                "lastNotNull"
+              ],
+              "fields": "",
+              "values": false
+            },
+            "showThresholdLabels": false,
+            "showThresholdMarkers": true
+          },
+          "targets": [
+            {
+              "group": {
+                "name": "Voice Infrastructure"
+              },
+              "host": {
+                "name": "avaya-sm-01"
+              },
+              "item": {
+                "name": "Session Manager Host CPU Utilization"
+              },
+              "refId": "CPU"
+            }
+          ],
+          "title": "SM Host CPU Utilization [REAL \u2014 HARDWARE]",
+          "type": "gauge"
+        },
+        {
+          "datasource": {
+            "type": "alexanderzobnin-zabbix-datasource",
+            "uid": "PA67C5EADE9207728"
+          },
+          "description": "Physical RAM utilization on Avaya Session Manager. Units: Percentage (0-100%). Warning: 80%, Critical: 95%. Source: HOST-RESOURCES-MIB via SNMPv3. Polling: 60s. Missing data indicates collector outage, agent failure, or network disruption; values are preserved as null gaps.",
+          "fieldConfig": {
+            "defaults": {
+              "color": {
+                "mode": "thresholds"
+              },
+              "max": 100,
+              "min": 0,
+              "thresholds": {
+                "mode": "absolute",
+                "steps": [
+                  {
+                    "color": "green",
+                    "value": null
+                  },
+                  {
+                    "color": "yellow",
+                    "value": 80
+                  },
+                  {
+                    "color": "red",
+                    "value": 95
+                  }
+                ]
+              },
+              "unit": "percent"
+            },
+            "overrides": []
+          },
+          "gridPos": {
+            "h": 6,
+            "w": 6,
+            "x": 6,
+            "y": 6
+          },
+          "id": 19,
+          "options": {
+            "orientation": "auto",
+            "reduceOptions": {
+              "calcs": [
+                "lastNotNull"
+              ],
+              "fields": "",
+              "values": false
+            },
+            "showThresholdLabels": false,
+            "showThresholdMarkers": true
+          },
+          "targets": [
+            {
+              "group": {
+                "name": "Voice Infrastructure"
+              },
+              "host": {
+                "name": "avaya-sm-01"
+              },
+              "item": {
+                "name": "Session Manager Host RAM Utilization"
+              },
+              "refId": "RAM"
+            }
+          ],
+          "title": "SM Host RAM Utilization [REAL \u2014 HARDWARE]",
+          "type": "gauge"
+        },
+        {
+          "datasource": {
+            "type": "alexanderzobnin-zabbix-datasource",
+            "uid": "PA67C5EADE9207728"
+          },
+          "description": "Operating system uptime of the Session Manager server since last reload. Source: MIB-II sysUpTime (OID 1.3.6.1.2.1.1.3.0). Polling: 60s. Freshness: 60s. Missing data indicates collector outage, agent failure, or network disruption; values are preserved as null gaps.",
+          "fieldConfig": {
+            "defaults": {
+              "unit": "s"
+            },
+            "overrides": []
+          },
+          "gridPos": {
+            "h": 6,
+            "w": 6,
+            "x": 12,
+            "y": 12
+          },
+          "id": 20,
+          "options": {
+            "colorMode": "value",
+            "graphMode": "none",
+            "justifyMode": "auto",
+            "orientation": "auto",
+            "reduceOptions": {
+              "calcs": [
+                "lastNotNull"
+              ],
+              "fields": "",
+              "values": false
+            },
+            "textMode": "auto"
+          },
+          "targets": [
+            {
+              "group": {
+                "name": "Voice Infrastructure"
+              },
+              "host": {
+                "name": "avaya-sm-01"
+              },
+              "item": {
+                "name": "Session Manager System Uptime"
+              },
+              "refId": "UPTIME"
+            }
+          ],
+          "title": "SM System Uptime [REAL \u2014 HARDWARE]",
+          "type": "stat"
+        },
+        {
+          "datasource": {
+            "type": "alexanderzobnin-zabbix-datasource",
+            "uid": "PA67C5EADE9207728"
+          },
+          "description": "Total count of active TCP sockets currently in ESTABLISHED state on Session Manager. Reflects active signaling connections from endpoints, Communication Manager, and SBCE. Source: TCP-MIB tcpCurrEstab (OID 1.3.6.1.2.1.6.9.0). Polling: 60s. Missing data indicates collector outage, agent failure, or network disruption; values are preserved as null gaps.",
+          "fieldConfig": {
+            "defaults": {
+              "custom": {
+                "drawStyle": "line",
+                "lineInterpolation": "smooth",
+                "spanNulls": false
+              },
+              "unit": "sockets"
+            },
+            "overrides": []
+          },
+          "gridPos": {
+            "h": 6,
+            "w": 6,
+            "x": 18,
+            "y": 18
+          },
+          "id": 21,
+          "options": {
+            "tooltip": {
+              "mode": "single"
+            }
+          },
+          "targets": [
+            {
+              "group": {
+                "name": "Voice Infrastructure"
+              },
+              "host": {
+                "name": "avaya-sm-01"
+              },
+              "item": {
+                "name": "TCP Established Sockets"
+              },
+              "refId": "TCP"
+            }
+          ],
+          "title": "TCP Established Sockets [REAL \u2014 HARDWARE]",
+          "type": "timeseries"
+        },
+        {
+          "datasource": {
+            "type": "alexanderzobnin-zabbix-datasource",
+            "uid": "PA67C5EADE9207728"
+          },
+          "description": "SIP Entity Link Operational Status for Communication Manager. Values: 1 = UP, 2 = PARTIALLY UP, 3 = DOWN, 4 = DENY NEW SERVICE. Collection Mechanism: Ingested via Session Manager CLI export (`smstat`/`starety`) or System Manager REST API. Note: Not exposed via Session Manager SNMP agent; proves SIP OPTIONS reachability only, NOT audio media quality. Provenance: CONFIGURED_UNVERIFIED. Missing data indicates collector outage, agent failure, or network disruption; values are preserved as null gaps.",
+          "fieldConfig": {
+            "defaults": {
+              "color": {
+                "mode": "thresholds"
+              },
+              "mappings": [
+                {
+                  "options": {
+                    "1": {
+                      "color": "green",
+                      "text": "UP (REACHABLE)"
+                    },
+                    "2": {
+                      "color": "yellow",
+                      "text": "PARTIALLY UP"
+                    },
+                    "3": {
+                      "color": "red",
+                      "text": "DOWN (FAILED)"
+                    },
+                    "4": {
+                      "color": "purple",
+                      "text": "DENY NEW SERVICE"
+                    }
+                  },
+                  "type": "value"
+                }
+              ],
+              "thresholds": {
+                "mode": "absolute",
+                "steps": [
+                  {
+                    "color": "red",
+                    "value": null
+                  },
+                  {
+                    "color": "green",
+                    "value": 1
+                  }
+                ]
+              }
+            },
+            "overrides": []
+          },
+          "gridPos": {
+            "h": 6,
+            "w": 8,
+            "x": 0,
+            "y": 24
+          },
+          "id": 22,
+          "options": {
+            "colorMode": "background",
+            "graphMode": "none",
+            "justifyMode": "auto",
+            "orientation": "auto",
+            "reduceOptions": {
+              "calcs": [
+                "lastNotNull"
+              ],
+              "fields": "",
+              "values": false
+            },
+            "textMode": "auto"
+          },
+          "targets": [
+            {
+              "group": {
+                "name": "Voice Infrastructure"
+              },
+              "host": {
+                "name": "avaya-sm-01"
+              },
+              "item": {
+                "name": "SIP Entity State \u2014 Avaya Communication Manager"
+              },
+              "refId": "CM_ENTITY"
+            }
+          ],
+          "title": "SIP Entity State \u2014 Avaya CM [CONFIGURED \u2014 ASM API/CLI]",
+          "type": "stat"
+        },
+        {
+          "datasource": {
+            "type": "alexanderzobnin-zabbix-datasource",
+            "uid": "PA67C5EADE9207728"
+          },
+          "description": "SIP Entity Link Operational Status for Avaya SBCE Pride perimeter controller. Values: 1 = UP, 2 = PARTIALLY UP, 3 = DOWN, 4 = DENY NEW SERVICE. Collection Mechanism: Ingested via Session Manager CLI export or System Manager REST API. Note: Not exposed via Session Manager SNMP agent. Provenance: CONFIGURED_UNVERIFIED. Missing data indicates collector outage, agent failure, or network disruption; values are preserved as null gaps.",
+          "fieldConfig": {
+            "defaults": {
+              "color": {
+                "mode": "thresholds"
+              },
+              "mappings": [
+                {
+                  "options": {
+                    "1": {
+                      "color": "green",
+                      "text": "UP (REACHABLE)"
+                    },
+                    "2": {
+                      "color": "yellow",
+                      "text": "PARTIALLY UP"
+                    },
+                    "3": {
+                      "color": "red",
+                      "text": "DOWN (FAILED)"
+                    },
+                    "4": {
+                      "color": "purple",
+                      "text": "DENY NEW SERVICE"
+                    }
+                  },
+                  "type": "value"
+                }
+              ],
+              "thresholds": {
+                "mode": "absolute",
+                "steps": [
+                  {
+                    "color": "red",
+                    "value": null
+                  },
+                  {
+                    "color": "green",
+                    "value": 1
+                  }
+                ]
+              }
+            },
+            "overrides": []
+          },
+          "gridPos": {
+            "h": 6,
+            "w": 8,
+            "x": 8,
+            "y": 30
+          },
+          "id": 23,
+          "options": {
+            "colorMode": "background",
+            "graphMode": "none",
+            "justifyMode": "auto",
+            "orientation": "auto",
+            "reduceOptions": {
+              "calcs": [
+                "lastNotNull"
+              ],
+              "fields": "",
+              "values": false
+            },
+            "textMode": "auto"
+          },
+          "targets": [
+            {
+              "group": {
+                "name": "Voice Infrastructure"
+              },
+              "host": {
+                "name": "avaya-sm-01"
+              },
+              "item": {
+                "name": "SIP Entity State \u2014 Avaya SBCE Pride"
+              },
+              "refId": "SBCE_ENTITY"
+            }
+          ],
+          "title": "SIP Entity State \u2014 Avaya SBCE [CONFIGURED \u2014 ASM API/CLI]",
+          "type": "stat"
+        },
+        {
+          "datasource": {
+            "type": "alexanderzobnin-zabbix-datasource",
+            "uid": "PA67C5EADE9207728"
+          },
+          "description": "Measured round-trip response time in milliseconds for SIP OPTIONS heartbeat pings sent by Nawari SIP Probe Engine to monitored entities (CM and SBCE). Units: Milliseconds (ms). Collection Mechanism: Active SIP OPTIONS probing by Nawari (`NAWARI_SIP_PROBE`). Note: Not an SNMP metric. Missing data indicates collector outage, agent failure, or network disruption; values are preserved as null gaps.",
+          "fieldConfig": {
+            "defaults": {
+              "custom": {
+                "drawStyle": "line",
+                "lineInterpolation": "smooth",
+                "spanNulls": false
+              },
+              "unit": "ms"
+            },
+            "overrides": []
+          },
+          "gridPos": {
+            "h": 6,
+            "w": 8,
+            "x": 16,
+            "y": 36
+          },
+          "id": 24,
+          "options": {
+            "tooltip": {
+              "mode": "multi"
+            }
+          },
+          "targets": [
+            {
+              "group": {
+                "name": "Voice Infrastructure"
+              },
+              "host": {
+                "name": "avaya-sm-01"
+              },
+              "item": {
+                "name": "SIP OPTIONS Response Time \u2014 Avaya CM"
+              },
+              "refId": "CM_OPTIONS_RTT"
+            }
+          ],
+          "title": "SIP OPTIONS Heartbeat Response Time [NAWARI SIP PROBE]",
+          "type": "timeseries"
+        },
+        {
+          "datasource": {
+            "type": "alexanderzobnin-zabbix-datasource",
+            "uid": "PA67C5EADE9207728"
+          },
+          "description": "Comprehensive table of all SIP Entities configured in Session Manager (CM, SBCE Pride, SBCE DR, Media Gateways, PSTN SIP trunks) detailing IP address, transport (TLS/TCP/UDP), port, entity status, and measured OPTIONS latency. Source: Avaya Session Manager operational model / System Manager API export. Missing data indicates collector outage, agent failure, or network disruption; values are preserved as null gaps.",
+          "fieldConfig": {
+            "defaults": {},
+            "overrides": []
+          },
+          "gridPos": {
+            "h": 8,
+            "w": 16,
+            "x": 0,
+            "y": 42
+          },
+          "id": 25,
+          "options": {
+            "showHeader": true
+          },
+          "targets": [
+            {
+              "group": {
+                "name": "Voice Infrastructure"
+              },
+              "host": {
+                "name": "avaya-sm-01"
+              },
+              "application": {
+                "name": "SIP Entity Monitoring"
+              },
+              "item": {
+                "name": "SIP Entity Summary Stream"
+              },
+              "refId": "ENTITIES"
+            }
+          ],
+          "title": "Configured SIP Entity Topology & Link Status [CONFIGURED \u2014 ASM MODEL]",
+          "type": "table"
+        },
+        {
+          "datasource": {
+            "type": "alexanderzobnin-zabbix-datasource",
+            "uid": "PA67C5EADE9207728"
+          },
+          "description": "Total count of active enterprise alarms currently asserted on Session Manager. Source: AV-TRAP-MIB trap receiver / System Manager notification. Note: Ingested via SNMP trap or notification webhook; event-driven. Warning: > 0 alarms. Missing data indicates collector outage, agent failure, or network disruption; values are preserved as null gaps.",
+          "fieldConfig": {
+            "defaults": {
+              "color": {
+                "mode": "thresholds"
+              },
+              "thresholds": {
+                "mode": "absolute",
+                "steps": [
+                  {
+                    "color": "green",
+                    "value": null
+                  },
+                  {
+                    "color": "red",
+                    "value": 1
+                  }
+                ]
+              },
+              "unit": "alarms"
+            },
+            "overrides": []
+          },
+          "gridPos": {
+            "h": 8,
+            "w": 8,
+            "x": 16,
+            "y": 50
+          },
+          "id": 26,
+          "options": {
+            "colorMode": "value",
+            "graphMode": "none",
+            "justifyMode": "auto",
+            "orientation": "auto",
+            "reduceOptions": {
+              "calcs": [
+                "lastNotNull"
+              ],
+              "fields": "",
+              "values": false
+            },
+            "textMode": "auto"
+          },
+          "targets": [
+            {
+              "group": {
+                "name": "Voice Infrastructure"
+              },
+              "host": {
+                "name": "avaya-sm-01"
+              },
+              "item": {
+                "name": "Session Manager Active Alarms Count"
+              },
+              "refId": "SM_ALARMS"
+            }
+          ],
+          "title": "Session Manager Active Alarms [EVENT TRAP \u2014 AV-TRAP-MIB]",
+          "type": "stat"
+        }
+      ],
+      "title": "Avaya Aura Session Manager (ASM) & SIP Entity Routing",
+      "type": "row"
+    },
+    {
+      "collapsed": true,
+      "gridPos": {
+        "h": 1,
+        "w": 24,
+        "x": 0,
+        "y": 76
+      },
+      "id": 27,
+      "panels": [
+        {
+          "datasource": {
+            "type": "alexanderzobnin-zabbix-datasource",
+            "uid": "PA67C5EADE9207728"
+          },
+          "description": "ICMP ping network reachability to the Avaya Communication Manager processor interface. 1 = UP, 0 = DOWN. Polling: 1m. Freshness: 60s. Missing data indicates collector outage, agent failure, or network disruption; values are preserved as null gaps.",
+          "fieldConfig": {
+            "defaults": {
+              "color": {
+                "mode": "thresholds"
+              },
+              "mappings": [
+                {
+                  "options": {
+                    "1": {
+                      "color": "green",
+                      "text": "ONLINE (UP)"
+                    },
+                    "0": {
+                      "color": "red",
+                      "text": "OFFLINE (DOWN)"
+                    }
+                  },
+                  "type": "value"
+                }
+              ],
+              "thresholds": {
+                "mode": "absolute",
+                "steps": [
+                  {
+                    "color": "red",
+                    "value": null
+                  },
+                  {
+                    "color": "green",
+                    "value": 1
+                  }
+                ]
+              }
+            },
+            "overrides": []
+          },
+          "gridPos": {
+            "h": 6,
+            "w": 6,
+            "x": 0,
+            "y": 0
+          },
+          "id": 28,
+          "options": {
+            "colorMode": "background",
+            "graphMode": "none",
+            "justifyMode": "auto",
+            "orientation": "auto",
+            "reduceOptions": {
+              "calcs": [
+                "lastNotNull"
+              ],
+              "fields": "",
+              "values": false
+            },
+            "textMode": "auto"
+          },
+          "targets": [
+            {
+              "group": {
+                "name": "Voice Infrastructure"
+              },
+              "host": {
+                "name": "avaya-cm-01"
+              },
+              "item": {
+                "name": "Communication Manager SNMP Availability"
+              },
+              "refId": "AVAIL"
+            }
+          ],
+          "title": "CM Processor Reachability [REAL \u2014 ZABBIX]",
+          "type": "stat"
+        },
+        {
+          "datasource": {
+            "type": "alexanderzobnin-zabbix-datasource",
+            "uid": "PA67C5EADE9207728"
+          },
+          "description": "Total active alarm conditions on Communication Manager. Source: Avaya CM 8.1 MIB table avCmAlarmsTable (group OID 1.3.6.1.4.1.6889.2.73.8.1.5). Polling interval: strictly 1 hour (delay: 1h) to prevent excessive CPU consumption on the CM call engine. Freshness: 1-2 hours. Missing data indicates collector outage, agent failure, or network disruption; values are preserved as null gaps.",
+          "fieldConfig": {
+            "defaults": {
+              "color": {
+                "mode": "thresholds"
+              },
+              "thresholds": {
+                "mode": "absolute",
+                "steps": [
+                  {
+                    "color": "green",
+                    "value": null
+                  },
+                  {
+                    "color": "red",
+                    "value": 1
+                  }
+                ]
+              },
+              "unit": "alarms"
+            },
+            "overrides": []
+          },
+          "gridPos": {
+            "h": 6,
+            "w": 6,
+            "x": 6,
+            "y": 6
+          },
+          "id": 29,
+          "options": {
+            "colorMode": "value",
+            "graphMode": "none",
+            "justifyMode": "auto",
+            "orientation": "auto",
+            "reduceOptions": {
+              "calcs": [
+                "lastNotNull"
+              ],
+              "fields": "",
+              "values": false
+            },
+            "textMode": "auto"
+          },
+          "targets": [
+            {
+              "group": {
+                "name": "Voice Infrastructure"
+              },
+              "host": {
+                "name": "avaya-cm-01"
+              },
+              "item": {
+                "name": "Active Alarms Count"
+              },
+              "refId": "ALARMS"
+            }
+          ],
+          "title": "Active Telephony Alarms (Hourly Scan) [REAL \u2014 AVAYA SNMP]",
+          "type": "stat"
+        },
+        {
+          "datasource": {
+            "type": "alexanderzobnin-zabbix-datasource",
+            "uid": "PA67C5EADE9207728"
+          },
+          "description": "Call processing activity indicator from Avaya CM 8.1 MIB avCmListMeasCallRateTotalTable (group OID 1.3.6.1.4.1.6889.2.73.8.1.145). Polling interval: strictly 5 minutes (vendor rate-limiting bound). Note: measurement interval is an hourly measurement block from list measurements call-rate total, not a rolling 5-minute counter. Attempts is not exposed as a 5-minute counter in this table. Missing data indicates collector timeout or SNMP failure.",
+          "fieldConfig": {
+            "defaults": {
+              "custom": {
+                "drawStyle": "line",
+                "lineInterpolation": "smooth",
+                "spanNulls": false
+              },
+              "unit": "calls"
+            },
+            "overrides": []
+          },
+          "gridPos": {
+            "h": 6,
+            "w": 6,
+            "x": 12,
+            "y": 12
+          },
+          "id": 30,
+          "options": {
+            "tooltip": {
+              "mode": "single"
+            }
+          },
+          "targets": [
+            {
+              "group": {
+                "name": "Voice Infrastructure"
+              },
+              "host": {
+                "name": "avaya-cm-01"
+              },
+              "item": {
+                "name": "Call Rate Total Attempts (Hourly Measurement Interval)"
+              },
+              "refId": "ATTEMPTS"
+            }
+          ],
+          "title": "Call Processing Hourly Status [REAL \u2014 AVAYA SNMP]",
+          "type": "timeseries"
+        },
+        {
+          "datasource": {
+            "type": "alexanderzobnin-zabbix-datasource",
+            "uid": "PA67C5EADE9207728"
+          },
+          "description": "Total completed calls recorded in the current hourly measurement block from list measurements call-rate total (leaf .1.3.1). Source: Avaya CM 8.1 MIB table avCmListMeasCallRateTotalTable (group OID 1.3.6.1.4.1.6889.2.73.8.1.145 leaf .1.3.1). Polling interval: strictly 5 minutes (vendor engine protection limit). Measurement interval: hourly measurement block. Missing data indicates CM SNMP communication outage.",
+          "fieldConfig": {
+            "defaults": {
+              "custom": {
+                "drawStyle": "line",
+                "lineInterpolation": "smooth",
+                "spanNulls": false
+              },
+              "unit": "calls"
+            },
+            "overrides": []
+          },
+          "gridPos": {
+            "h": 6,
+            "w": 6,
+            "x": 18,
+            "y": 18
+          },
+          "id": 31,
+          "options": {
+            "tooltip": {
+              "mode": "single"
+            }
+          },
+          "targets": [
+            {
+              "group": {
+                "name": "Voice Infrastructure"
+              },
+              "host": {
+                "name": "avaya-cm-01"
+              },
+              "item": {
+                "name": "Call Rate Completed Calls (Hourly Measurement Interval)"
+              },
+              "refId": "COMPLETED"
+            }
+          ],
+          "title": "Call Rate Completed Calls (Hourly Measurement) [REAL \u2014 AVAYA SNMP]",
+          "type": "timeseries"
+        },
+        {
+          "datasource": {
+            "type": "alexanderzobnin-zabbix-datasource",
+            "uid": "PA67C5EADE9207728"
+          },
+          "description": "Percentage of IP voice audio packets lost during active calls in the last completed hour across the monitored network region. Source: Avaya CM SNMP table avCmMeasIpVoStatHrData (OID 1.3.6.1.4.1.6889.2.73.8.1.67 leaf .10). Polling interval: strictly 1 hour. Caching interval: 600s. Warning: > 1.0%, Critical: > 2.5%. Missing data indicates CM SNMP communication outage or unadministered IP options.",
+          "fieldConfig": {
+            "defaults": {
+              "color": {
+                "mode": "thresholds"
+              },
+              "thresholds": {
+                "mode": "absolute",
+                "steps": [
+                  {
+                    "color": "green",
+                    "value": null
+                  },
+                  {
+                    "color": "yellow",
+                    "value": 1.0
+                  },
+                  {
+                    "color": "red",
+                    "value": 2.5
+                  }
+                ]
+              },
+              "unit": "percent"
+            },
+            "overrides": []
+          },
+          "gridPos": {
+            "h": 6,
+            "w": 6,
+            "x": 0,
+            "y": 24
+          },
+          "id": 32,
+          "options": {
+            "colorMode": "value",
+            "graphMode": "none",
+            "justifyMode": "auto",
+            "orientation": "auto",
+            "reduceOptions": {
+              "calcs": [
+                "lastNotNull"
+              ],
+              "fields": "",
+              "values": false
+            },
+            "textMode": "auto"
+          },
+          "targets": [
+            {
+              "group": {
+                "name": "Voice Infrastructure"
+              },
+              "host": {
+                "name": "avaya-cm-01"
+              },
+              "item": {
+                "name": "Real-Call Packet Loss (Last Hour)"
+              },
+              "refId": "LOSS"
+            }
+          ],
+          "title": "Real-Call Packet Loss % (Last Hour) [REAL \u2014 AVAYA SNMP]",
+          "type": "stat"
+        },
+        {
+          "datasource": {
+            "type": "alexanderzobnin-zabbix-datasource",
+            "uid": "PA67C5EADE9207728"
+          },
+          "description": "Peak interarrival packet jitter in milliseconds observed across real calls in the last completed hour. Source: Avaya CM SNMP table avCmMeasIpVoStatHrData (OID 1.3.6.1.4.1.6889.2.73.8.1.67 leaf .11). Polling interval: strictly 1 hour. Caching interval: 600s. Warning: > 20ms, Critical: > 30ms. Missing data indicates collector outage.",
+          "fieldConfig": {
+            "defaults": {
+              "color": {
+                "mode": "thresholds"
+              },
+              "thresholds": {
+                "mode": "absolute",
+                "steps": [
+                  {
+                    "color": "green",
+                    "value": null
+                  },
+                  {
+                    "color": "yellow",
+                    "value": 20
+                  },
+                  {
+                    "color": "red",
+                    "value": 30
+                  }
+                ]
+              },
+              "unit": "ms"
+            },
+            "overrides": []
+          },
+          "gridPos": {
+            "h": 6,
+            "w": 6,
+            "x": 6,
+            "y": 30
+          },
+          "id": 33,
+          "options": {
+            "colorMode": "value",
+            "graphMode": "none",
+            "justifyMode": "auto",
+            "orientation": "auto",
+            "reduceOptions": {
+              "calcs": [
+                "lastNotNull"
+              ],
+              "fields": "",
+              "values": false
+            },
+            "textMode": "auto"
+          },
+          "targets": [
+            {
+              "group": {
+                "name": "Voice Infrastructure"
+              },
+              "host": {
+                "name": "avaya-cm-01"
+              },
+              "item": {
+                "name": "Real-Call Peak Jitter (Last Hour)"
+              },
+              "refId": "PEAK_JITTER"
+            }
+          ],
+          "title": "Real-Call Peak Jitter (Last Hour) [REAL \u2014 AVAYA SNMP]",
+          "type": "stat"
+        },
+        {
+          "datasource": {
+            "type": "alexanderzobnin-zabbix-datasource",
+            "uid": "PA67C5EADE9207728"
+          },
+          "description": "Maximum two-way round-trip audio packet delay in milliseconds observed across real calls in the last completed hour. Source: Avaya CM SNMP table avCmMeasIpVoStatHrData (OID 1.3.6.1.4.1.6889.2.73.8.1.67 leaf .12). Polling interval: strictly 1 hour. Caching interval: 600s. Target: <= 150ms (ITU-T G.114), Critical: > 250ms. Missing data indicates collector outage.",
+          "fieldConfig": {
+            "defaults": {
+              "color": {
+                "mode": "thresholds"
+              },
+              "thresholds": {
+                "mode": "absolute",
+                "steps": [
+                  {
+                    "color": "green",
+                    "value": null
+                  },
+                  {
+                    "color": "yellow",
+                    "value": 150
+                  },
+                  {
+                    "color": "red",
+                    "value": 250
+                  }
+                ]
+              },
+              "unit": "ms"
+            },
+            "overrides": []
+          },
+          "gridPos": {
+            "h": 6,
+            "w": 6,
+            "x": 12,
+            "y": 36
+          },
+          "id": 34,
+          "options": {
+            "colorMode": "value",
+            "graphMode": "none",
+            "justifyMode": "auto",
+            "orientation": "auto",
+            "reduceOptions": {
+              "calcs": [
+                "lastNotNull"
+              ],
+              "fields": "",
+              "values": false
+            },
+            "textMode": "auto"
+          },
+          "targets": [
+            {
+              "group": {
+                "name": "Voice Infrastructure"
+              },
+              "host": {
+                "name": "avaya-cm-01"
+              },
+              "item": {
+                "name": "Real-Call Peak Two-Way Delay (Last Hour)"
+              },
+              "refId": "PEAK_DELAY"
+            }
+          ],
+          "title": "Real-Call Peak Delay (Last Hour) [REAL \u2014 AVAYA SNMP]",
+          "type": "stat"
+        },
+        {
+          "datasource": {
+            "type": "alexanderzobnin-zabbix-datasource",
+            "uid": "PA67C5EADE9207728"
+          },
+          "description": "Summary interarrival packet jitter metric calculated across active calls in the completed hour. Source: Avaya CM SNMP table avCmMeasIpVoStatHrData (OID 1.3.6.1.4.1.6889.2.73.8.1.67). Polling interval: strictly 1 hour. Caching interval: 600s. Missing data indicates collector outage.",
+          "fieldConfig": {
+            "defaults": {
+              "color": {
+                "mode": "thresholds"
+              },
+              "thresholds": {
+                "mode": "absolute",
+                "steps": [
+                  {
+                    "color": "green",
+                    "value": null
+                  },
+                  {
+                    "color": "yellow",
+                    "value": 15
+                  },
+                  {
+                    "color": "red",
+                    "value": 25
+                  }
+                ]
+              },
+              "unit": "ms"
+            },
+            "overrides": []
+          },
+          "gridPos": {
+            "h": 6,
+            "w": 6,
+            "x": 18,
+            "y": 42
+          },
+          "id": 35,
+          "options": {
+            "colorMode": "value",
+            "graphMode": "none",
+            "justifyMode": "auto",
+            "orientation": "auto",
+            "reduceOptions": {
+              "calcs": [
+                "lastNotNull"
+              ],
+              "fields": "",
+              "values": false
+            },
+            "textMode": "auto"
+          },
+          "targets": [
+            {
+              "group": {
+                "name": "Voice Infrastructure"
+              },
+              "host": {
+                "name": "avaya-cm-01"
+              },
+              "item": {
+                "name": "Real-Call Hourly Average Jitter"
+              },
+              "refId": "AVG_JITTER"
+            }
+          ],
+          "title": "Hourly Average Jitter [REAL \u2014 AVAYA SNMP]",
+          "type": "stat"
+        },
+        {
+          "datasource": {
+            "type": "alexanderzobnin-zabbix-datasource",
+            "uid": "PA67C5EADE9207728"
+          },
+          "description": "Primary negotiated audio compression algorithm / codec (e.g. G.711A, G.711U, G.729) active in the measured network region. Source: Avaya CM SNMP table avCmMeasIpVoStatHrData (OID 1.3.6.1.4.1.6889.2.73.8.1.67 leaf .8). Polling interval: 1 hour. Missing data indicates collector outage.",
+          "fieldConfig": {
+            "defaults": {},
+            "overrides": []
+          },
+          "gridPos": {
+            "h": 6,
+            "w": 8,
+            "x": 0,
+            "y": 48
+          },
+          "id": 36,
+          "options": {
+            "colorMode": "value",
+            "graphMode": "none",
+            "justifyMode": "auto",
+            "orientation": "auto",
+            "reduceOptions": {
+              "calcs": [
+                "lastNotNull"
+              ],
+              "fields": "",
+              "values": false
+            },
+            "textMode": "auto"
+          },
+          "targets": [
+            {
+              "group": {
+                "name": "Voice Infrastructure"
+              },
+              "host": {
+                "name": "avaya-cm-01"
+              },
+              "item": {
+                "name": "Negotiated Audio Codec"
+              },
+              "refId": "CODEC"
+            }
+          ],
+          "title": "Negotiated Audio Codec [REAL \u2014 AVAYA SNMP]",
+          "type": "stat"
+        },
+        {
+          "datasource": {
+            "type": "alexanderzobnin-zabbix-datasource",
+            "uid": "PA67C5EADE9207728"
+          },
+          "description": "Operational status of hardware/software echo cancellation on voice paths for the measured network region. Source: Avaya CM SNMP table avCmMeasIpVoStatHrData (OID 1.3.6.1.4.1.6889.2.73.8.1.67 leaf .13). Polling interval: 1 hour. Missing data indicates collector outage.",
+          "fieldConfig": {
+            "defaults": {},
+            "overrides": []
+          },
+          "gridPos": {
+            "h": 6,
+            "w": 8,
+            "x": 8,
+            "y": 54
+          },
+          "id": 37,
+          "options": {
+            "colorMode": "value",
+            "graphMode": "none",
+            "justifyMode": "auto",
+            "orientation": "auto",
+            "reduceOptions": {
+              "calcs": [
+                "lastNotNull"
+              ],
+              "fields": "",
+              "values": false
+            },
+            "textMode": "auto"
+          },
+          "targets": [
+            {
+              "group": {
+                "name": "Voice Infrastructure"
+              },
+              "host": {
+                "name": "avaya-cm-01"
+              },
+              "item": {
+                "name": "Echo Cancellation Status"
+              },
+              "refId": "ECHO"
+            }
+          ],
+          "title": "Echo Cancellation Status [REAL \u2014 AVAYA SNMP]",
+          "type": "stat"
+        },
+        {
+          "datasource": {
+            "type": "alexanderzobnin-zabbix-datasource",
+            "uid": "PA67C5EADE9207728"
+          },
+          "description": "Total number of real IP voice calls evaluated by Communication Manager during the last completed hour across all media gateways. Source: Avaya CM SNMP table avCmMeasIpVoStatHrData (OID 1.3.6.1.4.1.6889.2.73.8.1.67). Polling interval: 1 hour. Missing data indicates collector outage.",
+          "fieldConfig": {
+            "defaults": {
+              "unit": "calls"
+            },
+            "overrides": []
+          },
+          "gridPos": {
+            "h": 6,
+            "w": 8,
+            "x": 16,
+            "y": 60
+          },
+          "id": 38,
+          "options": {
+            "colorMode": "value",
+            "graphMode": "none",
+            "justifyMode": "auto",
+            "orientation": "auto",
+            "reduceOptions": {
+              "calcs": [
+                "lastNotNull"
+              ],
+              "fields": "",
+              "values": false
+            },
+            "textMode": "auto"
+          },
+          "targets": [
+            {
+              "group": {
+                "name": "Voice Infrastructure"
+              },
+              "host": {
+                "name": "avaya-cm-01"
+              },
+              "item": {
+                "name": "Real-Call Evaluated Calls Count"
+              },
+              "refId": "EVAL_CALLS"
+            }
+          ],
+          "title": "Evaluated Calls Count in Last Hour [REAL \u2014 AVAYA SNMP]",
+          "type": "stat"
+        }
+      ],
+      "title": "Avaya Aura Communication Manager (CM) Call Processing & IP Telephony",
+      "type": "row"
+    },
+    {
+      "collapsed": true,
+      "gridPos": {
+        "h": 1,
+        "w": 24,
+        "x": 0,
+        "y": 77
+      },
+      "id": 39,
+      "panels": [
+        {
+          "datasource": {
+            "type": "alexanderzobnin-zabbix-datasource",
+            "uid": "PA67C5EADE9207728"
+          },
+          "description": "Operating time of the Avaya G450 chassis processor since last reload or power cycle. Source: MIB-II sysUpTime (OID 1.3.6.1.2.1.1.3.0). Polling: 60s. Freshness: 60s. Missing data indicates collector outage, agent failure, or network disruption; values are preserved as null gaps.",
+          "fieldConfig": {
+            "defaults": {
+              "unit": "s"
+            },
+            "overrides": []
+          },
+          "gridPos": {
+            "h": 6,
+            "w": 6,
+            "x": 0,
+            "y": 0
+          },
+          "id": 40,
+          "options": {
+            "colorMode": "value",
+            "graphMode": "none",
+            "justifyMode": "auto",
+            "orientation": "auto",
+            "reduceOptions": {
+              "calcs": [
+                "lastNotNull"
+              ],
+              "fields": "",
+              "values": false
+            },
+            "textMode": "auto"
+          },
+          "targets": [
+            {
+              "group": {
+                "name": "Voice Infrastructure"
+              },
+              "host": {
+                "name": "avaya-g450-01"
+              },
+              "item": {
+                "name": "Chassis System Uptime"
+              },
+              "refId": "UPTIME"
+            }
+          ],
+          "title": "G450 System Uptime [REAL \u2014 HARDWARE]",
+          "type": "stat"
+        },
+        {
+          "datasource": {
+            "type": "alexanderzobnin-zabbix-datasource",
+            "uid": "PA67C5EADE9207728"
+          },
+          "description": "Registration status of the G450 Media Gateway with its controlling Avaya Communication Manager server. 1 = REGISTERED, 2 = UNREGISTERED, 3 = DISCOVERING. Source: Avaya G450 Gateway MIB. Polling: 60s. Critical alert if unregistered. Missing data indicates collector outage, agent failure, or network disruption; values are preserved as null gaps.",
+          "fieldConfig": {
+            "defaults": {
+              "color": {
+                "mode": "thresholds"
+              },
+              "mappings": [
+                {
+                  "options": {
+                    "1": {
+                      "color": "green",
+                      "text": "REGISTERED (ACTIVE)"
+                    },
+                    "2": {
+                      "color": "red",
+                      "text": "UNREGISTERED (DOWN)"
+                    },
+                    "3": {
+                      "color": "yellow",
+                      "text": "DISCOVERING"
+                    }
+                  },
+                  "type": "value"
+                }
+              ],
+              "thresholds": {
+                "mode": "absolute",
+                "steps": [
+                  {
+                    "color": "red",
+                    "value": null
+                  },
+                  {
+                    "color": "green",
+                    "value": 1
+                  }
+                ]
+              }
+            },
+            "overrides": []
+          },
+          "gridPos": {
+            "h": 6,
+            "w": 6,
+            "x": 6,
+            "y": 6
+          },
+          "id": 41,
+          "options": {
+            "colorMode": "background",
+            "graphMode": "none",
+            "justifyMode": "auto",
+            "orientation": "auto",
+            "reduceOptions": {
+              "calcs": [
+                "lastNotNull"
+              ],
+              "fields": "",
+              "values": false
+            },
+            "textMode": "auto"
+          },
+          "targets": [
+            {
+              "group": {
+                "name": "Voice Infrastructure"
+              },
+              "host": {
+                "name": "avaya-g450-01"
+              },
+              "item": {
+                "name": "Gateway CM Registration State"
+              },
+              "refId": "REG_STATE"
+            }
+          ],
+          "title": "CM Gateway Registration [CONFIGURED \u2014 G450 MGP]",
+          "type": "stat"
+        },
+        {
+          "datasource": {
+            "type": "alexanderzobnin-zabbix-datasource",
+            "uid": "PA67C5EADE9207728"
+          },
+          "description": "Event-derived internal thermal state of the G450 chassis processor. States: 0 = UNKNOWN (no trap received / initialized), 1 = CLEARED (normal operation after temperatureClear trap), 2 = WARNING (ambient temperature threshold exceeded after temperatureWarning trap). Important: Avaya G450 MGP firmware does not expose a continuous analog temperature gauge or a separate critical trap state; thermal monitoring is strictly event-derived (Phase 13.3 MIB conformance). Provenance: CONFIGURED_UNVERIFIED. Missing data indicates trapper service failure.",
+          "fieldConfig": {
+            "defaults": {
+              "color": {
+                "mode": "thresholds"
+              },
+              "mappings": [
+                {
+                  "options": {
+                    "0": {
+                      "color": "semi-dark-blue",
+                      "text": "UNKNOWN"
+                    },
+                    "1": {
+                      "color": "green",
+                      "text": "CLEARED (NORMAL)"
+                    },
+                    "2": {
+                      "color": "orange",
+                      "text": "THERMAL WARNING"
+                    }
+                  },
+                  "type": "value"
+                }
+              ],
+              "thresholds": {
+                "mode": "absolute",
+                "steps": [
+                  {
+                    "color": "semi-dark-blue",
+                    "value": null
+                  },
+                  {
+                    "color": "green",
+                    "value": 1
+                  },
+                  {
+                    "color": "orange",
+                    "value": 2
+                  }
+                ]
+              }
+            },
+            "overrides": []
+          },
+          "gridPos": {
+            "h": 6,
+            "w": 6,
+            "x": 12,
+            "y": 12
+          },
+          "id": 42,
+          "options": {
+            "colorMode": "background",
+            "graphMode": "none",
+            "justifyMode": "auto",
+            "orientation": "auto",
+            "reduceOptions": {
+              "calcs": [
+                "lastNotNull"
+              ],
+              "fields": "",
+              "values": false
+            },
+            "textMode": "auto"
+          },
+          "targets": [
+            {
+              "group": {
+                "name": "Voice Infrastructure"
+              },
+              "host": {
+                "name": "avaya-g450-01"
+              },
+              "item": {
+                "name": "Internal Chassis Temperature Alarm State"
+              },
+              "refId": "TEMP"
+            }
+          ],
+          "title": "Chassis Thermal State [EVENT TRAP \u2014 G450 MGP]",
+          "type": "stat"
+        },
+        {
+          "datasource": {
+            "type": "alexanderzobnin-zabbix-datasource",
+            "uid": "PA67C5EADE9207728"
+          },
+          "description": "Operational state of Primary and Redundant Power Supply Units (PSU 1 and PSU 2). 1 = Normal, 2 = Fault/Failed, 3 = Not Installed. Collection Mechanism: Ingested via G450 MGP SNMP traps (powerSupplyFailure / powerSupplyNormal) or chassis status. Provenance: CONFIGURED_UNVERIFIED. Missing data indicates collector outage, agent failure, or network disruption; values are preserved as null gaps.",
+          "fieldConfig": {
+            "defaults": {
+              "color": {
+                "mode": "thresholds"
+              },
+              "mappings": [
+                {
+                  "options": {
+                    "1": {
+                      "color": "green",
+                      "text": "NORMAL"
+                    },
+                    "2": {
+                      "color": "red",
+                      "text": "FAULT / FAIL"
+                    },
+                    "3": {
+                      "color": "semi-dark-blue",
+                      "text": "NOT INSTALLED"
+                    }
+                  },
+                  "type": "value"
+                }
+              ],
+              "thresholds": {
+                "mode": "absolute",
+                "steps": [
+                  {
+                    "color": "red",
+                    "value": null
+                  },
+                  {
+                    "color": "green",
+                    "value": 1
+                  }
+                ]
+              }
+            },
+            "overrides": []
+          },
+          "gridPos": {
+            "h": 6,
+            "w": 6,
+            "x": 18,
+            "y": 18
+          },
+          "id": 43,
+          "options": {
+            "colorMode": "background",
+            "graphMode": "none",
+            "justifyMode": "auto",
+            "orientation": "auto",
+            "reduceOptions": {
+              "calcs": [
+                "lastNotNull"
+              ],
+              "fields": "",
+              "values": false
+            },
+            "textMode": "auto"
+          },
+          "targets": [
+            {
+              "group": {
+                "name": "Voice Infrastructure"
+              },
+              "host": {
+                "name": "avaya-g450-01"
+              },
+              "item": {
+                "name": "Primary Power Supply Status"
+              },
+              "refId": "PSU1"
+            },
+            {
+              "group": {
+                "name": "Voice Infrastructure"
+              },
+              "host": {
+                "name": "avaya-g450-01"
+              },
+              "item": {
+                "name": "Secondary Power Supply Status (Redundant)"
+              },
+              "refId": "PSU2"
+            }
+          ],
+          "title": "Power Supply Status (PSU 1 & 2) [CONFIGURED \u2014 EVENT TRAP]",
+          "type": "stat"
+        },
+        {
+          "datasource": {
+            "type": "alexanderzobnin-zabbix-datasource",
+            "uid": "PA67C5EADE9207728"
+          },
+          "description": "Operational link status of the physical E1 / ISDN PRI trunk port on the installed MM710 media module. 1 = UP, 2 = DOWN. Source: IF-MIB ifOperStatus. Polling: 60s. Critical alert if down. Missing data indicates collector outage, agent failure, or network disruption; values are preserved as null gaps.",
+          "fieldConfig": {
+            "defaults": {
+              "color": {
+                "mode": "thresholds"
+              },
+              "mappings": [
+                {
+                  "options": {
+                    "1": {
+                      "color": "green",
+                      "text": "LINK UP"
+                    },
+                    "2": {
+                      "color": "red",
+                      "text": "LINK DOWN"
+                    }
+                  },
+                  "type": "value"
+                }
+              ],
+              "thresholds": {
+                "mode": "absolute",
+                "steps": [
+                  {
+                    "color": "red",
+                    "value": null
+                  },
+                  {
+                    "color": "green",
+                    "value": 1
+                  }
+                ]
+              }
+            },
+            "overrides": []
+          },
+          "gridPos": {
+            "h": 6,
+            "w": 8,
+            "x": 0,
+            "y": 24
+          },
+          "id": 44,
+          "options": {
+            "colorMode": "background",
+            "graphMode": "none",
+            "justifyMode": "auto",
+            "orientation": "auto",
+            "reduceOptions": {
+              "calcs": [
+                "lastNotNull"
+              ],
+              "fields": "",
+              "values": false
+            },
+            "textMode": "auto"
+          },
+          "targets": [
+            {
+              "group": {
+                "name": "Voice Infrastructure"
+              },
+              "host": {
+                "name": "avaya-g450-01"
+              },
+              "item": {
+                "name": "E1/ISDN Primary Trunk Port Operational Status"
+              },
+              "refId": "E1_STATUS"
+            }
+          ],
+          "title": "E1 / ISDN PRI Physical Trunk State [CONFIGURED \u2014 IF-MIB]",
+          "type": "stat"
+        },
+        {
+          "datasource": {
+            "type": "alexanderzobnin-zabbix-datasource",
+            "uid": "PA67C5EADE9207728"
+          },
+          "description": "VoIP DSP and media resource channel utilization. Status: Not collected \u2014 requires physical audit of installed G450 firmware and DSP child cards (MP20 / MP80 for older branch gateways, MP120 / MP160 for high-capacity models). Unconfirmed telemetry is honestly displayed as N/A rather than an invented percentage. Missing data indicates uncollected hardware telemetry.",
+          "fieldConfig": {
+            "defaults": {
+              "color": {
+                "mode": "thresholds"
+              },
+              "noValue": "Not Collected (Hardware Audit Required)",
+              "thresholds": {
+                "mode": "absolute",
+                "steps": [
+                  {
+                    "color": "semi-dark-blue",
+                    "value": null
+                  }
+                ]
+              }
+            },
+            "overrides": []
+          },
+          "gridPos": {
+            "h": 6,
+            "w": 8,
+            "x": 8,
+            "y": 30
+          },
+          "id": 45,
+          "options": {
+            "colorMode": "background",
+            "graphMode": "none",
+            "justifyMode": "auto",
+            "orientation": "auto",
+            "reduceOptions": {
+              "calcs": [
+                "lastNotNull"
+              ],
+              "fields": "",
+              "values": false
+            },
+            "textMode": "auto"
+          },
+          "targets": [
+            {
+              "group": {
+                "name": "Voice Infrastructure"
+              },
+              "host": {
+                "name": "avaya-g450-01"
+              },
+              "item": {
+                "name": "avG450DspChannelUtilization"
+              },
+              "refId": "DSP"
+            }
+          ],
+          "title": "DSP Media Resource Channels [NOT COLLECTED \u2014 REQUIRES AUDIT]",
+          "type": "stat"
+        },
+        {
+          "datasource": {
+            "type": "alexanderzobnin-zabbix-datasource",
+            "uid": "PA67C5EADE9207728"
+          },
+          "description": "Operational cooling state of the G450 chassis fan tray unit: 1 = Normal, 2 = Fan Failure, 3 = Warning. Collection Mechanism: Ingested via G450 MGP SNMP trap (fanFailure) or chassis status. Provenance: CONFIGURED_UNVERIFIED. Missing data indicates collector outage, agent failure, or network disruption; values are preserved as null gaps.",
+          "fieldConfig": {
+            "defaults": {
+              "color": {
+                "mode": "thresholds"
+              },
+              "mappings": [
+                {
+                  "options": {
+                    "1": {
+                      "color": "green",
+                      "text": "NORMAL"
+                    },
+                    "2": {
+                      "color": "red",
+                      "text": "FAN FAILURE"
+                    },
+                    "3": {
+                      "color": "yellow",
+                      "text": "WARNING"
+                    }
+                  },
+                  "type": "value"
+                }
+              ],
+              "thresholds": {
+                "mode": "absolute",
+                "steps": [
+                  {
+                    "color": "red",
+                    "value": null
+                  },
+                  {
+                    "color": "green",
+                    "value": 1
+                  }
+                ]
+              }
+            },
+            "overrides": []
+          },
+          "gridPos": {
+            "h": 6,
+            "w": 8,
+            "x": 16,
+            "y": 36
+          },
+          "id": 46,
+          "options": {
+            "colorMode": "background",
+            "graphMode": "none",
+            "justifyMode": "auto",
+            "orientation": "auto",
+            "reduceOptions": {
+              "calcs": [
+                "lastNotNull"
+              ],
+              "fields": "",
+              "values": false
+            },
+            "textMode": "auto"
+          },
+          "targets": [
+            {
+              "group": {
+                "name": "Voice Infrastructure"
+              },
+              "host": {
+                "name": "avaya-g450-01"
+              },
+              "item": {
+                "name": "Chassis Fan Tray State"
+              },
+              "refId": "FAN"
+            }
+          ],
+          "title": "Chassis Fan Tray Operational State [CONFIGURED \u2014 EVENT TRAP]",
+          "type": "stat"
+        },
+        {
+          "datasource": {
+            "type": "alexanderzobnin-zabbix-datasource",
+            "uid": "PA67C5EADE9207728"
+          },
+          "description": "Inventory table of installed media module slots (V1 through V8) on the G450 chassis, displaying module model (MM710 E1/T1, MM711 Analog, MM716 Station, MM720 ISDN BRI), serial number, and module operational status. Source: Avaya G450 Media Module Discovery. Missing data indicates collector outage, agent failure, or network disruption; values are preserved as null gaps.",
+          "fieldConfig": {
+            "defaults": {},
+            "overrides": []
+          },
+          "gridPos": {
+            "h": 7,
+            "w": 24,
+            "x": 0,
+            "y": 42
+          },
+          "id": 47,
+          "options": {
+            "showHeader": true
+          },
+          "targets": [
+            {
+              "group": {
+                "name": "Voice Infrastructure"
+              },
+              "host": {
+                "name": "avaya-g450-01"
+              },
+              "application": {
+                "name": "Media Modules"
+              },
+              "item": {
+                "name": "Discovered Media Modules Table"
+              },
+              "refId": "MODULES"
+            }
+          ],
+          "title": "Installed Media Module Slot Inventory (V1-V8) [REAL \u2014 HARDWARE]",
+          "type": "table"
+        }
+      ],
+      "title": "Avaya G450 Media Gateway Appliance & Physical DSP Voice Channels",
+      "type": "row"
+    },
+    {
+      "collapsed": true,
+      "gridPos": {
+        "h": 1,
+        "w": 24,
+        "x": 0,
+        "y": 78
+      },
+      "id": 48,
+      "panels": [
+        {
+          "datasource": {
+            "type": "alexanderzobnin-zabbix-datasource",
+            "uid": "PA67C5EADE9207728"
+          },
+          "description": "Operational registration state of the primary Safaricom SIP trunk terminating on Avaya SBCE interface A1. 1 = REGISTERED, 0 = UNREGISTERED / FAILED. Source: Zabbix SNMP/SIP OPTIONS check on SBCE. Crucial Note: Proves layer-5 signaling reachability only; does NOT guarantee absence of voice packet loss or acceptable audio quality. Missing data indicates collector outage, agent failure, or network disruption; values are preserved as null gaps.",
+          "fieldConfig": {
+            "defaults": {
+              "color": {
+                "mode": "thresholds"
+              },
+              "mappings": [
+                {
+                  "options": {
+                    "1": {
+                      "color": "green",
+                      "text": "REGISTERED (SIP UP)"
+                    },
+                    "0": {
+                      "color": "red",
+                      "text": "UNREGISTERED (DOWN)"
+                    }
+                  },
+                  "type": "value"
+                }
+              ],
+              "thresholds": {
+                "mode": "absolute",
+                "steps": [
+                  {
+                    "color": "red",
+                    "value": null
+                  },
+                  {
+                    "color": "green",
+                    "value": 1
+                  }
+                ]
+              }
+            },
+            "overrides": []
+          },
+          "gridPos": {
+            "h": 6,
+            "w": 6,
+            "x": 0,
+            "y": 0
+          },
+          "id": 49,
+          "options": {
+            "colorMode": "background",
+            "graphMode": "none",
+            "justifyMode": "auto",
+            "orientation": "auto",
+            "reduceOptions": {
+              "calcs": [
+                "lastNotNull"
+              ],
+              "fields": "",
+              "values": false
+            },
+            "textMode": "auto"
+          },
+          "targets": [
+            {
+              "group": {
+                "name": "Voice Infrastructure"
+              },
+              "host": {
+                "name": "sip-trunk-carrier-01"
+              },
+              "item": {
+                "name": "SIP Trunk Endpoint Reachability"
+              },
+              "refId": "SAFARICOM"
+            }
+          ],
+          "title": "Safaricom Primary SIP Trunk [REAL \u2014 ZABBIX]",
+          "type": "stat"
+        },
+        {
+          "datasource": {
+            "type": "alexanderzobnin-zabbix-datasource",
+            "uid": "PA67C5EADE9207728"
+          },
+          "description": "Operational registration state of the secondary Airtel SIP trunk terminating on Avaya SBCE interface A1. 1 = REGISTERED, 0 = UNREGISTERED / FAILED. Source: Zabbix SNMP/SIP OPTIONS check on SBCE. Signaling reachability only. Missing data indicates collector outage, agent failure, or network disruption; values are preserved as null gaps.",
+          "fieldConfig": {
+            "defaults": {
+              "color": {
+                "mode": "thresholds"
+              },
+              "mappings": [
+                {
+                  "options": {
+                    "1": {
+                      "color": "green",
+                      "text": "REGISTERED (SIP UP)"
+                    },
+                    "0": {
+                      "color": "red",
+                      "text": "UNREGISTERED (DOWN)"
+                    }
+                  },
+                  "type": "value"
+                }
+              ],
+              "thresholds": {
+                "mode": "absolute",
+                "steps": [
+                  {
+                    "color": "red",
+                    "value": null
+                  },
+                  {
+                    "color": "green",
+                    "value": 1
+                  }
+                ]
+              }
+            },
+            "overrides": []
+          },
+          "gridPos": {
+            "h": 6,
+            "w": 6,
+            "x": 6,
+            "y": 6
+          },
+          "id": 50,
+          "options": {
+            "colorMode": "background",
+            "graphMode": "none",
+            "justifyMode": "auto",
+            "orientation": "auto",
+            "reduceOptions": {
+              "calcs": [
+                "lastNotNull"
+              ],
+              "fields": "",
+              "values": false
+            },
+            "textMode": "auto"
+          },
+          "targets": [
+            {
+              "group": {
+                "name": "Voice Infrastructure"
+              },
+              "host": {
+                "name": "sip-trunk-carrier-01"
+              },
+              "item": {
+                "name": "SIP Trunk OPTIONS Probe Status"
+              },
+              "refId": "AIRTEL"
+            }
+          ],
+          "title": "Airtel Secondary SIP Trunk [REAL \u2014 ZABBIX]",
+          "type": "stat"
+        },
+        {
+          "datasource": {
+            "type": "alexanderzobnin-zabbix-datasource",
+            "uid": "PA67C5EADE9207728"
+          },
+          "description": "Round-trip latency in milliseconds for SIP OPTIONS heartbeat pings exchanged with carrier SBC endpoints (Safaricom vs Airtel). Units: Milliseconds (ms). Warning: > 50ms, Critical: > 100ms. Source: Zabbix SIP OPTIONS probe. Polling: 30s. Missing data indicates collector outage, agent failure, or network disruption; values are preserved as null gaps.",
+          "fieldConfig": {
+            "defaults": {
+              "custom": {
+                "drawStyle": "line",
+                "lineInterpolation": "smooth",
+                "spanNulls": false
+              },
+              "unit": "ms"
+            },
+            "overrides": []
+          },
+          "gridPos": {
+            "h": 6,
+            "w": 12,
+            "x": 12,
+            "y": 12
+          },
+          "id": 51,
+          "options": {
+            "tooltip": {
+              "mode": "multi"
+            }
+          },
+          "targets": [
+            {
+              "group": {
+                "name": "Voice Infrastructure"
+              },
+              "host": {
+                "name": "sip-trunk-carrier-01"
+              },
+              "item": {
+                "name": "SIP Trunk OPTIONS Response Time"
+              },
+              "refId": "SAF_RTT"
+            },
+            {
+              "group": {
+                "name": "Voice Infrastructure"
+              },
+              "host": {
+                "name": "sip-trunk-carrier-01"
+              },
+              "item": {
+                "name": "SIP Trunk OPTIONS Response Time"
+              },
+              "refId": "AIR_RTT"
+            }
+          ],
+          "title": "Carrier SIP OPTIONS Round-Trip Latency [REAL \u2014 ZABBIX]",
+          "type": "timeseries"
+        },
+        {
+          "datasource": {
+            "type": "alexanderzobnin-zabbix-datasource",
+            "uid": "PA67C5EADE9207728"
+          },
+          "description": "Post-Dial Delay (PDD: INVITE to 18x), Time-to-Alerting (TTA: INVITE to 180 Ringing), and Call Setup Duration measured in milliseconds from synthetic Asterisk test calls across carrier trunks. Source: Asterisk AMI call logs. Limitations: Reflects synthetic probe calls between test extensions. Missing data indicates collector outage, agent failure, or network disruption; values are preserved as null gaps.",
+          "fieldConfig": {
+            "defaults": {
+              "custom": {
+                "drawStyle": "line",
+                "lineInterpolation": "smooth",
+                "spanNulls": false
+              },
+              "unit": "ms"
+            },
+            "overrides": []
+          },
+          "gridPos": {
+            "h": 7,
+            "w": 14,
+            "x": 0,
+            "y": 18
+          },
+          "id": 52,
+          "options": {
+            "tooltip": {
+              "mode": "multi"
+            }
+          },
+          "targets": [
+            {
+              "group": {
+                "name": "Voice Infrastructure"
+              },
+              "host": {
+                "name": "/.*/"
+              },
+              "application": {
+                "name": "Synthetic Voice Probes"
+              },
+              "item": {
+                "name": "Post-Dial Delay (PDD)"
+              },
+              "refId": "PDD"
+            },
+            {
+              "group": {
+                "name": "Voice Infrastructure"
+              },
+              "host": {
+                "name": "/.*/"
+              },
+              "application": {
+                "name": "Synthetic Voice Probes"
+              },
+              "item": {
+                "name": "Time to Alerting (TTA)"
+              },
+              "refId": "TTA"
+            },
+            {
+              "group": {
+                "name": "Voice Infrastructure"
+              },
+              "host": {
+                "name": "/.*/"
+              },
+              "application": {
+                "name": "Synthetic Voice Probes"
+              },
+              "item": {
+                "name": "Call Setup Duration"
+              },
+              "refId": "SETUP"
+            }
+          ],
+          "title": "Signaling Phase Latencies (PDD vs TTA vs Setup) [SYNTHETIC \u2014 ASTERISK PROBE]",
+          "type": "timeseries"
+        },
+        {
+          "datasource": {
+            "type": "alexanderzobnin-zabbix-datasource",
+            "uid": "PA67C5EADE9207728"
+          },
+          "description": "Distribution of SIP response codes returned by carrier networks during synthetic probe calls: differentiates expected station states (480 offline, 486 busy, 487 teardown) from carrier/infrastructure failures (500 Server Internal Error, 502 Bad Gateway, 503 Service Unavailable, 504 Gateway Timeout). Source: Synthetic Asterisk transaction logs. Missing data indicates collector outage, agent failure, or network disruption; values are preserved as null gaps.",
+          "fieldConfig": {
+            "defaults": {
+              "unit": "short"
+            },
+            "overrides": []
+          },
+          "gridPos": {
+            "h": 7,
+            "w": 10,
+            "x": 14,
+            "y": 25
+          },
+          "id": 53,
+          "options": {
+            "legend": {
+              "displayMode": "table",
+              "placement": "right"
+            },
+            "pieType": "pie"
+          },
+          "targets": [
+            {
+              "group": {
+                "name": "Voice Infrastructure"
+              },
+              "host": {
+                "name": "/.*/"
+              },
+              "application": {
+                "name": "Synthetic Voice Probes"
+              },
+              "item": {
+                "name": "SIP Responses by Category"
+              },
+              "refId": "CODES"
+            }
+          ],
+          "title": "SIP Response Distribution (Station vs Trunk Outage) [SYNTHETIC \u2014 ASTERISK PROBE]",
+          "type": "piechart"
+        },
+        {
+          "datasource": {
+            "type": "alexanderzobnin-zabbix-datasource",
+            "uid": "PA67C5EADE9207728"
+          },
+          "description": "Bidirectional network bandwidth utilization on external interface A1 carrying carrier SIP signaling and RTP media streams. Units: Bits per second (bps). Source: IF-MIB on Avaya SBCE via Zabbix SNMPv3. Polling: 30s. Missing data indicates collector outage, agent failure, or network disruption; values are preserved as null gaps.",
+          "fieldConfig": {
+            "defaults": {
+              "custom": {
+                "drawStyle": "line",
+                "lineInterpolation": "smooth",
+                "spanNulls": false
+              },
+              "unit": "bps"
+            },
+            "overrides": []
+          },
+          "gridPos": {
+            "h": 6,
+            "w": 12,
+            "x": 0,
+            "y": 32
+          },
+          "id": 54,
+          "options": {
+            "tooltip": {
+              "mode": "multi"
+            }
+          },
+          "targets": [
+            {
+              "group": {
+                "name": "Voice Infrastructure"
+              },
+              "host": {
+                "name": "avaya-sbce-01"
+              },
+              "item": {
+                "name": "A1 Interface Ingress Traffic (bps)"
+              },
+              "refId": "A1_IN"
+            },
+            {
+              "group": {
+                "name": "Voice Infrastructure"
+              },
+              "host": {
+                "name": "avaya-sbce-01"
+              },
+              "item": {
+                "name": "A1 Interface Egress Traffic (bps)"
+              },
+              "refId": "A1_OUT"
+            }
+          ],
+          "title": "A1 Carrier DMZ Bandwidth (bps) [REAL \u2014 SBCE SNMP]",
+          "type": "timeseries"
+        },
+        {
+          "datasource": {
+            "type": "alexanderzobnin-zabbix-datasource",
+            "uid": "PA67C5EADE9207728"
+          },
+          "description": "Rate of inbound and outbound frame/packet errors detected on carrier interface A1. Units: Errors per second. Source: IF-MIB ifInErrors / ifOutErrors. Any non-zero error rate directly degrades voice audio quality, causing clipping and metallic distortion. Missing data indicates collector outage, agent failure, or network disruption; values are preserved as null gaps.",
+          "fieldConfig": {
+            "defaults": {
+              "color": {
+                "mode": "thresholds"
+              },
+              "custom": {
+                "drawStyle": "line",
+                "lineInterpolation": "smooth",
+                "spanNulls": false
+              },
+              "thresholds": {
+                "mode": "absolute",
+                "steps": [
+                  {
+                    "color": "green",
+                    "value": null
+                  },
+                  {
+                    "color": "red",
+                    "value": 1
+                  }
+                ]
+              },
+              "unit": "errors/s"
+            },
+            "overrides": []
+          },
+          "gridPos": {
+            "h": 6,
+            "w": 12,
+            "x": 12,
+            "y": 38
+          },
+          "id": 55,
+          "options": {
+            "tooltip": {
+              "mode": "single"
+            }
+          },
+          "targets": [
+            {
+              "group": {
+                "name": "Voice Infrastructure"
+              },
+              "host": {
+                "name": "avaya-sbce-01"
+              },
+              "item": {
+                "name": "SBCE Aggregate Interface Error Rate"
+              },
+              "refId": "ERRORS"
+            }
+          ],
+          "title": "Carrier Interface Packet Errors (Errors/sec) [REAL \u2014 SBCE SNMP]",
+          "type": "timeseries"
+        }
+      ],
+      "title": "Carrier SIP Trunks, Signaling Ladders & Perimeter Session Routing",
+      "type": "row"
+    }
+  ],
+  "refresh": "10s",
+  "schemaVersion": 38,
+  "style": "dark",
+  "tags": [
+    "nawari",
+    "communication",
+    "avaya",
+    "signaling",
+    "tier3"
+  ],
+  "templating": {
+    "list": []
+  },
+  "time": {
+    "from": "now-1h",
+    "to": "now"
+  },
+  "timepicker": {
+    "refresh_intervals": [
+      "5s",
+      "10s",
+      "30s",
+      "1m",
+      "5m",
+      "15m",
+      "30m",
+      "1h",
+      "2h",
+      "1d"
+    ]
+  },
+  "timezone": "browser",
+  "title": "Nawari \u2014 Avaya Infrastructure & Signaling",
+  "uid": "nawari-avaya-infrastructure",
+  "version": 1
+}

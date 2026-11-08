@@ -1,0 +1,1130 @@
+{
+  "annotations": {
+    "list": []
+  },
+  "editable": true,
+  "fiscalYearStartMonth": 0,
+  "graphTooltip": 1,
+  "id": null,
+  "links": [
+    {
+      "asDropdown": false,
+      "icon": "home",
+      "includeVars": true,
+      "keepTime": true,
+      "tags": [],
+      "targetBlank": false,
+      "title": "Home (Exec)",
+      "tooltip": "Enterprise Executive Overview",
+      "type": "link",
+      "url": "/d/nawari-enterprise-overview/0bff031"
+    },
+    {
+      "asDropdown": false,
+      "icon": "network",
+      "includeVars": true,
+      "keepTime": true,
+      "tags": [],
+      "targetBlank": false,
+      "title": "Network Ops",
+      "tooltip": "Network Operations Overview",
+      "type": "link",
+      "url": "/d/nawari-network-operations/network-operations"
+    },
+    {
+      "asDropdown": false,
+      "icon": "globe",
+      "includeVars": true,
+      "keepTime": true,
+      "tags": [],
+      "targetBlank": false,
+      "title": "WAN & Outstations",
+      "tooltip": "WAN, Path & Outstation Observability",
+      "type": "link",
+      "url": "/d/nawari-wan-path-outstation/wan-path-outstation"
+    },
+    {
+      "asDropdown": false,
+      "icon": "laptop",
+      "includeVars": true,
+      "keepTime": true,
+      "tags": [],
+      "targetBlank": false,
+      "title": "Endpoints & Users",
+      "tooltip": "Endpoint & User Experience",
+      "type": "link",
+      "url": "/d/nawari-endpoint-experience/endpoint-experience"
+    },
+    {
+      "asDropdown": false,
+      "icon": "heartbeat",
+      "includeVars": true,
+      "keepTime": true,
+      "tags": [],
+      "targetBlank": false,
+      "title": "Services & SLA",
+      "tooltip": "Network Services & Incident Assurance",
+      "type": "link",
+      "url": "/d/nawari-network-services-assurance/network-services-assurance"
+    },
+    {
+      "asDropdown": false,
+      "icon": "phone",
+      "includeVars": true,
+      "keepTime": true,
+      "tags": [],
+      "targetBlank": false,
+      "title": "Voice Overview",
+      "tooltip": "Communication Services Overview",
+      "type": "link",
+      "url": "/d/nawari-comm-overview/e353360"
+    },
+    {
+      "asDropdown": false,
+      "icon": "server",
+      "includeVars": true,
+      "keepTime": true,
+      "tags": [],
+      "targetBlank": false,
+      "title": "Avaya Infra",
+      "tooltip": "Avaya Infrastructure & Signaling",
+      "type": "link",
+      "url": "/d/nawari-avaya-infrastructure/avaya-infrastructure"
+    },
+    {
+      "asDropdown": false,
+      "icon": "volume-up",
+      "includeVars": true,
+      "keepTime": true,
+      "tags": [],
+      "targetBlank": false,
+      "title": "Voice Quality & CC",
+      "tooltip": "Voice Quality & Contact Centre",
+      "type": "link",
+      "url": "/d/nawari-voice-contact-centre/voice-contact-centre"
+    },
+    {
+      "asDropdown": false,
+      "icon": "share-alt",
+      "includeVars": true,
+      "keepTime": true,
+      "tags": [],
+      "targetBlank": false,
+      "title": "Cross-Domain",
+      "tooltip": "Cross-Domain Correlation & Operations",
+      "type": "link",
+      "url": "/d/nawari-voice-correlation/2983cfd"
+    },
+    {
+      "asDropdown": false,
+      "icon": "folder",
+      "includeVars": false,
+      "keepTime": true,
+      "tags": [],
+      "targetBlank": false,
+      "title": "Browse All",
+      "tooltip": "Browse All Dashboards",
+      "type": "link",
+      "url": "/dashboards"
+    }
+  ],
+  "liveNow": false,
+  "panels": [
+    {
+      "collapsed": false,
+      "gridPos": {
+        "h": 1,
+        "w": 24,
+        "x": 0,
+        "y": 0
+      },
+      "id": 1,
+      "title": "Avaya Core Telephony Platform Availability & Alarm State",
+      "type": "row"
+    },
+    {
+      "datasource": {
+        "type": "alexanderzobnin-zabbix-datasource",
+        "uid": "PA67C5EADE9207728"
+      },
+      "description": "Composite availability grid across all core enterprise telephony platforms: Avaya SBCE (.131 Pride), Session Manager (.22), Communication Manager (.26), G450 Media Gateway (.60), and CMS Server. Displays real-time operational status (1 = UP, 0 = DOWN). Source: Zabbix ICMP and SNMP health checks. Freshness: 60s. Limitation: Reflects management/control plane reachability only. Missing data indicates collector outage, agent failure, or network disruption; values are preserved as null gaps.",
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "thresholds"
+          },
+          "mappings": [
+            {
+              "options": {
+                "1": {
+                  "color": "green",
+                  "text": "ONLINE (UP)"
+                },
+                "0": {
+                  "color": "red",
+                  "text": "OFFLINE (DOWN)"
+                }
+              },
+              "type": "value"
+            }
+          ],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "red",
+                "value": null
+              },
+              {
+                "color": "green",
+                "value": 1
+              }
+            ]
+          }
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 6,
+        "w": 16,
+        "x": 0,
+        "y": 1
+      },
+      "id": 2,
+      "options": {
+        "colorMode": "background",
+        "graphMode": "none",
+        "justifyMode": "auto",
+        "orientation": "horizontal",
+        "reduceOptions": {
+          "calcs": [
+            "lastNotNull"
+          ],
+          "fields": "",
+          "values": false
+        },
+        "textMode": "auto"
+      },
+      "targets": [
+        {
+          "group": {
+            "name": "Voice Infrastructure"
+          },
+          "host": {
+            "name": "avaya-sbce-01"
+          },
+          "item": {
+            "name": "SBCE Appliance Reachability"
+          },
+          "refId": "SBCE"
+        },
+        {
+          "group": {
+            "name": "Voice Infrastructure"
+          },
+          "host": {
+            "name": "avaya-sm-01"
+          },
+          "item": {
+            "name": "Session Manager SNMP Availability"
+          },
+          "refId": "SM"
+        },
+        {
+          "group": {
+            "name": "Voice Infrastructure"
+          },
+          "host": {
+            "name": "avaya-cm-01"
+          },
+          "item": {
+            "name": "Communication Manager SNMP Availability"
+          },
+          "refId": "CM"
+        },
+        {
+          "group": {
+            "name": "Voice Infrastructure"
+          },
+          "host": {
+            "name": "avaya-g450-01"
+          },
+          "item": {
+            "name": "G450 ICMP Reachability"
+          },
+          "refId": "G450"
+        },
+        {
+          "group": {
+            "name": "Voice Infrastructure"
+          },
+          "host": {
+            "name": "avaya-cms-01"
+          },
+          "item": {
+            "name": "Compliance Voice Recording Pipeline Health"
+          },
+          "refId": "CMS"
+        }
+      ],
+      "title": "Avaya Core Telephony Platform Availability Grid [REAL \u2014 ZABBIX]",
+      "type": "stat"
+    },
+    {
+      "datasource": {
+        "type": "alexanderzobnin-zabbix-datasource",
+        "uid": "PA67C5EADE9207728"
+      },
+      "description": "Total count of active, unresolved telephony alarms across Avaya Communication Manager and Session Manager. Source: Avaya CM enterprise MIB avCmAlarms (OID 1.3.6.1.4.1.6889.2.73.1) and Session Manager alarms. Warning: > 0 alarms. Polling interval: 1 hour (CM vendor CPU conservation limit). Freshness: 1-2 hours. Missing data indicates collector outage, agent failure, or network disruption; values are preserved as null gaps.",
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "thresholds"
+          },
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              },
+              {
+                "color": "red",
+                "value": 1
+              }
+            ]
+          },
+          "unit": "alarms"
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 6,
+        "w": 8,
+        "x": 16,
+        "y": 1
+      },
+      "id": 3,
+      "options": {
+        "colorMode": "value",
+        "graphMode": "none",
+        "justifyMode": "auto",
+        "orientation": "auto",
+        "reduceOptions": {
+          "calcs": [
+            "lastNotNull"
+          ],
+          "fields": "",
+          "values": false
+        },
+        "textMode": "auto"
+      },
+      "targets": [
+        {
+          "group": {
+            "name": "Voice Infrastructure"
+          },
+          "host": {
+            "name": "avaya-cm-01"
+          },
+          "item": {
+            "name": "Active Alarms Count"
+          },
+          "refId": "CM_ALARMS"
+        },
+        {
+          "group": {
+            "name": "Voice Infrastructure"
+          },
+          "host": {
+            "name": "avaya-sm-01"
+          },
+          "item": {
+            "name": "Session Manager Active Alarms Count"
+          },
+          "refId": "SM_ALARMS"
+        }
+      ],
+      "title": "Active Telephony Alarms (CM & SM) [REAL \u2014 AVAYA SNMP]",
+      "type": "stat"
+    },
+    {
+      "collapsed": false,
+      "gridPos": {
+        "h": 1,
+        "w": 24,
+        "x": 0,
+        "y": 7
+      },
+      "id": 4,
+      "title": "SIP Signaling Reachability & Session Dynamics",
+      "type": "row"
+    },
+    {
+      "datasource": {
+        "type": "alexanderzobnin-zabbix-datasource",
+        "uid": "PA67C5EADE9207728"
+      },
+      "description": "Count of currently active SIP call sessions established through the Avaya SBCE. Measures live concurrent signaling/session capacity, not historical completed call volume. Source: Avaya SBCE EMS SIP Statistics Interface. Freshness: 60s. Normal: 50\u2013350 calls, Critical: > 450 (approaching 500 session license limit). Missing data indicates collector outage, agent failure, or network disruption; values are preserved as null gaps.",
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "thresholds"
+          },
+          "max": 500,
+          "min": 0,
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              },
+              {
+                "color": "yellow",
+                "value": 400
+              },
+              {
+                "color": "red",
+                "value": 450
+              }
+            ]
+          },
+          "unit": "calls"
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 6,
+        "w": 8,
+        "x": 0,
+        "y": 8
+      },
+      "id": 5,
+      "options": {
+        "orientation": "auto",
+        "reduceOptions": {
+          "calcs": [
+            "lastNotNull"
+          ],
+          "fields": "",
+          "values": false
+        },
+        "showThresholdLabels": false,
+        "showThresholdMarkers": true
+      },
+      "targets": [
+        {
+          "group": {
+            "name": "Voice Infrastructure"
+          },
+          "host": {
+            "name": "avaya-sbce-01"
+          },
+          "item": {
+            "name": "Active SIP Calls"
+          },
+          "refId": "ACTIVE_SESSIONS"
+        }
+      ],
+      "title": "Active SIP Calls on Perimeter SBCE [REAL \u2014 SBCE SNMP]",
+      "type": "gauge"
+    },
+    {
+      "datasource": {
+        "type": "alexanderzobnin-zabbix-datasource",
+        "uid": "PA67C5EADE9207728"
+      },
+      "description": "Operational status of primary (Safaricom) and secondary (Airtel) carrier SIP trunks terminating on Avaya SBCE. 1 = REGISTERED / UP, 0 = UNREGISTERED / DOWN. Source: Zabbix SIP monitoring on SBCE. Crucial Note: Proves layer-5 SIP signaling reachability only; does NOT guarantee voice audio quality or absence of media packet loss. Freshness: 60s. Missing data indicates collector outage, agent failure, or network disruption; values are preserved as null gaps.",
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "thresholds"
+          },
+          "mappings": [
+            {
+              "options": {
+                "1": {
+                  "color": "green",
+                  "text": "REGISTERED (SIP UP)"
+                },
+                "0": {
+                  "color": "red",
+                  "text": "DOWN (UNREGISTERED)"
+                }
+              },
+              "type": "value"
+            }
+          ],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "red",
+                "value": null
+              },
+              {
+                "color": "green",
+                "value": 1
+              }
+            ]
+          }
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 6,
+        "w": 8,
+        "x": 8,
+        "y": 8
+      },
+      "id": 6,
+      "options": {
+        "colorMode": "background",
+        "graphMode": "none",
+        "justifyMode": "auto",
+        "orientation": "auto",
+        "reduceOptions": {
+          "calcs": [
+            "lastNotNull"
+          ],
+          "fields": "",
+          "values": false
+        },
+        "textMode": "auto"
+      },
+      "targets": [
+        {
+          "group": {
+            "name": "Voice Infrastructure"
+          },
+          "host": {
+            "name": "sip-trunk-carrier-01"
+          },
+          "item": {
+            "name": "SIP Trunk Endpoint Reachability"
+          },
+          "refId": "SAFARICOM"
+        },
+        {
+          "group": {
+            "name": "Voice Infrastructure"
+          },
+          "host": {
+            "name": "sip-trunk-carrier-01"
+          },
+          "item": {
+            "name": "SIP Trunk OPTIONS Probe Status"
+          },
+          "refId": "AIRTEL"
+        }
+      ],
+      "title": "Carrier SIP Trunk Registration Status [REAL \u2014 ZABBIX]",
+      "type": "stat"
+    },
+    {
+      "datasource": {
+        "type": "alexanderzobnin-zabbix-datasource",
+        "uid": "PA67C5EADE9207728"
+      },
+      "description": "Rate of call attempts and completed call connections processed by Avaya Communication Manager sampled every 5 minutes. Source: Avaya CM MIB table avCmListMeasCallRateTotal (OID 1.3.6.1.4.1.6889.2.73.8.1.1). Polling interval: 5 minutes (vendor specified CPU limit). Freshness: 5 minutes. Missing data indicates collector outage, agent failure, or network disruption; values are preserved as null gaps.",
+      "fieldConfig": {
+        "defaults": {
+          "custom": {
+            "drawStyle": "line",
+            "lineInterpolation": "smooth",
+            "spanNulls": false
+          },
+          "unit": "calls"
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 6,
+        "w": 8,
+        "x": 16,
+        "y": 8
+      },
+      "id": 7,
+      "options": {
+        "tooltip": {
+          "mode": "multi"
+        }
+      },
+      "targets": [
+        {
+          "group": {
+            "name": "Voice Infrastructure"
+          },
+          "host": {
+            "name": "avaya-cm-01"
+          },
+          "item": {
+            "name": "Call Rate Total Attempts (Hourly Measurement Interval)"
+          },
+          "refId": "ATTEMPTS"
+        },
+        {
+          "group": {
+            "name": "Voice Infrastructure"
+          },
+          "host": {
+            "name": "avaya-cm-01"
+          },
+          "item": {
+            "name": "Call Rate Completed Calls (Hourly Measurement Interval)"
+          },
+          "refId": "COMPLETED"
+        }
+      ],
+      "title": "5-Minute Call Processing Rate (CM) [REAL \u2014 AVAYA SNMP]",
+      "type": "timeseries"
+    },
+    {
+      "collapsed": false,
+      "gridPos": {
+        "h": 1,
+        "w": 24,
+        "x": 0,
+        "y": 14
+      },
+      "id": 8,
+      "title": "Contact Centre Health & Business Queue Performance (Avaya CMS)",
+      "type": "row"
+    },
+    {
+      "datasource": {
+        "type": "alexanderzobnin-zabbix-datasource",
+        "uid": "PA67C5EADE9207728"
+      },
+      "description": "Percentage of incoming customer contact centre calls answered within the contractual Kenya Airways threshold (80% answered in 20 seconds). Source: Avaya CMS Informix database read-only integration. Warning: < 80%, Critical: < 70%. Freshness: 15\u201330 minutes (matches CMS reporting archive interval). Missing data indicates collector outage, agent failure, or network disruption; values are preserved as null gaps.",
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "thresholds"
+          },
+          "max": 100,
+          "min": 0,
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "red",
+                "value": null
+              },
+              {
+                "color": "yellow",
+                "value": 70
+              },
+              {
+                "color": "green",
+                "value": 80
+              }
+            ]
+          },
+          "unit": "percent"
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 6,
+        "w": 8,
+        "x": 0,
+        "y": 15
+      },
+      "id": 9,
+      "options": {
+        "orientation": "auto",
+        "reduceOptions": {
+          "calcs": [
+            "lastNotNull"
+          ],
+          "fields": "",
+          "values": false
+        },
+        "showThresholdLabels": false,
+        "showThresholdMarkers": true
+      },
+      "targets": [
+        {
+          "group": {
+            "name": "Voice Infrastructure"
+          },
+          "host": {
+            "name": "avaya-cms-01"
+          },
+          "item": {
+            "name": "Contact Centre Queue Service Level Attainment"
+          },
+          "refId": "CMS_SLA"
+        }
+      ],
+      "title": "Contact Centre Service Level (% in SLA) [APPLICATION \u2014 CMS]",
+      "type": "gauge"
+    },
+    {
+      "datasource": {
+        "type": "alexanderzobnin-zabbix-datasource",
+        "uid": "PA67C5EADE9207728"
+      },
+      "description": "Current number of customer callers waiting in queue and wait duration (seconds) of the oldest queued caller across all ACD skills. Source: Avaya CMS real-time reporting interface. Warning: Queue > 15 calls or Oldest > 120s. Freshness: 60s. Missing data indicates collector outage, agent failure, or network disruption; values are preserved as null gaps.",
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "thresholds"
+          },
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              },
+              {
+                "color": "yellow",
+                "value": 15
+              },
+              {
+                "color": "red",
+                "value": 30
+              }
+            ]
+          },
+          "unit": "short"
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 6,
+        "w": 8,
+        "x": 8,
+        "y": 15
+      },
+      "id": 10,
+      "options": {
+        "colorMode": "value",
+        "graphMode": "none",
+        "justifyMode": "auto",
+        "orientation": "auto",
+        "reduceOptions": {
+          "calcs": [
+            "lastNotNull"
+          ],
+          "fields": "",
+          "values": false
+        },
+        "textMode": "auto"
+      },
+      "targets": [
+        {
+          "group": {
+            "name": "Voice Infrastructure"
+          },
+          "host": {
+            "name": "avaya-cms-01"
+          },
+          "item": {
+            "name": "CMS Inbound Calls Offered"
+          },
+          "refId": "WAITING"
+        },
+        {
+          "group": {
+            "name": "Voice Infrastructure"
+          },
+          "host": {
+            "name": "avaya-cms-01"
+          },
+          "item": {
+            "name": "CMS Inbound Calls Answered"
+          },
+          "refId": "OLDEST"
+        }
+      ],
+      "title": "Queue Depth & Oldest Waiting Call [APPLICATION \u2014 CMS]",
+      "type": "stat"
+    },
+    {
+      "datasource": {
+        "type": "alexanderzobnin-zabbix-datasource",
+        "uid": "PA67C5EADE9207728"
+      },
+      "description": "Distribution of customer service agent staffing across states: Logged In, Available (idle), ACD Talking (on call), After Call Work (ACW), and Auxiliary (break/training). Source: Avaya CMS Informix database read-only query. Freshness: 15\u201330 minutes. Missing data indicates collector outage, agent failure, or network disruption; values are preserved as null gaps.",
+      "fieldConfig": {
+        "defaults": {
+          "unit": "short"
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 6,
+        "w": 8,
+        "x": 16,
+        "y": 15
+      },
+      "id": 11,
+      "options": {
+        "legend": {
+          "displayMode": "table",
+          "placement": "right"
+        },
+        "pieType": "pie"
+      },
+      "targets": [
+        {
+          "group": {
+            "name": "Voice Infrastructure"
+          },
+          "host": {
+            "name": "avaya-cms-01"
+          },
+          "item": {
+            "name": "CMS Inbound Calls Abandoned"
+          },
+          "refId": "AGENTS"
+        }
+      ],
+      "title": "Agent Staffing State Distribution [APPLICATION \u2014 CMS]",
+      "type": "piechart"
+    },
+    {
+      "collapsed": false,
+      "gridPos": {
+        "h": 1,
+        "w": 24,
+        "x": 0,
+        "y": 21
+      },
+      "id": 12,
+      "title": "Voice Media Quality & Synthetic Probe Assurance (Real vs Synthetic Separation)",
+      "type": "row"
+    },
+    {
+      "datasource": {
+        "type": "alexanderzobnin-zabbix-datasource",
+        "uid": "PA67C5EADE9207728"
+      },
+      "description": "Real-call Mean Opinion Score (MOS). Status: Not instrumented \u2014 no validated real-call MOS telemetry source is configured (RTCP-XR RFC 3611 Block 7 or passive media analyzer required). Displayed value is null/uninstrumented; synthetic MOS must never be substituted for real subscriber calls. Missing data indicates collector outage, agent failure, or network disruption; values are preserved as null gaps.",
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "thresholds"
+          },
+          "noValue": "Not Instrumented (RTCP-XR Required)",
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "semi-dark-blue",
+                "value": null
+              }
+            ]
+          }
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 6,
+        "w": 8,
+        "x": 0,
+        "y": 22
+      },
+      "id": 13,
+      "options": {
+        "colorMode": "background",
+        "graphMode": "none",
+        "justifyMode": "auto",
+        "orientation": "auto",
+        "reduceOptions": {
+          "calcs": [
+            "lastNotNull"
+          ],
+          "fields": "",
+          "values": false
+        },
+        "textMode": "auto"
+      },
+      "targets": [
+        {
+          "group": {
+            "name": "Voice Infrastructure"
+          },
+          "host": {
+            "name": "avaya-cm-01"
+          },
+          "item": {
+            "name": "avCmRealCallEstimatedMos"
+          },
+          "refId": "REAL_MOS"
+        }
+      ],
+      "title": "Real-Call MOS [NOT INSTRUMENTED \u2014 RTCP XR REQUIRED]",
+      "type": "stat"
+    },
+    {
+      "datasource": {
+        "type": "alexanderzobnin-zabbix-datasource",
+        "uid": "PA67C5EADE9207728"
+      },
+      "description": "Hourly aggregated real-call packet loss percentage across active calls terminating on Avaya Communication Manager media gateways. Source: Avaya CM MIB table avCmMeasIpVoStatSumDataLstHrTable (OID 1.3.6.1.4.1.6889.2.73.8.1.77 leaf .6). Interval: strictly 1 hour. Freshness: 1-2 hours. Warning: > 2.5%. Missing data indicates collector outage, agent failure, or network disruption; values are preserved as null gaps.",
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "thresholds"
+          },
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              },
+              {
+                "color": "yellow",
+                "value": 1.0
+              },
+              {
+                "color": "red",
+                "value": 2.5
+              }
+            ]
+          },
+          "unit": "percent"
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 6,
+        "w": 8,
+        "x": 8,
+        "y": 22
+      },
+      "id": 14,
+      "options": {
+        "colorMode": "value",
+        "graphMode": "none",
+        "justifyMode": "auto",
+        "orientation": "auto",
+        "reduceOptions": {
+          "calcs": [
+            "lastNotNull"
+          ],
+          "fields": "",
+          "values": false
+        },
+        "textMode": "auto"
+      },
+      "targets": [
+        {
+          "group": {
+            "name": "Voice Infrastructure"
+          },
+          "host": {
+            "name": "avaya-cm-01"
+          },
+          "item": {
+            "name": "Real-Call Packet Loss (Last Hour)"
+          },
+          "refId": "CM_LOSS"
+        }
+      ],
+      "title": "Real-Call Packet Loss % (CM Last Hour) [REAL \u2014 AVAYA SNMP]",
+      "type": "stat"
+    },
+    {
+      "datasource": {
+        "type": "alexanderzobnin-zabbix-datasource",
+        "uid": "PA67C5EADE9207728"
+      },
+      "description": "Mean Opinion Score (MOS) estimated via ITU-T G.107 E-model strictly for synthetic test calls generated between Asterisk probes and test extensions. Scale: 1.0 to 4.5. Warning: < 3.6, Critical: < 3.1. Source: Synthetic Asterisk probe telemetry. Caution: Reflects synthetic probe calls ONLY; does NOT represent real customer calls. Missing data indicates collector outage, agent failure, or network disruption; values are preserved as null gaps.",
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "thresholds"
+          },
+          "max": 4.5,
+          "min": 1.0,
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "red",
+                "value": null
+              },
+              {
+                "color": "yellow",
+                "value": 3.6
+              },
+              {
+                "color": "green",
+                "value": 4.0
+              }
+            ]
+          },
+          "unit": "none"
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 6,
+        "w": 8,
+        "x": 16,
+        "y": 22
+      },
+      "id": 15,
+      "options": {
+        "orientation": "auto",
+        "reduceOptions": {
+          "calcs": [
+            "lastNotNull"
+          ],
+          "fields": "",
+          "values": false
+        },
+        "showThresholdLabels": false,
+        "showThresholdMarkers": true
+      },
+      "targets": [
+        {
+          "group": {
+            "name": "Voice Infrastructure"
+          },
+          "host": {
+            "name": "nawari-voice-probe-01"
+          },
+          "item": {
+            "name": "Synthetic call Estimated MOS"
+          },
+          "refId": "SYNTH_MOS"
+        }
+      ],
+      "title": "Synthetic Voice MOS [SYNTHETIC \u2014 ASTERISK]",
+      "type": "gauge"
+    },
+    {
+      "datasource": {
+        "type": "alexanderzobnin-zabbix-datasource",
+        "uid": "PA67C5EADE9207728"
+      },
+      "description": "Live operational problem stream displaying active Zabbix triggers firing across Avaya and Voice communication infrastructure hosts (SBCE, Session Manager, Communication Manager, G450 Gateway, Carrier Trunks, CMS, Voice Probe Agents). Source: Zabbix Problems API filtered for Voice & Avaya infrastructure host groups. Freshness: Real-time event state. Missing data indicates collector outage, agent failure, or network disruption; values are preserved as null gaps.",
+      "fieldConfig": {
+        "defaults": {},
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 7,
+        "w": 24,
+        "x": 0,
+        "y": 28
+      },
+      "id": 16,
+      "options": {
+        "customFields": [
+          {
+            "text": "Time",
+            "value": "time"
+          },
+          {
+            "text": "Recovery time",
+            "value": "r_time"
+          },
+          {
+            "text": "Severity",
+            "value": "severity"
+          },
+          {
+            "text": "Host",
+            "value": "host"
+          },
+          {
+            "text": "Problem",
+            "value": "problem"
+          },
+          {
+            "text": "Duration",
+            "value": "duration"
+          },
+          {
+            "text": "Ack",
+            "value": "ack"
+          }
+        ],
+        "fontSize": "100%",
+        "highlightBackground": true,
+        "highlightFullRow": false,
+        "limit": 50,
+        "problemFilter": "",
+        "showActions": true,
+        "showTags": true,
+        "sortProblems": "default",
+        "subTab": "problems"
+      },
+      "targets": [
+        {
+          "application": {
+            "filter": ""
+          },
+          "datasource": {
+            "type": "alexanderzobnin-zabbix-datasource",
+            "uid": "PA67C5EADE9207728"
+          },
+          "group": {
+            "filter": "/Voice Infrastructure|Avaya Infrastructure|Edge SBC|SIP Carrier Trunks|Communications Applications/"
+          },
+          "host": {
+            "filter": "/.*/"
+          },
+          "item": {
+            "filter": ""
+          },
+          "itemTag": {
+            "filter": ""
+          },
+          "mode": 1,
+          "options": {
+            "showDisabledItems": false
+          },
+          "refId": "A",
+          "resultFormat": "problems",
+          "tags": {
+            "filter": ""
+          },
+          "trigger": {
+            "filter": ""
+          }
+        }
+      ],
+      "title": "Active Voice Infrastructure Problems [ZABBIX NATIVE EVENT ENGINE]",
+      "type": "alexanderzobnin-zabbix-problems-panel"
+    }
+  ],
+  "refresh": "10s",
+  "schemaVersion": 39,
+  "style": "dark",
+  "tags": [
+    "nawari",
+    "communication-observability",
+    "service-assurance",
+    "executive",
+    "avaya"
+  ],
+  "templating": {
+    "list": []
+  },
+  "time": {
+    "from": "now-6h",
+    "to": "now"
+  },
+  "timepicker": {
+    "refresh_intervals": [
+      "10s",
+      "30s",
+      "1m",
+      "5m"
+    ]
+  },
+  "timezone": "browser",
+  "title": "Nawari \u2014 Enterprise Communication Services Overview & Executive Service Assurance",
+  "uid": "nawari-comm-overview",
+  "version": 1
+}

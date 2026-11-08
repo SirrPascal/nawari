@@ -1,0 +1,1815 @@
+{
+  "annotations": {
+    "list": []
+  },
+  "editable": true,
+  "fiscalYearStartMonth": 0,
+  "graphTooltip": 1,
+  "id": null,
+  "links": [
+    {
+      "asDropdown": false,
+      "icon": "home",
+      "includeVars": true,
+      "keepTime": true,
+      "tags": [],
+      "targetBlank": false,
+      "title": "Home (Exec)",
+      "tooltip": "Enterprise Executive Overview",
+      "type": "link",
+      "url": "/d/nawari-enterprise-overview/0bff031"
+    },
+    {
+      "asDropdown": false,
+      "icon": "network",
+      "includeVars": true,
+      "keepTime": true,
+      "tags": [],
+      "targetBlank": false,
+      "title": "Network Ops",
+      "tooltip": "Network Operations Overview",
+      "type": "link",
+      "url": "/d/nawari-network-operations/network-operations"
+    },
+    {
+      "asDropdown": false,
+      "icon": "globe",
+      "includeVars": true,
+      "keepTime": true,
+      "tags": [],
+      "targetBlank": false,
+      "title": "WAN & Outstations",
+      "tooltip": "WAN, Path & Outstation Observability",
+      "type": "link",
+      "url": "/d/nawari-wan-path-outstation/wan-path-outstation"
+    },
+    {
+      "asDropdown": false,
+      "icon": "laptop",
+      "includeVars": true,
+      "keepTime": true,
+      "tags": [],
+      "targetBlank": false,
+      "title": "Endpoints & Users",
+      "tooltip": "Endpoint & User Experience",
+      "type": "link",
+      "url": "/d/nawari-endpoint-experience/endpoint-experience"
+    },
+    {
+      "asDropdown": false,
+      "icon": "heartbeat",
+      "includeVars": true,
+      "keepTime": true,
+      "tags": [],
+      "targetBlank": false,
+      "title": "Services & SLA",
+      "tooltip": "Network Services & Incident Assurance",
+      "type": "link",
+      "url": "/d/nawari-network-services-assurance/network-services-assurance"
+    },
+    {
+      "asDropdown": false,
+      "icon": "phone",
+      "includeVars": true,
+      "keepTime": true,
+      "tags": [],
+      "targetBlank": false,
+      "title": "Voice Overview",
+      "tooltip": "Communication Services Overview",
+      "type": "link",
+      "url": "/d/nawari-comm-overview/e353360"
+    },
+    {
+      "asDropdown": false,
+      "icon": "server",
+      "includeVars": true,
+      "keepTime": true,
+      "tags": [],
+      "targetBlank": false,
+      "title": "Avaya Infra",
+      "tooltip": "Avaya Infrastructure & Signaling",
+      "type": "link",
+      "url": "/d/nawari-avaya-infrastructure/avaya-infrastructure"
+    },
+    {
+      "asDropdown": false,
+      "icon": "volume-up",
+      "includeVars": true,
+      "keepTime": true,
+      "tags": [],
+      "targetBlank": false,
+      "title": "Voice Quality & CC",
+      "tooltip": "Voice Quality & Contact Centre",
+      "type": "link",
+      "url": "/d/nawari-voice-contact-centre/voice-contact-centre"
+    },
+    {
+      "asDropdown": false,
+      "icon": "share-alt",
+      "includeVars": true,
+      "keepTime": true,
+      "tags": [],
+      "targetBlank": false,
+      "title": "Cross-Domain",
+      "tooltip": "Cross-Domain Correlation & Operations",
+      "type": "link",
+      "url": "/d/nawari-voice-correlation/2983cfd"
+    },
+    {
+      "asDropdown": false,
+      "icon": "folder",
+      "includeVars": false,
+      "keepTime": true,
+      "tags": [],
+      "targetBlank": false,
+      "title": "Browse All",
+      "tooltip": "Browse All Dashboards",
+      "type": "link",
+      "url": "/dashboards"
+    }
+  ],
+  "liveNow": false,
+  "panels": [
+    {
+      "collapsed": false,
+      "gridPos": {
+        "h": 1,
+        "w": 24,
+        "x": 0,
+        "y": 0
+      },
+      "id": 1,
+      "panels": [],
+      "title": "Global Outstation Connectivity & Regional Hub Telemetry",
+      "type": "row"
+    },
+    {
+      "datasource": {
+        "type": "alexanderzobnin-zabbix-datasource",
+        "uid": "PA67C5EADE9207728"
+      },
+      "description": "Real-time circuit operational status across Kenya Airways core hub, domestic stations, regional outstations, and long-haul international terminals. Missing data indicates collector outage, agent failure, or network disruption; values are preserved as null gaps.",
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "thresholds"
+          },
+          "mappings": [
+            {
+              "options": {
+                "0": {
+                  "color": "red",
+                  "text": "DOWN"
+                },
+                "1": {
+                  "color": "green",
+                  "text": "ACTIVE"
+                },
+                "2": {
+                  "color": "yellow",
+                  "text": "DEGRADED"
+                }
+              },
+              "type": "value"
+            }
+          ],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "red",
+                "value": null
+              },
+              {
+                "color": "yellow",
+                "value": 1
+              },
+              {
+                "color": "green",
+                "value": 2
+              }
+            ]
+          }
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 8,
+        "w": 14,
+        "x": 0,
+        "y": 1
+      },
+      "id": 2,
+      "options": {
+        "footer": {
+          "enablePagination": true,
+          "fields": "",
+          "reducer": [
+            "sum"
+          ],
+          "show": false
+        },
+        "showHeader": true
+      },
+      "pluginVersion": "11.0.0",
+      "targets": [
+        {
+          "application": {
+            "name": "Multi-Site WAN"
+          },
+          "group": {
+            "name": "Outstations"
+          },
+          "host": {
+            "name": "mon-grafana01"
+          },
+          "item": {
+            "name": "Outstation Circuit Status Matrix"
+          },
+          "refId": "Circuits"
+        }
+      ],
+      "title": "Outstation WAN Circuit Status Matrix (Primary & Secondary)",
+      "type": "table"
+    },
+    {
+      "datasource": {
+        "type": "alexanderzobnin-zabbix-datasource",
+        "uid": "PA67C5EADE9207728"
+      },
+      "description": "Round-trip network latency from JKIA Head Office to global outstations (Target: Domestic < 40ms, Regional < 80ms, International < 160ms). Missing data indicates collector outage, agent failure, or network disruption; values are preserved as null gaps.",
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "palette-classic"
+          },
+          "custom": {
+            "axisBorderShow": false,
+            "axisCenteredZero": false,
+            "axisColorMode": "text",
+            "axisLabel": "Latency (ms)",
+            "drawStyle": "line",
+            "lineInterpolation": "smooth",
+            "lineWidth": 2,
+            "pointSize": 5,
+            "showPoints": "auto",
+            "spanNulls": false
+          },
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              },
+              {
+                "color": "yellow",
+                "value": 80
+              },
+              {
+                "color": "red",
+                "value": 150
+              }
+            ]
+          },
+          "unit": "ms"
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 8,
+        "w": 10,
+        "x": 14,
+        "y": 9
+      },
+      "id": 3,
+      "options": {
+        "legend": {
+          "calcs": [
+            "mean",
+            "max",
+            "lastNotNull"
+          ],
+          "displayMode": "table",
+          "placement": "bottom"
+        },
+        "tooltip": {
+          "mode": "multi",
+          "sort": "desc"
+        }
+      },
+      "pluginVersion": "11.0.0",
+      "targets": [
+        {
+          "application": {
+            "name": "Multi-Site WAN"
+          },
+          "group": {
+            "name": "Outstations"
+          },
+          "host": {
+            "name": "mon-grafana01"
+          },
+          "item": {
+            "name": "WAN Latency MBA"
+          },
+          "refId": "LatMBA"
+        },
+        {
+          "application": {
+            "name": "Multi-Site WAN"
+          },
+          "group": {
+            "name": "Outstations"
+          },
+          "host": {
+            "name": "mon-grafana01"
+          },
+          "item": {
+            "name": "WAN Latency KIS"
+          },
+          "refId": "LatKIS"
+        },
+        {
+          "application": {
+            "name": "Multi-Site WAN"
+          },
+          "group": {
+            "name": "Outstations"
+          },
+          "host": {
+            "name": "mon-grafana01"
+          },
+          "item": {
+            "name": "WAN Latency LHR"
+          },
+          "refId": "LatLHR"
+        }
+      ],
+      "title": "Trans-WAN Round-Trip Latency (JKIA Hub to Outstations)",
+      "type": "timeseries"
+    },
+    {
+      "datasource": {
+        "type": "alexanderzobnin-zabbix-datasource",
+        "uid": "PA67C5EADE9207728"
+      },
+      "description": "Synthetic voice Listening MOS score across primary outstations (Tier 1 Aviation SLA: MOS >= 4.0). Missing data indicates collector outage, agent failure, or network disruption; values are preserved as null gaps.",
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "thresholds"
+          },
+          "mappings": [],
+          "max": 4.5,
+          "min": 1.0,
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "red",
+                "value": null
+              },
+              {
+                "color": "yellow",
+                "value": 3.5
+              },
+              {
+                "color": "green",
+                "value": 4.0
+              }
+            ]
+          },
+          "unit": "none"
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 6,
+        "w": 8,
+        "x": 0,
+        "y": 17
+      },
+      "id": 4,
+      "options": {
+        "orientation": "auto",
+        "reduceOptions": {
+          "calcs": [
+            "lastNotNull"
+          ],
+          "fields": "",
+          "values": false
+        },
+        "showThresholdLabels": false,
+        "showThresholdMarkers": true
+      },
+      "pluginVersion": "11.0.0",
+      "targets": [
+        {
+          "application": {
+            "name": "Voice Assurance"
+          },
+          "group": {
+            "name": "Trans-WAN Probes"
+          },
+          "host": {
+            "name": "mon-grafana01"
+          },
+          "item": {
+            "name": "Voice MOS MBA"
+          },
+          "refId": "MosMBA"
+        },
+        {
+          "application": {
+            "name": "Voice Assurance"
+          },
+          "group": {
+            "name": "Trans-WAN Probes"
+          },
+          "host": {
+            "name": "mon-grafana01"
+          },
+          "item": {
+            "name": "Voice MOS KIS"
+          },
+          "refId": "MosKIS"
+        },
+        {
+          "application": {
+            "name": "Voice Assurance"
+          },
+          "group": {
+            "name": "Trans-WAN Probes"
+          },
+          "host": {
+            "name": "mon-grafana01"
+          },
+          "item": {
+            "name": "Voice MOS LHR"
+          },
+          "refId": "MosLHR"
+        }
+      ],
+      "title": "Voice Quality Listening MOS by Station",
+      "type": "gauge"
+    },
+    {
+      "datasource": {
+        "type": "alexanderzobnin-zabbix-datasource",
+        "uid": "PA67C5EADE9207728"
+      },
+      "description": "Trans-WAN packet jitter and packet loss percentage over outstation voice paths. Missing data indicates collector outage, agent failure, or network disruption; values are preserved as null gaps.",
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "palette-classic"
+          },
+          "custom": {
+            "axisBorderShow": false,
+            "axisCenteredZero": false,
+            "axisColorMode": "text",
+            "axisLabel": "Jitter (ms)",
+            "drawStyle": "line",
+            "lineInterpolation": "smooth",
+            "lineWidth": 2,
+            "pointSize": 5,
+            "showPoints": "auto",
+            "spanNulls": false
+          },
+          "unit": "ms"
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 6,
+        "w": 16,
+        "x": 8,
+        "y": 23
+      },
+      "id": 5,
+      "options": {
+        "legend": {
+          "calcs": [
+            "mean",
+            "max",
+            "lastNotNull"
+          ],
+          "displayMode": "table",
+          "placement": "bottom"
+        },
+        "tooltip": {
+          "mode": "multi",
+          "sort": "desc"
+        }
+      },
+      "pluginVersion": "11.0.0",
+      "targets": [
+        {
+          "application": {
+            "name": "Voice Assurance"
+          },
+          "group": {
+            "name": "Trans-WAN Probes"
+          },
+          "host": {
+            "name": "mon-grafana01"
+          },
+          "item": {
+            "name": "Voice Jitter MBA"
+          },
+          "refId": "JitterMBA"
+        },
+        {
+          "application": {
+            "name": "Voice Assurance"
+          },
+          "group": {
+            "name": "Trans-WAN Probes"
+          },
+          "host": {
+            "name": "mon-grafana01"
+          },
+          "item": {
+            "name": "Voice Jitter LHR"
+          },
+          "refId": "JitterLHR"
+        }
+      ],
+      "title": "Trans-WAN Voice Packet Jitter Trends",
+      "type": "timeseries"
+    },
+    {
+      "datasource": {
+        "type": "alexanderzobnin-zabbix-datasource",
+        "uid": "PA67C5EADE9207728"
+      },
+      "description": "Number of telemetry records currently spooled on outstation disk waiting for WAN circuit recovery. Missing data indicates collector outage, agent failure, or network disruption; values are preserved as null gaps.",
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "thresholds"
+          },
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              },
+              {
+                "color": "yellow",
+                "value": 100
+              },
+              {
+                "color": "red",
+                "value": 1000
+              }
+            ]
+          },
+          "unit": "short"
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 7,
+        "w": 12,
+        "x": 0,
+        "y": 29
+      },
+      "id": 6,
+      "options": {
+        "orientation": "auto",
+        "reduceOptions": {
+          "calcs": [
+            "lastNotNull"
+          ],
+          "fields": "",
+          "values": false
+        },
+        "showThresholdLabels": false,
+        "showThresholdMarkers": true
+      },
+      "pluginVersion": "11.0.0",
+      "targets": [
+        {
+          "application": {
+            "name": "Store and Forward"
+          },
+          "group": {
+            "name": "Edge Proxies"
+          },
+          "host": {
+            "name": "mon-grafana01"
+          },
+          "item": {
+            "name": "Spool Buffered MBA"
+          },
+          "refId": "SpoolMBA"
+        },
+        {
+          "application": {
+            "name": "Store and Forward"
+          },
+          "group": {
+            "name": "Edge Proxies"
+          },
+          "host": {
+            "name": "mon-grafana01"
+          },
+          "item": {
+            "name": "Spool Buffered KIS"
+          },
+          "refId": "SpoolKIS"
+        },
+        {
+          "application": {
+            "name": "Store and Forward"
+          },
+          "group": {
+            "name": "Edge Proxies"
+          },
+          "host": {
+            "name": "mon-grafana01"
+          },
+          "item": {
+            "name": "Spool Buffered LHR"
+          },
+          "refId": "SpoolLHR"
+        }
+      ],
+      "title": "Buffered Spool Queue Depth by Station (Offline Records)",
+      "type": "stat"
+    },
+    {
+      "datasource": {
+        "type": "alexanderzobnin-zabbix-datasource",
+        "uid": "PA67C5EADE9207728"
+      },
+      "description": "Rate of replayed telemetry ingestion following outstation circuit restoration. Records marked with REPLAYED quality to protect live SLI metrics. Missing data indicates collector outage, agent failure, or network disruption; values are preserved as null gaps.",
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "palette-classic"
+          },
+          "custom": {
+            "axisBorderShow": false,
+            "axisCenteredZero": false,
+            "axisColorMode": "text",
+            "axisLabel": "Records / Sec",
+            "drawStyle": "bars",
+            "fillOpacity": 80,
+            "lineWidth": 1,
+            "pointSize": 5,
+            "showPoints": "never",
+            "spanNulls": false
+          },
+          "unit": "short"
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 7,
+        "w": 12,
+        "x": 12,
+        "y": 36
+      },
+      "id": 7,
+      "options": {
+        "legend": {
+          "calcs": [
+            "mean",
+            "max",
+            "sum"
+          ],
+          "displayMode": "table",
+          "placement": "bottom"
+        },
+        "tooltip": {
+          "mode": "multi",
+          "sort": "desc"
+        }
+      },
+      "pluginVersion": "11.0.0",
+      "targets": [
+        {
+          "application": {
+            "name": "Store and Forward"
+          },
+          "group": {
+            "name": "Edge Proxies"
+          },
+          "host": {
+            "name": "mon-grafana01"
+          },
+          "item": {
+            "name": "Replay Ingestion Rate"
+          },
+          "refId": "DrainRate"
+        }
+      ],
+      "title": "Post-Restoration Spool Drain & Replay Velocity",
+      "type": "timeseries"
+    },
+    {
+      "collapsed": true,
+      "gridPos": {
+        "h": 1,
+        "w": 24,
+        "x": 0,
+        "y": 43
+      },
+      "id": 8,
+      "panels": [
+        {
+          "datasource": {
+            "type": "alexanderzobnin-zabbix-datasource",
+            "uid": "PA67C5EADE9207728"
+          },
+          "fieldConfig": {
+            "defaults": {
+              "color": {
+                "mode": "thresholds"
+              },
+              "mappings": [],
+              "noValue": "STALE / NO DATA",
+              "thresholds": {
+                "mode": "absolute",
+                "steps": [
+                  {
+                    "color": "green",
+                    "value": null
+                  },
+                  {
+                    "color": "yellow",
+                    "value": 0.04
+                  },
+                  {
+                    "color": "red",
+                    "value": 0.1
+                  }
+                ]
+              },
+              "unit": "s"
+            },
+            "overrides": []
+          },
+          "gridPos": {
+            "h": 4,
+            "w": 6,
+            "x": 0,
+            "y": 0
+          },
+          "id": 9,
+          "description": "Measures the total round-trip time between the endpoint and the destination target along the discovered path. Sudden increases in end-to-end latency indicate routing shifts, congested transit links, or bufferbloat. Note that traceroute RTT may differ slightly from TCP application latency due to different network priority queues. Missing data indicates collector outage, agent failure, or network disruption; values are preserved as null gaps.",
+          "options": {
+            "colorMode": "background",
+            "graphMode": "none",
+            "justifyMode": "auto",
+            "orientation": "auto",
+            "reduceOptions": {
+              "calcs": [
+                "lastNotNull"
+              ],
+              "fields": "",
+              "values": false
+            },
+            "textMode": "auto"
+          },
+          "pluginVersion": "11.6.0",
+          "targets": [
+            {
+              "application": {
+                "filter": ""
+              },
+              "datasource": {
+                "type": "alexanderzobnin-zabbix-datasource",
+                "uid": "PA67C5EADE9207728"
+              },
+              "group": {
+                "filter": "$group"
+              },
+              "host": {
+                "filter": "$endpoint"
+              },
+              "item": {
+                "filter": "Path end-to-end latency [$target]"
+              },
+              "itemTag": {
+                "filter": ""
+              },
+              "mode": 0,
+              "options": {
+                "showDisabledItems": false
+              },
+              "refId": "A",
+              "resultFormat": "time_series",
+              "tags": {
+                "filter": ""
+              },
+              "trigger": {
+                "filter": ""
+              }
+            }
+          ],
+          "title": "End-to-End Latency",
+          "type": "stat"
+        },
+        {
+          "datasource": {
+            "type": "alexanderzobnin-zabbix-datasource",
+            "uid": "PA67C5EADE9207728"
+          },
+          "fieldConfig": {
+            "defaults": {
+              "color": {
+                "mode": "thresholds"
+              },
+              "mappings": [],
+              "noValue": "STALE / NO DATA",
+              "thresholds": {
+                "mode": "absolute",
+                "steps": [
+                  {
+                    "color": "green",
+                    "value": null
+                  },
+                  {
+                    "color": "yellow",
+                    "value": 1
+                  },
+                  {
+                    "color": "red",
+                    "value": 20
+                  }
+                ]
+              },
+              "unit": "percent"
+            },
+            "overrides": []
+          },
+          "gridPos": {
+            "h": 4,
+            "w": 6,
+            "x": 6,
+            "y": 4
+          },
+          "id": 10,
+          "description": "Percentage of probe packets lost between the endpoint and the final destination target. Values above 0% indicate severe path impairment that causes TCP retransmissions and degraded voice/video quality. Must be evaluated alongside intermediate hop loss; loss at the target is true circuit loss, whereas intermediate non-responses may be CoPP. Missing data indicates collector outage, agent failure, or network disruption; values are preserved as null gaps.",
+          "options": {
+            "colorMode": "background",
+            "graphMode": "none",
+            "justifyMode": "auto",
+            "orientation": "auto",
+            "reduceOptions": {
+              "calcs": [
+                "lastNotNull"
+              ],
+              "fields": "",
+              "values": false
+            },
+            "textMode": "auto"
+          },
+          "pluginVersion": "11.6.0",
+          "targets": [
+            {
+              "application": {
+                "filter": ""
+              },
+              "datasource": {
+                "type": "alexanderzobnin-zabbix-datasource",
+                "uid": "PA67C5EADE9207728"
+              },
+              "group": {
+                "filter": "$group"
+              },
+              "host": {
+                "filter": "$endpoint"
+              },
+              "item": {
+                "filter": "Path end-to-end packet loss [$target]"
+              },
+              "itemTag": {
+                "filter": ""
+              },
+              "mode": 0,
+              "options": {
+                "showDisabledItems": false
+              },
+              "refId": "A",
+              "resultFormat": "time_series",
+              "tags": {
+                "filter": ""
+              },
+              "trigger": {
+                "filter": ""
+              }
+            }
+          ],
+          "title": "End-to-End Packet Loss",
+          "type": "stat"
+        },
+        {
+          "datasource": {
+            "type": "alexanderzobnin-zabbix-datasource",
+            "uid": "PA67C5EADE9207728"
+          },
+          "fieldConfig": {
+            "defaults": {
+              "color": {
+                "mode": "thresholds"
+              },
+              "mappings": [],
+              "noValue": "STALE / NO DATA",
+              "thresholds": {
+                "mode": "absolute",
+                "steps": [
+                  {
+                    "color": "blue",
+                    "value": null
+                  }
+                ]
+              }
+            },
+            "overrides": []
+          },
+          "gridPos": {
+            "h": 4,
+            "w": 6,
+            "x": 12,
+            "y": 8
+          },
+          "id": 11,
+          "description": "The number of layer-3 routing hops traversed between the endpoint and the destination target. Significant changes in hop count indicate dynamic route re-convergence, BGP shifts, or failover to backup circuits. Path length alone does not determine latency, but abrupt hop count increases often correlate with path suboptimality. Missing data indicates collector outage, agent failure, or network disruption; values are preserved as null gaps.",
+          "options": {
+            "colorMode": "value",
+            "graphMode": "none",
+            "justifyMode": "auto",
+            "orientation": "auto",
+            "reduceOptions": {
+              "calcs": [
+                "lastNotNull"
+              ],
+              "fields": "",
+              "values": false
+            },
+            "textMode": "auto"
+          },
+          "pluginVersion": "11.6.0",
+          "targets": [
+            {
+              "application": {
+                "filter": ""
+              },
+              "datasource": {
+                "type": "alexanderzobnin-zabbix-datasource",
+                "uid": "PA67C5EADE9207728"
+              },
+              "group": {
+                "filter": "$group"
+              },
+              "host": {
+                "filter": "$endpoint"
+              },
+              "item": {
+                "filter": "Path total hops [$target]"
+              },
+              "itemTag": {
+                "filter": ""
+              },
+              "mode": 0,
+              "options": {
+                "showDisabledItems": false
+              },
+              "refId": "A",
+              "resultFormat": "time_series",
+              "tags": {
+                "filter": ""
+              },
+              "trigger": {
+                "filter": ""
+              }
+            }
+          ],
+          "title": "Total Path Hops",
+          "type": "stat"
+        },
+        {
+          "datasource": {
+            "type": "alexanderzobnin-zabbix-datasource",
+            "uid": "PA67C5EADE9207728"
+          },
+          "fieldConfig": {
+            "defaults": {
+              "color": {
+                "mode": "thresholds"
+              },
+              "mappings": [
+                {
+                  "options": {
+                    "0": {
+                      "color": "green",
+                      "text": "STABLE ROUTE (HASH UNCHANGED)"
+                    },
+                    "1": {
+                      "color": "orange",
+                      "text": "ROUTE DIVERGED (CHANGED)"
+                    }
+                  },
+                  "type": "value"
+                }
+              ],
+              "noValue": "STALE / NO DATA",
+              "thresholds": {
+                "mode": "absolute",
+                "steps": [
+                  {
+                    "color": "green",
+                    "value": null
+                  },
+                  {
+                    "color": "orange",
+                    "value": 1
+                  }
+                ]
+              }
+            },
+            "overrides": []
+          },
+          "gridPos": {
+            "h": 4,
+            "w": 6,
+            "x": 18,
+            "y": 12
+          },
+          "id": 12,
+          "description": "Indicates whether the network forwarding path has remained stable or diverged from its baseline hash signature (0=STABLE, 1=ROUTE CHANGED). Frequent route changes signal flapping links, asymmetric routing, or ECMP churn. Route flapping introduces transient packet reordering and jitter that degrade real-time traffic. Missing data indicates collector outage, agent failure, or network disruption; values are preserved as null gaps.",
+          "options": {
+            "colorMode": "background",
+            "graphMode": "none",
+            "justifyMode": "auto",
+            "orientation": "auto",
+            "reduceOptions": {
+              "calcs": [
+                "lastNotNull"
+              ],
+              "fields": "",
+              "values": false
+            },
+            "textMode": "auto"
+          },
+          "pluginVersion": "11.6.0",
+          "targets": [
+            {
+              "application": {
+                "filter": ""
+              },
+              "datasource": {
+                "type": "alexanderzobnin-zabbix-datasource",
+                "uid": "PA67C5EADE9207728"
+              },
+              "group": {
+                "filter": "$group"
+              },
+              "host": {
+                "filter": "$endpoint"
+              },
+              "item": {
+                "filter": "Path route changed [$target]"
+              },
+              "itemTag": {
+                "filter": ""
+              },
+              "mode": 0,
+              "options": {
+                "showDisabledItems": false
+              },
+              "refId": "A",
+              "resultFormat": "time_series",
+              "tags": {
+                "filter": ""
+              },
+              "trigger": {
+                "filter": ""
+              }
+            }
+          ],
+          "title": "Path Route Stability",
+          "type": "stat"
+        },
+        {
+          "gridPos": {
+            "h": 4,
+            "w": 24,
+            "x": 0,
+            "y": 16
+          },
+          "id": 13,
+          "description": "Technical notice explaining Control Plane Policing (CoPP) mechanics in modern router backbones. Transit data packets are prioritized in hardware ASICs, while ICMP Time Exceeded packets are rate-limited by router CPUs. Hops showing packet loss or timeouts must not be classified as network failures if downstream hops and destinations are responsive. Missing data indicates collector outage, agent failure, or network disruption; values are preserved as null gaps.",
+          "options": {
+            "content": "> \ud83d\udee1\ufe0f **Control Plane Policing (CoPP) Guard Active**\n>\n> In modern enterprise and carrier backbones, core routing engines prioritize transit data-plane packets and aggressively rate-limit or drop ICMP `Time Exceeded` generation generated by their control plane CPUs.\n>\n> **Operational Invariant:** An intermediate hop showing timeouts (`*`) or high loss is **non-impairing** if downstream hops or the target destination are healthy (Loss < 20%). Nawari classifies these hops as `TIMEOUT_COPP` (CoPP Rate-Limited) and strictly omits synthetic RTT metrics, preventing spurious alarms and false ticket escalations to transit carriers.",
+            "mode": "markdown"
+          },
+          "pluginVersion": "11.6.0",
+          "title": "CoPP Guard Architectural Interpretation",
+          "type": "text"
+        },
+        {
+          "datasource": {
+            "type": "alexanderzobnin-zabbix-datasource",
+            "uid": "PA67C5EADE9207728"
+          },
+          "fieldConfig": {
+            "defaults": {
+              "color": {
+                "mode": "thresholds"
+              },
+              "custom": {
+                "align": "auto",
+                "cellOptions": {
+                  "type": "auto"
+                },
+                "inspect": false
+              },
+              "mappings": [
+                {
+                  "options": {
+                    "0": {
+                      "color": "green",
+                      "text": "RESPONSIVE"
+                    },
+                    "1": {
+                      "color": "blue",
+                      "text": "COPP_RATE_LIMITED"
+                    },
+                    "2": {
+                      "color": "red",
+                      "text": "UNREACHABLE"
+                    },
+                    "3": {
+                      "color": "purple",
+                      "text": "ANONYMOUS_MPLS"
+                    }
+                  },
+                  "type": "value"
+                }
+              ],
+              "thresholds": {
+                "mode": "absolute",
+                "steps": [
+                  {
+                    "color": "green",
+                    "value": null
+                  }
+                ]
+              }
+            },
+            "overrides": []
+          },
+          "gridPos": {
+            "h": 9,
+            "w": 24,
+            "x": 0,
+            "y": 20
+          },
+          "id": 14,
+          "description": "Detailed hop-by-hop breakdown showing router IP addresses, reverse DNS hostnames, autonomous system numbers (ASN), average RTT, packet loss, and CoPP status. Identifies exactly which network transit hop introduces latency or packet loss. Non-responsive hops marked COPP_RATE_LIMITED indicate benign control plane filtering rather than link failure. Missing data indicates collector outage, agent failure, or network disruption; values are preserved as null gaps.",
+          "options": {
+            "footer": {
+              "countRows": false,
+              "fields": "",
+              "reducer": [
+                "sum"
+              ],
+              "show": false
+            },
+            "showHeader": true,
+            "sortBy": []
+          },
+          "pluginVersion": "11.6.0",
+          "targets": [
+            {
+              "application": {
+                "filter": ""
+              },
+              "datasource": {
+                "type": "alexanderzobnin-zabbix-datasource",
+                "uid": "PA67C5EADE9207728"
+              },
+              "group": {
+                "filter": "$group"
+              },
+              "host": {
+                "filter": "$endpoint"
+              },
+              "item": {
+                "filter": "/nawari.path.hop..*[$target,.*/"
+              },
+              "itemTag": {
+                "filter": ""
+              },
+              "mode": 0,
+              "options": {
+                "showDisabledItems": false
+              },
+              "refId": "A",
+              "resultFormat": "time_series",
+              "tags": {
+                "filter": ""
+              },
+              "trigger": {
+                "filter": ""
+              }
+            }
+          ],
+          "title": "Discovered Hop Details (IP, RTT, Packet Loss, CoPP Status)",
+          "type": "table"
+        },
+        {
+          "datasource": {
+            "type": "alexanderzobnin-zabbix-datasource",
+            "uid": "PA67C5EADE9207728"
+          },
+          "fieldConfig": {
+            "defaults": {
+              "color": {
+                "mode": "palette-classic"
+              },
+              "custom": {
+                "axisLabel": "Hop RTT (s)",
+                "fillOpacity": 15,
+                "lineWidth": 2,
+                "scaleDistribution": {
+                  "type": "linear"
+                }
+              },
+              "mappings": [],
+              "noValue": "STALE / NO DATA",
+              "thresholds": {
+                "mode": "absolute",
+                "steps": [
+                  {
+                    "color": "green",
+                    "value": null
+                  },
+                  {
+                    "color": "yellow",
+                    "value": 0.04
+                  },
+                  {
+                    "color": "red",
+                    "value": 0.1
+                  }
+                ]
+              },
+              "unit": "s"
+            },
+            "overrides": []
+          },
+          "gridPos": {
+            "h": 7,
+            "w": 24,
+            "x": 0,
+            "y": 29
+          },
+          "id": 15,
+          "description": "Visualizes cumulative round-trip latency as packets traverse each successive hop toward the target. Sharp increases (>40 ms) between consecutive hops isolate congested physical spans, submarine cable transitions, or satellite links. Helps distinguish whether latency originates in the local LAN, enterprise WAN, or third-party ISP transit. Missing data indicates collector outage, agent failure, or network disruption; values are preserved as null gaps.",
+          "options": {
+            "legend": {
+              "calcs": [
+                "mean",
+                "max",
+                "lastNotNull"
+              ],
+              "displayMode": "table",
+              "placement": "bottom"
+            },
+            "tooltip": {
+              "mode": "multi"
+            }
+          },
+          "pluginVersion": "11.6.0",
+          "targets": [
+            {
+              "application": {
+                "filter": ""
+              },
+              "datasource": {
+                "type": "alexanderzobnin-zabbix-datasource",
+                "uid": "PA67C5EADE9207728"
+              },
+              "group": {
+                "filter": "$group"
+              },
+              "host": {
+                "filter": "$endpoint"
+              },
+              "item": {
+                "filter": "/nawari.path.hop.rtt[$target,.*/"
+              },
+              "itemTag": {
+                "filter": ""
+              },
+              "mode": 0,
+              "options": {
+                "showDisabledItems": false
+              },
+              "refId": "A",
+              "resultFormat": "time_series",
+              "tags": {
+                "filter": ""
+              },
+              "trigger": {
+                "filter": ""
+              }
+            }
+          ],
+          "title": "Hop Latency Progression Waterfall (Detecting >40ms Latency Jumps)",
+          "type": "timeseries"
+        },
+        {
+          "datasource": {
+            "type": "alexanderzobnin-zabbix-datasource",
+            "uid": "PA67C5EADE9207728"
+          },
+          "fieldConfig": {
+            "defaults": {
+              "color": {
+                "mode": "thresholds"
+              },
+              "custom": {
+                "axisLabel": "Route Divergence",
+                "fillOpacity": 25,
+                "lineWidth": 2
+              },
+              "mappings": [
+                {
+                  "options": {
+                    "0": {
+                      "color": "green",
+                      "text": "STABLE"
+                    },
+                    "1": {
+                      "color": "red",
+                      "text": "ROUTE CHANGED"
+                    }
+                  },
+                  "type": "value"
+                }
+              ],
+              "noValue": "STALE / NO DATA",
+              "thresholds": {
+                "mode": "absolute",
+                "steps": [
+                  {
+                    "color": "green",
+                    "value": null
+                  },
+                  {
+                    "color": "red",
+                    "value": 1
+                  }
+                ]
+              }
+            },
+            "overrides": []
+          },
+          "gridPos": {
+            "h": 6,
+            "w": 24,
+            "x": 0,
+            "y": 36
+          },
+          "id": 16,
+          "description": "Tracks changes in the SHA-256 path signature over time, showing when routing topology shifted. Spikes to 1 indicate an detected change in IP hop sequence, transit ASNs, or interface path. Correlate path change events with latency jumps or voice quality drops to determine whether ISP routing updates caused service degradation. Missing data indicates collector outage, agent failure, or network disruption; values are preserved as null gaps.",
+          "options": {
+            "legend": {
+              "displayMode": "list",
+              "placement": "bottom"
+            },
+            "tooltip": {
+              "mode": "single"
+            }
+          },
+          "pluginVersion": "11.6.0",
+          "targets": [
+            {
+              "application": {
+                "filter": ""
+              },
+              "datasource": {
+                "type": "alexanderzobnin-zabbix-datasource",
+                "uid": "PA67C5EADE9207728"
+              },
+              "group": {
+                "filter": "$group"
+              },
+              "host": {
+                "filter": "$endpoint"
+              },
+              "item": {
+                "filter": "Path route changed [$target]"
+              },
+              "itemTag": {
+                "filter": ""
+              },
+              "mode": 0,
+              "options": {
+                "showDisabledItems": false
+              },
+              "refId": "A",
+              "resultFormat": "time_series",
+              "tags": {
+                "filter": ""
+              },
+              "trigger": {
+                "filter": ""
+              }
+            }
+          ],
+          "title": "Route Divergence History (Path Signature Hash Transitions)",
+          "type": "timeseries"
+        }
+      ],
+      "title": "Hop-by-Hop Path Tracing & Directional Latency Analysis",
+      "type": "row"
+    },
+    {
+      "collapsed": true,
+      "gridPos": {
+        "h": 1,
+        "w": 24,
+        "x": 0,
+        "y": 44
+      },
+      "id": 17,
+      "panels": [
+        {
+          "datasource": {
+            "type": "alexanderzobnin-zabbix-datasource",
+            "uid": "PA67C5EADE9207728"
+          },
+          "description": "Total count of active and communicating edge collector instances across outstation hubs. Missing data indicates collector outage, agent failure, or network disruption; values are preserved as null gaps.",
+          "fieldConfig": {
+            "defaults": {
+              "color": {
+                "mode": "thresholds"
+              },
+              "thresholds": {
+                "mode": "absolute",
+                "steps": [
+                  {
+                    "color": "red",
+                    "value": null
+                  },
+                  {
+                    "color": "yellow",
+                    "value": 10
+                  },
+                  {
+                    "color": "green",
+                    "value": 14
+                  }
+                ]
+              },
+              "unit": "short"
+            }
+          },
+          "gridPos": {
+            "h": 6,
+            "w": 8,
+            "x": 0,
+            "y": 0
+          },
+          "id": 18,
+          "options": {
+            "orientation": "auto",
+            "reduceOptions": {
+              "calcs": [
+                "lastNotNull"
+              ],
+              "values": false
+            }
+          },
+          "pluginVersion": "11.0.0",
+          "targets": [
+            {
+              "application": {
+                "name": "Edge Fleet"
+              },
+              "group": {
+                "name": "Outstations"
+              },
+              "host": {
+                "name": "mon-grafana01"
+              },
+              "item": {
+                "name": "Active Edge Collectors Count"
+              },
+              "refId": "ActiveCollectors"
+            }
+          ],
+          "title": "Active Edge Collectors",
+          "type": "stat"
+        },
+        {
+          "datasource": {
+            "type": "alexanderzobnin-zabbix-datasource",
+            "uid": "PA67C5EADE9207728"
+          },
+          "description": "Measured NTP clock drift between outstation edge devices and Central Hub master clock (Warning: > 250ms). Missing data indicates collector outage, agent failure, or network disruption; values are preserved as null gaps.",
+          "fieldConfig": {
+            "defaults": {
+              "color": {
+                "mode": "thresholds"
+              },
+              "thresholds": {
+                "mode": "absolute",
+                "steps": [
+                  {
+                    "color": "green",
+                    "value": null
+                  },
+                  {
+                    "color": "yellow",
+                    "value": 250
+                  },
+                  {
+                    "color": "red",
+                    "value": 1000
+                  }
+                ]
+              },
+              "unit": "ms"
+            }
+          },
+          "gridPos": {
+            "h": 6,
+            "w": 8,
+            "x": 8,
+            "y": 6
+          },
+          "id": 19,
+          "options": {
+            "orientation": "auto",
+            "reduceOptions": {
+              "calcs": [
+                "max"
+              ],
+              "values": false
+            }
+          },
+          "pluginVersion": "11.0.0",
+          "targets": [
+            {
+              "application": {
+                "name": "Edge Fleet"
+              },
+              "group": {
+                "name": "Outstations"
+              },
+              "host": {
+                "name": "mon-grafana01"
+              },
+              "item": {
+                "name": "Max Outstation Clock Drift"
+              },
+              "refId": "MaxClockDrift"
+            }
+          ],
+          "title": "Max Outstation Clock Drift",
+          "type": "stat"
+        },
+        {
+          "datasource": {
+            "type": "alexanderzobnin-zabbix-datasource",
+            "uid": "PA67C5EADE9207728"
+          },
+          "description": "Total volume of telemetry records queued across all outstation SQLite spools waiting for circuit restoration. Missing data indicates collector outage, agent failure, or network disruption; values are preserved as null gaps.",
+          "fieldConfig": {
+            "defaults": {
+              "color": {
+                "mode": "thresholds"
+              },
+              "thresholds": {
+                "mode": "absolute",
+                "steps": [
+                  {
+                    "color": "green",
+                    "value": null
+                  },
+                  {
+                    "color": "yellow",
+                    "value": 1000
+                  },
+                  {
+                    "color": "red",
+                    "value": 5000
+                  }
+                ]
+              },
+              "unit": "short"
+            }
+          },
+          "gridPos": {
+            "h": 6,
+            "w": 8,
+            "x": 16,
+            "y": 12
+          },
+          "id": 20,
+          "options": {
+            "orientation": "auto",
+            "reduceOptions": {
+              "calcs": [
+                "sum"
+              ],
+              "values": false
+            }
+          },
+          "pluginVersion": "11.0.0",
+          "targets": [
+            {
+              "application": {
+                "name": "Edge Fleet"
+              },
+              "group": {
+                "name": "Outstations"
+              },
+              "host": {
+                "name": "mon-grafana01"
+              },
+              "item": {
+                "name": "Fleet Total Spool Backlog"
+              },
+              "refId": "TotalSpoolBacklog"
+            }
+          ],
+          "title": "Fleet Total Spool Backlog",
+          "type": "stat"
+        },
+        {
+          "datasource": {
+            "type": "alexanderzobnin-zabbix-datasource",
+            "uid": "PA67C5EADE9207728"
+          },
+          "description": "Individual outstation edge collector operational metrics: spool file size (MB), buffered records, in-flight records, and last sync timestamp. Missing data indicates collector outage, agent failure, or network disruption; values are preserved as null gaps.",
+          "fieldConfig": {
+            "defaults": {
+              "color": {
+                "mode": "thresholds"
+              },
+              "thresholds": {
+                "mode": "absolute",
+                "steps": [
+                  {
+                    "color": "green",
+                    "value": null
+                  }
+                ]
+              }
+            }
+          },
+          "gridPos": {
+            "h": 8,
+            "w": 24,
+            "x": 0,
+            "y": 18
+          },
+          "id": 21,
+          "options": {
+            "showHeader": true
+          },
+          "pluginVersion": "11.0.0",
+          "targets": [
+            {
+              "application": {
+                "name": "Edge Fleet"
+              },
+              "group": {
+                "name": "Outstations"
+              },
+              "host": {
+                "name": "mon-grafana01"
+              },
+              "item": {
+                "name": "Outstation Spool Utilization Matrix"
+              },
+              "refId": "SpoolMatrix"
+            }
+          ],
+          "title": "Outstation Spool Storage & Replay Queue Matrix",
+          "type": "table"
+        }
+      ],
+      "title": "Distributed Edge Collector Fleet & SQLite Spool Storage",
+      "type": "row"
+    }
+  ],
+  "refresh": "10s",
+  "schemaVersion": 38,
+  "style": "dark",
+  "tags": [
+    "nawari",
+    "network",
+    "wan",
+    "outstation",
+    "tier3"
+  ],
+  "templating": {
+    "list": [
+      {
+        "current": {
+          "selected": true,
+          "text": "Endpoints",
+          "value": "Endpoints"
+        },
+        "datasource": {
+          "type": "alexanderzobnin-zabbix-datasource",
+          "uid": "PA67C5EADE9207728"
+        },
+        "definition": "*",
+        "hide": 0,
+        "includeAll": false,
+        "multi": false,
+        "name": "group",
+        "options": [],
+        "query": "*",
+        "refresh": 1,
+        "regex": "/.*Endpoint.*/",
+        "skipUrlSync": false,
+        "sort": 1,
+        "type": "query"
+      },
+      {
+        "current": {
+          "selected": true,
+          "text": "endpoint-probe-01",
+          "value": "endpoint-probe-01"
+        },
+        "datasource": {
+          "type": "alexanderzobnin-zabbix-datasource",
+          "uid": "PA67C5EADE9207728"
+        },
+        "definition": "$group.*",
+        "hide": 0,
+        "includeAll": false,
+        "multi": false,
+        "name": "endpoint",
+        "options": [],
+        "query": "$group.*",
+        "refresh": 1,
+        "regex": "",
+        "skipUrlSync": false,
+        "sort": 1,
+        "type": "query"
+      },
+      {
+        "current": {
+          "selected": true,
+          "text": "avaya-sbce",
+          "value": "avaya-sbce"
+        },
+        "datasource": {
+          "type": "alexanderzobnin-zabbix-datasource",
+          "uid": "PA67C5EADE9207728"
+        },
+        "definition": "$group.$endpoint.Path end-to-end latency [*]",
+        "hide": 0,
+        "includeAll": false,
+        "multi": false,
+        "name": "target",
+        "options": [],
+        "query": "$group.$endpoint.Path end-to-end latency [*]",
+        "refresh": 1,
+        "regex": "/Path end-to-end latency \\[(.*)\\]/",
+        "skipUrlSync": false,
+        "sort": 1,
+        "type": "query"
+      }
+    ]
+  },
+  "time": {
+    "from": "now-1h",
+    "to": "now"
+  },
+  "timepicker": {
+    "refresh_intervals": [
+      "5s",
+      "10s",
+      "30s",
+      "1m",
+      "5m",
+      "15m",
+      "30m",
+      "1h",
+      "2h",
+      "1d"
+    ]
+  },
+  "timezone": "browser",
+  "title": "Nawari \u2014 WAN, Path & Outstation Observability",
+  "uid": "nawari-wan-path-outstation",
+  "version": 1
+}

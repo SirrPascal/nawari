@@ -1,0 +1,5326 @@
+[
+  {
+    "uid": "nawari-eu-nem-pilot",
+    "title": "End-User Network Experience",
+    "folderTitle": "Nawari",
+    "folderId": 1,
+    "folderUid": "bg3lknu8id5ogd",
+    "tags": [
+      "network-observability",
+      "end-user-experience",
+      "pilot",
+      "nawari"
+    ],
+    "description": "",
+    "total_panels": 11,
+    "rows_count": 3,
+    "viz_panels_count": 8,
+    "variables": [],
+    "dash_links_count": 4,
+    "panels": [
+      {
+        "id": 1,
+        "type": "row",
+        "title": "End-User Network Experience & Pilot Fleet Overview",
+        "has_description": false,
+        "queries_count": 0,
+        "queries": [],
+        "data_links": []
+      },
+      {
+        "id": 2,
+        "type": "stat",
+        "title": "Pilot Laptops Enrolled",
+        "has_description": true,
+        "queries_count": 1,
+        "queries": [
+          {
+            "refId": "A",
+            "group": "Nawari / Endpoints / Pilot",
+            "host": "/.*/",
+            "item": "Zabbix Agent 2 Availability",
+            "application": null
+          }
+        ],
+        "data_links": []
+      },
+      {
+        "id": 3,
+        "type": "stat",
+        "title": "Active Reporting Laptops",
+        "has_description": true,
+        "queries_count": 1,
+        "queries": [
+          {
+            "refId": "A",
+            "group": "Nawari / Endpoints / Pilot",
+            "host": "/.*/",
+            "item": "Zabbix Agent 2 Availability",
+            "application": null
+          }
+        ],
+        "data_links": []
+      },
+      {
+        "id": 4,
+        "type": "stat",
+        "title": "Default Gateway Reachability",
+        "has_description": true,
+        "queries_count": 1,
+        "queries": [
+          {
+            "refId": "A",
+            "group": "Nawari / Endpoints / Pilot",
+            "host": "/.*/",
+            "item": "Default Gateway Reachable",
+            "application": null
+          }
+        ],
+        "data_links": []
+      },
+      {
+        "id": 5,
+        "type": "stat",
+        "title": "Corporate DNS Health",
+        "has_description": true,
+        "queries_count": 1,
+        "queries": [
+          {
+            "refId": "A",
+            "group": "Nawari / Endpoints / Pilot",
+            "host": "/.*/",
+            "item": "Corporate DNS Resolution Status",
+            "application": null
+          }
+        ],
+        "data_links": []
+      },
+      {
+        "id": 6,
+        "type": "row",
+        "title": "Gateway Latency & Edge Packet Loss",
+        "has_description": false,
+        "queries_count": 0,
+        "queries": [],
+        "data_links": []
+      },
+      {
+        "id": 7,
+        "type": "timeseries",
+        "title": "Default Gateway Latency (RTT)",
+        "has_description": true,
+        "queries_count": 1,
+        "queries": [
+          {
+            "refId": "A",
+            "group": "Nawari / Endpoints / Pilot",
+            "host": "/.*/",
+            "item": "Default Gateway Round-Trip Time",
+            "application": null
+          }
+        ],
+        "data_links": []
+      },
+      {
+        "id": 8,
+        "type": "timeseries",
+        "title": "Default Gateway Packet Loss (%)",
+        "has_description": true,
+        "queries_count": 1,
+        "queries": [
+          {
+            "refId": "A",
+            "group": "Nawari / Endpoints / Pilot",
+            "host": "/.*/",
+            "item": "Default Gateway Packet Loss",
+            "application": null
+          }
+        ],
+        "data_links": []
+      },
+      {
+        "id": 9,
+        "type": "row",
+        "title": "Corporate DNS & Application Reachability",
+        "has_description": false,
+        "queries_count": 0,
+        "queries": [],
+        "data_links": []
+      },
+      {
+        "id": 10,
+        "type": "timeseries",
+        "title": "Corporate DNS Resolution Latency",
+        "has_description": true,
+        "queries_count": 1,
+        "queries": [
+          {
+            "refId": "A",
+            "group": "Nawari / Endpoints / Pilot",
+            "host": "/.*/",
+            "item": "Corporate DNS Resolution Time",
+            "application": null
+          }
+        ],
+        "data_links": []
+      },
+      {
+        "id": 11,
+        "type": "timeseries",
+        "title": "Wi-Fi Signal Quality (%)",
+        "has_description": true,
+        "queries_count": 1,
+        "queries": [
+          {
+            "refId": "A",
+            "group": "Nawari / Endpoints / Pilot",
+            "host": "/.*/",
+            "item": "Wi-Fi Signal Strength",
+            "application": null
+          }
+        ],
+        "data_links": []
+      }
+    ],
+    "url": "/d/nawari-eu-nem-pilot/end-user-network-experience",
+    "provisioned": false,
+    "provisionedExternalId": ""
+  },
+  {
+    "uid": "nawari-communication-manager",
+    "title": "Nawari \u2014 Avaya Aura Communication Manager (CM) Call Processing & IP Voice Performance",
+    "folderTitle": "Nawari / Communication Observability",
+    "folderId": 33,
+    "folderUid": "nawari-comm-obs",
+    "tags": [
+      "nawari",
+      "communication-observability",
+      "avaya",
+      "communication-manager",
+      "call-processing"
+    ],
+    "description": "",
+    "total_panels": 14,
+    "rows_count": 3,
+    "viz_panels_count": 11,
+    "variables": [],
+    "dash_links_count": 0,
+    "panels": [
+      {
+        "id": 1,
+        "type": "row",
+        "title": "Communication Manager Call Processing & Telephony Alarms",
+        "has_description": false,
+        "queries_count": 0,
+        "queries": [],
+        "data_links": []
+      },
+      {
+        "id": 2,
+        "type": "stat",
+        "title": "CM Processor Reachability [REAL \u2014 ZABBIX]",
+        "has_description": true,
+        "queries_count": 1,
+        "queries": [
+          {
+            "refId": "AVAIL",
+            "group": null,
+            "host": null,
+            "item": null,
+            "application": null
+          }
+        ],
+        "data_links": []
+      },
+      {
+        "id": 3,
+        "type": "stat",
+        "title": "Active Telephony Alarms (Hourly Scan) [REAL \u2014 AVAYA SNMP]",
+        "has_description": true,
+        "queries_count": 1,
+        "queries": [
+          {
+            "refId": "ALARMS",
+            "group": null,
+            "host": null,
+            "item": null,
+            "application": null
+          }
+        ],
+        "data_links": []
+      },
+      {
+        "id": 4,
+        "type": "timeseries",
+        "title": "Call Processing Hourly Status [REAL \u2014 AVAYA SNMP]",
+        "has_description": true,
+        "queries_count": 1,
+        "queries": [
+          {
+            "refId": "ATTEMPTS",
+            "group": null,
+            "host": null,
+            "item": null,
+            "application": null
+          }
+        ],
+        "data_links": []
+      },
+      {
+        "id": 5,
+        "type": "timeseries",
+        "title": "Call Rate Completed Calls (Hourly Measurement) [REAL \u2014 AVAYA SNMP]",
+        "has_description": true,
+        "queries_count": 1,
+        "queries": [
+          {
+            "refId": "COMPLETED",
+            "group": null,
+            "host": null,
+            "item": null,
+            "application": null
+          }
+        ],
+        "data_links": []
+      },
+      {
+        "id": 6,
+        "type": "row",
+        "title": "Hourly IP Voice Quality Telemetry (avCmMeasIpVoStatHrData)",
+        "has_description": false,
+        "queries_count": 0,
+        "queries": [],
+        "data_links": []
+      },
+      {
+        "id": 7,
+        "type": "stat",
+        "title": "Real-Call Packet Loss % (Last Hour) [REAL \u2014 AVAYA SNMP]",
+        "has_description": true,
+        "queries_count": 1,
+        "queries": [
+          {
+            "refId": "LOSS",
+            "group": null,
+            "host": null,
+            "item": null,
+            "application": null
+          }
+        ],
+        "data_links": []
+      },
+      {
+        "id": 8,
+        "type": "stat",
+        "title": "Real-Call Peak Jitter (Last Hour) [REAL \u2014 AVAYA SNMP]",
+        "has_description": true,
+        "queries_count": 1,
+        "queries": [
+          {
+            "refId": "PEAK_JITTER",
+            "group": null,
+            "host": null,
+            "item": null,
+            "application": null
+          }
+        ],
+        "data_links": []
+      },
+      {
+        "id": 9,
+        "type": "stat",
+        "title": "Real-Call Peak Delay (Last Hour) [REAL \u2014 AVAYA SNMP]",
+        "has_description": true,
+        "queries_count": 1,
+        "queries": [
+          {
+            "refId": "PEAK_DELAY",
+            "group": null,
+            "host": null,
+            "item": null,
+            "application": null
+          }
+        ],
+        "data_links": []
+      },
+      {
+        "id": 10,
+        "type": "stat",
+        "title": "Hourly Average Jitter [REAL \u2014 AVAYA SNMP]",
+        "has_description": true,
+        "queries_count": 1,
+        "queries": [
+          {
+            "refId": "AVG_JITTER",
+            "group": null,
+            "host": null,
+            "item": null,
+            "application": null
+          }
+        ],
+        "data_links": []
+      },
+      {
+        "id": 11,
+        "type": "row",
+        "title": "Codec Negotiation, Echo Cancellation & Media Regions",
+        "has_description": false,
+        "queries_count": 0,
+        "queries": [],
+        "data_links": []
+      },
+      {
+        "id": 12,
+        "type": "stat",
+        "title": "Negotiated Audio Codec [REAL \u2014 AVAYA SNMP]",
+        "has_description": true,
+        "queries_count": 1,
+        "queries": [
+          {
+            "refId": "CODEC",
+            "group": null,
+            "host": null,
+            "item": null,
+            "application": null
+          }
+        ],
+        "data_links": []
+      },
+      {
+        "id": 13,
+        "type": "stat",
+        "title": "Echo Cancellation Status [REAL \u2014 AVAYA SNMP]",
+        "has_description": true,
+        "queries_count": 1,
+        "queries": [
+          {
+            "refId": "ECHO",
+            "group": null,
+            "host": null,
+            "item": null,
+            "application": null
+          }
+        ],
+        "data_links": []
+      },
+      {
+        "id": 14,
+        "type": "stat",
+        "title": "Evaluated Calls Count in Last Hour [REAL \u2014 AVAYA SNMP]",
+        "has_description": true,
+        "queries_count": 1,
+        "queries": [
+          {
+            "refId": "EVAL_CALLS",
+            "group": null,
+            "host": null,
+            "item": null,
+            "application": null
+          }
+        ],
+        "data_links": []
+      }
+    ],
+    "url": "/d/nawari-communication-manager/ac6fa2f",
+    "provisioned": false,
+    "provisionedExternalId": "avaya_communication_manager.json"
+  },
+  {
+    "uid": "nawari-session-manager",
+    "title": "Nawari \u2014 Avaya Aura Session Manager (ASM) Operational Health & SIP Entity Routing",
+    "folderTitle": "Nawari / Communication Observability",
+    "folderId": 33,
+    "folderUid": "nawari-comm-obs",
+    "tags": [
+      "nawari",
+      "communication-observability",
+      "avaya",
+      "session-manager",
+      "sip-routing"
+    ],
+    "description": "",
+    "total_panels": 12,
+    "rows_count": 3,
+    "viz_panels_count": 9,
+    "variables": [],
+    "dash_links_count": 0,
+    "panels": [
+      {
+        "id": 1,
+        "type": "row",
+        "title": "Session Manager Host Platform Health & Transport Sockets",
+        "has_description": false,
+        "queries_count": 0,
+        "queries": [],
+        "data_links": []
+      },
+      {
+        "id": 2,
+        "type": "gauge",
+        "title": "SM Host CPU Utilization [REAL \u2014 HARDWARE]",
+        "has_description": true,
+        "queries_count": 1,
+        "queries": [
+          {
+            "refId": "CPU",
+            "group": null,
+            "host": null,
+            "item": null,
+            "application": null
+          }
+        ],
+        "data_links": []
+      },
+      {
+        "id": 3,
+        "type": "gauge",
+        "title": "SM Host RAM Utilization [REAL \u2014 HARDWARE]",
+        "has_description": true,
+        "queries_count": 1,
+        "queries": [
+          {
+            "refId": "RAM",
+            "group": null,
+            "host": null,
+            "item": null,
+            "application": null
+          }
+        ],
+        "data_links": []
+      },
+      {
+        "id": 4,
+        "type": "stat",
+        "title": "SM System Uptime [REAL \u2014 HARDWARE]",
+        "has_description": true,
+        "queries_count": 1,
+        "queries": [
+          {
+            "refId": "UPTIME",
+            "group": null,
+            "host": null,
+            "item": null,
+            "application": null
+          }
+        ],
+        "data_links": []
+      },
+      {
+        "id": 5,
+        "type": "timeseries",
+        "title": "TCP Established Sockets [REAL \u2014 HARDWARE]",
+        "has_description": true,
+        "queries_count": 1,
+        "queries": [
+          {
+            "refId": "TCP",
+            "group": null,
+            "host": null,
+            "item": null,
+            "application": null
+          }
+        ],
+        "data_links": []
+      },
+      {
+        "id": 6,
+        "type": "row",
+        "title": "SIP Entity Monitoring & OPTIONS Reachability",
+        "has_description": false,
+        "queries_count": 0,
+        "queries": [],
+        "data_links": []
+      },
+      {
+        "id": 7,
+        "type": "stat",
+        "title": "SIP Entity State \u2014 Avaya CM [CONFIGURED \u2014 ASM API/CLI]",
+        "has_description": true,
+        "queries_count": 1,
+        "queries": [
+          {
+            "refId": "CM_ENTITY",
+            "group": null,
+            "host": null,
+            "item": null,
+            "application": null
+          }
+        ],
+        "data_links": []
+      },
+      {
+        "id": 8,
+        "type": "stat",
+        "title": "SIP Entity State \u2014 Avaya SBCE [CONFIGURED \u2014 ASM API/CLI]",
+        "has_description": true,
+        "queries_count": 1,
+        "queries": [
+          {
+            "refId": "SBCE_ENTITY",
+            "group": null,
+            "host": null,
+            "item": null,
+            "application": null
+          }
+        ],
+        "data_links": []
+      },
+      {
+        "id": 9,
+        "type": "timeseries",
+        "title": "SIP OPTIONS Heartbeat Response Time [NAWARI SIP PROBE]",
+        "has_description": true,
+        "queries_count": 1,
+        "queries": [
+          {
+            "refId": "CM_OPTIONS_RTT",
+            "group": null,
+            "host": null,
+            "item": null,
+            "application": null
+          }
+        ],
+        "data_links": []
+      },
+      {
+        "id": 10,
+        "type": "row",
+        "title": "SIP Entity Inventory & Enterprise Alarm Feed",
+        "has_description": false,
+        "queries_count": 0,
+        "queries": [],
+        "data_links": []
+      },
+      {
+        "id": 11,
+        "type": "table",
+        "title": "Configured SIP Entity Topology & Link Status [CONFIGURED \u2014 ASM MODEL]",
+        "has_description": true,
+        "queries_count": 1,
+        "queries": [
+          {
+            "refId": "ENTITIES",
+            "group": null,
+            "host": null,
+            "item": null,
+            "application": null
+          }
+        ],
+        "data_links": []
+      },
+      {
+        "id": 12,
+        "type": "stat",
+        "title": "Session Manager Active Alarms [EVENT TRAP \u2014 AV-TRAP-MIB]",
+        "has_description": true,
+        "queries_count": 1,
+        "queries": [
+          {
+            "refId": "SM_ALARMS",
+            "group": null,
+            "host": null,
+            "item": null,
+            "application": null
+          }
+        ],
+        "data_links": []
+      }
+    ],
+    "url": "/d/nawari-session-manager/5c22de3",
+    "provisioned": false,
+    "provisionedExternalId": "avaya_session_manager.json"
+  },
+  {
+    "uid": "nawari-cms-contact-centre",
+    "title": "Nawari \u2014 Avaya Call Management System (CMS) & Contact Centre Performance",
+    "folderTitle": "Nawari / Communication Observability",
+    "folderId": 33,
+    "folderUid": "nawari-comm-obs",
+    "tags": [
+      "nawari",
+      "communication-observability",
+      "avaya",
+      "cms",
+      "contact-centre",
+      "informix"
+    ],
+    "description": "",
+    "total_panels": 12,
+    "rows_count": 3,
+    "viz_panels_count": 9,
+    "variables": [],
+    "dash_links_count": 0,
+    "panels": [
+      {
+        "id": 1,
+        "type": "row",
+        "title": "CMS Host Infrastructure & Informix Database Engine Health",
+        "has_description": false,
+        "queries_count": 0,
+        "queries": [],
+        "data_links": []
+      },
+      {
+        "id": 2,
+        "type": "gauge",
+        "title": "CMS Host CPU Utilization [REAL \u2014 HARDWARE]",
+        "has_description": true,
+        "queries_count": 1,
+        "queries": [
+          {
+            "refId": "CPU",
+            "group": null,
+            "host": null,
+            "item": null,
+            "application": null
+          }
+        ],
+        "data_links": []
+      },
+      {
+        "id": 3,
+        "type": "stat",
+        "title": "Informix Database Engine Status [APPLICATION \u2014 CMS]",
+        "has_description": true,
+        "queries_count": 1,
+        "queries": [
+          {
+            "refId": "INFORMIX",
+            "group": null,
+            "host": null,
+            "item": null,
+            "application": null
+          }
+        ],
+        "data_links": []
+      },
+      {
+        "id": 4,
+        "type": "stat",
+        "title": "CMS Archiving Interval Configuration [APPLICATION \u2014 CMS]",
+        "has_description": true,
+        "queries_count": 1,
+        "queries": [
+          {
+            "refId": "INTERVAL",
+            "group": null,
+            "host": null,
+            "item": null,
+            "application": null
+          }
+        ],
+        "data_links": []
+      },
+      {
+        "id": 5,
+        "type": "row",
+        "title": "Queue Dynamics, Wait Times & Customer Experience",
+        "has_description": false,
+        "queries_count": 0,
+        "queries": [],
+        "data_links": []
+      },
+      {
+        "id": 6,
+        "type": "gauge",
+        "title": "Service Level Attainment (% in SLA) [APPLICATION \u2014 CMS]",
+        "has_description": true,
+        "queries_count": 1,
+        "queries": [
+          {
+            "refId": "SLA",
+            "group": null,
+            "host": null,
+            "item": null,
+            "application": null
+          }
+        ],
+        "data_links": []
+      },
+      {
+        "id": 7,
+        "type": "timeseries",
+        "title": "Average Speed of Answer (ASA, sec) [APPLICATION \u2014 CMS]",
+        "has_description": true,
+        "queries_count": 1,
+        "queries": [
+          {
+            "refId": "ASA",
+            "group": null,
+            "host": null,
+            "item": null,
+            "application": null
+          }
+        ],
+        "data_links": []
+      },
+      {
+        "id": 8,
+        "type": "stat",
+        "title": "Calls Waiting in Queue [APPLICATION \u2014 CMS]",
+        "has_description": true,
+        "queries_count": 1,
+        "queries": [
+          {
+            "refId": "WAITING",
+            "group": null,
+            "host": null,
+            "item": null,
+            "application": null
+          }
+        ],
+        "data_links": []
+      },
+      {
+        "id": 9,
+        "type": "stat",
+        "title": "Oldest Call Waiting (sec) [APPLICATION \u2014 CMS]",
+        "has_description": true,
+        "queries_count": 1,
+        "queries": [
+          {
+            "refId": "OLDEST",
+            "group": null,
+            "host": null,
+            "item": null,
+            "application": null
+          }
+        ],
+        "data_links": []
+      },
+      {
+        "id": 10,
+        "type": "row",
+        "title": "Inbound Volume Trends, Abandonment & Split/Skill Performance",
+        "has_description": false,
+        "queries_count": 0,
+        "queries": [],
+        "data_links": []
+      },
+      {
+        "id": 11,
+        "type": "timeseries",
+        "title": "Calls Offered vs Answered vs Abandoned [APPLICATION \u2014 CMS]",
+        "has_description": true,
+        "queries_count": 3,
+        "queries": [
+          {
+            "refId": "OFFERED",
+            "group": null,
+            "host": null,
+            "item": null,
+            "application": null
+          },
+          {
+            "refId": "ANSWERED",
+            "group": null,
+            "host": null,
+            "item": null,
+            "application": null
+          },
+          {
+            "refId": "ABANDONED",
+            "group": null,
+            "host": null,
+            "item": null,
+            "application": null
+          }
+        ],
+        "data_links": []
+      },
+      {
+        "id": 12,
+        "type": "table",
+        "title": "Skill Group & Split Performance Breakdown [APPLICATION \u2014 CMS]",
+        "has_description": true,
+        "queries_count": 1,
+        "queries": [
+          {
+            "refId": "SKILLS",
+            "group": null,
+            "host": null,
+            "item": null,
+            "application": null
+          }
+        ],
+        "data_links": []
+      }
+    ],
+    "url": "/d/nawari-cms-contact-centre/c7fa94a",
+    "provisioned": false,
+    "provisionedExternalId": "avaya_cms_contact_centre.json"
+  },
+  {
+    "uid": "nawari-g450-gateway",
+    "title": "Nawari \u2014 Avaya G450 Media Gateway Appliance & Physical Telephony Health",
+    "folderTitle": "Nawari / Communication Observability",
+    "folderId": 33,
+    "folderUid": "nawari-comm-obs",
+    "tags": [
+      "nawari",
+      "communication-observability",
+      "avaya",
+      "g450",
+      "media-gateway"
+    ],
+    "description": "",
+    "total_panels": 11,
+    "rows_count": 3,
+    "viz_panels_count": 8,
+    "variables": [],
+    "dash_links_count": 0,
+    "panels": [
+      {
+        "id": 1,
+        "type": "row",
+        "title": "G450 Media Gateway Appliance & Controller Registration",
+        "has_description": false,
+        "queries_count": 0,
+        "queries": [],
+        "data_links": []
+      },
+      {
+        "id": 2,
+        "type": "stat",
+        "title": "G450 System Uptime [REAL \u2014 HARDWARE]",
+        "has_description": true,
+        "queries_count": 1,
+        "queries": [
+          {
+            "refId": "UPTIME",
+            "group": null,
+            "host": null,
+            "item": null,
+            "application": null
+          }
+        ],
+        "data_links": []
+      },
+      {
+        "id": 3,
+        "type": "stat",
+        "title": "CM Gateway Registration [CONFIGURED \u2014 G450 MGP]",
+        "has_description": true,
+        "queries_count": 1,
+        "queries": [
+          {
+            "refId": "REG_STATE",
+            "group": null,
+            "host": null,
+            "item": null,
+            "application": null
+          }
+        ],
+        "data_links": []
+      },
+      {
+        "id": 4,
+        "type": "stat",
+        "title": "Chassis Thermal State [EVENT TRAP \u2014 G450 MGP]",
+        "has_description": true,
+        "queries_count": 1,
+        "queries": [
+          {
+            "refId": "TEMP",
+            "group": null,
+            "host": null,
+            "item": null,
+            "application": null
+          }
+        ],
+        "data_links": []
+      },
+      {
+        "id": 5,
+        "type": "stat",
+        "title": "Power Supply Status (PSU 1 & 2) [CONFIGURED \u2014 EVENT TRAP]",
+        "has_description": true,
+        "queries_count": 2,
+        "queries": [
+          {
+            "refId": "PSU1",
+            "group": null,
+            "host": null,
+            "item": null,
+            "application": null
+          },
+          {
+            "refId": "PSU2",
+            "group": null,
+            "host": null,
+            "item": null,
+            "application": null
+          }
+        ],
+        "data_links": []
+      },
+      {
+        "id": 6,
+        "type": "row",
+        "title": "Media Modules, Trunk Ports & Media Resources",
+        "has_description": false,
+        "queries_count": 0,
+        "queries": [],
+        "data_links": []
+      },
+      {
+        "id": 7,
+        "type": "stat",
+        "title": "E1 / ISDN PRI Physical Trunk State [CONFIGURED \u2014 IF-MIB]",
+        "has_description": true,
+        "queries_count": 1,
+        "queries": [
+          {
+            "refId": "E1_STATUS",
+            "group": null,
+            "host": null,
+            "item": null,
+            "application": null
+          }
+        ],
+        "data_links": []
+      },
+      {
+        "id": 8,
+        "type": "stat",
+        "title": "DSP Media Resource Channels [NOT COLLECTED \u2014 REQUIRES AUDIT]",
+        "has_description": true,
+        "queries_count": 1,
+        "queries": [
+          {
+            "refId": "DSP",
+            "group": null,
+            "host": null,
+            "item": null,
+            "application": null
+          }
+        ],
+        "data_links": []
+      },
+      {
+        "id": 9,
+        "type": "stat",
+        "title": "Chassis Fan Tray Operational State [CONFIGURED \u2014 EVENT TRAP]",
+        "has_description": true,
+        "queries_count": 1,
+        "queries": [
+          {
+            "refId": "FAN",
+            "group": null,
+            "host": null,
+            "item": null,
+            "application": null
+          }
+        ],
+        "data_links": []
+      },
+      {
+        "id": 10,
+        "type": "row",
+        "title": "Media Module Inventory & Slot Architecture",
+        "has_description": false,
+        "queries_count": 0,
+        "queries": [],
+        "data_links": []
+      },
+      {
+        "id": 11,
+        "type": "table",
+        "title": "Installed Media Module Slot Inventory (V1-V8) [REAL \u2014 HARDWARE]",
+        "has_description": true,
+        "queries_count": 1,
+        "queries": [
+          {
+            "refId": "MODULES",
+            "group": null,
+            "host": null,
+            "item": null,
+            "application": null
+          }
+        ],
+        "data_links": []
+      }
+    ],
+    "url": "/d/nawari-g450-gateway/3ea9bea",
+    "provisioned": false,
+    "provisionedExternalId": "avaya_g450_media_gateway.json"
+  },
+  {
+    "uid": "nawari-sbce-health",
+    "title": "Nawari \u2014 Avaya SBCE Operational Health",
+    "folderTitle": "Nawari / Communication Observability",
+    "folderId": 33,
+    "folderUid": "nawari-comm-obs",
+    "tags": [
+      "nawari",
+      "avaya",
+      "sbce",
+      "voice",
+      "phase4"
+    ],
+    "description": "",
+    "total_panels": 19,
+    "rows_count": 4,
+    "viz_panels_count": 15,
+    "variables": [],
+    "dash_links_count": 0,
+    "panels": [
+      {
+        "id": 1,
+        "type": "row",
+        "title": "Avaya SBCE \u2014 Appliance Health & System Resources",
+        "has_description": false,
+        "queries_count": 0,
+        "queries": [],
+        "data_links": []
+      },
+      {
+        "id": 2,
+        "type": "stat",
+        "title": "SNMPv3 Status",
+        "has_description": true,
+        "queries_count": 1,
+        "queries": [
+          {
+            "refId": "A",
+            "group": "/Voice Infrastructure|Edge SBC/",
+            "host": "/.*sbce.*/",
+            "item": "SNMP agent availability",
+            "application": ""
+          }
+        ],
+        "data_links": []
+      },
+      {
+        "id": 3,
+        "type": "stat",
+        "title": "System Uptime",
+        "has_description": true,
+        "queries_count": 1,
+        "queries": [
+          {
+            "refId": "A",
+            "group": "/Voice Infrastructure|Edge SBC/",
+            "host": "/.*sbce.*/",
+            "item": "System uptime",
+            "application": ""
+          }
+        ],
+        "data_links": []
+      },
+      {
+        "id": 4,
+        "type": "gauge",
+        "title": "CPU Utilization",
+        "has_description": true,
+        "queries_count": 1,
+        "queries": [
+          {
+            "refId": "A",
+            "group": "/Voice Infrastructure|Edge SBC/",
+            "host": "/.*sbce.*/",
+            "item": "Appliance CPU utilization",
+            "application": ""
+          }
+        ],
+        "data_links": []
+      },
+      {
+        "id": 5,
+        "type": "gauge",
+        "title": "RAM Utilization",
+        "has_description": true,
+        "queries_count": 1,
+        "queries": [
+          {
+            "refId": "A",
+            "group": "/Voice Infrastructure|Edge SBC/",
+            "host": "/.*sbce.*/",
+            "item": "Appliance memory utilization",
+            "application": ""
+          }
+        ],
+        "data_links": []
+      },
+      {
+        "id": 6,
+        "type": "gauge",
+        "title": "Root Disk Utilization",
+        "has_description": true,
+        "queries_count": 1,
+        "queries": [
+          {
+            "refId": "A",
+            "group": "/Voice Infrastructure|Edge SBC/",
+            "host": "/.*sbce.*/",
+            "item": "Appliance root filesystem space utilization",
+            "application": ""
+          }
+        ],
+        "data_links": []
+      },
+      {
+        "id": 7,
+        "type": "stat",
+        "title": "Load Average (1m)",
+        "has_description": true,
+        "queries_count": 1,
+        "queries": [
+          {
+            "refId": "A",
+            "group": "/Voice Infrastructure|Edge SBC/",
+            "host": "/.*sbce.*/",
+            "item": "Appliance 1-minute load average",
+            "application": ""
+          }
+        ],
+        "data_links": []
+      },
+      {
+        "id": 8,
+        "type": "row",
+        "title": "Voice Signaling & Media Interface Matrix (A1 / B1 / M1 / M2)",
+        "has_description": false,
+        "queries_count": 0,
+        "queries": [],
+        "data_links": []
+      },
+      {
+        "id": 9,
+        "type": "stat",
+        "title": "A1 \u2014 External DMZ (SIP Signaling)",
+        "has_description": true,
+        "queries_count": 1,
+        "queries": [
+          {
+            "refId": "A",
+            "group": "/Voice Infrastructure|Edge SBC/",
+            "host": "/.*sbce.*/",
+            "item": "Interface A1: Operational status",
+            "application": ""
+          }
+        ],
+        "data_links": []
+      },
+      {
+        "id": 10,
+        "type": "stat",
+        "title": "B1 \u2014 Internal Media & Core Signaling",
+        "has_description": true,
+        "queries_count": 1,
+        "queries": [
+          {
+            "refId": "A",
+            "group": "/Voice Infrastructure|Edge SBC/",
+            "host": "/.*sbce.*/",
+            "item": "Interface B1: Operational status",
+            "application": ""
+          }
+        ],
+        "data_links": []
+      },
+      {
+        "id": 11,
+        "type": "stat",
+        "title": "M1 \u2014 Primary Management",
+        "has_description": true,
+        "queries_count": 1,
+        "queries": [
+          {
+            "refId": "A",
+            "group": "/Voice Infrastructure|Edge SBC/",
+            "host": "/.*sbce.*/",
+            "item": "Interface M1: Operational status",
+            "application": ""
+          }
+        ],
+        "data_links": []
+      },
+      {
+        "id": 12,
+        "type": "stat",
+        "title": "M2 \u2014 Secondary / HA Heartbeat",
+        "has_description": true,
+        "queries_count": 1,
+        "queries": [
+          {
+            "refId": "A",
+            "group": "/Voice Infrastructure|Edge SBC/",
+            "host": "/.*sbce.*/",
+            "item": "Interface M2: Operational status",
+            "application": ""
+          }
+        ],
+        "data_links": []
+      },
+      {
+        "id": 13,
+        "type": "row",
+        "title": "Voice Path Traffic & Bandwidth Utilization (64-bit HC Counters)",
+        "has_description": false,
+        "queries_count": 0,
+        "queries": [],
+        "data_links": []
+      },
+      {
+        "id": 14,
+        "type": "timeseries",
+        "title": "A1 Carrier DMZ Traffic (bps)",
+        "has_description": true,
+        "queries_count": 2,
+        "queries": [
+          {
+            "refId": "A",
+            "group": "/Voice Infrastructure|Edge SBC/",
+            "host": "/.*sbce.*/",
+            "item": "Interface A1: Bits received",
+            "application": ""
+          },
+          {
+            "refId": "B",
+            "group": "/Voice Infrastructure|Edge SBC/",
+            "host": "/.*sbce.*/",
+            "item": "Interface A1: Bits sent",
+            "application": ""
+          }
+        ],
+        "data_links": []
+      },
+      {
+        "id": 15,
+        "type": "timeseries",
+        "title": "B1 Internal Media & Core Signaling Traffic (bps)",
+        "has_description": true,
+        "queries_count": 2,
+        "queries": [
+          {
+            "refId": "A",
+            "group": "/Voice Infrastructure|Edge SBC/",
+            "host": "/.*sbce.*/",
+            "item": "Interface B1: Bits received",
+            "application": ""
+          },
+          {
+            "refId": "B",
+            "group": "/Voice Infrastructure|Edge SBC/",
+            "host": "/.*sbce.*/",
+            "item": "Interface B1: Bits sent",
+            "application": ""
+          }
+        ],
+        "data_links": []
+      },
+      {
+        "id": 16,
+        "type": "row",
+        "title": "Voice Path Errors, Discards & Active SBCE Problem Feed",
+        "has_description": false,
+        "queries_count": 0,
+        "queries": [],
+        "data_links": []
+      },
+      {
+        "id": 17,
+        "type": "timeseries",
+        "title": "Voice Path Packet Errors (rate)",
+        "has_description": true,
+        "queries_count": 2,
+        "queries": [
+          {
+            "refId": "A",
+            "group": "/Voice Infrastructure|Edge SBC/",
+            "host": "/.*sbce.*/",
+            "item": "/Interface (A1|B1): Inbound packets with errors/",
+            "application": ""
+          },
+          {
+            "refId": "B",
+            "group": "/Voice Infrastructure|Edge SBC/",
+            "host": "/.*sbce.*/",
+            "item": "/Interface (A1|B1): Outbound packets with errors/",
+            "application": ""
+          }
+        ],
+        "data_links": []
+      },
+      {
+        "id": 18,
+        "type": "timeseries",
+        "title": "Voice Path Packet Discards (rate)",
+        "has_description": true,
+        "queries_count": 2,
+        "queries": [
+          {
+            "refId": "A",
+            "group": "/Voice Infrastructure|Edge SBC/",
+            "host": "/.*sbce.*/",
+            "item": "/Interface (A1|B1): Inbound packets discarded/",
+            "application": ""
+          },
+          {
+            "refId": "B",
+            "group": "/Voice Infrastructure|Edge SBC/",
+            "host": "/.*sbce.*/",
+            "item": "/Interface (A1|B1): Outbound packets discarded/",
+            "application": ""
+          }
+        ],
+        "data_links": []
+      },
+      {
+        "id": 19,
+        "type": "alexanderzobnin-zabbix-problems-panel",
+        "title": "Avaya SBCE Active Alarms & Problems Feed",
+        "has_description": true,
+        "queries_count": 1,
+        "queries": [
+          {
+            "refId": "A",
+            "group": "/Voice Infrastructure|Edge SBC/",
+            "host": "/.*sbce.*/",
+            "item": "",
+            "application": ""
+          }
+        ],
+        "data_links": []
+      }
+    ],
+    "url": "/d/nawari-sbce-health/nawari-e28094-avaya-sbce-operational-health",
+    "provisioned": false,
+    "provisionedExternalId": "avaya_sbce_operational_health.json"
+  },
+  {
+    "uid": "nawari-service-catalog-sla",
+    "title": "Nawari \u2014 Aviation Business Service Catalogue & SLA/SLO Assurance",
+    "folderTitle": "Nawari / Network Observability",
+    "folderId": 19,
+    "folderUid": "nawari-network-obs",
+    "tags": [
+      "nawari",
+      "services",
+      "sla",
+      "slo",
+      "aviation",
+      "kenya-airways"
+    ],
+    "description": "Nawari Aviation Business Service Catalogue, Multi-Dimensional SLA/SLO Assurance (Availability, Performance, Quality, Coverage), Error Budget Burn Rate Surveillance, and Incident MTTR.",
+    "total_panels": 9,
+    "rows_count": 3,
+    "viz_panels_count": 6,
+    "variables": [],
+    "dash_links_count": 0,
+    "panels": [
+      {
+        "id": 1,
+        "type": "row",
+        "title": "Tier 1 Mission-Critical Aviation Services SLA/SLO (Target: 99.95%)",
+        "has_description": false,
+        "queries_count": 0,
+        "queries": [],
+        "data_links": []
+      },
+      {
+        "id": 2,
+        "type": "gauge",
+        "title": "Departure Control System (DCS Core) Availability SLI",
+        "has_description": true,
+        "queries_count": 1,
+        "queries": [
+          {
+            "refId": "DcsSli",
+            "group": null,
+            "host": null,
+            "item": null,
+            "application": null
+          }
+        ],
+        "data_links": []
+      },
+      {
+        "id": 3,
+        "type": "gauge",
+        "title": "Flight Operations & Dispatch Availability SLI",
+        "has_description": true,
+        "queries_count": 1,
+        "queries": [
+          {
+            "refId": "FlightOpsSli",
+            "group": null,
+            "host": null,
+            "item": null,
+            "application": null
+          }
+        ],
+        "data_links": []
+      },
+      {
+        "id": 4,
+        "type": "gauge",
+        "title": "Air-to-Ground & Ramp Voice Availability SLI",
+        "has_description": true,
+        "queries_count": 1,
+        "queries": [
+          {
+            "refId": "RampVoiceSli",
+            "group": null,
+            "host": null,
+            "item": null,
+            "application": null
+          }
+        ],
+        "data_links": []
+      },
+      {
+        "id": 5,
+        "type": "row",
+        "title": "Error Budget Consumption & Burn Rate Surveillance (30-Day Window)",
+        "has_description": false,
+        "queries_count": 0,
+        "queries": [],
+        "data_links": []
+      },
+      {
+        "id": 6,
+        "type": "timeseries",
+        "title": "Error Budget Burn Rate (1x = Budget Normal, > 2x = Paging Alert)",
+        "has_description": true,
+        "queries_count": 3,
+        "queries": [
+          {
+            "refId": "BurnDCS",
+            "group": null,
+            "host": null,
+            "item": null,
+            "application": null
+          },
+          {
+            "refId": "BurnFlightOps",
+            "group": null,
+            "host": null,
+            "item": null,
+            "application": null
+          },
+          {
+            "refId": "BurnVoice",
+            "group": null,
+            "host": null,
+            "item": null,
+            "application": null
+          }
+        ],
+        "data_links": []
+      },
+      {
+        "id": 7,
+        "type": "stat",
+        "title": "Remaining Error Budget Minutes (Tier 1: 21.6 mins / month max downtime)",
+        "has_description": true,
+        "queries_count": 2,
+        "queries": [
+          {
+            "refId": "RemBudgetDCS",
+            "group": null,
+            "host": null,
+            "item": null,
+            "application": null
+          },
+          {
+            "refId": "RemBudgetFlightOps",
+            "group": null,
+            "host": null,
+            "item": null,
+            "application": null
+          }
+        ],
+        "data_links": []
+      },
+      {
+        "id": 8,
+        "type": "row",
+        "title": "Active Correlated Incidents & Resolution Lifecycle",
+        "has_description": false,
+        "queries_count": 0,
+        "queries": [],
+        "data_links": []
+      },
+      {
+        "id": 9,
+        "type": "table",
+        "title": "Active Business Service Incidents Stream",
+        "has_description": true,
+        "queries_count": 1,
+        "queries": [
+          {
+            "refId": "Incidents",
+            "group": null,
+            "host": null,
+            "item": null,
+            "application": null
+          }
+        ],
+        "data_links": []
+      }
+    ],
+    "url": "/d/nawari-service-catalog-sla/16a127d",
+    "provisioned": false,
+    "provisionedExternalId": "nawari_service_catalog_sla.json"
+  },
+  {
+    "uid": "nawari-sip-trunks",
+    "title": "Nawari \u2014 Carrier SIP Trunks, Signaling Ladders & Perimeter Session Routing",
+    "folderTitle": "Nawari / Communication Observability",
+    "folderId": 33,
+    "folderUid": "nawari-comm-obs",
+    "tags": [
+      "nawari",
+      "communication-observability",
+      "avaya",
+      "sip-trunks",
+      "carrier",
+      "safaricom",
+      "airtel"
+    ],
+    "description": "",
+    "total_panels": 10,
+    "rows_count": 3,
+    "viz_panels_count": 7,
+    "variables": [],
+    "dash_links_count": 0,
+    "panels": [
+      {
+        "id": 1,
+        "type": "row",
+        "title": "Carrier SIP Trunk Operational Registration & Keepalive Health",
+        "has_description": false,
+        "queries_count": 0,
+        "queries": [],
+        "data_links": []
+      },
+      {
+        "id": 2,
+        "type": "stat",
+        "title": "Safaricom Primary SIP Trunk [REAL \u2014 ZABBIX]",
+        "has_description": true,
+        "queries_count": 1,
+        "queries": [
+          {
+            "refId": "SAFARICOM",
+            "group": null,
+            "host": null,
+            "item": null,
+            "application": null
+          }
+        ],
+        "data_links": []
+      },
+      {
+        "id": 3,
+        "type": "stat",
+        "title": "Airtel Secondary SIP Trunk [REAL \u2014 ZABBIX]",
+        "has_description": true,
+        "queries_count": 1,
+        "queries": [
+          {
+            "refId": "AIRTEL",
+            "group": null,
+            "host": null,
+            "item": null,
+            "application": null
+          }
+        ],
+        "data_links": []
+      },
+      {
+        "id": 4,
+        "type": "timeseries",
+        "title": "Carrier SIP OPTIONS Round-Trip Latency [REAL \u2014 ZABBIX]",
+        "has_description": true,
+        "queries_count": 2,
+        "queries": [
+          {
+            "refId": "SAF_RTT",
+            "group": null,
+            "host": null,
+            "item": null,
+            "application": null
+          },
+          {
+            "refId": "AIR_RTT",
+            "group": null,
+            "host": null,
+            "item": null,
+            "application": null
+          }
+        ],
+        "data_links": []
+      },
+      {
+        "id": 5,
+        "type": "row",
+        "title": "SIP Transaction Latencies & Signaling Ladder Breakdown",
+        "has_description": false,
+        "queries_count": 0,
+        "queries": [],
+        "data_links": []
+      },
+      {
+        "id": 6,
+        "type": "timeseries",
+        "title": "Signaling Phase Latencies (PDD vs TTA vs Setup) [SYNTHETIC \u2014 ASTERISK PROBE]",
+        "has_description": true,
+        "queries_count": 3,
+        "queries": [
+          {
+            "refId": "PDD",
+            "group": null,
+            "host": null,
+            "item": null,
+            "application": null
+          },
+          {
+            "refId": "TTA",
+            "group": null,
+            "host": null,
+            "item": null,
+            "application": null
+          },
+          {
+            "refId": "SETUP",
+            "group": null,
+            "host": null,
+            "item": null,
+            "application": null
+          }
+        ],
+        "data_links": []
+      },
+      {
+        "id": 7,
+        "type": "piechart",
+        "title": "SIP Response Distribution (Station vs Trunk Outage) [SYNTHETIC \u2014 ASTERISK PROBE]",
+        "has_description": true,
+        "queries_count": 1,
+        "queries": [
+          {
+            "refId": "CODES",
+            "group": null,
+            "host": null,
+            "item": null,
+            "application": null
+          }
+        ],
+        "data_links": []
+      },
+      {
+        "id": 8,
+        "type": "row",
+        "title": "Perimeter Interface Traffic & Voice Path Errors",
+        "has_description": false,
+        "queries_count": 0,
+        "queries": [],
+        "data_links": []
+      },
+      {
+        "id": 9,
+        "type": "timeseries",
+        "title": "A1 Carrier DMZ Bandwidth (bps) [REAL \u2014 SBCE SNMP]",
+        "has_description": true,
+        "queries_count": 2,
+        "queries": [
+          {
+            "refId": "A1_IN",
+            "group": null,
+            "host": null,
+            "item": null,
+            "application": null
+          },
+          {
+            "refId": "A1_OUT",
+            "group": null,
+            "host": null,
+            "item": null,
+            "application": null
+          }
+        ],
+        "data_links": []
+      },
+      {
+        "id": 10,
+        "type": "timeseries",
+        "title": "Carrier Interface Packet Errors (Errors/sec) [REAL \u2014 SBCE SNMP]",
+        "has_description": true,
+        "queries_count": 1,
+        "queries": [
+          {
+            "refId": "ERRORS",
+            "group": null,
+            "host": null,
+            "item": null,
+            "application": null
+          }
+        ],
+        "data_links": []
+      }
+    ],
+    "url": "/d/nawari-sip-trunks/88b42b7",
+    "provisioned": false,
+    "provisionedExternalId": "nawari_sip_trunks_signaling.json"
+  },
+  {
+    "uid": "nawari-voice-intelligence",
+    "title": "Nawari \u2014 Communications Intelligence & Voice Service Assurance",
+    "folderTitle": "Nawari / Communication Observability",
+    "folderId": 33,
+    "folderUid": "nawari-comm-obs",
+    "tags": [
+      "nawari",
+      "voice",
+      "sip",
+      "avaya",
+      "rtcp-xr",
+      "media",
+      "asterisk",
+      "kenya-airways"
+    ],
+    "description": "Nawari Advanced Communications Intelligence, SIP Transaction Signaling, RTCP-XR VoIP Metrics, and Carrier Route Assurance for Kenya Airways",
+    "total_panels": 15,
+    "rows_count": 4,
+    "viz_panels_count": 11,
+    "variables": [],
+    "dash_links_count": 0,
+    "panels": [
+      {
+        "id": 1,
+        "type": "row",
+        "title": "SIP Signaling Reachability & Transaction Latency Breakdown",
+        "has_description": false,
+        "queries_count": 0,
+        "queries": [],
+        "data_links": []
+      },
+      {
+        "id": 2,
+        "type": "timeseries",
+        "title": "Signaling Phase Latencies (PDD vs TTA vs Setup) [SYNTHETIC \u2014 ASTERISK PROBE]",
+        "has_description": true,
+        "queries_count": 3,
+        "queries": [
+          {
+            "refId": "PDD",
+            "group": null,
+            "host": null,
+            "item": null,
+            "application": null
+          },
+          {
+            "refId": "TTA",
+            "group": null,
+            "host": null,
+            "item": null,
+            "application": null
+          },
+          {
+            "refId": "SETUP",
+            "group": null,
+            "host": null,
+            "item": null,
+            "application": null
+          }
+        ],
+        "data_links": []
+      },
+      {
+        "id": 3,
+        "type": "piechart",
+        "title": "SIP Response Distribution (Station vs Trunk) [SYNTHETIC \u2014 ASTERISK PROBE]",
+        "has_description": true,
+        "queries_count": 1,
+        "queries": [
+          {
+            "refId": "SIP_CODES",
+            "group": null,
+            "host": null,
+            "item": null,
+            "application": null
+          }
+        ],
+        "data_links": []
+      },
+      {
+        "id": 11,
+        "type": "stat",
+        "title": "SIP Trunk Registration Status [REAL \u2014 ZABBIX]",
+        "has_description": true,
+        "queries_count": 1,
+        "queries": [
+          {
+            "refId": "TRUNK_STATUS",
+            "group": null,
+            "host": null,
+            "item": null,
+            "application": null
+          }
+        ],
+        "data_links": []
+      },
+      {
+        "id": 4,
+        "type": "row",
+        "title": "Voice Media Quality & Acoustic Telemetry (Real vs Synthetic Separation)",
+        "has_description": false,
+        "queries_count": 0,
+        "queries": [],
+        "data_links": []
+      },
+      {
+        "id": 14,
+        "type": "stat",
+        "title": "Real-Call MOS [NOT INSTRUMENTED \u2014 RTCP XR REQUIRED]",
+        "has_description": true,
+        "queries_count": 1,
+        "queries": [
+          {
+            "refId": "REAL_MOS",
+            "group": null,
+            "host": null,
+            "item": null,
+            "application": null
+          }
+        ],
+        "data_links": []
+      },
+      {
+        "id": 9,
+        "type": "stat",
+        "title": "Synthetic Voice Quality Index (MOS) [SYNTHETIC \u2014 ASTERISK]",
+        "has_description": true,
+        "queries_count": 1,
+        "queries": [
+          {
+            "refId": "MOS",
+            "group": null,
+            "host": null,
+            "item": null,
+            "application": null
+          }
+        ],
+        "data_links": []
+      },
+      {
+        "id": 12,
+        "type": "timeseries",
+        "title": "Real-Call Packet Loss (CM SNMP) [REAL \u2014 AVAYA SNMP]",
+        "has_description": true,
+        "queries_count": 1,
+        "queries": [
+          {
+            "refId": "CM_LOSS",
+            "group": null,
+            "host": null,
+            "item": null,
+            "application": null
+          }
+        ],
+        "data_links": []
+      },
+      {
+        "id": 13,
+        "type": "timeseries",
+        "title": "Real-Call Peak Jitter & Delay [REAL \u2014 AVAYA SNMP]",
+        "has_description": true,
+        "queries_count": 2,
+        "queries": [
+          {
+            "refId": "CM_JITTER",
+            "group": null,
+            "host": null,
+            "item": null,
+            "application": null
+          },
+          {
+            "refId": "CM_DELAY",
+            "group": null,
+            "host": null,
+            "item": null,
+            "application": null
+          }
+        ],
+        "data_links": []
+      },
+      {
+        "id": 15,
+        "type": "row",
+        "title": "Synthetic Audio Stream Impairments & Acoustic Analysis",
+        "has_description": false,
+        "queries_count": 0,
+        "queries": [],
+        "data_links": []
+      },
+      {
+        "id": 5,
+        "type": "timeseries",
+        "title": "Network Packet Loss vs Jitter Buffer Discards [SYNTHETIC \u2014 ASTERISK]",
+        "has_description": true,
+        "queries_count": 2,
+        "queries": [
+          {
+            "refId": "NET_LOSS",
+            "group": null,
+            "host": null,
+            "item": null,
+            "application": null
+          },
+          {
+            "refId": "JB_DISCARDS",
+            "group": null,
+            "host": null,
+            "item": null,
+            "application": null
+          }
+        ],
+        "data_links": []
+      },
+      {
+        "id": 6,
+        "type": "timeseries",
+        "title": "Mouth-to-Ear Voice Latency (RTT) [SYNTHETIC \u2014 ASTERISK]",
+        "has_description": true,
+        "queries_count": 1,
+        "queries": [
+          {
+            "refId": "RTT",
+            "group": null,
+            "host": null,
+            "item": null,
+            "application": null
+          }
+        ],
+        "data_links": []
+      },
+      {
+        "id": 7,
+        "type": "row",
+        "title": "Carrier Trunk Capacity & Cross-Domain Correlated Probes",
+        "has_description": false,
+        "queries_count": 0,
+        "queries": [],
+        "data_links": []
+      },
+      {
+        "id": 8,
+        "type": "gauge",
+        "title": "SBCE Active Concurrent Sessions (Max 500) [REAL \u2014 SBCE SNMP]",
+        "has_description": true,
+        "queries_count": 1,
+        "queries": [
+          {
+            "refId": "SESSIONS",
+            "group": null,
+            "host": null,
+            "item": null,
+            "application": null
+          }
+        ],
+        "data_links": []
+      },
+      {
+        "id": 10,
+        "type": "table",
+        "title": "Recent Correlated Voice Call Sessions [CORRELATED PROBES]",
+        "has_description": true,
+        "queries_count": 1,
+        "queries": [
+          {
+            "refId": "CALLS",
+            "group": null,
+            "host": null,
+            "item": null,
+            "application": null
+          }
+        ],
+        "data_links": []
+      }
+    ],
+    "url": "/d/nawari-voice-intelligence/3112d55",
+    "provisioned": false,
+    "provisionedExternalId": "nawari_voice_intelligence.json"
+  },
+  {
+    "uid": "nawari-controlled-operations",
+    "title": "Nawari \u2014 Controlled Operational Actions & Automated Remediation",
+    "folderTitle": "Nawari / Network Observability",
+    "folderId": 19,
+    "folderUid": "nawari-network-obs",
+    "tags": [
+      "nawari",
+      "actions",
+      "remediation",
+      "governance",
+      "kenya-airways"
+    ],
+    "description": "Nawari Controlled Operational Actions, Human-in-the-Loop Approval Queue, Automated Remediation Playbooks, Rollback Safety, and Chained Audit Ledger.",
+    "total_panels": 8,
+    "rows_count": 3,
+    "viz_panels_count": 5,
+    "variables": [],
+    "dash_links_count": 0,
+    "panels": [
+      {
+        "id": 1,
+        "type": "row",
+        "title": "Operational Action Pipeline & Concurrency Health",
+        "has_description": false,
+        "queries_count": 0,
+        "queries": [],
+        "data_links": []
+      },
+      {
+        "id": 2,
+        "type": "bargauge",
+        "title": "Action Execution Lifecycle Distribution",
+        "has_description": true,
+        "queries_count": 4,
+        "queries": [
+          {
+            "refId": "Pending",
+            "group": null,
+            "host": null,
+            "item": null,
+            "application": null
+          },
+          {
+            "refId": "Executing",
+            "group": null,
+            "host": null,
+            "item": null,
+            "application": null
+          },
+          {
+            "refId": "Completed",
+            "group": null,
+            "host": null,
+            "item": null,
+            "application": null
+          },
+          {
+            "refId": "RolledBack",
+            "group": null,
+            "host": null,
+            "item": null,
+            "application": null
+          }
+        ],
+        "data_links": []
+      },
+      {
+        "id": 3,
+        "type": "stat",
+        "title": "Operational Dead-Man Circuit Breaker Status",
+        "has_description": true,
+        "queries_count": 1,
+        "queries": [
+          {
+            "refId": "Breaker",
+            "group": null,
+            "host": null,
+            "item": null,
+            "application": null
+          }
+        ],
+        "data_links": []
+      },
+      {
+        "id": 4,
+        "type": "row",
+        "title": "Human-in-the-Loop (HITL) Authorisation & Two-Person Queue",
+        "has_description": false,
+        "queries_count": 0,
+        "queries": [],
+        "data_links": []
+      },
+      {
+        "id": 5,
+        "type": "table",
+        "title": "Pending Operator Approvals & Blast-Radius Risk Board",
+        "has_description": true,
+        "queries_count": 1,
+        "queries": [
+          {
+            "refId": "Approvals",
+            "group": null,
+            "host": null,
+            "item": null,
+            "application": null
+          }
+        ],
+        "data_links": []
+      },
+      {
+        "id": 6,
+        "type": "row",
+        "title": "Independent Verification & Tamper-Evident Audit Ledger",
+        "has_description": false,
+        "queries_count": 0,
+        "queries": [],
+        "data_links": []
+      },
+      {
+        "id": 7,
+        "type": "timeseries",
+        "title": "Pre- vs Post-Remediation Service Health Verification",
+        "has_description": true,
+        "queries_count": 2,
+        "queries": [
+          {
+            "refId": "PreMetric",
+            "group": null,
+            "host": null,
+            "item": null,
+            "application": null
+          },
+          {
+            "refId": "PostMetric",
+            "group": null,
+            "host": null,
+            "item": null,
+            "application": null
+          }
+        ],
+        "data_links": []
+      },
+      {
+        "id": 8,
+        "type": "table",
+        "title": "Cryptographically Chained Immutable Audit Stream (SHA-256)",
+        "has_description": true,
+        "queries_count": 1,
+        "queries": [
+          {
+            "refId": "AuditBlocks",
+            "group": null,
+            "host": null,
+            "item": null,
+            "application": null
+          }
+        ],
+        "data_links": []
+      }
+    ],
+    "url": "/d/nawari-controlled-operations/222036e",
+    "provisioned": false,
+    "provisionedExternalId": "nawari_controlled_operations.json"
+  },
+  {
+    "uid": "nawari-voice-correlation",
+    "title": "Nawari \u2014 Cross-Domain Voice & Endpoint Telemetry Correlation",
+    "folderTitle": "Nawari / Communication Observability",
+    "folderId": 33,
+    "folderUid": "nawari-comm-obs",
+    "tags": [
+      "nawari",
+      "voice",
+      "endpoint",
+      "correlation",
+      "mos",
+      "rtcp",
+      "phase7"
+    ],
+    "description": "",
+    "total_panels": 14,
+    "rows_count": 5,
+    "viz_panels_count": 9,
+    "variables": [
+      "group",
+      "endpoint"
+    ],
+    "dash_links_count": 0,
+    "panels": [
+      {
+        "id": 1,
+        "type": "row",
+        "title": "Architectural Domain Separation & Transport Distinction",
+        "has_description": false,
+        "queries_count": 0,
+        "queries": [],
+        "data_links": []
+      },
+      {
+        "id": 2,
+        "type": "text",
+        "title": "Voice Observability Domain Boundary",
+        "has_description": true,
+        "queries_count": 0,
+        "queries": [],
+        "data_links": []
+      },
+      {
+        "id": 3,
+        "type": "row",
+        "title": "Real-Time Service Assurance & Status Overview",
+        "has_description": false,
+        "queries_count": 0,
+        "queries": [],
+        "data_links": []
+      },
+      {
+        "id": 4,
+        "type": "stat",
+        "title": "Voice Call Outcome",
+        "has_description": true,
+        "queries_count": 1,
+        "queries": [
+          {
+            "refId": "A",
+            "group": "/Telephony/",
+            "host": "/.*voice-probe.*/",
+            "item": "Synthetic call outcome",
+            "application": ""
+          }
+        ],
+        "data_links": []
+      },
+      {
+        "id": 5,
+        "type": "stat",
+        "title": "Estimated MOS Score",
+        "has_description": true,
+        "queries_count": 1,
+        "queries": [
+          {
+            "refId": "A",
+            "group": "/Telephony/",
+            "host": "/.*voice-probe.*/",
+            "item": "Synthetic call Estimated MOS",
+            "application": ""
+          }
+        ],
+        "data_links": []
+      },
+      {
+        "id": 6,
+        "type": "stat",
+        "title": "SBCE Port 5061 L4 Transport Socket",
+        "has_description": true,
+        "queries_count": 1,
+        "queries": [
+          {
+            "refId": "A",
+            "group": "$group",
+            "host": "$endpoint",
+            "item": "/Service reachable .*/",
+            "application": ""
+          }
+        ],
+        "data_links": []
+      },
+      {
+        "id": 7,
+        "type": "stat",
+        "title": "Endpoint Gateway Loss",
+        "has_description": true,
+        "queries_count": 1,
+        "queries": [
+          {
+            "refId": "A",
+            "group": "$group",
+            "host": "$endpoint",
+            "item": "Default gateway packet loss",
+            "application": ""
+          }
+        ],
+        "data_links": []
+      },
+      {
+        "id": 8,
+        "type": "row",
+        "title": "Cross-Domain Correlation: Network Latency vs Voice MOS",
+        "has_description": false,
+        "queries_count": 0,
+        "queries": [],
+        "data_links": []
+      },
+      {
+        "id": 9,
+        "type": "timeseries",
+        "title": "Dual-Axis Correlation: Gateway Edge Latency vs Voice MOS",
+        "has_description": true,
+        "queries_count": 2,
+        "queries": [
+          {
+            "refId": "A",
+            "group": "$group",
+            "host": "$endpoint",
+            "item": "Default gateway latency",
+            "application": ""
+          },
+          {
+            "refId": "B",
+            "group": "/Telephony/",
+            "host": "/.*voice-probe.*/",
+            "item": "Synthetic call Estimated MOS",
+            "application": ""
+          }
+        ],
+        "data_links": []
+      },
+      {
+        "id": 10,
+        "type": "row",
+        "title": "Packet Loss Localization: Edge vs WAN vs Audio Stream",
+        "has_description": false,
+        "queries_count": 0,
+        "queries": [],
+        "data_links": []
+      },
+      {
+        "id": 11,
+        "type": "timeseries",
+        "title": "Cross-Domain Packet Loss: Edge vs Path vs Voice Audio Stream",
+        "has_description": true,
+        "queries_count": 3,
+        "queries": [
+          {
+            "refId": "A",
+            "group": "$group",
+            "host": "$endpoint",
+            "item": "Default gateway packet loss",
+            "application": ""
+          },
+          {
+            "refId": "B",
+            "group": "$group",
+            "host": "$endpoint",
+            "item": "/Path end-to-end packet loss .*/",
+            "application": ""
+          },
+          {
+            "refId": "C",
+            "group": "/Telephony/",
+            "host": "/.*voice-probe.*/",
+            "item": "Synthetic call RTP packet loss",
+            "application": ""
+          }
+        ],
+        "data_links": []
+      },
+      {
+        "id": 12,
+        "type": "row",
+        "title": "Jitter & Physical Layer Media Impact",
+        "has_description": false,
+        "queries_count": 0,
+        "queries": [],
+        "data_links": []
+      },
+      {
+        "id": 13,
+        "type": "timeseries",
+        "title": "Wi-Fi Quality vs Audio RTCP Jitter",
+        "has_description": true,
+        "queries_count": 2,
+        "queries": [
+          {
+            "refId": "A",
+            "group": "$group",
+            "host": "$endpoint",
+            "item": "Wi-Fi signal quality",
+            "application": ""
+          },
+          {
+            "refId": "B",
+            "group": "/Telephony/",
+            "host": "/.*voice-probe.*/",
+            "item": "Synthetic call RTP jitter",
+            "application": ""
+          }
+        ],
+        "data_links": []
+      },
+      {
+        "id": 14,
+        "type": "timeseries",
+        "title": "Avaya SBCE Active Audio Calls",
+        "has_description": true,
+        "queries_count": 1,
+        "queries": [
+          {
+            "refId": "A",
+            "group": "/Voice Infrastructure|Edge SBC/",
+            "host": "/.*sbce.*/",
+            "item": "/Active audio calls.*/",
+            "application": ""
+          }
+        ],
+        "data_links": []
+      }
+    ],
+    "url": "/d/nawari-voice-correlation/2983cfd",
+    "provisioned": false,
+    "provisionedExternalId": "endpoint_voice_correlation.json"
+  },
+  {
+    "uid": "nawari-edge-fleet",
+    "title": "Nawari \u2014 Distributed Edge Collector Fleet & Spool Storage",
+    "folderTitle": "Nawari / Network Observability",
+    "folderId": 19,
+    "folderUid": "nawari-network-obs",
+    "tags": [
+      "nawari",
+      "edge",
+      "spool",
+      "fleet",
+      "outstations",
+      "kenya-airways"
+    ],
+    "description": "Nawari Distributed Edge Fleet Diagnostics: Outstation Spool Utilization, Store-and-Forward Replay Backlog, Clock Drift Skew, and Collector Authentication.",
+    "total_panels": 6,
+    "rows_count": 2,
+    "viz_panels_count": 4,
+    "variables": [],
+    "dash_links_count": 0,
+    "panels": [
+      {
+        "id": 1,
+        "type": "row",
+        "title": "Outstation Edge Collector Fleet Availability & Health",
+        "has_description": false,
+        "queries_count": 0,
+        "queries": [],
+        "data_links": []
+      },
+      {
+        "id": 2,
+        "type": "stat",
+        "title": "Active Edge Collectors",
+        "has_description": true,
+        "queries_count": 1,
+        "queries": [
+          {
+            "refId": "ActiveCollectors",
+            "group": null,
+            "host": null,
+            "item": null,
+            "application": null
+          }
+        ],
+        "data_links": []
+      },
+      {
+        "id": 3,
+        "type": "stat",
+        "title": "Max Outstation Clock Drift",
+        "has_description": true,
+        "queries_count": 1,
+        "queries": [
+          {
+            "refId": "MaxClockDrift",
+            "group": null,
+            "host": null,
+            "item": null,
+            "application": null
+          }
+        ],
+        "data_links": []
+      },
+      {
+        "id": 4,
+        "type": "stat",
+        "title": "Fleet Total Spool Backlog",
+        "has_description": true,
+        "queries_count": 1,
+        "queries": [
+          {
+            "refId": "TotalSpoolBacklog",
+            "group": null,
+            "host": null,
+            "item": null,
+            "application": null
+          }
+        ],
+        "data_links": []
+      },
+      {
+        "id": 5,
+        "type": "row",
+        "title": "Outstation Spool Disk Utilization & Replay Health",
+        "has_description": false,
+        "queries_count": 0,
+        "queries": [],
+        "data_links": []
+      },
+      {
+        "id": 6,
+        "type": "table",
+        "title": "Outstation Spool Storage & Replay Queue Matrix",
+        "has_description": true,
+        "queries_count": 1,
+        "queries": [
+          {
+            "refId": "SpoolMatrix",
+            "group": null,
+            "host": null,
+            "item": null,
+            "application": null
+          }
+        ],
+        "data_links": []
+      }
+    ],
+    "url": "/d/nawari-edge-fleet/4a9f4db",
+    "provisioned": false,
+    "provisionedExternalId": "nawari_edge_fleet.json"
+  },
+  {
+    "uid": "nawari-endpoint-detail",
+    "title": "Nawari \u2014 Endpoint Deep-Dive & Edge Experience",
+    "folderTitle": "Nawari / Network Observability",
+    "folderId": 19,
+    "folderUid": "nawari-network-obs",
+    "tags": [
+      "nawari",
+      "endpoint",
+      "detail",
+      "wifi",
+      "dns",
+      "phase7"
+    ],
+    "description": "",
+    "total_panels": 23,
+    "rows_count": 6,
+    "viz_panels_count": 17,
+    "variables": [
+      "group",
+      "endpoint"
+    ],
+    "dash_links_count": 0,
+    "panels": [
+      {
+        "id": 1,
+        "type": "row",
+        "title": "Endpoint Identification & Telemetric Metadata",
+        "has_description": false,
+        "queries_count": 0,
+        "queries": [],
+        "data_links": []
+      },
+      {
+        "id": 2,
+        "type": "stat",
+        "title": "Agent Info & Host Identity",
+        "has_description": true,
+        "queries_count": 1,
+        "queries": [
+          {
+            "refId": "A",
+            "group": "$group",
+            "host": "$endpoint",
+            "item": "Endpoint info",
+            "application": ""
+          }
+        ],
+        "data_links": []
+      },
+      {
+        "id": 3,
+        "type": "stat",
+        "title": "Active Interface",
+        "has_description": true,
+        "queries_count": 1,
+        "queries": [
+          {
+            "refId": "A",
+            "group": "$group",
+            "host": "$endpoint",
+            "item": "Network interface type",
+            "application": ""
+          }
+        ],
+        "data_links": []
+      },
+      {
+        "id": 4,
+        "type": "stat",
+        "title": "Authoritative Provenance",
+        "has_description": true,
+        "queries_count": 1,
+        "queries": [
+          {
+            "refId": "A",
+            "group": "$group",
+            "host": "$endpoint",
+            "item": "Endpoint environment",
+            "application": ""
+          }
+        ],
+        "data_links": []
+      },
+      {
+        "id": 5,
+        "type": "row",
+        "title": "First-Hop Edge Network Quality (Default Gateway)",
+        "has_description": false,
+        "queries_count": 0,
+        "queries": [],
+        "data_links": []
+      },
+      {
+        "id": 6,
+        "type": "timeseries",
+        "title": "Default Gateway RTT Latency",
+        "has_description": true,
+        "queries_count": 1,
+        "queries": [
+          {
+            "refId": "A",
+            "group": "$group",
+            "host": "$endpoint",
+            "item": "Default gateway latency",
+            "application": ""
+          }
+        ],
+        "data_links": []
+      },
+      {
+        "id": 7,
+        "type": "timeseries",
+        "title": "Default Gateway Packet Loss",
+        "has_description": true,
+        "queries_count": 1,
+        "queries": [
+          {
+            "refId": "A",
+            "group": "$group",
+            "host": "$endpoint",
+            "item": "Default gateway packet loss",
+            "application": ""
+          }
+        ],
+        "data_links": []
+      },
+      {
+        "id": 8,
+        "type": "row",
+        "title": "Physical Wi-Fi Health (Isolated \u2014 Active Only for Wi-Fi Interfaces)",
+        "has_description": false,
+        "queries_count": 0,
+        "queries": [],
+        "data_links": []
+      },
+      {
+        "id": 9,
+        "type": "gauge",
+        "title": "Wi-Fi RSSI Gauge",
+        "has_description": true,
+        "queries_count": 1,
+        "queries": [
+          {
+            "refId": "A",
+            "group": "$group",
+            "host": "$endpoint",
+            "item": "Wi-Fi RSSI",
+            "application": ""
+          }
+        ],
+        "data_links": []
+      },
+      {
+        "id": 10,
+        "type": "timeseries",
+        "title": "Wi-Fi RSSI History",
+        "has_description": true,
+        "queries_count": 1,
+        "queries": [
+          {
+            "refId": "A",
+            "group": "$group",
+            "host": "$endpoint",
+            "item": "Wi-Fi RSSI",
+            "application": ""
+          }
+        ],
+        "data_links": []
+      },
+      {
+        "id": 11,
+        "type": "gauge",
+        "title": "Wi-Fi Link Quality Gauge",
+        "has_description": true,
+        "queries_count": 1,
+        "queries": [
+          {
+            "refId": "A",
+            "group": "$group",
+            "host": "$endpoint",
+            "item": "Wi-Fi signal quality",
+            "application": ""
+          }
+        ],
+        "data_links": []
+      },
+      {
+        "id": 12,
+        "type": "timeseries",
+        "title": "Wi-Fi Link Quality History",
+        "has_description": true,
+        "queries_count": 1,
+        "queries": [
+          {
+            "refId": "A",
+            "group": "$group",
+            "host": "$endpoint",
+            "item": "Wi-Fi signal quality",
+            "application": ""
+          }
+        ],
+        "data_links": []
+      },
+      {
+        "id": 13,
+        "type": "row",
+        "title": "Edge DNS Resolution Diagnostics",
+        "has_description": false,
+        "queries_count": 0,
+        "queries": [],
+        "data_links": []
+      },
+      {
+        "id": 14,
+        "type": "timeseries",
+        "title": "DNS Query Resolution Time by Target",
+        "has_description": true,
+        "queries_count": 1,
+        "queries": [
+          {
+            "refId": "A",
+            "group": "$group",
+            "host": "$endpoint",
+            "item": "/DNS resolution time .*/",
+            "application": ""
+          }
+        ],
+        "data_links": []
+      },
+      {
+        "id": 15,
+        "type": "stat",
+        "title": "DNS Target RCODE / Status",
+        "has_description": true,
+        "queries_count": 1,
+        "queries": [
+          {
+            "refId": "A",
+            "group": "$group",
+            "host": "$endpoint",
+            "item": "/DNS resolution status .*/",
+            "application": ""
+          }
+        ],
+        "data_links": []
+      },
+      {
+        "id": 16,
+        "type": "row",
+        "title": "Multi-Protocol Service Connectivity & Latency Decomposition",
+        "has_description": false,
+        "queries_count": 0,
+        "queries": [],
+        "data_links": []
+      },
+      {
+        "id": 17,
+        "type": "stat",
+        "title": "Service Target Reachability",
+        "has_description": true,
+        "queries_count": 1,
+        "queries": [
+          {
+            "refId": "A",
+            "group": "$group",
+            "host": "$endpoint",
+            "item": "/Service reachable .*/",
+            "application": ""
+          }
+        ],
+        "data_links": []
+      },
+      {
+        "id": 18,
+        "type": "timeseries",
+        "title": "TCP 3-Way Handshake Latency",
+        "has_description": true,
+        "queries_count": 1,
+        "queries": [
+          {
+            "refId": "A",
+            "group": "$group",
+            "host": "$endpoint",
+            "item": "/TCP connect time .*/",
+            "application": ""
+          }
+        ],
+        "data_links": []
+      },
+      {
+        "id": 19,
+        "type": "timeseries",
+        "title": "TLS Cryptographic Handshake Time",
+        "has_description": true,
+        "queries_count": 1,
+        "queries": [
+          {
+            "refId": "A",
+            "group": "$group",
+            "host": "$endpoint",
+            "item": "/TLS handshake time .*/",
+            "application": ""
+          }
+        ],
+        "data_links": []
+      },
+      {
+        "id": 20,
+        "type": "timeseries",
+        "title": "HTTP Time To First Byte (TTFB)",
+        "has_description": true,
+        "queries_count": 1,
+        "queries": [
+          {
+            "refId": "A",
+            "group": "$group",
+            "host": "$endpoint",
+            "item": "/HTTP TTFB .*/",
+            "application": ""
+          }
+        ],
+        "data_links": []
+      },
+      {
+        "id": 21,
+        "type": "row",
+        "title": "Quick Investigation & Cross-Domain Navigation Links",
+        "has_description": false,
+        "queries_count": 0,
+        "queries": [],
+        "data_links": []
+      },
+      {
+        "id": 22,
+        "type": "text",
+        "title": "Path Analysis Navigation",
+        "has_description": true,
+        "queries_count": 0,
+        "queries": [],
+        "data_links": []
+      },
+      {
+        "id": 23,
+        "type": "text",
+        "title": "Voice Assurance Navigation",
+        "has_description": true,
+        "queries_count": 0,
+        "queries": [],
+        "data_links": []
+      }
+    ],
+    "url": "/d/nawari-endpoint-detail/232e775",
+    "provisioned": false,
+    "provisionedExternalId": "endpoint_detail.json"
+  },
+  {
+    "uid": "nawari-endpoint-fleet",
+    "title": "Nawari \u2014 Endpoint Fleet Observability Overview",
+    "folderTitle": "Nawari / Network Observability",
+    "folderId": 19,
+    "folderUid": "nawari-network-obs",
+    "tags": [
+      "nawari",
+      "endpoint",
+      "fleet",
+      "overview",
+      "phase7"
+    ],
+    "description": "",
+    "total_panels": 19,
+    "rows_count": 6,
+    "viz_panels_count": 13,
+    "variables": [],
+    "dash_links_count": 0,
+    "panels": [
+      {
+        "id": 1,
+        "type": "row",
+        "title": "Endpoint Fleet Health & Inventory Summary",
+        "has_description": false,
+        "queries_count": 0,
+        "queries": [],
+        "data_links": []
+      },
+      {
+        "id": 2,
+        "type": "stat",
+        "title": "Total Enrolled Endpoints",
+        "has_description": true,
+        "queries_count": 1,
+        "queries": [
+          {
+            "refId": "A",
+            "group": "/.*Endpoint.*/",
+            "host": "/.*/",
+            "item": "Endpoint info",
+            "application": ""
+          }
+        ],
+        "data_links": []
+      },
+      {
+        "id": 3,
+        "type": "stat",
+        "title": "Active Reporting Endpoints",
+        "has_description": true,
+        "queries_count": 1,
+        "queries": [
+          {
+            "refId": "A",
+            "group": "/.*Endpoint.*/",
+            "host": "/.*/",
+            "item": "Default gateway packet loss",
+            "application": ""
+          }
+        ],
+        "data_links": []
+      },
+      {
+        "id": 4,
+        "type": "stat",
+        "title": "Degraded Edge Endpoints",
+        "has_description": true,
+        "queries_count": 1,
+        "queries": [
+          {
+            "refId": "A",
+            "group": "/.*Endpoint.*/",
+            "host": "/.*/",
+            "item": "Default gateway packet loss",
+            "application": ""
+          }
+        ],
+        "data_links": []
+      },
+      {
+        "id": 5,
+        "type": "stat",
+        "title": "Stale Endpoints (>15m SLA)",
+        "has_description": true,
+        "queries_count": 1,
+        "queries": [
+          {
+            "refId": "A",
+            "group": "/.*Endpoint.*/",
+            "host": "/.*/",
+            "item": "",
+            "application": ""
+          }
+        ],
+        "data_links": []
+      },
+      {
+        "id": 6,
+        "type": "row",
+        "title": "Fleet Composition & Provenance Distribution",
+        "has_description": false,
+        "queries_count": 0,
+        "queries": [],
+        "data_links": []
+      },
+      {
+        "id": 7,
+        "type": "piechart",
+        "title": "Active Primary Interface Distribution",
+        "has_description": true,
+        "queries_count": 1,
+        "queries": [
+          {
+            "refId": "A",
+            "group": "/.*Endpoint.*/",
+            "host": "/.*/",
+            "item": "Network interface type",
+            "application": ""
+          }
+        ],
+        "data_links": []
+      },
+      {
+        "id": 8,
+        "type": "piechart",
+        "title": "Telemetric Environment Provenance",
+        "has_description": true,
+        "queries_count": 1,
+        "queries": [
+          {
+            "refId": "A",
+            "group": "/.*Endpoint.*/",
+            "host": "/.*/",
+            "item": "Endpoint environment",
+            "application": ""
+          }
+        ],
+        "data_links": []
+      },
+      {
+        "id": 9,
+        "type": "row",
+        "title": "Fleet Edge Network Performance (Aggregated)",
+        "has_description": false,
+        "queries_count": 0,
+        "queries": [],
+        "data_links": []
+      },
+      {
+        "id": 10,
+        "type": "timeseries",
+        "title": "Fleet Default Gateway Latency",
+        "has_description": true,
+        "queries_count": 1,
+        "queries": [
+          {
+            "refId": "A",
+            "group": "/.*Endpoint.*/",
+            "host": "/.*/",
+            "item": "Default gateway latency",
+            "application": ""
+          }
+        ],
+        "data_links": []
+      },
+      {
+        "id": 11,
+        "type": "timeseries",
+        "title": "Fleet Default Gateway Packet Loss",
+        "has_description": true,
+        "queries_count": 1,
+        "queries": [
+          {
+            "refId": "A",
+            "group": "/.*Endpoint.*/",
+            "host": "/.*/",
+            "item": "Default gateway packet loss",
+            "application": ""
+          }
+        ],
+        "data_links": []
+      },
+      {
+        "id": 12,
+        "type": "row",
+        "title": "Probed Core Services Reachability Matrix",
+        "has_description": false,
+        "queries_count": 0,
+        "queries": [],
+        "data_links": []
+      },
+      {
+        "id": 13,
+        "type": "stat",
+        "title": "Voice Gateway (5061/tcp) Reachability",
+        "has_description": true,
+        "queries_count": 1,
+        "queries": [
+          {
+            "refId": "A",
+            "group": "/.*Endpoint.*/",
+            "host": "/.*/",
+            "item": "/Service reachable .*/",
+            "application": ""
+          }
+        ],
+        "data_links": []
+      },
+      {
+        "id": 14,
+        "type": "timeseries",
+        "title": "DNS Resolution Latency",
+        "has_description": true,
+        "queries_count": 1,
+        "queries": [
+          {
+            "refId": "A",
+            "group": "/.*Endpoint.*/",
+            "host": "/.*/",
+            "item": "/DNS resolution time .*/",
+            "application": ""
+          }
+        ],
+        "data_links": []
+      },
+      {
+        "id": 15,
+        "type": "timeseries",
+        "title": "Corporate HTTP Services TTFB",
+        "has_description": true,
+        "queries_count": 1,
+        "queries": [
+          {
+            "refId": "A",
+            "group": "/.*Endpoint.*/",
+            "host": "/.*/",
+            "item": "/HTTP TTFB .*/",
+            "application": ""
+          }
+        ],
+        "data_links": []
+      },
+      {
+        "id": 16,
+        "type": "row",
+        "title": "Fleet Endpoint Inventory & Degradation Drill-Down",
+        "has_description": false,
+        "queries_count": 0,
+        "queries": [],
+        "data_links": []
+      },
+      {
+        "id": 17,
+        "type": "table",
+        "title": "Discovered Endpoints Inventory & Operational Status",
+        "has_description": true,
+        "queries_count": 1,
+        "queries": [
+          {
+            "refId": "A",
+            "group": "/.*Endpoint.*/",
+            "host": "/.*/",
+            "item": "/Default gateway .*/",
+            "application": ""
+          }
+        ],
+        "data_links": [
+          {
+            "title": "Drill-down to Endpoint Details",
+            "url": "/d/nawari-endpoint-detail/nawari-endpoint-detail?var-endpoint=${__data.fields.host}"
+          }
+        ]
+      },
+      {
+        "id": 18,
+        "type": "row",
+        "title": "Active Endpoint Incidents & Problem Feed",
+        "has_description": false,
+        "queries_count": 0,
+        "queries": [],
+        "data_links": []
+      },
+      {
+        "id": 19,
+        "type": "alexanderzobnin-zabbix-problems-panel",
+        "title": "Endpoint Active Problem Alarms (Gateway Loss, High RTT, Stale Telemetry)",
+        "has_description": true,
+        "queries_count": 1,
+        "queries": [
+          {
+            "refId": "A",
+            "group": "/.*Endpoint.*/",
+            "host": "/.*/",
+            "item": "",
+            "application": ""
+          }
+        ],
+        "data_links": []
+      }
+    ],
+    "url": "/d/nawari-endpoint-fleet/ad1a8ed",
+    "provisioned": false,
+    "provisionedExternalId": "endpoint_fleet_overview.json"
+  },
+  {
+    "uid": "nawari-comm-overview",
+    "title": "Nawari \u2014 Enterprise Communication Services Overview & Executive Service Assurance",
+    "folderTitle": "Nawari / Communication Observability",
+    "folderId": 33,
+    "folderUid": "nawari-comm-obs",
+    "tags": [
+      "nawari",
+      "communication-observability",
+      "service-assurance",
+      "executive",
+      "avaya"
+    ],
+    "description": "",
+    "total_panels": 16,
+    "rows_count": 4,
+    "viz_panels_count": 12,
+    "variables": [],
+    "dash_links_count": 0,
+    "panels": [
+      {
+        "id": 1,
+        "type": "row",
+        "title": "Avaya Core Telephony Platform Availability & Alarm State",
+        "has_description": false,
+        "queries_count": 0,
+        "queries": [],
+        "data_links": []
+      },
+      {
+        "id": 2,
+        "type": "stat",
+        "title": "Avaya Core Telephony Platform Availability Grid [REAL \u2014 ZABBIX]",
+        "has_description": true,
+        "queries_count": 5,
+        "queries": [
+          {
+            "refId": "SBCE",
+            "group": null,
+            "host": null,
+            "item": null,
+            "application": null
+          },
+          {
+            "refId": "SM",
+            "group": null,
+            "host": null,
+            "item": null,
+            "application": null
+          },
+          {
+            "refId": "CM",
+            "group": null,
+            "host": null,
+            "item": null,
+            "application": null
+          },
+          {
+            "refId": "G450",
+            "group": null,
+            "host": null,
+            "item": null,
+            "application": null
+          },
+          {
+            "refId": "CMS",
+            "group": null,
+            "host": null,
+            "item": null,
+            "application": null
+          }
+        ],
+        "data_links": []
+      },
+      {
+        "id": 3,
+        "type": "stat",
+        "title": "Active Telephony Alarms (CM & SM) [REAL \u2014 AVAYA SNMP]",
+        "has_description": true,
+        "queries_count": 2,
+        "queries": [
+          {
+            "refId": "CM_ALARMS",
+            "group": null,
+            "host": null,
+            "item": null,
+            "application": null
+          },
+          {
+            "refId": "SM_ALARMS",
+            "group": null,
+            "host": null,
+            "item": null,
+            "application": null
+          }
+        ],
+        "data_links": []
+      },
+      {
+        "id": 4,
+        "type": "row",
+        "title": "SIP Signaling Reachability & Session Dynamics",
+        "has_description": false,
+        "queries_count": 0,
+        "queries": [],
+        "data_links": []
+      },
+      {
+        "id": 5,
+        "type": "gauge",
+        "title": "Active SIP Calls on Perimeter SBCE [REAL \u2014 SBCE SNMP]",
+        "has_description": true,
+        "queries_count": 1,
+        "queries": [
+          {
+            "refId": "ACTIVE_SESSIONS",
+            "group": null,
+            "host": null,
+            "item": null,
+            "application": null
+          }
+        ],
+        "data_links": []
+      },
+      {
+        "id": 6,
+        "type": "stat",
+        "title": "Carrier SIP Trunk Registration Status [REAL \u2014 ZABBIX]",
+        "has_description": true,
+        "queries_count": 2,
+        "queries": [
+          {
+            "refId": "SAFARICOM",
+            "group": null,
+            "host": null,
+            "item": null,
+            "application": null
+          },
+          {
+            "refId": "AIRTEL",
+            "group": null,
+            "host": null,
+            "item": null,
+            "application": null
+          }
+        ],
+        "data_links": []
+      },
+      {
+        "id": 7,
+        "type": "timeseries",
+        "title": "5-Minute Call Processing Rate (CM) [REAL \u2014 AVAYA SNMP]",
+        "has_description": true,
+        "queries_count": 2,
+        "queries": [
+          {
+            "refId": "ATTEMPTS",
+            "group": null,
+            "host": null,
+            "item": null,
+            "application": null
+          },
+          {
+            "refId": "COMPLETED",
+            "group": null,
+            "host": null,
+            "item": null,
+            "application": null
+          }
+        ],
+        "data_links": []
+      },
+      {
+        "id": 8,
+        "type": "row",
+        "title": "Contact Centre Health & Business Queue Performance (Avaya CMS)",
+        "has_description": false,
+        "queries_count": 0,
+        "queries": [],
+        "data_links": []
+      },
+      {
+        "id": 9,
+        "type": "gauge",
+        "title": "Contact Centre Service Level (% in SLA) [APPLICATION \u2014 CMS]",
+        "has_description": true,
+        "queries_count": 1,
+        "queries": [
+          {
+            "refId": "CMS_SLA",
+            "group": null,
+            "host": null,
+            "item": null,
+            "application": null
+          }
+        ],
+        "data_links": []
+      },
+      {
+        "id": 10,
+        "type": "stat",
+        "title": "Queue Depth & Oldest Waiting Call [APPLICATION \u2014 CMS]",
+        "has_description": true,
+        "queries_count": 2,
+        "queries": [
+          {
+            "refId": "WAITING",
+            "group": null,
+            "host": null,
+            "item": null,
+            "application": null
+          },
+          {
+            "refId": "OLDEST",
+            "group": null,
+            "host": null,
+            "item": null,
+            "application": null
+          }
+        ],
+        "data_links": []
+      },
+      {
+        "id": 11,
+        "type": "piechart",
+        "title": "Agent Staffing State Distribution [APPLICATION \u2014 CMS]",
+        "has_description": true,
+        "queries_count": 1,
+        "queries": [
+          {
+            "refId": "AGENTS",
+            "group": null,
+            "host": null,
+            "item": null,
+            "application": null
+          }
+        ],
+        "data_links": []
+      },
+      {
+        "id": 12,
+        "type": "row",
+        "title": "Voice Media Quality & Synthetic Probe Assurance (Real vs Synthetic Separation)",
+        "has_description": false,
+        "queries_count": 0,
+        "queries": [],
+        "data_links": []
+      },
+      {
+        "id": 13,
+        "type": "stat",
+        "title": "Real-Call MOS [NOT INSTRUMENTED \u2014 RTCP XR REQUIRED]",
+        "has_description": true,
+        "queries_count": 1,
+        "queries": [
+          {
+            "refId": "REAL_MOS",
+            "group": null,
+            "host": null,
+            "item": null,
+            "application": null
+          }
+        ],
+        "data_links": []
+      },
+      {
+        "id": 14,
+        "type": "stat",
+        "title": "Real-Call Packet Loss % (CM Last Hour) [REAL \u2014 AVAYA SNMP]",
+        "has_description": true,
+        "queries_count": 1,
+        "queries": [
+          {
+            "refId": "CM_LOSS",
+            "group": null,
+            "host": null,
+            "item": null,
+            "application": null
+          }
+        ],
+        "data_links": []
+      },
+      {
+        "id": 15,
+        "type": "gauge",
+        "title": "Synthetic Voice MOS [SYNTHETIC \u2014 ASTERISK]",
+        "has_description": true,
+        "queries_count": 1,
+        "queries": [
+          {
+            "refId": "SYNTH_MOS",
+            "group": null,
+            "host": null,
+            "item": null,
+            "application": null
+          }
+        ],
+        "data_links": []
+      },
+      {
+        "id": 16,
+        "type": "alexanderzobnin-zabbix-problems-panel",
+        "title": "Active Voice Infrastructure Problems [ZABBIX NATIVE EVENT ENGINE]",
+        "has_description": true,
+        "queries_count": 1,
+        "queries": [
+          {
+            "refId": "A",
+            "group": "/Voice Infrastructure|Avaya Infrastructure|Edge SBC|SIP Carrier Trunks|Communications Applications/",
+            "host": "/.*/",
+            "item": "",
+            "application": ""
+          }
+        ],
+        "data_links": []
+      }
+    ],
+    "url": "/d/nawari-comm-overview/e353360",
+    "provisioned": false,
+    "provisionedExternalId": "nawari_communication_overview.json"
+  },
+  {
+    "uid": "nawari-enterprise-overview",
+    "title": "Nawari \u2014 Enterprise Executive Overview & Fleet Availability",
+    "folderTitle": "Nawari / Network Observability",
+    "folderId": 19,
+    "folderUid": "nawari-network-obs",
+    "tags": [
+      "nawari",
+      "enterprise",
+      "overview",
+      "multisite",
+      "kenya-airways"
+    ],
+    "description": "Nawari Enterprise Global Overview: Fleet Site Availability, Regional Health Matrix, Service Tier Health, Active P1/P2 Outages, and Multi-Site SLA Compliance.",
+    "total_panels": 7,
+    "rows_count": 2,
+    "viz_panels_count": 5,
+    "variables": [],
+    "dash_links_count": 0,
+    "panels": [
+      {
+        "id": 1,
+        "type": "row",
+        "title": "Global Airline Operational Health & Outstation Availability",
+        "has_description": false,
+        "queries_count": 0,
+        "queries": [],
+        "data_links": []
+      },
+      {
+        "id": 2,
+        "type": "gauge",
+        "title": "Global Station Availability",
+        "has_description": true,
+        "queries_count": 1,
+        "queries": [
+          {
+            "refId": "FleetAvail",
+            "group": null,
+            "host": null,
+            "item": null,
+            "application": null
+          }
+        ],
+        "data_links": []
+      },
+      {
+        "id": 3,
+        "type": "stat",
+        "title": "Active P1 / P2 Incidents",
+        "has_description": true,
+        "queries_count": 1,
+        "queries": [
+          {
+            "refId": "P1P2Incidents",
+            "group": null,
+            "host": null,
+            "item": null,
+            "application": null
+          }
+        ],
+        "data_links": []
+      },
+      {
+        "id": 4,
+        "type": "table",
+        "title": "Service Tier Health Summary",
+        "has_description": true,
+        "queries_count": 1,
+        "queries": [
+          {
+            "refId": "TierMatrix",
+            "group": null,
+            "host": null,
+            "item": null,
+            "application": null
+          }
+        ],
+        "data_links": []
+      },
+      {
+        "id": 5,
+        "type": "row",
+        "title": "Regional Health & Notification Delivery Pipeline",
+        "has_description": false,
+        "queries_count": 0,
+        "queries": [],
+        "data_links": []
+      },
+      {
+        "id": 6,
+        "type": "timeseries",
+        "title": "Regional Health Index Trends",
+        "has_description": true,
+        "queries_count": 3,
+        "queries": [
+          {
+            "refId": "HealthDomestic",
+            "group": null,
+            "host": null,
+            "item": null,
+            "application": null
+          },
+          {
+            "refId": "HealthEA",
+            "group": null,
+            "host": null,
+            "item": null,
+            "application": null
+          },
+          {
+            "refId": "HealthIntl",
+            "group": null,
+            "host": null,
+            "item": null,
+            "application": null
+          }
+        ],
+        "data_links": []
+      },
+      {
+        "id": 7,
+        "type": "table",
+        "title": "Notification Channel Health & DLQ Backlog",
+        "has_description": true,
+        "queries_count": 1,
+        "queries": [
+          {
+            "refId": "NotifMatrix",
+            "group": null,
+            "host": null,
+            "item": null,
+            "application": null
+          }
+        ],
+        "data_links": []
+      }
+    ],
+    "url": "/d/nawari-enterprise-overview/0bff031",
+    "provisioned": false,
+    "provisionedExternalId": "nawari_enterprise_overview.json"
+  },
+  {
+    "uid": "nawari-global-outstations",
+    "title": "Nawari \u2014 Global Outstation Network & WAN Telemetry",
+    "folderTitle": "Nawari / Network Observability",
+    "folderId": 19,
+    "folderUid": "nawari-network-obs",
+    "tags": [
+      "nawari",
+      "multisite",
+      "outstations",
+      "wan",
+      "voice",
+      "kenya-airways"
+    ],
+    "description": "Nawari Multi-Site Enterprise Outstation Network Overview: WAN Circuit Telemetry, Trans-WAN Synthetic Voice Probing, ITU-T G.107 MOS, and Edge Store-and-Forward Spool Buffers.",
+    "total_panels": 9,
+    "rows_count": 3,
+    "viz_panels_count": 6,
+    "variables": [],
+    "dash_links_count": 0,
+    "panels": [
+      {
+        "id": 1,
+        "type": "row",
+        "title": "Global Outstation Fleet Topology & WAN Health",
+        "has_description": false,
+        "queries_count": 0,
+        "queries": [],
+        "data_links": []
+      },
+      {
+        "id": 2,
+        "type": "table",
+        "title": "Outstation WAN Circuit Status Matrix (Primary & Secondary)",
+        "has_description": true,
+        "queries_count": 1,
+        "queries": [
+          {
+            "refId": "Circuits",
+            "group": null,
+            "host": null,
+            "item": null,
+            "application": null
+          }
+        ],
+        "data_links": []
+      },
+      {
+        "id": 3,
+        "type": "timeseries",
+        "title": "Trans-WAN Round-Trip Latency (JKIA Hub to Outstations)",
+        "has_description": true,
+        "queries_count": 3,
+        "queries": [
+          {
+            "refId": "LatMBA",
+            "group": null,
+            "host": null,
+            "item": null,
+            "application": null
+          },
+          {
+            "refId": "LatKIS",
+            "group": null,
+            "host": null,
+            "item": null,
+            "application": null
+          },
+          {
+            "refId": "LatLHR",
+            "group": null,
+            "host": null,
+            "item": null,
+            "application": null
+          }
+        ],
+        "data_links": []
+      },
+      {
+        "id": 4,
+        "type": "row",
+        "title": "Trans-WAN Voice Quality & Trunk Survivability (ITU-T G.107)",
+        "has_description": false,
+        "queries_count": 0,
+        "queries": [],
+        "data_links": []
+      },
+      {
+        "id": 5,
+        "type": "gauge",
+        "title": "Voice Quality Listening MOS by Station",
+        "has_description": true,
+        "queries_count": 3,
+        "queries": [
+          {
+            "refId": "MosMBA",
+            "group": null,
+            "host": null,
+            "item": null,
+            "application": null
+          },
+          {
+            "refId": "MosKIS",
+            "group": null,
+            "host": null,
+            "item": null,
+            "application": null
+          },
+          {
+            "refId": "MosLHR",
+            "group": null,
+            "host": null,
+            "item": null,
+            "application": null
+          }
+        ],
+        "data_links": []
+      },
+      {
+        "id": 6,
+        "type": "timeseries",
+        "title": "Trans-WAN Voice Packet Jitter Trends",
+        "has_description": true,
+        "queries_count": 2,
+        "queries": [
+          {
+            "refId": "JitterMBA",
+            "group": null,
+            "host": null,
+            "item": null,
+            "application": null
+          },
+          {
+            "refId": "JitterLHR",
+            "group": null,
+            "host": null,
+            "item": null,
+            "application": null
+          }
+        ],
+        "data_links": []
+      },
+      {
+        "id": 7,
+        "type": "row",
+        "title": "Edge Telemetry Store-and-Forward Spool Diagnostics",
+        "has_description": false,
+        "queries_count": 0,
+        "queries": [],
+        "data_links": []
+      },
+      {
+        "id": 8,
+        "type": "stat",
+        "title": "Buffered Spool Queue Depth by Station (Offline Records)",
+        "has_description": true,
+        "queries_count": 3,
+        "queries": [
+          {
+            "refId": "SpoolMBA",
+            "group": null,
+            "host": null,
+            "item": null,
+            "application": null
+          },
+          {
+            "refId": "SpoolKIS",
+            "group": null,
+            "host": null,
+            "item": null,
+            "application": null
+          },
+          {
+            "refId": "SpoolLHR",
+            "group": null,
+            "host": null,
+            "item": null,
+            "application": null
+          }
+        ],
+        "data_links": []
+      },
+      {
+        "id": 9,
+        "type": "timeseries",
+        "title": "Post-Restoration Spool Drain & Replay Velocity",
+        "has_description": true,
+        "queries_count": 1,
+        "queries": [
+          {
+            "refId": "DrainRate",
+            "group": null,
+            "host": null,
+            "item": null,
+            "application": null
+          }
+        ],
+        "data_links": []
+      }
+    ],
+    "url": "/d/nawari-global-outstations/bc8fe23",
+    "provisioned": false,
+    "provisionedExternalId": "nawari_global_outstations.json"
+  },
+  {
+    "uid": "nawari-incident-operations",
+    "title": "Nawari \u2014 Incident Operations, Escalation & Verified Recovery",
+    "folderTitle": "Nawari / Network Observability",
+    "folderId": 19,
+    "folderUid": "nawari-network-obs",
+    "tags": [
+      "nawari",
+      "incidents",
+      "escalation",
+      "verification",
+      "kenya-airways"
+    ],
+    "description": "Nawari Incident Operations: Closed-Loop Lifecycle Management, Escalation Timers, Notification Delivery Receipts, and Multi-Observation Recovery Verification.",
+    "total_panels": 5,
+    "rows_count": 2,
+    "viz_panels_count": 3,
+    "variables": [],
+    "dash_links_count": 0,
+    "panels": [
+      {
+        "id": 1,
+        "type": "row",
+        "title": "Incident Lifecycle & Closed-Loop Resolution State",
+        "has_description": false,
+        "queries_count": 0,
+        "queries": [],
+        "data_links": []
+      },
+      {
+        "id": 2,
+        "type": "stat",
+        "title": "Incidents by Lifecycle State",
+        "has_description": true,
+        "queries_count": 1,
+        "queries": [
+          {
+            "refId": "IncByState",
+            "group": null,
+            "host": null,
+            "item": null,
+            "application": null
+          }
+        ],
+        "data_links": []
+      },
+      {
+        "id": 3,
+        "type": "stat",
+        "title": "Max Unacknowledged Incident Age (SLA 15m)",
+        "has_description": true,
+        "queries_count": 1,
+        "queries": [
+          {
+            "refId": "MaxUnackAge",
+            "group": null,
+            "host": null,
+            "item": null,
+            "application": null
+          }
+        ],
+        "data_links": []
+      },
+      {
+        "id": 4,
+        "type": "row",
+        "title": "Multi-Observation Recovery Verification & Resolution Audit",
+        "has_description": false,
+        "queries_count": 0,
+        "queries": [],
+        "data_links": []
+      },
+      {
+        "id": 5,
+        "type": "table",
+        "title": "Active Recovery Verification Pipelines (Consecutive Healthy Chains)",
+        "has_description": true,
+        "queries_count": 1,
+        "queries": [
+          {
+            "refId": "RecoveryPipeline",
+            "group": null,
+            "host": null,
+            "item": null,
+            "application": null
+          }
+        ],
+        "data_links": []
+      }
+    ],
+    "url": "/d/nawari-incident-operations/e1e6ec7",
+    "provisioned": false,
+    "provisionedExternalId": "nawari_incident_operations.json"
+  },
+  {
+    "uid": "nawari-interface-health",
+    "title": "Nawari \u2014 Interface Traffic & Performance Health",
+    "folderTitle": "Nawari / Network Observability",
+    "folderId": 19,
+    "folderUid": "nawari-network-obs",
+    "tags": [
+      "nawari",
+      "network",
+      "interfaces",
+      "traffic"
+    ],
+    "description": "",
+    "total_panels": 9,
+    "rows_count": 3,
+    "viz_panels_count": 6,
+    "variables": [
+      "group",
+      "host",
+      "interface"
+    ],
+    "dash_links_count": 0,
+    "panels": [
+      {
+        "id": 1,
+        "type": "row",
+        "title": "Selected Interface Telemetry & Operational State",
+        "has_description": false,
+        "queries_count": 0,
+        "queries": [],
+        "data_links": []
+      },
+      {
+        "id": 2,
+        "type": "stat",
+        "title": "Interface Operational Status",
+        "has_description": true,
+        "queries_count": 1,
+        "queries": [
+          {
+            "refId": "A",
+            "group": "$group",
+            "host": "$host",
+            "item": "Interface $interface: Operational status",
+            "application": ""
+          }
+        ],
+        "data_links": []
+      },
+      {
+        "id": 3,
+        "type": "stat",
+        "title": "Configured Interface Speed",
+        "has_description": true,
+        "queries_count": 1,
+        "queries": [
+          {
+            "refId": "A",
+            "group": "$group",
+            "host": "$host",
+            "item": "Interface $interface: Speed",
+            "application": ""
+          }
+        ],
+        "data_links": []
+      },
+      {
+        "id": 4,
+        "type": "stat",
+        "title": "Administrative State",
+        "has_description": true,
+        "queries_count": 1,
+        "queries": [
+          {
+            "refId": "A",
+            "group": "$group",
+            "host": "$host",
+            "item": "Interface $interface: Administrative status",
+            "application": ""
+          }
+        ],
+        "data_links": []
+      },
+      {
+        "id": 5,
+        "type": "row",
+        "title": "Bandwidth Utilization & Throughput",
+        "has_description": false,
+        "queries_count": 0,
+        "queries": [],
+        "data_links": []
+      },
+      {
+        "id": 6,
+        "type": "timeseries",
+        "title": "Bandwidth Ingress / Egress (bits/sec)",
+        "has_description": true,
+        "queries_count": 2,
+        "queries": [
+          {
+            "refId": "Inbound",
+            "group": "$group",
+            "host": "$host",
+            "item": "Interface $interface: Bits received",
+            "application": ""
+          },
+          {
+            "refId": "Outbound",
+            "group": "$group",
+            "host": "$host",
+            "item": "Interface $interface: Bits sent",
+            "application": ""
+          }
+        ],
+        "data_links": []
+      },
+      {
+        "id": 7,
+        "type": "row",
+        "title": "Interface Quality & Packet Loss (Errors & Discards)",
+        "has_description": false,
+        "queries_count": 0,
+        "queries": [],
+        "data_links": []
+      },
+      {
+        "id": 8,
+        "type": "timeseries",
+        "title": "Packet Error Rates (in/out errors/sec)",
+        "has_description": true,
+        "queries_count": 2,
+        "queries": [
+          {
+            "refId": "InErrors",
+            "group": "$group",
+            "host": "$host",
+            "item": "Interface $interface: Inbound errors",
+            "application": ""
+          },
+          {
+            "refId": "OutErrors",
+            "group": "$group",
+            "host": "$host",
+            "item": "Interface $interface: Outbound errors",
+            "application": ""
+          }
+        ],
+        "data_links": []
+      },
+      {
+        "id": 9,
+        "type": "timeseries",
+        "title": "Packet Discard Rates (in/out pps)",
+        "has_description": true,
+        "queries_count": 2,
+        "queries": [
+          {
+            "refId": "InDiscards",
+            "group": "$group",
+            "host": "$host",
+            "item": "Interface $interface: Inbound packets discarded",
+            "application": ""
+          },
+          {
+            "refId": "OutDiscards",
+            "group": "$group",
+            "host": "$host",
+            "item": "Interface $interface: Outbound packets discarded",
+            "application": ""
+          }
+        ],
+        "data_links": []
+      }
+    ],
+    "url": "/d/nawari-interface-health/9060978",
+    "provisioned": false,
+    "provisionedExternalId": "interface_traffic_health.json"
+  },
+  {
+    "uid": "nawari-net-overview",
+    "title": "Nawari \u2014 Network Infrastructure Overview",
+    "folderTitle": "Nawari / Network Observability",
+    "folderId": 19,
+    "folderUid": "nawari-network-obs",
+    "tags": [
+      "nawari",
+      "network",
+      "overview",
+      "phase3"
+    ],
+    "description": "",
+    "total_panels": 9,
+    "rows_count": 3,
+    "viz_panels_count": 6,
+    "variables": [],
+    "dash_links_count": 0,
+    "panels": [
+      {
+        "id": 1,
+        "type": "row",
+        "title": "Network Health & Availability Overview",
+        "has_description": false,
+        "queries_count": 0,
+        "queries": [],
+        "data_links": []
+      },
+      {
+        "id": 2,
+        "type": "stat",
+        "title": "Core Switch SNMP Status",
+        "has_description": true,
+        "queries_count": 1,
+        "queries": [
+          {
+            "refId": "A",
+            "group": "Core Network",
+            "host": "mock-core-switch-01",
+            "item": "SNMP agent availability",
+            "application": ""
+          }
+        ],
+        "data_links": []
+      },
+      {
+        "id": 3,
+        "type": "stat",
+        "title": "System Uptime",
+        "has_description": true,
+        "queries_count": 1,
+        "queries": [
+          {
+            "refId": "A",
+            "group": "Core Network",
+            "host": "mock-core-switch-01",
+            "item": "System uptime",
+            "application": ""
+          }
+        ],
+        "data_links": []
+      },
+      {
+        "id": 4,
+        "type": "stat",
+        "title": "ICMP Latency",
+        "has_description": true,
+        "queries_count": 1,
+        "queries": [
+          {
+            "refId": "A",
+            "group": "Core Network",
+            "host": "mock-core-switch-01",
+            "item": "ICMP response time",
+            "application": ""
+          }
+        ],
+        "data_links": []
+      },
+      {
+        "id": 5,
+        "type": "stat",
+        "title": "Active Network Problems",
+        "has_description": true,
+        "queries_count": 1,
+        "queries": [
+          {
+            "refId": "A",
+            "group": "Core Network",
+            "host": "/.*/",
+            "item": "",
+            "application": ""
+          }
+        ],
+        "data_links": []
+      },
+      {
+        "id": 6,
+        "type": "row",
+        "title": "Interface Operational Status Matrix",
+        "has_description": false,
+        "queries_count": 0,
+        "queries": [],
+        "data_links": []
+      },
+      {
+        "id": 7,
+        "type": "table",
+        "title": "Discovered Physical & Logical Interfaces (mock-core-switch-01)",
+        "has_description": true,
+        "queries_count": 1,
+        "queries": [
+          {
+            "refId": "A",
+            "group": "Core Network",
+            "host": "mock-core-switch-01",
+            "item": "/Interface .*: Operational status/",
+            "application": ""
+          }
+        ],
+        "data_links": []
+      },
+      {
+        "id": 8,
+        "type": "row",
+        "title": "Active Problem Incidents",
+        "has_description": false,
+        "queries_count": 0,
+        "queries": [],
+        "data_links": []
+      },
+      {
+        "id": 9,
+        "type": "alexanderzobnin-zabbix-problems-panel",
+        "title": "Live Network Alert Feed (Zabbix Problems)",
+        "has_description": true,
+        "queries_count": 1,
+        "queries": [
+          {
+            "refId": "A",
+            "group": "Core Network",
+            "host": "/.*/",
+            "item": "",
+            "application": ""
+          }
+        ],
+        "data_links": []
+      }
+    ],
+    "url": "/d/nawari-net-overview/nawari-e28094-network-infrastructure-overview",
+    "provisioned": false,
+    "provisionedExternalId": "network_infrastructure_overview.json"
+  },
+  {
+    "uid": "nawari-path-analysis",
+    "title": "Nawari \u2014 Network Path & Directional Hop Analysis",
+    "folderTitle": "Nawari / Network Observability",
+    "folderId": 19,
+    "folderUid": "nawari-network-obs",
+    "tags": [
+      "nawari",
+      "network",
+      "path",
+      "traceroute",
+      "copp",
+      "phase7"
+    ],
+    "description": "",
+    "total_panels": 13,
+    "rows_count": 5,
+    "viz_panels_count": 8,
+    "variables": [
+      "group",
+      "endpoint",
+      "target"
+    ],
+    "dash_links_count": 0,
+    "panels": [
+      {
+        "id": 1,
+        "type": "row",
+        "title": "End-to-End Path Performance Metrics",
+        "has_description": false,
+        "queries_count": 0,
+        "queries": [],
+        "data_links": []
+      },
+      {
+        "id": 2,
+        "type": "stat",
+        "title": "End-to-End Latency",
+        "has_description": true,
+        "queries_count": 1,
+        "queries": [
+          {
+            "refId": "A",
+            "group": "$group",
+            "host": "$endpoint",
+            "item": "Path end-to-end latency [$target]",
+            "application": ""
+          }
+        ],
+        "data_links": []
+      },
+      {
+        "id": 3,
+        "type": "stat",
+        "title": "End-to-End Packet Loss",
+        "has_description": true,
+        "queries_count": 1,
+        "queries": [
+          {
+            "refId": "A",
+            "group": "$group",
+            "host": "$endpoint",
+            "item": "Path end-to-end packet loss [$target]",
+            "application": ""
+          }
+        ],
+        "data_links": []
+      },
+      {
+        "id": 4,
+        "type": "stat",
+        "title": "Total Path Hops",
+        "has_description": true,
+        "queries_count": 1,
+        "queries": [
+          {
+            "refId": "A",
+            "group": "$group",
+            "host": "$endpoint",
+            "item": "Path total hops [$target]",
+            "application": ""
+          }
+        ],
+        "data_links": []
+      },
+      {
+        "id": 5,
+        "type": "stat",
+        "title": "Path Route Stability",
+        "has_description": true,
+        "queries_count": 1,
+        "queries": [
+          {
+            "refId": "A",
+            "group": "$group",
+            "host": "$endpoint",
+            "item": "Path route changed [$target]",
+            "application": ""
+          }
+        ],
+        "data_links": []
+      },
+      {
+        "id": 6,
+        "type": "row",
+        "title": "Control Plane Policing (CoPP) Guard & Interpretation Notice",
+        "has_description": false,
+        "queries_count": 0,
+        "queries": [],
+        "data_links": []
+      },
+      {
+        "id": 7,
+        "type": "text",
+        "title": "CoPP Guard Architectural Interpretation",
+        "has_description": true,
+        "queries_count": 0,
+        "queries": [],
+        "data_links": []
+      },
+      {
+        "id": 8,
+        "type": "row",
+        "title": "Hop-by-Hop Topology & Performance Waterfall",
+        "has_description": false,
+        "queries_count": 0,
+        "queries": [],
+        "data_links": []
+      },
+      {
+        "id": 9,
+        "type": "table",
+        "title": "Discovered Hop Details (IP, RTT, Packet Loss, CoPP Status)",
+        "has_description": true,
+        "queries_count": 1,
+        "queries": [
+          {
+            "refId": "A",
+            "group": "$group",
+            "host": "$endpoint",
+            "item": "/nawari.path.hop..*[$target,.*/",
+            "application": ""
+          }
+        ],
+        "data_links": []
+      },
+      {
+        "id": 10,
+        "type": "row",
+        "title": "Hop Latency Progression & Bottleneck Detection",
+        "has_description": false,
+        "queries_count": 0,
+        "queries": [],
+        "data_links": []
+      },
+      {
+        "id": 11,
+        "type": "timeseries",
+        "title": "Hop Latency Progression Waterfall (Detecting >40ms Latency Jumps)",
+        "has_description": true,
+        "queries_count": 1,
+        "queries": [
+          {
+            "refId": "A",
+            "group": "$group",
+            "host": "$endpoint",
+            "item": "/nawari.path.hop.rtt[$target,.*/",
+            "application": ""
+          }
+        ],
+        "data_links": []
+      },
+      {
+        "id": 12,
+        "type": "row",
+        "title": "Route Stability & Path Change Timeline",
+        "has_description": false,
+        "queries_count": 0,
+        "queries": [],
+        "data_links": []
+      },
+      {
+        "id": 13,
+        "type": "timeseries",
+        "title": "Route Divergence History (Path Signature Hash Transitions)",
+        "has_description": true,
+        "queries_count": 1,
+        "queries": [
+          {
+            "refId": "A",
+            "group": "$group",
+            "host": "$endpoint",
+            "item": "Path route changed [$target]",
+            "application": ""
+          }
+        ],
+        "data_links": []
+      }
+    ],
+    "url": "/d/nawari-path-analysis/53f1d03",
+    "provisioned": false,
+    "provisionedExternalId": "network_path_analysis.json"
+  },
+  {
+    "uid": "nawari-network-topology",
+    "title": "Nawari \u2014 Network Topology & Service Dependencies",
+    "folderTitle": "Nawari / Network Observability",
+    "folderId": 19,
+    "folderUid": "nawari-network-obs",
+    "tags": [
+      "nawari",
+      "network",
+      "topology",
+      "cisco",
+      "avaya",
+      "layer2",
+      "layer3"
+    ],
+    "description": "Nawari Dynamic Network Topology, Layer 2 Switching, Layer 3 Routing, and Service Dependencies for Kenya Airways",
+    "total_panels": 4,
+    "rows_count": 2,
+    "viz_panels_count": 2,
+    "variables": [],
+    "dash_links_count": 0,
+    "panels": [
+      {
+        "id": 1,
+        "type": "row",
+        "title": "Network Topology & Physical Adjacencies",
+        "has_description": false,
+        "queries_count": 0,
+        "queries": [],
+        "data_links": []
+      },
+      {
+        "id": 2,
+        "type": "nodeGraph",
+        "title": "Enterprise Network Topology (Node Graph)",
+        "has_description": true,
+        "queries_count": 2,
+        "queries": [
+          {
+            "refId": "nodes",
+            "group": null,
+            "host": null,
+            "item": null,
+            "application": null
+          },
+          {
+            "refId": "edges",
+            "group": null,
+            "host": null,
+            "item": null,
+            "application": null
+          }
+        ],
+        "data_links": []
+      },
+      {
+        "id": 3,
+        "type": "row",
+        "title": "Recent Topology State Changes & Flaps",
+        "has_description": false,
+        "queries_count": 0,
+        "queries": [],
+        "data_links": []
+      },
+      {
+        "id": 4,
+        "type": "table",
+        "title": "Topology Change Audit Log",
+        "has_description": true,
+        "queries_count": 1,
+        "queries": [
+          {
+            "refId": "A",
+            "group": null,
+            "host": null,
+            "item": null,
+            "application": null
+          }
+        ],
+        "data_links": []
+      }
+    ],
+    "url": "/d/nawari-network-topology/ee4e0e9",
+    "provisioned": false,
+    "provisionedExternalId": "network_topology.json"
+  },
+  {
+    "uid": "nawari-predictive-intelligence",
+    "title": "Nawari \u2014 Predictive Intelligence, Dynamic Baselines & Degradation Assurance",
+    "folderTitle": "Nawari / Network Observability",
+    "folderId": 19,
+    "folderUid": "nawari-network-obs",
+    "tags": [
+      "nawari",
+      "predictive",
+      "analytics",
+      "baselines",
+      "kenya-airways"
+    ],
+    "description": "Nawari Evidence-Driven Predictive Intelligence: Dynamic Diurnal Baselines, Statistical Anomaly Radar, Time-to-Exhaustion (TTE) Projections, and Evidence-Ranked Root-Cause Hypotheses.",
+    "total_panels": 9,
+    "rows_count": 3,
+    "viz_panels_count": 6,
+    "variables": [],
+    "dash_links_count": 0,
+    "panels": [
+      {
+        "id": 1,
+        "type": "row",
+        "title": "Predictive Health Radar & Active Statistical Deviations",
+        "has_description": false,
+        "queries_count": 0,
+        "queries": [],
+        "data_links": []
+      },
+      {
+        "id": 2,
+        "type": "bargauge",
+        "title": "Active Multi-Domain Statistical Anomalies",
+        "has_description": true,
+        "queries_count": 3,
+        "queries": [
+          {
+            "refId": "VoiceAnom",
+            "group": null,
+            "host": null,
+            "item": null,
+            "application": null
+          },
+          {
+            "refId": "NetAnom",
+            "group": null,
+            "host": null,
+            "item": null,
+            "application": null
+          },
+          {
+            "refId": "EpAnom",
+            "group": null,
+            "host": null,
+            "item": null,
+            "application": null
+          }
+        ],
+        "data_links": []
+      },
+      {
+        "id": 3,
+        "type": "bargauge",
+        "title": "Time-to-Exhaustion (TTE) Horizon (Safe Capacity Limit)",
+        "has_description": true,
+        "queries_count": 2,
+        "queries": [
+          {
+            "refId": "TTESbce",
+            "group": null,
+            "host": null,
+            "item": null,
+            "application": null
+          },
+          {
+            "refId": "TTENet",
+            "group": null,
+            "host": null,
+            "item": null,
+            "application": null
+          }
+        ],
+        "data_links": []
+      },
+      {
+        "id": 4,
+        "type": "row",
+        "title": "Dynamic Diurnal Baseline Corridors & Trajectory Tracking",
+        "has_description": false,
+        "queries_count": 0,
+        "queries": [],
+        "data_links": []
+      },
+      {
+        "id": 5,
+        "type": "timeseries",
+        "title": "Dynamic Baseline Bands vs Real-Time Metric Telemetry",
+        "has_description": true,
+        "queries_count": 3,
+        "queries": [
+          {
+            "refId": "Actual",
+            "group": null,
+            "host": null,
+            "item": null,
+            "application": null
+          },
+          {
+            "refId": "Upper",
+            "group": null,
+            "host": null,
+            "item": null,
+            "application": null
+          },
+          {
+            "refId": "Lower",
+            "group": null,
+            "host": null,
+            "item": null,
+            "application": null
+          }
+        ],
+        "data_links": []
+      },
+      {
+        "id": 6,
+        "type": "timeseries",
+        "title": "Voice MOS Degradation Trajectory & Predictive Horizon",
+        "has_description": true,
+        "queries_count": 3,
+        "queries": [
+          {
+            "refId": "MOS",
+            "group": null,
+            "host": null,
+            "item": null,
+            "application": null
+          },
+          {
+            "refId": "Proj15",
+            "group": null,
+            "host": null,
+            "item": null,
+            "application": null
+          },
+          {
+            "refId": "Proj30",
+            "group": null,
+            "host": null,
+            "item": null,
+            "application": null
+          }
+        ],
+        "data_links": []
+      },
+      {
+        "id": 7,
+        "type": "row",
+        "title": "Intelligent Diagnosis & Evidence-Ranked Root Cause Hypotheses",
+        "has_description": false,
+        "queries_count": 0,
+        "queries": [],
+        "data_links": []
+      },
+      {
+        "id": 8,
+        "type": "table",
+        "title": "Top Evidence-Ranked Hypotheses (Supporting vs Contradicting)",
+        "has_description": true,
+        "queries_count": 1,
+        "queries": [
+          {
+            "refId": "Hypotheses",
+            "group": null,
+            "host": null,
+            "item": null,
+            "application": null
+          }
+        ],
+        "data_links": []
+      },
+      {
+        "id": 9,
+        "type": "timeseries",
+        "title": "Carrier Trunk Signaling Drift (Post-Dial Delay)",
+        "has_description": true,
+        "queries_count": 2,
+        "queries": [
+          {
+            "refId": "PDDSafaricom",
+            "group": null,
+            "host": null,
+            "item": null,
+            "application": null
+          },
+          {
+            "refId": "PDDAirtel",
+            "group": null,
+            "host": null,
+            "item": null,
+            "application": null
+          }
+        ],
+        "data_links": []
+      }
+    ],
+    "url": "/d/nawari-predictive-intelligence/d38396f",
+    "provisioned": false,
+    "provisionedExternalId": "nawari_predictive_intelligence.json"
+  },
+  {
+    "uid": "nawari-recording-wfo",
+    "title": "Nawari \u2014 Voice Recording & Workforce Optimisation (WFO) Operational Health",
+    "folderTitle": "Nawari / Communication Observability",
+    "folderId": 33,
+    "folderUid": "nawari-comm-obs",
+    "tags": [
+      "nawari",
+      "communication-observability",
+      "recording",
+      "wfo",
+      "compliance"
+    ],
+    "description": "",
+    "total_panels": 13,
+    "rows_count": 3,
+    "viz_panels_count": 10,
+    "variables": [],
+    "dash_links_count": 0,
+    "panels": [
+      {
+        "id": 1,
+        "type": "row",
+        "title": "Recording & WFO Architecture Boundary & Platform Health",
+        "has_description": false,
+        "queries_count": 0,
+        "queries": [],
+        "data_links": []
+      },
+      {
+        "id": 2,
+        "type": "stat",
+        "title": "WFO Product Specification Status [PENDING VENDOR CONFIRMATION]",
+        "has_description": true,
+        "queries_count": 1,
+        "queries": [
+          {
+            "refId": "WFO_STATUS",
+            "group": null,
+            "host": null,
+            "item": null,
+            "application": null
+          }
+        ],
+        "data_links": []
+      },
+      {
+        "id": 3,
+        "type": "stat",
+        "title": "Recorder-to-CM CTI Link State [APPLICATION \u2014 WFO]",
+        "has_description": true,
+        "queries_count": 1,
+        "queries": [
+          {
+            "refId": "CTI",
+            "group": null,
+            "host": null,
+            "item": null,
+            "application": null
+          }
+        ],
+        "data_links": []
+      },
+      {
+        "id": 4,
+        "type": "stat",
+        "title": "Recording Host Uptime [REAL \u2014 HARDWARE]",
+        "has_description": true,
+        "queries_count": 1,
+        "queries": [
+          {
+            "refId": "UPTIME",
+            "group": null,
+            "host": null,
+            "item": null,
+            "application": null
+          }
+        ],
+        "data_links": []
+      },
+      {
+        "id": 5,
+        "type": "row",
+        "title": "Recording Ingestion Rate, Queue Depth & Failures",
+        "has_description": false,
+        "queries_count": 0,
+        "queries": [],
+        "data_links": []
+      },
+      {
+        "id": 6,
+        "type": "stat",
+        "title": "Active Recording Sessions [APPLICATION \u2014 WFO]",
+        "has_description": true,
+        "queries_count": 1,
+        "queries": [
+          {
+            "refId": "SESSIONS",
+            "group": null,
+            "host": null,
+            "item": null,
+            "application": null
+          }
+        ],
+        "data_links": []
+      },
+      {
+        "id": 7,
+        "type": "timeseries",
+        "title": "Ingestion Rate (Calls/min) [APPLICATION \u2014 WFO]",
+        "has_description": true,
+        "queries_count": 1,
+        "queries": [
+          {
+            "refId": "INGESTION",
+            "group": null,
+            "host": null,
+            "item": null,
+            "application": null
+          }
+        ],
+        "data_links": []
+      },
+      {
+        "id": 8,
+        "type": "stat",
+        "title": "Recording Failures Count [APPLICATION \u2014 WFO]",
+        "has_description": true,
+        "queries_count": 1,
+        "queries": [
+          {
+            "refId": "FAILURES",
+            "group": null,
+            "host": null,
+            "item": null,
+            "application": null
+          }
+        ],
+        "data_links": []
+      },
+      {
+        "id": 9,
+        "type": "gauge",
+        "title": "Ingestion Queue Depth [APPLICATION \u2014 WFO]",
+        "has_description": true,
+        "queries_count": 1,
+        "queries": [
+          {
+            "refId": "QUEUE",
+            "group": null,
+            "host": null,
+            "item": null,
+            "application": null
+          }
+        ],
+        "data_links": []
+      },
+      {
+        "id": 10,
+        "type": "row",
+        "title": "Storage Partition Capacity, Retention & Archival Horizon",
+        "has_description": false,
+        "queries_count": 0,
+        "queries": [],
+        "data_links": []
+      },
+      {
+        "id": 11,
+        "type": "gauge",
+        "title": "Recording Storage Utilization (%) [REAL \u2014 HARDWARE]",
+        "has_description": true,
+        "queries_count": 1,
+        "queries": [
+          {
+            "refId": "STORAGE",
+            "group": null,
+            "host": null,
+            "item": null,
+            "application": null
+          }
+        ],
+        "data_links": []
+      },
+      {
+        "id": 12,
+        "type": "stat",
+        "title": "Projected Days-to-Full (Storage TTE) [PREDICTIVE]",
+        "has_description": true,
+        "queries_count": 1,
+        "queries": [
+          {
+            "refId": "TTE",
+            "group": null,
+            "host": null,
+            "item": null,
+            "application": null
+          }
+        ],
+        "data_links": []
+      },
+      {
+        "id": 13,
+        "type": "gauge",
+        "title": "Daily Archival Success Rate (%) [APPLICATION \u2014 WFO]",
+        "has_description": true,
+        "queries_count": 1,
+        "queries": [
+          {
+            "refId": "ARCHIVE",
+            "group": null,
+            "host": null,
+            "item": null,
+            "application": null
+          }
+        ],
+        "data_links": []
+      }
+    ],
+    "url": "/d/nawari-recording-wfo/402c20e",
+    "provisioned": false,
+    "provisionedExternalId": "recording_wfo_operational_health.json"
+  },
+  {
+    "uid": "nawari-voice-service-assurance",
+    "title": "Nawari \u2014 Voice Service Assurance & Media Quality",
+    "folderTitle": "Nawari / Communication Observability",
+    "folderId": 33,
+    "folderUid": "nawari-comm-obs",
+    "tags": [
+      "nawari",
+      "voice",
+      "assurance",
+      "telemetry",
+      "sbce"
+    ],
+    "description": "",
+    "total_panels": 16,
+    "rows_count": 4,
+    "viz_panels_count": 12,
+    "variables": [],
+    "dash_links_count": 0,
+    "panels": [
+      {
+        "id": 1,
+        "type": "row",
+        "title": "Voice Service Assurance \u2014 Real-Time Health & Operational Status",
+        "has_description": false,
+        "queries_count": 0,
+        "queries": [],
+        "data_links": []
+      },
+      {
+        "id": 2,
+        "type": "stat",
+        "title": "Call Transaction Outcome",
+        "has_description": true,
+        "queries_count": 1,
+        "queries": [
+          {
+            "refId": "A",
+            "group": "/Telephony/",
+            "host": "/.*voice-probe.*/",
+            "item": "Synthetic call outcome",
+            "application": ""
+          }
+        ],
+        "data_links": []
+      },
+      {
+        "id": 3,
+        "type": "gauge",
+        "title": "Estimated MOS (ITU-T G.107) [SYNTHETIC \u2014 ASTERISK]",
+        "has_description": true,
+        "queries_count": 1,
+        "queries": [
+          {
+            "refId": "A",
+            "group": "/Telephony/",
+            "host": "/.*voice-probe.*/",
+            "item": "Synthetic call Estimated MOS",
+            "application": ""
+          }
+        ],
+        "data_links": []
+      },
+      {
+        "id": 4,
+        "type": "stat",
+        "title": "Media Path Directionality",
+        "has_description": true,
+        "queries_count": 1,
+        "queries": [
+          {
+            "refId": "A",
+            "group": "/Telephony/",
+            "host": "/.*voice-probe.*/",
+            "item": "Synthetic call media verification status",
+            "application": ""
+          }
+        ],
+        "data_links": []
+      },
+      {
+        "id": 5,
+        "type": "stat",
+        "title": "Call Setup Latency",
+        "has_description": true,
+        "queries_count": 1,
+        "queries": [
+          {
+            "refId": "A",
+            "group": "/Telephony/",
+            "host": "/.*voice-probe.*/",
+            "item": "Synthetic call setup time",
+            "application": ""
+          }
+        ],
+        "data_links": []
+      },
+      {
+        "id": 6,
+        "type": "gauge",
+        "title": "R-Factor (Transmission Quality) [SYNTHETIC \u2014 ASTERISK]",
+        "has_description": true,
+        "queries_count": 1,
+        "queries": [
+          {
+            "refId": "A",
+            "group": "/Telephony/",
+            "host": "/.*voice-probe.*/",
+            "item": "Synthetic call R-factor",
+            "application": ""
+          }
+        ],
+        "data_links": []
+      },
+      {
+        "id": 16,
+        "type": "stat",
+        "title": "Telemetry Provenance Mode",
+        "has_description": true,
+        "queries_count": 1,
+        "queries": [
+          {
+            "refId": "A",
+            "group": "/Telephony/",
+            "host": "/.*voice-probe.*/",
+            "item": "Synthetic probe environment provenance",
+            "application": ""
+          }
+        ],
+        "data_links": []
+      },
+      {
+        "id": 7,
+        "type": "row",
+        "title": "Signaling Performance & Teardown Dynamics",
+        "has_description": false,
+        "queries_count": 0,
+        "queries": [],
+        "data_links": []
+      },
+      {
+        "id": 8,
+        "type": "timeseries",
+        "title": "Call Setup Latency History",
+        "has_description": true,
+        "queries_count": 1,
+        "queries": [
+          {
+            "refId": "A",
+            "group": "/Telephony/",
+            "host": "/.*voice-probe.*/",
+            "item": "Synthetic call setup time",
+            "application": ""
+          }
+        ],
+        "data_links": []
+      },
+      {
+        "id": 9,
+        "type": "timeseries",
+        "title": "SIP Response Code History",
+        "has_description": true,
+        "queries_count": 1,
+        "queries": [
+          {
+            "refId": "A",
+            "group": "/Telephony/",
+            "host": "/.*voice-probe.*/",
+            "item": "Synthetic call SIP status",
+            "application": ""
+          }
+        ],
+        "data_links": []
+      },
+      {
+        "id": 10,
+        "type": "row",
+        "title": "RTP Media Quality & Acoustic Impairment Analysis",
+        "has_description": false,
+        "queries_count": 0,
+        "queries": [],
+        "data_links": []
+      },
+      {
+        "id": 11,
+        "type": "timeseries",
+        "title": "Estimated MOS Trend & SLA Thresholds [SYNTHETIC \u2014 ASTERISK]",
+        "has_description": true,
+        "queries_count": 1,
+        "queries": [
+          {
+            "refId": "A",
+            "group": "/Telephony/",
+            "host": "/.*voice-probe.*/",
+            "item": "Synthetic call Estimated MOS",
+            "application": ""
+          }
+        ],
+        "data_links": []
+      },
+      {
+        "id": 12,
+        "type": "timeseries",
+        "title": "RTP Jitter & Packet Loss Impairments [SYNTHETIC \u2014 ASTERISK]",
+        "has_description": true,
+        "queries_count": 2,
+        "queries": [
+          {
+            "refId": "A",
+            "group": "/Telephony/",
+            "host": "/.*voice-probe.*/",
+            "item": "Synthetic call RTP jitter",
+            "application": ""
+          },
+          {
+            "refId": "B",
+            "group": "/Telephony/",
+            "host": "/.*voice-probe.*/",
+            "item": "Synthetic call RTP packet loss",
+            "application": ""
+          }
+        ],
+        "data_links": []
+      },
+      {
+        "id": 13,
+        "type": "row",
+        "title": "Cross-Domain Infrastructure & SBC Operational Correlation",
+        "has_description": false,
+        "queries_count": 0,
+        "queries": [],
+        "data_links": []
+      },
+      {
+        "id": 14,
+        "type": "timeseries",
+        "title": "SBCE Signaling (A1) & Media (B1) Traffic Throughput [REAL \u2014 SBCE SNMP]",
+        "has_description": true,
+        "queries_count": 2,
+        "queries": [
+          {
+            "refId": "A",
+            "group": "/Voice Infrastructure|Edge SBC|Telephony/",
+            "host": "/.*sbce.*/",
+            "item": "/Bits received on (A1|B1)/",
+            "application": ""
+          },
+          {
+            "refId": "B",
+            "group": "/Voice Infrastructure|Edge SBC|Telephony/",
+            "host": "/.*sbce.*/",
+            "item": "/Bits sent on (A1|B1)/",
+            "application": ""
+          }
+        ],
+        "data_links": []
+      },
+      {
+        "id": 15,
+        "type": "timeseries",
+        "title": "SBCE CPU Utilization [REAL \u2014 SBCE SNMP]",
+        "has_description": true,
+        "queries_count": 1,
+        "queries": [
+          {
+            "refId": "A",
+            "group": "/Voice Infrastructure|Edge SBC/",
+            "host": "/.*sbce.*/",
+            "item": "Appliance CPU load percentage",
+            "application": ""
+          }
+        ],
+        "data_links": []
+      }
+    ],
+    "url": "/d/nawari-voice-service-assurance/a05194b",
+    "provisioned": false,
+    "provisionedExternalId": "nawari-voice-service-assurance.json"
+  }
+]

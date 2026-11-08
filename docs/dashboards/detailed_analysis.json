@@ -1,0 +1,711 @@
+{
+  "dashboards": {
+    "nawari-eu-nem-pilot": {
+      "title": "End-User Network Experience",
+      "folder": "Nawari",
+      "total_panels": 11,
+      "viz_panels": 8,
+      "rows": 3,
+      "panel_types": {
+        "row": 3,
+        "stat": 4,
+        "timeseries": 4
+      },
+      "unique_items_count": 7,
+      "items": [
+        "Corporate DNS Resolution Status",
+        "Corporate DNS Resolution Time",
+        "Default Gateway Packet Loss",
+        "Default Gateway Reachable",
+        "Default Gateway Round-Trip Time",
+        "Wi-Fi Signal Strength",
+        "Zabbix Agent 2 Availability"
+      ],
+      "hosts": [
+        "/.*/"
+      ],
+      "groups": [
+        "Nawari / Endpoints / Pilot"
+      ],
+      "variables": [],
+      "disk_path": ""
+    },
+    "nawari-communication-manager": {
+      "title": "Nawari \u2014 Avaya Aura Communication Manager (CM) Call Processing & IP Voice Performance",
+      "folder": "Nawari / Communication Observability",
+      "total_panels": 14,
+      "viz_panels": 11,
+      "rows": 3,
+      "panel_types": {
+        "row": 3,
+        "stat": 9,
+        "timeseries": 2
+      },
+      "unique_items_count": 0,
+      "items": [],
+      "hosts": [],
+      "groups": [],
+      "variables": [],
+      "disk_path": ""
+    },
+    "nawari-session-manager": {
+      "title": "Nawari \u2014 Avaya Aura Session Manager (ASM) Operational Health & SIP Entity Routing",
+      "folder": "Nawari / Communication Observability",
+      "total_panels": 12,
+      "viz_panels": 9,
+      "rows": 3,
+      "panel_types": {
+        "row": 3,
+        "gauge": 2,
+        "stat": 4,
+        "timeseries": 2,
+        "table": 1
+      },
+      "unique_items_count": 0,
+      "items": [],
+      "hosts": [],
+      "groups": [],
+      "variables": [],
+      "disk_path": ""
+    },
+    "nawari-cms-contact-centre": {
+      "title": "Nawari \u2014 Avaya Call Management System (CMS) & Contact Centre Performance",
+      "folder": "Nawari / Communication Observability",
+      "total_panels": 12,
+      "viz_panels": 9,
+      "rows": 3,
+      "panel_types": {
+        "row": 3,
+        "gauge": 2,
+        "stat": 4,
+        "timeseries": 2,
+        "table": 1
+      },
+      "unique_items_count": 0,
+      "items": [],
+      "hosts": [],
+      "groups": [],
+      "variables": [],
+      "disk_path": ""
+    },
+    "nawari-g450-gateway": {
+      "title": "Nawari \u2014 Avaya G450 Media Gateway Appliance & Physical Telephony Health",
+      "folder": "Nawari / Communication Observability",
+      "total_panels": 11,
+      "viz_panels": 8,
+      "rows": 3,
+      "panel_types": {
+        "row": 3,
+        "stat": 7,
+        "table": 1
+      },
+      "unique_items_count": 0,
+      "items": [],
+      "hosts": [],
+      "groups": [],
+      "variables": [],
+      "disk_path": ""
+    },
+    "nawari-sbce-health": {
+      "title": "Nawari \u2014 Avaya SBCE Operational Health",
+      "folder": "Nawari / Communication Observability",
+      "total_panels": 19,
+      "viz_panels": 15,
+      "rows": 4,
+      "panel_types": {
+        "row": 4,
+        "stat": 7,
+        "gauge": 3,
+        "timeseries": 4,
+        "alexanderzobnin-zabbix-problems-panel": 1
+      },
+      "unique_items_count": 18,
+      "items": [
+        "/Interface (A1|B1): Inbound packets discarded/",
+        "/Interface (A1|B1): Inbound packets with errors/",
+        "/Interface (A1|B1): Outbound packets discarded/",
+        "/Interface (A1|B1): Outbound packets with errors/",
+        "Appliance 1-minute load average",
+        "Appliance CPU utilization",
+        "Appliance memory utilization",
+        "Appliance root filesystem space utilization",
+        "Interface A1: Bits received",
+        "Interface A1: Bits sent",
+        "Interface A1: Operational status",
+        "Interface B1: Bits received",
+        "Interface B1: Bits sent",
+        "Interface B1: Operational status",
+        "Interface M1: Operational status",
+        "Interface M2: Operational status",
+        "SNMP agent availability",
+        "System uptime"
+      ],
+      "hosts": [
+        "/.*sbce.*/"
+      ],
+      "groups": [
+        "/Voice Infrastructure|Edge SBC/"
+      ],
+      "variables": [],
+      "disk_path": ""
+    },
+    "nawari-service-catalog-sla": {
+      "title": "Nawari \u2014 Aviation Business Service Catalogue & SLA/SLO Assurance",
+      "folder": "Nawari / Network Observability",
+      "total_panels": 9,
+      "viz_panels": 6,
+      "rows": 3,
+      "panel_types": {
+        "row": 3,
+        "gauge": 3,
+        "timeseries": 1,
+        "stat": 1,
+        "table": 1
+      },
+      "unique_items_count": 0,
+      "items": [],
+      "hosts": [],
+      "groups": [],
+      "variables": [],
+      "disk_path": ""
+    },
+    "nawari-sip-trunks": {
+      "title": "Nawari \u2014 Carrier SIP Trunks, Signaling Ladders & Perimeter Session Routing",
+      "folder": "Nawari / Communication Observability",
+      "total_panels": 10,
+      "viz_panels": 7,
+      "rows": 3,
+      "panel_types": {
+        "row": 3,
+        "stat": 2,
+        "timeseries": 4,
+        "piechart": 1
+      },
+      "unique_items_count": 0,
+      "items": [],
+      "hosts": [],
+      "groups": [],
+      "variables": [],
+      "disk_path": ""
+    },
+    "nawari-voice-intelligence": {
+      "title": "Nawari \u2014 Communications Intelligence & Voice Service Assurance",
+      "folder": "Nawari / Communication Observability",
+      "total_panels": 15,
+      "viz_panels": 11,
+      "rows": 4,
+      "panel_types": {
+        "row": 4,
+        "timeseries": 5,
+        "piechart": 1,
+        "stat": 3,
+        "gauge": 1,
+        "table": 1
+      },
+      "unique_items_count": 0,
+      "items": [],
+      "hosts": [],
+      "groups": [],
+      "variables": [],
+      "disk_path": ""
+    },
+    "nawari-controlled-operations": {
+      "title": "Nawari \u2014 Controlled Operational Actions & Automated Remediation",
+      "folder": "Nawari / Network Observability",
+      "total_panels": 8,
+      "viz_panels": 5,
+      "rows": 3,
+      "panel_types": {
+        "row": 3,
+        "bargauge": 1,
+        "stat": 1,
+        "table": 2,
+        "timeseries": 1
+      },
+      "unique_items_count": 0,
+      "items": [],
+      "hosts": [],
+      "groups": [],
+      "variables": [],
+      "disk_path": ""
+    },
+    "nawari-voice-correlation": {
+      "title": "Nawari \u2014 Cross-Domain Voice & Endpoint Telemetry Correlation",
+      "folder": "Nawari / Communication Observability",
+      "total_panels": 14,
+      "viz_panels": 9,
+      "rows": 5,
+      "panel_types": {
+        "row": 5,
+        "text": 1,
+        "stat": 4,
+        "timeseries": 4
+      },
+      "unique_items_count": 10,
+      "items": [
+        "/Active audio calls.*/",
+        "/Path end-to-end packet loss .*/",
+        "/Service reachable .*/",
+        "Default gateway latency",
+        "Default gateway packet loss",
+        "Synthetic call Estimated MOS",
+        "Synthetic call RTP jitter",
+        "Synthetic call RTP packet loss",
+        "Synthetic call outcome",
+        "Wi-Fi signal quality"
+      ],
+      "hosts": [
+        "$endpoint",
+        "/.*sbce.*/",
+        "/.*voice-probe.*/"
+      ],
+      "groups": [
+        "$group",
+        "/Telephony/",
+        "/Voice Infrastructure|Edge SBC/"
+      ],
+      "variables": [
+        "group",
+        "endpoint"
+      ],
+      "disk_path": ""
+    },
+    "nawari-edge-fleet": {
+      "title": "Nawari \u2014 Distributed Edge Collector Fleet & Spool Storage",
+      "folder": "Nawari / Network Observability",
+      "total_panels": 6,
+      "viz_panels": 4,
+      "rows": 2,
+      "panel_types": {
+        "row": 2,
+        "stat": 3,
+        "table": 1
+      },
+      "unique_items_count": 0,
+      "items": [],
+      "hosts": [],
+      "groups": [],
+      "variables": [],
+      "disk_path": ""
+    },
+    "nawari-endpoint-detail": {
+      "title": "Nawari \u2014 Endpoint Deep-Dive & Edge Experience",
+      "folder": "Nawari / Network Observability",
+      "total_panels": 23,
+      "viz_panels": 17,
+      "rows": 6,
+      "panel_types": {
+        "row": 6,
+        "stat": 5,
+        "timeseries": 8,
+        "gauge": 2,
+        "text": 2
+      },
+      "unique_items_count": 13,
+      "items": [
+        "/DNS resolution status .*/",
+        "/DNS resolution time .*/",
+        "/HTTP TTFB .*/",
+        "/Service reachable .*/",
+        "/TCP connect time .*/",
+        "/TLS handshake time .*/",
+        "Default gateway latency",
+        "Default gateway packet loss",
+        "Endpoint environment",
+        "Endpoint info",
+        "Network interface type",
+        "Wi-Fi RSSI",
+        "Wi-Fi signal quality"
+      ],
+      "hosts": [
+        "$endpoint"
+      ],
+      "groups": [
+        "$group"
+      ],
+      "variables": [
+        "group",
+        "endpoint"
+      ],
+      "disk_path": ""
+    },
+    "nawari-endpoint-fleet": {
+      "title": "Nawari \u2014 Endpoint Fleet Observability Overview",
+      "folder": "Nawari / Network Observability",
+      "total_panels": 19,
+      "viz_panels": 13,
+      "rows": 6,
+      "panel_types": {
+        "row": 6,
+        "stat": 5,
+        "piechart": 2,
+        "timeseries": 4,
+        "table": 1,
+        "alexanderzobnin-zabbix-problems-panel": 1
+      },
+      "unique_items_count": 9,
+      "items": [
+        "/DNS resolution time .*/",
+        "/Default gateway .*/",
+        "/HTTP TTFB .*/",
+        "/Service reachable .*/",
+        "Default gateway latency",
+        "Default gateway packet loss",
+        "Endpoint environment",
+        "Endpoint info",
+        "Network interface type"
+      ],
+      "hosts": [
+        "/.*/"
+      ],
+      "groups": [
+        "/.*Endpoint.*/"
+      ],
+      "variables": [],
+      "disk_path": ""
+    },
+    "nawari-comm-overview": {
+      "title": "Nawari \u2014 Enterprise Communication Services Overview & Executive Service Assurance",
+      "folder": "Nawari / Communication Observability",
+      "total_panels": 16,
+      "viz_panels": 12,
+      "rows": 4,
+      "panel_types": {
+        "row": 4,
+        "stat": 6,
+        "gauge": 3,
+        "timeseries": 1,
+        "piechart": 1,
+        "alexanderzobnin-zabbix-problems-panel": 1
+      },
+      "unique_items_count": 0,
+      "items": [],
+      "hosts": [
+        "/.*/"
+      ],
+      "groups": [
+        "/Voice Infrastructure|Avaya Infrastructure|Edge SBC|SIP Carrier Trunks|Communications Applications/"
+      ],
+      "variables": [],
+      "disk_path": ""
+    },
+    "nawari-enterprise-overview": {
+      "title": "Nawari \u2014 Enterprise Executive Overview & Fleet Availability",
+      "folder": "Nawari / Network Observability",
+      "total_panels": 7,
+      "viz_panels": 5,
+      "rows": 2,
+      "panel_types": {
+        "row": 2,
+        "gauge": 1,
+        "stat": 1,
+        "table": 2,
+        "timeseries": 1
+      },
+      "unique_items_count": 0,
+      "items": [],
+      "hosts": [],
+      "groups": [],
+      "variables": [],
+      "disk_path": ""
+    },
+    "nawari-global-outstations": {
+      "title": "Nawari \u2014 Global Outstation Network & WAN Telemetry",
+      "folder": "Nawari / Network Observability",
+      "total_panels": 9,
+      "viz_panels": 6,
+      "rows": 3,
+      "panel_types": {
+        "row": 3,
+        "table": 1,
+        "timeseries": 3,
+        "gauge": 1,
+        "stat": 1
+      },
+      "unique_items_count": 0,
+      "items": [],
+      "hosts": [],
+      "groups": [],
+      "variables": [],
+      "disk_path": ""
+    },
+    "nawari-incident-operations": {
+      "title": "Nawari \u2014 Incident Operations, Escalation & Verified Recovery",
+      "folder": "Nawari / Network Observability",
+      "total_panels": 5,
+      "viz_panels": 3,
+      "rows": 2,
+      "panel_types": {
+        "row": 2,
+        "stat": 2,
+        "table": 1
+      },
+      "unique_items_count": 0,
+      "items": [],
+      "hosts": [],
+      "groups": [],
+      "variables": [],
+      "disk_path": ""
+    },
+    "nawari-interface-health": {
+      "title": "Nawari \u2014 Interface Traffic & Performance Health",
+      "folder": "Nawari / Network Observability",
+      "total_panels": 9,
+      "viz_panels": 6,
+      "rows": 3,
+      "panel_types": {
+        "row": 3,
+        "stat": 3,
+        "timeseries": 3
+      },
+      "unique_items_count": 9,
+      "items": [
+        "Interface $interface: Administrative status",
+        "Interface $interface: Bits received",
+        "Interface $interface: Bits sent",
+        "Interface $interface: Inbound errors",
+        "Interface $interface: Inbound packets discarded",
+        "Interface $interface: Operational status",
+        "Interface $interface: Outbound errors",
+        "Interface $interface: Outbound packets discarded",
+        "Interface $interface: Speed"
+      ],
+      "hosts": [
+        "$host"
+      ],
+      "groups": [
+        "$group"
+      ],
+      "variables": [
+        "group",
+        "host",
+        "interface"
+      ],
+      "disk_path": ""
+    },
+    "nawari-net-overview": {
+      "title": "Nawari \u2014 Network Infrastructure Overview",
+      "folder": "Nawari / Network Observability",
+      "total_panels": 9,
+      "viz_panels": 6,
+      "rows": 3,
+      "panel_types": {
+        "row": 3,
+        "stat": 4,
+        "table": 1,
+        "alexanderzobnin-zabbix-problems-panel": 1
+      },
+      "unique_items_count": 4,
+      "items": [
+        "/Interface .*: Operational status/",
+        "ICMP response time",
+        "SNMP agent availability",
+        "System uptime"
+      ],
+      "hosts": [
+        "/.*/",
+        "mock-core-switch-01"
+      ],
+      "groups": [
+        "Core Network"
+      ],
+      "variables": [],
+      "disk_path": ""
+    },
+    "nawari-path-analysis": {
+      "title": "Nawari \u2014 Network Path & Directional Hop Analysis",
+      "folder": "Nawari / Network Observability",
+      "total_panels": 13,
+      "viz_panels": 8,
+      "rows": 5,
+      "panel_types": {
+        "row": 5,
+        "stat": 4,
+        "text": 1,
+        "table": 1,
+        "timeseries": 2
+      },
+      "unique_items_count": 6,
+      "items": [
+        "/nawari.path.hop..*[$target,.*/",
+        "/nawari.path.hop.rtt[$target,.*/",
+        "Path end-to-end latency [$target]",
+        "Path end-to-end packet loss [$target]",
+        "Path route changed [$target]",
+        "Path total hops [$target]"
+      ],
+      "hosts": [
+        "$endpoint"
+      ],
+      "groups": [
+        "$group"
+      ],
+      "variables": [
+        "group",
+        "endpoint",
+        "target"
+      ],
+      "disk_path": ""
+    },
+    "nawari-network-topology": {
+      "title": "Nawari \u2014 Network Topology & Service Dependencies",
+      "folder": "Nawari / Network Observability",
+      "total_panels": 4,
+      "viz_panels": 2,
+      "rows": 2,
+      "panel_types": {
+        "row": 2,
+        "nodeGraph": 1,
+        "table": 1
+      },
+      "unique_items_count": 0,
+      "items": [],
+      "hosts": [],
+      "groups": [],
+      "variables": [],
+      "disk_path": ""
+    },
+    "nawari-predictive-intelligence": {
+      "title": "Nawari \u2014 Predictive Intelligence, Dynamic Baselines & Degradation Assurance",
+      "folder": "Nawari / Network Observability",
+      "total_panels": 9,
+      "viz_panels": 6,
+      "rows": 3,
+      "panel_types": {
+        "row": 3,
+        "bargauge": 2,
+        "timeseries": 3,
+        "table": 1
+      },
+      "unique_items_count": 0,
+      "items": [],
+      "hosts": [],
+      "groups": [],
+      "variables": [],
+      "disk_path": ""
+    },
+    "nawari-recording-wfo": {
+      "title": "Nawari \u2014 Voice Recording & Workforce Optimisation (WFO) Operational Health",
+      "folder": "Nawari / Communication Observability",
+      "total_panels": 13,
+      "viz_panels": 10,
+      "rows": 3,
+      "panel_types": {
+        "row": 3,
+        "stat": 6,
+        "timeseries": 1,
+        "gauge": 3
+      },
+      "unique_items_count": 0,
+      "items": [],
+      "hosts": [],
+      "groups": [],
+      "variables": [],
+      "disk_path": ""
+    },
+    "nawari-voice-service-assurance": {
+      "title": "Nawari \u2014 Voice Service Assurance & Media Quality",
+      "folder": "Nawari / Communication Observability",
+      "total_panels": 16,
+      "viz_panels": 12,
+      "rows": 4,
+      "panel_types": {
+        "row": 4,
+        "stat": 4,
+        "gauge": 2,
+        "timeseries": 6
+      },
+      "unique_items_count": 12,
+      "items": [
+        "/Bits received on (A1|B1)/",
+        "/Bits sent on (A1|B1)/",
+        "Appliance CPU load percentage",
+        "Synthetic call Estimated MOS",
+        "Synthetic call R-factor",
+        "Synthetic call RTP jitter",
+        "Synthetic call RTP packet loss",
+        "Synthetic call SIP status",
+        "Synthetic call media verification status",
+        "Synthetic call outcome",
+        "Synthetic call setup time",
+        "Synthetic probe environment provenance"
+      ],
+      "hosts": [
+        "/.*sbce.*/",
+        "/.*voice-probe.*/"
+      ],
+      "groups": [
+        "/Telephony/",
+        "/Voice Infrastructure|Edge SBC/",
+        "/Voice Infrastructure|Edge SBC|Telephony/"
+      ],
+      "variables": [],
+      "disk_path": ""
+    }
+  },
+  "metric_overlap": {
+    "SNMP agent availability": [
+      "nawari-net-overview",
+      "nawari-sbce-health"
+    ],
+    "System uptime": [
+      "nawari-net-overview",
+      "nawari-sbce-health"
+    ],
+    "Synthetic call outcome": [
+      "nawari-voice-correlation",
+      "nawari-voice-service-assurance"
+    ],
+    "Synthetic call Estimated MOS": [
+      "nawari-voice-correlation",
+      "nawari-voice-service-assurance"
+    ],
+    "/Service reachable .*/": [
+      "nawari-endpoint-detail",
+      "nawari-endpoint-fleet",
+      "nawari-voice-correlation"
+    ],
+    "Default gateway packet loss": [
+      "nawari-endpoint-detail",
+      "nawari-endpoint-fleet",
+      "nawari-voice-correlation"
+    ],
+    "Default gateway latency": [
+      "nawari-endpoint-detail",
+      "nawari-endpoint-fleet",
+      "nawari-voice-correlation"
+    ],
+    "Synthetic call RTP packet loss": [
+      "nawari-voice-correlation",
+      "nawari-voice-service-assurance"
+    ],
+    "Wi-Fi signal quality": [
+      "nawari-endpoint-detail",
+      "nawari-voice-correlation"
+    ],
+    "Synthetic call RTP jitter": [
+      "nawari-voice-correlation",
+      "nawari-voice-service-assurance"
+    ],
+    "Endpoint info": [
+      "nawari-endpoint-detail",
+      "nawari-endpoint-fleet"
+    ],
+    "Network interface type": [
+      "nawari-endpoint-detail",
+      "nawari-endpoint-fleet"
+    ],
+    "Endpoint environment": [
+      "nawari-endpoint-detail",
+      "nawari-endpoint-fleet"
+    ],
+    "/DNS resolution time .*/": [
+      "nawari-endpoint-detail",
+      "nawari-endpoint-fleet"
+    ],
+    "/HTTP TTFB .*/": [
+      "nawari-endpoint-detail",
+      "nawari-endpoint-fleet"
+    ]
+  }
+}
