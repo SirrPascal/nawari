@@ -1,0 +1,60 @@
+{
+  "metadata": {
+    "phase": "13.11",
+    "title": "Network Path and WAN Observability",
+    "timestamp": "2026-11-08T16:39:22.956607+00:00",
+    "nawari_commit": "5f5737f",
+    "sentra_commit": "9970404",
+    "hard_production_deny": true,
+    "status": "VALIDATED_STAGING"
+  },
+  "paris_traceroute_evidence": {
+    "checksum_compensation_verified": true,
+    "checksum_sample": "0x5432",
+    "flow_hashing_invariant": "RFC 1071 16-bit 1's complement conserved across sequences"
+  },
+  "hop_analyzer_evidence": {
+    "destination_reached": true,
+    "total_hops": 4,
+    "copp_guard_active": true,
+    "copp_hop_index": 2,
+    "latency_jump_detected": true,
+    "latency_jump_delta_ms": 56.0
+  },
+  "mpls_label_evidence": {
+    "mpls_extracted": true,
+    "outer_label": 1001,
+    "traffic_class_exp": 5,
+    "qos_domain": "Expedited Forwarding (Voice)"
+  },
+  "route_divergence_evidence": {
+    "primary_hash": "c38df34a248ef045dde7560373f54dc1d3af66d57e2ea399d2f0982cdc29b794",
+    "alternate_hash": "20c49b339093155dd17760c1fcbe2157590dcb9daa1ddde894085cdbc48084b9",
+    "divergent_hop_index": 2,
+    "route_changed": true
+  },
+  "endpoint_probes_evidence": {
+    "dns": {
+      "target": "localhost",
+      "status": "NOERROR",
+      "time_ms": 4.42
+    },
+    "tcp": {
+      "target": "127.0.0.1:8088",
+      "status": "SUCCESS",
+      "time_ms": 0.26
+    },
+    "http": {
+      "target": "http://127.0.0.1:8088",
+      "code": 200,
+      "time_ms": 45.51
+    }
+  },
+  "trans_wan_outstation_evidence": {
+    "station": "MBA-AIRPORT",
+    "circuit": "CIRCUIT-MPLS-SAFARICOM-MBA-01",
+    "rtt_ms": 38.5,
+    "mos": 4.372927682982913,
+    "status": "OPTIMAL"
+  }
+}
