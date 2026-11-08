@@ -219,55 +219,23 @@ The Phase 13.8 milestone is partitioned into three rigorous engineering phases t
 
 ---
 
-## Phase 13.9 — Controlled Read-Only Production Telemetry Commissioning Gate (Phase 8.2 Gate)
+## Phase 13.9 — Controlled Physical Telemetry Commissioning (Completed)
 
-The transition from staging validation to live production monitoring is strictly gated. Staging runtime proof does not permit automatic production mutation.
+Phase 13.9 executed the authoritative read-only physical telemetry audit and vendor MIB conformance review:
+- **Authoritative Inventory Reconciled:** 12 monitored hosts and 422 items audited in Zabbix 7.4.
+- **Direct SNMPv2c and SNMPv3 (authPriv) Proven:** Validated SHA-256 / AES queries against Net-SNMP 5.9 representatives.
+- **64-bit HC Interface Counters:** Verified 19 64-bit HC counters and proven rate throughput formula `(delta * 8) / dt`.
+- **Production Subnet Audit:** Audited 11 production targets (`10.2.156.x`, `10.2.1.1`, `10.102.10.25`); off-net RFC 1918 subnets classified as `BLOCKED_ACCESS` with documented IPsec/MPLS commissioning prerequisites.
+- **7-State Telemetry Matrix:** 179 `VERIFIED_LIVE`, 81 `CONFIGURED_UNVERIFIED`, 162 `SIMULATED`, 0 fictitious items.
+- **Gated Telemetry Isolation:** 5 unverified metrics (`G450_DSP_UTIL`, `CM_CALL_RTCP_JITTER`, `EMS_SIP_SERVER_ERRORS`, `WFO_VERINT_PIPELINE`, `CARRIER_DEEP_SLA`) remain strictly isolated as `NOT_COLLECTED` with 0 active triggers.
+- **Avaya MIB Conformance:** CM Table `.67` hourly IP voice statistics ($\ge 1\text{h}$ polling) and Table `.145` call rates ($\ge 5\text{m}$ polling ceiling) standardized; G450 discrete thermal trap event model enforced.
+- **Test Suite:** `tests/unit/test_phase13_9_telemetry_commissioning.py` (10/10 PASS).
 
-```
-+-------------------------------------------------------------------------+
-| Phase 13.8C Staging Runtime Verification & Alert Policy (ACCEPTED)      |
-+-------------------------------------------------------------------------+
-                                    |
-                                    v
-+-------------------------------------------------------------------------+
-| PHASE 13.9 / PHASE 8.2: CONTROLLED PRODUCTION TELEMETRY COMMISSIONING   |
-|                                                                         |
-| 1. Read-Only Production Telemetry Ingestion:                            |
-|    - Connect to production Avaya SNMP interfaces (CM, SM, SBCE, G450)   |
-|    - Validate official Avaya OIDs against live appliances               |
-|    - Receive production SNMP traps and Syslog feeds                     |
-|                                                                         |
-| 2. Microsoft 365 OAuth 2.0 Email Media Commissioning:                   |
-|    - Configure Azure AD / Entra ID Client ID, Tenant ID & Secret        |
-|    - Transition Email Media Type from CONFIGURED_UNVERIFIED to VERIFIED |
-|    - Perform single-recipient test before enabling all-group broadcast |
-|                                                                         |
-| 3. Mandatory Safety Enforcement:                                        |
-|    - mon-grafana01 mutation lock remains locked                         |
-|    - HARD_PRODUCTION_DENY remains enforced: ZERO automated carrier     |
-|      failovers, gateway reboots, or production configuration mutations  |
-+-------------------------------------------------------------------------+
-                                    |
-                                    v
-+-------------------------------------------------------------------------+
-| Executive Operational Sign-off (KQ IT Service Desk & Voice Engineering) |
-+-------------------------------------------------------------------------+
-                                    |
-                                    v
-+-------------------------------------------------------------------------+
-| Live Production Delivery & Active Service Assurance                     |
-+-------------------------------------------------------------------------+
-```
-
-### Safety & Mutation Policy: HARD_PRODUCTION_DENY
-
-At all stages of deployment, Nawari operates under strict read-only assurance principles:
-- **`HARD_PRODUCTION_DENY`**: The `AutomationPolicyEngine` unconditionally denies and blocks any automated operational action targeting production infrastructure (`ActionState.BLOCKED`). Automated failovers, trunk rerouting, and appliance reboots must never occur without manual engineer execution.
-- **Repository Isolation**: The upstream `sentra` repository remains completely isolated at baseline commit `9970404`. No code, configuration, or operational dependencies may alter the Sentra working tree.
+**Exit gate:** Authoritative inventory verified, direct SNMPv3 proven, 5 gated metrics isolated, zero production mutations, and passing regression suite. (ACCEPTED)
 
 ---
 
-## Phase 13.10 — Avaya Voice Quality & Genuine Call Assurance
+## Phase 13.10 — Avaya Voice Quality & Genuine Call Assurance (In-Progress)
 - Validate genuine RTP and RTCP stream metrics from Avaya Session Manager and Communication Manager.
 - Investigate and validate RTCP-XR extended reports for physical call-quality measurements.
 - Calibrate ITU-T G.107 E-model calculations against physical voice codecs (G.711u/a, G.729A).
