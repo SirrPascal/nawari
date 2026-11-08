@@ -1,5 +1,5 @@
 register_version: 1.0.0
-generated_at: '2026-11-08T13:07:45.799232+00:00'
+generated_at: '2026-11-08T14:24:36.069353+00:00'
 standard: Nawari Phase 13.2 Telemetry Evidence & Integration Audit
 validation_status_definitions:
   VERIFIED_LIVE: Confirmed against actual active physical production device telemetry streaming live.
@@ -31,7 +31,7 @@ dashboards:
       agent failure, or network disruption; values are preserved as null gaps.'
     metric_name: CMS Host CPU Utilization
     zabbix_item_key: CMS Host CPU Utilization
-    source_device: nawari-cm-01
+    source_device: avaya-cm-01
     source_ip: 10.102.10.25
     collection_mechanism: SNMP
     exact_identifier: 1.3.6.1.2.1
@@ -51,7 +51,7 @@ dashboards:
       data indicates collector outage, agent failure, or network disruption; values are preserved as null gaps.'
     metric_name: Informix Database Engine Status
     zabbix_item_key: Informix Database Engine Status
-    source_device: nawari-cm-01
+    source_device: avaya-cm-01
     source_ip: 10.102.10.25
     collection_mechanism: SNMP
     exact_identifier: 1.3.6.1.2.1
@@ -72,7 +72,7 @@ dashboards:
       are preserved as null gaps.'
     metric_name: CMS Ingestion Reporting Interval
     zabbix_item_key: CMS Ingestion Reporting Interval
-    source_device: nawari-cm-01
+    source_device: avaya-cm-01
     source_ip: 10.102.10.25
     collection_mechanism: SNMP
     exact_identifier: 1.3.6.1.2.1
@@ -92,7 +92,7 @@ dashboards:
       \ data indicates collector outage, agent failure, or network disruption; values are preserved as null gaps."
     metric_name: Contact Centre Queue Service Level Attainment
     zabbix_item_key: Contact Centre Queue Service Level Attainment
-    source_device: nawari-cm-01
+    source_device: avaya-cm-01
     source_ip: 10.102.10.25
     collection_mechanism: SNMP
     exact_identifier: 1.3.6.1.2.1
@@ -112,7 +112,7 @@ dashboards:
       network disruption; values are preserved as null gaps.'
     metric_name: Average Speed of Answer (ASA)
     zabbix_item_key: Average Speed of Answer (ASA)
-    source_device: nawari-cm-01
+    source_device: avaya-cm-01
     source_ip: 10.102.10.25
     collection_mechanism: SNMP
     exact_identifier: 1.3.6.1.2.1
@@ -132,7 +132,7 @@ dashboards:
       network disruption; values are preserved as null gaps.'
     metric_name: Calls Waiting in Queue
     zabbix_item_key: Calls Waiting in Queue
-    source_device: nawari-cm-01
+    source_device: avaya-cm-01
     source_ip: 10.102.10.25
     collection_mechanism: SNMP
     exact_identifier: 1.3.6.1.2.1
@@ -152,7 +152,7 @@ dashboards:
       values are preserved as null gaps.'
     metric_name: Oldest Call Waiting Duration
     zabbix_item_key: Oldest Call Waiting Duration
-    source_device: nawari-cm-01
+    source_device: avaya-cm-01
     source_ip: 10.102.10.25
     collection_mechanism: SNMP
     exact_identifier: 1.3.6.1.2.1
@@ -172,7 +172,7 @@ dashboards:
       \ outage, agent failure, or network disruption; values are preserved as null gaps."
     metric_name: CMS Inbound Calls Offered
     zabbix_item_key: CMS Inbound Calls Offered
-    source_device: nawari-cm-01
+    source_device: avaya-cm-01
     source_ip: 10.102.10.25
     collection_mechanism: SNMP
     exact_identifier: 1.3.6.1.2.1
@@ -193,7 +193,7 @@ dashboards:
       are preserved as null gaps.'
     metric_name: Skill Group Performance Table
     zabbix_item_key: Skill Group Performance Table
-    source_device: nawari-cm-01
+    source_device: avaya-cm-01
     source_ip: 10.102.10.25
     collection_mechanism: SNMP
     exact_identifier: 1.3.6.1.2.1
@@ -219,7 +219,7 @@ dashboards:
       are preserved as null gaps.'
     metric_name: Communication Manager SNMP Availability
     zabbix_item_key: Communication Manager SNMP Availability
-    source_device: nawari-cm-01
+    source_device: avaya-cm-01
     source_ip: 10.102.10.25
     collection_mechanism: SNMP / ICMP
     exact_identifier: icmpping[10.102.10.25]
@@ -450,7 +450,7 @@ dashboards:
       or network disruption; values are preserved as null gaps.'
     metric_name: Chassis System Uptime
     zabbix_item_key: Chassis System Uptime
-    source_device: nawari-g450-01
+    source_device: avaya-g450-01
     source_ip: 10.2.156.60
     collection_mechanism: SNMP
     exact_identifier: 1.3.6.1.2.1.1.3.0 (sysUpTime)
@@ -470,7 +470,7 @@ dashboards:
       Missing data indicates collector outage, agent failure, or network disruption; values are preserved as null gaps.'
     metric_name: Gateway CM Registration State
     zabbix_item_key: Gateway CM Registration State
-    source_device: nawari-cm-01
+    source_device: avaya-cm-01
     source_ip: 10.102.10.25
     collection_mechanism: SNMP
     exact_identifier: 1.3.6.1.2.1
@@ -492,7 +492,7 @@ dashboards:
       Provenance: CONFIGURED_UNVERIFIED. Missing data indicates trapper service failure.'
     metric_name: Internal Chassis Temperature Alarm State
     zabbix_item_key: Internal Chassis Temperature Alarm State
-    source_device: nawari-g450-01
+    source_device: avaya-g450-01
     source_ip: 10.2.156.60
     collection_mechanism: TRAP
     exact_identifier: 'G450 MGP SNMP Traps: `temperatureWarning`, `temperatureClear`'
@@ -515,7 +515,7 @@ dashboards:
       disruption; values are preserved as null gaps.'
     metric_name: Primary Power Supply Status
     zabbix_item_key: Primary Power Supply Status
-    source_device: nawari-g450-01
+    source_device: avaya-g450-01
     source_ip: 10.2.156.60
     collection_mechanism: TRAP / SNMP
     exact_identifier: 'G450 MGP Traps: `powerSupplyFailure`, `fanFailure` / Chassis Status Table'
@@ -535,7 +535,7 @@ dashboards:
       outage, agent failure, or network disruption; values are preserved as null gaps.'
     metric_name: E1/ISDN Primary Trunk Port Operational Status
     zabbix_item_key: E1/ISDN Primary Trunk Port Operational Status
-    source_device: nawari-g450-01
+    source_device: avaya-g450-01
     source_ip: 10.2.156.60
     collection_mechanism: SNMP
     exact_identifier: 1.3.6.1.2.1.2.2.1.8 (IF-MIB ifOperStatus on MM710 port)
@@ -556,7 +556,7 @@ dashboards:
       \ uncollected hardware telemetry."
     metric_name: avG450DspChannelUtilization
     zabbix_item_key: avG450DspChannelUtilization
-    source_device: nawari-g450-01
+    source_device: avaya-g450-01
     source_ip: 10.2.156.60
     collection_mechanism: SNMP
     exact_identifier: 1.3.6.1.4.1.6889.2.69.2.2.1 (avG450DspTable)
@@ -576,7 +576,7 @@ dashboards:
       Missing data indicates collector outage, agent failure, or network disruption; values are preserved as null gaps.'
     metric_name: Chassis Fan Tray State
     zabbix_item_key: Chassis Fan Tray State
-    source_device: nawari-g450-01
+    source_device: avaya-g450-01
     source_ip: 10.2.156.60
     collection_mechanism: TRAP / SNMP
     exact_identifier: 'G450 MGP Traps: `powerSupplyFailure`, `fanFailure` / Chassis Status Table'
@@ -597,7 +597,7 @@ dashboards:
       are preserved as null gaps.'
     metric_name: Discovered Media Modules Table
     zabbix_item_key: Discovered Media Modules Table
-    source_device: nawari-g450-01
+    source_device: avaya-g450-01
     source_ip: 10.2.156.60
     collection_mechanism: SNMP
     exact_identifier: 1.3.6.1.2.1.1.3.0 (sysUpTime)
@@ -625,7 +625,7 @@ dashboards:
       are preserved as null gaps.'
     metric_name: SNMPv3 Status
     zabbix_item_key: SNMPv3 Status
-    source_device: nawari-sbce-01
+    source_device: avaya-sbce-01
     source_ip: 10.2.156.131
     collection_mechanism: SNMP
     exact_identifier: 1.3.6.1.2.1.31.1.1.1 (IF-MIB 64-bit HC) / 1.3.6.1.4.1.2021 (UCD-SNMP)
@@ -646,7 +646,7 @@ dashboards:
       failure, or network disruption; values are preserved as null gaps.'
     metric_name: System Uptime
     zabbix_item_key: System Uptime
-    source_device: nawari-sbce-01
+    source_device: avaya-sbce-01
     source_ip: 10.2.156.131
     collection_mechanism: SNMP
     exact_identifier: 1.3.6.1.2.1.31.1.1.1 (IF-MIB 64-bit HC) / 1.3.6.1.4.1.2021 (UCD-SNMP)
@@ -667,7 +667,7 @@ dashboards:
       \ collector outage, agent failure, or network disruption; values are preserved as null gaps."
     metric_name: CPU Utilization
     zabbix_item_key: CPU Utilization
-    source_device: nawari-sbce-01
+    source_device: avaya-sbce-01
     source_ip: 10.2.156.131
     collection_mechanism: SNMP
     exact_identifier: 1.3.6.1.2.1.31.1.1.1 (IF-MIB 64-bit HC) / 1.3.6.1.4.1.2021 (UCD-SNMP)
@@ -688,7 +688,7 @@ dashboards:
       \ or network disruption; values are preserved as null gaps."
     metric_name: RAM Utilization
     zabbix_item_key: RAM Utilization
-    source_device: nawari-sbce-01
+    source_device: avaya-sbce-01
     source_ip: 10.2.156.131
     collection_mechanism: SNMP
     exact_identifier: 1.3.6.1.2.1.31.1.1.1 (IF-MIB 64-bit HC) / 1.3.6.1.4.1.2021 (UCD-SNMP)
@@ -709,7 +709,7 @@ dashboards:
       \ outage, agent failure, or network disruption; values are preserved as null gaps."
     metric_name: Root Disk Utilization
     zabbix_item_key: Root Disk Utilization
-    source_device: nawari-sbce-01
+    source_device: avaya-sbce-01
     source_ip: 10.2.156.131
     collection_mechanism: SNMP
     exact_identifier: 1.3.6.1.2.1.31.1.1.1 (IF-MIB 64-bit HC) / 1.3.6.1.4.1.2021 (UCD-SNMP)
@@ -730,7 +730,7 @@ dashboards:
       failure, or network disruption; values are preserved as null gaps.'
     metric_name: Load Average (1m)
     zabbix_item_key: Load Average (1m)
-    source_device: nawari-sbce-01
+    source_device: avaya-sbce-01
     source_ip: 10.2.156.131
     collection_mechanism: SNMP
     exact_identifier: 1.3.6.1.2.1.31.1.1.1 (IF-MIB 64-bit HC) / 1.3.6.1.4.1.2021 (UCD-SNMP)
@@ -751,7 +751,7 @@ dashboards:
       failure, or network disruption; values are preserved as null gaps.'
     metric_name: "A1 \u2014 External DMZ (SIP Signaling)"
     zabbix_item_key: "A1 \u2014 External DMZ (SIP Signaling)"
-    source_device: nawari-sbce-01
+    source_device: avaya-sbce-01
     source_ip: 10.2.156.131
     collection_mechanism: SNMP
     exact_identifier: 1.3.6.1.2.1.31.1.1.1 (IF-MIB 64-bit HC) / 1.3.6.1.4.1.2021 (UCD-SNMP)
@@ -772,7 +772,7 @@ dashboards:
       or network disruption; values are preserved as null gaps.'
     metric_name: "B1 \u2014 Internal Media & Core Signaling"
     zabbix_item_key: "B1 \u2014 Internal Media & Core Signaling"
-    source_device: nawari-sbce-01
+    source_device: avaya-sbce-01
     source_ip: 10.2.156.131
     collection_mechanism: SNMP
     exact_identifier: 1.3.6.1.2.1.31.1.1.1 (IF-MIB 64-bit HC) / 1.3.6.1.4.1.2021 (UCD-SNMP)
@@ -793,7 +793,7 @@ dashboards:
       agent failure, or network disruption; values are preserved as null gaps.'
     metric_name: "M1 \u2014 Primary Management"
     zabbix_item_key: "M1 \u2014 Primary Management"
-    source_device: nawari-sbce-01
+    source_device: avaya-sbce-01
     source_ip: 10.2.156.131
     collection_mechanism: SNMP
     exact_identifier: 1.3.6.1.2.1.31.1.1.1 (IF-MIB 64-bit HC) / 1.3.6.1.4.1.2021 (UCD-SNMP)
@@ -814,7 +814,7 @@ dashboards:
       outage, agent failure, or network disruption; values are preserved as null gaps.'
     metric_name: "M2 \u2014 Secondary / HA Heartbeat"
     zabbix_item_key: "M2 \u2014 Secondary / HA Heartbeat"
-    source_device: nawari-sbce-01
+    source_device: avaya-sbce-01
     source_ip: 10.2.156.131
     collection_mechanism: SNMP
     exact_identifier: 1.3.6.1.2.1.31.1.1.1 (IF-MIB 64-bit HC) / 1.3.6.1.4.1.2021 (UCD-SNMP)
@@ -835,7 +835,7 @@ dashboards:
       data indicates collector outage, agent failure, or network disruption; values are preserved as null gaps.'
     metric_name: A1 Carrier DMZ Traffic (bps)
     zabbix_item_key: A1 Carrier DMZ Traffic (bps)
-    source_device: nawari-sbce-01
+    source_device: avaya-sbce-01
     source_ip: 10.2.156.131
     collection_mechanism: SNMP
     exact_identifier: 1.3.6.1.2.1.31.1.1.1 (IF-MIB 64-bit HC) / 1.3.6.1.4.1.2021 (UCD-SNMP)
@@ -856,7 +856,7 @@ dashboards:
       failure, or network disruption; values are preserved as null gaps.'
     metric_name: B1 Internal Media & Core Signaling Traffic (bps)
     zabbix_item_key: B1 Internal Media & Core Signaling Traffic (bps)
-    source_device: nawari-sbce-01
+    source_device: avaya-sbce-01
     source_ip: 10.2.156.131
     collection_mechanism: SNMP
     exact_identifier: 1.3.6.1.2.1.31.1.1.1 (IF-MIB 64-bit HC) / 1.3.6.1.4.1.2021 (UCD-SNMP)
@@ -877,7 +877,7 @@ dashboards:
       or network disruption; values are preserved as null gaps.'
     metric_name: Voice Path Packet Errors (rate)
     zabbix_item_key: Voice Path Packet Errors (rate)
-    source_device: nawari-sbce-01
+    source_device: avaya-sbce-01
     source_ip: 10.2.156.131
     collection_mechanism: SNMP
     exact_identifier: 1.3.6.1.2.1.31.1.1.1 (IF-MIB 64-bit HC) / 1.3.6.1.4.1.2021 (UCD-SNMP)
@@ -898,7 +898,7 @@ dashboards:
       agent failure, or network disruption; values are preserved as null gaps.'
     metric_name: Voice Path Packet Discards (rate)
     zabbix_item_key: Voice Path Packet Discards (rate)
-    source_device: nawari-sbce-01
+    source_device: avaya-sbce-01
     source_ip: 10.2.156.131
     collection_mechanism: SNMP
     exact_identifier: 1.3.6.1.2.1.31.1.1.1 (IF-MIB 64-bit HC) / 1.3.6.1.4.1.2021 (UCD-SNMP)
@@ -919,7 +919,7 @@ dashboards:
       or network disruption; values are preserved as null gaps.'
     metric_name: Avaya SBCE Active Alarms & Problems Feed
     zabbix_item_key: Avaya SBCE Active Alarms & Problems Feed
-    source_device: nawari-sbce-01
+    source_device: avaya-sbce-01
     source_ip: 10.2.156.131
     collection_mechanism: SNMP
     exact_identifier: 1.3.6.1.2.1.31.1.1.1 (IF-MIB 64-bit HC) / 1.3.6.1.4.1.2021 (UCD-SNMP)
@@ -946,7 +946,7 @@ dashboards:
       are preserved as null gaps.'
     metric_name: Session Manager Host CPU Utilization
     zabbix_item_key: Session Manager Host CPU Utilization
-    source_device: nawari-sm-01
+    source_device: avaya-sm-01
     source_ip: 10.2.156.22
     collection_mechanism: SNMP
     exact_identifier: 1.3.6.1.4.1.2021 (UCD-SNMP) / 1.3.6.1.2.1.6.9.0 (TCP-MIB)
@@ -966,7 +966,7 @@ dashboards:
       network disruption; values are preserved as null gaps.'
     metric_name: Session Manager Host RAM Utilization
     zabbix_item_key: Session Manager Host RAM Utilization
-    source_device: nawari-sm-01
+    source_device: avaya-sm-01
     source_ip: 10.2.156.22
     collection_mechanism: SNMP
     exact_identifier: 1.3.6.1.4.1.2021 (UCD-SNMP) / 1.3.6.1.2.1.6.9.0 (TCP-MIB)
@@ -986,7 +986,7 @@ dashboards:
       disruption; values are preserved as null gaps.'
     metric_name: Session Manager System Uptime
     zabbix_item_key: Session Manager System Uptime
-    source_device: nawari-sm-01
+    source_device: avaya-sm-01
     source_ip: 10.2.156.22
     collection_mechanism: SNMP
     exact_identifier: 1.3.6.1.4.1.2021 (UCD-SNMP) / 1.3.6.1.2.1.6.9.0 (TCP-MIB)
@@ -1007,7 +1007,7 @@ dashboards:
       null gaps.'
     metric_name: TCP Established Sockets
     zabbix_item_key: TCP Established Sockets
-    source_device: nawari-sm-01
+    source_device: avaya-sm-01
     source_ip: 10.2.156.22
     collection_mechanism: SNMP
     exact_identifier: 1.3.6.1.4.1.2021 (UCD-SNMP) / 1.3.6.1.2.1.6.9.0 (TCP-MIB)
@@ -1029,7 +1029,7 @@ dashboards:
       disruption; values are preserved as null gaps.'
     metric_name: "SIP Entity State \u2014 Avaya Communication Manager"
     zabbix_item_key: "SIP Entity State \u2014 Avaya Communication Manager"
-    source_device: nawari-cm-01
+    source_device: avaya-cm-01
     source_ip: 10.102.10.25
     collection_mechanism: SNMP
     exact_identifier: 1.3.6.1.2.1
@@ -1050,7 +1050,7 @@ dashboards:
       indicates collector outage, agent failure, or network disruption; values are preserved as null gaps.'
     metric_name: "SIP Entity State \u2014 Avaya SBCE Pride"
     zabbix_item_key: "SIP Entity State \u2014 Avaya SBCE Pride"
-    source_device: nawari-sm-01
+    source_device: avaya-sm-01
     source_ip: 10.2.156.22
     collection_mechanism: TRAP / API
     exact_identifier: Session Manager Management API (`smstat`/`starety` export) via Zabbix Trapper
@@ -1072,7 +1072,7 @@ dashboards:
       or network disruption; values are preserved as null gaps.'
     metric_name: "SIP OPTIONS Response Time \u2014 Avaya CM"
     zabbix_item_key: "SIP OPTIONS Response Time \u2014 Avaya CM"
-    source_device: nawari-sm-01
+    source_device: avaya-sm-01
     source_ip: 10.2.156.22
     collection_mechanism: SIP_PROBE
     exact_identifier: Nawari SIP Probe Engine (`services/voice/` SIP OPTIONS ping)
@@ -1094,7 +1094,7 @@ dashboards:
       outage, agent failure, or network disruption; values are preserved as null gaps.'
     metric_name: SIP Entity Summary Stream
     zabbix_item_key: SIP Entity Summary Stream
-    source_device: nawari-sm-01
+    source_device: avaya-sm-01
     source_ip: 10.2.156.22
     collection_mechanism: SNMP
     exact_identifier: 1.3.6.1.4.1.2021 (UCD-SNMP) / 1.3.6.1.2.1.6.9.0 (TCP-MIB)
@@ -1115,7 +1115,7 @@ dashboards:
       gaps.'
     metric_name: Session Manager Active Alarms Count
     zabbix_item_key: Session Manager Active Alarms Count
-    source_device: nawari-sm-01
+    source_device: avaya-sm-01
     source_ip: 10.2.156.22
     collection_mechanism: TRAP
     exact_identifier: AV-TRAP-MIB / System Manager Event Webhook
@@ -1205,7 +1205,7 @@ dashboards:
       collector outage, agent failure, or network disruption; values are preserved as null gaps.
     metric_name: SBCE Port 5061 L4 Transport Socket
     zabbix_item_key: SBCE Port 5061 L4 Transport Socket
-    source_device: nawari-sbce-01
+    source_device: avaya-sbce-01
     source_ip: 10.2.156.131
     collection_mechanism: SNMP
     exact_identifier: 1.3.6.1.2.1.31.1.1.1 (IF-MIB 64-bit HC) / 1.3.6.1.4.1.2021 (UCD-SNMP)
@@ -1311,7 +1311,7 @@ dashboards:
       as null gaps.
     metric_name: Avaya SBCE Active Audio Calls
     zabbix_item_key: Avaya SBCE Active Audio Calls
-    source_device: nawari-sbce-01
+    source_device: avaya-sbce-01
     source_ip: 10.2.156.131
     collection_mechanism: SNMP
     exact_identifier: 1.3.6.1.2.1.31.1.1.1 (IF-MIB 64-bit HC) / 1.3.6.1.4.1.2021 (UCD-SNMP)
@@ -1338,7 +1338,7 @@ dashboards:
       outage, agent failure, or network disruption; values are preserved as null gaps.'
     metric_name: Call Transaction Outcome
     zabbix_item_key: Call Transaction Outcome
-    source_device: mon-asterisk01
+    source_device: nawari-voice-probe-01
     source_ip: 127.0.0.1
     collection_mechanism: SYNTHETIC_PROBE
     exact_identifier: Asterisk 20.x AMI / PJSIP Call Ladder Engine (`services/voice/`)
@@ -1360,7 +1360,7 @@ dashboards:
       Missing data indicates collector outage, agent failure, or network disruption; values are preserved as null gaps.'
     metric_name: "Estimated MOS (ITU-T G.107) [SYNTHETIC \u2014 ASTERISK]"
     zabbix_item_key: "Estimated MOS (ITU-T G.107) [SYNTHETIC \u2014 ASTERISK]"
-    source_device: mon-asterisk01
+    source_device: nawari-voice-probe-01
     source_ip: 127.0.0.1
     collection_mechanism: SYNTHETIC_PROBE
     exact_identifier: Asterisk 20.x AMI / PJSIP Call Ladder Engine (`services/voice/`)
@@ -1382,7 +1382,7 @@ dashboards:
       preserved as null gaps.'
     metric_name: Media Path Directionality
     zabbix_item_key: Media Path Directionality
-    source_device: mon-asterisk01
+    source_device: nawari-voice-probe-01
     source_ip: 127.0.0.1
     collection_mechanism: SYNTHETIC_PROBE
     exact_identifier: Asterisk 20.x AMI / PJSIP Call Ladder Engine (`services/voice/`)
@@ -1404,7 +1404,7 @@ dashboards:
       outage, agent failure, or network disruption; values are preserved as null gaps.'
     metric_name: Call Setup Latency
     zabbix_item_key: Call Setup Latency
-    source_device: mon-asterisk01
+    source_device: nawari-voice-probe-01
     source_ip: 127.0.0.1
     collection_mechanism: SYNTHETIC_PROBE
     exact_identifier: Asterisk 20.x AMI / PJSIP Call Ladder Engine (`services/voice/`)
@@ -1426,7 +1426,7 @@ dashboards:
       disruption; values are preserved as null gaps.'
     metric_name: "R-Factor (Transmission Quality) [SYNTHETIC \u2014 ASTERISK]"
     zabbix_item_key: "R-Factor (Transmission Quality) [SYNTHETIC \u2014 ASTERISK]"
-    source_device: mon-asterisk01
+    source_device: nawari-voice-probe-01
     source_ip: 127.0.0.1
     collection_mechanism: SYNTHETIC_PROBE
     exact_identifier: Asterisk 20.x AMI / PJSIP Call Ladder Engine (`services/voice/`)
@@ -1469,7 +1469,7 @@ dashboards:
       or network disruption; values are preserved as null gaps.'
     metric_name: Call Setup Latency History
     zabbix_item_key: Call Setup Latency History
-    source_device: mon-asterisk01
+    source_device: nawari-voice-probe-01
     source_ip: 127.0.0.1
     collection_mechanism: SYNTHETIC_PROBE
     exact_identifier: Asterisk 20.x AMI / PJSIP Call Ladder Engine (`services/voice/`)
@@ -1491,7 +1491,7 @@ dashboards:
       disruption; values are preserved as null gaps.'
     metric_name: SIP Response Code History
     zabbix_item_key: SIP Response Code History
-    source_device: mon-asterisk01
+    source_device: nawari-voice-probe-01
     source_ip: 127.0.0.1
     collection_mechanism: SYNTHETIC_PROBE
     exact_identifier: Asterisk 20.x AMI / PJSIP Call Ladder Engine (`services/voice/`)
@@ -1513,7 +1513,7 @@ dashboards:
       agent failure, or network disruption; values are preserved as null gaps.'
     metric_name: "Estimated MOS Trend & SLA Thresholds [SYNTHETIC \u2014 ASTERISK]"
     zabbix_item_key: "Estimated MOS Trend & SLA Thresholds [SYNTHETIC \u2014 ASTERISK]"
-    source_device: mon-asterisk01
+    source_device: nawari-voice-probe-01
     source_ip: 127.0.0.1
     collection_mechanism: SYNTHETIC_PROBE
     exact_identifier: Asterisk 20.x AMI / PJSIP Call Ladder Engine (`services/voice/`)
@@ -1535,7 +1535,7 @@ dashboards:
       as null gaps.'
     metric_name: "RTP Jitter & Packet Loss Impairments [SYNTHETIC \u2014 ASTERISK]"
     zabbix_item_key: "RTP Jitter & Packet Loss Impairments [SYNTHETIC \u2014 ASTERISK]"
-    source_device: mon-asterisk01
+    source_device: nawari-voice-probe-01
     source_ip: 127.0.0.1
     collection_mechanism: SYNTHETIC_PROBE
     exact_identifier: Asterisk 20.x AMI / PJSIP Call Ladder Engine (`services/voice/`)
@@ -1557,7 +1557,7 @@ dashboards:
       outage, agent failure, or network disruption; values are preserved as null gaps.'
     metric_name: "SBCE Signaling (A1) & Media (B1) Traffic Throughput [REAL \u2014 SBCE SNMP]"
     zabbix_item_key: "SBCE Signaling (A1) & Media (B1) Traffic Throughput [REAL \u2014 SBCE SNMP]"
-    source_device: nawari-sbce-01
+    source_device: avaya-sbce-01
     source_ip: 10.2.156.131
     collection_mechanism: SNMP
     exact_identifier: 1.3.6.1.2.1.31.1.1.1 (IF-MIB 64-bit HC) / 1.3.6.1.4.1.2021 (UCD-SNMP)
@@ -1577,7 +1577,7 @@ dashboards:
       \ disruption; values are preserved as null gaps."
     metric_name: "SBCE CPU Utilization [REAL \u2014 SBCE SNMP]"
     zabbix_item_key: "SBCE CPU Utilization [REAL \u2014 SBCE SNMP]"
-    source_device: nawari-sbce-01
+    source_device: avaya-sbce-01
     source_ip: 10.2.156.131
     collection_mechanism: SNMP
     exact_identifier: 1.3.6.1.2.1.31.1.1.1 (IF-MIB 64-bit HC) / 1.3.6.1.4.1.2021 (UCD-SNMP)
@@ -1626,7 +1626,7 @@ dashboards:
       collector outage, agent failure, or network disruption; values are preserved as null gaps.'
     metric_name: Active Alarms Count
     zabbix_item_key: Active Alarms Count
-    source_device: nawari-cm-01
+    source_device: avaya-cm-01
     source_ip: 10.102.10.25
     collection_mechanism: SNMP
     exact_identifier: 1.3.6.1.4.1.6889.2.73.8.1.5 (avCmAlarmsTable)
@@ -1647,7 +1647,7 @@ dashboards:
       \ collector outage, agent failure, or network disruption; values are preserved as null gaps."
     metric_name: Active SIP Calls
     zabbix_item_key: Active SIP Calls
-    source_device: nawari-sbce-01
+    source_device: avaya-sbce-01
     source_ip: 10.2.156.131
     collection_mechanism: TRAP / API
     exact_identifier: Avaya SBCE EMS Statistics REST API / `emscli --stats` Export
@@ -1669,7 +1669,7 @@ dashboards:
       60s. Missing data indicates collector outage, agent failure, or network disruption; values are preserved as null gaps.'
     metric_name: SIP Trunk Endpoint Reachability
     zabbix_item_key: SIP Trunk Endpoint Reachability
-    source_device: nawari-sbce-01
+    source_device: avaya-sbce-01
     source_ip: 10.2.156.131
     collection_mechanism: SNMP / TRAP
     exact_identifier: IF-MIB / Carrier Session Counter
@@ -1690,7 +1690,7 @@ dashboards:
       or network disruption; values are preserved as null gaps.'
     metric_name: Call Rate Total Attempts (Hourly Measurement Interval)
     zabbix_item_key: Call Rate Total Attempts (Hourly Measurement Interval)
-    source_device: nawari-cm-01
+    source_device: avaya-cm-01
     source_ip: 10.102.10.25
     collection_mechanism: SNMP
     exact_identifier: 1.3.6.1.4.1.6889.2.73.8.1.145 (avCmListMeasCallRateTotalTable)
@@ -1712,7 +1712,7 @@ dashboards:
       \ outage, agent failure, or network disruption; values are preserved as null gaps."
     metric_name: Contact Centre Queue Service Level Attainment
     zabbix_item_key: Contact Centre Queue Service Level Attainment
-    source_device: nawari-cm-01
+    source_device: avaya-cm-01
     source_ip: 10.102.10.25
     collection_mechanism: SNMP
     exact_identifier: 1.3.6.1.2.1
@@ -1733,7 +1733,7 @@ dashboards:
       as null gaps.'
     metric_name: CMS Inbound Calls Offered
     zabbix_item_key: CMS Inbound Calls Offered
-    source_device: nawari-cm-01
+    source_device: avaya-cm-01
     source_ip: 10.102.10.25
     collection_mechanism: SNMP
     exact_identifier: 1.3.6.1.2.1
@@ -1754,7 +1754,7 @@ dashboards:
       \ are preserved as null gaps."
     metric_name: CMS Inbound Calls Abandoned
     zabbix_item_key: CMS Inbound Calls Abandoned
-    source_device: nawari-cm-01
+    source_device: avaya-cm-01
     source_ip: 10.102.10.25
     collection_mechanism: SNMP
     exact_identifier: 1.3.6.1.2.1
@@ -1797,7 +1797,7 @@ dashboards:
       agent failure, or network disruption; values are preserved as null gaps.'
     metric_name: Real-Call Packet Loss (Last Hour)
     zabbix_item_key: Real-Call Packet Loss (Last Hour)
-    source_device: nawari-cm-01
+    source_device: avaya-cm-01
     source_ip: 10.102.10.25
     collection_mechanism: SNMP
     exact_identifier: 1.3.6.1.4.1.6889.2.73.8.1.67 (avCmMeasIpVoStatHrData)
@@ -1819,7 +1819,7 @@ dashboards:
       indicates collector outage, agent failure, or network disruption; values are preserved as null gaps.'
     metric_name: Synthetic call Estimated MOS
     zabbix_item_key: Synthetic call Estimated MOS
-    source_device: mon-asterisk01
+    source_device: nawari-voice-probe-01
     source_ip: 127.0.0.1
     collection_mechanism: SYNTHETIC_PROBE
     exact_identifier: Asterisk 20.x AMI / PJSIP Call Ladder Engine (`services/voice/`)
@@ -1868,7 +1868,7 @@ dashboards:
       indicates collector outage, agent failure, or network disruption; values are preserved as null gaps.'
     metric_name: SIP Trunk Endpoint Reachability
     zabbix_item_key: SIP Trunk Endpoint Reachability
-    source_device: nawari-sbce-01
+    source_device: avaya-sbce-01
     source_ip: 10.2.156.131
     collection_mechanism: SNMP / TRAP
     exact_identifier: IF-MIB / Carrier Session Counter
@@ -1888,7 +1888,7 @@ dashboards:
       only. Missing data indicates collector outage, agent failure, or network disruption; values are preserved as null gaps.'
     metric_name: SIP Trunk OPTIONS Probe Status
     zabbix_item_key: SIP Trunk OPTIONS Probe Status
-    source_device: nawari-sbce-01
+    source_device: avaya-sbce-01
     source_ip: 10.2.156.131
     collection_mechanism: SNMP / TRAP
     exact_identifier: IF-MIB / Carrier Session Counter
@@ -1909,7 +1909,7 @@ dashboards:
       null gaps.'
     metric_name: SIP Trunk OPTIONS Response Time
     zabbix_item_key: SIP Trunk OPTIONS Response Time
-    source_device: nawari-sbce-01
+    source_device: avaya-sbce-01
     source_ip: 10.2.156.131
     collection_mechanism: SIP_PROBE
     exact_identifier: Nawari SIP Probe Engine (`services/voice/` carrier OPTIONS ping)
@@ -1930,7 +1930,7 @@ dashboards:
       agent failure, or network disruption; values are preserved as null gaps.'
     metric_name: Post-Dial Delay (PDD)
     zabbix_item_key: Post-Dial Delay (PDD)
-    source_device: mon-asterisk01
+    source_device: nawari-voice-probe-01
     source_ip: 127.0.0.1
     collection_mechanism: SYNTHETIC_PROBE
     exact_identifier: Asterisk 20.x AMI / PJSIP Call Ladder Engine (`services/voice/`)
@@ -1952,7 +1952,7 @@ dashboards:
       Missing data indicates collector outage, agent failure, or network disruption; values are preserved as null gaps.'
     metric_name: SIP Responses by Category
     zabbix_item_key: SIP Responses by Category
-    source_device: mon-asterisk01
+    source_device: nawari-voice-probe-01
     source_ip: 127.0.0.1
     collection_mechanism: SYNTHETIC_PROBE
     exact_identifier: Asterisk 20.x AMI / PJSIP Call Ladder Engine (`services/voice/`)
@@ -1973,7 +1973,7 @@ dashboards:
       data indicates collector outage, agent failure, or network disruption; values are preserved as null gaps.'
     metric_name: A1 Interface Ingress Traffic (bps)
     zabbix_item_key: A1 Interface Ingress Traffic (bps)
-    source_device: nawari-sbce-01
+    source_device: avaya-sbce-01
     source_ip: 10.2.156.131
     collection_mechanism: SNMP
     exact_identifier: 1.3.6.1.2.1.31.1.1.1 (IF-MIB 64-bit HC) / 1.3.6.1.4.1.2021 (UCD-SNMP)
@@ -1994,7 +1994,7 @@ dashboards:
       are preserved as null gaps.'
     metric_name: SBCE Aggregate Interface Error Rate
     zabbix_item_key: SBCE Aggregate Interface Error Rate
-    source_device: nawari-sbce-01
+    source_device: avaya-sbce-01
     source_ip: 10.2.156.131
     collection_mechanism: SNMP
     exact_identifier: 1.3.6.1.2.1.31.1.1.1 (IF-MIB 64-bit HC) / 1.3.6.1.4.1.2021 (UCD-SNMP)
@@ -2021,7 +2021,7 @@ dashboards:
       calls. Missing data indicates collector outage, agent failure, or network disruption; values are preserved as null gaps.'
     metric_name: Post-Dial Delay (PDD)
     zabbix_item_key: Post-Dial Delay (PDD)
-    source_device: mon-asterisk01
+    source_device: nawari-voice-probe-01
     source_ip: 127.0.0.1
     collection_mechanism: SYNTHETIC_PROBE
     exact_identifier: Asterisk 20.x AMI / PJSIP Call Ladder Engine (`services/voice/`)
@@ -2043,7 +2043,7 @@ dashboards:
       or network disruption; values are preserved as null gaps.'
     metric_name: SIP Responses by Category
     zabbix_item_key: SIP Responses by Category
-    source_device: mon-asterisk01
+    source_device: nawari-voice-probe-01
     source_ip: 127.0.0.1
     collection_mechanism: SYNTHETIC_PROBE
     exact_identifier: Asterisk 20.x AMI / PJSIP Call Ladder Engine (`services/voice/`)
@@ -2065,7 +2065,7 @@ dashboards:
       loss. Missing data indicates collector outage, agent failure, or network disruption; values are preserved as null gaps.'
     metric_name: Safaricom Primary SIP Trunk Operational Status
     zabbix_item_key: Safaricom Primary SIP Trunk Operational Status
-    source_device: nawari-sbce-01
+    source_device: avaya-sbce-01
     source_ip: 10.2.156.131
     collection_mechanism: SNMP / TRAP
     exact_identifier: IF-MIB / Carrier Session Counter
@@ -2108,7 +2108,7 @@ dashboards:
       indicates collector outage, agent failure, or network disruption; values are preserved as null gaps.'
     metric_name: Estimated Mean Opinion Score (MOS)
     zabbix_item_key: Estimated Mean Opinion Score (MOS)
-    source_device: mon-asterisk01
+    source_device: nawari-voice-probe-01
     source_ip: 127.0.0.1
     collection_mechanism: SYNTHETIC_PROBE
     exact_identifier: Asterisk 20.x AMI / PJSIP Call Ladder Engine (`services/voice/`)
@@ -2131,7 +2131,7 @@ dashboards:
       \ network disruption; values are preserved as null gaps."
     metric_name: avCmMeasIpVoStatSumDataLstHrPktLoss
     zabbix_item_key: avCmMeasIpVoStatSumDataLstHrPktLoss
-    source_device: nawari-cm-01
+    source_device: avaya-cm-01
     source_ip: 10.102.10.25
     collection_mechanism: SNMP
     exact_identifier: 1.3.6.1.4.1.6889.2.73.8.1.67 (avCmMeasIpVoStatHrData)
@@ -2174,7 +2174,7 @@ dashboards:
       Missing data indicates collector outage, agent failure, or network disruption; values are preserved as null gaps.'
     metric_name: Network Packet Loss (%)
     zabbix_item_key: Network Packet Loss (%)
-    source_device: mon-asterisk01
+    source_device: nawari-voice-probe-01
     source_ip: 127.0.0.1
     collection_mechanism: SYNTHETIC_PROBE
     exact_identifier: Asterisk 20.x AMI / PJSIP Call Ladder Engine (`services/voice/`)
@@ -2195,7 +2195,7 @@ dashboards:
       outage, agent failure, or network disruption; values are preserved as null gaps.'
     metric_name: Mouth-to-Ear Latency (RTT)
     zabbix_item_key: Mouth-to-Ear Latency (RTT)
-    source_device: mon-asterisk01
+    source_device: nawari-voice-probe-01
     source_ip: 127.0.0.1
     collection_mechanism: SYNTHETIC_PROBE
     exact_identifier: Asterisk 20.x AMI / PJSIP Call Ladder Engine (`services/voice/`)
@@ -2216,7 +2216,7 @@ dashboards:
       Missing data indicates collector outage, agent failure, or network disruption; values are preserved as null gaps.'
     metric_name: Active Audio Sessions
     zabbix_item_key: Active Audio Sessions
-    source_device: nawari-sbce-01
+    source_device: avaya-sbce-01
     source_ip: 10.2.156.131
     collection_mechanism: SNMP
     exact_identifier: 1.3.6.1.2.1.31.1.1.1 (IF-MIB 64-bit HC) / 1.3.6.1.4.1.2021 (UCD-SNMP)
@@ -2263,7 +2263,7 @@ dashboards:
       agent failure, or network disruption; values are preserved as null gaps.'
     metric_name: wfoProductSpecificationStatus
     zabbix_item_key: wfoProductSpecificationStatus
-    source_device: nawari-rec-01
+    source_device: avaya-cms-01
     source_ip: 10.2.156.42
     collection_mechanism: API / TRAP
     exact_identifier: Recording Service Ingestion Pipeline & Metadata Webhook
@@ -2285,7 +2285,7 @@ dashboards:
       values are preserved as null gaps.'
     metric_name: Compliance Voice Recording Pipeline Health
     zabbix_item_key: Compliance Voice Recording Pipeline Health
-    source_device: nawari-cm-01
+    source_device: avaya-cm-01
     source_ip: 10.102.10.25
     collection_mechanism: SNMP
     exact_identifier: 1.3.6.1.2.1
@@ -2304,7 +2304,7 @@ dashboards:
       60s. Missing data indicates collector outage, agent failure, or network disruption; values are preserved as null gaps.'
     metric_name: Recording Host Uptime
     zabbix_item_key: Recording Host Uptime
-    source_device: nawari-rec-01
+    source_device: avaya-cms-01
     source_ip: 10.2.156.42
     collection_mechanism: API / TRAP
     exact_identifier: Recording Service Ingestion Pipeline & Metadata Webhook
@@ -2325,7 +2325,7 @@ dashboards:
       or network disruption; values are preserved as null gaps.'
     metric_name: Compliance Voice Recording Pipeline Health
     zabbix_item_key: Compliance Voice Recording Pipeline Health
-    source_device: nawari-rec-01
+    source_device: avaya-cms-01
     source_ip: 10.2.156.42
     collection_mechanism: API / TRAP
     exact_identifier: Recording Service Ingestion Pipeline & Metadata Webhook
@@ -2346,7 +2346,7 @@ dashboards:
       are preserved as null gaps.'
     metric_name: Recording Ingestion Rate
     zabbix_item_key: Recording Ingestion Rate
-    source_device: nawari-rec-01
+    source_device: avaya-cms-01
     source_ip: 10.2.156.42
     collection_mechanism: API / TRAP
     exact_identifier: Recording Service Ingestion Pipeline & Metadata Webhook
@@ -2367,7 +2367,7 @@ dashboards:
       or network disruption; values are preserved as null gaps.'
     metric_name: Compliance Voice Recording Pipeline Health
     zabbix_item_key: Compliance Voice Recording Pipeline Health
-    source_device: nawari-rec-01
+    source_device: avaya-cms-01
     source_ip: 10.2.156.42
     collection_mechanism: API / TRAP
     exact_identifier: Recording Service Ingestion Pipeline & Metadata Webhook
@@ -2388,7 +2388,7 @@ dashboards:
       outage, agent failure, or network disruption; values are preserved as null gaps.'
     metric_name: Ingestion Buffer Queue Depth
     zabbix_item_key: Ingestion Buffer Queue Depth
-    source_device: nawari-rec-01
+    source_device: avaya-cms-01
     source_ip: 10.2.156.42
     collection_mechanism: API / TRAP
     exact_identifier: Recording Service Ingestion Pipeline & Metadata Webhook
@@ -2409,7 +2409,7 @@ dashboards:
       agent failure, or network disruption; values are preserved as null gaps.'
     metric_name: Compliance Voice Recording Spool Free Storage
     zabbix_item_key: Compliance Voice Recording Spool Free Storage
-    source_device: nawari-rec-01
+    source_device: avaya-cms-01
     source_ip: 10.2.156.42
     collection_mechanism: SNMP
     exact_identifier: HOST-RESOURCES-MIB / UCD-SNMP `dskPercent`
@@ -2429,7 +2429,7 @@ dashboards:
       Missing data indicates collector outage, agent failure, or network disruption; values are preserved as null gaps.'
     metric_name: Projected Days-to-Full (Storage TTE)
     zabbix_item_key: Projected Days-to-Full (Storage TTE)
-    source_device: nawari-rec-01
+    source_device: avaya-cms-01
     source_ip: 10.2.156.42
     collection_mechanism: SNMP
     exact_identifier: HOST-RESOURCES-MIB / UCD-SNMP `dskPercent`
@@ -2449,7 +2449,7 @@ dashboards:
       failure, or network disruption; values are preserved as null gaps.'
     metric_name: Daily Archival Transfer Success Rate
     zabbix_item_key: Daily Archival Transfer Success Rate
-    source_device: nawari-rec-01
+    source_device: avaya-cms-01
     source_ip: 10.2.156.42
     collection_mechanism: API / TRAP
     exact_identifier: Recording Service Ingestion Pipeline & Metadata Webhook
@@ -3584,7 +3584,7 @@ dashboards:
       Missing data indicates collector outage, agent failure, or network disruption; values are preserved as null gaps.'
     metric_name: Voice MOS MBA
     zabbix_item_key: Voice MOS MBA
-    source_device: mon-asterisk01
+    source_device: nawari-voice-probe-01
     source_ip: 127.0.0.1
     collection_mechanism: SYNTHETIC_PROBE
     exact_identifier: Asterisk 20.x AMI / PJSIP Call Ladder Engine (`services/voice/`)
@@ -3834,7 +3834,7 @@ dashboards:
       network disruption; values are preserved as null gaps.
     metric_name: Post-Dial Delay (Safaricom Trunk)
     zabbix_item_key: Post-Dial Delay (Safaricom Trunk)
-    source_device: nawari-sbce-01
+    source_device: avaya-sbce-01
     source_ip: 10.2.156.131
     collection_mechanism: SNMP / TRAP
     exact_identifier: IF-MIB / Carrier Session Counter
@@ -4028,7 +4028,7 @@ dashboards:
       null gaps.'
     metric_name: ICMP Latency
     zabbix_item_key: ICMP Latency
-    source_device: nawari-cm-01
+    source_device: avaya-cm-01
     source_ip: 10.102.10.25
     collection_mechanism: SNMP
     exact_identifier: 1.3.6.1.2.1

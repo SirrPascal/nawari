@@ -1,151 +1,174 @@
 zabbix_export:
   version: '7.4'
   template_groups:
-    - uuid: a571017302484a0d8ea62287c24f6a9e
-      name: 'Templates/Applications'
-    - uuid: 12ce2490200743cc9dbb103ee2ece67e
-      name: 'Templates/Telephony'
+  - uuid: a571017302484a0d8ea62287c24f6a9e
+    name: Templates/Applications
+  - uuid: 12ce2490200743cc9dbb103ee2ece67e
+    name: Templates/Telephony
   templates:
-    - uuid: a1b2c3d4e5f6470dafc431b51c179601
-      template: 'Nawari Avaya CMS and WFO by Trapper'
-      name: 'Nawari Avaya CMS and WFO by Trapper'
-      description: |
-        Nawari Contact Centre (Avaya CMS) and Compliance Voice Recording (WFO) Assurance Template.
-        Monitors ACD queue service level attainment, agent skill split metrics, call recording pipeline health,
-        and recording buffer storage headroom.
-        Classification: CONFIGURED_UNVERIFIED (Phase 13.3 research baseline).
-        Boundary: Customer voice audio payload and sensitive recording content are strictly excluded from monitoring.
-      groups:
-        - name: 'Templates/Applications'
-        - name: 'Templates/Telephony'
-      items:
-        - uuid: a1b2c3d4e5f6470dafc431b51c179602
-          name: 'Contact Centre Queue Service Level Attainment'
-          type: TRAP
-          key: avaya.cms.sla_pct
-          delay: '0'
-          value_type: FLOAT
-          units: '%'
-          description: |
-            Percentage of inbound contact centre calls answered within SLA threshold (e.g. 20 seconds).
-            Ingested from Avaya CMS Informix database interval summary tables (hsplit/hvdn) via read-only ODBC.
-          tags:
-            - tag: component
-              value: contact-centre
-            - tag: provenance
-              value: CONFIGURED_UNVERIFIED
-          triggers:
-            - uuid: a1b2c3d4e5f6470dafc431b51c179612
-              expression: 'min(/Nawari Avaya CMS and WFO by Trapper/avaya.cms.sla_pct,30m)<80'
-              name: 'Avaya CMS: Queue Service Level Degradation (< 80%)'
-              priority: AVERAGE
-              description: 'Contact centre queue service level dropped below 80% SLA commitment for over 30 minutes.'
-              tags:
-                - tag: component
-                  value: contact-centre
-                - tag: scope
-                  value: performance
-            - uuid: a1b2c3d4e5f6470dafc431b51c179613
-              expression: 'nodata(/Nawari Avaya CMS and WFO by Trapper/avaya.cms.sla_pct,45m)=1'
-              name: 'Avaya CMS: Telemetry Data Stale (> 45m)'
-              priority: WARNING
-              description: 'No interval summary telemetry received from Avaya CMS database connector for over 45 minutes.'
-              tags:
-                - tag: component
-                  value: contact-centre
-                - tag: scope
-                  value: availability
+  - uuid: a1b2c3d4e5f6470dafc431b51c179601
+    template: Nawari Avaya CMS and WFO by Trapper
+    name: Nawari Avaya CMS and WFO by Trapper
+    description: 'Nawari Contact Centre (Avaya CMS) and Compliance Voice Recording
+      (WFO) Assurance Template.
 
-        - uuid: a1b2c3d4e5f6470dafc431b51c179603
-          name: 'Compliance Voice Recording Pipeline Health'
-          type: TRAP
-          key: wfo.recording.pipeline_status
-          delay: '0'
-          value_type: UNSIGNED
-          description: |
-            Operational status of compliance voice recording ingestion pipeline: 1 = Active/Recording, 0 = Ingestion Failure.
-          tags:
-            - tag: component
-              value: call-recording
-            - tag: provenance
-              value: CONFIGURED_UNVERIFIED
-          triggers:
-            - uuid: a1b2c3d4e5f6470dafc431b51c179614
-              expression: 'last(/Nawari Avaya CMS and WFO by Trapper/wfo.recording.pipeline_status)=0'
-              name: 'WFO: Compliance Voice Recording Pipeline Health Failure'
-              priority: HIGH
-              description: 'Compliance voice recording ingestion service has stopped recording calls. Regulatory compliance risk.'
-              tags:
-                - tag: component
-                  value: call-recording
-                - tag: scope
-                  value: availability
+      Monitors ACD queue service level attainment, agent skill split metrics, call
+      recording pipeline health,
 
-        - uuid: a1b2c3d4e5f6470dafc431b51c179604
-          name: 'Compliance Voice Recording Spool Free Storage'
-          type: TRAP
-          key: wfo.recording.disk_free_pct
-          delay: '0'
-          value_type: FLOAT
-          units: '%'
-          description: |
-            Percentage of free disk storage remaining on the compliance call recording media spool partition.
-          tags:
-            - tag: component
-              value: call-recording
-            - tag: provenance
-              value: CONFIGURED_UNVERIFIED
-          triggers:
-            - uuid: a1b2c3d4e5f6470dafc431b51c179615
-              expression: 'last(/Nawari Avaya CMS and WFO by Trapper/wfo.recording.disk_free_pct)<15'
-              name: 'WFO: Compliance Voice Recording Spool Disk Storage Warning (< 15%)'
-              priority: WARNING
-              description: 'Voice recording media storage volume has less than 15% free capacity remaining.'
-              tags:
-                - tag: component
-                  value: call-recording
-                - tag: scope
-                  value: capacity
+      and recording buffer storage headroom.
 
-        - uuid: a1b2c3d4e5f6470dafc431b51c179605
-          name: 'CMS Inbound Calls Offered'
-          type: TRAP
-          key: avaya.cms.calls_offered
-          delay: '0'
-          value_type: UNSIGNED
-          units: calls
-          description: 'Total ACD calls offered to monitored splits/skills in interval.'
-          tags:
-            - tag: component
-              value: contact-centre
-            - tag: provenance
-              value: CONFIGURED_UNVERIFIED
+      Classification: CONFIGURED_UNVERIFIED (Phase 13.3 research baseline).
 
-        - uuid: a1b2c3d4e5f6470dafc431b51c179606
-          name: 'CMS Inbound Calls Answered'
-          type: TRAP
-          key: avaya.cms.calls_answered
-          delay: '0'
-          value_type: UNSIGNED
-          units: calls
-          description: 'Total ACD calls answered by agents in interval.'
-          tags:
-            - tag: component
-              value: contact-centre
-            - tag: provenance
-              value: CONFIGURED_UNVERIFIED
+      Boundary: Customer voice audio payload and sensitive recording content are strictly
+      excluded from monitoring.
 
-        - uuid: a1b2c3d4e5f6470dafc431b51c179607
-          name: 'CMS Inbound Calls Abandoned'
-          type: TRAP
-          key: avaya.cms.calls_abandoned
-          delay: '0'
-          value_type: UNSIGNED
-          units: calls
-          description: 'Total ACD calls abandoned by callers before reaching an agent in interval.'
-          tags:
-            - tag: component
-              value: contact-centre
-            - tag: provenance
-              value: CONFIGURED_UNVERIFIED
+      '
+    groups:
+    - name: Templates/Applications
+    - name: Templates/Telephony
+    items:
+    - uuid: a1b2c3d4e5f6470dafc431b51c179602
+      name: Contact Centre Queue Service Level Attainment
+      type: TRAP
+      key: avaya.cms.sla_pct
+      delay: '0'
+      value_type: FLOAT
+      units: '%'
+      description: 'Percentage of inbound contact centre calls answered within SLA
+        threshold (e.g. 20 seconds).
 
+        Ingested from Avaya CMS Informix database interval summary tables (hsplit/hvdn)
+        via read-only ODBC.
+
+        '
+      tags:
+      - tag: component
+        value: contact-centre
+      - tag: provenance
+        value: CONFIGURED_UNVERIFIED
+      triggers:
+      - uuid: a1b2c3d4e5f6470dafc431b51c179612
+        expression: min(/Nawari Avaya CMS and WFO by Trapper/avaya.cms.sla_pct,30m)<80
+        name: 'Avaya CMS: Queue Service Level Degradation (< 80%)'
+        priority: AVERAGE
+        description: Contact centre queue service level dropped below 80% SLA commitment
+          for over 30 minutes.
+        tags:
+        - tag: component
+          value: contact-centre
+        - tag: scope
+          value: performance
+        - tag: notification_class
+          value: degradation
+      - uuid: a1b2c3d4e5f6470dafc431b51c179613
+        expression: nodata(/Nawari Avaya CMS and WFO by Trapper/avaya.cms.sla_pct,45m)=1
+        name: 'Avaya CMS: Telemetry Data Stale (> 45m)'
+        priority: WARNING
+        description: No interval summary telemetry received from Avaya CMS database
+          connector for over 45 minutes.
+        tags:
+        - tag: component
+          value: contact-centre
+        - tag: scope
+          value: availability
+        - tag: notification_class
+          value: degradation
+    - uuid: a1b2c3d4e5f6470dafc431b51c179603
+      name: Compliance Voice Recording Pipeline Health
+      type: TRAP
+      key: wfo.recording.pipeline_status
+      delay: '0'
+      value_type: UNSIGNED
+      description: 'Operational status of compliance voice recording ingestion pipeline:
+        1 = Active/Recording, 0 = Ingestion Failure.
+
+        '
+      tags:
+      - tag: component
+        value: call-recording
+      - tag: provenance
+        value: CONFIGURED_UNVERIFIED
+      triggers:
+      - uuid: a1b2c3d4e5f6470dafc431b51c179614
+        expression: last(/Nawari Avaya CMS and WFO by Trapper/wfo.recording.pipeline_status)=0
+        name: 'WFO: Compliance Voice Recording Pipeline Health Failure'
+        priority: HIGH
+        description: Compliance voice recording ingestion service has stopped recording
+          calls. Regulatory compliance risk.
+        tags:
+        - tag: component
+          value: call-recording
+        - tag: scope
+          value: availability
+        - tag: notification_class
+          value: service_outage
+    - uuid: a1b2c3d4e5f6470dafc431b51c179604
+      name: Compliance Voice Recording Spool Free Storage
+      type: TRAP
+      key: wfo.recording.disk_free_pct
+      delay: '0'
+      value_type: FLOAT
+      units: '%'
+      description: 'Percentage of free disk storage remaining on the compliance call
+        recording media spool partition.
+
+        '
+      tags:
+      - tag: component
+        value: call-recording
+      - tag: provenance
+        value: CONFIGURED_UNVERIFIED
+      triggers:
+      - uuid: a1b2c3d4e5f6470dafc431b51c179615
+        expression: last(/Nawari Avaya CMS and WFO by Trapper/wfo.recording.disk_free_pct)<15
+        name: 'WFO: Compliance Voice Recording Spool Disk Storage Warning (< 15%)'
+        priority: WARNING
+        description: Voice recording media storage volume has less than 15% free capacity
+          remaining.
+        tags:
+        - tag: component
+          value: call-recording
+        - tag: scope
+          value: capacity
+        - tag: notification_class
+          value: degradation
+    - uuid: a1b2c3d4e5f6470dafc431b51c179605
+      name: CMS Inbound Calls Offered
+      type: TRAP
+      key: avaya.cms.calls_offered
+      delay: '0'
+      value_type: UNSIGNED
+      units: calls
+      description: Total ACD calls offered to monitored splits/skills in interval.
+      tags:
+      - tag: component
+        value: contact-centre
+      - tag: provenance
+        value: CONFIGURED_UNVERIFIED
+    - uuid: a1b2c3d4e5f6470dafc431b51c179606
+      name: CMS Inbound Calls Answered
+      type: TRAP
+      key: avaya.cms.calls_answered
+      delay: '0'
+      value_type: UNSIGNED
+      units: calls
+      description: Total ACD calls answered by agents in interval.
+      tags:
+      - tag: component
+        value: contact-centre
+      - tag: provenance
+        value: CONFIGURED_UNVERIFIED
+    - uuid: a1b2c3d4e5f6470dafc431b51c179607
+      name: CMS Inbound Calls Abandoned
+      type: TRAP
+      key: avaya.cms.calls_abandoned
+      delay: '0'
+      value_type: UNSIGNED
+      units: calls
+      description: Total ACD calls abandoned by callers before reaching an agent in
+        interval.
+      tags:
+      - tag: component
+        value: contact-centre
+      - tag: provenance
+        value: CONFIGURED_UNVERIFIED

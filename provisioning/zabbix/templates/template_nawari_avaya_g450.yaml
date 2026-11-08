@@ -1,220 +1,271 @@
 zabbix_export:
   version: '7.4'
   template_groups:
-    - uuid: 36bff6c29af64692839d077febfc7079
-      name: 'Templates/Network devices'
-    - uuid: a571017302484a0d8ea62287c24f6a9e
-      name: 'Templates/Applications'
+  - uuid: 36bff6c29af64692839d077febfc7079
+    name: Templates/Network devices
+  - uuid: a571017302484a0d8ea62287c24f6a9e
+    name: Templates/Applications
   templates:
-    - uuid: e3c4d5e6f7a8470dafc431b51c179401
-      template: 'Nawari Avaya G450 Media Gateway by SNMP'
-      name: 'Nawari Avaya G450 Media Gateway by SNMP'
-      description: |
-        Nawari Avaya G450 Media Gateway Physical Telecommunications Appliance Template.
-        Monitors chassis environmental health, media module inventory (MM710/MM711/etc.), physical E1/ISDN trunk status,
-        Ethernet interface counters, and Communication Manager gateway registration.
-        Note: Exact DSP channel utilization requires physical release confirmation and is marked as uncollected pending hardware audit.
-      groups:
-        - name: 'Templates/Applications'
-        - name: 'Templates/Network devices'
-      items:
-        - uuid: e3c4d5e6f7a8470dafc431b51c179402
-          name: 'Chassis System Uptime'
-          type: SNMP_AGENT
-          snmp_oid: 1.3.6.1.2.1.1.3.0
-          key: system.uptime
-          delay: 1m
-          value_type: UNSIGNED
-          units: uptime
-          description: 'Operating time of the Avaya G450 chassis processor since last power cycle or reload.'
-          tags:
-            - tag: component
-              value: system
-            - tag: provenance
-              value: REAL_HARDWARE
-          triggers:
-            - uuid: e3c4d5e6f7a8470dafc431b51c179420
-              expression: 'nodata(/Nawari Avaya G450 Media Gateway by SNMP/system.uptime,10m)=1'
-              name: 'Avaya G450: Media Gateway Telemetry Missing (> 10m)'
-              priority: WARNING
-              description: 'No SNMP response received from G450 Media Gateway for over 10 minutes.'
-              tags:
-                - tag: component
-                  value: system
-                - tag: scope
-                  value: availability
+  - uuid: e3c4d5e6f7a8470dafc431b51c179401
+    template: Nawari Avaya G450 Media Gateway by SNMP
+    name: Nawari Avaya G450 Media Gateway by SNMP
+    description: 'Nawari Avaya G450 Media Gateway Physical Telecommunications Appliance
+      Template.
 
-        - uuid: e3c4d5e6f7a8470dafc431b51c179403
-          name: 'Gateway CM Registration State'
-          type: SNMP_AGENT
-          snmp_oid: 1.3.6.1.4.1.6889.2.69.2.1.4.1
-          key: avaya.g450.cm_registration_state
-          delay: 1m
-          value_type: UNSIGNED
-          description: |
-            Registration state of G450 Media Gateway with controlling Avaya Communication Manager.
-            1 = REGISTERED, 2 = UNREGISTERED, 3 = DISCOVERING.
-          tags:
-            - tag: component
-              value: registration
-            - tag: provenance
-              value: CONFIGURED_UNVERIFIED
-          triggers:
-            - uuid: e3c4d5e6f7a8470dafc431b51c179413
-              expression: 'last(/Nawari Avaya G450 Media Gateway by SNMP/avaya.g450.cm_registration_state)<>1'
-              name: 'Avaya G450: Media Gateway Unregistered from Communication Manager'
-              priority: HIGH
-              description: 'G450 Media Gateway is not registered with primary Communication Manager controller.'
+      Monitors chassis environmental health, media module inventory (MM710/MM711/etc.),
+      physical E1/ISDN trunk status,
 
-        - uuid: e3c4d5e6f7a8470dafc431b51c179404
-          name: 'Primary Power Supply Status'
-          type: TRAP
-          key: avaya.g450.psu.status.1
-          delay: '0'
-          value_type: UNSIGNED
-          description: |
-            Operational status of PSU 1: 1 = Normal, 2 = Fault/Failed, 3 = Not Installed.
-            Collection Mechanism: Ingested via G450 MGP SNMP traps (powerSupplyFailure / powerSupplyNormal) or CLI chassis parser.
-            Note: Event/trap-based monitoring path (Phase 13.2 audit correction).
-            Provenance: CONFIGURED_UNVERIFIED.
-          tags:
-            - tag: component
-              value: environment
-            - tag: provenance
-              value: CONFIGURED_UNVERIFIED
-          triggers:
-            - uuid: e3c4d5e6f7a8470dafc431b51c179421
-              expression: 'last(/Nawari Avaya G450 Media Gateway by SNMP/avaya.g450.psu.status.1)=2 or last(/Nawari Avaya G450 Media Gateway by SNMP/avaya.g450.psu.status.2)=2'
-              name: 'Avaya G450: Power Supply Unit Failure'
-              priority: DISASTER
-              description: 'Chassis power supply module reported failure event via G450 MGP trap.'
-              tags:
-                - tag: component
-                  value: environment
-                - tag: scope
-                  value: availability
+      Ethernet interface counters, and Communication Manager gateway registration.
 
-        - uuid: e3c4d5e6f7a8470dafc431b51c179405
-          name: 'Secondary Power Supply Status (Redundant)'
-          type: TRAP
-          key: avaya.g450.psu.status.2
-          delay: '0'
-          value_type: UNSIGNED
-          description: |
-            Operational status of redundant PSU 2: 1 = Normal, 2 = Fault/Failed, 3 = Not Installed.
-            Collection Mechanism: Ingested via G450 MGP SNMP traps (powerSupplyFailure / powerSupplyNormal) or CLI chassis parser.
-            Note: Event/trap-based monitoring path.
-            Provenance: CONFIGURED_UNVERIFIED.
-          tags:
-            - tag: component
-              value: environment
-            - tag: provenance
-              value: CONFIGURED_UNVERIFIED
+      Note: Exact DSP channel utilization requires physical release confirmation and
+      is marked as uncollected pending hardware audit.
 
-        - uuid: e3c4d5e6f7a8470dafc431b51c179406
-          name: 'Chassis Fan Tray State'
-          type: TRAP
-          key: avaya.g450.fan_tray.status
-          delay: '0'
-          value_type: UNSIGNED
-          description: |
-            Cooling fan tray operational state: 1 = Normal, 2 = Fan Failure, 3 = Warning.
-            Collection Mechanism: Ingested via G450 MGP SNMP trap (fanFailure) or CLI chassis status.
-            Note: Event/trap-based monitoring path.
-            Provenance: CONFIGURED_UNVERIFIED.
-          tags:
-            - tag: component
-              value: environment
-            - tag: provenance
-              value: CONFIGURED_UNVERIFIED
-          triggers:
-            - uuid: e3c4d5e6f7a8470dafc431b51c179422
-              expression: 'last(/Nawari Avaya G450 Media Gateway by SNMP/avaya.g450.fan_tray.status)=2'
-              name: 'Avaya G450: Fan Tray Failure'
-              priority: HIGH
-              description: 'G450 cooling fan tray assembly failure event reported.'
-              tags:
-                - tag: component
-                  value: environment
-                - tag: scope
-                  value: availability
+      '
+    groups:
+    - name: Templates/Applications
+    - name: Templates/Network devices
+    items:
+    - uuid: e3c4d5e6f7a8470dafc431b51c179402
+      name: Chassis System Uptime
+      type: SNMP_AGENT
+      snmp_oid: 1.3.6.1.2.1.1.3.0
+      key: system.uptime
+      delay: 1m
+      value_type: UNSIGNED
+      units: uptime
+      description: Operating time of the Avaya G450 chassis processor since last power
+        cycle or reload.
+      tags:
+      - tag: component
+        value: system
+      - tag: provenance
+        value: REAL_HARDWARE
+      triggers:
+      - uuid: e3c4d5e6f7a8470dafc431b51c179420
+        expression: nodata(/Nawari Avaya G450 Media Gateway by SNMP/system.uptime,10m)=1
+        name: 'Avaya G450: Media Gateway Telemetry Missing (> 10m)'
+        priority: WARNING
+        description: No SNMP response received from G450 Media Gateway for over 10
+          minutes.
+        tags:
+        - tag: component
+          value: system
+        - tag: scope
+          value: availability
+        - tag: notification_class
+          value: monitoring_failure
+    - uuid: e3c4d5e6f7a8470dafc431b51c179403
+      name: Gateway CM Registration State
+      type: SNMP_AGENT
+      snmp_oid: 1.3.6.1.4.1.6889.2.69.2.1.4.1
+      key: avaya.g450.cm_registration_state
+      delay: 1m
+      value_type: UNSIGNED
+      description: 'Registration state of G450 Media Gateway with controlling Avaya
+        Communication Manager.
 
-        - uuid: e3c4d5e6f7a8470dafc431b51c179407
-          name: 'Internal Chassis Temperature Alarm State'
-          type: TRAP
-          key: avaya.g450.temperature
-          delay: '0'
-          value_type: UNSIGNED
-          description: |
-            Event-derived chassis thermal alarm status:
-            0 = UNKNOWN (no trap received / initialized),
-            1 = CLEARED (Normal state via temperatureClear trap),
-            2 = WARNING (Ambient threshold exceeded via temperatureWarning trap).
-            Important: G450 MGP firmware does not expose a continuous analog temperature gauge or a separate critical trap state (Phase 13.3 MIB conformance).
-            Provenance: CONFIGURED_UNVERIFIED.
-          tags:
-            - tag: component
-              value: environment
-            - tag: provenance
-              value: CONFIGURED_UNVERIFIED
-          triggers:
-            - uuid: e3c4d5e6f7a8470dafc431b51c179417
-              expression: 'last(/Nawari Avaya G450 Media Gateway by SNMP/avaya.g450.temperature)=2'
-              name: 'Avaya G450: Chassis Ambient Temperature Threshold Exceeded (Warning)'
-              priority: HIGH
-              description: 'G450 Media Gateway ambient temperature threshold exceeded (temperatureWarning trap received).'
-              tags:
-                - tag: component
-                  value: environment
-                - tag: scope
-                  value: availability
+        1 = REGISTERED, 2 = UNREGISTERED, 3 = DISCOVERING.
 
-        - uuid: e3c4d5e6f7a8470dafc431b51c179408
-          name: 'E1/ISDN Primary Trunk Port Operational Status'
-          type: SNMP_AGENT
-          snmp_oid: 1.3.6.1.2.1.2.2.1.8.1
-          key: ifOperStatus.e1.1
-          delay: 1m
-          value_type: UNSIGNED
-          description: 'Operational link state of physical E1/PRI trunk port on MM710 media module (1 = Up, 2 = Down).'
-          tags:
-            - tag: component
-              value: pstn-trunk
-            - tag: provenance
-              value: REAL_HARDWARE
-          triggers:
-            - uuid: e3c4d5e6f7a8470dafc431b51c179423
-              expression: 'last(/Nawari Avaya G450 Media Gateway by SNMP/ifOperStatus.e1.1)=2'
-              name: 'Avaya G450: E1/ISDN Primary Trunk Port Down'
-              priority: HIGH
-              description: 'Operational link state of physical E1/PRI trunk port on MM710 is Down.'
-              tags:
-                - tag: component
-                  value: pstn-trunk
-                - tag: scope
-                  value: availability
+        '
+      tags:
+      - tag: component
+        value: registration
+      - tag: provenance
+        value: CONFIGURED_UNVERIFIED
+      triggers:
+      - uuid: e3c4d5e6f7a8470dafc431b51c179413
+        expression: last(/Nawari Avaya G450 Media Gateway by SNMP/avaya.g450.cm_registration_state)<>1
+        name: 'Avaya G450: Media Gateway Unregistered from Communication Manager'
+        priority: HIGH
+        description: G450 Media Gateway is not registered with primary Communication
+          Manager controller.
+        tags:
+        - tag: notification_class
+          value: service_outage
+    - uuid: e3c4d5e6f7a8470dafc431b51c179404
+      name: Primary Power Supply Status
+      type: TRAP
+      key: avaya.g450.psu.status.1
+      delay: '0'
+      value_type: UNSIGNED
+      description: 'Operational status of PSU 1: 1 = Normal, 2 = Fault/Failed, 3 =
+        Not Installed.
 
-        - uuid: e3c4d5e6f7a8470dafc431b51c179409
-          name: 'G450 ICMP Reachability'
-          type: SIMPLE
-          key: 'icmpping[10.2.156.60]'
-          delay: 1m
-          value_type: UNSIGNED
-          description: 'Network ICMP ping reachability to G450 Media Gateway management IP.'
-          tags:
-            - tag: component
-              value: infrastructure
-            - tag: provenance
-              value: REAL_ZABBIX
-          triggers:
-            - uuid: e3c4d5e6f7a8470dafc431b51c179424
-              expression: 'last(/Nawari Avaya G450 Media Gateway by SNMP/icmpping[10.2.156.60])=0'
-              name: 'Avaya G450: Media Gateway Chassis Unreachable'
-              priority: HIGH
-              description: 'G450 Media Gateway management IP is unresponsive to ICMP polling.'
-              tags:
-                - tag: component
-                  value: infrastructure
-                - tag: scope
-                  value: availability
+        Collection Mechanism: Ingested via G450 MGP SNMP traps (powerSupplyFailure
+        / powerSupplyNormal) or CLI chassis parser.
 
+        Note: Event/trap-based monitoring path (Phase 13.2 audit correction).
+
+        Provenance: CONFIGURED_UNVERIFIED.
+
+        '
+      tags:
+      - tag: component
+        value: environment
+      - tag: provenance
+        value: CONFIGURED_UNVERIFIED
+      triggers:
+      - uuid: e3c4d5e6f7a8470dafc431b51c179421
+        expression: last(/Nawari Avaya G450 Media Gateway by SNMP/avaya.g450.psu.status.1)=2
+          or last(/Nawari Avaya G450 Media Gateway by SNMP/avaya.g450.psu.status.2)=2
+        name: 'Avaya G450: Power Supply Unit Failure'
+        priority: DISASTER
+        description: Chassis power supply module reported failure event via G450 MGP
+          trap.
+        tags:
+        - tag: component
+          value: environment
+        - tag: scope
+          value: availability
+        - tag: notification_class
+          value: component_failure
+    - uuid: e3c4d5e6f7a8470dafc431b51c179405
+      name: Secondary Power Supply Status (Redundant)
+      type: TRAP
+      key: avaya.g450.psu.status.2
+      delay: '0'
+      value_type: UNSIGNED
+      description: 'Operational status of redundant PSU 2: 1 = Normal, 2 = Fault/Failed,
+        3 = Not Installed.
+
+        Collection Mechanism: Ingested via G450 MGP SNMP traps (powerSupplyFailure
+        / powerSupplyNormal) or CLI chassis parser.
+
+        Note: Event/trap-based monitoring path.
+
+        Provenance: CONFIGURED_UNVERIFIED.
+
+        '
+      tags:
+      - tag: component
+        value: environment
+      - tag: provenance
+        value: CONFIGURED_UNVERIFIED
+    - uuid: e3c4d5e6f7a8470dafc431b51c179406
+      name: Chassis Fan Tray State
+      type: TRAP
+      key: avaya.g450.fan_tray.status
+      delay: '0'
+      value_type: UNSIGNED
+      description: 'Cooling fan tray operational state: 1 = Normal, 2 = Fan Failure,
+        3 = Warning.
+
+        Collection Mechanism: Ingested via G450 MGP SNMP trap (fanFailure) or CLI
+        chassis status.
+
+        Note: Event/trap-based monitoring path.
+
+        Provenance: CONFIGURED_UNVERIFIED.
+
+        '
+      tags:
+      - tag: component
+        value: environment
+      - tag: provenance
+        value: CONFIGURED_UNVERIFIED
+      triggers:
+      - uuid: e3c4d5e6f7a8470dafc431b51c179422
+        expression: last(/Nawari Avaya G450 Media Gateway by SNMP/avaya.g450.fan_tray.status)=2
+        name: 'Avaya G450: Fan Tray Failure'
+        priority: HIGH
+        description: G450 cooling fan tray assembly failure event reported.
+        tags:
+        - tag: component
+          value: environment
+        - tag: scope
+          value: availability
+        - tag: notification_class
+          value: component_failure
+    - uuid: e3c4d5e6f7a8470dafc431b51c179407
+      name: Internal Chassis Temperature Alarm State
+      type: TRAP
+      key: avaya.g450.temperature
+      delay: '0'
+      value_type: UNSIGNED
+      description: 'Event-derived chassis thermal alarm status:
+
+        0 = UNKNOWN (no trap received / initialized),
+
+        1 = CLEARED (Normal state via temperatureClear trap),
+
+        2 = WARNING (Ambient threshold exceeded via temperatureWarning trap).
+
+        Important: G450 MGP firmware does not expose a continuous analog temperature
+        gauge or a separate critical trap state (Phase 13.3 MIB conformance).
+
+        Provenance: CONFIGURED_UNVERIFIED.
+
+        '
+      tags:
+      - tag: component
+        value: environment
+      - tag: provenance
+        value: CONFIGURED_UNVERIFIED
+      triggers:
+      - uuid: e3c4d5e6f7a8470dafc431b51c179417
+        expression: last(/Nawari Avaya G450 Media Gateway by SNMP/avaya.g450.temperature)=2
+        name: 'Avaya G450: Chassis Ambient Temperature Threshold Exceeded (Warning)'
+        priority: HIGH
+        description: G450 Media Gateway ambient temperature threshold exceeded (temperatureWarning
+          trap received).
+        tags:
+        - tag: component
+          value: environment
+        - tag: scope
+          value: availability
+        - tag: notification_class
+          value: component_failure
+    - uuid: e3c4d5e6f7a8470dafc431b51c179408
+      name: E1/ISDN Primary Trunk Port Operational Status
+      type: SNMP_AGENT
+      snmp_oid: 1.3.6.1.2.1.2.2.1.8.1
+      key: ifOperStatus.e1.1
+      delay: 1m
+      value_type: UNSIGNED
+      description: Operational link state of physical E1/PRI trunk port on MM710 media
+        module (1 = Up, 2 = Down).
+      tags:
+      - tag: component
+        value: pstn-trunk
+      - tag: provenance
+        value: REAL_HARDWARE
+      triggers:
+      - uuid: e3c4d5e6f7a8470dafc431b51c179423
+        expression: last(/Nawari Avaya G450 Media Gateway by SNMP/ifOperStatus.e1.1)=2
+        name: 'Avaya G450: E1/ISDN Primary Trunk Port Down'
+        priority: HIGH
+        description: Operational link state of physical E1/PRI trunk port on MM710
+          is Down.
+        tags:
+        - tag: component
+          value: pstn-trunk
+        - tag: scope
+          value: availability
+        - tag: notification_class
+          value: component_failure
+    - uuid: e3c4d5e6f7a8470dafc431b51c179409
+      name: G450 ICMP Reachability
+      type: SIMPLE
+      key: icmpping[10.2.156.60]
+      delay: 1m
+      value_type: UNSIGNED
+      description: Network ICMP ping reachability to G450 Media Gateway management
+        IP.
+      tags:
+      - tag: component
+        value: infrastructure
+      - tag: provenance
+        value: REAL_ZABBIX
+      triggers:
+      - uuid: e3c4d5e6f7a8470dafc431b51c179424
+        expression: last(/Nawari Avaya G450 Media Gateway by SNMP/icmpping[10.2.156.60])=0
+        name: 'Avaya G450: Media Gateway Chassis Unreachable'
+        priority: HIGH
+        description: G450 Media Gateway management IP is unresponsive to ICMP polling.
+        tags:
+        - tag: component
+          value: infrastructure
+        - tag: scope
+          value: availability
+        - tag: notification_class
+          value: total_outage

@@ -1,5 +1,5 @@
 catalogue_version: 1.0.0
-generated_at: '2026-11-08T13:07:45.924411+00:00'
+generated_at: '2026-11-08T14:24:36.253181+00:00'
 nawari_architecture_version: Phase 13.1 Enterprise Observability
 integrity_standards:
   null_handling_policy: 'Preserve as NULL / Gaps (spanNulls: False). Coercing NULL

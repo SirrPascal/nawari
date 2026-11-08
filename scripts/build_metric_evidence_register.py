@@ -97,7 +97,7 @@ def classify_panel_evidence(dash_file: Path, panel: dict) -> dict:
         nature = "NOT_YET_COLLECTED"
         evidence = "Avaya G450 Hardware Installation Guide & Media Module Architecture"
         status = "NOT_COLLECTED"
-        device = "nawari-g450-01"
+        device = "avaya-g450-01"
         ip = "10.2.156.60"
 
     # 3. Synthetic Probes (Asterisk AMI)
@@ -112,13 +112,13 @@ def classify_panel_evidence(dash_file: Path, panel: dict) -> dict:
         nature = "SYNTHETIC"
         evidence = "`services/voice/runner.py`, `tests/unit/test_sip_transaction_engine.py`"
         status = "SIMULATED"
-        device = "mon-asterisk01"
+        device = "nawari-voice-probe-01"
         ip = "127.0.0.1"
 
     # 4. Avaya Communication Manager (CM 8.1)
     elif "Communication Manager" in dash_file.name or "CM" in title or any("avaya.cm" in str(t) for t in targets):
         product = "Avaya Aura Communication Manager 8.1.0"
-        device = "nawari-cm-01"
+        device = "avaya-cm-01"
         ip = "10.102.10.25"
         nature = "REAL"
         if "Alarm" in title or "Active Alarms" in primary_item:
@@ -161,7 +161,7 @@ def classify_panel_evidence(dash_file: Path, panel: dict) -> dict:
     # 5. Avaya Session Manager (ASM 8.1)
     elif "session_manager" in dash_file.name or "Session Manager" in title or "SM" in title:
         product = "Avaya Aura Session Manager 8.1.3"
-        device = "nawari-sm-01"
+        device = "avaya-sm-01"
         ip = "10.2.156.22"
         if "SIP Entity State" in title or "sip_entity.status" in primary_item:
             mech = "TRAP / API"
@@ -208,7 +208,7 @@ def classify_panel_evidence(dash_file: Path, panel: dict) -> dict:
     # 6. Avaya G450 Media Gateway
     elif "g450" in dash_file.name or "G450" in title:
         product = "Avaya G450 Media Gateway (MGP 41.x)"
-        device = "nawari-g450-01"
+        device = "avaya-g450-01"
         ip = "10.2.156.60"
         if "CM Gateway Registration" in title:
             mech = "SNMP / TRAP"
@@ -264,7 +264,7 @@ def classify_panel_evidence(dash_file: Path, panel: dict) -> dict:
     # 7. Avaya SBCE 8.1
     elif "sbce" in dash_file.name or "SBCE" in title or "A1" in title or "B1" in title:
         product = "Avaya SBCE 8.1.x"
-        device = "nawari-sbce-01"
+        device = "avaya-sbce-01"
         ip = "10.2.156.131"
         if "Active SIP" in title or "Registrations" in title or "SRTP" in title or "Direct-Media" in title or "License" in title:
             mech = "TRAP / API"
@@ -291,7 +291,7 @@ def classify_panel_evidence(dash_file: Path, panel: dict) -> dict:
     # 8. Avaya CMS Contact Centre
     elif "cms" in dash_file.name or "Contact Centre" in title:
         product = "Avaya CMS (R19 / R20 candidate)"
-        device = "nawari-cms-01"
+        device = "avaya-cms-01"
         ip = "10.2.156.40"
         if "Server" in title or "CPU" in title or "RAM" in title:
             mech = "SNMP"
@@ -317,7 +317,7 @@ def classify_panel_evidence(dash_file: Path, panel: dict) -> dict:
     # 9. Recording / WFO Health
     elif "recording" in dash_file.name or "WFO" in title:
         product = "Enterprise Voice Recording Cluster (Vendor TBD)"
-        device = "nawari-rec-01"
+        device = "avaya-cms-01"
         ip = "10.2.156.42"
         if "Storage" in title or "Disk" in title:
             mech = "SNMP"
@@ -343,7 +343,7 @@ def classify_panel_evidence(dash_file: Path, panel: dict) -> dict:
     # 10. Carrier SIP Trunks
     elif "sip_trunks" in dash_file.name or "Carrier" in title or "Trunk" in title:
         product = "Carrier SIP Interconnects (Safaricom / Airtel / Liquid / BT / Orange)"
-        device = "nawari-sbce-01"
+        device = "avaya-sbce-01"
         ip = "10.2.156.131"
         if "OPTIONS Round-Trip" in title:
             mech = "SIP_PROBE"

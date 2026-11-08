@@ -1,0 +1,87 @@
+# ==============================================================================
+# NAWARI — Total Outage Alert Action Specification
+# Delivered to all 5 recipients (4 communication admins + IT Service Desk)
+# ==============================================================================
+zabbix_export:
+  version: '7.4'
+  actions:
+    - name: 'Total Outage Alert'
+      events_source: TRIGGERS
+      status: ENABLED
+      esc_period: 30m
+      pause_suppressed: 'YES'
+      notify_if_canceled: 'YES'
+      filter:
+        evaltype: AND_OR
+        conditions:
+          - conditiontype: EVENT_TAG_VALUE
+            operator: EQUAL
+            value2: 'notification_class'
+            value: 'total_outage'
+      operations:
+        - operationtype: MESSAGE
+          esc_step_from: 1
+          esc_step_to: 1
+          user_groups:
+            - name: 'Nawari Total Outage Recipients'
+          message:
+            default_message: 'NO'
+            subject: '[TOTAL OUTAGE] — {HOST.NAME} — {EVENT.NAME}'
+            message: |
+              A total outage has been identified affecting the following device or service.
+
+              Affected Device/Service: {HOST.NAME}
+              Issue: {EVENT.NAME}
+              Severity: {EVENT.SEVERITY}
+              Outage Start: {EVENT.DATE} {EVENT.TIME}
+              Details: {EVENT.OPDATA}
+              Status: OUTAGE IN PROGRESS
+
+              The affected device or service is currently unavailable. Please investigate and take the necessary action to restore normal operations.
+
+              A further notification will be issued once service has been restored.
+        - operationtype: MESSAGE
+          esc_step_from: 2
+          esc_step_to: 0
+          esc_period: 1800s
+          user_groups:
+            - name: 'Nawari Total Outage Recipients'
+          message:
+            default_message: 'NO'
+            subject: '[TOTAL OUTAGE ESCALATION] — {HOST.NAME} — {EVENT.NAME} — Duration: {EVENT.AGE}'
+            message: |
+              An unresolved total outage continues to affect the following device or service.
+
+              Affected Device/Service: {HOST.NAME}
+              Issue: {EVENT.NAME}
+              Severity: {EVENT.SEVERITY}
+              Outage Start: {EVENT.DATE} {EVENT.TIME}
+              Current Duration: {EVENT.AGE}
+              Details: {EVENT.OPDATA}
+              Status: OUTAGE UNRESOLVED (ESCALATION)
+
+              The affected device or service remains unavailable. Please escalate immediately to the designated duty manager.
+      recovery_operations:
+        - operationtype: RECOVERY_MESSAGE
+          message:
+            default_message: 'NO'
+            subject: '[RECOVERED] — {HOST.NAME} — Total Downtime: {EVENT.DURATION}'
+            message: |
+              The previously reported outage affecting the following device or service has been resolved.
+
+              Affected Device/Service: {HOST.NAME}
+              Original Issue: {EVENT.NAME}
+              Severity: {EVENT.SEVERITY}
+              Outage Start: {EVENT.DATE} {EVENT.TIME}
+              Recovery Time: {EVENT.RECOVERY.DATE} {EVENT.RECOVERY.TIME}
+              Total Downtime: {EVENT.DURATION}
+              Status: RECOVERED
+
+              The affected device or service is responding again and has returned to an operational state.
+
+              Please review the incident and establish the underlying cause where necessary.
+      update_operations:
+        - operationtype: UPDATE_MESSAGE
+          message:
+            default_message: 'YES'
+

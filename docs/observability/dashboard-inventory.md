@@ -1,6 +1,6 @@
 # Nawari Enterprise Observability — Operational Dashboard & Metric Catalogue
 
-**Generated:** `2026-11-08T13:07:45.924411+00:00`  
+**Generated:** `2026-11-08T14:24:36.253181+00:00`  
 **Standard:** Nawari Phase 13.1 Telemetry Integrity & Operational Separation  
 **Target Environment:** Kenya Airways Ground Network & Global Outstation Fleet  
 

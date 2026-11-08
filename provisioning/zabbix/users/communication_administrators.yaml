@@ -74,4 +74,3 @@ users:
         active: 0 # Enabled
         severity: 63
         period: "1-7,00:00-24:00"
-
