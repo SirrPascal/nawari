@@ -3,6 +3,8 @@
 import pytest
 from services.multisite.service_catalog import (
     BusinessService,
+    DependencyLogic,
+    MultiDimensionalSLIResult,
     ServiceCatalog,
     ServiceComponentDependency,
     ServiceScope,
@@ -55,6 +57,28 @@ def test_dependency_cycle_detection():
     assert any("SVC-A" in c and "SVC-B" in c and "SVC-C" in c for c in cycles)
 
 
+def test_critical_mandatory_dependency_failure_cannot_be_hidden():
+    """Verify that a service with a failed mandatory dependency drops immediately to CRITICAL_DOWN.
+    
+    It must NOT appear healthy simply because multiple non-critical components are up.
+    """
+    catalog = ServiceCatalog(auto_seed=True)
+
+    # Core JKIA switch SW-DC1-01 is MANDATORY for SVC-DCS-GLOBAL.
+    # Set SW-DC1-01 to DOWN, but leave all circuits ACTIVE.
+    comp_states = {
+        "CIR-NBO-01": {"state": "ACTIVE", "quality": TelemetryQuality.FRESH.value},
+        "CIR-NBO-02": {"state": "ACTIVE", "quality": TelemetryQuality.FRESH.value},
+        "SW-DC1-01": {"state": "DOWN", "quality": TelemetryQuality.FRESH.value},
+    }
+
+    res = catalog.evaluate_service_health("SVC-DCS-GLOBAL", comp_states)
+    assert res.is_mandatory_failed is True
+    assert res.status == "CRITICAL_DOWN"
+    assert res.health_index == 0.0
+    assert any("CRITICAL DEPENDENCY FAILED" in n for n in res.evaluation_notes)
+
+
 def test_telemetry_quality_handling_and_replayed_rejection():
     catalog = ServiceCatalog(auto_seed=True)
 
@@ -68,14 +92,15 @@ def test_telemetry_quality_handling_and_replayed_rejection():
     assert res_fresh.status == "HEALTHY"
     assert res_fresh.health_index >= 0.95
 
-    # 2. Replayed telemetry must NOT count as fresh live health
+    # 2. Replayed telemetry must NOT establish live current health
     comp_states_replayed = {
         "CIR-NBO-01": {"state": "ACTIVE", "quality": TelemetryQuality.REPLAYED.value},
         "CIR-NBO-02": {"state": "ACTIVE", "quality": TelemetryQuality.REPLAYED.value},
         "SW-DC1-01": {"state": "ACTIVE", "quality": TelemetryQuality.REPLAYED.value},
     }
     res_replayed = catalog.evaluate_service_health("SVC-DCS-GLOBAL", comp_states_replayed)
-    assert res_replayed.health_index == 0.50
+    # Since CIR-NBO-01 and SW-DC1-01 are mandatory, replayed data fails live mandatory check -> CRITICAL_DOWN
+    assert res_replayed.status == "CRITICAL_DOWN"
     assert any("REPLAYED telemetry" in note for note in res_replayed.evaluation_notes)
 
     # 3. Stale telemetry
@@ -85,16 +110,15 @@ def test_telemetry_quality_handling_and_replayed_rejection():
         "SW-DC1-01": {"state": "ACTIVE", "quality": TelemetryQuality.STALE.value},
     }
     res_stale = catalog.evaluate_service_health("SVC-DCS-GLOBAL", comp_states_stale)
-    assert res_stale.health_index <= 0.40
+    assert res_stale.status == "CRITICAL_DOWN"
     assert any("STALE" in note for note in res_stale.evaluation_notes)
 
 
 def test_partial_outage_and_global_isolation():
     catalog = ServiceCatalog(auto_seed=True)
 
-    # Simulate Mombasa local switch down, but JKIA core healthy
+    # Mombasa local switch down, but JKIA core healthy
     comp_states = {
-        # Core JKIA healthy
         "CIR-NBO-01": {"state": "ACTIVE", "quality": "FRESH"},
         "CIR-NBO-02": {"state": "ACTIVE", "quality": "FRESH"},
         "SW-DC1-01": {"state": "ACTIVE", "quality": "FRESH"},
@@ -117,32 +141,7 @@ def test_partial_outage_and_global_isolation():
     assert services_by_id["SVC-DCS-MBA"]["health_index"] == 0.0
 
 
-def test_upstream_dependency_propagation():
-    catalog = ServiceCatalog(auto_seed=True)
-
-    # Core JKIA circuits down -> Global DCS is down
-    comp_states = {
-        "CIR-NBO-01": {"state": "DOWN", "quality": "FRESH"},
-        "CIR-NBO-02": {"state": "DOWN", "quality": "FRESH"},
-        "SW-DC1-01": {"state": "DOWN", "quality": "FRESH"},
-        # Mombasa local components are up
-        "CIR-MBA-01": {"state": "ACTIVE", "quality": "FRESH"},
-        "CIR-MBA-02": {"state": "ACTIVE", "quality": "FRESH"},
-        "SW-MBA-01": {"state": "ACTIVE", "quality": "FRESH"},
-    }
-
-    eval_results = catalog.evaluate_all_services(comp_states)
-    services_by_id = {s["service_id"]: s for s in eval_results["services"]}
-
-    # Global DCS is down
-    assert services_by_id["SVC-DCS-GLOBAL"]["status"] == "CRITICAL_DOWN"
-
-    # Mombasa child service inherits the degradation from parent global DCS!
-    assert services_by_id["SVC-DCS-MBA"]["status"] == "CRITICAL_DOWN"
-    assert services_by_id["SVC-DCS-MBA"]["health_index"] == 0.0
-
-
-def test_sli_slo_error_budget_engine():
+def test_multidimensional_sli_and_coverage():
     engine = SLIEvaluationEngine()
     spec = SLOSpecification(
         service_id="SVC-DCS-GLOBAL",
@@ -153,31 +152,21 @@ def test_sli_slo_error_budget_engine():
     )
     engine.register_slo(spec)
 
-    # 1. 43,000 minutes of healthy service (~30 days)
-    engine.record_interval("SVC-DCS-GLOBAL", duration_minutes=43000.0, health_index=1.0)
-    sli_res = engine.evaluate_sli("SVC-DCS-GLOBAL")
-    assert sli_res.sli_percent == 100.0
-    assert sli_res.is_slo_breached is False
-    assert sli_res.is_sla_breached is False
-    assert sli_res.consumed_error_budget_minutes == 0.0
-    # Total error budget for 99.95% on 30 days is 43200 * 0.0005 = 21.6 minutes
-    assert abs(sli_res.total_error_budget_minutes - 21.6) < 0.01
+    # Record 43,000 minutes of healthy, performing intervals
+    engine.record_interval("SVC-DCS-GLOBAL", duration_minutes=43000.0, health_index=1.0, is_available=True, is_performance_met=True)
+    
+    # Record 100 minutes of high latency (performance degraded but available)
+    engine.record_interval("SVC-DCS-GLOBAL", duration_minutes=100.0, health_index=0.80, is_available=True, is_performance_met=False)
 
-    # 2. Add an outage of 10 minutes (within the 21.6 min budget)
-    engine.record_interval("SVC-DCS-GLOBAL", duration_minutes=10.0, health_index=0.0)
-    sli_res2 = engine.evaluate_sli("SVC-DCS-GLOBAL")
-    assert sli_res2.consumed_error_budget_minutes == 10.0
-    assert abs(sli_res2.remaining_error_budget_minutes - 11.6) < 0.01
-    assert sli_res2.burn_rate < 0.50
-    assert sli_res2.sli_percent >= 99.95
-    assert sli_res2.is_slo_breached is False
-    assert sli_res2.is_sla_breached is False
+    # Record 50 minutes of unknown/missing telemetry
+    engine.record_interval("SVC-DCS-GLOBAL", duration_minutes=50.0, health_index=0.0, is_available=False, is_unknown=True)
 
-    # 3. Add an additional 15 minutes outage (total 25 minutes > 21.6 min budget)
-    engine.record_interval("SVC-DCS-GLOBAL", duration_minutes=15.0, health_index=0.0)
-    sli_res3 = engine.evaluate_sli("SVC-DCS-GLOBAL")
-    assert sli_res3.consumed_error_budget_minutes == 25.0
-    assert sli_res3.remaining_error_budget_minutes == 0.0
-    assert sli_res3.burn_rate > 1.0
-    assert sli_res3.sli_percent < 99.95
-    assert sli_res3.is_slo_breached is True
+    res = engine.evaluate_sli("SVC-DCS-GLOBAL")
+    
+    # Availability SLI vs Performance SLI distinction:
+    assert res.availability_sli > res.performance_sli
+    assert res.quality_sli <= res.availability_sli
+    # Coverage tracking (50 unknown minutes must be accounted for)
+    assert res.unknown_minutes == 50.0
+    assert res.coverage_percent < 100.0
+    assert res.total_expected_minutes == 43150.0

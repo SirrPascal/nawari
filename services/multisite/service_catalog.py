@@ -1,12 +1,22 @@
-"""Aviation Business Service Catalogue and SLI/SLO Assurance Engine.
+"""Aviation Business Service Catalogue and Multi-Dimensional SLI/SLO Assurance Engine.
 
 Implements the Kenya Airways Business Service Catalogue with:
 1. Reusable Service Dependency Directed Acyclic Graphs (DAGs) with cycle detection.
-2. Global vs Station-Local service health isolation.
-3. Telemetry state evaluation: ACTIVE, DEGRADED, DOWN, STALE, MISSING, UNSUPPORTED, REPLAYED.
-   (Replayed historical telemetry is strictly prohibited from being counted as fresh live health).
-4. Evidence and provenance for every service-health result.
-5. Decoupled SLI measurement and Error Budget evaluation engine.
+2. Explicit Dependency Semantics:
+   - MANDATORY / AND: If any mandatory dependency fails, service drops immediately to CRITICAL_DOWN.
+   - OR: Service remains healthy as long as at least one redundant component is UP.
+   - QUORUM: Service requires at least K of N components to be UP.
+   - WEIGHTED: Component contributions are evaluated proportionally.
+3. Multi-Dimensional SLI Measurement (Decoupled from SLA/SLO configuration):
+   - Availability SLI: Proportion of valid operational intervals where service is available.
+   - Performance SLI: Proportion meeting latency / throughput objectives.
+   - Quality SLI: Proportion meeting composite service quality criteria.
+   - Coverage: Proportion of expected intervals with trustworthy fresh measurements.
+   - Missing and stale telemetry are tracked explicitly as UNKNOWN and never inflate availability.
+4. Strict Replayed Telemetry Isolation:
+   - Historical replayed telemetry is assigned replay provenance and recorded for retrospective analysis.
+   - Replayed telemetry is strictly prohibited from establishing current health or proving recovery.
+   - Newer live observations are never overwritten by older replayed data.
 """
 
 from __future__ import annotations
@@ -31,13 +41,21 @@ class ServiceScope(str, Enum):
     STATION_LOCAL = "STATION_LOCAL" # Delivery at a specific airport/station
 
 
+class DependencyLogic(str, Enum):
+    """Evaluation logic for a service's underlying component dependencies."""
+    MANDATORY_AND = "MANDATORY_AND"  # All mandatory dependencies must be UP
+    OR_REDUNDANT = "OR_REDUNDANT"    # At least one component must be UP
+    QUORUM = "QUORUM"                # At least K of N components must be UP
+    WEIGHTED = "WEIGHTED"            # Proportional weighted sum
+
+
 class TelemetryQuality(str, Enum):
     """Quality and freshness classification of incoming component telemetry."""
     FRESH = "FRESH"
     STALE = "STALE"
     MISSING = "MISSING"
     UNSUPPORTED = "UNSUPPORTED"
-    REPLAYED = "REPLAYED"  # Historical replayed data; cannot count as fresh live health
+    REPLAYED = "REPLAYED"  # Historical replayed data; cannot establish live current health
 
 
 @dataclass
@@ -45,6 +63,7 @@ class ServiceComponentDependency:
     """Underlying infrastructure dependency of a business service."""
     component_id: str
     component_type: str  # SWITCH, ROUTER, CIRCUIT, SERVER, SIP_TRUNK, GATEWAY
+    is_mandatory: bool = True  # If mandatory and down, service is down regardless of others
     weight: float = 1.0
     is_redundant: bool = False
     station_id: Optional[str] = None  # None if global core component
@@ -60,6 +79,7 @@ class ServiceHealthResult:
     station_id: Optional[str]
     health_index: float  # 0.0 to 1.0
     status: str          # HEALTHY, DEGRADED, CRITICAL_DOWN, UNKNOWN
+    is_mandatory_failed: bool
     component_evidence: Dict[str, Dict[str, Any]]
     evaluation_notes: List[str]
     provenance_timestamp: str = field(default_factory=lambda: datetime.now(timezone.utc).isoformat())
@@ -73,6 +93,7 @@ class ServiceHealthResult:
             "station_id": self.station_id,
             "health_index": round(self.health_index, 2),
             "status": self.status,
+            "is_mandatory_failed": self.is_mandatory_failed,
             "component_evidence": self.component_evidence,
             "evaluation_notes": self.evaluation_notes,
             "provenance_timestamp": self.provenance_timestamp,
@@ -87,10 +108,12 @@ class BusinessService:
     tier: ServiceTier
     scope: ServiceScope
     description: str
+    dependency_logic: DependencyLogic = DependencyLogic.MANDATORY_AND
+    quorum_count: int = 1
     station_id: Optional[str] = None  # Specific station if scope is STATION_LOCAL
     dependencies: List[ServiceComponentDependency] = field(default_factory=list)
     parent_services: List[str] = field(default_factory=list)  # Upstream service dependencies
-    proposed_design_slo: float = 99.95  # Proposed design value, not confirmed contractual SLA
+    proposed_design_slo: float = 99.95  # Proposed design target, NOT contractual SLA
     uuid_str: str = field(default_factory=lambda: str(uuid.uuid4()))
 
     def to_dict(self) -> Dict[str, Any]:
@@ -102,6 +125,7 @@ class BusinessService:
             "scope": self.scope.value,
             "station_id": self.station_id,
             "description": self.description,
+            "dependency_logic": self.dependency_logic.value,
             "proposed_design_slo": self.proposed_design_slo,
             "dependency_count": len(self.dependencies),
             "parent_services": self.parent_services,
@@ -162,18 +186,7 @@ class ServiceCatalog:
         component_states: Dict[str, Dict[str, Any]],
         upstream_service_health: Optional[Dict[str, float]] = None,
     ) -> ServiceHealthResult:
-        """Evaluate operational health of a business service with detailed evidence.
-        
-        component_states is a dict:
-        {
-            "component_id": {
-                "state": "ACTIVE" | "DEGRADED" | "DOWN" | "MAINTENANCE",
-                "quality": "FRESH" | "STALE" | "MISSING" | "UNSUPPORTED" | "REPLAYED",
-                "timestamp": iso_str,
-                "latency_ms": 10.5
-            }
-        }
-        """
+        """Evaluate operational health of a business service with dependency logic and telemetry safeguards."""
         service = self.get_service(service_id)
         if not service:
             return ServiceHealthResult(
@@ -184,14 +197,18 @@ class ServiceCatalog:
                 station_id=None,
                 health_index=0.0,
                 status="UNKNOWN",
+                is_mandatory_failed=False,
                 component_evidence={},
                 evaluation_notes=[f"Service '{service_id}' not found in catalog."],
             )
 
         notes: List[str] = []
         evidence: Dict[str, Dict[str, Any]] = {}
+        mandatory_failure = False
+        up_count = 0
         total_weight = 0.0
         weighted_sum = 0.0
+        has_unknown = False
 
         for dep in service.dependencies:
             comp_info = component_states.get(dep.component_id, {
@@ -202,33 +219,54 @@ class ServiceCatalog:
             quality = str(comp_info.get("quality", TelemetryQuality.FRESH.value)).upper()
 
             # Telemetry Quality Safeguards:
-            # Replayed telemetry cannot count as fresh live health
+            # Replayed telemetry cannot establish current live health!
             if quality == TelemetryQuality.REPLAYED.value:
-                state_val = 0.5  # Replayed telemetry is informational; cannot confirm current live state
-                notes.append(f"Component '{dep.component_id}' has REPLAYED telemetry; not counted as fresh live health.")
+                state_val = 0.0
+                is_up = False
+                has_unknown = True
+                notes.append(f"Component '{dep.component_id}' has REPLAYED telemetry; strictly excluded from live health.")
             elif quality == TelemetryQuality.STALE.value:
-                state_val = 0.4
+                state_val = 0.2
+                is_up = False
+                has_unknown = True
                 notes.append(f"Component '{dep.component_id}' telemetry is STALE.")
             elif quality == TelemetryQuality.MISSING.value:
                 state_val = 0.0
+                is_up = False
+                has_unknown = True
                 notes.append(f"Component '{dep.component_id}' telemetry is MISSING.")
             elif quality == TelemetryQuality.UNSUPPORTED.value:
-                state_val = 0.2
+                state_val = 0.0
+                is_up = False
+                has_unknown = True
                 notes.append(f"Component '{dep.component_id}' metric is UNSUPPORTED.")
             else:
                 # Fresh telemetry evaluation
                 if state in ("ACTIVE", "HEALTHY", "UP"):
                     state_val = 1.0
+                    is_up = True
                 elif state in ("DEGRADED", "FAILOVER", "FAILOVER_ACTIVE"):
                     state_val = 0.5
+                    is_up = True
                 elif state in ("MAINTENANCE",):
-                    state_val = 1.0  # Excluded from penalty (tracked under maintenance)
+                    state_val = 1.0
+                    is_up = True
                 else:
                     state_val = 0.0
+                    is_up = False
+
+            if is_up:
+                up_count += 1
+
+            # Check Mandatory / Critical Dependency Failure
+            if dep.is_mandatory and not is_up:
+                mandatory_failure = True
+                notes.append(f"CRITICAL DEPENDENCY FAILED: Mandatory component '{dep.component_id}' is {state} ({quality}).")
 
             evidence[dep.component_id] = {
                 "observed_state": state,
                 "telemetry_quality": quality,
+                "is_mandatory": dep.is_mandatory,
                 "weight": dep.weight,
                 "effective_value": state_val,
                 "is_redundant": dep.is_redundant,
@@ -238,7 +276,25 @@ class ServiceCatalog:
             weighted_sum += dep.weight * state_val
             total_weight += dep.weight
 
-        base_health = (weighted_sum / total_weight) if total_weight > 0 else 1.0
+        # Apply Dependency Semantics
+        if mandatory_failure and service.dependency_logic == DependencyLogic.MANDATORY_AND:
+            base_health = 0.0
+            status = "CRITICAL_DOWN"
+        elif service.dependency_logic == DependencyLogic.OR_REDUNDANT:
+            base_health = 1.0 if up_count >= 1 else 0.0
+            status = "HEALTHY" if up_count >= 1 else "CRITICAL_DOWN"
+        elif service.dependency_logic == DependencyLogic.QUORUM:
+            base_health = 1.0 if up_count >= service.quorum_count else 0.0
+            status = "HEALTHY" if up_count >= service.quorum_count else "CRITICAL_DOWN"
+        else:
+            # Weighted logic
+            base_health = (weighted_sum / total_weight) if total_weight > 0 else 1.0
+            if base_health >= 0.85:
+                status = "HEALTHY"
+            elif base_health >= 0.40:
+                status = "DEGRADED"
+            else:
+                status = "CRITICAL_DOWN"
 
         # Upstream service dependency propagation:
         if service.parent_services and upstream_service_health:
@@ -247,15 +303,14 @@ class ServiceCatalog:
                 if parent_h < 0.85:
                     notes.append(f"Upstream service '{parent_id}' degraded (health={parent_h}); propagating to child service.")
                     base_health = min(base_health, parent_h)
+                    if base_health < 0.40:
+                        status = "CRITICAL_DOWN"
+                    elif base_health < 0.85:
+                        status = "DEGRADED"
 
-        health_index = max(0.0, min(1.0, base_health))
-
-        if health_index >= 0.85:
-            status = "HEALTHY"
-        elif health_index >= 0.40:
+        if has_unknown and status == "HEALTHY":
             status = "DEGRADED"
-        else:
-            status = "CRITICAL_DOWN"
+            notes.append("Service downgraded to DEGRADED due to unconfirmed / missing component telemetry.")
 
         return ServiceHealthResult(
             service_id=service.service_id,
@@ -263,8 +318,9 @@ class ServiceCatalog:
             tier=service.tier,
             scope=service.scope,
             station_id=service.station_id,
-            health_index=round(health_index, 2),
+            health_index=round(base_health, 2),
             status=status,
+            is_mandatory_failed=mandatory_failure,
             component_evidence=evidence,
             evaluation_notes=notes,
         )
@@ -309,11 +365,12 @@ class ServiceCatalog:
             tier=ServiceTier.TIER_1_MISSION_CRITICAL,
             scope=ServiceScope.GLOBAL,
             description="Core Amadeus DCS host connectivity, check-in, and boarding gateway",
+            dependency_logic=DependencyLogic.MANDATORY_AND,
             proposed_design_slo=99.95,
             dependencies=[
-                ServiceComponentDependency("CIR-NBO-01", "CIRCUIT", 0.5, False, "JKIA-HUB"),
-                ServiceComponentDependency("CIR-NBO-02", "CIRCUIT", 0.3, True, "JKIA-HUB"),
-                ServiceComponentDependency("SW-DC1-01", "SWITCH", 0.2, False, "JKIA-HUB"),
+                ServiceComponentDependency("CIR-NBO-01", "CIRCUIT", is_mandatory=True, weight=0.5, is_redundant=False, station_id="JKIA-HUB"),
+                ServiceComponentDependency("CIR-NBO-02", "CIRCUIT", is_mandatory=False, weight=0.3, is_redundant=True, station_id="JKIA-HUB"),
+                ServiceComponentDependency("SW-DC1-01", "SWITCH", is_mandatory=True, weight=0.2, is_redundant=False, station_id="JKIA-HUB"),
             ],
         ))
 
@@ -323,10 +380,11 @@ class ServiceCatalog:
             tier=ServiceTier.TIER_1_MISSION_CRITICAL,
             scope=ServiceScope.GLOBAL,
             description="Jeppesen FliteDeck, OFP flight plan delivery, and weather/NOTAM feeds",
+            dependency_logic=DependencyLogic.MANDATORY_AND,
             proposed_design_slo=99.95,
             dependencies=[
-                ServiceComponentDependency("CIR-NBO-01", "CIRCUIT", 0.6, False, "JKIA-HUB"),
-                ServiceComponentDependency("SW-DC1-02", "SWITCH", 0.4, False, "JKIA-HUB"),
+                ServiceComponentDependency("CIR-NBO-01", "CIRCUIT", is_mandatory=True, weight=0.6, is_redundant=False, station_id="JKIA-HUB"),
+                ServiceComponentDependency("SW-DC1-02", "SWITCH", is_mandatory=True, weight=0.4, is_redundant=False, station_id="JKIA-HUB"),
             ],
         ))
 
@@ -336,15 +394,16 @@ class ServiceCatalog:
             tier=ServiceTier.TIER_1_MISSION_CRITICAL,
             scope=ServiceScope.GLOBAL,
             description="Avaya Session Manager, SBCE SIP signaling, and Flight Dispatcher ACD extensions",
+            dependency_logic=DependencyLogic.MANDATORY_AND,
             proposed_design_slo=99.95,
             dependencies=[
-                ServiceComponentDependency("AVAYA-SM-01", "SERVER", 0.4, False, "JKIA-HUB"),
-                ServiceComponentDependency("AVAYA-SBCE-01", "SBCE", 0.3, False, "JKIA-HUB"),
-                ServiceComponentDependency("CIR-NBO-01", "CIRCUIT", 0.3, True, "JKIA-HUB"),
+                ServiceComponentDependency("AVAYA-SM-01", "SERVER", is_mandatory=True, weight=0.4, is_redundant=False, station_id="JKIA-HUB"),
+                ServiceComponentDependency("AVAYA-SBCE-01", "SBCE", is_mandatory=True, weight=0.3, is_redundant=False, station_id="JKIA-HUB"),
+                ServiceComponentDependency("CIR-NBO-01", "CIRCUIT", is_mandatory=False, weight=0.3, is_redundant=True, station_id="JKIA-HUB"),
             ],
         ))
 
-        # Tier 1 Station-Local Services (e.g. Mombasa, Heathrow)
+        # Tier 1 Station-Local Services (Mombasa, Heathrow)
         self.register_service(BusinessService(
             service_id="SVC-DCS-MBA",
             name="Mombasa Check-In & Gate Boarding (DCS Local)",
@@ -352,12 +411,13 @@ class ServiceCatalog:
             scope=ServiceScope.STATION_LOCAL,
             station_id="MBA-STATION",
             description="Passenger check-in desks and boarding gate scanners at Moi International Airport",
-            parent_services=["SVC-DCS-GLOBAL"],  # Dependent on global core DCS
+            parent_services=["SVC-DCS-GLOBAL"],
+            dependency_logic=DependencyLogic.MANDATORY_AND,
             proposed_design_slo=99.95,
             dependencies=[
-                ServiceComponentDependency("CIR-MBA-01", "CIRCUIT", 0.6, False, "MBA-STATION"),
-                ServiceComponentDependency("CIR-MBA-02", "CIRCUIT", 0.3, True, "MBA-STATION"),
-                ServiceComponentDependency("SW-MBA-01", "SWITCH", 0.1, False, "MBA-STATION"),
+                ServiceComponentDependency("CIR-MBA-01", "CIRCUIT", is_mandatory=False, weight=0.6, is_redundant=True, station_id="MBA-STATION"),
+                ServiceComponentDependency("CIR-MBA-02", "CIRCUIT", is_mandatory=False, weight=0.3, is_redundant=True, station_id="MBA-STATION"),
+                ServiceComponentDependency("SW-MBA-01", "SWITCH", is_mandatory=True, weight=0.1, is_redundant=False, station_id="MBA-STATION"),
             ],
         ))
 
@@ -369,10 +429,11 @@ class ServiceCatalog:
             station_id="LHR-STATION",
             description="Passenger check-in desks and SkyTeam bag-drop at Heathrow Terminal 4",
             parent_services=["SVC-DCS-GLOBAL"],
+            dependency_logic=DependencyLogic.MANDATORY_AND,
             proposed_design_slo=99.95,
             dependencies=[
-                ServiceComponentDependency("CIR-LHR-01", "CIRCUIT", 0.6, False, "LHR-STATION"),
-                ServiceComponentDependency("CIR-LHR-02", "CIRCUIT", 0.4, True, "LHR-STATION"),
+                ServiceComponentDependency("CIR-LHR-01", "CIRCUIT", is_mandatory=False, weight=0.6, is_redundant=True, station_id="LHR-STATION"),
+                ServiceComponentDependency("CIR-LHR-02", "CIRCUIT", is_mandatory=False, weight=0.4, is_redundant=True, station_id="LHR-STATION"),
             ],
         ))
 
@@ -383,10 +444,11 @@ class ServiceCatalog:
             tier=ServiceTier.TIER_2_BUSINESS_CRITICAL,
             scope=ServiceScope.GLOBAL,
             description="SITA BagManager, WorldTracer lost luggage interface, and terminal sortation",
+            dependency_logic=DependencyLogic.MANDATORY_AND,
             proposed_design_slo=99.50,
             dependencies=[
-                ServiceComponentDependency("CIR-NBO-01", "CIRCUIT", 0.5, False, "JKIA-HUB"),
-                ServiceComponentDependency("SW-DC2-01", "SWITCH", 0.5, False, "JKIA-HUB"),
+                ServiceComponentDependency("CIR-NBO-01", "CIRCUIT", is_mandatory=True, weight=0.5, is_redundant=False, station_id="JKIA-HUB"),
+                ServiceComponentDependency("SW-DC2-01", "SWITCH", is_mandatory=True, weight=0.5, is_redundant=False, station_id="JKIA-HUB"),
             ],
         ))
 
@@ -396,10 +458,11 @@ class ServiceCatalog:
             tier=ServiceTier.TIER_2_BUSINESS_CRITICAL,
             scope=ServiceScope.GLOBAL,
             description="CargoSpot airway bill tracking, customs EDI links, and cargo warehouse scales",
+            dependency_logic=DependencyLogic.MANDATORY_AND,
             proposed_design_slo=99.50,
             dependencies=[
-                ServiceComponentDependency("CIR-NBO-03", "CIRCUIT", 0.5, False, "JKIA-HUB"),
-                ServiceComponentDependency("SW-CRG-01", "SWITCH", 0.5, False, "JKIA-HUB"),
+                ServiceComponentDependency("CIR-NBO-03", "CIRCUIT", is_mandatory=True, weight=0.5, is_redundant=False, station_id="JKIA-HUB"),
+                ServiceComponentDependency("SW-CRG-01", "SWITCH", is_mandatory=True, weight=0.5, is_redundant=False, station_id="JKIA-HUB"),
             ],
         ))
 
@@ -410,32 +473,42 @@ class ServiceCatalog:
             tier=ServiceTier.TIER_3_CORPORATE,
             scope=ServiceScope.GLOBAL,
             description="SAP/Oracle ERP back-office systems and crew scheduling administration",
+            dependency_logic=DependencyLogic.WEIGHTED,
             proposed_design_slo=99.00,
             dependencies=[
-                ServiceComponentDependency("SW-DC1-01", "SWITCH", 1.0, False, "JKIA-HUB"),
+                ServiceComponentDependency("SW-DC1-01", "SWITCH", is_mandatory=True, weight=1.0, is_redundant=False, station_id="JKIA-HUB"),
             ],
         ))
 
 
 @dataclass
 class SLOSpecification:
-    """Design parameters for SLO, contractual SLA, and measurement windows."""
+    """Proposed internal SLO design targets and evaluation windows."""
     service_id: str
-    target_slo_percent: float = 99.95      # Proposed internal target
-    contractual_sla_percent: float = 99.90 # Contractual SLA commitment
-    measurement_window_days: int = 30      # Measurement evaluation window
+    target_slo_percent: float = 99.95      # Proposed internal SLO target (NOT confirmed contractual SLA)
+    contractual_sla_percent: float = 99.90 # Contractual design baseline
+    measurement_window_days: int = 30      # Evaluation window
     scheduled_maintenance_minutes: float = 0.0
 
 
 @dataclass
-class SLIResult:
-    """Calculated Service Level Indicator and Error Budget status."""
+class MultiDimensionalSLIResult:
+    """Multi-dimensional Service Level Indicator result."""
     service_id: str
-    sli_percent: float
-    total_valid_minutes: float
+    # 1. Availability SLI: Proportion of eligible operational intervals meeting availability definition
+    availability_sli: float
+    # 2. Performance SLI: Proportion meeting latency/performance threshold
+    performance_sli: float
+    # 3. Quality SLI: Proportion meeting composite service quality index
+    quality_sli: float
+    # 4. Coverage: Proportion of expected measurement intervals with trustworthy telemetry
+    coverage_percent: float
+    total_expected_minutes: float
+    valid_operational_minutes: float
     good_minutes: float
     degraded_minutes: float
     outage_minutes: float
+    unknown_minutes: float  # Missing or stale telemetry tracked explicitly
     scheduled_maintenance_minutes: float
     target_slo_percent: float
     contractual_sla_percent: float
@@ -446,14 +519,24 @@ class SLIResult:
     is_slo_breached: bool
     is_sla_breached: bool
 
+    @property
+    def sli_percent(self) -> float:
+        """Backward compatibility alias for availability_sli."""
+        return self.availability_sli
+
     def to_dict(self) -> Dict[str, Any]:
         return {
             "service_id": self.service_id,
-            "sli_percent": round(self.sli_percent, 4),
-            "total_valid_minutes": round(self.total_valid_minutes, 1),
+            "availability_sli": round(self.availability_sli, 4),
+            "performance_sli": round(self.performance_sli, 4),
+            "quality_sli": round(self.quality_sli, 4),
+            "coverage_percent": round(self.coverage_percent, 2),
+            "total_expected_minutes": round(self.total_expected_minutes, 1),
+            "valid_operational_minutes": round(self.valid_operational_minutes, 1),
             "good_minutes": round(self.good_minutes, 1),
             "degraded_minutes": round(self.degraded_minutes, 1),
             "outage_minutes": round(self.outage_minutes, 1),
+            "unknown_minutes": round(self.unknown_minutes, 1),
             "maintenance_minutes": round(self.scheduled_maintenance_minutes, 1),
             "target_slo_percent": self.target_slo_percent,
             "contractual_sla_percent": self.contractual_sla_percent,
@@ -466,10 +549,15 @@ class SLIResult:
         }
 
 
+# Backward compatibility alias
+SLIResult = MultiDimensionalSLIResult
+
+
 class SLIEvaluationEngine:
     """Decoupled SLI measurement and Error Budget evaluation engine.
     
-    Calculates availability ratios, maintenance exclusions, and error budget burn rates.
+    Measures Availability, Performance, Quality, and Coverage independently.
+    Tracks missing/stale telemetry as UNKNOWN rather than dropping from denominator.
     """
 
     def __init__(self) -> None:
@@ -486,6 +574,9 @@ class SLIEvaluationEngine:
         service_id: str,
         duration_minutes: float,
         health_index: float,
+        is_available: bool = True,
+        is_performance_met: bool = True,
+        is_unknown: bool = False,
         in_maintenance: bool = False,
     ) -> None:
         """Record an observed operational interval for a service."""
@@ -494,50 +585,72 @@ class SLIEvaluationEngine:
         self._observations[service_id].append({
             "duration": duration_minutes,
             "health": health_index,
+            "is_available": is_available,
+            "is_performance_met": is_performance_met,
+            "is_unknown": is_unknown,
             "in_maintenance": in_maintenance,
             "timestamp": datetime.now(timezone.utc).isoformat(),
         })
 
-    def evaluate_sli(self, service_id: str) -> SLIResult:
-        """Calculate SLI and Error Budget for a specific service."""
+    def evaluate_sli(self, service_id: str) -> MultiDimensionalSLIResult:
+        """Calculate multi-dimensional SLI and Error Budget for a specific service."""
         spec = self._slos.get(service_id, SLOSpecification(service_id=service_id))
         records = self._observations.get(service_id, [])
 
-        good_minutes = sum(r["duration"] for r in records if not r["in_maintenance"] and r["health"] >= 0.85)
-        degraded_minutes = sum(r["duration"] for r in records if not r["in_maintenance"] and 0.40 <= r["health"] < 0.85)
-        outage_minutes = sum(r["duration"] for r in records if not r["in_maintenance"] and r["health"] < 0.40)
-        maintenance_minutes = sum(r["duration"] for r in records if r["in_maintenance"]) + spec.scheduled_maintenance_minutes
+        total_measured = sum(r["duration"] for r in records)
+        maintenance = sum(r["duration"] for r in records if r["in_maintenance"]) + spec.scheduled_maintenance_minutes
 
-        valid_minutes = good_minutes + degraded_minutes + outage_minutes
+        good_minutes = sum(r["duration"] for r in records if not r["in_maintenance"] and not r["is_unknown"] and r["health"] >= 0.85)
+        degraded_minutes = sum(r["duration"] for r in records if not r["in_maintenance"] and not r["is_unknown"] and 0.40 <= r["health"] < 0.85)
+        outage_minutes = sum(r["duration"] for r in records if not r["in_maintenance"] and not r["is_unknown"] and r["health"] < 0.40)
+        unknown_minutes = sum(r["duration"] for r in records if not r["in_maintenance"] and r["is_unknown"])
 
-        # SLI formula: Effective healthy minutes / Valid measured operational minutes
-        if valid_minutes <= 0.0:
-            sli = 100.0
-        else:
-            effective_healthy = good_minutes + (degraded_minutes * 0.5)
-            sli = min(100.0, (effective_healthy / valid_minutes) * 100.0)
+        perf_good_minutes = sum(r["duration"] for r in records if not r["in_maintenance"] and not r["is_unknown"] and r["is_performance_met"])
+        avail_good_minutes = sum(r["duration"] for r in records if not r["in_maintenance"] and not r["is_unknown"] and r["is_available"] and r["health"] >= 0.40)
 
-        # Configurable measurement window in minutes
+        # Total valid operational minutes includes trustworthy and unknown (missing/stale) intervals.
+        # Missing or stale telemetry must NOT silently disappear from the denominator!
+        valid_minutes = good_minutes + degraded_minutes + outage_minutes + unknown_minutes
+
+        # 1. Availability SLI: Available good minutes / Valid operational minutes (unknown intervals penalize availability)
+        avail_sli = (avail_good_minutes / valid_minutes * 100.0) if valid_minutes > 0 else 100.0
+        
+        # 2. Performance SLI:
+        perf_sli = (perf_good_minutes / valid_minutes * 100.0) if valid_minutes > 0 else 100.0
+
+        # 3. Quality SLI: Weighted quality index (Good + 0.5 * Degraded)
+        quality_sli = ((good_minutes + 0.5 * degraded_minutes) / valid_minutes * 100.0) if valid_minutes > 0 else 100.0
+
+        # 4. Coverage: Trustworthy measurements vs Total expected operational minutes
+        trustworthy_minutes = good_minutes + degraded_minutes + outage_minutes
+        coverage_percent = (trustworthy_minutes / valid_minutes * 100.0) if valid_minutes > 0 else 100.0
+
+        # Error Budget calculations (based on 30-day window)
         window_minutes = spec.measurement_window_days * 24 * 60.0
         allowed_unreliability = (100.0 - spec.target_slo_percent) / 100.0
         total_error_budget = window_minutes * allowed_unreliability
 
-        # Unreliability consumed: outage minutes + 50% degraded minutes
-        consumed_budget = outage_minutes + (degraded_minutes * 0.5)
+        # Unreliability consumed: outage minutes + 50% degraded minutes + unknown minutes (unknown treated as degraded penalty)
+        consumed_budget = outage_minutes + (degraded_minutes * 0.5) + (unknown_minutes * 0.5)
         remaining_budget = max(0.0, total_error_budget - consumed_budget)
         burn_rate = (consumed_budget / total_error_budget) if total_error_budget > 0 else 0.0
 
-        is_slo_breached = sli < spec.target_slo_percent
-        is_sla_breached = sli < spec.contractual_sla_percent
+        is_slo_breached = avail_sli < spec.target_slo_percent or remaining_budget <= 0.0
+        is_sla_breached = avail_sli < spec.contractual_sla_percent
 
-        return SLIResult(
+        return MultiDimensionalSLIResult(
             service_id=service_id,
-            sli_percent=sli,
-            total_valid_minutes=valid_minutes,
+            availability_sli=min(100.0, avail_sli),
+            performance_sli=min(100.0, perf_sli),
+            quality_sli=min(100.0, quality_sli),
+            coverage_percent=min(100.0, coverage_percent),
+            total_expected_minutes=total_measured,
+            valid_operational_minutes=valid_minutes,
             good_minutes=good_minutes,
             degraded_minutes=degraded_minutes,
             outage_minutes=outage_minutes,
-            scheduled_maintenance_minutes=maintenance_minutes,
+            unknown_minutes=unknown_minutes,
+            scheduled_maintenance_minutes=maintenance,
             target_slo_percent=spec.target_slo_percent,
             contractual_sla_percent=spec.contractual_sla_percent,
             total_error_budget_minutes=total_error_budget,
@@ -548,5 +661,5 @@ class SLIEvaluationEngine:
             is_sla_breached=is_sla_breached,
         )
 
-    def evaluate_fleet_slos(self) -> List[SLIResult]:
+    def evaluate_fleet_slos(self) -> List[MultiDimensionalSLIResult]:
         return [self.evaluate_sli(sid) for sid in self._slos.keys()]

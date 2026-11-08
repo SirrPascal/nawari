@@ -95,8 +95,8 @@ def test_replayed_outstation_telemetry_does_not_corrupt_live_sli():
     }
 
     res = catalog.evaluate_service_health("SVC-DCS-GLOBAL", replayed_states)
-    # Replayed data is capped at 0.50 health index to prevent false live health claims
-    assert res.health_index == 0.50
-    assert res.status == "DEGRADED"
+    # Replayed data for mandatory components strictly fails live health (CRITICAL_DOWN, 0.0)
+    assert res.health_index == 0.0
+    assert res.status == "CRITICAL_DOWN"
     assert any("REPLAYED telemetry" in note for note in res.evaluation_notes)
 
