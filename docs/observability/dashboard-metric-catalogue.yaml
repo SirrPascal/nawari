@@ -1,5 +1,5 @@
 catalogue_version: 1.0.0
-generated_at: '2026-11-08T10:17:56.992075+00:00'
+generated_at: '2026-11-08T10:36:21.189631+00:00'
 nawari_architecture_version: Phase 13.1 Enterprise Observability
 integrity_standards:
   null_handling_policy: 'Preserve as NULL / Gaps (spanNulls: False). Coercing NULL
@@ -32,12 +32,19 @@ domains:
 - domain: Communication Observability
   folder_name: Nawari / Communication Observability
   folder_uid: nawari-comm-obs
-  dashboard_count: 4
+  dashboard_count: 11
   dashboards:
+  - nawari-cms-contact-centre
+  - nawari-communication-manager
+  - nawari-g450-gateway
   - nawari-sbce-health
+  - nawari-session-manager
   - nawari-voice-correlation
   - nawari-voice-service-assurance
+  - nawari-comm-overview
+  - nawari-sip-trunks
   - nawari-voice-intelligence
+  - nawari-recording-wfo
 dashboards:
 - dashboard_uid: nawari-endpoint-detail
   dashboard_title: "Nawari \u2014 Endpoint Deep-Dive & Edge Experience"
@@ -1748,6 +1755,529 @@ dashboards:
     operational_limitations: Combines multi-domain telemetry across network paths,
       voice signaling, and outstation hosts.
     null_handling: 'spanNulls: False (nulls preserved as gaps, never coerced to 0)'
+- dashboard_uid: nawari-cms-contact-centre
+  dashboard_title: "Nawari \u2014 Avaya Call Management System (CMS) & Contact Centre\
+    \ Performance"
+  domain: Communication Observability
+  folder: Nawari / Communication Observability
+  file_path: docker/grafana/dashboards/communication_observability/avaya_cms_contact_centre.json
+  panels_count: 9
+  panels:
+  - panel_id: 2
+    panel_title: "CMS Host CPU Utilization [REAL \u2014 HARDWARE]"
+    panel_type: gauge
+    description: 'Processor core utilization on the Avaya Call Management System (CMS)
+      server host. Units: Percentage (0-100%). Warning: 75%, Critical: 90%. Source:
+      HOST-RESOURCES-MIB. Polling: 60s.'
+    datasource_type: alexanderzobnin-zabbix-datasource
+    provenance_type: REAL_ZABBIX_TELEMETRY
+    telemetry_source: Zabbix Telemetry Engine (SNMPv2c/v3, ICMP ping, Zabbix Agent
+      LLD)
+    metric_keys:
+    - CMS Host CPU Utilization
+    unit: percent
+    refresh_interval: 30 seconds
+    freshness_guarantee: < 30 seconds
+    operational_limitations: Direct physical switch, router, and host metrics.
+    null_handling: 'spanNulls: False (nulls preserved as gaps, never coerced to 0)'
+  - panel_id: 3
+    panel_title: "Informix Database Engine Status [APPLICATION \u2014 CMS]"
+    panel_type: stat
+    description: 'Operational state of the IBM Informix Dynamic Server (IDS) database
+      engine underpinning CMS real-time and historical tables. 1 = Running / Online,
+      0 = Down / Offline. Source: Zabbix service check. Polling: 60s.'
+    datasource_type: alexanderzobnin-zabbix-datasource
+    provenance_type: REAL_ZABBIX_TELEMETRY
+    telemetry_source: Zabbix Telemetry Engine (SNMPv2c/v3, ICMP ping, Zabbix Agent
+      LLD)
+    metric_keys:
+    - Informix Database Engine Status
+    unit: short
+    refresh_interval: 30 seconds
+    freshness_guarantee: < 30 seconds
+    operational_limitations: Direct physical switch, router, and host metrics.
+    null_handling: 'spanNulls: False (nulls preserved as gaps, never coerced to 0)'
+  - panel_id: 4
+    panel_title: "CMS Archiving Interval Configuration [APPLICATION \u2014 CMS]"
+    panel_type: stat
+    description: 'Configured historical archiving interval for Avaya CMS interval
+      tables (15 minutes, 30 minutes, or 60 minutes). Nawari read-only ODBC ingestion
+      synchronizes strictly to this interval, preserving original timestamps. Source:
+      CMS system configuration.'
+    datasource_type: alexanderzobnin-zabbix-datasource
+    provenance_type: REAL_ZABBIX_TELEMETRY
+    telemetry_source: Zabbix Telemetry Engine (SNMPv2c/v3, ICMP ping, Zabbix Agent
+      LLD)
+    metric_keys:
+    - CMS Ingestion Reporting Interval
+    unit: short
+    refresh_interval: 30 seconds
+    freshness_guarantee: < 30 seconds
+    operational_limitations: Direct physical switch, router, and host metrics.
+    null_handling: 'spanNulls: False (nulls preserved as gaps, never coerced to 0)'
+  - panel_id: 6
+    panel_title: "Service Level Attainment (% in SLA) [APPLICATION \u2014 CMS]"
+    panel_type: gauge
+    description: "Percentage of contact centre callers answered within Kenya Airways\
+      \ service level threshold (80% answered in 20 seconds). Source: Avaya CMS Informix\
+      \ read-only ODBC query on hsplit table. Freshness: 15\u201330 minutes."
+    datasource_type: alexanderzobnin-zabbix-datasource
+    provenance_type: SERVICE_ASSURANCE_SLI
+    telemetry_source: Nawari Business Service SLI Engine (13B Standard)
+    metric_keys:
+    - Overall Service Level Attainment
+    unit: percent
+    refresh_interval: 60 seconds
+    freshness_guarantee: < 60 seconds
+    operational_limitations: Strict multi-dimensional availability, performance, and
+      quality SLI calculations.
+    null_handling: 'spanNulls: False (nulls preserved as gaps, never coerced to 0)'
+  - panel_id: 7
+    panel_title: "Average Speed of Answer (ASA, sec) [APPLICATION \u2014 CMS]"
+    panel_type: timeseries
+    description: 'Average Speed of Answer (ASA) in seconds: mean caller waiting time
+      before an agent connects. Source: Avaya CMS Informix query. Warning: > 45s,
+      Critical: > 90s.'
+    datasource_type: alexanderzobnin-zabbix-datasource
+    provenance_type: REAL_ZABBIX_TELEMETRY
+    telemetry_source: Zabbix Telemetry Engine (SNMPv2c/v3, ICMP ping, Zabbix Agent
+      LLD)
+    metric_keys:
+    - Average Speed of Answer (ASA)
+    unit: s
+    refresh_interval: 30 seconds
+    freshness_guarantee: < 30 seconds
+    operational_limitations: Direct physical switch, router, and host metrics.
+    null_handling: 'spanNulls: False (nulls preserved as gaps, never coerced to 0)'
+  - panel_id: 8
+    panel_title: "Calls Waiting in Queue [APPLICATION \u2014 CMS]"
+    panel_type: stat
+    description: 'Live number of customer calls currently waiting on hold across all
+      reservation and ticketing skill queues. Source: CMS real-time stream. Warning:
+      > 15 calls.'
+    datasource_type: alexanderzobnin-zabbix-datasource
+    provenance_type: REAL_ZABBIX_TELEMETRY
+    telemetry_source: Zabbix Telemetry Engine (SNMPv2c/v3, ICMP ping, Zabbix Agent
+      LLD)
+    metric_keys:
+    - Calls Waiting in Queue
+    unit: calls
+    refresh_interval: 30 seconds
+    freshness_guarantee: < 30 seconds
+    operational_limitations: Direct physical switch, router, and host metrics.
+    null_handling: 'spanNulls: False (nulls preserved as gaps, never coerced to 0)'
+  - panel_id: 9
+    panel_title: "Oldest Call Waiting (sec) [APPLICATION \u2014 CMS]"
+    panel_type: stat
+    description: 'Duration in seconds of the single longest-waiting caller currently
+      in queue. Source: CMS real-time report. Warning: > 120s, Critical: > 300s.'
+    datasource_type: alexanderzobnin-zabbix-datasource
+    provenance_type: REAL_ZABBIX_TELEMETRY
+    telemetry_source: Zabbix Telemetry Engine (SNMPv2c/v3, ICMP ping, Zabbix Agent
+      LLD)
+    metric_keys:
+    - Oldest Call Waiting Duration
+    unit: s
+    refresh_interval: 30 seconds
+    freshness_guarantee: < 30 seconds
+    operational_limitations: Direct physical switch, router, and host metrics.
+    null_handling: 'spanNulls: False (nulls preserved as gaps, never coerced to 0)'
+  - panel_id: 11
+    panel_title: "Calls Offered vs Answered vs Abandoned [APPLICATION \u2014 CMS]"
+    panel_type: timeseries
+    description: "Historical volume trend comparing Calls Offered, Calls Answered,\
+      \ and Calls Abandoned over interval buckets. Source: Avaya CMS Informix hsplit\
+      \ table. Freshness: 15\u201330 minutes."
+    datasource_type: alexanderzobnin-zabbix-datasource
+    provenance_type: REAL_ZABBIX_TELEMETRY
+    telemetry_source: Zabbix Telemetry Engine (SNMPv2c/v3, ICMP ping, Zabbix Agent
+      LLD)
+    metric_keys:
+    - Calls Offered
+    - Calls Answered
+    - Abandoned Calls
+    unit: calls
+    refresh_interval: 30 seconds
+    freshness_guarantee: < 30 seconds
+    operational_limitations: Direct physical switch, router, and host metrics.
+    null_handling: 'spanNulls: False (nulls preserved as gaps, never coerced to 0)'
+  - panel_id: 12
+    panel_title: "Skill Group & Split Performance Breakdown [APPLICATION \u2014 CMS]"
+    panel_type: table
+    description: 'Performance table breakdown by contact centre Skill Group / Split
+      (e.g., Reservations English, French, Swahili, Flying Blue, Baggage Helpdesk)
+      showing calls offered, answered, abandon %, ASA, and SLA compliance. Source:
+      Avaya CMS read-only ODBC query.'
+    datasource_type: alexanderzobnin-zabbix-datasource
+    provenance_type: REAL_ZABBIX_TELEMETRY
+    telemetry_source: Zabbix Telemetry Engine (SNMPv2c/v3, ICMP ping, Zabbix Agent
+      LLD)
+    metric_keys:
+    - Skill Group Performance Table
+    - app:Skill Performance
+    unit: short
+    refresh_interval: 30 seconds
+    freshness_guarantee: < 30 seconds
+    operational_limitations: Direct physical switch, router, and host metrics.
+    null_handling: 'spanNulls: False (nulls preserved as gaps, never coerced to 0)'
+- dashboard_uid: nawari-communication-manager
+  dashboard_title: "Nawari \u2014 Avaya Aura Communication Manager (CM) Call Processing\
+    \ & IP Voice Performance"
+  domain: Communication Observability
+  folder: Nawari / Communication Observability
+  file_path: docker/grafana/dashboards/communication_observability/avaya_communication_manager.json
+  panels_count: 11
+  panels:
+  - panel_id: 2
+    panel_title: "CM Processor Reachability [REAL \u2014 ZABBIX]"
+    panel_type: stat
+    description: 'ICMP ping network reachability to the Avaya Communication Manager
+      processor interface. 1 = UP, 0 = DOWN. Polling: 1m. Freshness: 60s.'
+    datasource_type: alexanderzobnin-zabbix-datasource
+    provenance_type: REAL_ZABBIX_TELEMETRY
+    telemetry_source: Zabbix Telemetry Engine (SNMPv2c/v3, ICMP ping, Zabbix Agent
+      LLD)
+    metric_keys:
+    - Communication Manager SNMP Availability
+    unit: short
+    refresh_interval: 30 seconds
+    freshness_guarantee: < 30 seconds
+    operational_limitations: Direct physical switch, router, and host metrics.
+    null_handling: 'spanNulls: False (nulls preserved as gaps, never coerced to 0)'
+  - panel_id: 3
+    panel_title: "Active Telephony Alarms (Hourly Scan) [REAL \u2014 AVAYA SNMP]"
+    panel_type: stat
+    description: 'Total active alarm conditions on Communication Manager. Source:
+      Avaya CM MIB avCmAlarms (OID 1.3.6.1.4.1.6889.2.73.1). Polling interval: strictly
+      1 hour (delay: 1h) to prevent excessive CPU consumption on the CM call engine.
+      Freshness: 1-2 hours.'
+    datasource_type: alexanderzobnin-zabbix-datasource
+    provenance_type: REAL_AVAYA_SNMP
+    telemetry_source: Avaya Communication Manager 8.1.0 MIB (avCmMeasIpVoStatSumDataLstHrTable
+      / avCmMeasIpVoStatHrJitterTable)
+    metric_keys:
+    - Active Alarms Count
+    unit: alarms
+    refresh_interval: 1 hour (Polling restricted to >= 3600s to prevent CM CPU exhaustion)
+    freshness_guarantee: "1\u20132 hours (CM internal hourly measurement bucket)"
+    operational_limitations: Hourly aggregated historical snapshot. Does not provide
+      real-time per-call streaming telemetry.
+    null_handling: 'spanNulls: False (nulls preserved as gaps, never coerced to 0)'
+  - panel_id: 4
+    panel_title: "Call Rate Attempts (5-min) [REAL \u2014 AVAYA SNMP]"
+    panel_type: timeseries
+    description: 'Total call attempts processed by Communication Manager in 5-minute
+      sampling intervals. Source: Avaya CM MIB table avCmListMeasCallRateTotal (OID
+      1.3.6.1.4.1.6889.2.73.8.1.1 leaf .2). Polling interval: 5 minutes. Freshness:
+      5 minutes.'
+    datasource_type: alexanderzobnin-zabbix-datasource
+    provenance_type: REAL_AVAYA_SNMP
+    telemetry_source: Avaya Communication Manager 8.1.0 MIB (avCmMeasIpVoStatSumDataLstHrTable
+      / avCmMeasIpVoStatHrJitterTable)
+    metric_keys:
+    - Call Rate Total Attempts (5-minute)
+    unit: calls
+    refresh_interval: 1 hour (Polling restricted to >= 3600s to prevent CM CPU exhaustion)
+    freshness_guarantee: "1\u20132 hours (CM internal hourly measurement bucket)"
+    operational_limitations: Hourly aggregated historical snapshot. Does not provide
+      real-time per-call streaming telemetry.
+    null_handling: 'spanNulls: False (nulls preserved as gaps, never coerced to 0)'
+  - panel_id: 5
+    panel_title: "Call Rate Completed (5-min) [REAL \u2014 AVAYA SNMP]"
+    panel_type: timeseries
+    description: 'Total successfully completed calls processed by Communication Manager
+      in 5-minute sampling intervals. Source: Avaya CM MIB table avCmListMeasCallRateTotal
+      leaf .3. Polling interval: 5 minutes.'
+    datasource_type: alexanderzobnin-zabbix-datasource
+    provenance_type: REAL_AVAYA_SNMP
+    telemetry_source: Avaya Communication Manager 8.1.0 MIB (avCmMeasIpVoStatSumDataLstHrTable
+      / avCmMeasIpVoStatHrJitterTable)
+    metric_keys:
+    - Call Rate Completed Calls (5-minute)
+    unit: calls
+    refresh_interval: 1 hour (Polling restricted to >= 3600s to prevent CM CPU exhaustion)
+    freshness_guarantee: "1\u20132 hours (CM internal hourly measurement bucket)"
+    operational_limitations: Hourly aggregated historical snapshot. Does not provide
+      real-time per-call streaming telemetry.
+    null_handling: 'spanNulls: False (nulls preserved as gaps, never coerced to 0)'
+  - panel_id: 7
+    panel_title: "Real-Call Packet Loss % (Last Hour) [REAL \u2014 AVAYA SNMP]"
+    panel_type: stat
+    description: 'Percentage of IP voice audio packets lost during active calls in
+      the last completed hour across the monitored network region. Source: Avaya CM
+      SNMP table avCmMeasIpVoStatSumDataLstHrTable (OID 1.3.6.1.4.1.6889.2.73.8.1.77
+      leaf .6). Polling interval: strictly 1 hour. Freshness: 1-2 hours. Warning:
+      > 1.0%, Critical: > 2.5%.'
+    datasource_type: alexanderzobnin-zabbix-datasource
+    provenance_type: REAL_AVAYA_SNMP
+    telemetry_source: Avaya Communication Manager 8.1.0 MIB (avCmMeasIpVoStatSumDataLstHrTable
+      / avCmMeasIpVoStatHrJitterTable)
+    metric_keys:
+    - Real-Call Packet Loss (Last Hour)
+    unit: percent
+    refresh_interval: 1 hour (Polling restricted to >= 3600s to prevent CM CPU exhaustion)
+    freshness_guarantee: "1\u20132 hours (CM internal hourly measurement bucket)"
+    operational_limitations: Hourly aggregated historical snapshot. Does not provide
+      real-time per-call streaming telemetry.
+    null_handling: 'spanNulls: False (nulls preserved as gaps, never coerced to 0)'
+  - panel_id: 8
+    panel_title: "Real-Call Peak Jitter (Last Hour) [REAL \u2014 AVAYA SNMP]"
+    panel_type: stat
+    description: 'Peak interarrival packet jitter in milliseconds observed across
+      real calls in the last completed hour. Source: Avaya CM SNMP table avCmMeasIpVoStatSumDataLstHrTable
+      (leaf .7). Polling interval: strictly 1 hour. Warning: > 20ms, Critical: > 30ms.'
+    datasource_type: alexanderzobnin-zabbix-datasource
+    provenance_type: REAL_AVAYA_SNMP
+    telemetry_source: Avaya Communication Manager 8.1.0 MIB (avCmMeasIpVoStatSumDataLstHrTable
+      / avCmMeasIpVoStatHrJitterTable)
+    metric_keys:
+    - Real-Call Peak Jitter (Last Hour)
+    unit: ms
+    refresh_interval: 1 hour (Polling restricted to >= 3600s to prevent CM CPU exhaustion)
+    freshness_guarantee: "1\u20132 hours (CM internal hourly measurement bucket)"
+    operational_limitations: Hourly aggregated historical snapshot. Does not provide
+      real-time per-call streaming telemetry.
+    null_handling: 'spanNulls: False (nulls preserved as gaps, never coerced to 0)'
+  - panel_id: 9
+    panel_title: "Real-Call Peak Delay (Last Hour) [REAL \u2014 AVAYA SNMP]"
+    panel_type: stat
+    description: 'Maximum two-way round-trip audio packet delay in milliseconds observed
+      across real calls in the last completed hour. Source: Avaya CM SNMP table avCmMeasIpVoStatSumDataLstHrTable
+      (leaf .8). Polling interval: strictly 1 hour. Target: <= 150ms (ITU-T G.114),
+      Critical: > 250ms.'
+    datasource_type: alexanderzobnin-zabbix-datasource
+    provenance_type: REAL_AVAYA_SNMP
+    telemetry_source: Avaya Communication Manager 8.1.0 MIB (avCmMeasIpVoStatSumDataLstHrTable
+      / avCmMeasIpVoStatHrJitterTable)
+    metric_keys:
+    - Real-Call Peak Two-Way Delay (Last Hour)
+    unit: ms
+    refresh_interval: 1 hour (Polling restricted to >= 3600s to prevent CM CPU exhaustion)
+    freshness_guarantee: "1\u20132 hours (CM internal hourly measurement bucket)"
+    operational_limitations: Hourly aggregated historical snapshot. Does not provide
+      real-time per-call streaming telemetry.
+    null_handling: 'spanNulls: False (nulls preserved as gaps, never coerced to 0)'
+  - panel_id: 10
+    panel_title: "Hourly Average Jitter [REAL \u2014 AVAYA SNMP]"
+    panel_type: stat
+    description: 'Average interarrival packet jitter in milliseconds calculated across
+      all calls in the last completed hour. Source: Avaya CM SNMP table avCmMeasIpVoStatHrJitterTable
+      (OID 1.3.6.1.4.1.6889.2.73.8.1.66 leaf .2). Polling interval: 1 hour.'
+    datasource_type: alexanderzobnin-zabbix-datasource
+    provenance_type: REAL_AVAYA_SNMP
+    telemetry_source: Avaya Communication Manager 8.1.0 MIB (avCmMeasIpVoStatSumDataLstHrTable
+      / avCmMeasIpVoStatHrJitterTable)
+    metric_keys:
+    - Real-Call Hourly Average Jitter
+    unit: ms
+    refresh_interval: 1 hour (Polling restricted to >= 3600s to prevent CM CPU exhaustion)
+    freshness_guarantee: "1\u20132 hours (CM internal hourly measurement bucket)"
+    operational_limitations: Hourly aggregated historical snapshot. Does not provide
+      real-time per-call streaming telemetry.
+    null_handling: 'spanNulls: False (nulls preserved as gaps, never coerced to 0)'
+  - panel_id: 12
+    panel_title: "Negotiated Audio Codec [REAL \u2014 AVAYA SNMP]"
+    panel_type: stat
+    description: 'Primary negotiated audio compression algorithm / codec (e.g. G.711A,
+      G.711U, G.729) active in the measured network region. Source: Avaya CM SNMP
+      table avCmMeasIpVoStatSumDataLstHrTable leaf .3. Polling interval: 1 hour.'
+    datasource_type: alexanderzobnin-zabbix-datasource
+    provenance_type: REAL_AVAYA_SNMP
+    telemetry_source: Avaya Communication Manager 8.1.0 MIB (avCmMeasIpVoStatSumDataLstHrTable
+      / avCmMeasIpVoStatHrJitterTable)
+    metric_keys:
+    - Negotiated Audio Codec
+    unit: short
+    refresh_interval: 1 hour (Polling restricted to >= 3600s to prevent CM CPU exhaustion)
+    freshness_guarantee: "1\u20132 hours (CM internal hourly measurement bucket)"
+    operational_limitations: Hourly aggregated historical snapshot. Does not provide
+      real-time per-call streaming telemetry.
+    null_handling: 'spanNulls: False (nulls preserved as gaps, never coerced to 0)'
+  - panel_id: 13
+    panel_title: "Echo Cancellation Status [REAL \u2014 AVAYA SNMP]"
+    panel_type: stat
+    description: 'Operational status of hardware/software echo cancellation on voice
+      paths for the measured network region. Source: Avaya CM SNMP table avCmMeasIpVoStatSumDataLstHrTable
+      leaf .11. Polling interval: 1 hour.'
+    datasource_type: alexanderzobnin-zabbix-datasource
+    provenance_type: REAL_AVAYA_SNMP
+    telemetry_source: Avaya Communication Manager 8.1.0 MIB (avCmMeasIpVoStatSumDataLstHrTable
+      / avCmMeasIpVoStatHrJitterTable)
+    metric_keys:
+    - Echo Cancellation Status
+    unit: short
+    refresh_interval: 1 hour (Polling restricted to >= 3600s to prevent CM CPU exhaustion)
+    freshness_guarantee: "1\u20132 hours (CM internal hourly measurement bucket)"
+    operational_limitations: Hourly aggregated historical snapshot. Does not provide
+      real-time per-call streaming telemetry.
+    null_handling: 'spanNulls: False (nulls preserved as gaps, never coerced to 0)'
+  - panel_id: 14
+    panel_title: "Evaluated Calls Count in Last Hour [REAL \u2014 AVAYA SNMP]"
+    panel_type: stat
+    description: 'Total number of real IP voice calls evaluated by Communication Manager
+      during the last completed hour across all media gateways. Source: Avaya CM SNMP
+      table avCmMeasIpVoStatHrJitterTable leaf .4. Polling interval: 1 hour.'
+    datasource_type: alexanderzobnin-zabbix-datasource
+    provenance_type: REAL_AVAYA_SNMP
+    telemetry_source: Avaya Communication Manager 8.1.0 MIB (avCmMeasIpVoStatSumDataLstHrTable
+      / avCmMeasIpVoStatHrJitterTable)
+    metric_keys:
+    - Real-Call Evaluated Calls Count
+    unit: calls
+    refresh_interval: 1 hour (Polling restricted to >= 3600s to prevent CM CPU exhaustion)
+    freshness_guarantee: "1\u20132 hours (CM internal hourly measurement bucket)"
+    operational_limitations: Hourly aggregated historical snapshot. Does not provide
+      real-time per-call streaming telemetry.
+    null_handling: 'spanNulls: False (nulls preserved as gaps, never coerced to 0)'
+- dashboard_uid: nawari-g450-gateway
+  dashboard_title: "Nawari \u2014 Avaya G450 Media Gateway Appliance & Physical Telephony\
+    \ Health"
+  domain: Communication Observability
+  folder: Nawari / Communication Observability
+  file_path: docker/grafana/dashboards/communication_observability/avaya_g450_media_gateway.json
+  panels_count: 8
+  panels:
+  - panel_id: 2
+    panel_title: "G450 System Uptime [REAL \u2014 HARDWARE]"
+    panel_type: stat
+    description: 'Operating time of the Avaya G450 chassis processor since last reload
+      or power cycle. Source: MIB-II sysUpTime (OID 1.3.6.1.2.1.1.3.0). Polling: 60s.
+      Freshness: 60s.'
+    datasource_type: alexanderzobnin-zabbix-datasource
+    provenance_type: REAL_ZABBIX_TELEMETRY
+    telemetry_source: Zabbix Telemetry Engine (SNMPv2c/v3, ICMP ping, Zabbix Agent
+      LLD)
+    metric_keys:
+    - Chassis System Uptime
+    unit: s
+    refresh_interval: 30 seconds
+    freshness_guarantee: < 30 seconds
+    operational_limitations: Direct physical switch, router, and host metrics.
+    null_handling: 'spanNulls: False (nulls preserved as gaps, never coerced to 0)'
+  - panel_id: 3
+    panel_title: "CM Gateway Registration [REAL \u2014 AVAYA SNMP]"
+    panel_type: stat
+    description: 'Registration status of the G450 Media Gateway with its controlling
+      Avaya Communication Manager server. 1 = REGISTERED, 2 = UNREGISTERED, 3 = DISCOVERING.
+      Source: Avaya G450 Gateway MIB. Polling: 60s. Critical alert if unregistered.'
+    datasource_type: alexanderzobnin-zabbix-datasource
+    provenance_type: REAL_AVAYA_SNMP
+    telemetry_source: Avaya Communication Manager 8.1.0 MIB (avCmMeasIpVoStatSumDataLstHrTable
+      / avCmMeasIpVoStatHrJitterTable)
+    metric_keys:
+    - Gateway CM Registration State
+    unit: short
+    refresh_interval: 1 hour (Polling restricted to >= 3600s to prevent CM CPU exhaustion)
+    freshness_guarantee: "1\u20132 hours (CM internal hourly measurement bucket)"
+    operational_limitations: Hourly aggregated historical snapshot. Does not provide
+      real-time per-call streaming telemetry.
+    null_handling: 'spanNulls: False (nulls preserved as gaps, never coerced to 0)'
+  - panel_id: 4
+    panel_title: "Internal Temperature (\xB0C) [REAL \u2014 HARDWARE]"
+    panel_type: gauge
+    description: "Internal temperature reading of the G450 chassis motherboard in\
+      \ degrees Celsius. Normal: 20-45\xB0C, Warning: > 50\xB0C, Critical: > 60\xB0\
+      C. Source: Avaya G450 Environmental Sensor MIB. Polling: 5m."
+    datasource_type: alexanderzobnin-zabbix-datasource
+    provenance_type: REAL_ZABBIX_TELEMETRY
+    telemetry_source: Zabbix Telemetry Engine (SNMPv2c/v3, ICMP ping, Zabbix Agent
+      LLD)
+    metric_keys:
+    - Internal Chassis Temperature
+    unit: celsius
+    refresh_interval: 30 seconds
+    freshness_guarantee: < 30 seconds
+    operational_limitations: Direct physical switch, router, and host metrics.
+    null_handling: 'spanNulls: False (nulls preserved as gaps, never coerced to 0)'
+  - panel_id: 5
+    panel_title: "Power Supply Status (PSU 1 & 2) [REAL \u2014 HARDWARE]"
+    panel_type: stat
+    description: 'Operational state of Primary and Redundant Power Supply Units (PSU
+      1 and PSU 2). 1 = Normal, 2 = Fault/Failed, 3 = Not Installed. Source: Avaya
+      G450 Power Subsystem MIB. Polling: 5m.'
+    datasource_type: alexanderzobnin-zabbix-datasource
+    provenance_type: REAL_ZABBIX_TELEMETRY
+    telemetry_source: Zabbix Telemetry Engine (SNMPv2c/v3, ICMP ping, Zabbix Agent
+      LLD)
+    metric_keys:
+    - Primary Power Supply Status
+    - Secondary Power Supply Status (Redundant)
+    unit: short
+    refresh_interval: 30 seconds
+    freshness_guarantee: < 30 seconds
+    operational_limitations: Direct physical switch, router, and host metrics.
+    null_handling: 'spanNulls: False (nulls preserved as gaps, never coerced to 0)'
+  - panel_id: 7
+    panel_title: "E1 / ISDN PRI Physical Trunk State [REAL \u2014 HARDWARE]"
+    panel_type: stat
+    description: 'Operational link status of the physical E1 / ISDN PRI trunk port
+      on the installed MM710 media module. 1 = UP, 2 = DOWN. Source: IF-MIB ifOperStatus.
+      Polling: 60s. Critical alert if down.'
+    datasource_type: alexanderzobnin-zabbix-datasource
+    provenance_type: REAL_ZABBIX_TELEMETRY
+    telemetry_source: Zabbix Telemetry Engine (SNMPv2c/v3, ICMP ping, Zabbix Agent
+      LLD)
+    metric_keys:
+    - E1/ISDN Primary Trunk Port Operational Status
+    unit: short
+    refresh_interval: 30 seconds
+    freshness_guarantee: < 30 seconds
+    operational_limitations: Direct physical switch, router, and host metrics.
+    null_handling: 'spanNulls: False (nulls preserved as gaps, never coerced to 0)'
+  - panel_id: 8
+    panel_title: "DSP Media Resource Channels [NOT COLLECTED \u2014 REQUIRES AUDIT]"
+    panel_type: stat
+    description: "VoIP DSP and media resource channel utilization. Status: Not collected\
+      \ \u2014 requires physical audit of installed G450 firmware and DSP child cards\
+      \ (MP80 / MP20 / MP160). Unconfirmed telemetry is honestly displayed as N/A\
+      \ rather than an invented percentage."
+    datasource_type: alexanderzobnin-zabbix-datasource
+    provenance_type: REAL_ZABBIX_TELEMETRY
+    telemetry_source: Zabbix Telemetry Engine (SNMPv2c/v3, ICMP ping, Zabbix Agent
+      LLD)
+    metric_keys:
+    - avG450DspChannelUtilization
+    unit: short
+    refresh_interval: 30 seconds
+    freshness_guarantee: < 30 seconds
+    operational_limitations: Direct physical switch, router, and host metrics.
+    null_handling: 'spanNulls: False (nulls preserved as gaps, never coerced to 0)'
+  - panel_id: 9
+    panel_title: "Chassis Fan Tray Operational State [REAL \u2014 HARDWARE]"
+    panel_type: stat
+    description: 'Operational cooling state of the G450 chassis fan tray unit. 1 =
+      Normal, 2 = Fan Failure, 3 = Warning. Source: Avaya G450 Chassis MIB. Polling:
+      5m.'
+    datasource_type: alexanderzobnin-zabbix-datasource
+    provenance_type: REAL_ZABBIX_TELEMETRY
+    telemetry_source: Zabbix Telemetry Engine (SNMPv2c/v3, ICMP ping, Zabbix Agent
+      LLD)
+    metric_keys:
+    - Chassis Fan Tray State
+    unit: short
+    refresh_interval: 30 seconds
+    freshness_guarantee: < 30 seconds
+    operational_limitations: Direct physical switch, router, and host metrics.
+    null_handling: 'spanNulls: False (nulls preserved as gaps, never coerced to 0)'
+  - panel_id: 11
+    panel_title: "Installed Media Module Slot Inventory (V1-V8) [REAL \u2014 HARDWARE]"
+    panel_type: table
+    description: 'Inventory table of installed media module slots (V1 through V8)
+      on the G450 chassis, displaying module model (MM710 E1/T1, MM711 Analog, MM716
+      Station, MM720 ISDN BRI), serial number, and module operational status. Source:
+      Avaya G450 Media Module Discovery.'
+    datasource_type: alexanderzobnin-zabbix-datasource
+    provenance_type: REAL_ZABBIX_TELEMETRY
+    telemetry_source: Zabbix Telemetry Engine (SNMPv2c/v3, ICMP ping, Zabbix Agent
+      LLD)
+    metric_keys:
+    - Discovered Media Modules Table
+    - app:Media Modules
+    unit: short
+    refresh_interval: 30 seconds
+    freshness_guarantee: < 30 seconds
+    operational_limitations: Direct physical switch, router, and host metrics.
+    null_handling: 'spanNulls: False (nulls preserved as gaps, never coerced to 0)'
 - dashboard_uid: nawari-sbce-health
   dashboard_title: "Nawari \u2014 Avaya SBCE Operational Health"
   domain: Communication Observability
@@ -2032,6 +2562,180 @@ dashboards:
     freshness_guarantee: < 30 seconds
     operational_limitations: Reflects physical/virtual appliance operating metrics
       and carrier interface traffic. Verifies transport/session plane capacity.
+    null_handling: 'spanNulls: False (nulls preserved as gaps, never coerced to 0)'
+- dashboard_uid: nawari-session-manager
+  dashboard_title: "Nawari \u2014 Avaya Aura Session Manager (ASM) Operational Health\
+    \ & SIP Entity Routing"
+  domain: Communication Observability
+  folder: Nawari / Communication Observability
+  file_path: docker/grafana/dashboards/communication_observability/avaya_session_manager.json
+  panels_count: 9
+  panels:
+  - panel_id: 2
+    panel_title: "SM Host CPU Utilization [REAL \u2014 HARDWARE]"
+    panel_type: gauge
+    description: 'Processor core utilization on the Avaya Aura Session Manager appliance.
+      Units: Percentage (0-100%). Warning: 75%, Critical: 90%. Source: HOST-RESOURCES-MIB
+      via SNMPv3. Polling: 60s. Limitation: High CPU may delay SIP routing transaction
+      processing.'
+    datasource_type: alexanderzobnin-zabbix-datasource
+    provenance_type: REAL_ZABBIX_TELEMETRY
+    telemetry_source: Zabbix Telemetry Engine (SNMPv2c/v3, ICMP ping, Zabbix Agent
+      LLD)
+    metric_keys:
+    - Session Manager Host CPU Utilization
+    unit: percent
+    refresh_interval: 30 seconds
+    freshness_guarantee: < 30 seconds
+    operational_limitations: Direct physical switch, router, and host metrics.
+    null_handling: 'spanNulls: False (nulls preserved as gaps, never coerced to 0)'
+  - panel_id: 3
+    panel_title: "SM Host RAM Utilization [REAL \u2014 HARDWARE]"
+    panel_type: gauge
+    description: 'Physical RAM utilization on Avaya Session Manager. Units: Percentage
+      (0-100%). Warning: 80%, Critical: 95%. Source: HOST-RESOURCES-MIB via SNMPv3.
+      Polling: 60s.'
+    datasource_type: alexanderzobnin-zabbix-datasource
+    provenance_type: REAL_ZABBIX_TELEMETRY
+    telemetry_source: Zabbix Telemetry Engine (SNMPv2c/v3, ICMP ping, Zabbix Agent
+      LLD)
+    metric_keys:
+    - Session Manager Host RAM Utilization
+    unit: percent
+    refresh_interval: 30 seconds
+    freshness_guarantee: < 30 seconds
+    operational_limitations: Direct physical switch, router, and host metrics.
+    null_handling: 'spanNulls: False (nulls preserved as gaps, never coerced to 0)'
+  - panel_id: 4
+    panel_title: "SM System Uptime [REAL \u2014 HARDWARE]"
+    panel_type: stat
+    description: 'Operating system uptime of the Session Manager server since last
+      reload. Source: MIB-II sysUpTime (OID 1.3.6.1.2.1.1.3.0). Polling: 60s. Freshness:
+      60s.'
+    datasource_type: alexanderzobnin-zabbix-datasource
+    provenance_type: REAL_ZABBIX_TELEMETRY
+    telemetry_source: Zabbix Telemetry Engine (SNMPv2c/v3, ICMP ping, Zabbix Agent
+      LLD)
+    metric_keys:
+    - Session Manager System Uptime
+    unit: s
+    refresh_interval: 30 seconds
+    freshness_guarantee: < 30 seconds
+    operational_limitations: Direct physical switch, router, and host metrics.
+    null_handling: 'spanNulls: False (nulls preserved as gaps, never coerced to 0)'
+  - panel_id: 5
+    panel_title: "TCP Established Sockets [REAL \u2014 HARDWARE]"
+    panel_type: timeseries
+    description: 'Total count of active TCP sockets currently in ESTABLISHED state
+      on Session Manager. Reflects active signaling connections from endpoints, Communication
+      Manager, and SBCE. Source: TCP-MIB tcpCurrEstab (OID 1.3.6.1.2.1.6.9.0). Polling:
+      60s.'
+    datasource_type: alexanderzobnin-zabbix-datasource
+    provenance_type: REAL_ZABBIX_TELEMETRY
+    telemetry_source: Zabbix Telemetry Engine (SNMPv2c/v3, ICMP ping, Zabbix Agent
+      LLD)
+    metric_keys:
+    - TCP Established Sockets
+    unit: sockets
+    refresh_interval: 30 seconds
+    freshness_guarantee: < 30 seconds
+    operational_limitations: Direct physical switch, router, and host metrics.
+    null_handling: 'spanNulls: False (nulls preserved as gaps, never coerced to 0)'
+  - panel_id: 7
+    panel_title: "SIP Entity State \u2014 Avaya CM [REAL \u2014 AVAYA SNMP]"
+    panel_type: stat
+    description: 'SIP Entity Link Operational Status for Communication Manager reported
+      by Session Manager SIP Entity Monitoring. 1 = UP, 2 = PARTIALLY UP, 3 = DOWN,
+      4 = DENY NEW SERVICE. Source: Avaya Session Manager MIB. Important: Proves SIP
+      OPTIONS reachability only; does NOT guarantee voice audio media quality.'
+    datasource_type: alexanderzobnin-zabbix-datasource
+    provenance_type: REAL_AVAYA_SNMP
+    telemetry_source: Avaya Communication Manager 8.1.0 MIB (avCmMeasIpVoStatSumDataLstHrTable
+      / avCmMeasIpVoStatHrJitterTable)
+    metric_keys:
+    - "SIP Entity State \u2014 Avaya Communication Manager"
+    unit: short
+    refresh_interval: 1 hour (Polling restricted to >= 3600s to prevent CM CPU exhaustion)
+    freshness_guarantee: "1\u20132 hours (CM internal hourly measurement bucket)"
+    operational_limitations: Hourly aggregated historical snapshot. Does not provide
+      real-time per-call streaming telemetry.
+    null_handling: 'spanNulls: False (nulls preserved as gaps, never coerced to 0)'
+  - panel_id: 8
+    panel_title: "SIP Entity State \u2014 Avaya SBCE [REAL \u2014 AVAYA SNMP]"
+    panel_type: stat
+    description: 'SIP Entity Link Operational Status for Avaya SBCE Pride perimeter
+      controller reported by Session Manager SIP Entity Monitoring. 1 = UP, 2 = PARTIALLY
+      UP, 3 = DOWN, 4 = DENY NEW SERVICE. Source: Avaya Session Manager MIB. Warning
+      if DOWN.'
+    datasource_type: alexanderzobnin-zabbix-datasource
+    provenance_type: REAL_AVAYA_SNMP
+    telemetry_source: Avaya Communication Manager 8.1.0 MIB (avCmMeasIpVoStatSumDataLstHrTable
+      / avCmMeasIpVoStatHrJitterTable)
+    metric_keys:
+    - "SIP Entity State \u2014 Avaya SBCE Pride"
+    unit: short
+    refresh_interval: 1 hour (Polling restricted to >= 3600s to prevent CM CPU exhaustion)
+    freshness_guarantee: "1\u20132 hours (CM internal hourly measurement bucket)"
+    operational_limitations: Hourly aggregated historical snapshot. Does not provide
+      real-time per-call streaming telemetry.
+    null_handling: 'spanNulls: False (nulls preserved as gaps, never coerced to 0)'
+  - panel_id: 9
+    panel_title: "SIP OPTIONS Heartbeat Response Time [REAL \u2014 AVAYA SNMP]"
+    panel_type: timeseries
+    description: 'Measured round-trip response time in milliseconds for SIP OPTIONS
+      heartbeat pings sent by Session Manager to monitored entities (CM and SBCE).
+      Units: Milliseconds (ms). Warning: > 100ms, Critical: > 250ms. Source: Session
+      Manager SIP entity monitor. Polling: 60s.'
+    datasource_type: alexanderzobnin-zabbix-datasource
+    provenance_type: REAL_AVAYA_SNMP
+    telemetry_source: Avaya Communication Manager 8.1.0 MIB (avCmMeasIpVoStatSumDataLstHrTable
+      / avCmMeasIpVoStatHrJitterTable)
+    metric_keys:
+    - "SIP OPTIONS Response Time \u2014 Avaya CM"
+    unit: ms
+    refresh_interval: 1 hour (Polling restricted to >= 3600s to prevent CM CPU exhaustion)
+    freshness_guarantee: "1\u20132 hours (CM internal hourly measurement bucket)"
+    operational_limitations: Hourly aggregated historical snapshot. Does not provide
+      real-time per-call streaming telemetry.
+    null_handling: 'spanNulls: False (nulls preserved as gaps, never coerced to 0)'
+  - panel_id: 11
+    panel_title: "Configured SIP Entity Topology & Link Status [REAL \u2014 AVAYA\
+      \ SNMP]"
+    panel_type: table
+    description: 'Comprehensive table of all SIP Entities configured in Session Manager
+      (CM, SBCE Pride, SBCE DR, Media Gateways, PSTN SIP trunks) detailing IP address,
+      transport (TLS/TCP/UDP), port, entity status, and measured OPTIONS latency.
+      Source: Avaya Session Manager MIB.'
+    datasource_type: alexanderzobnin-zabbix-datasource
+    provenance_type: REAL_AVAYA_SNMP
+    telemetry_source: Avaya Communication Manager 8.1.0 MIB (avCmMeasIpVoStatSumDataLstHrTable
+      / avCmMeasIpVoStatHrJitterTable)
+    metric_keys:
+    - SIP Entity Summary Stream
+    - app:SIP Entity Monitoring
+    unit: short
+    refresh_interval: 1 hour (Polling restricted to >= 3600s to prevent CM CPU exhaustion)
+    freshness_guarantee: "1\u20132 hours (CM internal hourly measurement bucket)"
+    operational_limitations: Hourly aggregated historical snapshot. Does not provide
+      real-time per-call streaming telemetry.
+    null_handling: 'spanNulls: False (nulls preserved as gaps, never coerced to 0)'
+  - panel_id: 12
+    panel_title: "Session Manager Active Alarms [REAL \u2014 AVAYA SNMP]"
+    panel_type: stat
+    description: 'Total count of active enterprise alarms currently asserted on Session
+      Manager. Source: avSessionManagerAlarms MIB tree. Polling: 5m. Warning: > 0
+      alarms.'
+    datasource_type: alexanderzobnin-zabbix-datasource
+    provenance_type: REAL_AVAYA_SNMP
+    telemetry_source: Avaya Communication Manager 8.1.0 MIB (avCmMeasIpVoStatSumDataLstHrTable
+      / avCmMeasIpVoStatHrJitterTable)
+    metric_keys:
+    - Session Manager Active Alarms Count
+    unit: alarms
+    refresh_interval: 1 hour (Polling restricted to >= 3600s to prevent CM CPU exhaustion)
+    freshness_guarantee: "1\u20132 hours (CM internal hourly measurement bucket)"
+    operational_limitations: Hourly aggregated historical snapshot. Does not provide
+      real-time per-call streaming telemetry.
     null_handling: 'spanNulls: False (nulls preserved as gaps, never coerced to 0)'
 - dashboard_uid: nawari-voice-correlation
   dashboard_title: "Nawari \u2014 Cross-Domain Voice & Endpoint Telemetry Correlation"
@@ -2456,6 +3160,396 @@ dashboards:
     operational_limitations: Reflects physical/virtual appliance operating metrics
       and carrier interface traffic. Verifies transport/session plane capacity.
     null_handling: 'spanNulls: False (nulls preserved as gaps, never coerced to 0)'
+- dashboard_uid: nawari-comm-overview
+  dashboard_title: "Nawari \u2014 Enterprise Communication Services Overview & Executive\
+    \ Service Assurance"
+  domain: Communication Observability
+  folder: Nawari / Communication Observability
+  file_path: docker/grafana/dashboards/communication_observability/nawari_communication_overview.json
+  panels_count: 12
+  panels:
+  - panel_id: 2
+    panel_title: "Avaya Core Telephony Platform Availability Grid [REAL \u2014 ZABBIX]"
+    panel_type: stat
+    description: 'Composite availability grid across all core enterprise telephony
+      platforms: Avaya SBCE (.131 Pride), Session Manager (.22), Communication Manager
+      (.26), G450 Media Gateway (.60), and CMS Server. Displays real-time operational
+      status (1 = UP, 0 = DOWN). Source: Zabbix ICMP and SNMP health checks. Freshness:
+      60s. Limitation: Reflects management/control plane reachability only.'
+    datasource_type: alexanderzobnin-zabbix-datasource
+    provenance_type: REAL_SBCE_SNMP
+    telemetry_source: Avaya SBCE 8.1 SNMPv3 Agent (IF-MIB / HOST-RESOURCES-MIB / UCD-SNMP-MIB)
+    metric_keys:
+    - Appliance SNMP Reachability
+    - Session Manager SNMP Availability
+    - Communication Manager SNMP Availability
+    - G450 ICMP Reachability
+    - CMS Server Availability
+    unit: short
+    refresh_interval: 30 seconds
+    freshness_guarantee: < 30 seconds
+    operational_limitations: Reflects physical/virtual appliance operating metrics
+      and carrier interface traffic. Verifies transport/session plane capacity.
+    null_handling: 'spanNulls: False (nulls preserved as gaps, never coerced to 0)'
+  - panel_id: 3
+    panel_title: "Active Telephony Alarms (CM & SM) [REAL \u2014 AVAYA SNMP]"
+    panel_type: stat
+    description: 'Total count of active, unresolved telephony alarms across Avaya
+      Communication Manager and Session Manager. Source: Avaya CM enterprise MIB avCmAlarms
+      (OID 1.3.6.1.4.1.6889.2.73.1) and Session Manager alarms. Warning: > 0 alarms.
+      Polling interval: 1 hour (CM vendor CPU conservation limit). Freshness: 1-2
+      hours.'
+    datasource_type: alexanderzobnin-zabbix-datasource
+    provenance_type: REAL_AVAYA_SNMP
+    telemetry_source: Avaya Communication Manager 8.1.0 MIB (avCmMeasIpVoStatSumDataLstHrTable
+      / avCmMeasIpVoStatHrJitterTable)
+    metric_keys:
+    - Active Alarms Count
+    - Session Manager Active Alarms Count
+    unit: alarms
+    refresh_interval: 1 hour (Polling restricted to >= 3600s to prevent CM CPU exhaustion)
+    freshness_guarantee: "1\u20132 hours (CM internal hourly measurement bucket)"
+    operational_limitations: Hourly aggregated historical snapshot. Does not provide
+      real-time per-call streaming telemetry.
+    null_handling: 'spanNulls: False (nulls preserved as gaps, never coerced to 0)'
+  - panel_id: 5
+    panel_title: "Active SIP Calls on Perimeter SBCE [REAL \u2014 SBCE SNMP]"
+    panel_type: gauge
+    description: "Count of currently active SIP call sessions established through\
+      \ the Avaya SBCE. Measures live concurrent signaling/session capacity, not historical\
+      \ completed call volume. Source: Avaya SBCE EMS SIP Statistics Interface. Freshness:\
+      \ 60s. Normal: 50\u2013350 calls, Critical: > 450 (approaching 500 session license\
+      \ limit)."
+    datasource_type: alexanderzobnin-zabbix-datasource
+    provenance_type: REAL_SBCE_SNMP
+    telemetry_source: Avaya SBCE 8.1 SNMPv3 Agent (IF-MIB / HOST-RESOURCES-MIB / UCD-SNMP-MIB)
+    metric_keys:
+    - Active Audio Sessions
+    unit: calls
+    refresh_interval: 30 seconds
+    freshness_guarantee: < 30 seconds
+    operational_limitations: Reflects physical/virtual appliance operating metrics
+      and carrier interface traffic. Verifies transport/session plane capacity.
+    null_handling: 'spanNulls: False (nulls preserved as gaps, never coerced to 0)'
+  - panel_id: 6
+    panel_title: "Carrier SIP Trunk Registration Status [REAL \u2014 ZABBIX]"
+    panel_type: stat
+    description: 'Operational status of primary (Safaricom) and secondary (Airtel)
+      carrier SIP trunks terminating on Avaya SBCE. 1 = REGISTERED / UP, 0 = UNREGISTERED
+      / DOWN. Source: Zabbix SIP monitoring on SBCE. Crucial Note: Proves layer-5
+      SIP signaling reachability only; does NOT guarantee voice audio quality or absence
+      of media packet loss. Freshness: 60s.'
+    datasource_type: alexanderzobnin-zabbix-datasource
+    provenance_type: REAL_SBCE_SNMP
+    telemetry_source: Avaya SBCE 8.1 SNMPv3 Agent (IF-MIB / HOST-RESOURCES-MIB / UCD-SNMP-MIB)
+    metric_keys:
+    - Safaricom Primary SIP Trunk Operational Status
+    - Airtel Secondary SIP Trunk Operational Status
+    unit: short
+    refresh_interval: 30 seconds
+    freshness_guarantee: < 30 seconds
+    operational_limitations: Reflects physical/virtual appliance operating metrics
+      and carrier interface traffic. Verifies transport/session plane capacity.
+    null_handling: 'spanNulls: False (nulls preserved as gaps, never coerced to 0)'
+  - panel_id: 7
+    panel_title: "5-Minute Call Processing Rate (CM) [REAL \u2014 AVAYA SNMP]"
+    panel_type: timeseries
+    description: 'Rate of call attempts and completed call connections processed by
+      Avaya Communication Manager sampled every 5 minutes. Source: Avaya CM MIB table
+      avCmListMeasCallRateTotal (OID 1.3.6.1.4.1.6889.2.73.8.1.1). Polling interval:
+      5 minutes (vendor specified CPU limit). Freshness: 5 minutes.'
+    datasource_type: alexanderzobnin-zabbix-datasource
+    provenance_type: REAL_AVAYA_SNMP
+    telemetry_source: Avaya Communication Manager 8.1.0 MIB (avCmMeasIpVoStatSumDataLstHrTable
+      / avCmMeasIpVoStatHrJitterTable)
+    metric_keys:
+    - Call Rate Total Attempts (5-minute)
+    - Call Rate Completed Calls (5-minute)
+    unit: calls
+    refresh_interval: 1 hour (Polling restricted to >= 3600s to prevent CM CPU exhaustion)
+    freshness_guarantee: "1\u20132 hours (CM internal hourly measurement bucket)"
+    operational_limitations: Hourly aggregated historical snapshot. Does not provide
+      real-time per-call streaming telemetry.
+    null_handling: 'spanNulls: False (nulls preserved as gaps, never coerced to 0)'
+  - panel_id: 9
+    panel_title: "Contact Centre Service Level (% in SLA) [APPLICATION \u2014 CMS]"
+    panel_type: gauge
+    description: "Percentage of incoming customer contact centre calls answered within\
+      \ the contractual Kenya Airways threshold (80% answered in 20 seconds). Source:\
+      \ Avaya CMS Informix database read-only integration. Warning: < 80%, Critical:\
+      \ < 70%. Freshness: 15\u201330 minutes (matches CMS reporting archive interval)."
+    datasource_type: alexanderzobnin-zabbix-datasource
+    provenance_type: SERVICE_ASSURANCE_SLI
+    telemetry_source: Nawari Business Service SLI Engine (13B Standard)
+    metric_keys:
+    - Overall Service Level Attainment
+    unit: percent
+    refresh_interval: 60 seconds
+    freshness_guarantee: < 60 seconds
+    operational_limitations: Strict multi-dimensional availability, performance, and
+      quality SLI calculations.
+    null_handling: 'spanNulls: False (nulls preserved as gaps, never coerced to 0)'
+  - panel_id: 10
+    panel_title: "Queue Depth & Oldest Waiting Call [APPLICATION \u2014 CMS]"
+    panel_type: stat
+    description: 'Current number of customer callers waiting in queue and wait duration
+      (seconds) of the oldest queued caller across all ACD skills. Source: Avaya CMS
+      real-time reporting interface. Warning: Queue > 15 calls or Oldest > 120s. Freshness:
+      60s.'
+    datasource_type: alexanderzobnin-zabbix-datasource
+    provenance_type: REAL_ZABBIX_TELEMETRY
+    telemetry_source: Zabbix Telemetry Engine (SNMPv2c/v3, ICMP ping, Zabbix Agent
+      LLD)
+    metric_keys:
+    - Calls Waiting in Queue
+    - Oldest Call Waiting Duration
+    unit: short
+    refresh_interval: 30 seconds
+    freshness_guarantee: < 30 seconds
+    operational_limitations: Direct physical switch, router, and host metrics.
+    null_handling: 'spanNulls: False (nulls preserved as gaps, never coerced to 0)'
+  - panel_id: 11
+    panel_title: "Agent Staffing State Distribution [APPLICATION \u2014 CMS]"
+    panel_type: piechart
+    description: "Distribution of customer service agent staffing across states: Logged\
+      \ In, Available (idle), ACD Talking (on call), After Call Work (ACW), and Auxiliary\
+      \ (break/training). Source: Avaya CMS Informix database read-only query. Freshness:\
+      \ 15\u201330 minutes."
+    datasource_type: alexanderzobnin-zabbix-datasource
+    provenance_type: REAL_ZABBIX_TELEMETRY
+    telemetry_source: Zabbix Telemetry Engine (SNMPv2c/v3, ICMP ping, Zabbix Agent
+      LLD)
+    metric_keys:
+    - Agent Staffing by State
+    unit: short
+    refresh_interval: 30 seconds
+    freshness_guarantee: < 30 seconds
+    operational_limitations: Direct physical switch, router, and host metrics.
+    null_handling: 'spanNulls: False (nulls preserved as gaps, never coerced to 0)'
+  - panel_id: 13
+    panel_title: "Real-Call MOS [NOT INSTRUMENTED \u2014 RTCP XR REQUIRED]"
+    panel_type: stat
+    description: "Real-call Mean Opinion Score (MOS). Status: Not instrumented \u2014\
+      \ no validated real-call MOS telemetry source is configured (RTCP-XR RFC 3611\
+      \ Block 7 or passive media analyzer required). Displayed value is null/uninstrumented;\
+      \ synthetic MOS must never be substituted for real subscriber calls."
+    datasource_type: alexanderzobnin-zabbix-datasource
+    provenance_type: NOT_INSTRUMENTED
+    telemetry_source: "None \u2014 Telemetry Not Instrumented (Requires RFC 3611 RTCP-XR\
+      \ Block 7 or E-Model on live media)"
+    metric_keys:
+    - avCmRealCallEstimatedMos
+    unit: short
+    refresh_interval: N/A
+    freshness_guarantee: N/A (Uninstrumented)
+    operational_limitations: Metric is deliberately uninstrumented to avoid masking
+      with synthetic or reachability values. Real-call audio quality requires dedicated
+      RTCP-XR endpoints or gateway E-model.
+    null_handling: 'spanNulls: False (nulls preserved as gaps, never coerced to 0)'
+  - panel_id: 14
+    panel_title: "Real-Call Packet Loss % (CM Last Hour) [REAL \u2014 AVAYA SNMP]"
+    panel_type: stat
+    description: 'Hourly aggregated real-call packet loss percentage across active
+      calls terminating on Avaya Communication Manager media gateways. Source: Avaya
+      CM MIB table avCmMeasIpVoStatSumDataLstHrTable (OID 1.3.6.1.4.1.6889.2.73.8.1.77
+      leaf .6). Interval: strictly 1 hour. Freshness: 1-2 hours. Warning: > 2.5%.'
+    datasource_type: alexanderzobnin-zabbix-datasource
+    provenance_type: REAL_AVAYA_SNMP
+    telemetry_source: Avaya Communication Manager 8.1.0 MIB (avCmMeasIpVoStatSumDataLstHrTable
+      / avCmMeasIpVoStatHrJitterTable)
+    metric_keys:
+    - Real-Call Packet Loss (Last Hour)
+    unit: percent
+    refresh_interval: 1 hour (Polling restricted to >= 3600s to prevent CM CPU exhaustion)
+    freshness_guarantee: "1\u20132 hours (CM internal hourly measurement bucket)"
+    operational_limitations: Hourly aggregated historical snapshot. Does not provide
+      real-time per-call streaming telemetry.
+    null_handling: 'spanNulls: False (nulls preserved as gaps, never coerced to 0)'
+  - panel_id: 15
+    panel_title: "Synthetic Voice MOS [SYNTHETIC \u2014 ASTERISK]"
+    panel_type: gauge
+    description: 'Mean Opinion Score (MOS) estimated via ITU-T G.107 E-model strictly
+      for synthetic test calls generated between Asterisk probes and test extensions.
+      Scale: 1.0 to 4.5. Warning: < 3.6, Critical: < 3.1. Source: Synthetic Asterisk
+      probe telemetry. Caution: Reflects synthetic probe calls ONLY; does NOT represent
+      real customer calls.'
+    datasource_type: alexanderzobnin-zabbix-datasource
+    provenance_type: SYNTHETIC_PROBE
+    telemetry_source: Synthetic Asterisk Call Engine (AMI / RTCP Telemetry)
+    metric_keys:
+    - Estimated Mean Opinion Score (MOS)
+    - app:Synthetic Voice Probes
+    unit: none
+    refresh_interval: "30s\u201360s"
+    freshness_guarantee: < 60 seconds (Probe Cycle Interval)
+    operational_limitations: Reflects synthetic test calls generated between local
+      probes and test extensions. Does not represent actual customer or airline agent
+      voice conversations.
+    null_handling: 'spanNulls: False (nulls preserved as gaps, never coerced to 0)'
+  - panel_id: 16
+    panel_title: Voice Telemetry Source Freshness & Instrumentation Inventory [AUDIT]
+    panel_type: table
+    description: Audit inventory of all voice telemetry sources, underlying protocols,
+      expected polling intervals, freshness guarantees, and operational status. Identifies
+      whether data is actively updating or stale.
+    datasource_type: alexanderzobnin-zabbix-datasource
+    provenance_type: REAL_ZABBIX_TELEMETRY
+    telemetry_source: Zabbix Telemetry Engine (SNMPv2c/v3, ICMP ping, Zabbix Agent
+      LLD)
+    metric_keys:
+    - Telemetry Source Freshness Table
+    - app:Telemetry Audit
+    unit: short
+    refresh_interval: 30 seconds
+    freshness_guarantee: < 30 seconds
+    operational_limitations: Direct physical switch, router, and host metrics.
+    null_handling: 'spanNulls: False (nulls preserved as gaps, never coerced to 0)'
+- dashboard_uid: nawari-sip-trunks
+  dashboard_title: "Nawari \u2014 Carrier SIP Trunks, Signaling Ladders & Perimeter\
+    \ Session Routing"
+  domain: Communication Observability
+  folder: Nawari / Communication Observability
+  file_path: docker/grafana/dashboards/communication_observability/nawari_sip_trunks_signaling.json
+  panels_count: 7
+  panels:
+  - panel_id: 2
+    panel_title: "Safaricom Primary SIP Trunk [REAL \u2014 ZABBIX]"
+    panel_type: stat
+    description: 'Operational registration state of the primary Safaricom SIP trunk
+      terminating on Avaya SBCE interface A1. 1 = REGISTERED, 0 = UNREGISTERED / FAILED.
+      Source: Zabbix SNMP/SIP OPTIONS check on SBCE. Crucial Note: Proves layer-5
+      signaling reachability only; does NOT guarantee absence of voice packet loss
+      or acceptable audio quality.'
+    datasource_type: alexanderzobnin-zabbix-datasource
+    provenance_type: REAL_SBCE_SNMP
+    telemetry_source: Avaya SBCE 8.1 SNMPv3 Agent (IF-MIB / HOST-RESOURCES-MIB / UCD-SNMP-MIB)
+    metric_keys:
+    - Safaricom Primary SIP Trunk Operational Status
+    unit: short
+    refresh_interval: 30 seconds
+    freshness_guarantee: < 30 seconds
+    operational_limitations: Reflects physical/virtual appliance operating metrics
+      and carrier interface traffic. Verifies transport/session plane capacity.
+    null_handling: 'spanNulls: False (nulls preserved as gaps, never coerced to 0)'
+  - panel_id: 3
+    panel_title: "Airtel Secondary SIP Trunk [REAL \u2014 ZABBIX]"
+    panel_type: stat
+    description: 'Operational registration state of the secondary Airtel SIP trunk
+      terminating on Avaya SBCE interface A1. 1 = REGISTERED, 0 = UNREGISTERED / FAILED.
+      Source: Zabbix SNMP/SIP OPTIONS check on SBCE. Signaling reachability only.'
+    datasource_type: alexanderzobnin-zabbix-datasource
+    provenance_type: REAL_SBCE_SNMP
+    telemetry_source: Avaya SBCE 8.1 SNMPv3 Agent (IF-MIB / HOST-RESOURCES-MIB / UCD-SNMP-MIB)
+    metric_keys:
+    - Airtel Secondary SIP Trunk Operational Status
+    unit: short
+    refresh_interval: 30 seconds
+    freshness_guarantee: < 30 seconds
+    operational_limitations: Reflects physical/virtual appliance operating metrics
+      and carrier interface traffic. Verifies transport/session plane capacity.
+    null_handling: 'spanNulls: False (nulls preserved as gaps, never coerced to 0)'
+  - panel_id: 4
+    panel_title: "Carrier SIP OPTIONS Round-Trip Latency [REAL \u2014 ZABBIX]"
+    panel_type: timeseries
+    description: 'Round-trip latency in milliseconds for SIP OPTIONS heartbeat pings
+      exchanged with carrier SBC endpoints (Safaricom vs Airtel). Units: Milliseconds
+      (ms). Warning: > 50ms, Critical: > 100ms. Source: Zabbix SIP OPTIONS probe.
+      Polling: 30s.'
+    datasource_type: alexanderzobnin-zabbix-datasource
+    provenance_type: REAL_SBCE_SNMP
+    telemetry_source: Avaya SBCE 8.1 SNMPv3 Agent (IF-MIB / HOST-RESOURCES-MIB / UCD-SNMP-MIB)
+    metric_keys:
+    - Safaricom SIP OPTIONS Round-Trip Latency
+    - Airtel SIP OPTIONS Round-Trip Latency
+    unit: ms
+    refresh_interval: 30 seconds
+    freshness_guarantee: < 30 seconds
+    operational_limitations: Reflects physical/virtual appliance operating metrics
+      and carrier interface traffic. Verifies transport/session plane capacity.
+    null_handling: 'spanNulls: False (nulls preserved as gaps, never coerced to 0)'
+  - panel_id: 6
+    panel_title: "Signaling Phase Latencies (PDD vs TTA vs Setup) [SYNTHETIC \u2014\
+      \ ASTERISK PROBE]"
+    panel_type: timeseries
+    description: 'Post-Dial Delay (PDD: INVITE to 18x), Time-to-Alerting (TTA: INVITE
+      to 180 Ringing), and Call Setup Duration measured in milliseconds from synthetic
+      Asterisk test calls across carrier trunks. Source: Asterisk AMI call logs. Limitations:
+      Reflects synthetic probe calls between test extensions.'
+    datasource_type: alexanderzobnin-zabbix-datasource
+    provenance_type: SYNTHETIC_PROBE
+    telemetry_source: Synthetic Asterisk Call Engine (AMI / RTCP Telemetry)
+    metric_keys:
+    - Post-Dial Delay (PDD)
+    - app:Synthetic Voice Probes
+    - Time to Alerting (TTA)
+    - app:Synthetic Voice Probes
+    - Call Setup Duration
+    - app:Synthetic Voice Probes
+    unit: ms
+    refresh_interval: "30s\u201360s"
+    freshness_guarantee: < 60 seconds (Probe Cycle Interval)
+    operational_limitations: Reflects synthetic test calls generated between local
+      probes and test extensions. Does not represent actual customer or airline agent
+      voice conversations.
+    null_handling: 'spanNulls: False (nulls preserved as gaps, never coerced to 0)'
+  - panel_id: 7
+    panel_title: "SIP Response Distribution (Station vs Trunk Outage) [SYNTHETIC \u2014\
+      \ ASTERISK PROBE]"
+    panel_type: piechart
+    description: 'Distribution of SIP response codes returned by carrier networks
+      during synthetic probe calls: differentiates expected station states (480 offline,
+      486 busy, 487 teardown) from carrier/infrastructure failures (500 Server Internal
+      Error, 502 Bad Gateway, 503 Service Unavailable, 504 Gateway Timeout). Source:
+      Synthetic Asterisk transaction logs.'
+    datasource_type: alexanderzobnin-zabbix-datasource
+    provenance_type: SYNTHETIC_PROBE
+    telemetry_source: Synthetic Asterisk Call Engine (AMI / RTCP Telemetry)
+    metric_keys:
+    - SIP Responses by Category
+    - app:Synthetic Voice Probes
+    unit: short
+    refresh_interval: "30s\u201360s"
+    freshness_guarantee: < 60 seconds (Probe Cycle Interval)
+    operational_limitations: Reflects synthetic test calls generated between local
+      probes and test extensions. Does not represent actual customer or airline agent
+      voice conversations.
+    null_handling: 'spanNulls: False (nulls preserved as gaps, never coerced to 0)'
+  - panel_id: 9
+    panel_title: "A1 Carrier DMZ Bandwidth (bps) [REAL \u2014 SBCE SNMP]"
+    panel_type: timeseries
+    description: 'Bidirectional network bandwidth utilization on external interface
+      A1 carrying carrier SIP signaling and RTP media streams. Units: Bits per second
+      (bps). Source: IF-MIB on Avaya SBCE via Zabbix SNMPv3. Polling: 30s.'
+    datasource_type: alexanderzobnin-zabbix-datasource
+    provenance_type: REAL_SBCE_SNMP
+    telemetry_source: Avaya SBCE 8.1 SNMPv3 Agent (IF-MIB / HOST-RESOURCES-MIB / UCD-SNMP-MIB)
+    metric_keys:
+    - A1 Interface Ingress Traffic (bps)
+    - A1 Interface Egress Traffic (bps)
+    unit: bps
+    refresh_interval: 30 seconds
+    freshness_guarantee: < 30 seconds
+    operational_limitations: Reflects physical/virtual appliance operating metrics
+      and carrier interface traffic. Verifies transport/session plane capacity.
+    null_handling: 'spanNulls: False (nulls preserved as gaps, never coerced to 0)'
+  - panel_id: 10
+    panel_title: "Carrier Interface Packet Errors (Errors/sec) [REAL \u2014 SBCE SNMP]"
+    panel_type: timeseries
+    description: 'Rate of inbound and outbound frame/packet errors detected on carrier
+      interface A1. Units: Errors per second. Source: IF-MIB ifInErrors / ifOutErrors.
+      Any non-zero error rate directly degrades voice audio quality, causing clipping
+      and metallic distortion.'
+    datasource_type: alexanderzobnin-zabbix-datasource
+    provenance_type: REAL_SBCE_SNMP
+    telemetry_source: Avaya SBCE 8.1 SNMPv3 Agent (IF-MIB / HOST-RESOURCES-MIB / UCD-SNMP-MIB)
+    metric_keys:
+    - Voice Path Packet Errors (rate)
+    unit: errors/s
+    refresh_interval: 30 seconds
+    freshness_guarantee: < 30 seconds
+    operational_limitations: Reflects physical/virtual appliance operating metrics
+      and carrier interface traffic. Verifies transport/session plane capacity.
+    null_handling: 'spanNulls: False (nulls preserved as gaps, never coerced to 0)'
 - dashboard_uid: nawari-voice-intelligence
   dashboard_title: "Nawari \u2014 Communications Intelligence & Voice Service Assurance"
   domain: Communication Observability
@@ -2695,5 +3789,183 @@ dashboards:
     operational_limitations: Combines multi-domain telemetry across network paths,
       voice signaling, and outstation hosts.
     null_handling: 'spanNulls: False (nulls preserved as gaps, never coerced to 0)'
-total_dashboards: 17
-total_visualization_panels: 134
+- dashboard_uid: nawari-recording-wfo
+  dashboard_title: "Nawari \u2014 Voice Recording & Workforce Optimisation (WFO) Operational\
+    \ Health"
+  domain: Communication Observability
+  folder: Nawari / Communication Observability
+  file_path: docker/grafana/dashboards/communication_observability/recording_wfo_operational_health.json
+  panels_count: 10
+  panels:
+  - panel_id: 2
+    panel_title: WFO Product Specification Status [PENDING VENDOR CONFIRMATION]
+    panel_type: stat
+    description: 'Product specification and boundary requirements: WFO is an enterprise
+      product category, not a specific product. Displays integration prerequisites
+      (Verint / NICE / Geomant / AWOS verification required). Documents that Nawari
+      collects operational metadata ONLY; voice audio recordings are strictly excluded.'
+    datasource_type: alexanderzobnin-zabbix-datasource
+    provenance_type: REAL_ZABBIX_TELEMETRY
+    telemetry_source: Zabbix Telemetry Engine (SNMPv2c/v3, ICMP ping, Zabbix Agent
+      LLD)
+    metric_keys:
+    - wfoProductSpecificationStatus
+    unit: short
+    refresh_interval: 30 seconds
+    freshness_guarantee: < 30 seconds
+    operational_limitations: Direct physical switch, router, and host metrics.
+    null_handling: 'spanNulls: False (nulls preserved as gaps, never coerced to 0)'
+  - panel_id: 3
+    panel_title: "Recorder-to-CM CTI Link State [APPLICATION \u2014 WFO]"
+    panel_type: stat
+    description: 'Operational health of the CTI signaling link between Avaya Communication
+      Manager and the recording server cluster (TSAPI / DMCC / CSTA). 1 = Link Active,
+      0 = Link Down. Critical alert if down: halts call metadata association. Source:
+      CTI daemon check. Polling: 60s.'
+    datasource_type: alexanderzobnin-zabbix-datasource
+    provenance_type: REAL_ZABBIX_TELEMETRY
+    telemetry_source: Zabbix Telemetry Engine (SNMPv2c/v3, ICMP ping, Zabbix Agent
+      LLD)
+    metric_keys:
+    - Recorder-to-CM CTI Link State
+    unit: short
+    refresh_interval: 30 seconds
+    freshness_guarantee: < 30 seconds
+    operational_limitations: Direct physical switch, router, and host metrics.
+    null_handling: 'spanNulls: False (nulls preserved as gaps, never coerced to 0)'
+  - panel_id: 4
+    panel_title: "Recording Host Uptime [REAL \u2014 HARDWARE]"
+    panel_type: stat
+    description: 'Operating system uptime of the recording application host server.
+      Source: MIB-II sysUpTime. Polling: 60s.'
+    datasource_type: alexanderzobnin-zabbix-datasource
+    provenance_type: REAL_ZABBIX_TELEMETRY
+    telemetry_source: Zabbix Telemetry Engine (SNMPv2c/v3, ICMP ping, Zabbix Agent
+      LLD)
+    metric_keys:
+    - Recording Host Uptime
+    unit: s
+    refresh_interval: 30 seconds
+    freshness_guarantee: < 30 seconds
+    operational_limitations: Direct physical switch, router, and host metrics.
+    null_handling: 'spanNulls: False (nulls preserved as gaps, never coerced to 0)'
+  - panel_id: 6
+    panel_title: "Active Recording Sessions [APPLICATION \u2014 WFO]"
+    panel_type: stat
+    description: 'Live count of concurrent telephone voice conversations currently
+      being actively captured and recorded. Source: Recording daemon active session
+      counter. Polling: 60s.'
+    datasource_type: alexanderzobnin-zabbix-datasource
+    provenance_type: REAL_ZABBIX_TELEMETRY
+    telemetry_source: Zabbix Telemetry Engine (SNMPv2c/v3, ICMP ping, Zabbix Agent
+      LLD)
+    metric_keys:
+    - Active Concurrent Recording Sessions
+    unit: calls
+    refresh_interval: 30 seconds
+    freshness_guarantee: < 30 seconds
+    operational_limitations: Direct physical switch, router, and host metrics.
+    null_handling: 'spanNulls: False (nulls preserved as gaps, never coerced to 0)'
+  - panel_id: 7
+    panel_title: "Ingestion Rate (Calls/min) [APPLICATION \u2014 WFO]"
+    panel_type: timeseries
+    description: 'Rate of recorded call metadata payloads ingested and indexed into
+      the archive per minute. Source: WFO ingestion API. Polling: 60s.'
+    datasource_type: alexanderzobnin-zabbix-datasource
+    provenance_type: REAL_ZABBIX_TELEMETRY
+    telemetry_source: Zabbix Telemetry Engine (SNMPv2c/v3, ICMP ping, Zabbix Agent
+      LLD)
+    metric_keys:
+    - Recording Ingestion Rate
+    unit: cpm
+    refresh_interval: 30 seconds
+    freshness_guarantee: < 30 seconds
+    operational_limitations: Direct physical switch, router, and host metrics.
+    null_handling: 'spanNulls: False (nulls preserved as gaps, never coerced to 0)'
+  - panel_id: 8
+    panel_title: "Recording Failures Count [APPLICATION \u2014 WFO]"
+    panel_type: stat
+    description: 'Count of failed recording operations (e.g. RTP stream missing, CTI
+      timeout, codec mismatch) in the preceding hour. Source: Recording error log.
+      Warning: > 0 failures.'
+    datasource_type: alexanderzobnin-zabbix-datasource
+    provenance_type: REAL_ZABBIX_TELEMETRY
+    telemetry_source: Zabbix Telemetry Engine (SNMPv2c/v3, ICMP ping, Zabbix Agent
+      LLD)
+    metric_keys:
+    - Recording Capture Failure Count
+    unit: calls
+    refresh_interval: 30 seconds
+    freshness_guarantee: < 30 seconds
+    operational_limitations: Direct physical switch, router, and host metrics.
+    null_handling: 'spanNulls: False (nulls preserved as gaps, never coerced to 0)'
+  - panel_id: 9
+    panel_title: "Ingestion Queue Depth [APPLICATION \u2014 WFO]"
+    panel_type: gauge
+    description: 'Number of call recording files currently buffered in local staging
+      storage awaiting transfer to long-term archive. Warning: > 200 calls. Critical:
+      > 500 calls. Source: Ingestion queue monitor.'
+    datasource_type: alexanderzobnin-zabbix-datasource
+    provenance_type: REAL_ZABBIX_TELEMETRY
+    telemetry_source: Zabbix Telemetry Engine (SNMPv2c/v3, ICMP ping, Zabbix Agent
+      LLD)
+    metric_keys:
+    - Ingestion Buffer Queue Depth
+    unit: calls
+    refresh_interval: 30 seconds
+    freshness_guarantee: < 30 seconds
+    operational_limitations: Direct physical switch, router, and host metrics.
+    null_handling: 'spanNulls: False (nulls preserved as gaps, never coerced to 0)'
+  - panel_id: 11
+    panel_title: "Recording Storage Utilization (%) [REAL \u2014 HARDWARE]"
+    panel_type: gauge
+    description: 'Storage capacity utilization percentage across dedicated call recording
+      storage volumes. Warning: > 80%, Critical: > 90%. Source: HOST-RESOURCES-MIB
+      hrStorageUsed. Polling: 5m.'
+    datasource_type: alexanderzobnin-zabbix-datasource
+    provenance_type: REAL_ZABBIX_TELEMETRY
+    telemetry_source: Zabbix Telemetry Engine (SNMPv2c/v3, ICMP ping, Zabbix Agent
+      LLD)
+    metric_keys:
+    - Recording Storage Partition Utilization
+    unit: percent
+    refresh_interval: 30 seconds
+    freshness_guarantee: < 30 seconds
+    operational_limitations: Direct physical switch, router, and host metrics.
+    null_handling: 'spanNulls: False (nulls preserved as gaps, never coerced to 0)'
+  - panel_id: 12
+    panel_title: Projected Days-to-Full (Storage TTE) [PREDICTIVE]
+    panel_type: stat
+    description: 'Projected remaining days before recording storage volume reaches
+      90% and 100% capacity saturation based on rolling 14-day daily ingestion trajectory.
+      Source: Nawari Storage Capacity Forecaster. Warning: < 30 days.'
+    datasource_type: alexanderzobnin-zabbix-datasource
+    provenance_type: REAL_ZABBIX_TELEMETRY
+    telemetry_source: Zabbix Telemetry Engine (SNMPv2c/v3, ICMP ping, Zabbix Agent
+      LLD)
+    metric_keys:
+    - Projected Days-to-Full (Storage TTE)
+    unit: d
+    refresh_interval: 30 seconds
+    freshness_guarantee: < 30 seconds
+    operational_limitations: Direct physical switch, router, and host metrics.
+    null_handling: 'spanNulls: False (nulls preserved as gaps, never coerced to 0)'
+  - panel_id: 13
+    panel_title: "Daily Archival Success Rate (%) [APPLICATION \u2014 WFO]"
+    panel_type: gauge
+    description: 'Percentage of completed daily call recordings successfully migrated
+      and verified in the offsite long-term immutable archival tier. Target: 100%.
+      Source: WFO Archival Verifier.'
+    datasource_type: alexanderzobnin-zabbix-datasource
+    provenance_type: REAL_ZABBIX_TELEMETRY
+    telemetry_source: Zabbix Telemetry Engine (SNMPv2c/v3, ICMP ping, Zabbix Agent
+      LLD)
+    metric_keys:
+    - Daily Archival Transfer Success Rate
+    unit: percent
+    refresh_interval: 30 seconds
+    freshness_guarantee: < 30 seconds
+    operational_limitations: Direct physical switch, router, and host metrics.
+    null_handling: 'spanNulls: False (nulls preserved as gaps, never coerced to 0)'
+total_dashboards: 24
+total_visualization_panels: 200

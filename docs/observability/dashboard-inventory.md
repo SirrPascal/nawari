@@ -1,6 +1,6 @@
 # Nawari Enterprise Observability — Operational Dashboard & Metric Catalogue
 
-**Generated:** `2026-11-08T10:17:56.992075+00:00`  
+**Generated:** `2026-11-08T10:36:21.189631+00:00`  
 **Standard:** Nawari Phase 13.1 Telemetry Integrity & Operational Separation  
 **Target Environment:** Kenya Airways Ground Network & Global Outstation Fleet  
 
@@ -15,7 +15,7 @@ Nawari structures its operational telemetry into two top-level Grafana domain fo
    - Contains **13 dashboards**.
 2. **`Nawari / Communication Observability`** (`folderUid: nawari-comm-obs`):
    - Dedicated to Avaya Aura Communication Manager, Session Border Controllers (SBCE 8.1), Session Manager, carrier SIP trunks, call signaling ladders, and voice media quality.
-   - Contains **4 dashboards**.
+   - Contains **11 dashboards**.
 
 ### Telemetry Integrity Enforcements
 - **Hover Descriptions:** 100% of visualization panels feature comprehensive hover descriptions detailing operational meaning, units, data source, and known bounds.
@@ -51,14 +51,21 @@ Nawari structures its operational telemetry into two top-level Grafana domain fo
 
 ### Domain: Communication Observability
 - **Grafana Folder:** `Nawari / Communication Observability` (`nawari-comm-obs`)
-- **Dashboard Count:** 4
+- **Dashboard Count:** 11
 
 | Dashboard Title | UID | Visualization Panels | Key Focus |
 | :--- | :--- | :---: | :--- |
+| **Nawari — Avaya Call Management System (CMS) & Contact Centre Performance** | `nawari-cms-contact-centre` | 9 | Processor core utilization on the Avaya Call Management System (CMS) server host... |
+| **Nawari — Avaya Aura Communication Manager (CM) Call Processing & IP Voice Performance** | `nawari-communication-manager` | 11 | ICMP ping network reachability to the Avaya Communication Manager processor inte... |
+| **Nawari — Avaya G450 Media Gateway Appliance & Physical Telephony Health** | `nawari-g450-gateway` | 8 | Operating time of the Avaya G450 chassis processor since last reload or power cy... |
 | **Nawari — Avaya SBCE Operational Health** | `nawari-sbce-health` | 15 | Operational status of the SNMPv3 monitoring agent on the Avaya Session Border Co... |
+| **Nawari — Avaya Aura Session Manager (ASM) Operational Health & SIP Entity Routing** | `nawari-session-manager` | 9 | Processor core utilization on the Avaya Aura Session Manager appliance. Units: P... |
 | **Nawari — Cross-Domain Voice & Endpoint Telemetry Correlation** | `nawari-voice-correlation` | 9 | Architectural guidelines defining the separation between network transport and v... |
 | **Nawari — Voice Service Assurance & Media Quality** | `nawari-voice-service-assurance` | 12 | Signaling outcome of the most recent synthetic voice test call (e.g., Completed ... |
+| **Nawari — Enterprise Communication Services Overview & Executive Service Assurance** | `nawari-comm-overview` | 12 | Composite availability grid across all core enterprise telephony platforms: Avay... |
+| **Nawari — Carrier SIP Trunks, Signaling Ladders & Perimeter Session Routing** | `nawari-sip-trunks` | 7 | Operational registration state of the primary Safaricom SIP trunk terminating on... |
 | **Nawari — Communications Intelligence & Voice Service Assurance** | `nawari-voice-intelligence` | 11 | Post-Dial Delay (PDD: INVITE to 18x), Time to Alerting (TTA: INVITE to 180 Ringi... |
+| **Nawari — Voice Recording & Workforce Optimisation (WFO) Operational Health** | `nawari-recording-wfo` | 10 | Product specification and boundary requirements: WFO is an enterprise product ca... |
 
 ---
 
@@ -268,6 +275,61 @@ Nawari structures its operational telemetry into two top-level Grafana domain fo
 | 2 | **Enterprise Network Topology (Node Graph)** | `nodeGraph` | `CORRELATED_ANALYTICS` | Nawari Unified Analytics & Correlation Engine | `short` | < 15 seconds |
 | 4 | **Topology Change Audit Log** | `table` | `CORRELATED_ANALYTICS` | Nawari Unified Analytics & Correlation Engine | `short` | < 15 seconds |
 
+### Nawari — Avaya Call Management System (CMS) & Contact Centre Performance
+- **UID:** `nawari-cms-contact-centre`
+- **Domain:** `Communication Observability` (`Nawari / Communication Observability`)
+- **Path:** `docker/grafana/dashboards/communication_observability/avaya_cms_contact_centre.json`
+- **Visualization Panels:** 9
+
+| ID | Panel Title | Type | Provenance | Telemetry Source | Unit | Freshness |
+| :---: | :--- | :---: | :--- | :--- | :---: | :---: |
+| 2 | **CMS Host CPU Utilization [REAL — HARDWARE]** | `gauge` | `REAL_ZABBIX_TELEMETRY` | Zabbix Telemetry Engine (SNMPv2c/v3, ICMP pin | `percent` | < 30 seconds |
+| 3 | **Informix Database Engine Status [APPLICATION — CMS]** | `stat` | `REAL_ZABBIX_TELEMETRY` | Zabbix Telemetry Engine (SNMPv2c/v3, ICMP pin | `short` | < 30 seconds |
+| 4 | **CMS Archiving Interval Configuration [APPLICATION — CMS]** | `stat` | `REAL_ZABBIX_TELEMETRY` | Zabbix Telemetry Engine (SNMPv2c/v3, ICMP pin | `short` | < 30 seconds |
+| 6 | **Service Level Attainment (% in SLA) [APPLICATION — CMS]** | `gauge` | `SERVICE_ASSURANCE_SLI` | Nawari Business Service SLI Engine (13B Stand | `percent` | < 60 seconds |
+| 7 | **Average Speed of Answer (ASA, sec) [APPLICATION — CMS]** | `timeseries` | `REAL_ZABBIX_TELEMETRY` | Zabbix Telemetry Engine (SNMPv2c/v3, ICMP pin | `s` | < 30 seconds |
+| 8 | **Calls Waiting in Queue [APPLICATION — CMS]** | `stat` | `REAL_ZABBIX_TELEMETRY` | Zabbix Telemetry Engine (SNMPv2c/v3, ICMP pin | `calls` | < 30 seconds |
+| 9 | **Oldest Call Waiting (sec) [APPLICATION — CMS]** | `stat` | `REAL_ZABBIX_TELEMETRY` | Zabbix Telemetry Engine (SNMPv2c/v3, ICMP pin | `s` | < 30 seconds |
+| 11 | **Calls Offered vs Answered vs Abandoned [APPLICATION — CMS]** | `timeseries` | `REAL_ZABBIX_TELEMETRY` | Zabbix Telemetry Engine (SNMPv2c/v3, ICMP pin | `calls` | < 30 seconds |
+| 12 | **Skill Group & Split Performance Breakdown [APPLICATION — CMS]** | `table` | `REAL_ZABBIX_TELEMETRY` | Zabbix Telemetry Engine (SNMPv2c/v3, ICMP pin | `short` | < 30 seconds |
+
+### Nawari — Avaya Aura Communication Manager (CM) Call Processing & IP Voice Performance
+- **UID:** `nawari-communication-manager`
+- **Domain:** `Communication Observability` (`Nawari / Communication Observability`)
+- **Path:** `docker/grafana/dashboards/communication_observability/avaya_communication_manager.json`
+- **Visualization Panels:** 11
+
+| ID | Panel Title | Type | Provenance | Telemetry Source | Unit | Freshness |
+| :---: | :--- | :---: | :--- | :--- | :---: | :---: |
+| 2 | **CM Processor Reachability [REAL — ZABBIX]** | `stat` | `REAL_ZABBIX_TELEMETRY` | Zabbix Telemetry Engine (SNMPv2c/v3, ICMP pin | `short` | < 30 seconds |
+| 3 | **Active Telephony Alarms (Hourly Scan) [REAL — AVAYA SNMP]** | `stat` | `REAL_AVAYA_SNMP` | Avaya Communication Manager 8.1.0 MIB (avCmMe | `alarms` | 1–2 hours (CM internal hourly measurement bucket) |
+| 4 | **Call Rate Attempts (5-min) [REAL — AVAYA SNMP]** | `timeseries` | `REAL_AVAYA_SNMP` | Avaya Communication Manager 8.1.0 MIB (avCmMe | `calls` | 1–2 hours (CM internal hourly measurement bucket) |
+| 5 | **Call Rate Completed (5-min) [REAL — AVAYA SNMP]** | `timeseries` | `REAL_AVAYA_SNMP` | Avaya Communication Manager 8.1.0 MIB (avCmMe | `calls` | 1–2 hours (CM internal hourly measurement bucket) |
+| 7 | **Real-Call Packet Loss % (Last Hour) [REAL — AVAYA SNMP]** | `stat` | `REAL_AVAYA_SNMP` | Avaya Communication Manager 8.1.0 MIB (avCmMe | `percent` | 1–2 hours (CM internal hourly measurement bucket) |
+| 8 | **Real-Call Peak Jitter (Last Hour) [REAL — AVAYA SNMP]** | `stat` | `REAL_AVAYA_SNMP` | Avaya Communication Manager 8.1.0 MIB (avCmMe | `ms` | 1–2 hours (CM internal hourly measurement bucket) |
+| 9 | **Real-Call Peak Delay (Last Hour) [REAL — AVAYA SNMP]** | `stat` | `REAL_AVAYA_SNMP` | Avaya Communication Manager 8.1.0 MIB (avCmMe | `ms` | 1–2 hours (CM internal hourly measurement bucket) |
+| 10 | **Hourly Average Jitter [REAL — AVAYA SNMP]** | `stat` | `REAL_AVAYA_SNMP` | Avaya Communication Manager 8.1.0 MIB (avCmMe | `ms` | 1–2 hours (CM internal hourly measurement bucket) |
+| 12 | **Negotiated Audio Codec [REAL — AVAYA SNMP]** | `stat` | `REAL_AVAYA_SNMP` | Avaya Communication Manager 8.1.0 MIB (avCmMe | `short` | 1–2 hours (CM internal hourly measurement bucket) |
+| 13 | **Echo Cancellation Status [REAL — AVAYA SNMP]** | `stat` | `REAL_AVAYA_SNMP` | Avaya Communication Manager 8.1.0 MIB (avCmMe | `short` | 1–2 hours (CM internal hourly measurement bucket) |
+| 14 | **Evaluated Calls Count in Last Hour [REAL — AVAYA SNMP]** | `stat` | `REAL_AVAYA_SNMP` | Avaya Communication Manager 8.1.0 MIB (avCmMe | `calls` | 1–2 hours (CM internal hourly measurement bucket) |
+
+### Nawari — Avaya G450 Media Gateway Appliance & Physical Telephony Health
+- **UID:** `nawari-g450-gateway`
+- **Domain:** `Communication Observability` (`Nawari / Communication Observability`)
+- **Path:** `docker/grafana/dashboards/communication_observability/avaya_g450_media_gateway.json`
+- **Visualization Panels:** 8
+
+| ID | Panel Title | Type | Provenance | Telemetry Source | Unit | Freshness |
+| :---: | :--- | :---: | :--- | :--- | :---: | :---: |
+| 2 | **G450 System Uptime [REAL — HARDWARE]** | `stat` | `REAL_ZABBIX_TELEMETRY` | Zabbix Telemetry Engine (SNMPv2c/v3, ICMP pin | `s` | < 30 seconds |
+| 3 | **CM Gateway Registration [REAL — AVAYA SNMP]** | `stat` | `REAL_AVAYA_SNMP` | Avaya Communication Manager 8.1.0 MIB (avCmMe | `short` | 1–2 hours (CM internal hourly measurement bucket) |
+| 4 | **Internal Temperature (°C) [REAL — HARDWARE]** | `gauge` | `REAL_ZABBIX_TELEMETRY` | Zabbix Telemetry Engine (SNMPv2c/v3, ICMP pin | `celsius` | < 30 seconds |
+| 5 | **Power Supply Status (PSU 1 & 2) [REAL — HARDWARE]** | `stat` | `REAL_ZABBIX_TELEMETRY` | Zabbix Telemetry Engine (SNMPv2c/v3, ICMP pin | `short` | < 30 seconds |
+| 7 | **E1 / ISDN PRI Physical Trunk State [REAL — HARDWARE]** | `stat` | `REAL_ZABBIX_TELEMETRY` | Zabbix Telemetry Engine (SNMPv2c/v3, ICMP pin | `short` | < 30 seconds |
+| 8 | **DSP Media Resource Channels [NOT COLLECTED — REQUIRES AUDIT]** | `stat` | `REAL_ZABBIX_TELEMETRY` | Zabbix Telemetry Engine (SNMPv2c/v3, ICMP pin | `short` | < 30 seconds |
+| 9 | **Chassis Fan Tray Operational State [REAL — HARDWARE]** | `stat` | `REAL_ZABBIX_TELEMETRY` | Zabbix Telemetry Engine (SNMPv2c/v3, ICMP pin | `short` | < 30 seconds |
+| 11 | **Installed Media Module Slot Inventory (V1-V8) [REAL — HARDWARE]** | `table` | `REAL_ZABBIX_TELEMETRY` | Zabbix Telemetry Engine (SNMPv2c/v3, ICMP pin | `short` | < 30 seconds |
+
 ### Nawari — Avaya SBCE Operational Health
 - **UID:** `nawari-sbce-health`
 - **Domain:** `Communication Observability` (`Nawari / Communication Observability`)
@@ -291,6 +353,24 @@ Nawari structures its operational telemetry into two top-level Grafana domain fo
 | 17 | **Voice Path Packet Errors (rate)** | `timeseries` | `REAL_SBCE_SNMP` | Avaya SBCE 8.1 SNMPv3 Agent (IF-MIB / HOST-RE | `pps` | < 30 seconds |
 | 18 | **Voice Path Packet Discards (rate)** | `timeseries` | `REAL_SBCE_SNMP` | Avaya SBCE 8.1 SNMPv3 Agent (IF-MIB / HOST-RE | `pps` | < 30 seconds |
 | 19 | **Avaya SBCE Active Alarms & Problems Feed** | `alexanderzobnin-zabbix-problems-panel` | `REAL_SBCE_SNMP` | Avaya SBCE 8.1 SNMPv3 Agent (IF-MIB / HOST-RE | `short` | < 30 seconds |
+
+### Nawari — Avaya Aura Session Manager (ASM) Operational Health & SIP Entity Routing
+- **UID:** `nawari-session-manager`
+- **Domain:** `Communication Observability` (`Nawari / Communication Observability`)
+- **Path:** `docker/grafana/dashboards/communication_observability/avaya_session_manager.json`
+- **Visualization Panels:** 9
+
+| ID | Panel Title | Type | Provenance | Telemetry Source | Unit | Freshness |
+| :---: | :--- | :---: | :--- | :--- | :---: | :---: |
+| 2 | **SM Host CPU Utilization [REAL — HARDWARE]** | `gauge` | `REAL_ZABBIX_TELEMETRY` | Zabbix Telemetry Engine (SNMPv2c/v3, ICMP pin | `percent` | < 30 seconds |
+| 3 | **SM Host RAM Utilization [REAL — HARDWARE]** | `gauge` | `REAL_ZABBIX_TELEMETRY` | Zabbix Telemetry Engine (SNMPv2c/v3, ICMP pin | `percent` | < 30 seconds |
+| 4 | **SM System Uptime [REAL — HARDWARE]** | `stat` | `REAL_ZABBIX_TELEMETRY` | Zabbix Telemetry Engine (SNMPv2c/v3, ICMP pin | `s` | < 30 seconds |
+| 5 | **TCP Established Sockets [REAL — HARDWARE]** | `timeseries` | `REAL_ZABBIX_TELEMETRY` | Zabbix Telemetry Engine (SNMPv2c/v3, ICMP pin | `sockets` | < 30 seconds |
+| 7 | **SIP Entity State — Avaya CM [REAL — AVAYA SNMP]** | `stat` | `REAL_AVAYA_SNMP` | Avaya Communication Manager 8.1.0 MIB (avCmMe | `short` | 1–2 hours (CM internal hourly measurement bucket) |
+| 8 | **SIP Entity State — Avaya SBCE [REAL — AVAYA SNMP]** | `stat` | `REAL_AVAYA_SNMP` | Avaya Communication Manager 8.1.0 MIB (avCmMe | `short` | 1–2 hours (CM internal hourly measurement bucket) |
+| 9 | **SIP OPTIONS Heartbeat Response Time [REAL — AVAYA SNMP]** | `timeseries` | `REAL_AVAYA_SNMP` | Avaya Communication Manager 8.1.0 MIB (avCmMe | `ms` | 1–2 hours (CM internal hourly measurement bucket) |
+| 11 | **Configured SIP Entity Topology & Link Status [REAL — AVAYA SNMP]** | `table` | `REAL_AVAYA_SNMP` | Avaya Communication Manager 8.1.0 MIB (avCmMe | `short` | 1–2 hours (CM internal hourly measurement bucket) |
+| 12 | **Session Manager Active Alarms [REAL — AVAYA SNMP]** | `stat` | `REAL_AVAYA_SNMP` | Avaya Communication Manager 8.1.0 MIB (avCmMe | `alarms` | 1–2 hours (CM internal hourly measurement bucket) |
 
 ### Nawari — Cross-Domain Voice & Endpoint Telemetry Correlation
 - **UID:** `nawari-voice-correlation`
@@ -331,6 +411,43 @@ Nawari structures its operational telemetry into two top-level Grafana domain fo
 | 14 | **SBCE Signaling (A1) & Media (B1) Traffic Throughput [REAL — SBCE SNMP]** | `timeseries` | `REAL_SBCE_SNMP` | Avaya SBCE 8.1 SNMPv3 Agent (IF-MIB / HOST-RE | `bps` | < 30 seconds |
 | 15 | **SBCE CPU Utilization [REAL — SBCE SNMP]** | `timeseries` | `REAL_SBCE_SNMP` | Avaya SBCE 8.1 SNMPv3 Agent (IF-MIB / HOST-RE | `percent` | < 30 seconds |
 
+### Nawari — Enterprise Communication Services Overview & Executive Service Assurance
+- **UID:** `nawari-comm-overview`
+- **Domain:** `Communication Observability` (`Nawari / Communication Observability`)
+- **Path:** `docker/grafana/dashboards/communication_observability/nawari_communication_overview.json`
+- **Visualization Panels:** 12
+
+| ID | Panel Title | Type | Provenance | Telemetry Source | Unit | Freshness |
+| :---: | :--- | :---: | :--- | :--- | :---: | :---: |
+| 2 | **Avaya Core Telephony Platform Availability Grid [REAL — ZABBIX]** | `stat` | `REAL_SBCE_SNMP` | Avaya SBCE 8.1 SNMPv3 Agent (IF-MIB / HOST-RE | `short` | < 30 seconds |
+| 3 | **Active Telephony Alarms (CM & SM) [REAL — AVAYA SNMP]** | `stat` | `REAL_AVAYA_SNMP` | Avaya Communication Manager 8.1.0 MIB (avCmMe | `alarms` | 1–2 hours (CM internal hourly measurement bucket) |
+| 5 | **Active SIP Calls on Perimeter SBCE [REAL — SBCE SNMP]** | `gauge` | `REAL_SBCE_SNMP` | Avaya SBCE 8.1 SNMPv3 Agent (IF-MIB / HOST-RE | `calls` | < 30 seconds |
+| 6 | **Carrier SIP Trunk Registration Status [REAL — ZABBIX]** | `stat` | `REAL_SBCE_SNMP` | Avaya SBCE 8.1 SNMPv3 Agent (IF-MIB / HOST-RE | `short` | < 30 seconds |
+| 7 | **5-Minute Call Processing Rate (CM) [REAL — AVAYA SNMP]** | `timeseries` | `REAL_AVAYA_SNMP` | Avaya Communication Manager 8.1.0 MIB (avCmMe | `calls` | 1–2 hours (CM internal hourly measurement bucket) |
+| 9 | **Contact Centre Service Level (% in SLA) [APPLICATION — CMS]** | `gauge` | `SERVICE_ASSURANCE_SLI` | Nawari Business Service SLI Engine (13B Stand | `percent` | < 60 seconds |
+| 10 | **Queue Depth & Oldest Waiting Call [APPLICATION — CMS]** | `stat` | `REAL_ZABBIX_TELEMETRY` | Zabbix Telemetry Engine (SNMPv2c/v3, ICMP pin | `short` | < 30 seconds |
+| 11 | **Agent Staffing State Distribution [APPLICATION — CMS]** | `piechart` | `REAL_ZABBIX_TELEMETRY` | Zabbix Telemetry Engine (SNMPv2c/v3, ICMP pin | `short` | < 30 seconds |
+| 13 | **Real-Call MOS [NOT INSTRUMENTED — RTCP XR REQUIRED]** | `stat` | `NOT_INSTRUMENTED` | None — Telemetry Not Instrumented (Requires R | `short` | N/A (Uninstrumented) |
+| 14 | **Real-Call Packet Loss % (CM Last Hour) [REAL — AVAYA SNMP]** | `stat` | `REAL_AVAYA_SNMP` | Avaya Communication Manager 8.1.0 MIB (avCmMe | `percent` | 1–2 hours (CM internal hourly measurement bucket) |
+| 15 | **Synthetic Voice MOS [SYNTHETIC — ASTERISK]** | `gauge` | `SYNTHETIC_PROBE` | Synthetic Asterisk Call Engine (AMI / RTCP Te | `none` | < 60 seconds (Probe Cycle Interval) |
+| 16 | **Voice Telemetry Source Freshness & Instrumentation Inventory [AUDIT]** | `table` | `REAL_ZABBIX_TELEMETRY` | Zabbix Telemetry Engine (SNMPv2c/v3, ICMP pin | `short` | < 30 seconds |
+
+### Nawari — Carrier SIP Trunks, Signaling Ladders & Perimeter Session Routing
+- **UID:** `nawari-sip-trunks`
+- **Domain:** `Communication Observability` (`Nawari / Communication Observability`)
+- **Path:** `docker/grafana/dashboards/communication_observability/nawari_sip_trunks_signaling.json`
+- **Visualization Panels:** 7
+
+| ID | Panel Title | Type | Provenance | Telemetry Source | Unit | Freshness |
+| :---: | :--- | :---: | :--- | :--- | :---: | :---: |
+| 2 | **Safaricom Primary SIP Trunk [REAL — ZABBIX]** | `stat` | `REAL_SBCE_SNMP` | Avaya SBCE 8.1 SNMPv3 Agent (IF-MIB / HOST-RE | `short` | < 30 seconds |
+| 3 | **Airtel Secondary SIP Trunk [REAL — ZABBIX]** | `stat` | `REAL_SBCE_SNMP` | Avaya SBCE 8.1 SNMPv3 Agent (IF-MIB / HOST-RE | `short` | < 30 seconds |
+| 4 | **Carrier SIP OPTIONS Round-Trip Latency [REAL — ZABBIX]** | `timeseries` | `REAL_SBCE_SNMP` | Avaya SBCE 8.1 SNMPv3 Agent (IF-MIB / HOST-RE | `ms` | < 30 seconds |
+| 6 | **Signaling Phase Latencies (PDD vs TTA vs Setup) [SYNTHETIC — ASTERISK PROBE]** | `timeseries` | `SYNTHETIC_PROBE` | Synthetic Asterisk Call Engine (AMI / RTCP Te | `ms` | < 60 seconds (Probe Cycle Interval) |
+| 7 | **SIP Response Distribution (Station vs Trunk Outage) [SYNTHETIC — ASTERISK PROBE]** | `piechart` | `SYNTHETIC_PROBE` | Synthetic Asterisk Call Engine (AMI / RTCP Te | `short` | < 60 seconds (Probe Cycle Interval) |
+| 9 | **A1 Carrier DMZ Bandwidth (bps) [REAL — SBCE SNMP]** | `timeseries` | `REAL_SBCE_SNMP` | Avaya SBCE 8.1 SNMPv3 Agent (IF-MIB / HOST-RE | `bps` | < 30 seconds |
+| 10 | **Carrier Interface Packet Errors (Errors/sec) [REAL — SBCE SNMP]** | `timeseries` | `REAL_SBCE_SNMP` | Avaya SBCE 8.1 SNMPv3 Agent (IF-MIB / HOST-RE | `errors/s` | < 30 seconds |
+
 ### Nawari — Communications Intelligence & Voice Service Assurance
 - **UID:** `nawari-voice-intelligence`
 - **Domain:** `Communication Observability` (`Nawari / Communication Observability`)
@@ -350,3 +467,22 @@ Nawari structures its operational telemetry into two top-level Grafana domain fo
 | 6 | **Mouth-to-Ear Voice Latency (RTT) [SYNTHETIC — ASTERISK]** | `timeseries` | `SYNTHETIC_PROBE` | Synthetic Asterisk Call Engine (AMI / RTCP Te | `ms` | < 60 seconds (Probe Cycle Interval) |
 | 8 | **SBCE Active Concurrent Sessions (Max 500) [REAL — SBCE SNMP]** | `gauge` | `REAL_SBCE_SNMP` | Avaya SBCE 8.1 SNMPv3 Agent (IF-MIB / HOST-RE | `short` | < 30 seconds |
 | 10 | **Recent Correlated Voice Call Sessions [CORRELATED PROBES]** | `table` | `CORRELATED_ANALYTICS` | Nawari Unified Analytics & Correlation Engine | `short` | < 15 seconds |
+
+### Nawari — Voice Recording & Workforce Optimisation (WFO) Operational Health
+- **UID:** `nawari-recording-wfo`
+- **Domain:** `Communication Observability` (`Nawari / Communication Observability`)
+- **Path:** `docker/grafana/dashboards/communication_observability/recording_wfo_operational_health.json`
+- **Visualization Panels:** 10
+
+| ID | Panel Title | Type | Provenance | Telemetry Source | Unit | Freshness |
+| :---: | :--- | :---: | :--- | :--- | :---: | :---: |
+| 2 | **WFO Product Specification Status [PENDING VENDOR CONFIRMATION]** | `stat` | `REAL_ZABBIX_TELEMETRY` | Zabbix Telemetry Engine (SNMPv2c/v3, ICMP pin | `short` | < 30 seconds |
+| 3 | **Recorder-to-CM CTI Link State [APPLICATION — WFO]** | `stat` | `REAL_ZABBIX_TELEMETRY` | Zabbix Telemetry Engine (SNMPv2c/v3, ICMP pin | `short` | < 30 seconds |
+| 4 | **Recording Host Uptime [REAL — HARDWARE]** | `stat` | `REAL_ZABBIX_TELEMETRY` | Zabbix Telemetry Engine (SNMPv2c/v3, ICMP pin | `s` | < 30 seconds |
+| 6 | **Active Recording Sessions [APPLICATION — WFO]** | `stat` | `REAL_ZABBIX_TELEMETRY` | Zabbix Telemetry Engine (SNMPv2c/v3, ICMP pin | `calls` | < 30 seconds |
+| 7 | **Ingestion Rate (Calls/min) [APPLICATION — WFO]** | `timeseries` | `REAL_ZABBIX_TELEMETRY` | Zabbix Telemetry Engine (SNMPv2c/v3, ICMP pin | `cpm` | < 30 seconds |
+| 8 | **Recording Failures Count [APPLICATION — WFO]** | `stat` | `REAL_ZABBIX_TELEMETRY` | Zabbix Telemetry Engine (SNMPv2c/v3, ICMP pin | `calls` | < 30 seconds |
+| 9 | **Ingestion Queue Depth [APPLICATION — WFO]** | `gauge` | `REAL_ZABBIX_TELEMETRY` | Zabbix Telemetry Engine (SNMPv2c/v3, ICMP pin | `calls` | < 30 seconds |
+| 11 | **Recording Storage Utilization (%) [REAL — HARDWARE]** | `gauge` | `REAL_ZABBIX_TELEMETRY` | Zabbix Telemetry Engine (SNMPv2c/v3, ICMP pin | `percent` | < 30 seconds |
+| 12 | **Projected Days-to-Full (Storage TTE) [PREDICTIVE]** | `stat` | `REAL_ZABBIX_TELEMETRY` | Zabbix Telemetry Engine (SNMPv2c/v3, ICMP pin | `d` | < 30 seconds |
+| 13 | **Daily Archival Success Rate (%) [APPLICATION — WFO]** | `gauge` | `REAL_ZABBIX_TELEMETRY` | Zabbix Telemetry Engine (SNMPv2c/v3, ICMP pin | `percent` | < 30 seconds |

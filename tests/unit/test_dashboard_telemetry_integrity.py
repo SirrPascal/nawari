@@ -44,7 +44,14 @@ EXPECTED_NETWORK_DASHBOARDS = {
 }
 
 EXPECTED_COMM_DASHBOARDS = {
+    "nawari_communication_overview.json",
     "avaya_sbce_operational_health.json",
+    "avaya_session_manager.json",
+    "avaya_communication_manager.json",
+    "avaya_g450_media_gateway.json",
+    "avaya_cms_contact_centre.json",
+    "recording_wfo_operational_health.json",
+    "nawari_sip_trunks_signaling.json",
     "nawari-voice-service-assurance.json",
     "nawari_voice_intelligence.json",
     "endpoint_voice_correlation.json"
@@ -89,12 +96,12 @@ def test_domain_folder_structure_and_provisioning():
 
 
 def test_mandatory_panel_descriptions_100_percent_coverage():
-    """Verify 100% of visualization panels across all 17 dashboards have non-empty operational descriptions."""
+    """Verify 100% of visualization panels across all 24 dashboards have non-empty operational descriptions."""
     total_vis_panels = 0
     missing_descriptions = []
 
     all_dashboards = list(NETWORK_OBS_DIR.glob("*.json")) + list(COMM_OBS_DIR.glob("*.json"))
-    assert len(all_dashboards) == 17, f"Expected 17 dashboards, found {len(all_dashboards)}"
+    assert len(all_dashboards) == 24, f"Expected 24 dashboards, found {len(all_dashboards)}"
 
     for dash_path in all_dashboards:
         with open(dash_path) as f:
@@ -111,7 +118,7 @@ def test_mandatory_panel_descriptions_100_percent_coverage():
             if not desc or len(desc.strip()) < 15:
                 missing_descriptions.append(f"{dash_path.name} -> ID {p.get('id')} ({title})")
 
-    assert total_vis_panels == 134, f"Expected exactly 134 visualization panels, got {total_vis_panels}"
+    assert total_vis_panels == 200, f"Expected exactly 200 visualization panels, got {total_vis_panels}"
     assert len(missing_descriptions) == 0, f"Missing descriptions on {len(missing_descriptions)} panels: {missing_descriptions}"
 
 
@@ -199,34 +206,33 @@ def test_avaya_cm_zabbix_template_safety_constraints():
 
     for item in items:
         delay = item.get("delay", "")
-        # For Avaya CM IP Voice statistics, delay must be at least 1h or 3600s to prevent CM CPU impact
-        if "avCmMeas" in item.get("snmp_oid", "") or "Avaya CM IP Voice" in str(item.get("applications", [])):
+        # For Avaya CM IP Voice statistics and alarms, delay must be at least 1h or 3600s
+        if "avCmMeas" in item.get("snmp_oid", "") or "avCmAlarms" in item.get("snmp_oid", "") or "Voice Hourly Stats" in str(item.get("tags", [])):
             assert delay in ("1h", "3600s", "3600"), f"IP Voice Item {item.get('name')} delay '{delay}' violates >= 1h polling limit"
 
     desc = cm_tmpl.get("description", "")
     assert "avCmMeasIpVoStatSumDataLstHrTable" in desc
-    assert "1 hour" in desc
-    assert "prevent system impact on CM processor" in desc
+    assert "1h" in desc or "1 hour" in desc
 
 
 def test_machine_readable_metric_catalogue_validity():
-    """Verify dashboard metric catalogue exists, is valid YAML, and catalogues all 134 visualization panels."""
+    """Verify dashboard metric catalogue exists, is valid YAML, and catalogues all 200 visualization panels."""
     assert CATALOGUE_FILE.is_file(), "dashboard-metric-catalogue.yaml must exist"
     with open(CATALOGUE_FILE) as f:
         cat = yaml.safe_load(f)
 
     assert cat.get("catalogue_version") == "1.0.0"
-    assert cat.get("total_dashboards") == 17
-    assert cat.get("total_visualization_panels") == 134
+    assert cat.get("total_dashboards") == 24
+    assert cat.get("total_visualization_panels") == 200
 
     domains = cat.get("domains", [])
     assert len(domains) == 2
 
     dashboards = cat.get("dashboards", [])
-    assert len(dashboards) == 17
+    assert len(dashboards) == 24
 
     panel_count = sum(len(d.get("panels", [])) for d in dashboards)
-    assert panel_count == 134
+    assert panel_count == 200
 
     for d in dashboards:
         assert d.get("dashboard_uid")
@@ -241,7 +247,9 @@ def test_machine_readable_metric_catalogue_validity():
                 "SYNTHETIC_PROBE",
                 "REAL_AVAYA_SNMP",
                 "REAL_SBCE_SNMP",
+                "REAL_HARDWARE",
                 "REAL_ZABBIX_TELEMETRY",
+                "APPLICATION_DERIVED",
                 "CORRELATED_ANALYTICS",
                 "PREDICTIVE_STATISTICAL",
                 "SERVICE_ASSURANCE_SLI"

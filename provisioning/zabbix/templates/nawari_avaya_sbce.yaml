@@ -120,6 +120,83 @@ zabbix_export:
               name: 'Avaya SBCE: High root filesystem disk usage (> {$DISK.UTIL.WARN}%)'
               priority: WARNING
               description: 'Root disk partition utilization exceeds warning threshold.'
+        - uuid: 4070a70cb0ff470dafc431b51c179251
+          name: 'Active SIP Calls'
+          type: TRAP
+          key: avaya.sbce.ems.active_calls
+          delay: '0'
+          value_type: UNSIGNED
+          units: calls
+          description: |
+            Number of currently active SIP calls reported by the Avaya SBCE statistics interface.
+            This is a current live session count, not a historical call-success rate.
+            Source: SBCE EMS SIP Statistics Interface.
+          tags:
+            - tag: component
+              value: sip-sessions
+            - tag: provenance
+              value: APPLICATION_DERIVED
+        - uuid: 4070a70cb0ff470dafc431b51c179252
+          name: 'Active SIP Registrations'
+          type: TRAP
+          key: avaya.sbce.ems.active_registrations
+          delay: '0'
+          value_type: UNSIGNED
+          units: registrations
+          description: |
+            Current active subscriber SIP registrations registered across all transports (TCP, UDP, TLS) on Avaya SBCE.
+            Source: SBCE EMS SIP Statistics.
+          tags:
+            - tag: component
+              value: sip-registrations
+            - tag: provenance
+              value: APPLICATION_DERIVED
+        - uuid: 4070a70cb0ff470dafc431b51c179253
+          name: 'Active SRTP Encrypted Calls'
+          type: TRAP
+          key: avaya.sbce.ems.active_srtp_calls
+          delay: '0'
+          value_type: UNSIGNED
+          units: calls
+          description: |
+            Count of active voice media sessions utilizing Secure Real-Time Transport Protocol (SRTP) encryption.
+            Source: SBCE EMS SIP Statistics.
+          tags:
+            - tag: component
+              value: media-security
+            - tag: provenance
+              value: APPLICATION_DERIVED
+        - uuid: 4070a70cb0ff470dafc431b51c179254
+          name: 'Direct-Media Bypass Calls'
+          type: TRAP
+          key: avaya.sbce.ems.direct_media_calls
+          delay: '0'
+          value_type: UNSIGNED
+          units: calls
+          description: |
+            Count of active call sessions operating in direct-media (endpoint-to-endpoint bypass) mode without SBCE media anchoring.
+            Source: SBCE EMS SIP Statistics.
+          tags:
+            - tag: component
+              value: media-flow
+            - tag: provenance
+              value: APPLICATION_DERIVED
+        - uuid: 4070a70cb0ff470dafc431b51c179255
+          name: 'Dynamic License Utilization'
+          type: TRAP
+          key: avaya.sbce.ems.license_utilization_pct
+          delay: '0'
+          value_type: FLOAT
+          units: '%'
+          description: |
+            Hourly dynamic license utilization percentage on Avaya SBCE.
+            Note: License usage statistics are collected hourly by SBCE EMS; this must not be presented as a second-by-second live metric.
+            Source: SBCE EMS License Usage Export.
+          tags:
+            - tag: component
+              value: capacity
+            - tag: provenance
+              value: APPLICATION_DERIVED
       discovery_rules:
         - uuid: 4d62a0470270471ba69a3c710a8e9e8c
           name: 'SBCE interfaces discovery'

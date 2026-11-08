@@ -1,0 +1,172 @@
+zabbix_export:
+  version: '7.4'
+  template_groups:
+    - uuid: 36bff6c29af64692839d077febfc7079
+      name: 'Templates/Network devices'
+    - uuid: a571017302484a0d8ea62287c24f6a9e
+      name: 'Templates/Applications'
+  templates:
+    - uuid: d2b3c4d5e6f7470dafc431b51c179301
+      template: 'Nawari Avaya Session Manager by SNMP'
+      name: 'Nawari Avaya Session Manager by SNMP'
+      description: |
+        Nawari Avaya Aura Session Manager (ASM) Performance and SIP Entity Monitoring Template.
+        Collects server resources, TCP/UDP transport sockets, enterprise alarms, and SIP Entity Monitoring states.
+        Important: SIP OPTIONS reachability establishes layer-5 SIP entity reachability only; it does NOT establish call completion or media quality.
+      groups:
+        - name: 'Templates/Applications'
+        - name: 'Templates/Network devices'
+      items:
+        - uuid: d2b3c4d5e6f7470dafc431b51c179302
+          name: 'Session Manager Host CPU Utilization'
+          type: SNMP_AGENT
+          snmp_oid: 1.3.6.1.4.1.2021.11.11.0
+          key: system.cpu.util
+          delay: 1m
+          value_type: FLOAT
+          units: '%'
+          preprocessing:
+            - type: JAVASCRIPT
+              parameters:
+                - 'return (100 - parseFloat(value));'
+          description: 'Percentage of CPU utilized across Session Manager processor cores.'
+          tags:
+            - tag: component
+              value: cpu
+            - tag: provenance
+              value: REAL_HARDWARE
+
+        - uuid: d2b3c4d5e6f7470dafc431b51c179303
+          name: 'Session Manager Host RAM Utilization'
+          type: SNMP_AGENT
+          snmp_oid: 1.3.6.1.4.1.2021.4.6.0
+          key: vm.memory.util
+          delay: 1m
+          value_type: FLOAT
+          units: '%'
+          description: 'Percentage of physical memory currently consumed on Session Manager.'
+          tags:
+            - tag: component
+              value: memory
+            - tag: provenance
+              value: REAL_HARDWARE
+
+        - uuid: d2b3c4d5e6f7470dafc431b51c179304
+          name: 'Session Manager System Uptime'
+          type: SNMP_AGENT
+          snmp_oid: 1.3.6.1.2.1.1.3.0
+          key: system.uptime
+          delay: 1m
+          value_type: UNSIGNED
+          units: uptime
+          description: 'Operating system uptime since last reload.'
+          tags:
+            - tag: component
+              value: system
+            - tag: provenance
+              value: REAL_HARDWARE
+
+        - uuid: d2b3c4d5e6f7470dafc431b51c179305
+          name: 'SIP Entity State — Avaya Communication Manager'
+          type: SNMP_AGENT
+          snmp_oid: 1.3.6.1.4.1.6889.2.78.1.1.1.1
+          key: avaya.sm.sip_entity.status.cm
+          delay: 1m
+          value_type: UNSIGNED
+          description: |
+            SIP Entity Link Operational Status for primary Communication Manager.
+            1 = UP, 2 = PARTIALLY UP, 3 = DOWN, 4 = DENY NEW SERVICE.
+            Note: Proves SIP signaling reachability via SIP OPTIONS; does not guarantee audio media quality.
+          tags:
+            - tag: component
+              value: sip-entity
+            - tag: provenance
+              value: REAL_AVAYA_SNMP
+          triggers:
+            - uuid: d2b3c4d5e6f7470dafc431b51c179315
+              expression: 'last(/Nawari Avaya Session Manager by SNMP/avaya.sm.sip_entity.status.cm)=3'
+              name: 'Avaya SM: SIP Entity Down (Communication Manager)'
+              priority: HIGH
+              description: 'SIP OPTIONS monitoring to Communication Manager has failed. CM entity is marked DOWN.'
+
+        - uuid: d2b3c4d5e6f7470dafc431b51c179306
+          name: 'SIP Entity State — Avaya SBCE Pride'
+          type: SNMP_AGENT
+          snmp_oid: 1.3.6.1.4.1.6889.2.78.1.1.1.2
+          key: avaya.sm.sip_entity.status.sbce
+          delay: 1m
+          value_type: UNSIGNED
+          description: |
+            SIP Entity Link Operational Status for perimeter Session Border Controller (SBCE).
+            1 = UP, 2 = PARTIALLY UP, 3 = DOWN, 4 = DENY NEW SERVICE.
+          tags:
+            - tag: component
+              value: sip-entity
+            - tag: provenance
+              value: REAL_AVAYA_SNMP
+          triggers:
+            - uuid: d2b3c4d5e6f7470dafc431b51c179316
+              expression: 'last(/Nawari Avaya Session Manager by SNMP/avaya.sm.sip_entity.status.sbce)=3'
+              name: 'Avaya SM: SIP Entity Down (Avaya SBCE)'
+              priority: HIGH
+              description: 'SIP OPTIONS monitoring to Avaya SBCE has failed. Perimeter trunk routing is degraded.'
+
+        - uuid: d2b3c4d5e6f7470dafc431b51c179307
+          name: 'SIP OPTIONS Response Time — Avaya CM'
+          type: SNMP_AGENT
+          snmp_oid: 1.3.6.1.4.1.6889.2.78.1.1.2.1
+          key: avaya.sm.sip_entity.rtt.cm
+          delay: 1m
+          value_type: FLOAT
+          units: ms
+          description: |
+            Measured round-trip response time in milliseconds for SIP OPTIONS transactions sent to Communication Manager.
+          tags:
+            - tag: component
+              value: sip-signaling
+            - tag: provenance
+              value: REAL_AVAYA_SNMP
+
+        - uuid: d2b3c4d5e6f7470dafc431b51c179308
+          name: 'Session Manager Active Alarms Count'
+          type: SNMP_AGENT
+          snmp_oid: 1.3.6.1.4.1.6889.2.78.2.1.0
+          key: avaya.sm.alarms.active_count
+          delay: 5m
+          value_type: UNSIGNED
+          units: alarms
+          description: 'Total active enterprise alarms registered on Session Manager.'
+          tags:
+            - tag: component
+              value: alarms
+            - tag: provenance
+              value: REAL_AVAYA_SNMP
+
+        - uuid: d2b3c4d5e6f7470dafc431b51c179309
+          name: 'TCP Established Sockets'
+          type: SNMP_AGENT
+          snmp_oid: 1.3.6.1.2.1.6.9.0
+          key: tcp.established
+          delay: 1m
+          value_type: UNSIGNED
+          units: sockets
+          description: 'Number of TCP connections currently in ESTABLISHED state on Session Manager.'
+          tags:
+            - tag: component
+              value: tcp-transport
+            - tag: provenance
+              value: REAL_HARDWARE
+
+        - uuid: d2b3c4d5e6f7470dafc431b51c179310
+          name: 'Session Manager SNMP Availability'
+          type: SIMPLE
+          key: 'icmpping[10.2.156.22]'
+          delay: 1m
+          value_type: UNSIGNED
+          description: 'Network ICMP ping reachability to Session Manager management interface.'
+          tags:
+            - tag: component
+              value: infrastructure
+            - tag: provenance
+              value: REAL_ZABBIX
+

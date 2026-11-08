@@ -143,6 +143,9 @@ def main():
         "dashboards": []
     }
 
+    net_count = len(list(DOMAIN_CONFIGS[0]["dir"].glob("*.json")))
+    comm_count = len(list(DOMAIN_CONFIGS[1]["dir"].glob("*.json")))
+
     markdown_lines = [
         "# Nawari Enterprise Observability — Operational Dashboard & Metric Catalogue",
         "",
@@ -158,10 +161,10 @@ def main():
         "",
         "1. **`Nawari / Network Observability`** (`folderUid: nawari-network-obs`):",
         "   - Dedicated to physical switches, routers, WAN circuits, outstation edge collectors, interface performance, BGP routing, packet loss, DNS, and automated remediation lifecycle.",
-        "   - Contains **13 dashboards**.",
+        f"   - Contains **{net_count} dashboards**.",
         "2. **`Nawari / Communication Observability`** (`folderUid: nawari-comm-obs`):",
         "   - Dedicated to Avaya Aura Communication Manager, Session Border Controllers (SBCE 8.1), Session Manager, carrier SIP trunks, call signaling ladders, and voice media quality.",
-        "   - Contains **4 dashboards**.",
+        f"   - Contains **{comm_count} dashboards**.",
         "",
         "### Telemetry Integrity Enforcements",
         "- **Hover Descriptions:** 100% of visualization panels feature comprehensive hover descriptions detailing operational meaning, units, data source, and known bounds.",

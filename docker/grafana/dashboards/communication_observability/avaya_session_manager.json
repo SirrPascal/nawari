@@ -1,0 +1,642 @@
+{
+  "annotations": {
+    "list": []
+  },
+  "editable": true,
+  "fiscalYearStartMonth": 0,
+  "graphTooltip": 1,
+  "id": null,
+  "links": [],
+  "liveNow": false,
+  "panels": [
+    {
+      "collapsed": false,
+      "gridPos": {
+        "h": 1,
+        "w": 24,
+        "x": 0,
+        "y": 0
+      },
+      "id": 1,
+      "title": "Session Manager Host Platform Health & Transport Sockets",
+      "type": "row"
+    },
+    {
+      "datasource": {
+        "type": "alexanderzobnin-zabbix-datasource",
+        "uid": "PA67C5EADE9207728"
+      },
+      "description": "Processor core utilization on the Avaya Aura Session Manager appliance. Units: Percentage (0-100%). Warning: 75%, Critical: 90%. Source: HOST-RESOURCES-MIB via SNMPv3. Polling: 60s. Limitation: High CPU may delay SIP routing transaction processing.",
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "thresholds"
+          },
+          "max": 100,
+          "min": 0,
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              },
+              {
+                "color": "yellow",
+                "value": 75
+              },
+              {
+                "color": "red",
+                "value": 90
+              }
+            ]
+          },
+          "unit": "percent"
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 6,
+        "w": 6,
+        "x": 0,
+        "y": 1
+      },
+      "id": 2,
+      "options": {
+        "orientation": "auto",
+        "reduceOptions": {
+          "calcs": [
+            "lastNotNull"
+          ],
+          "fields": "",
+          "values": false
+        },
+        "showThresholdLabels": false,
+        "showThresholdMarkers": true
+      },
+      "targets": [
+        {
+          "group": {
+            "name": "Voice Infrastructure"
+          },
+          "host": {
+            "name": "nawari-sm-01"
+          },
+          "item": {
+            "name": "Session Manager Host CPU Utilization"
+          },
+          "refId": "CPU"
+        }
+      ],
+      "title": "SM Host CPU Utilization [REAL \u2014 HARDWARE]",
+      "type": "gauge"
+    },
+    {
+      "datasource": {
+        "type": "alexanderzobnin-zabbix-datasource",
+        "uid": "PA67C5EADE9207728"
+      },
+      "description": "Physical RAM utilization on Avaya Session Manager. Units: Percentage (0-100%). Warning: 80%, Critical: 95%. Source: HOST-RESOURCES-MIB via SNMPv3. Polling: 60s.",
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "thresholds"
+          },
+          "max": 100,
+          "min": 0,
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              },
+              {
+                "color": "yellow",
+                "value": 80
+              },
+              {
+                "color": "red",
+                "value": 95
+              }
+            ]
+          },
+          "unit": "percent"
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 6,
+        "w": 6,
+        "x": 6,
+        "y": 1
+      },
+      "id": 3,
+      "options": {
+        "orientation": "auto",
+        "reduceOptions": {
+          "calcs": [
+            "lastNotNull"
+          ],
+          "fields": "",
+          "values": false
+        },
+        "showThresholdLabels": false,
+        "showThresholdMarkers": true
+      },
+      "targets": [
+        {
+          "group": {
+            "name": "Voice Infrastructure"
+          },
+          "host": {
+            "name": "nawari-sm-01"
+          },
+          "item": {
+            "name": "Session Manager Host RAM Utilization"
+          },
+          "refId": "RAM"
+        }
+      ],
+      "title": "SM Host RAM Utilization [REAL \u2014 HARDWARE]",
+      "type": "gauge"
+    },
+    {
+      "datasource": {
+        "type": "alexanderzobnin-zabbix-datasource",
+        "uid": "PA67C5EADE9207728"
+      },
+      "description": "Operating system uptime of the Session Manager server since last reload. Source: MIB-II sysUpTime (OID 1.3.6.1.2.1.1.3.0). Polling: 60s. Freshness: 60s.",
+      "fieldConfig": {
+        "defaults": {
+          "unit": "s"
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 6,
+        "w": 6,
+        "x": 12,
+        "y": 1
+      },
+      "id": 4,
+      "options": {
+        "colorMode": "value",
+        "graphMode": "none",
+        "justifyMode": "auto",
+        "orientation": "auto",
+        "reduceOptions": {
+          "calcs": [
+            "lastNotNull"
+          ],
+          "fields": "",
+          "values": false
+        },
+        "textMode": "auto"
+      },
+      "targets": [
+        {
+          "group": {
+            "name": "Voice Infrastructure"
+          },
+          "host": {
+            "name": "nawari-sm-01"
+          },
+          "item": {
+            "name": "Session Manager System Uptime"
+          },
+          "refId": "UPTIME"
+        }
+      ],
+      "title": "SM System Uptime [REAL \u2014 HARDWARE]",
+      "type": "stat"
+    },
+    {
+      "datasource": {
+        "type": "alexanderzobnin-zabbix-datasource",
+        "uid": "PA67C5EADE9207728"
+      },
+      "description": "Total count of active TCP sockets currently in ESTABLISHED state on Session Manager. Reflects active signaling connections from endpoints, Communication Manager, and SBCE. Source: TCP-MIB tcpCurrEstab (OID 1.3.6.1.2.1.6.9.0). Polling: 60s.",
+      "fieldConfig": {
+        "defaults": {
+          "custom": {
+            "drawStyle": "line",
+            "lineInterpolation": "smooth",
+            "spanNulls": false
+          },
+          "unit": "sockets"
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 6,
+        "w": 6,
+        "x": 18,
+        "y": 1
+      },
+      "id": 5,
+      "options": {
+        "tooltip": {
+          "mode": "single"
+        }
+      },
+      "targets": [
+        {
+          "group": {
+            "name": "Voice Infrastructure"
+          },
+          "host": {
+            "name": "nawari-sm-01"
+          },
+          "item": {
+            "name": "TCP Established Sockets"
+          },
+          "refId": "TCP"
+        }
+      ],
+      "title": "TCP Established Sockets [REAL \u2014 HARDWARE]",
+      "type": "timeseries"
+    },
+    {
+      "collapsed": false,
+      "gridPos": {
+        "h": 1,
+        "w": 24,
+        "x": 0,
+        "y": 7
+      },
+      "id": 6,
+      "title": "SIP Entity Monitoring & OPTIONS Reachability",
+      "type": "row"
+    },
+    {
+      "datasource": {
+        "type": "alexanderzobnin-zabbix-datasource",
+        "uid": "PA67C5EADE9207728"
+      },
+      "description": "SIP Entity Link Operational Status for Communication Manager reported by Session Manager SIP Entity Monitoring. 1 = UP, 2 = PARTIALLY UP, 3 = DOWN, 4 = DENY NEW SERVICE. Source: Avaya Session Manager MIB. Important: Proves SIP OPTIONS reachability only; does NOT guarantee voice audio media quality.",
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "thresholds"
+          },
+          "mappings": [
+            {
+              "options": {
+                "1": {
+                  "color": "green",
+                  "text": "UP (REACHABLE)"
+                },
+                "2": {
+                  "color": "yellow",
+                  "text": "PARTIALLY UP"
+                },
+                "3": {
+                  "color": "red",
+                  "text": "DOWN (FAILED)"
+                },
+                "4": {
+                  "color": "purple",
+                  "text": "DENY NEW SERVICE"
+                }
+              },
+              "type": "value"
+            }
+          ],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "red",
+                "value": null
+              },
+              {
+                "color": "green",
+                "value": 1
+              }
+            ]
+          }
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 6,
+        "w": 8,
+        "x": 0,
+        "y": 8
+      },
+      "id": 7,
+      "options": {
+        "colorMode": "background",
+        "graphMode": "none",
+        "justifyMode": "auto",
+        "orientation": "auto",
+        "reduceOptions": {
+          "calcs": [
+            "lastNotNull"
+          ],
+          "fields": "",
+          "values": false
+        },
+        "textMode": "auto"
+      },
+      "targets": [
+        {
+          "group": {
+            "name": "Voice Infrastructure"
+          },
+          "host": {
+            "name": "nawari-sm-01"
+          },
+          "item": {
+            "name": "SIP Entity State \u2014 Avaya Communication Manager"
+          },
+          "refId": "CM_ENTITY"
+        }
+      ],
+      "title": "SIP Entity State \u2014 Avaya CM [REAL \u2014 AVAYA SNMP]",
+      "type": "stat"
+    },
+    {
+      "datasource": {
+        "type": "alexanderzobnin-zabbix-datasource",
+        "uid": "PA67C5EADE9207728"
+      },
+      "description": "SIP Entity Link Operational Status for Avaya SBCE Pride perimeter controller reported by Session Manager SIP Entity Monitoring. 1 = UP, 2 = PARTIALLY UP, 3 = DOWN, 4 = DENY NEW SERVICE. Source: Avaya Session Manager MIB. Warning if DOWN.",
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "thresholds"
+          },
+          "mappings": [
+            {
+              "options": {
+                "1": {
+                  "color": "green",
+                  "text": "UP (REACHABLE)"
+                },
+                "2": {
+                  "color": "yellow",
+                  "text": "PARTIALLY UP"
+                },
+                "3": {
+                  "color": "red",
+                  "text": "DOWN (FAILED)"
+                },
+                "4": {
+                  "color": "purple",
+                  "text": "DENY NEW SERVICE"
+                }
+              },
+              "type": "value"
+            }
+          ],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "red",
+                "value": null
+              },
+              {
+                "color": "green",
+                "value": 1
+              }
+            ]
+          }
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 6,
+        "w": 8,
+        "x": 8,
+        "y": 8
+      },
+      "id": 8,
+      "options": {
+        "colorMode": "background",
+        "graphMode": "none",
+        "justifyMode": "auto",
+        "orientation": "auto",
+        "reduceOptions": {
+          "calcs": [
+            "lastNotNull"
+          ],
+          "fields": "",
+          "values": false
+        },
+        "textMode": "auto"
+      },
+      "targets": [
+        {
+          "group": {
+            "name": "Voice Infrastructure"
+          },
+          "host": {
+            "name": "nawari-sm-01"
+          },
+          "item": {
+            "name": "SIP Entity State \u2014 Avaya SBCE Pride"
+          },
+          "refId": "SBCE_ENTITY"
+        }
+      ],
+      "title": "SIP Entity State \u2014 Avaya SBCE [REAL \u2014 AVAYA SNMP]",
+      "type": "stat"
+    },
+    {
+      "datasource": {
+        "type": "alexanderzobnin-zabbix-datasource",
+        "uid": "PA67C5EADE9207728"
+      },
+      "description": "Measured round-trip response time in milliseconds for SIP OPTIONS heartbeat pings sent by Session Manager to monitored entities (CM and SBCE). Units: Milliseconds (ms). Warning: > 100ms, Critical: > 250ms. Source: Session Manager SIP entity monitor. Polling: 60s.",
+      "fieldConfig": {
+        "defaults": {
+          "custom": {
+            "drawStyle": "line",
+            "lineInterpolation": "smooth",
+            "spanNulls": false
+          },
+          "unit": "ms"
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 6,
+        "w": 8,
+        "x": 16,
+        "y": 8
+      },
+      "id": 9,
+      "options": {
+        "tooltip": {
+          "mode": "multi"
+        }
+      },
+      "targets": [
+        {
+          "group": {
+            "name": "Voice Infrastructure"
+          },
+          "host": {
+            "name": "nawari-sm-01"
+          },
+          "item": {
+            "name": "SIP OPTIONS Response Time \u2014 Avaya CM"
+          },
+          "refId": "CM_OPTIONS_RTT"
+        }
+      ],
+      "title": "SIP OPTIONS Heartbeat Response Time [REAL \u2014 AVAYA SNMP]",
+      "type": "timeseries"
+    },
+    {
+      "collapsed": false,
+      "gridPos": {
+        "h": 1,
+        "w": 24,
+        "x": 0,
+        "y": 14
+      },
+      "id": 10,
+      "title": "SIP Entity Inventory & Enterprise Alarm Feed",
+      "type": "row"
+    },
+    {
+      "datasource": {
+        "type": "alexanderzobnin-zabbix-datasource",
+        "uid": "PA67C5EADE9207728"
+      },
+      "description": "Comprehensive table of all SIP Entities configured in Session Manager (CM, SBCE Pride, SBCE DR, Media Gateways, PSTN SIP trunks) detailing IP address, transport (TLS/TCP/UDP), port, entity status, and measured OPTIONS latency. Source: Avaya Session Manager MIB.",
+      "fieldConfig": {
+        "defaults": {},
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 8,
+        "w": 16,
+        "x": 0,
+        "y": 15
+      },
+      "id": 11,
+      "options": {
+        "showHeader": true
+      },
+      "targets": [
+        {
+          "group": {
+            "name": "Voice Infrastructure"
+          },
+          "host": {
+            "name": "nawari-sm-01"
+          },
+          "application": {
+            "name": "SIP Entity Monitoring"
+          },
+          "item": {
+            "name": "SIP Entity Summary Stream"
+          },
+          "refId": "ENTITIES"
+        }
+      ],
+      "title": "Configured SIP Entity Topology & Link Status [REAL \u2014 AVAYA SNMP]",
+      "type": "table"
+    },
+    {
+      "datasource": {
+        "type": "alexanderzobnin-zabbix-datasource",
+        "uid": "PA67C5EADE9207728"
+      },
+      "description": "Total count of active enterprise alarms currently asserted on Session Manager. Source: avSessionManagerAlarms MIB tree. Polling: 5m. Warning: > 0 alarms.",
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "thresholds"
+          },
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              },
+              {
+                "color": "red",
+                "value": 1
+              }
+            ]
+          },
+          "unit": "alarms"
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 8,
+        "w": 8,
+        "x": 16,
+        "y": 15
+      },
+      "id": 12,
+      "options": {
+        "colorMode": "value",
+        "graphMode": "none",
+        "justifyMode": "auto",
+        "orientation": "auto",
+        "reduceOptions": {
+          "calcs": [
+            "lastNotNull"
+          ],
+          "fields": "",
+          "values": false
+        },
+        "textMode": "auto"
+      },
+      "targets": [
+        {
+          "group": {
+            "name": "Voice Infrastructure"
+          },
+          "host": {
+            "name": "nawari-sm-01"
+          },
+          "item": {
+            "name": "Session Manager Active Alarms Count"
+          },
+          "refId": "SM_ALARMS"
+        }
+      ],
+      "title": "Session Manager Active Alarms [REAL \u2014 AVAYA SNMP]",
+      "type": "stat"
+    }
+  ],
+  "refresh": "30s",
+  "schemaVersion": 39,
+  "style": "dark",
+  "tags": [
+    "nawari",
+    "communication-observability",
+    "avaya",
+    "session-manager",
+    "sip-routing"
+  ],
+  "templating": {
+    "list": []
+  },
+  "time": {
+    "from": "now-6h",
+    "to": "now"
+  },
+  "timepicker": {
+    "refresh_intervals": [
+      "10s",
+      "30s",
+      "1m",
+      "5m"
+    ]
+  },
+  "timezone": "browser",
+  "title": "Nawari \u2014 Avaya Aura Session Manager (ASM) Operational Health & SIP Entity Routing",
+  "uid": "nawari-session-manager",
+  "version": 1
+}

@@ -1,0 +1,742 @@
+{
+  "annotations": {
+    "list": []
+  },
+  "editable": true,
+  "fiscalYearStartMonth": 0,
+  "graphTooltip": 1,
+  "id": null,
+  "links": [],
+  "liveNow": false,
+  "panels": [
+    {
+      "collapsed": false,
+      "gridPos": {
+        "h": 1,
+        "w": 24,
+        "x": 0,
+        "y": 0
+      },
+      "id": 1,
+      "title": "Communication Manager Call Processing & Telephony Alarms",
+      "type": "row"
+    },
+    {
+      "datasource": {
+        "type": "alexanderzobnin-zabbix-datasource",
+        "uid": "PA67C5EADE9207728"
+      },
+      "description": "ICMP ping network reachability to the Avaya Communication Manager processor interface. 1 = UP, 0 = DOWN. Polling: 1m. Freshness: 60s.",
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "thresholds"
+          },
+          "mappings": [
+            {
+              "options": {
+                "1": {
+                  "color": "green",
+                  "text": "ONLINE (UP)"
+                },
+                "0": {
+                  "color": "red",
+                  "text": "OFFLINE (DOWN)"
+                }
+              },
+              "type": "value"
+            }
+          ],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "red",
+                "value": null
+              },
+              {
+                "color": "green",
+                "value": 1
+              }
+            ]
+          }
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 6,
+        "w": 6,
+        "x": 0,
+        "y": 1
+      },
+      "id": 2,
+      "options": {
+        "colorMode": "background",
+        "graphMode": "none",
+        "justifyMode": "auto",
+        "orientation": "auto",
+        "reduceOptions": {
+          "calcs": [
+            "lastNotNull"
+          ],
+          "fields": "",
+          "values": false
+        },
+        "textMode": "auto"
+      },
+      "targets": [
+        {
+          "group": {
+            "name": "Voice Infrastructure"
+          },
+          "host": {
+            "name": "nawari-cm-01"
+          },
+          "item": {
+            "name": "Communication Manager SNMP Availability"
+          },
+          "refId": "AVAIL"
+        }
+      ],
+      "title": "CM Processor Reachability [REAL \u2014 ZABBIX]",
+      "type": "stat"
+    },
+    {
+      "datasource": {
+        "type": "alexanderzobnin-zabbix-datasource",
+        "uid": "PA67C5EADE9207728"
+      },
+      "description": "Total active alarm conditions on Communication Manager. Source: Avaya CM MIB avCmAlarms (OID 1.3.6.1.4.1.6889.2.73.1). Polling interval: strictly 1 hour (delay: 1h) to prevent excessive CPU consumption on the CM call engine. Freshness: 1-2 hours.",
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "thresholds"
+          },
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              },
+              {
+                "color": "red",
+                "value": 1
+              }
+            ]
+          },
+          "unit": "alarms"
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 6,
+        "w": 6,
+        "x": 6,
+        "y": 1
+      },
+      "id": 3,
+      "options": {
+        "colorMode": "value",
+        "graphMode": "none",
+        "justifyMode": "auto",
+        "orientation": "auto",
+        "reduceOptions": {
+          "calcs": [
+            "lastNotNull"
+          ],
+          "fields": "",
+          "values": false
+        },
+        "textMode": "auto"
+      },
+      "targets": [
+        {
+          "group": {
+            "name": "Voice Infrastructure"
+          },
+          "host": {
+            "name": "nawari-cm-01"
+          },
+          "item": {
+            "name": "Active Alarms Count"
+          },
+          "refId": "ALARMS"
+        }
+      ],
+      "title": "Active Telephony Alarms (Hourly Scan) [REAL \u2014 AVAYA SNMP]",
+      "type": "stat"
+    },
+    {
+      "datasource": {
+        "type": "alexanderzobnin-zabbix-datasource",
+        "uid": "PA67C5EADE9207728"
+      },
+      "description": "Total call attempts processed by Communication Manager in 5-minute sampling intervals. Source: Avaya CM MIB table avCmListMeasCallRateTotal (OID 1.3.6.1.4.1.6889.2.73.8.1.1 leaf .2). Polling interval: 5 minutes. Freshness: 5 minutes.",
+      "fieldConfig": {
+        "defaults": {
+          "custom": {
+            "drawStyle": "line",
+            "lineInterpolation": "smooth",
+            "spanNulls": false
+          },
+          "unit": "calls"
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 6,
+        "w": 6,
+        "x": 12,
+        "y": 1
+      },
+      "id": 4,
+      "options": {
+        "tooltip": {
+          "mode": "single"
+        }
+      },
+      "targets": [
+        {
+          "group": {
+            "name": "Voice Infrastructure"
+          },
+          "host": {
+            "name": "nawari-cm-01"
+          },
+          "item": {
+            "name": "Call Rate Total Attempts (5-minute)"
+          },
+          "refId": "ATTEMPTS"
+        }
+      ],
+      "title": "Call Rate Attempts (5-min) [REAL \u2014 AVAYA SNMP]",
+      "type": "timeseries"
+    },
+    {
+      "datasource": {
+        "type": "alexanderzobnin-zabbix-datasource",
+        "uid": "PA67C5EADE9207728"
+      },
+      "description": "Total successfully completed calls processed by Communication Manager in 5-minute sampling intervals. Source: Avaya CM MIB table avCmListMeasCallRateTotal leaf .3. Polling interval: 5 minutes.",
+      "fieldConfig": {
+        "defaults": {
+          "custom": {
+            "drawStyle": "line",
+            "lineInterpolation": "smooth",
+            "spanNulls": false
+          },
+          "unit": "calls"
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 6,
+        "w": 6,
+        "x": 18,
+        "y": 1
+      },
+      "id": 5,
+      "options": {
+        "tooltip": {
+          "mode": "single"
+        }
+      },
+      "targets": [
+        {
+          "group": {
+            "name": "Voice Infrastructure"
+          },
+          "host": {
+            "name": "nawari-cm-01"
+          },
+          "item": {
+            "name": "Call Rate Completed Calls (5-minute)"
+          },
+          "refId": "COMPLETED"
+        }
+      ],
+      "title": "Call Rate Completed (5-min) [REAL \u2014 AVAYA SNMP]",
+      "type": "timeseries"
+    },
+    {
+      "collapsed": false,
+      "gridPos": {
+        "h": 1,
+        "w": 24,
+        "x": 0,
+        "y": 7
+      },
+      "id": 6,
+      "title": "Hourly IP Voice Quality Telemetry (avCmMeasIpVoStatSumDataLstHrTable)",
+      "type": "row"
+    },
+    {
+      "datasource": {
+        "type": "alexanderzobnin-zabbix-datasource",
+        "uid": "PA67C5EADE9207728"
+      },
+      "description": "Percentage of IP voice audio packets lost during active calls in the last completed hour across the monitored network region. Source: Avaya CM SNMP table avCmMeasIpVoStatSumDataLstHrTable (OID 1.3.6.1.4.1.6889.2.73.8.1.77 leaf .6). Polling interval: strictly 1 hour. Freshness: 1-2 hours. Warning: > 1.0%, Critical: > 2.5%.",
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "thresholds"
+          },
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              },
+              {
+                "color": "yellow",
+                "value": 1.0
+              },
+              {
+                "color": "red",
+                "value": 2.5
+              }
+            ]
+          },
+          "unit": "percent"
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 6,
+        "w": 6,
+        "x": 0,
+        "y": 8
+      },
+      "id": 7,
+      "options": {
+        "colorMode": "value",
+        "graphMode": "none",
+        "justifyMode": "auto",
+        "orientation": "auto",
+        "reduceOptions": {
+          "calcs": [
+            "lastNotNull"
+          ],
+          "fields": "",
+          "values": false
+        },
+        "textMode": "auto"
+      },
+      "targets": [
+        {
+          "group": {
+            "name": "Voice Infrastructure"
+          },
+          "host": {
+            "name": "nawari-cm-01"
+          },
+          "item": {
+            "name": "Real-Call Packet Loss (Last Hour)"
+          },
+          "refId": "LOSS"
+        }
+      ],
+      "title": "Real-Call Packet Loss % (Last Hour) [REAL \u2014 AVAYA SNMP]",
+      "type": "stat"
+    },
+    {
+      "datasource": {
+        "type": "alexanderzobnin-zabbix-datasource",
+        "uid": "PA67C5EADE9207728"
+      },
+      "description": "Peak interarrival packet jitter in milliseconds observed across real calls in the last completed hour. Source: Avaya CM SNMP table avCmMeasIpVoStatSumDataLstHrTable (leaf .7). Polling interval: strictly 1 hour. Warning: > 20ms, Critical: > 30ms.",
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "thresholds"
+          },
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              },
+              {
+                "color": "yellow",
+                "value": 20
+              },
+              {
+                "color": "red",
+                "value": 30
+              }
+            ]
+          },
+          "unit": "ms"
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 6,
+        "w": 6,
+        "x": 6,
+        "y": 8
+      },
+      "id": 8,
+      "options": {
+        "colorMode": "value",
+        "graphMode": "none",
+        "justifyMode": "auto",
+        "orientation": "auto",
+        "reduceOptions": {
+          "calcs": [
+            "lastNotNull"
+          ],
+          "fields": "",
+          "values": false
+        },
+        "textMode": "auto"
+      },
+      "targets": [
+        {
+          "group": {
+            "name": "Voice Infrastructure"
+          },
+          "host": {
+            "name": "nawari-cm-01"
+          },
+          "item": {
+            "name": "Real-Call Peak Jitter (Last Hour)"
+          },
+          "refId": "PEAK_JITTER"
+        }
+      ],
+      "title": "Real-Call Peak Jitter (Last Hour) [REAL \u2014 AVAYA SNMP]",
+      "type": "stat"
+    },
+    {
+      "datasource": {
+        "type": "alexanderzobnin-zabbix-datasource",
+        "uid": "PA67C5EADE9207728"
+      },
+      "description": "Maximum two-way round-trip audio packet delay in milliseconds observed across real calls in the last completed hour. Source: Avaya CM SNMP table avCmMeasIpVoStatSumDataLstHrTable (leaf .8). Polling interval: strictly 1 hour. Target: <= 150ms (ITU-T G.114), Critical: > 250ms.",
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "thresholds"
+          },
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              },
+              {
+                "color": "yellow",
+                "value": 150
+              },
+              {
+                "color": "red",
+                "value": 250
+              }
+            ]
+          },
+          "unit": "ms"
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 6,
+        "w": 6,
+        "x": 12,
+        "y": 8
+      },
+      "id": 9,
+      "options": {
+        "colorMode": "value",
+        "graphMode": "none",
+        "justifyMode": "auto",
+        "orientation": "auto",
+        "reduceOptions": {
+          "calcs": [
+            "lastNotNull"
+          ],
+          "fields": "",
+          "values": false
+        },
+        "textMode": "auto"
+      },
+      "targets": [
+        {
+          "group": {
+            "name": "Voice Infrastructure"
+          },
+          "host": {
+            "name": "nawari-cm-01"
+          },
+          "item": {
+            "name": "Real-Call Peak Two-Way Delay (Last Hour)"
+          },
+          "refId": "PEAK_DELAY"
+        }
+      ],
+      "title": "Real-Call Peak Delay (Last Hour) [REAL \u2014 AVAYA SNMP]",
+      "type": "stat"
+    },
+    {
+      "datasource": {
+        "type": "alexanderzobnin-zabbix-datasource",
+        "uid": "PA67C5EADE9207728"
+      },
+      "description": "Average interarrival packet jitter in milliseconds calculated across all calls in the last completed hour. Source: Avaya CM SNMP table avCmMeasIpVoStatHrJitterTable (OID 1.3.6.1.4.1.6889.2.73.8.1.66 leaf .2). Polling interval: 1 hour.",
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "thresholds"
+          },
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              },
+              {
+                "color": "yellow",
+                "value": 15
+              },
+              {
+                "color": "red",
+                "value": 25
+              }
+            ]
+          },
+          "unit": "ms"
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 6,
+        "w": 6,
+        "x": 18,
+        "y": 8
+      },
+      "id": 10,
+      "options": {
+        "colorMode": "value",
+        "graphMode": "none",
+        "justifyMode": "auto",
+        "orientation": "auto",
+        "reduceOptions": {
+          "calcs": [
+            "lastNotNull"
+          ],
+          "fields": "",
+          "values": false
+        },
+        "textMode": "auto"
+      },
+      "targets": [
+        {
+          "group": {
+            "name": "Voice Infrastructure"
+          },
+          "host": {
+            "name": "nawari-cm-01"
+          },
+          "item": {
+            "name": "Real-Call Hourly Average Jitter"
+          },
+          "refId": "AVG_JITTER"
+        }
+      ],
+      "title": "Hourly Average Jitter [REAL \u2014 AVAYA SNMP]",
+      "type": "stat"
+    },
+    {
+      "collapsed": false,
+      "gridPos": {
+        "h": 1,
+        "w": 24,
+        "x": 0,
+        "y": 14
+      },
+      "id": 11,
+      "title": "Codec Negotiation, Echo Cancellation & Media Regions",
+      "type": "row"
+    },
+    {
+      "datasource": {
+        "type": "alexanderzobnin-zabbix-datasource",
+        "uid": "PA67C5EADE9207728"
+      },
+      "description": "Primary negotiated audio compression algorithm / codec (e.g. G.711A, G.711U, G.729) active in the measured network region. Source: Avaya CM SNMP table avCmMeasIpVoStatSumDataLstHrTable leaf .3. Polling interval: 1 hour.",
+      "fieldConfig": {
+        "defaults": {},
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 6,
+        "w": 8,
+        "x": 0,
+        "y": 15
+      },
+      "id": 12,
+      "options": {
+        "colorMode": "value",
+        "graphMode": "none",
+        "justifyMode": "auto",
+        "orientation": "auto",
+        "reduceOptions": {
+          "calcs": [
+            "lastNotNull"
+          ],
+          "fields": "",
+          "values": false
+        },
+        "textMode": "auto"
+      },
+      "targets": [
+        {
+          "group": {
+            "name": "Voice Infrastructure"
+          },
+          "host": {
+            "name": "nawari-cm-01"
+          },
+          "item": {
+            "name": "Negotiated Audio Codec"
+          },
+          "refId": "CODEC"
+        }
+      ],
+      "title": "Negotiated Audio Codec [REAL \u2014 AVAYA SNMP]",
+      "type": "stat"
+    },
+    {
+      "datasource": {
+        "type": "alexanderzobnin-zabbix-datasource",
+        "uid": "PA67C5EADE9207728"
+      },
+      "description": "Operational status of hardware/software echo cancellation on voice paths for the measured network region. Source: Avaya CM SNMP table avCmMeasIpVoStatSumDataLstHrTable leaf .11. Polling interval: 1 hour.",
+      "fieldConfig": {
+        "defaults": {},
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 6,
+        "w": 8,
+        "x": 8,
+        "y": 15
+      },
+      "id": 13,
+      "options": {
+        "colorMode": "value",
+        "graphMode": "none",
+        "justifyMode": "auto",
+        "orientation": "auto",
+        "reduceOptions": {
+          "calcs": [
+            "lastNotNull"
+          ],
+          "fields": "",
+          "values": false
+        },
+        "textMode": "auto"
+      },
+      "targets": [
+        {
+          "group": {
+            "name": "Voice Infrastructure"
+          },
+          "host": {
+            "name": "nawari-cm-01"
+          },
+          "item": {
+            "name": "Echo Cancellation Status"
+          },
+          "refId": "ECHO"
+        }
+      ],
+      "title": "Echo Cancellation Status [REAL \u2014 AVAYA SNMP]",
+      "type": "stat"
+    },
+    {
+      "datasource": {
+        "type": "alexanderzobnin-zabbix-datasource",
+        "uid": "PA67C5EADE9207728"
+      },
+      "description": "Total number of real IP voice calls evaluated by Communication Manager during the last completed hour across all media gateways. Source: Avaya CM SNMP table avCmMeasIpVoStatHrJitterTable leaf .4. Polling interval: 1 hour.",
+      "fieldConfig": {
+        "defaults": {
+          "unit": "calls"
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 6,
+        "w": 8,
+        "x": 16,
+        "y": 15
+      },
+      "id": 14,
+      "options": {
+        "colorMode": "value",
+        "graphMode": "none",
+        "justifyMode": "auto",
+        "orientation": "auto",
+        "reduceOptions": {
+          "calcs": [
+            "lastNotNull"
+          ],
+          "fields": "",
+          "values": false
+        },
+        "textMode": "auto"
+      },
+      "targets": [
+        {
+          "group": {
+            "name": "Voice Infrastructure"
+          },
+          "host": {
+            "name": "nawari-cm-01"
+          },
+          "item": {
+            "name": "Real-Call Evaluated Calls Count"
+          },
+          "refId": "EVAL_CALLS"
+        }
+      ],
+      "title": "Evaluated Calls Count in Last Hour [REAL \u2014 AVAYA SNMP]",
+      "type": "stat"
+    }
+  ],
+  "refresh": "1m",
+  "schemaVersion": 39,
+  "style": "dark",
+  "tags": [
+    "nawari",
+    "communication-observability",
+    "avaya",
+    "communication-manager",
+    "call-processing"
+  ],
+  "templating": {
+    "list": []
+  },
+  "time": {
+    "from": "now-6h",
+    "to": "now"
+  },
+  "timepicker": {
+    "refresh_intervals": [
+      "30s",
+      "1m",
+      "5m",
+      "15m"
+    ]
+  },
+  "timezone": "browser",
+  "title": "Nawari \u2014 Avaya Aura Communication Manager (CM) Call Processing & IP Voice Performance",
+  "uid": "nawari-communication-manager",
+  "version": 1
+}

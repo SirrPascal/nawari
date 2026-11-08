@@ -1,0 +1,711 @@
+{
+  "annotations": {
+    "list": []
+  },
+  "editable": true,
+  "fiscalYearStartMonth": 0,
+  "graphTooltip": 1,
+  "id": null,
+  "links": [],
+  "liveNow": false,
+  "panels": [
+    {
+      "collapsed": false,
+      "gridPos": {
+        "h": 1,
+        "w": 24,
+        "x": 0,
+        "y": 0
+      },
+      "id": 1,
+      "title": "Recording & WFO Architecture Boundary & Platform Health",
+      "type": "row"
+    },
+    {
+      "datasource": {
+        "type": "alexanderzobnin-zabbix-datasource",
+        "uid": "PA67C5EADE9207728"
+      },
+      "description": "Product specification and boundary requirements: WFO is an enterprise product category, not a specific product. Displays integration prerequisites (Verint / NICE / Geomant / AWOS verification required). Documents that Nawari collects operational metadata ONLY; voice audio recordings are strictly excluded.",
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "thresholds"
+          },
+          "noValue": "Vendor Confirmation Required (Metadata Only)",
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "semi-dark-blue",
+                "value": null
+              }
+            ]
+          }
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 6,
+        "w": 12,
+        "x": 0,
+        "y": 1
+      },
+      "id": 2,
+      "options": {
+        "colorMode": "background",
+        "graphMode": "none",
+        "justifyMode": "auto",
+        "orientation": "auto",
+        "reduceOptions": {
+          "calcs": [
+            "lastNotNull"
+          ],
+          "fields": "",
+          "values": false
+        },
+        "textMode": "auto"
+      },
+      "targets": [
+        {
+          "group": {
+            "name": "Recording Infrastructure"
+          },
+          "host": {
+            "name": "nawari-wfo-01"
+          },
+          "item": {
+            "name": "wfoProductSpecificationStatus"
+          },
+          "refId": "WFO_STATUS"
+        }
+      ],
+      "title": "WFO Product Specification Status [PENDING VENDOR CONFIRMATION]",
+      "type": "stat"
+    },
+    {
+      "datasource": {
+        "type": "alexanderzobnin-zabbix-datasource",
+        "uid": "PA67C5EADE9207728"
+      },
+      "description": "Operational health of the CTI signaling link between Avaya Communication Manager and the recording server cluster (TSAPI / DMCC / CSTA). 1 = Link Active, 0 = Link Down. Critical alert if down: halts call metadata association. Source: CTI daemon check. Polling: 60s.",
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "thresholds"
+          },
+          "mappings": [
+            {
+              "options": {
+                "1": {
+                  "color": "green",
+                  "text": "CTI LINK ACTIVE"
+                },
+                "0": {
+                  "color": "red",
+                  "text": "CTI LINK DOWN"
+                }
+              },
+              "type": "value"
+            }
+          ],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "red",
+                "value": null
+              },
+              {
+                "color": "green",
+                "value": 1
+              }
+            ]
+          }
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 6,
+        "w": 6,
+        "x": 12,
+        "y": 1
+      },
+      "id": 3,
+      "options": {
+        "colorMode": "background",
+        "graphMode": "none",
+        "justifyMode": "auto",
+        "orientation": "auto",
+        "reduceOptions": {
+          "calcs": [
+            "lastNotNull"
+          ],
+          "fields": "",
+          "values": false
+        },
+        "textMode": "auto"
+      },
+      "targets": [
+        {
+          "group": {
+            "name": "Recording Infrastructure"
+          },
+          "host": {
+            "name": "nawari-wfo-01"
+          },
+          "item": {
+            "name": "Recorder-to-CM CTI Link State"
+          },
+          "refId": "CTI"
+        }
+      ],
+      "title": "Recorder-to-CM CTI Link State [APPLICATION \u2014 WFO]",
+      "type": "stat"
+    },
+    {
+      "datasource": {
+        "type": "alexanderzobnin-zabbix-datasource",
+        "uid": "PA67C5EADE9207728"
+      },
+      "description": "Operating system uptime of the recording application host server. Source: MIB-II sysUpTime. Polling: 60s.",
+      "fieldConfig": {
+        "defaults": {
+          "unit": "s"
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 6,
+        "w": 6,
+        "x": 18,
+        "y": 1
+      },
+      "id": 4,
+      "options": {
+        "colorMode": "value",
+        "graphMode": "none",
+        "justifyMode": "auto",
+        "orientation": "auto",
+        "reduceOptions": {
+          "calcs": [
+            "lastNotNull"
+          ],
+          "fields": "",
+          "values": false
+        },
+        "textMode": "auto"
+      },
+      "targets": [
+        {
+          "group": {
+            "name": "Recording Infrastructure"
+          },
+          "host": {
+            "name": "nawari-wfo-01"
+          },
+          "item": {
+            "name": "Recording Host Uptime"
+          },
+          "refId": "UPTIME"
+        }
+      ],
+      "title": "Recording Host Uptime [REAL \u2014 HARDWARE]",
+      "type": "stat"
+    },
+    {
+      "collapsed": false,
+      "gridPos": {
+        "h": 1,
+        "w": 24,
+        "x": 0,
+        "y": 7
+      },
+      "id": 5,
+      "title": "Recording Ingestion Rate, Queue Depth & Failures",
+      "type": "row"
+    },
+    {
+      "datasource": {
+        "type": "alexanderzobnin-zabbix-datasource",
+        "uid": "PA67C5EADE9207728"
+      },
+      "description": "Live count of concurrent telephone voice conversations currently being actively captured and recorded. Source: Recording daemon active session counter. Polling: 60s.",
+      "fieldConfig": {
+        "defaults": {
+          "unit": "calls"
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 6,
+        "w": 6,
+        "x": 0,
+        "y": 8
+      },
+      "id": 6,
+      "options": {
+        "colorMode": "value",
+        "graphMode": "none",
+        "justifyMode": "auto",
+        "orientation": "auto",
+        "reduceOptions": {
+          "calcs": [
+            "lastNotNull"
+          ],
+          "fields": "",
+          "values": false
+        },
+        "textMode": "auto"
+      },
+      "targets": [
+        {
+          "group": {
+            "name": "Recording Infrastructure"
+          },
+          "host": {
+            "name": "nawari-wfo-01"
+          },
+          "item": {
+            "name": "Active Concurrent Recording Sessions"
+          },
+          "refId": "SESSIONS"
+        }
+      ],
+      "title": "Active Recording Sessions [APPLICATION \u2014 WFO]",
+      "type": "stat"
+    },
+    {
+      "datasource": {
+        "type": "alexanderzobnin-zabbix-datasource",
+        "uid": "PA67C5EADE9207728"
+      },
+      "description": "Rate of recorded call metadata payloads ingested and indexed into the archive per minute. Source: WFO ingestion API. Polling: 60s.",
+      "fieldConfig": {
+        "defaults": {
+          "custom": {
+            "drawStyle": "line",
+            "lineInterpolation": "smooth",
+            "spanNulls": false
+          },
+          "unit": "cpm"
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 6,
+        "w": 6,
+        "x": 6,
+        "y": 8
+      },
+      "id": 7,
+      "options": {
+        "tooltip": {
+          "mode": "single"
+        }
+      },
+      "targets": [
+        {
+          "group": {
+            "name": "Recording Infrastructure"
+          },
+          "host": {
+            "name": "nawari-wfo-01"
+          },
+          "item": {
+            "name": "Recording Ingestion Rate"
+          },
+          "refId": "INGESTION"
+        }
+      ],
+      "title": "Ingestion Rate (Calls/min) [APPLICATION \u2014 WFO]",
+      "type": "timeseries"
+    },
+    {
+      "datasource": {
+        "type": "alexanderzobnin-zabbix-datasource",
+        "uid": "PA67C5EADE9207728"
+      },
+      "description": "Count of failed recording operations (e.g. RTP stream missing, CTI timeout, codec mismatch) in the preceding hour. Source: Recording error log. Warning: > 0 failures.",
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "thresholds"
+          },
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              },
+              {
+                "color": "red",
+                "value": 1
+              }
+            ]
+          },
+          "unit": "calls"
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 6,
+        "w": 6,
+        "x": 12,
+        "y": 8
+      },
+      "id": 8,
+      "options": {
+        "colorMode": "value",
+        "graphMode": "none",
+        "justifyMode": "auto",
+        "orientation": "auto",
+        "reduceOptions": {
+          "calcs": [
+            "lastNotNull"
+          ],
+          "fields": "",
+          "values": false
+        },
+        "textMode": "auto"
+      },
+      "targets": [
+        {
+          "group": {
+            "name": "Recording Infrastructure"
+          },
+          "host": {
+            "name": "nawari-wfo-01"
+          },
+          "item": {
+            "name": "Recording Capture Failure Count"
+          },
+          "refId": "FAILURES"
+        }
+      ],
+      "title": "Recording Failures Count [APPLICATION \u2014 WFO]",
+      "type": "stat"
+    },
+    {
+      "datasource": {
+        "type": "alexanderzobnin-zabbix-datasource",
+        "uid": "PA67C5EADE9207728"
+      },
+      "description": "Number of call recording files currently buffered in local staging storage awaiting transfer to long-term archive. Warning: > 200 calls. Critical: > 500 calls. Source: Ingestion queue monitor.",
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "thresholds"
+          },
+          "max": 1000,
+          "min": 0,
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              },
+              {
+                "color": "yellow",
+                "value": 200
+              },
+              {
+                "color": "red",
+                "value": 500
+              }
+            ]
+          },
+          "unit": "calls"
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 6,
+        "w": 6,
+        "x": 18,
+        "y": 8
+      },
+      "id": 9,
+      "options": {
+        "orientation": "auto",
+        "reduceOptions": {
+          "calcs": [
+            "lastNotNull"
+          ],
+          "fields": "",
+          "values": false
+        },
+        "showThresholdLabels": false,
+        "showThresholdMarkers": true
+      },
+      "targets": [
+        {
+          "group": {
+            "name": "Recording Infrastructure"
+          },
+          "host": {
+            "name": "nawari-wfo-01"
+          },
+          "item": {
+            "name": "Ingestion Buffer Queue Depth"
+          },
+          "refId": "QUEUE"
+        }
+      ],
+      "title": "Ingestion Queue Depth [APPLICATION \u2014 WFO]",
+      "type": "gauge"
+    },
+    {
+      "collapsed": false,
+      "gridPos": {
+        "h": 1,
+        "w": 24,
+        "x": 0,
+        "y": 14
+      },
+      "id": 10,
+      "title": "Storage Partition Capacity, Retention & Archival Horizon",
+      "type": "row"
+    },
+    {
+      "datasource": {
+        "type": "alexanderzobnin-zabbix-datasource",
+        "uid": "PA67C5EADE9207728"
+      },
+      "description": "Storage capacity utilization percentage across dedicated call recording storage volumes. Warning: > 80%, Critical: > 90%. Source: HOST-RESOURCES-MIB hrStorageUsed. Polling: 5m.",
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "thresholds"
+          },
+          "max": 100,
+          "min": 0,
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              },
+              {
+                "color": "yellow",
+                "value": 80
+              },
+              {
+                "color": "red",
+                "value": 90
+              }
+            ]
+          },
+          "unit": "percent"
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 6,
+        "w": 8,
+        "x": 0,
+        "y": 15
+      },
+      "id": 11,
+      "options": {
+        "orientation": "auto",
+        "reduceOptions": {
+          "calcs": [
+            "lastNotNull"
+          ],
+          "fields": "",
+          "values": false
+        },
+        "showThresholdLabels": false,
+        "showThresholdMarkers": true
+      },
+      "targets": [
+        {
+          "group": {
+            "name": "Recording Infrastructure"
+          },
+          "host": {
+            "name": "nawari-wfo-01"
+          },
+          "item": {
+            "name": "Recording Storage Partition Utilization"
+          },
+          "refId": "STORAGE"
+        }
+      ],
+      "title": "Recording Storage Utilization (%) [REAL \u2014 HARDWARE]",
+      "type": "gauge"
+    },
+    {
+      "datasource": {
+        "type": "alexanderzobnin-zabbix-datasource",
+        "uid": "PA67C5EADE9207728"
+      },
+      "description": "Projected remaining days before recording storage volume reaches 90% and 100% capacity saturation based on rolling 14-day daily ingestion trajectory. Source: Nawari Storage Capacity Forecaster. Warning: < 30 days.",
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "thresholds"
+          },
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "red",
+                "value": null
+              },
+              {
+                "color": "yellow",
+                "value": 30
+              },
+              {
+                "color": "green",
+                "value": 60
+              }
+            ]
+          },
+          "unit": "d"
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 6,
+        "w": 8,
+        "x": 8,
+        "y": 15
+      },
+      "id": 12,
+      "options": {
+        "colorMode": "value",
+        "graphMode": "none",
+        "justifyMode": "auto",
+        "orientation": "auto",
+        "reduceOptions": {
+          "calcs": [
+            "lastNotNull"
+          ],
+          "fields": "",
+          "values": false
+        },
+        "textMode": "auto"
+      },
+      "targets": [
+        {
+          "group": {
+            "name": "Recording Infrastructure"
+          },
+          "host": {
+            "name": "nawari-wfo-01"
+          },
+          "item": {
+            "name": "Projected Days-to-Full (Storage TTE)"
+          },
+          "refId": "TTE"
+        }
+      ],
+      "title": "Projected Days-to-Full (Storage TTE) [PREDICTIVE]",
+      "type": "stat"
+    },
+    {
+      "datasource": {
+        "type": "alexanderzobnin-zabbix-datasource",
+        "uid": "PA67C5EADE9207728"
+      },
+      "description": "Percentage of completed daily call recordings successfully migrated and verified in the offsite long-term immutable archival tier. Target: 100%. Source: WFO Archival Verifier.",
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "thresholds"
+          },
+          "max": 100,
+          "min": 0,
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "red",
+                "value": null
+              },
+              {
+                "color": "yellow",
+                "value": 98
+              },
+              {
+                "color": "green",
+                "value": 99.9
+              }
+            ]
+          },
+          "unit": "percent"
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 6,
+        "w": 8,
+        "x": 16,
+        "y": 15
+      },
+      "id": 13,
+      "options": {
+        "orientation": "auto",
+        "reduceOptions": {
+          "calcs": [
+            "lastNotNull"
+          ],
+          "fields": "",
+          "values": false
+        },
+        "showThresholdLabels": false,
+        "showThresholdMarkers": true
+      },
+      "targets": [
+        {
+          "group": {
+            "name": "Recording Infrastructure"
+          },
+          "host": {
+            "name": "nawari-wfo-01"
+          },
+          "item": {
+            "name": "Daily Archival Transfer Success Rate"
+          },
+          "refId": "ARCHIVE"
+        }
+      ],
+      "title": "Daily Archival Success Rate (%) [APPLICATION \u2014 WFO]",
+      "type": "gauge"
+    }
+  ],
+  "refresh": "1m",
+  "schemaVersion": 39,
+  "style": "dark",
+  "tags": [
+    "nawari",
+    "communication-observability",
+    "recording",
+    "wfo",
+    "compliance"
+  ],
+  "templating": {
+    "list": []
+  },
+  "time": {
+    "from": "now-6h",
+    "to": "now"
+  },
+  "timepicker": {
+    "refresh_intervals": [
+      "30s",
+      "1m",
+      "5m"
+    ]
+  },
+  "timezone": "browser",
+  "title": "Nawari \u2014 Voice Recording & Workforce Optimisation (WFO) Operational Health",
+  "uid": "nawari-recording-wfo",
+  "version": 1
+}
