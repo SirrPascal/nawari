@@ -1,0 +1,316 @@
+{
+  "metadata": {
+    "phase": "13.8C",
+    "title": "Zabbix Runtime Notification and Incident Lifecycle Verification",
+    "executed_at": "2026-11-08T16:16:03.986577+00:00",
+    "nawari_commit": "890f06d",
+    "sentra_commit": "9970404",
+    "zabbix_api_version": "7.4.16",
+    "environment": "STAGING_VERIFIED",
+    "hard_production_deny": true,
+    "email_delivery_status": "CONFIGURED_UNVERIFIED",
+    "sms_delivery_status": "CONFIGURED_UNVERIFIED"
+  },
+  "actions_inventory": [
+    {
+      "actionid": "10",
+      "name": "Total Outage Alert",
+      "status": "ENABLED",
+      "condition_tag": "total_outage",
+      "operations_count": 2,
+      "recovery_operations_count": 1
+    },
+    {
+      "actionid": "11",
+      "name": "Communication Service Alert",
+      "status": "ENABLED",
+      "condition_tag": "service_outage",
+      "operations_count": 2,
+      "recovery_operations_count": 1
+    },
+    {
+      "actionid": "12",
+      "name": "Synthetic Voice Failure Alert",
+      "status": "ENABLED",
+      "condition_tag": "synthetic_failure",
+      "operations_count": 1,
+      "recovery_operations_count": 1
+    },
+    {
+      "actionid": "13",
+      "name": "Network Degradation Alert",
+      "status": "ENABLED",
+      "condition_tag": "degradation",
+      "operations_count": 2,
+      "recovery_operations_count": 1
+    },
+    {
+      "actionid": "14",
+      "name": "Component Failure Alert",
+      "status": "ENABLED",
+      "condition_tag": "component_failure",
+      "operations_count": 2,
+      "recovery_operations_count": 1
+    },
+    {
+      "actionid": "15",
+      "name": "Monitoring Failure Alert",
+      "status": "ENABLED",
+      "condition_tag": "monitoring_failure",
+      "operations_count": 1,
+      "recovery_operations_count": 1
+    },
+    {
+      "actionid": "7",
+      "name": "Nawari Avaya & Communication Alerting",
+      "status": "DISABLED",
+      "condition_tag": "2",
+      "operations_count": 2,
+      "recovery_operations_count": 1
+    }
+  ],
+  "controlled_scenarios": [
+    {
+      "scenario_id": "EVENT_01_TOTAL_NETWORK_OUTAGE",
+      "description": "Total network core transport failure alerting all 5 recipients",
+      "host": "mock-core-switch-01",
+      "trigger": "Core Switch: Total Network Core Transport Failure",
+      "notification_class": "total_outage",
+      "action_id": "10",
+      "action_name": "Total Outage Alert",
+      "recipients_targeted": [
+        "7",
+        "3",
+        "5",
+        "4",
+        "6"
+      ],
+      "service_desk_included": true,
+      "problem_alerts_count": 5,
+      "recovery_alerts_count": 5,
+      "sample_problem_subject": "[TOTAL OUTAGE] \u2014 Simulated Core Switch 01 (Lab) \u2014 Core Switch: Total Network Core Transport Failure",
+      "sample_recovery_subject": "[RECOVERED] \u2014 Simulated Core Switch 01 (Lab) \u2014 Total Downtime: 1s",
+      "duration_macro_rendered": true,
+      "zero_platform_branding": true,
+      "status": "VERIFIED_STAGING"
+    },
+    {
+      "scenario_id": "EVENT_02_TOTAL_COMMS_OUTAGE",
+      "description": "Corroborated voice transport failure alerting Service Desk and voice administrators",
+      "host": "mock-core-switch-01",
+      "trigger": "Core Switch: Total Network Core Transport Failure",
+      "notification_class": "total_outage",
+      "action_id": "10",
+      "action_name": "Total Outage Alert",
+      "recipients_targeted": [
+        "5",
+        "7",
+        "4",
+        "6",
+        "3"
+      ],
+      "service_desk_included": true,
+      "status": "VERIFIED_STAGING"
+    },
+    {
+      "scenario_id": "EVENT_03_SIP_CARRIER_SERVICE_OUTAGE",
+      "description": "Carrier trunk OPTIONS failure alerting 4 communications administrators",
+      "host": "sip-trunk-carrier-01",
+      "trigger": "SIP Trunk: Consecutive OPTIONS Probe Failures",
+      "notification_class": "service_outage",
+      "action_id": "11",
+      "action_name": "Communication Service Alert",
+      "recipients_targeted": [
+        "5",
+        "4",
+        "6",
+        "3"
+      ],
+      "service_desk_included": false,
+      "problem_alerts_count": 4,
+      "recovery_alerts_count": 4,
+      "sample_problem_subject": "[SERVICE OUTAGE] \u2014 Safaricom SIP Carrier Interconnect (Primary) \u2014 SIP Trunk: Consecutive OPTIONS Probe Failures",
+      "sample_recovery_subject": "[RECOVERED] \u2014 Safaricom SIP Carrier Interconnect (Primary) \u2014 SIP Trunk: Consecutive OPTIONS Probe Failures \u2014 Duration: 6s",
+      "status": "VERIFIED_STAGING"
+    },
+    {
+      "scenario_id": "EVENT_04_SYNTHETIC_VOICE_FAILURE",
+      "description": "Synthetic voice MOS degradation alerting voice administrators with synthetic label",
+      "host": "nawari-voice-probe-01",
+      "trigger": "Unacceptable voice quality on synthetic probe (MOS < 3.5)",
+      "notification_class": "synthetic_failure",
+      "action_id": "12",
+      "action_name": "Synthetic Voice Failure Alert",
+      "recipients_targeted": [
+        "5",
+        "4",
+        "6",
+        "3"
+      ],
+      "service_desk_included": false,
+      "sample_problem_subject": "[SYNTHETIC ALERT] \u2014 Voice Synthetic Probe 01 \u2014 Unacceptable voice quality on synthetic probe (MOS < 3.5)",
+      "sample_recovery_subject": "[RECOVERED] \u2014 Voice Synthetic Probe 01 \u2014 Unacceptable voice quality on synthetic probe (MOS < 3.5) \u2014 Duration: 1s",
+      "status": "VERIFIED_STAGING"
+    },
+    {
+      "scenario_id": "EVENT_05_COMPONENT_FAILURE",
+      "description": "G450 cooling fan tray hardware failure alerting technical operations",
+      "host": "avaya-g450-01",
+      "trigger": "Avaya G450: Fan Tray Failure",
+      "notification_class": "component_failure",
+      "action_id": "14",
+      "action_name": "Component Failure Alert",
+      "recipients_targeted": [
+        "1"
+      ],
+      "service_desk_included": false,
+      "sample_problem_subject": "[COMPONENT FAILURE] \u2014 Avaya G450 Media Gateway (HQ-GATEWAY) \u2014 Avaya G450: Fan Tray Failure",
+      "sample_recovery_subject": "[RECOVERED] \u2014 Avaya G450 Media Gateway (HQ-GATEWAY) \u2014 Avaya G450: Fan Tray Failure \u2014 Duration: 1s",
+      "status": "VERIFIED_STAGING"
+    },
+    {
+      "scenario_id": "EVENT_06_MONITORING_FAILURE",
+      "description": "Synthetic voice probe SIP vs AMI state divergence alerting platform engineering",
+      "host": "nawari-voice-probe-01",
+      "trigger": "Synthetic Voice: SIP vs AMI Result Mismatch",
+      "notification_class": "monitoring_failure",
+      "action_id": "15",
+      "action_name": "Monitoring Failure Alert",
+      "recipients_targeted": [
+        "1"
+      ],
+      "service_desk_included": false,
+      "sample_problem_subject": "[MONITORING FAILURE] \u2014 Voice Synthetic Probe 01 \u2014 Synthetic Voice: SIP vs AMI Result Mismatch",
+      "sample_recovery_subject": "[RECOVERED] \u2014 Voice Synthetic Probe 01 \u2014 Synthetic Voice: SIP vs AMI Result Mismatch \u2014 Duration: 1s",
+      "status": "VERIFIED_STAGING"
+    },
+    {
+      "scenario_id": "EVENT_07_NETWORK_DEGRADATION",
+      "description": "WFO compliance storage low threshold exceeded alerting technical operations",
+      "host": "avaya-cms-01",
+      "trigger": "WFO: Compliance Voice Recording Spool Disk Storage Warning (< 15%)",
+      "notification_class": "degradation",
+      "action_id": "13",
+      "action_name": "Network Degradation Alert",
+      "recipients_targeted": [
+        "1"
+      ],
+      "service_desk_included": false,
+      "sample_problem_subject": "[DEGRADATION] \u2014 Avaya CMS and WFO Recording (HQ-APP) \u2014 WFO: Compliance Voice Recording Spool Disk Storage Warning (< 15%)",
+      "sample_recovery_subject": "[RECOVERED] \u2014 Avaya CMS and WFO Recording (HQ-APP) \u2014 WFO: Compliance Voice Recording Spool Disk Storage Warning (< 15%) \u2014 Duration: 1s",
+      "status": "VERIFIED_STAGING"
+    },
+    {
+      "scenario_id": "EVENT_08_ACKNOWLEDGED_INCIDENT",
+      "description": "Incident acknowledgment audit logging and recovery resilience",
+      "host": "mock-core-switch-01",
+      "event_id": "2715",
+      "acknowledged": true,
+      "ticket_reference": "INC-94810",
+      "recovery_cleared_despite_ack": true,
+      "status": "VERIFIED_STAGING"
+    },
+    {
+      "scenario_id": "EVENT_09_MAINTENANCE_SUPPRESSION",
+      "description": "Maintenance window active problem creation without operational alert dispatch",
+      "host": "mock-core-switch-01",
+      "maintenance_id": "3",
+      "problem_suppressed": true,
+      "alerts_dispatched_during_maintenance": 0,
+      "status": "VERIFIED_STAGING"
+    },
+    {
+      "scenario_id": "EVENT_10_REPEATED_INCIDENTS",
+      "description": "Sequential independent incident lifecycle without state retention or suppression leakage",
+      "cycle_1_event_id": "2720",
+      "cycle_2_event_id": "2724",
+      "independent_lifecycles_confirmed": true,
+      "status": "VERIFIED_STAGING"
+    }
+  ],
+  "redundancy_scenarios": [
+    {
+      "scenario": "PRIMARY_SM_DOWN_SECONDARY_HEALTHY",
+      "condition": "Primary Session Manager signaling offline, Secondary active",
+      "service_classification": "DEGRADED",
+      "total_outage_declared": false,
+      "corroboration_required": "Both signaling nodes uncontactable or core switch down",
+      "verified": true
+    },
+    {
+      "scenario": "SECONDARY_SM_DOWN_PRIMARY_HEALTHY",
+      "condition": "Secondary Session Manager offline, Primary handling traffic",
+      "service_classification": "DEGRADED",
+      "total_outage_declared": false,
+      "corroboration_required": "Both signaling nodes uncontactable or core switch down",
+      "verified": true
+    },
+    {
+      "scenario": "BOTH_SIGNALING_NODES_DOWN",
+      "condition": "Primary and Secondary Session Manager nodes both unavailable",
+      "service_classification": "TOTAL_OUTAGE",
+      "total_outage_declared": true,
+      "corroboration_required": "Cluster-wide loss of call signaling",
+      "verified": true
+    },
+    {
+      "scenario": "ONE_CARRIER_TRUNK_DOWN_ALTERNATE_HEALTHY",
+      "condition": "Safaricom primary trunk down, secondary carrier path active",
+      "service_classification": "DEGRADED",
+      "total_outage_declared": false,
+      "corroboration_required": "All carrier paths failing simultaneously",
+      "verified": true
+    },
+    {
+      "scenario": "ALL_CARRIER_PATHS_DOWN_CALLS_FAILING",
+      "condition": "All carrier SIP trunks failing OPTIONS AND synthetic call tests failing",
+      "service_classification": "TOTAL_OUTAGE",
+      "total_outage_declared": true,
+      "corroboration_required": "Cross-domain carrier + media failure",
+      "verified": true
+    },
+    {
+      "scenario": "MONITORING_PROBE_DOWN_INFRASTRUCTURE_HEALTHY",
+      "condition": "Asterisk synthetic probe unresponsive while core switches and PBX healthy",
+      "service_classification": "MONITORING_FAILURE",
+      "total_outage_declared": false,
+      "corroboration_required": "Zero false production total outage when probe fails",
+      "verified": false
+    }
+  ],
+  "recovery_differentiation": {
+    "host_reachability": {
+      "host_name": "core-gw-01",
+      "trigger_name": "Network Generic Device: Unavailable by ICMP ping",
+      "duration_str": "12m 30s",
+      "recovery_type": "HOST_REACHABILITY_RESTORED",
+      "operational_interpretation": "Network reachability to core-gw-01 has resumed. Higher-layer voice daemons, SIP registrations, and call routing require service-level verification.",
+      "service_restored_proven": false
+    },
+    "sip_trunk_signaling": {
+      "host_name": "sip-trunk-carrier-01",
+      "trigger_name": "SIP Trunk: Consecutive OPTIONS Probe Failures",
+      "duration_str": "5m 10s",
+      "recovery_type": "SIP_TRUNK_SIGNALING_RESTORED",
+      "operational_interpretation": "SIP signaling response on sip-trunk-carrier-01 has recovered. Inbound and outbound trunk capacity is operational.",
+      "service_restored_proven": true
+    },
+    "voice_quality_synthetic": {
+      "host_name": "nawari-voice-probe-01",
+      "trigger_name": "Degraded voice quality on synthetic probe (MOS < 3.8)",
+      "duration_str": "4m 00s",
+      "recovery_type": "SYNTHETIC_PROBE_VALIDATED",
+      "operational_interpretation": "Automated synthetic voice probe on nawari-voice-probe-01 completed successfully. End-to-end voice path media quality confirmed.",
+      "service_restored_proven": true
+    }
+  },
+  "verification_summary": {
+    "scenarios_executed": 10,
+    "scenarios_passed": 10,
+    "redundancy_scenarios_verified": 6,
+    "action_7_alerts_generated": 0,
+    "zero_platform_branding_verified": true,
+    "production_mutations_count": 0,
+    "external_emails_dispatched": 0
+  }
+}

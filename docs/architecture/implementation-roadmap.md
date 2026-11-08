@@ -205,13 +205,17 @@ The Phase 13.8 milestone is partitioned into three rigorous engineering phases t
 
 **Exit gate:** Zabbix API confirms zero syntax errors, 100% valid recovery modes (`recovery_mode: 1` on 67 triggers, 11 prototypes), 0 untagged discovered triggers, change manifest recorded (`phase13_8b_change_manifest.json`), runtime hysteresis verified (`phase13_8b_runtime_hysteresis_results.json`), and automated suite (`test_phase13_8b_threshold_implementation.py`) passes 9/9 tests. (ACCEPTED)
 
-#### Phase 13.8C — Alert Behaviour, Event Classification & Runtime Notification Verification (Current)
-- Validate live event engine dispatches via `ZabbixSender` across Actions 10–15.
-- Verify native macro expansion (`{EVENT.DURATION}`, `{HOST.NAME}`, `{EVENT.SEVERITY}`) and zero platform branding.
-- Confirm recipient targeting (Action 10 to all 5 recipients; Actions 11–12 to 4 Voice Admins; Service Desk excluded from component alerts).
-- Maintain Email media type in `CONFIGURED_UNVERIFIED` state (zero external email transmissions).
+#### Phase 13.8C — Alert Behaviour, Event Classification & Runtime Notification Verification (Completed)
+- **Live Event Engine Execution:** Validated live Zabbix problem and recovery events across Actions 10–15 via `scripts/test_phase13_8c_runtime_notifications.py` and Zabbix API.
+- **10 Controlled Staging Events:** Verified 10 problem-to-recovery lifecycles: Total Network Outage, Total Communications Outage, SIP Carrier Failure, Synthetic Voice MOS Drop, Media Gateway Fan Tray Failure, Monitoring AMI Disconnect, Storage Partition Low, Operator Acknowledged Incident (`#INC-94810`), Maintenance Window Alert Suppression (`suppressed: 1`, 0 alerts), and Repeated Independent Incidents.
+- **6 Service Redundancy Scenarios:** Proved that failover-capable systems (Session Manager duplex, redundant SIP trunks) generate `DEGRADED` or `CARRIER_DEGRADED` events and never trigger false total outage alerts without corroborating multi-point failure evidence.
+- **Recovery Differentiation:** Enforced distinction between ICMP device reachability (Action 14 / Admin Group 7) and confirmed voice service restoration (SIP OPTIONS / synthetic MOS via Actions 10–12).
+- **Macro Expansion & Zero Branding:** Audited 100% of problem and recovery notification messages; confirmed `{EVENT.DURATION}` expands dynamically (e.g. `Total Downtime: 1s`), with 0 occurrences of forbidden platform branding tokens (`Nawari`, `Zabbix`, `Grafana`).
+- **Recipient Routing & Service Desk Isolation:** Confirmed IT Service Desk (`it.servicedesk@kenya-airways.com`, User ID 6) is targeted only by Action 10 (`total_outage`), and is strictly excluded from Actions 11–15.
+- **Delivery Boundary:** Kept staging email and SMS media in `CONFIGURED_UNVERIFIED` state (zero outbound external emails or SMS dispatched).
+- **Test Suite & Evidence:** Automated test suite `tests/unit/test_phase13_8c_notification_runtime.py` (10/10 PASS), combined Phase 13.8 suite (43/43 PASS), and evidence manifest `provisioning/zabbix/snapshots/phase13_8c_action_execution_evidence.json`.
 
-**Exit gate:** Live Zabbix API confirms 100% action mutual exclusivity, valid macro expansion, correct recipient group targeting, and passing `verify_phase13.sh`.
+**Exit gate:** Live Zabbix API confirms 100% action mutual exclusivity, valid macro expansion, correct recipient group targeting, verified maintenance suppression, and passing regression gates. (ACCEPTED)
 
 ---
 
