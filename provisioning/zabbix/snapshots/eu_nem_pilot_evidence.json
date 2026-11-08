@@ -1,0 +1,40 @@
+{
+  "timestamp": "2026-11-08T17:23:50.243886+00:00",
+  "pilot_hosts": [
+    "KQ-LT-WIN-01",
+    "KQ-LT-MAC-01"
+  ],
+  "template": "Template_Nawari_End_User_Network_Experience",
+  "template_id": "10804",
+  "items_count": 10,
+  "triggers_count": 7,
+  "scenarios_tested": [
+    {
+      "scenario": "Nominal Healthy Fleet",
+      "passed": true,
+      "hypothesis": "FLEET_HEALTHY"
+    },
+    {
+      "scenario": "Wi-Fi AP RF Congestion",
+      "passed": true,
+      "hypothesis": "ACCESS_POINT_RF_ISSUE"
+    },
+    {
+      "scenario": "Corporate DNS Resolver Outage",
+      "passed": true,
+      "hypothesis": "DNS_INFRASTRUCTURE_ISSUE"
+    },
+    {
+      "scenario": "Clean OS Shutdown Filter",
+      "passed": true,
+      "state": "EXPECTED_SHUTDOWN"
+    },
+    {
+      "scenario": "Off-Net Remote Worker",
+      "passed": true,
+      "state": "OUTSIDE_CORPORATE_NETWORK"
+    }
+  ],
+  "grafana_dashboard_uid": "nawari-eu-nem-pilot",
+  "status": "ACCEPTED"
+}

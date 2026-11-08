@@ -1,0 +1,311 @@
+zabbix_export:
+  version: '7.4'
+  template_groups:
+    - uuid: 36bff6c29af64692839d077febfc7079
+      name: 'Templates/Network devices'
+  templates:
+    - uuid: e5322dd002534224934f59e622756708
+      template: 'Template_Nawari_End_User_Network_Experience'
+      name: 'Template_Nawari_End_User_Network_Experience'
+      description: |
+        Nawari End-User Network Experience Monitoring (EU-NEM) Template for Zabbix Agent 2.
+        Collects active endpoint network metrics, default gateway RTT/loss, DNS timing,
+        Wi-Fi link quality, corporate application reachability, and OS lifecycle events
+        using non-privileged active checks with persistent buffering.
+      groups:
+        - name: 'Templates/Network devices'
+      items:
+        # Master Active Item (JSON Output from nawari_nem_probe)
+        - uuid: 216570ce83c5415b9742f1fe7d6262e2
+          name: 'NEM Master Diagnostics Snapshot'
+          type: ZABBIX_ACTIVE
+          key: 'nawari.nem.all'
+          delay: 1m
+          history: 7d
+          trends: '0'
+          value_type: TEXT
+          description: 'Master JSON diagnostics snapshot collected directly on the endpoint.'
+          tags:
+            - tag: component
+              value: nem-collector
+            - tag: telemetry_source
+              value: zabbix_agent2
+
+        # Dependent Item: Default Gateway Loss
+        - uuid: 0b606581cbea4ff8997c41b657c10d41
+          name: 'Default Gateway Packet Loss'
+          type: DEPENDENT
+          key: 'endpoint.nem.gateway.loss'
+          delay: '0'
+          history: 7d
+          trends: 365d
+          value_type: FLOAT
+          units: '%'
+          description: 'Calculated packet loss percentage to immediate default gateway.'
+          master_item:
+            key: 'nawari.nem.all'
+          preprocessing:
+            - type: JSONPATH
+              parameters:
+                - '$.gateway.loss_pct'
+          tags:
+            - tag: component
+              value: network
+            - tag: monitoring_scope
+              value: end_user
+          triggers:
+            - uuid: 43afbb169f654f6bad18dfb847e8f646
+              expression: 'min(/Template_Nawari_End_User_Network_Experience/endpoint.nem.gateway.loss,3m)>20'
+              recovery_mode: RECOVERY_EXPRESSION
+              recovery_expression: 'max(/Template_Nawari_End_User_Network_Experience/endpoint.nem.gateway.loss,3m)<5'
+              name: 'End-user gateway packet loss high (>20%)'
+              priority: AVERAGE
+              description: 'Local edge link degradation detected from laptop to default gateway.'
+              tags:
+                - tag: notification_class
+                  value: degradation
+                - tag: scope
+                  value: performance
+
+        # Dependent Item: Default Gateway RTT
+        - uuid: d2369f9e8eae4bd1838f4ac873529383
+          name: 'Default Gateway Round-Trip Time'
+          type: DEPENDENT
+          key: 'endpoint.nem.gateway.rtt'
+          delay: '0'
+          history: 7d
+          trends: 365d
+          value_type: FLOAT
+          units: ms
+          description: 'Round-trip latency to immediate default gateway in milliseconds.'
+          master_item:
+            key: 'nawari.nem.all'
+          preprocessing:
+            - type: JSONPATH
+              parameters:
+                - '$.gateway.rtt_ms'
+          tags:
+            - tag: component
+              value: network
+            - tag: monitoring_scope
+              value: end_user
+          triggers:
+            - uuid: 6f3eba0da7d94158867122ad4251206b
+              expression: 'min(/Template_Nawari_End_User_Network_Experience/endpoint.nem.gateway.rtt,3m)>100'
+              recovery_mode: RECOVERY_EXPRESSION
+              recovery_expression: 'max(/Template_Nawari_End_User_Network_Experience/endpoint.nem.gateway.rtt,3m)<50'
+              name: 'End-user gateway latency elevated (>100ms)'
+              priority: WARNING
+              description: 'Local edge link latency to default gateway exceeds 100ms.'
+              tags:
+                - tag: notification_class
+                  value: degradation
+                - tag: scope
+                  value: performance
+
+        # Dependent Item: Gateway Reachability
+        - uuid: e6f5ec1820af40ecb4c89ac9d1f9c9ce
+          name: 'Default Gateway Reachable'
+          type: DEPENDENT
+          key: 'endpoint.nem.gateway.reachable'
+          delay: '0'
+          history: 7d
+          trends: 365d
+          value_type: UNSIGNED
+          description: '1 if gateway responds to ping, 0 if unreachable.'
+          master_item:
+            key: 'nawari.nem.all'
+          preprocessing:
+            - type: JSONPATH
+              parameters:
+                - '$.gateway.reachable'
+            - type: BOOL_TO_DECIMAL
+          tags:
+            - tag: component
+              value: network
+
+        # Dependent Item: DNS Resolution Time
+        - uuid: 958788c6fd964b86a87115cffaa4f385
+          name: 'Corporate DNS Resolution Time'
+          type: DEPENDENT
+          key: 'endpoint.nem.dns.latency'
+          delay: '0'
+          history: 7d
+          trends: 365d
+          value_type: FLOAT
+          units: ms
+          description: 'Resolution response time for internal corporate domain in milliseconds.'
+          master_item:
+            key: 'nawari.nem.all'
+          preprocessing:
+            - type: JSONPATH
+              parameters:
+                - '$.dns.latency_ms'
+          tags:
+            - tag: component
+              value: dns
+            - tag: monitoring_scope
+              value: end_user
+          triggers:
+            - uuid: 5f1037889df647629b93c160c51b5569
+              expression: 'min(/Template_Nawari_End_User_Network_Experience/endpoint.nem.dns.latency,3m)>300'
+              recovery_mode: RECOVERY_EXPRESSION
+              recovery_expression: 'max(/Template_Nawari_End_User_Network_Experience/endpoint.nem.dns.latency,3m)<150'
+              name: 'Corporate DNS resolution latency elevated (>300ms)'
+              priority: WARNING
+              description: 'Internal DNS resolution time exceeds 300ms SLA guard threshold.'
+              tags:
+                - tag: notification_class
+                  value: degradation
+                - tag: scope
+                  value: performance
+
+        # Dependent Item: DNS Resolution Status
+        - uuid: 597292027c83430aa0bfbf49be1c37f6
+          name: 'Corporate DNS Resolution Status'
+          type: DEPENDENT
+          key: 'endpoint.nem.dns.success'
+          delay: '0'
+          history: 7d
+          trends: 365d
+          value_type: UNSIGNED
+          description: '1 if internal DNS query succeeded, 0 if failed.'
+          master_item:
+            key: 'nawari.nem.all'
+          preprocessing:
+            - type: JSONPATH
+              parameters:
+                - '$.dns.success'
+            - type: BOOL_TO_DECIMAL
+          tags:
+            - tag: component
+              value: dns
+            - tag: monitoring_scope
+              value: end_user
+          triggers:
+            - uuid: 7f39dbe1c49c42159cca3d628b7cf7dd
+              expression: 'last(/Template_Nawari_End_User_Network_Experience/endpoint.nem.dns.success)=0 and last(/Template_Nawari_End_User_Network_Experience/endpoint.nem.gateway.reachable)=1'
+              recovery_mode: RECOVERY_EXPRESSION
+              recovery_expression: 'last(/Template_Nawari_End_User_Network_Experience/endpoint.nem.dns.success)=1'
+              name: 'Corporate DNS resolution failed with healthy gateway'
+              priority: HIGH
+              description: 'Laptop can reach default gateway but cannot resolve internal corporate hostnames.'
+              tags:
+                - tag: notification_class
+                  value: component_failure
+                - tag: scope
+                  value: availability
+
+        # Dependent Item: Wi-Fi Signal Quality
+        - uuid: 16a6bfafcd7440f18a54e509d096c8a9
+          name: 'Wi-Fi Signal Strength'
+          type: DEPENDENT
+          key: 'endpoint.nem.wifi.signal'
+          delay: '0'
+          history: 7d
+          trends: 365d
+          value_type: FLOAT
+          units: '%'
+          description: 'Signal quality percentage for currently connected Wi-Fi AP.'
+          master_item:
+            key: 'nawari.nem.all'
+          preprocessing:
+            - type: JSONPATH
+              parameters:
+                - '$.wifi.signal_pct'
+          tags:
+            - tag: component
+              value: wifi
+            - tag: monitoring_scope
+              value: end_user
+          triggers:
+            - uuid: f8c0a57a7d804d1a9a17f468f1f4cebe
+              expression: 'max(/Template_Nawari_End_User_Network_Experience/endpoint.nem.wifi.signal,5m)<25 and last(/Template_Nawari_End_User_Network_Experience/endpoint.nem.wifi.signal)>0'
+              recovery_mode: RECOVERY_EXPRESSION
+              recovery_expression: 'min(/Template_Nawari_End_User_Network_Experience/endpoint.nem.wifi.signal,5m)>40'
+              name: 'End-user Wi-Fi signal degraded (<25%)'
+              priority: INFO
+              description: 'Wi-Fi signal strength dropped below 25%, causing edge frame retransmissions.'
+              tags:
+                - tag: notification_class
+                  value: degradation
+                - tag: scope
+                  value: performance
+
+        # Dependent Item: Corporate Service Reachability
+        - uuid: 18ff3156c3964851bc67c20162e8b888
+          name: 'Corporate Service Reachability Status'
+          type: DEPENDENT
+          key: 'endpoint.nem.service.connected'
+          delay: '0'
+          history: 7d
+          trends: 365d
+          value_type: UNSIGNED
+          description: '1 if critical corporate TCP service (AD/Directory) is reachable, 0 if blocked.'
+          master_item:
+            key: 'nawari.nem.all'
+          preprocessing:
+            - type: JSONPATH
+              parameters:
+                - '$.service.connected'
+            - type: BOOL_TO_DECIMAL
+          tags:
+            - tag: component
+              value: application
+            - tag: monitoring_scope
+              value: end_user
+
+        # Active System Uptime
+        - uuid: 2a0a658ddc944aafaf1ba7e9b74136e3
+          name: 'System Uptime'
+          type: ZABBIX_ACTIVE
+          key: 'system.uptime'
+          delay: 5m
+          history: 7d
+          trends: 365d
+          units: uptime
+          value_type: UNSIGNED
+          description: 'Operating system uptime since last boot.'
+          tags:
+            - tag: component
+              value: os
+          triggers:
+            - uuid: 70a00990dff14ccf81cce1061211f7a6
+              expression: 'last(/Template_Nawari_End_User_Network_Experience/system.uptime)<600'
+              recovery_mode: RECOVERY_EXPRESSION
+              recovery_expression: 'last(/Template_Nawari_End_User_Network_Experience/system.uptime)>=600'
+              name: 'Endpoint recently rebooted (<10m)'
+              priority: INFO
+              description: 'Endpoint rebooted within the last 10 minutes.'
+              tags:
+                - tag: notification_class
+                  value: component_failure
+                - tag: scope
+                  value: lifecycle
+
+        # Active Agent Ping
+        - uuid: 6a17b748d3bc45579b522123a3ebb95c
+          name: 'Zabbix Agent 2 Availability'
+          type: ZABBIX_ACTIVE
+          key: 'agent.ping'
+          delay: 1m
+          history: 7d
+          trends: 365d
+          value_type: UNSIGNED
+          description: 'Agent active heartbeat.'
+          tags:
+            - tag: component
+              value: agent
+          triggers:
+            - uuid: f256fb1aca98403fae477331146a14ee
+              expression: 'nodata(/Template_Nawari_End_User_Network_Experience/agent.ping,15m)=1'
+              recovery_mode: RECOVERY_EXPRESSION
+              recovery_expression: 'nodata(/Template_Nawari_End_User_Network_Experience/agent.ping,15m)=0'
+              name: 'End-user agent telemetry silent (>15m)'
+              priority: WARNING
+              description: 'No active telemetry received from Zabbix Agent 2 within 15 minutes.'
+              tags:
+                - tag: notification_class
+                  value: monitoring_failure
+                - tag: scope
+                  value: availability
