@@ -6,7 +6,56 @@
   "fiscalYearStartMonth": 0,
   "graphTooltip": 1,
   "id": null,
-  "links": [],
+  "links": [
+    {
+      "asDropdown": false,
+      "icon": "home",
+      "includeVars": false,
+      "keepTime": true,
+      "tags": [],
+      "targetBlank": false,
+      "title": "Executive Overview",
+      "tooltip": "Nawari Enterprise Executive Overview",
+      "type": "link",
+      "url": "/d/nawari-enterprise-overview/0bff031"
+    },
+    {
+      "asDropdown": false,
+      "icon": "network",
+      "includeVars": false,
+      "keepTime": true,
+      "tags": [],
+      "targetBlank": false,
+      "title": "Network Observability (13)",
+      "tooltip": "Open Network Observability Folder",
+      "type": "link",
+      "url": "/dashboards/f/nawari-network-obs/nawari-network-observability"
+    },
+    {
+      "asDropdown": false,
+      "icon": "phone",
+      "includeVars": false,
+      "keepTime": true,
+      "tags": [],
+      "targetBlank": false,
+      "title": "Communication & Voice (11)",
+      "tooltip": "Open Communication Observability Folder",
+      "type": "link",
+      "url": "/dashboards/f/nawari-comm-obs/nawari-communication-observability"
+    },
+    {
+      "asDropdown": false,
+      "icon": "folder",
+      "includeVars": false,
+      "keepTime": true,
+      "tags": [],
+      "targetBlank": false,
+      "title": "Browse All Dashboards",
+      "tooltip": "Browse all Nawari folders",
+      "type": "link",
+      "url": "/dashboards"
+    }
+  ],
   "liveNow": false,
   "panels": [
     {
