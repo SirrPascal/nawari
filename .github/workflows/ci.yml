@@ -1,0 +1,165 @@
+name: "Nawari CI Validation (Stage A)"
+
+on:
+  push:
+    branches:
+      - main
+      - "feat/**"
+      - "release/**"
+  pull_request:
+    branches:
+      - main
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: ci-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  lint-and-validate:
+    name: "Static Analysis & Configuration Validation"
+    runs-on: self-hosted
+    steps:
+      - name: "Checkout repository"
+        uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
+
+      - name: "Set up Python 3.13"
+        uses: actions/setup-python@0b93645e9dc71a7c6b84264b9d9183da55f6e8b4 # v5.3.0
+        with:
+          python-version: "3.13"
+          cache: "pip"
+
+      - name: "Install dependencies"
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r requirements.txt -r requirements-dev.txt
+
+      - name: "Verify code formatting (ruff format)"
+        run: ruff format --check .
+
+      - name: "Run linter (ruff check)"
+        run: |
+          ruff check .
+
+      - name: "Run type checker (mypy)"
+        run: |
+          mypy services/
+
+      - name: "Validate shell scripts syntax"
+        run: |
+          find scripts -type f -name "*.sh" -print0 | xargs -0 -n1 bash -n
+          if command -v shellcheck >/dev/null 2>&1; then
+            shellcheck scripts/deploy/*.sh scripts/backup/*.sh
+          fi
+
+      - name: "Validate Docker Compose configurations"
+        run: |
+          echo "Validating docker/compose.yaml..."
+          POSTGRES_PASSWORD=ci_test_password GRAFANA_ADMIN_PASSWORD=ci_test_password \
+            docker compose -f docker/compose.yaml config >/dev/null
+
+          echo "Validating docker/compose.prod.yaml..."
+          POSTGRES_PASSWORD=ci_test_password GRAFANA_ADMIN_PASSWORD=ci_test_password \
+            docker compose -f docker/compose.yaml -f docker/compose.prod.yaml config >/dev/null
+
+          echo "Validating docker/compose.app.yaml overlay..."
+          POSTGRES_PASSWORD=ci_test_password GRAFANA_ADMIN_PASSWORD=ci_test_password \
+            docker compose -f docker/compose.yaml -f docker/compose.prod.yaml -f docker/compose.app.yaml config >/dev/null
+
+          echo "Validating deploy/docker-compose.hub-full.yml..."
+          docker compose -f deploy/docker-compose.hub-full.yml config >/dev/null
+
+      - name: "Validate Dockerfile syntax"
+        run: |
+          docker buildx build --check --progress=plain -f Dockerfile .
+
+  test-suite:
+    name: "Automated Unit & Safe Integration Tests"
+    needs: lint-and-validate
+    runs-on: self-hosted
+    steps:
+      - name: "Checkout repository"
+        uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
+
+      - name: "Set up Python 3.13"
+        uses: actions/setup-python@0b93645e9dc71a7c6b84264b9d9183da55f6e8b4 # v5.3.0
+        with:
+          python-version: "3.13"
+          cache: "pip"
+
+      - name: "Install dependencies"
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r requirements.txt -r requirements-dev.txt
+
+      - name: "Execute unit test suite (477+ tests)"
+        run: |
+          mkdir -p reports
+          PYTHONPATH=. pytest tests/unit/ -v --junitxml=reports/junit-unit.xml
+
+      - name: "Execute safe CI-compatible integration tests"
+        run: |
+          PYTHONPATH=. pytest \
+            tests/integration/test_controlled_remediation_pipeline.py \
+            tests/integration/test_multisite_closed_loop_incident_flow.py \
+            tests/integration/test_multisite_service_assurance.py \
+            tests/integration/test_stage7e_dashboards.py \
+            tests/integration/test_voice_topology_assurance.py \
+            -v --junitxml=reports/junit-integration.xml
+
+      - name: "Verify HARD_PRODUCTION_DENY and commissioning safety gates"
+        run: |
+          echo "Testing staging profile approval..."
+          PYTHONPATH=. python3 scripts/deploy/check_gating.py --profile staging
+
+          echo "Testing production profile fail-closed block..."
+          if PYTHONPATH=. python3 scripts/deploy/check_gating.py --profile single-site-production; then
+            echo "ERROR: Production profile was permitted without Phase 8.2 certification!" >&2
+            exit 1
+          else
+            echo "Production profile correctly blocked with HARD_PRODUCTION_DENY (Expected)."
+          fi
+
+          echo "Testing production profile approval with certified flag..."
+          PYTHONPATH=. python3 scripts/deploy/check_gating.py --profile single-site-production --phase-8-2-certified
+
+      - name: "Upload test reports"
+        if: always()
+        uses: actions/upload-artifact@b4b15b8c7c6ac21ea08fcf65892d2b6cb773ac77 # v4.4.3
+        with:
+          name: test-reports
+          path: reports/
+          retention-days: 14
+
+  security-audit:
+    name: "Dependency Security & Secret Scanning"
+    runs-on: self-hosted
+    steps:
+      - name: "Checkout repository"
+        uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
+        with:
+          fetch-depth: 0
+
+      - name: "Set up Python 3.13"
+        uses: actions/setup-python@0b93645e9dc71a7c6b84264b9d9183da55f6e8b4 # v5.3.0
+        with:
+          python-version: "3.13"
+
+      - name: "Install pip-audit"
+        run: |
+          pip install --no-cache-dir pip-audit
+
+      - name: "Audit Python dependencies for known CVEs"
+        run: pip-audit -r requirements.txt
+
+      - name: "Run Git secret scan check"
+        run: |
+          # Ensure no hardcoded private keys or production .env committed
+          if git grep -E "(BEGIN RSA PRIVATE KEY|BEGIN OPENSSH PRIVATE KEY|POSTGRES_PASSWORD=.*[a-zA-Z0-9]{8,})" -- ':!tests/**' ':!docs/**' ':!.env.example'; then
+            echo "ERROR: Potential unmasked credential detected in repository files!" >&2
+            exit 1
+          fi
+          echo "Secret scan check passed."

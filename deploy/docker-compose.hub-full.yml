@@ -24,7 +24,7 @@ services:
       retries: 5
 
   nawari-core:
-    image: nawari/core:1.0.0-phase13
+    image: ${NAWARI_CORE_IMAGE:-ghcr.io/sirrpascal/nawari/nawari-core}:${NAWARI_CORE_TAG:-1.0.0-phase13}
     container_name: nawari-core
     restart: always
     depends_on:
@@ -40,7 +40,7 @@ services:
           cpus: "0.50"
           memory: 280M
     healthcheck:
-      test: ["CMD", "curl", "-f", "http://localhost:8080/health"]
+      test: ["CMD-SHELL", "curl -f http://localhost:8443/api/v1/health || curl -f http://localhost:8080/health || exit 1"]
       interval: 15s
       timeout: 5s
       retries: 3

@@ -1,0 +1,33 @@
+name: "Zabbix Inventory Export (Temporary)"
+# This workflow is temporary — delete it once the inventory export CSV
+# has been captured and the SolarWinds reconciliation is complete.
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  export:
+    name: "Export Zabbix host inventory"
+    runs-on: self-hosted
+    steps:
+      - name: "Checkout repository"
+        uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
+
+      - name: "Run Zabbix inventory export (read-only)"
+        env:
+          ZBX_API_TOKEN: ${{ secrets.ZBX_API_TOKEN }}
+          ZBX_API_URL: "http://127.0.0.1:8088/api_jsonrpc.php"
+        run: |
+          bash scripts/zabbix/run_inventory_export.sh
+
+      - name: "Upload inventory artifacts"
+        uses: actions/upload-artifact@b4b15b8c7c6ac21ea08fcf65892d2b6cb773ac77 # v4.4.3
+        with:
+          name: zabbix-inventory-export
+          path: |
+            scripts/zabbix/export_host_inventory.csv
+            scripts/zabbix/export_host_inventory.json
+          retention-days: 7

@@ -66,7 +66,7 @@ class ZabbixSettings:
     url: str = "http://localhost:8088/api_jsonrpc.php"
     token: Optional[str] = None
     user: str = "Admin"
-    password: str = "NawariSecOps2025!"
+    password: str = ""
     timeout_seconds: float = 10.0
     max_retries: int = 3
     backoff_factor: float = 0.5
@@ -97,7 +97,11 @@ def get_settings() -> NawariSettings:
     
     zabbix_token = os.environ.get("ZBX_API_TOKEN") or None
     zabbix_user = os.environ.get("ZBX_API_USER", "Admin")
-    zabbix_password = os.environ.get("ZBX_API_PASSWORD", "NawariSecOps2025!")
+    zabbix_password = os.environ.get("ZBX_API_PASSWORD", "")
+    if not zabbix_token and not zabbix_password:
+        raise ValueError(
+            "ZBX_API_PASSWORD or ZBX_API_TOKEN must be configured for Zabbix access"
+        )
 
     zbx_settings = ZabbixSettings(
         url=zabbix_url,
@@ -113,4 +117,3 @@ def get_settings() -> NawariSettings:
         env=os.environ.get("NAWARI_ENV", "development"),
         zabbix=zbx_settings,
     )
-

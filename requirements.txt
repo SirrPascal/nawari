@@ -1,0 +1,5 @@
+# Nawari Runtime Dependencies
+# Enterprise Network & Communications Observability Platform
+PyYAML>=6.0.2,<7.0.0
+typing-extensions>=4.12.0
+

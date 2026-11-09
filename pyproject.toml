@@ -1,0 +1,32 @@
+[tool.pytest.ini_options]
+minversion = "8.0"
+addopts = "-q --import-mode=importlib"
+testpaths = ["tests/unit"]
+python_files = ["test_*.py"]
+pythonpath = ["."]
+
+[tool.ruff]
+line-length = 100
+target-version = "py313"
+exclude = [
+    ".git",
+    "__pycache__",
+    ".pytest_cache",
+    "backups",
+]
+
+[tool.ruff.lint]
+select = ["E", "F", "W"]
+ignore = [
+    "E501",  # Line length handled gracefully
+    "E402",  # Module level import not at top of file
+]
+
+[tool.mypy]
+python_version = "3.13"
+warn_return_any = false
+warn_unused_configs = true
+ignore_missing_imports = true
+check_untyped_defs = false
+disallow_untyped_defs = false
+

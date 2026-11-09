@@ -1,0 +1,265 @@
+name: "Nawari Production & Staging Deployment (Stages B–F)"
+
+on:
+  push:
+    branches:
+      - main
+  workflow_dispatch:
+    inputs:
+      environment:
+        description: "Deployment environment tier"
+        required: true
+        type: choice
+        default: "staging"
+        options:
+          - "staging"
+          - "production"
+      profile:
+        description: "Target deployment profile"
+        required: true
+        type: choice
+        default: "staging"
+        options:
+          - "staging"
+          - "single-site-production"
+          - "simulation"
+      phase_8_2_certified:
+        description: "Phase 8.2 Commissioning Certified (Required for production)"
+        required: false
+        type: boolean
+        default: false
+      action:
+        description: "Deployment action (deploy or rollback)"
+        required: true
+        type: choice
+        default: "deploy"
+        options:
+          - "deploy"
+          - "rollback"
+      rollback_digest:
+        description: "Specific image digest for rollback (leave empty for last known good)"
+        required: false
+        type: string
+        default: ""
+
+permissions:
+  contents: read
+
+concurrency:
+  group: nawari-deploy-${{ inputs.environment || 'staging' }}
+  cancel-in-progress: false
+
+jobs:
+  validate-inputs:
+    name: "Stage A: Validate Deployment Inputs"
+    runs-on: self-hosted
+    steps:
+      - name: "Validate deployment request"
+        env:
+          DEPLOY_ENVIRONMENT: ${{ inputs.environment || 'staging' }}
+          DEPLOY_PROFILE: ${{ inputs.profile || 'staging' }}
+          DEPLOY_ACTION: ${{ inputs.action || 'deploy' }}
+          PHASE_CERTIFIED: ${{ inputs.phase_8_2_certified || 'false' }}
+          ROLLBACK_DIGEST: ${{ inputs.rollback_digest || '' }}
+          EVENT_NAME: ${{ github.event_name }}
+        run: |
+          set -euo pipefail
+
+          case "${DEPLOY_ENVIRONMENT}" in
+            staging|production) ;;
+            *) echo "Invalid deployment environment." >&2; exit 1 ;;
+          esac
+          case "${DEPLOY_PROFILE}" in
+            staging|simulation|single-site-production) ;;
+            *) echo "Invalid deployment profile." >&2; exit 1 ;;
+          esac
+          case "${DEPLOY_ACTION}" in
+            deploy|rollback) ;;
+            *) echo "Invalid deployment action." >&2; exit 1 ;;
+          esac
+          case "${PHASE_CERTIFIED}" in
+            true|false) ;;
+            *) echo "Invalid commissioning certification value." >&2; exit 1 ;;
+          esac
+
+          if [ "${DEPLOY_ENVIRONMENT}" = "production" ] &&
+             [ "${DEPLOY_PROFILE}" != "single-site-production" ]; then
+            echo "Production deployments require the single-site-production profile." >&2
+            exit 1
+          fi
+          if [ "${DEPLOY_ENVIRONMENT}" = "staging" ] &&
+             [ "${DEPLOY_PROFILE}" = "single-site-production" ]; then
+            echo "The production profile cannot target staging." >&2
+            exit 1
+          fi
+          if [ "${DEPLOY_ENVIRONMENT}" = "production" ] &&
+             [ "${PHASE_CERTIFIED}" != "true" ]; then
+            echo "Production deployments require Phase 8.2 certification." >&2
+            exit 1
+          fi
+          if [ "${EVENT_NAME}" = "push" ] &&
+             { [ "${DEPLOY_ENVIRONMENT}" != "staging" ] ||
+               [ "${DEPLOY_PROFILE}" != "staging" ] ||
+               [ "${DEPLOY_ACTION}" != "deploy" ]; }; then
+            echo "Push-triggered deployment defaults are inconsistent." >&2
+            exit 1
+          fi
+          if [ -n "${ROLLBACK_DIGEST}" ] &&
+             ! printf '%s\n' "${ROLLBACK_DIGEST}" | grep -Eq '^sha256:[0-9a-f]{64}$'; then
+            echo "Rollback digest must be a full sha256 digest." >&2
+            exit 1
+          fi
+
+  build-and-publish:
+    name: "Stage B: Container Image Build & GHCR Publish"
+    runs-on: self-hosted
+    needs: [validate-inputs]
+    if: ${{ needs.validate-inputs.result == 'success' && (inputs.action || 'deploy') != 'rollback' }}
+    permissions:
+      contents: read
+      packages: write
+      id-token: write
+      attestations: write
+    outputs:
+      digest: ${{ steps.build.outputs.digest }}
+      image_tag: ${{ steps.meta.outputs.version }}
+    steps:
+      - name: "Checkout repository"
+        uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
+
+      - name: "Set up QEMU (x86_64 target architecture)"
+        uses: docker/setup-qemu-action@49b3bc8e6bdd4480e8a9c5b1c604b901a1d9435f # v3.2.0
+
+      - name: "Set up Docker Buildx"
+        uses: docker/setup-buildx-action@c47758b77c9736f4b2ef4073d4d51994fabfe349 # v3.7.1
+
+      - name: "Log in to GitHub Container Registry (GHCR)"
+        uses: docker/login-action@9780b0c442fbb1117ed29e0efdff1e18412f7567 # v3.3.0
+        with:
+          registry: ghcr.io
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: "Extract metadata and immutable tags"
+        id: meta
+        uses: docker/metadata-action@369eb591f429131d6889c46b94e711f089e6ca96 # v5.6.1
+        with:
+          images: ghcr.io/sirrpascal/nawari/nawari-core
+          tags: |
+            type=sha,prefix=sha-,format=short
+            type=raw,value=latest,enable=${{ github.ref == 'refs/heads/main' }}
+            type=raw,value=1.0.0-phase13
+
+      - name: "Build and publish nawari-core image"
+        id: build
+        uses: docker/build-push-action@48aba3b46d1b96f7918451b68a48ef2d42cae2d9 # v6.10.0
+        with:
+          context: .
+          file: ./Dockerfile
+          platforms: linux/amd64
+          push: true
+          tags: ${{ steps.meta.outputs.tags }}
+          labels: ${{ steps.meta.outputs.labels }}
+          cache-from: type=gha
+          cache-to: type=gha,mode=max
+          provenance: true
+          sbom: true
+
+      - name: "Output image digest for downstream verification"
+        run: |
+          echo "=================================================================="
+          echo "IMAGE PUBLISHED TO GHCR SUCCESSFULLY"
+          echo "Registry:  ghcr.io/sirrpascal/nawari/nawari-core"
+          echo "Digest:    ${{ steps.build.outputs.digest }}"
+          echo "=================================================================="
+
+  safety-gate-and-approval:
+    name: "Stage C: Deployment Approval & HARD_PRODUCTION_DENY Gate"
+    runs-on: self-hosted
+    needs: [validate-inputs, build-and-publish]
+    if: ${{ always() && needs.validate-inputs.result == 'success' &&
+      (needs.build-and-publish.result == 'success' || (inputs.action || 'deploy') == 'rollback') }}
+    steps:
+      - name: "Checkout repository"
+        uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
+
+      - name: "Set up Python 3.13"
+        uses: actions/setup-python@0b93645e9dc71a7c6b84264b9d9183da55f6e8b4 # v5.3.0
+        with:
+          python-version: "3.13"
+
+      - name: "Install runtime dependencies for gating engine"
+        run: |
+          pip install --no-cache-dir -r requirements.txt
+
+      - name: "Evaluate Stage C Commissioning Gate"
+        env:
+          TARGET_PROFILE: ${{ inputs.profile || 'staging' }}
+          PHASE_CERTIFIED: ${{ inputs.phase_8_2_certified || 'false' }}
+        run: |
+          CERT_FLAG=""
+          if [ "${PHASE_CERTIFIED}" = "true" ]; then
+            CERT_FLAG="--phase-8-2-certified"
+          fi
+
+          echo "Evaluating profile: ${TARGET_PROFILE} (Certified: ${PHASE_CERTIFIED})"
+          PYTHONPATH=. python3 scripts/deploy/check_gating.py --profile "${TARGET_PROFILE}" ${CERT_FLAG}
+
+  manual-deployment-handoff:
+    name: "Stage D–F: Manual Administrator Deployment Handoff"
+    runs-on: self-hosted
+    needs: [validate-inputs, safety-gate-and-approval, build-and-publish]
+    if: ${{ always() && needs.validate-inputs.result == 'success' &&
+      needs.safety-gate-and-approval.result == 'success' &&
+      (needs.build-and-publish.result == 'success' || (inputs.action || 'deploy') == 'rollback') }}
+    steps:
+      - name: "Publish controlled deployment instructions"
+        env:
+          DEPLOY_ENVIRONMENT: ${{ inputs.environment || 'staging' }}
+          DEPLOY_PROFILE: ${{ inputs.profile || 'staging' }}
+          DEPLOY_ACTION: ${{ inputs.action || 'deploy' }}
+          PHASE_CERTIFIED: ${{ inputs.phase_8_2_certified || 'false' }}
+          ROLLBACK_DIGEST: ${{ inputs.rollback_digest || '' }}
+          IMAGE_DIGEST: ${{ needs.build-and-publish.outputs.digest }}
+          COMMIT_SHA: ${{ github.sha }}
+        run: |
+          set -euo pipefail
+          {
+            echo "## Nawari controlled deployment handoff"
+            echo
+            echo "- **Environment:** \`${DEPLOY_ENVIRONMENT}\`"
+            echo "- **Profile:** \`${DEPLOY_PROFILE}\`"
+            echo "- **Action:** \`${DEPLOY_ACTION}\`"
+            echo "- **Commit:** \`${COMMIT_SHA}\`"
+            echo "- **Build status:** \`${{ needs.build-and-publish.result }}\`"
+            echo "- **Safety gate status:** \`${{ needs.safety-gate-and-approval.result }}\`"
+            echo "- **Phase 8.2 certified:** \`${PHASE_CERTIFIED}\`"
+            if [ "${DEPLOY_ACTION}" = "rollback" ]; then
+              echo "- **Rollback digest:** \`${ROLLBACK_DIGEST:-server last-known-good digest}\`"
+              echo
+              echo "No image was built or published for this rollback request."
+            else
+              echo "- **Image:** \`ghcr.io/sirrpascal/nawari/nawari-core@${IMAGE_DIGEST}\`"
+              echo
+              echo "The image digest above is immutable. Do not substitute a mutable tag."
+            fi
+            echo
+            echo "### Administrator action on mon-grafana01"
+            echo
+            echo "Connect to \`mon-grafana01\` and execute the installed root-owned restricted controller:"
+            if [ "${DEPLOY_ACTION}" = "rollback" ]; then
+              echo '```bash'
+              if [ -n "${ROLLBACK_DIGEST}" ]; then
+                echo "sudo /usr/local/bin/nawari-rollback --digest ${ROLLBACK_DIGEST} --profile ${DEPLOY_PROFILE}"
+              else
+                echo "sudo /usr/local/bin/nawari-rollback --profile ${DEPLOY_PROFILE}"
+              fi
+              echo '```'
+            else
+              echo '```bash'
+              echo "sudo /usr/local/bin/nawari-deploy --digest ${IMAGE_DIGEST} --profile ${DEPLOY_PROFILE}"
+              echo '```'
+            fi
+            echo
+            echo "The server controller independently authenticates to GHCR, enforces HARD_PRODUCTION_DENY, deploys only \`nawari-core\`, verifies health, protects monitoring services, and records audit evidence."
+          } >> "${GITHUB_STEP_SUMMARY}"

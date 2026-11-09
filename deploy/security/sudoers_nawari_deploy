@@ -1,0 +1,24 @@
+# ==============================================================================
+# NAWARI — Self-Hosted GitHub Actions Runner Hardened Sudoers Policy
+# Target Host: mon-grafana01 (10.2.1.58, Ubuntu Server 24.04.4 LTS)
+# Installation Target: /etc/sudoers.d/nawari-deploy (ownership root:root, mode 0440)
+# ==============================================================================
+# PRINCIPLE OF LEAST PRIVILEGE:
+# The self-hosted GitHub Actions runner account (nawari-runner) must NEVER be
+# granted unrestricted sudo access and must NEVER be added to the 'docker' group.
+# Raw Docker socket access (/var/run/docker.sock) grants implicit root escalation.
+#
+# This policy permits the runner service account to execute ONLY the narrowly-scoped,
+# root-owned deployment controller script with validated arguments.
+# ==============================================================================
+
+# Reset environment and enforce secure search path
+Defaults:nawari-runner !requiretty
+Defaults:nawari-runner env_reset
+Defaults:nawari-runner secure_path="/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin"
+
+# Explicitly authorized root-owned deployment scripts
+# Pattern matches only allowed arguments: --digest sha256:..., --profile ..., --repo-dir ..., --phase-8-2-certified
+nawari-runner ALL=(root) NOPASSWD: /usr/local/bin/nawari-deploy [a-zA-Z0-9_.:@/-]*
+nawari-runner ALL=(root) NOPASSWD: /usr/local/bin/nawari-rollback [a-zA-Z0-9_.:@/-]*
+

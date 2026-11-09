@@ -164,7 +164,7 @@ services:
       - GF_USERS_ALLOW_SIGN_UP=false
       - GF_SERVER_HTTP_PORT=3000
       - ZBX_API_USER=${ZBX_API_USER:-Admin}
-      - ZBX_API_PASSWORD=${ZBX_API_PASSWORD:-zabbix}
+      - ZBX_API_PASSWORD=${ZBX_API_PASSWORD:?ZBX_API_PASSWORD must be set in .env}
       - ZBX_API_TOKEN=${ZBX_API_TOKEN:-}
     volumes:
       - grafana-data:/var/lib/grafana
@@ -216,4 +216,3 @@ services:
       options:
         max-size: "10m"
         max-file: "3"
-

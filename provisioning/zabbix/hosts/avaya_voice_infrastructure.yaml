@@ -98,41 +98,7 @@ hosts:
         value: "hq-datacenter"
 
   # ----------------------------------------------------------------------------
-  # 3. Avaya Communication Manager (Duplex CM)
-  # ----------------------------------------------------------------------------
-  - host: "avaya-cm-01"
-    name: "Avaya Communication Manager Duplex (HQ-CORE)"
-    description: "Enterprise call control, dial plan engine and media statistics processor"
-    status: 0 # Monitored
-    groups:
-      - "Voice Infrastructure"
-      - "Avaya Infrastructure"
-    templates:
-      - "Nawari Avaya Communication Manager by SNMP"
-    interfaces:
-      - type: snmp
-        ip: "${AVAYA_CM_HOST:-10.102.10.25}"
-        port: "${AVAYA_CM_SNMP_PORT:-161}"
-        main: 1
-        useip: 1
-        details:
-          version: 3
-          securityname: "${AVAYA_CM_SNMP_SEC_NAME:-Admin}"
-          securitylevel: "authPriv"
-          authprotocol: "${AVAYA_CM_SNMP_AUTH_PROTO:-SHA256}"
-          authpassphrase: "${AVAYA_CM_SNMP_AUTH_PASS:-replace_with_cm_auth_phrase}"
-          privprotocol: "${AVAYA_CM_SNMP_PRIV_PROTO:-AES128}"
-          privpassphrase: "${AVAYA_CM_SNMP_PRIV_PASS:-replace_with_cm_priv_phrase}"
-    tags:
-      - tag: "vendor"
-        value: "avaya"
-      - tag: "role"
-        value: "communication-manager"
-      - tag: "site"
-        value: "hq-datacenter"
-
-  # ----------------------------------------------------------------------------
-  # 4. Avaya G450 Media Gateway
+  # 3. Avaya G450 Media Gateway
   # ----------------------------------------------------------------------------
   - host: "avaya-g450-01"
     name: "Avaya G450 Media Gateway (HQ-GATEWAY)"
@@ -166,7 +132,7 @@ hosts:
         value: "hq-datacenter"
 
   # ----------------------------------------------------------------------------
-  # 5. Safaricom SIP Carrier Interconnect
+  # 4. Safaricom SIP Carrier Interconnect
   # ----------------------------------------------------------------------------
   - host: "sip-trunk-carrier-01"
     name: "Safaricom SIP Carrier Interconnect (Primary)"
@@ -192,7 +158,7 @@ hosts:
         value: "hq-datacenter"
 
   # ----------------------------------------------------------------------------
-  # 6. Avaya CMS and WFO Contact Centre & Recording
+  # 5. Avaya CMS and WFO Contact Centre & Recording
   # ----------------------------------------------------------------------------
   - host: "avaya-cms-01"
     name: "Avaya CMS and WFO Recording (HQ-APP)"

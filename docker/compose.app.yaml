@@ -1,0 +1,50 @@
+# ==============================================================================
+# NAWARI — Application Service Compose Overlay (Phase 13 Enterprise Application)
+# Governs nawari-core container lifecycle, isolated from base monitoring stack
+# ==============================================================================
+
+services:
+  nawari-core:
+    image: ${NAWARI_CORE_IMAGE:-ghcr.io/sirrpascal/nawari/nawari-core}:${NAWARI_CORE_TAG:-latest}
+    container_name: nawari-core
+    restart: unless-stopped
+    security_opt:
+      - no-new-privileges:true
+    networks:
+      - nawari-internal
+    ports:
+      # Bound strictly to loopback or host IP according to active profile
+      - "${NAWARI_API_BIND:-127.0.0.1:8443}:8443"
+    environment:
+      - NAWARI_ENV=${NAWARI_ENV:-staging}
+      - NAWARI_PROFILE=${NAWARI_PROFILE:-staging}
+      - NAWARI_HOST=0.0.0.0
+      - NAWARI_PORT=8443
+      - ZABBIX_SERVER_HOST=zabbix-server
+      - ZABBIX_SERVER_PORT=10051
+      - POSTGRES_HOST=postgres
+      - POSTGRES_PORT=5432
+      - POSTGRES_DB=${POSTGRES_DB:-zabbix}
+      - POSTGRES_USER=${POSTGRES_USER:-zabbix}
+      - POSTGRES_PASSWORD=${POSTGRES_PASSWORD:-}
+      - NAWARI_AUTH_TOKEN=${NAWARI_AUTH_TOKEN:-}
+    deploy:
+      resources:
+        limits:
+          cpus: "0.50"
+          memory: 280M
+        reservations:
+          cpus: "0.10"
+          memory: 64M
+    healthcheck:
+      test: ["CMD-SHELL", "curl -f http://127.0.0.1:8443/api/v1/health || exit 1"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+      start_period: 15s
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "10m"
+        max-file: "3"
+
