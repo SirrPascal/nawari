@@ -60,4 +60,6 @@ logs/
 backups/
 *.sql.gz
 SHA256SUMS
-
+# Generated Zabbix inventory exports
+communication-observability/scripts/zabbix/export_host_inventory.csv
+communication-observability/scripts/zabbix/export_host_inventory.json

@@ -1,0 +1,40 @@
+# Retention overlay for the existing Nawari deployment.
+# Compose log rotation bounds container copies; it is not a substitute for
+# Loki/Compactor retention when Loki is enabled.
+services:
+  postgres:
+    logging:
+      driver: json-file
+      options:
+        max-size: 10m
+        max-file: "7"
+  zabbix-server:
+    logging:
+      driver: json-file
+      options:
+        max-size: 10m
+        max-file: "7"
+  zabbix-web:
+    logging:
+      driver: json-file
+      options:
+        max-size: 10m
+        max-file: "7"
+  grafana:
+    logging:
+      driver: json-file
+      options:
+        max-size: 10m
+        max-file: "7"
+  zabbix-snmptraps:
+    logging:
+      driver: json-file
+      options:
+        max-size: 10m
+        max-file: "7"
+  asterisk:
+    logging:
+      driver: json-file
+      options:
+        max-size: 10m
+        max-file: "7"

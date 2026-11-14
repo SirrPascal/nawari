@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Wix xmlns="http://wixtoolset.org/schemas/v4/wxs">
+  <Package
+      Name="Nawari Endpoint Agent"
+      Manufacturer="Nawari"
+      Version="$(var.ProductVersion)"
+      UpgradeCode="AC5834B3-988C-4535-9312-924856807DE1"
+      Scope="perMachine"
+      InstallerVersion="500"
+      Compressed="yes">
+
+    <SummaryInformation Description="Nawari network digital user-experience endpoint agent" />
+    <MajorUpgrade DowngradeErrorMessage="A newer Nawari Endpoint Agent is already installed." />
+    <MediaTemplate EmbedCab="yes" />
+
+    <Feature Id="AgentFeature" Title="Nawari Endpoint Agent" Level="1">
+      <ComponentRef Id="AgentExecutable" />
+      <ComponentRef Id="AgentDataDirectory" />
+    </Feature>
+
+    <StandardDirectory Id="ProgramFiles64Folder">
+      <Directory Id="NawariProgramDirectory" Name="Nawari">
+        <Directory Id="INSTALLFOLDER" Name="Endpoint Agent">
+          <Component Id="AgentExecutable" Guid="9B898385-A064-41C9-948E-38325A6DDA56" Bitness="always64">
+            <File Id="NawariAgentExe" Source="$(var.PayloadDir)\nawari-agent.exe" KeyPath="yes" />
+            <ServiceInstall
+                Id="NawariAgentServiceInstall"
+                Name="NawariEndpointAgent"
+                DisplayName="Nawari Endpoint Agent"
+                Description="Network digital user-experience diagnostics and secure telemetry delivery."
+                Arguments="service"
+                Type="ownProcess"
+                Start="demand"
+                ErrorControl="normal"
+                Account="LocalSystem" />
+            <ServiceControl
+                Id="NawariAgentServiceControl"
+                Name="NawariEndpointAgent"
+                Stop="both"
+                Remove="uninstall"
+                Wait="yes" />
+          </Component>
+        </Directory>
+      </Directory>
+    </StandardDirectory>
+
+    <StandardDirectory Id="CommonAppDataFolder">
+      <Directory Id="NawariDataRoot" Name="Nawari">
+        <Directory Id="AGENTDATADIR" Name="Endpoint Agent">
+          <Component Id="AgentDataDirectory" Guid="*" Bitness="always64" Permanent="yes" NeverOverwrite="yes">
+            <CreateFolder />
+            <RegistryValue
+                Root="HKLM"
+                Key="Software\Nawari\Endpoint Agent"
+                Name="DataDirectoryCreated"
+                Type="integer"
+                Value="1"
+                KeyPath="yes" />
+          </Component>
+        </Directory>
+      </Directory>
+    </StandardDirectory>
+  </Package>
+</Wix>
