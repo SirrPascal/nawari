@@ -1,0 +1,6 @@
+# Promotion overlay only: apply after every pilot child proves TLS 1.3 negotiation.
+[web]
+    tls version = 1.3
+    ssl key = /etc/netdata/ssl/parent.key
+    ssl certificate = /etc/netdata/ssl/parent-fullchain.pem
+    bind to = *=dashboard|registry|badges|management|streaming|netdata.conf^SSL=force

@@ -1,0 +1,94 @@
+name: nawari-local-observability
+
+services:
+  netdata-parent:
+    image: netdata/netdata:v2.12.3
+    hostname: nawari-local-parent
+    restart: unless-stopped
+    entrypoint: [/bin/sh, /pilot/start-parent.sh]
+    environment: {DO_NOT_TRACK: "1"}
+    ports:
+      - "127.0.0.1:19997:19999"
+      - "127.0.0.1:19998:20000"
+    volumes:
+      - netdata-identity:/var/lib/netdata
+      - netdata-metrics:/var/cache/netdata
+      - ../start-parent.sh:/pilot/start-parent.sh:ro
+      - ./runtime/netdata.conf:/run/pilot/netdata.conf:ro
+      - ./runtime/stream.conf:/run/pilot/stream.conf:ro
+      - ./runtime/server-key.pem:/run/pilot/server-key.pem:ro
+      - ./runtime/server-cert.pem:/run/pilot/server-cert.pem:ro
+    healthcheck:
+      test: [CMD, curl, -fsS, http://127.0.0.1:20000/api/v1/info]
+      interval: 15s
+      timeout: 5s
+      retries: 8
+    cpus: 0.75
+    mem_limit: 1g
+    logging: &logging
+      driver: local
+      options: {max-size: 10m, max-file: "3"}
+
+  mimir:
+    image: grafana/mimir:3.0.0
+    command: [-target=all, -config.file=/etc/mimir/mimir.yaml]
+    restart: unless-stopped
+    ports: ["127.0.0.1:19009:9009"]
+    volumes:
+      - ./mimir.yaml:/etc/mimir/mimir.yaml:ro
+      - mimir-data:/data
+    cpus: 1.5
+    mem_limit: 2g
+    logging: *logging
+
+  loki:
+    image: grafana/loki:3.5.5
+    command: [-config.file=/etc/loki/loki.yaml]
+    restart: unless-stopped
+    ports: ["127.0.0.1:13100:3100"]
+    volumes:
+      - ./loki.yaml:/etc/loki/loki.yaml:ro
+      - loki-data:/loki
+    healthcheck:
+      test: [CMD, /bin/sh, -c, "wget -qO- http://127.0.0.1:3100/ready >/dev/null"]
+      interval: 15s
+      timeout: 5s
+      retries: 12
+    cpus: 1.0
+    mem_limit: 1g
+    logging: *logging
+
+  blackbox:
+    image: prom/blackbox-exporter:v0.29.1
+    command: [--config.file=/etc/blackbox/blackbox.yml]
+    restart: unless-stopped
+    ports: ["127.0.0.1:19115:9115"]
+    volumes: [./blackbox.yml:/etc/blackbox/blackbox.yml:ro]
+    cpus: 0.25
+    mem_limit: 128m
+    logging: *logging
+
+  alloy:
+    image: grafana/alloy:v1.11.0
+    command: [run, --server.http.listen-addr=0.0.0.0:12345, --storage.path=/var/lib/alloy, /etc/alloy/config.alloy]
+    restart: unless-stopped
+    ports: ["127.0.0.1:12345:12345"]
+    extra_hosts: ["host.docker.internal:host-gateway"]
+    volumes:
+      - ./config.alloy:/etc/alloy/config.alloy:ro
+      - ./spool:/var/spool/nawari:ro
+      - alloy-data:/var/lib/alloy
+    depends_on:
+      mimir: {condition: service_started}
+      loki: {condition: service_healthy}
+      blackbox: {condition: service_started}
+    cpus: 0.75
+    mem_limit: 512m
+    logging: *logging
+
+volumes:
+  netdata-identity:
+  netdata-metrics:
+  mimir-data:
+  loki-data:
+  alloy-data:

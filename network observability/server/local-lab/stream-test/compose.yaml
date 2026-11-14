@@ -1,0 +1,106 @@
+name: nawari-stream-test
+
+services:
+  netdata-stream-test-parent:
+    image: netdata/netdata:v2.12.3
+    container_name: nawari-stream-test-parent
+    hostname: nawari-stream-test-parent
+    restart: "no"
+    entrypoint: [/bin/sh, /pilot/start-parent.sh]
+    environment:
+      DO_NOT_TRACK: "1"
+    networks:
+      nawari-stream-test-net:
+        ipv4_address: 172.28.0.10
+    ports:
+      - "127.0.0.1:19988:20000"
+    volumes:
+      - stream-test-parent-identity:/var/lib/netdata
+      - stream-test-parent-metrics:/var/cache/netdata
+      - ./start-parent.sh:/pilot/start-parent.sh:ro
+      - ./runtime/parent-netdata.conf:/run/pilot/netdata.conf:ro
+      - ./runtime/parent-stream.conf:/run/pilot/stream.conf:ro
+      - ./runtime/server-key.pem:/run/pilot/server-key.pem:ro
+      - ./runtime/server-cert.pem:/run/pilot/server-cert.pem:ro
+    healthcheck:
+      test: [CMD, curl, -fsS, http://127.0.0.1:20000/api/v1/info]
+      interval: 5s
+      timeout: 3s
+      retries: 6
+    cpus: 0.5
+    mem_limit: 512m
+    security_opt:
+      - no-new-privileges:true
+    logging: &logging
+      driver: local
+      options:
+        max-size: 5m
+        max-file: "2"
+
+  netdata-stream-test-child:
+    image: netdata/netdata:v2.12.3
+    container_name: nawari-stream-test-child
+    hostname: nawari-stream-test-child
+    restart: "no"
+    environment:
+      DO_NOT_TRACK: "1"
+      NETDATA_HOSTNAME: "nawari-stream-test-child"
+    networks:
+      nawari-stream-test-net:
+        ipv4_address: 172.28.0.20
+    depends_on:
+      netdata-stream-test-parent:
+        condition: service_healthy
+    volumes:
+      - stream-test-child-identity:/var/lib/netdata
+      - stream-test-child-cache:/var/cache/netdata
+      - ./runtime/child-netdata.conf:/etc/netdata/netdata.conf:ro
+      - ./runtime/child-stream.conf:/etc/netdata/stream.conf:ro
+      - ./runtime/ca-cert.pem:/etc/netdata/ssl/ca-cert.pem:ro
+    cpus: 0.25
+    mem_limit: 256m
+    security_opt:
+      - no-new-privileges:true
+    cap_drop:
+      - ALL
+    cap_add:
+      - SYS_PTRACE
+      - DAC_READ_SEARCH
+    logging: *logging
+
+  alloy-stream-test:
+    image: grafana/alloy:v1.11.0
+    container_name: nawari-alloy-stream-test
+    command: [run, --server.http.listen-addr=0.0.0.0:12346, --storage.path=/var/lib/alloy, /etc/alloy/config.alloy]
+    restart: "no"
+    networks:
+      - nawari-stream-test-net
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
+    volumes:
+      - ./config.alloy:/etc/alloy/config.alloy:ro
+      - stream-test-alloy-data:/var/lib/alloy
+    depends_on:
+      netdata-stream-test-parent:
+        condition: service_healthy
+    cpus: 0.25
+    mem_limit: 256m
+    security_opt:
+      - no-new-privileges:true
+    logging: *logging
+
+networks:
+  nawari-stream-test-net:
+    name: nawari-stream-test-net
+    driver: bridge
+    ipam:
+      config:
+        - subnet: 172.28.0.0/16
+          gateway: 172.28.0.1
+
+volumes:
+  stream-test-parent-identity:
+  stream-test-parent-metrics:
+  stream-test-child-identity:
+  stream-test-child-cache:
+  stream-test-alloy-data:

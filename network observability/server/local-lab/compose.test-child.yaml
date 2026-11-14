@@ -1,0 +1,36 @@
+name: nawari-local-observability
+
+services:
+  netdata-test-child:
+    container_name: nawari-test-child
+    image: netdata/netdata:v2.12.3
+    hostname: nawari-test-child
+    restart: "no"
+    profiles: ["test-child"]
+    environment:
+      DO_NOT_TRACK: "1"
+      NETDATA_HOSTNAME: "nawari-test-child"
+    volumes:
+      - test-child-identity:/var/lib/netdata
+      - test-child-cache:/var/cache/netdata
+      - ./runtime/test-child-netdata.conf:/etc/netdata/netdata.conf:ro
+      - ./runtime/test-child-stream.conf:/etc/netdata/stream.conf:ro
+      - ./runtime/ca-cert.pem:/etc/netdata/ssl/ca-cert.pem:ro
+    cpus: 0.25
+    mem_limit: 256m
+    security_opt:
+      - no-new-privileges:true
+    cap_drop:
+      - ALL
+    cap_add:
+      - SYS_PTRACE
+      - DAC_READ_SEARCH
+    logging:
+      driver: local
+      options:
+        max-size: 5m
+        max-file: "2"
+
+volumes:
+  test-child-identity:
+  test-child-cache:

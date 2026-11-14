@@ -1,0 +1,22 @@
+// Isolated Grafana-Alloy configuration for Nawari Streaming Test
+// Scrapes the isolated test Parent exposing multi-host metrics
+prometheus.scrape "stream_test_parent" {
+  targets = [{
+    "__address__"      = "netdata-stream-test-parent:20000",
+    "__metrics_path__" = "/api/v1/allmetrics",
+    "__param_format"   = "prometheus_all_hosts",
+    "__param_source"   = "as-collected",
+    "source"           = "netdata-stream-test-parent",
+    "pipeline"         = "isolated-streaming-test",
+  }]
+  honor_labels    = true
+  scrape_interval = "15s"
+  forward_to      = [prometheus.remote_write.existing_mimir.receiver]
+}
+
+// Remote-write to existing Mimir on host.docker.internal:19009
+prometheus.remote_write "existing_mimir" {
+  endpoint {
+    url = "http://host.docker.internal:19009/api/v1/push"
+  }
+}

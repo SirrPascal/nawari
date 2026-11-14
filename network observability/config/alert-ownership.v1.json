@@ -1,0 +1,17 @@
+{
+  "schema_version": "1",
+  "register_version": "2026-11-12.1",
+  "default_mode": "shadow",
+  "entries": [
+    {"condition":"missing_endpoint_reporting","source":"nawari","evaluation_owner":"nawari","notification_owner":"nawari-platform","route":"shadow-only","maintenance_behavior":"suppress_for_enrollment_maintenance","deduplication_key":"tenant:asset:missing_endpoint","escalation":"disabled_until_shadow_acceptance"},
+    {"condition":"regional_relay_failure","source":"nawari","evaluation_owner":"nawari","notification_owner":"nawari-platform","route":"shadow-only","maintenance_behavior":"respect_site_maintenance","deduplication_key":"tenant:region:relay","escalation":"disabled_until_shadow_acceptance"},
+    {"condition":"parent_stream_failure","source":"netdata","evaluation_owner":"nawari","notification_owner":"nawari-platform","route":"shadow-only","maintenance_behavior":"respect_endpoint_maintenance","deduplication_key":"tenant:parent:child","escalation":"disabled_until_shadow_acceptance"},
+    {"condition":"metric_export_failure","source":"nawari-exporter","evaluation_owner":"nawari","notification_owner":"nawari-platform","route":"shadow-only","maintenance_behavior":"never_suppress_data_loss_visibility","deduplication_key":"tenant:exporter:destination","escalation":"disabled_until_shadow_acceptance"},
+    {"condition":"kafka_lag","source":"kafka","evaluation_owner":"nawari","notification_owner":"nawari-platform","route":"shadow-only","maintenance_behavior":"respect_broker_maintenance","deduplication_key":"cluster:consumer_group:topic","escalation":"disabled_until_shadow_acceptance"},
+    {"condition":"database_outbox_age","source":"postgresql","evaluation_owner":"nawari","notification_owner":"nawari-platform","route":"shadow-only","maintenance_behavior":"never_suppress_acknowledgement_risk","deduplication_key":"tenant:destination:outbox","escalation":"disabled_until_shadow_acceptance"},
+    {"condition":"loki_queue_or_deletion_failure","source":"alloy-and-loki","evaluation_owner":"nawari","notification_owner":"nawari-platform","route":"shadow-only","maintenance_behavior":"never_suppress_retention_failure","deduplication_key":"tenant:log_pipeline:failure_class","escalation":"disabled_until_shadow_acceptance"},
+    {"condition":"certificate_expiry","source":"external-check","evaluation_owner":"nawari","notification_owner":"pki-owner","route":"shadow-only","maintenance_behavior":"suppress_only_with_recorded_renewal","deduplication_key":"certificate_fingerprint","escalation":"disabled_until_shadow_acceptance"},
+    {"condition":"backup_failure","source":"backup-system","evaluation_owner":"backup-system","notification_owner":"platform-operations","route":"correlate-only","maintenance_behavior":"source_owned","deduplication_key":"backup_job:recovery_point","escalation":"owned_by_source"},
+    {"condition":"enterprise_network_condition","source":"zabbix-solarwinds-fortianalyzer-or-wireless","evaluation_owner":"source-system","notification_owner":"source-system","route":"correlate-only","maintenance_behavior":"inherit_source_maintenance","deduplication_key":"source_alert_id","escalation":"never_duplicate_page"}
+  ]
+}

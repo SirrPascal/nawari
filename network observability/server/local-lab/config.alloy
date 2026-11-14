@@ -1,0 +1,48 @@
+prometheus.scrape "mac_netdata" {
+  targets = [{
+    "__address__"      = "host.docker.internal:19999",
+    "__metrics_path__" = "/api/v1/allmetrics",
+    "__param_format"   = "prometheus",
+    "__param_source"   = "as-collected",
+    "instance"         = "Pascals-MacBook-Pro.local",
+    "source"           = "netdata-child",
+  }]
+  scrape_interval = "15s"
+  forward_to      = [prometheus.remote_write.local_mimir.receiver]
+}
+
+prometheus.scrape "blackbox_http" {
+  targets = [{
+    "__address__"      = "blackbox:9115",
+    "__metrics_path__" = "/probe",
+    "__param_module"   = "http_2xx",
+    "__param_target"   = "http://host.docker.internal:19999/api/v1/info",
+    "instance"         = "mac-netdata-api",
+    "source"           = "blackbox",
+  }]
+  scrape_interval = "30s"
+  forward_to      = [prometheus.remote_write.local_mimir.receiver]
+}
+
+prometheus.remote_write "local_mimir" {
+  endpoint { url = "http://mimir:9009/api/v1/push" }
+}
+
+local.file_match "nawari_lab" {
+  path_targets = [{"__path__" = "/var/spool/nawari/*.log", "source" = "local-lab"}]
+}
+
+loki.source.file "nawari_lab" {
+  targets    = local.file_match.nawari_lab.targets
+  forward_to = [loki.process.nawari_lab.receiver]
+}
+
+loki.process "nawari_lab" {
+  stage.json { expressions = {event_class = "event_class", severity = "severity", asset = "asset"} }
+  stage.labels { values = {event_class = "event_class", severity = "severity"} }
+  forward_to = [loki.write.local.receiver]
+}
+
+loki.write "local" {
+  endpoint { url = "http://loki:3100/loki/api/v1/push" }
+}

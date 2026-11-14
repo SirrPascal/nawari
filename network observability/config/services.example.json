@@ -1,0 +1,10 @@
+{
+  "schema_version": 1,
+  "observation_point": "macos-pilot",
+  "services": [
+    {"service_id": "pilot-fixture", "test_id": "healthy", "url": "http://127.0.0.1:18080/healthy", "expected_status": 200},
+    {"service_id": "pilot-fixture", "test_id": "slow", "url": "http://127.0.0.1:18080/slow", "expected_status": 200},
+    {"service_id": "pilot-fixture", "test_id": "unavailable", "url": "http://127.0.0.1:18080/unavailable", "expected_status": 200}
+  ],
+  "planned_evidence_fields": ["endpoint_id", "site_id", "service_id", "test_id", "observed_at", "network_context", "configuration_version", "outcome", "failure_stage"]
+}

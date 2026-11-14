@@ -1,0 +1,61 @@
+name: nawari-network-pilot
+
+services:
+  netdata-parent:
+    image: ${NETDATA_IMAGE:-netdata/netdata:v2.12.3}
+    hostname: nawari-network-parent
+    restart: unless-stopped
+    cpus: 0.5
+    mem_limit: 768m
+    entrypoint: [/bin/sh, /pilot/start-parent.sh]
+    environment:
+      DO_NOT_TRACK: "1"
+    ports:
+      - "${NETDATA_BIND_ADDRESS:-127.0.0.1}:19999:19999"
+      - "127.0.0.1:${NETDATA_DASHBOARD_PORT:-19998}:20000"
+    volumes:
+      - parent-identity:/var/lib/netdata
+      - parent-metrics:/var/cache/netdata
+      - type: bind
+        source: ./start-parent.sh
+        target: /pilot/start-parent.sh
+        read_only: true
+      - type: bind
+        source: ./runtime/netdata.conf
+        target: /run/pilot/netdata.conf
+        read_only: true
+        bind:
+          create_host_path: false
+      - type: bind
+        source: ./runtime/stream.conf
+        target: /run/pilot/stream.conf
+        read_only: true
+        bind:
+          create_host_path: false
+      - type: bind
+        source: ./runtime/server-key.pem
+        target: /run/pilot/server-key.pem
+        read_only: true
+        bind:
+          create_host_path: false
+      - type: bind
+        source: ./runtime/server-cert.pem
+        target: /run/pilot/server-cert.pem
+        read_only: true
+        bind:
+          create_host_path: false
+    healthcheck:
+      test: [CMD, curl, -fsS, "http://127.0.0.1:20000/api/v1/info"]
+      interval: 15s
+      timeout: 5s
+      retries: 5
+      start_period: 30s
+    logging:
+      driver: local
+      options:
+        max-size: 10m
+        max-file: "3"
+
+volumes:
+  parent-identity:
+  parent-metrics:

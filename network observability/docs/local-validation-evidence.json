@@ -1,0 +1,37 @@
+{
+  "schema_version": 1,
+  "evidence_date": "2026-11-12",
+  "scope": "isolated_laptop_and_disposable_local_containers",
+  "production_server_changed": false,
+  "results": [
+    {"component": "platform_backend", "check": "Python unit and HTTP integration suite", "result": "passed", "tests": 13},
+    {"component": "enterprise_architecture", "check": "versioned source ownership, alert ownership, integration, regional coverage and TLS policy validation", "result": "passed", "tests": 4},
+    {"component": "operator_interface", "check": "desktop and mobile browser acceptance", "result": "passed", "tests": 10},
+    {"component": "operator_interface", "check": "TypeScript and production Vite build", "result": "passed"},
+    {"component": "operator_interface", "check": "npm dependency audit", "result": "passed", "vulnerabilities": 0},
+    {"component": "collector", "check": "Go race tests and vet", "result": "passed"},
+    {"component": "collector", "check": "Windows AMD64 cross-compilation", "result": "passed", "limitation": "build evidence only; no Windows runtime acceptance"},
+    {"component": "macos_lifecycle", "check": "Netdata-supervised plugin after restart", "result": "passed", "netdata_version": "2.12.3"},
+    {"component": "macos_lifecycle", "check": "persistent token and queue paths", "result": "passed", "queue_records_after_acknowledgement": 0},
+    {"component": "metric_catalogue", "check": "live dynamic discovery and v3 history query", "result": "passed", "api_response_generation": 2, "note": "counts vary as application charts appear and disappear"},
+    {"component": "metric_functions", "check": "network-connections Function preflight", "result": "access_denied_412", "interpretation": "registered but not authorized through the current local interface; no connection evidence claimed"},
+    {"component": "postgresql", "check": "fresh PostgreSQL 17.6 migration and durability", "result": "passed"},
+    {"component": "postgresql", "check": "legacy evidence-schema upgrade", "result": "passed"},
+    {"component": "postgresql", "check": "enterprise topology migration 003 on disposable PostgreSQL 17.6", "result": "passed", "tables": ["source_references", "topology_entities", "topology_relationships", "integration_cursors", "audit_records"]},
+    {"component": "transport_security", "check": "TLS policy and configuration-template static validation", "result": "passed", "limitation": "no production certificate or server/client negotiation was tested"},
+    {"component": "server", "check": "read-only SSH access", "result": "blocked", "reason": "earlier authentication rejection followed by a later TCP timeout; no server login or mutation occurred"}
+  ],
+  "explicit_gates": [
+    "Production server read-only audit",
+    "Capacity and placement decision",
+    "Production deployment approval",
+    "TLS negotiation matrix with production certificates",
+    "SSO/MFA and server-side authorization acceptance",
+    "External platform health check",
+    "Regional and authoritative-source inventories",
+    "Parent-backed catalogue and Function authorization",
+    "Mimir and Loki runtime delivery",
+    "Owner-approved real service operation",
+    "Windows runtime acceptance"
+  ]
+}

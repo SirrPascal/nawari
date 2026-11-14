@@ -1,0 +1,8 @@
+# Replace placeholders during managed enrollment. Never place the API key in source control.
+[stream]
+    enabled = yes
+    destination = PARENT_DNS_NAME:19999:SSL
+    api key = MANAGED_SECRET
+    ssl skip certificate verification = no
+    CAfile = MANAGED_COMPANY_CA_PATH
+    buffer size bytes = 10485760

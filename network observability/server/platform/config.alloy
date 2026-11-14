@@ -1,0 +1,18 @@
+local.file_match "nawari_relay" {
+  path_targets = [{ "__path__" = "/var/spool/nawari/*.log", "source" = "regional-relay" }]
+}
+loki.source.file "nawari_relay" {
+  targets    = local.file_match.nawari_relay.targets
+  forward_to = [loki.process.nawari_relay.receiver]
+}
+loki.process "nawari_relay" {
+  stage.regex { expression = "^(?P<event_time>[^ ]+) (?P<source>[^ ]+) (?P<event_class>[^ ]+)$" }
+  stage.labels { values = { source = "source", event_class = "event_class" } }
+  forward_to = [loki.write.local.receiver]
+}
+loki.write "local" {
+  endpoint {
+    url       = "http://loki:3100/loki/api/v1/push"
+    tenant_id = "nawari"
+  }
+}

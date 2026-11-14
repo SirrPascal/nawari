@@ -1,0 +1,11 @@
+{
+  "freshness_seconds": 120,
+  "checks": [
+    {"id": "interface_traffic", "contexts": ["net.net"], "scope": "host_interfaces"},
+    {"id": "interface_errors", "contexts": ["net.errors"], "scope": "host_interfaces"},
+    {"id": "interface_drops", "contexts": ["net.drops"], "scope": "host_interfaces"},
+    {"id": "dns_checks", "context_prefix": "dns_query.", "scope": "configured_dns_targets"},
+    {"id": "ping_checks", "context_prefix": "ping.", "scope": "configured_ping_targets"},
+    {"id": "http_checks", "context_prefix": "httpcheck.", "scope": "configured_http_targets"}
+  ]
+}

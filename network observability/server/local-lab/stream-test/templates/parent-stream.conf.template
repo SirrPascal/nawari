@@ -1,0 +1,6 @@
+[{{STREAMING_API_KEY}}]
+    type = api
+    enabled = yes
+    allow from = 127.0.0.1 172.28.*
+    db = dbengine
+    health enabled = no

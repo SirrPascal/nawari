@@ -1,0 +1,106 @@
+name: nawari-network-core
+
+services:
+  postgres:
+    image: postgres:17.6-alpine3.22
+    restart: unless-stopped
+    command: [postgres, -c, max_connections=30, -c, shared_buffers=128MB]
+    environment:
+      POSTGRES_DB: nawari
+      POSTGRES_USER: nawari_owner
+      POSTGRES_PASSWORD_FILE: /run/secrets/postgres_owner_password
+    secrets: [postgres_owner_password]
+    volumes: [postgres-data:/var/lib/postgresql/data]
+    networks: [application]
+    healthcheck:
+      test: [CMD-SHELL, pg_isready -U nawari_owner -d nawari]
+      interval: 10s
+      timeout: 5s
+      retries: 12
+    cpus: 0.50
+    mem_limit: 768m
+    logging: &logging
+      driver: local
+      options: {max-size: 10m, max-file: "3"}
+
+  secret-init:
+    image: ${NAWARI_PLATFORM_IMAGE:?set the verified release image}
+    user: "0:0"
+    entrypoint: [/bin/sh]
+    command: [-c, "install -m 0440 -o 10001 -g 10001 /run/secrets/database_runtime_url /run/app-secrets/database-runtime-url"]
+    restart: "no"
+    secrets: [database_runtime_url]
+    volumes: [database-runtime-secret:/run/app-secrets]
+
+  api:
+    image: ${NAWARI_PLATFORM_IMAGE:?set the verified release image}
+    restart: unless-stopped
+    command: [serve, --host, 0.0.0.0, --port, "18090"]
+    environment:
+      NAWARI_DATABASE_FILE: /run/app-secrets/database-runtime-url
+      NAWARI_NETDATA_URL: http://nawari-network-pilot-netdata-parent-1:20000
+      NAWARI_AUTO_MIGRATE: "0"
+    depends_on:
+      postgres: {condition: service_healthy}
+      secret-init: {condition: service_completed_successfully}
+    volumes: [database-runtime-secret:/run/app-secrets:ro]
+    networks: [application, parent]
+    healthcheck:
+      test: [CMD, python, -c, "import urllib.request; urllib.request.urlopen('http://127.0.0.1:18090/healthz', timeout=3)"]
+      interval: 15s
+      timeout: 5s
+      retries: 8
+    cpus: 0.35
+    mem_limit: 384m
+    logging: *logging
+
+  worker:
+    image: ${NAWARI_PLATFORM_IMAGE:?set the verified release image}
+    restart: unless-stopped
+    command: [worker]
+    environment:
+      NAWARI_DATABASE_FILE: /run/app-secrets/database-runtime-url
+      NAWARI_AUTO_MIGRATE: "0"
+    depends_on:
+      postgres: {condition: service_healthy}
+      secret-init: {condition: service_completed_successfully}
+    volumes: [database-runtime-secret:/run/app-secrets:ro]
+    networks: [application]
+    cpus: 0.20
+    mem_limit: 256m
+    logging: *logging
+
+  proxy:
+    image: nginx:1.29.3-alpine
+    restart: unless-stopped
+    depends_on:
+      api: {condition: service_healthy}
+    ports: ["10.2.1.58:18443:8443"]
+    volumes:
+      - ./nginx.conf:/etc/nginx/conf.d/default.conf:ro
+      - ./runtime/tls/server-cert.pem:/etc/nginx/tls/server-cert.pem:ro
+      - ./runtime/tls/server-key.pem:/etc/nginx/tls/server-key.pem:ro
+    networks: [application, proxy-edge]
+    healthcheck:
+      test: [CMD, wget, --no-check-certificate, -qO-, https://127.0.0.1:8443/healthz]
+      interval: 15s
+      timeout: 5s
+      retries: 8
+    cpus: 0.15
+    mem_limit: 128m
+    logging: *logging
+
+networks:
+  application: {internal: true}
+  proxy-edge: {}
+  parent:
+    external: true
+    name: nawari-network-pilot_default
+
+volumes:
+  postgres-data:
+  database-runtime-secret:
+
+secrets:
+  postgres_owner_password: {file: ./runtime/postgres-owner-password}
+  database_runtime_url: {file: ./runtime/database-runtime-url}

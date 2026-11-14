@@ -1,0 +1,15 @@
+// Opt-in Netdata Parent Multi-Host Scrape Configuration
+// Scrapes the central Netdata Parent exposing all connected children via format=prometheus_all_hosts.
+// 'honor_labels = true' preserves each child's distinct 'instance' hostname.
+prometheus.scrape "netdata_parent" {
+  targets = [{
+    "__address__"      = "netdata-parent:20000",
+    "__metrics_path__" = "/api/v1/allmetrics",
+    "__param_format"   = "prometheus_all_hosts",
+    "__param_source"   = "as-collected",
+    "source"           = "netdata-parent",
+  }]
+  honor_labels    = true
+  scrape_interval = "15s"
+  forward_to      = [prometheus.remote_write.local_mimir.receiver]
+}

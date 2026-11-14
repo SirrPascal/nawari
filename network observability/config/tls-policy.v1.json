@@ -1,0 +1,19 @@
+{
+  "schema_version":"1",
+  "register_version":"2026-11-12.1",
+  "minimum":"TLSv1.2",
+  "preferred":"TLSv1.3",
+  "disabled":["SSLv2","SSLv3","TLSv1.0","TLSv1.1"],
+  "certificate_verification":"mandatory",
+  "hostname_verification":"mandatory",
+  "early_data":"disabled_for_all_authenticated_or_state_changing_requests",
+  "promotion_rule":"TLSv1.3-only is connection-specific and requires recorded negotiation acceptance for every required client",
+  "boundaries":[
+    {"connection":"operator_web_and_api","initial":"TLSv1.2_or_TLSv1.3","target":"TLSv1.3_only_after_browser_and_proxy_acceptance","mtls":"optional_behind_sso"},
+    {"connection":"endpoint_evidence_intake","initial":"TLSv1.2_or_TLSv1.3","target":"TLSv1.3_only_after_macos_and_windows_acceptance","mtls":"preferred_where_managed_identity_supports_it"},
+    {"connection":"netdata_child_parent","initial":"encrypted_stream_with_verified_certificate","target":"TLSv1.3_after_each_agent_build_is_verified","mtls":"not_claimed; streaming_key_plus_server_certificate"},
+    {"connection":"postgresql","initial":"minimum_TLSv1.2","target":"TLSv1.3_only_after_all_clients_are_verified","mtls":"preferred_for_service_identity"},
+    {"connection":"alloy_loki_mimir_kafka","initial":"TLSv1.2_or_TLSv1.3_with_service_authentication","target":"TLSv1.3_where_component_matrix_passes","mtls":"preferred_across_hosts"},
+    {"connection":"legacy_management_sources","initial":"strongest_supported_protocol_on_isolated_management_network","target":"replace_or_relay_incompatibility","mtls":"component_specific"}
+  ]
+}

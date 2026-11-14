@@ -1,0 +1,7 @@
+# Merge into the approved PostgreSQL configuration; certificate paths are deployment-specific.
+ssl = on
+ssl_min_protocol_version = 'TLSv1.2'
+ssl_max_protocol_version = ''
+ssl_cert_file = '/run/secrets/postgres_tls_cert'
+ssl_key_file = '/run/secrets/postgres_tls_key'
+ssl_ca_file = '/run/secrets/company_ca'

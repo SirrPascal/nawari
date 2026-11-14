@@ -1,0 +1,26 @@
+.device-sections { display: flex; gap: 6px; overflow: auto; margin: -5px 0 20px; padding: 5px 2px; }
+.device-sections button { white-space: nowrap; border-color: transparent; background: transparent; }
+.device-sections button.active { background: #dcece8; color: #0d645b; border-color: #b9d9cf; }
+.metric-overview { display: flex; justify-content: space-between; align-items: center; gap: 24px; }
+.catalogue-stats { display: flex; gap: 28px; }
+.catalogue-stats span { color: #647582; font-size: 11px; text-align: center; }
+.catalogue-stats strong { display: block; color: #203342; font-size: 23px; font-weight: 500; }
+.metric-search { display: flex; align-items: end; gap: 8px; }
+.metric-search label { display: flex; flex-direction: column; gap: 4px; color: #647582; font-size: 11px; }
+.metric-search input { min-width: 260px; }
+.metric-link { padding: 0; border: 0; background: transparent; color: #0f6d64; font-weight: 600; text-align: left; }
+.metric-link:hover { background: transparent; text-decoration: underline; }
+.table-scroll td small { display: block; color: #71808b; max-width: 380px; overflow: hidden; text-overflow: ellipsis; }
+.pagination { display: flex; justify-content: flex-end; gap: 8px; margin-top: 14px; }
+.metric-detail dl { margin: 18px 0; }
+.metric-history { height: 260px; width: 100%; margin-top: 20px; }
+.capability { display: inline-block; border: 1px solid #dfc9a2; background: #fff6e5; color: #7e570e; padding: 6px 10px; border-radius: 4px; font-size: 12px; }
+.capability.fresh { background: #e8f5ef; color: #0f695d; border-color: #b1d9ce; }
+.coverage-note { display: grid; grid-template-columns: 150px 1fr; gap: 6px 18px; border-top: 1px solid #e7ecee; margin-top: 18px; padding-top: 14px; font-size: 12px; }
+.coverage-note p { margin: 0; color: #647582; }
+@media (max-width: 700px) {
+  .metric-overview { display: block; }
+  .catalogue-stats { justify-content: space-between; margin-top: 18px; }
+  .metric-search { display: block; }
+  .metric-search input { min-width: 0; width: 100%; margin-bottom: 8px; }
+}

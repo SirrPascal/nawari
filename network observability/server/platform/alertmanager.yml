@@ -1,0 +1,4 @@
+route:
+  receiver: shadow-only
+receivers:
+  - name: shadow-only

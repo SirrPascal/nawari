@@ -1,0 +1,14 @@
+{
+  "schema_version": "1",
+  "register_version": "2026-11-12.1",
+  "sites": [
+    {
+      "site_id":"hq-pilot",
+      "country":"unconfirmed",
+      "status":"inventory_required",
+      "user_networks":[],"vlans":[],"vpn_behavior":"unknown","internet_breakout":"unknown","dns_resolvers":[],"proxy_path":"unknown","wan_circuits":[],"wireless_controller_domain":"unknown","management_reachability":"unknown","data_residency":"unconfirmed","regional_operator_scope":[],"approved_comparison_targets":[],
+      "regional_probe_required":"undetermined",
+      "queue_policy":{"max_bytes":268435456,"max_age_seconds":21600,"disk_full_behavior":"drop_new_and_alert_without_extending_expiry","wan_outage_behavior":"bounded_spool_preserving_original_expiry"}
+    }
+  ]
+}

@@ -1,0 +1,9 @@
+[stream]
+    enabled = yes
+    destination = netdata-stream-test-parent:19999:SSL
+    api key = {{STREAMING_API_KEY}}
+    ssl skip certificate verification = no
+    CAfile = /etc/netdata/ssl/ca-cert.pem
+    timeout seconds = 10
+    reconnect delay seconds = 5
+    send charts matching = system.* net.* disk.* mem.*

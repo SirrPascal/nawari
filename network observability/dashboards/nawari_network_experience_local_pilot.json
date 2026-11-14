@@ -1,0 +1,964 @@
+{
+  "annotations": {
+    "list": []
+  },
+  "description": "End-user network experience diagnostics, latency, packet loss, request phases, and telemetry freshness for the local pilot fleet backed by Grafana-Mimir.",
+  "editable": true,
+  "fiscalYearStartMonth": 0,
+  "graphTooltip": 1,
+  "id": null,
+  "links": [],
+  "liveNow": false,
+  "panels": [
+    {
+      "collapsed": false,
+      "gridPos": {
+        "h": 4,
+        "w": 24,
+        "x": 0,
+        "y": 0
+      },
+      "id": 1,
+      "options": {
+        "code": {
+          "language": "plaintext",
+          "showLineNumbers": false
+        },
+        "content": "### \u2139\ufe0f Nawari Local Pilot Network Experience\n**Measurement Provenance:** Endpoint Go Collector (`nawari.plugin`) \u2192 Netdata Child (`2.12.3`) \u2192 Grafana-Alloy (`1.11.0`) \u2192 Grafana-Mimir (`3.0.0`).\n**Diagnostic Scope:** Synthetic local pilot fixture probes (`fixture-portal_page`) measuring HTTP timing, DNS lookup, default gateway RTT, and ICMP destination reachability.\n*Notice: These metrics represent local pilot diagnostic probes; they do not represent production business application performance.*",
+        "mode": "markdown"
+      },
+      "pluginVersion": "11.6.0",
+      "title": "Local Pilot Scope & Measurement Provenance",
+      "type": "text"
+    },
+    {
+      "datasource": {
+        "type": "prometheus",
+        "uid": "nawari-local-mimir"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "thresholds"
+          },
+          "mappings": [],
+          "noValue": "STALE / NO DATA",
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              },
+              {
+                "color": "#EAB839",
+                "value": 75
+              },
+              {
+                "color": "red",
+                "value": 150
+              }
+            ]
+          },
+          "unit": "s"
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 4,
+        "w": 4,
+        "x": 0,
+        "y": 4
+      },
+      "id": 2,
+      "options": {
+        "colorMode": "value",
+        "graphMode": "none",
+        "justifyMode": "auto",
+        "orientation": "auto",
+        "reduceOptions": {
+          "calcs": [
+            "lastNotNull"
+          ],
+          "fields": "",
+          "values": false
+        },
+        "textMode": "auto"
+      },
+      "pluginVersion": "11.6.0",
+      "targets": [
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "nawari-local-mimir"
+          },
+          "editorMode": "code",
+          "expr": "time() - timestamp(netdata_nawari_network_latency{instance=~\"^$instance$\", dimension=\"gateway\"})",
+          "instant": true,
+          "legendFormat": "Telemetry Ingestion Lag",
+          "range": false,
+          "refId": "A"
+        }
+      ],
+      "title": "Telemetry Freshness (Sample Age)",
+      "type": "stat",
+      "description": "Sample age of the latest telemetry point. Expected collection cadence is 60s (with up to 5s jitter). Values up to 75s indicate normal healthy collection cycles; >75s indicates delayed polling; >150s indicates a stalled or offline collector."
+    },
+    {
+      "datasource": {
+        "type": "prometheus",
+        "uid": "nawari-local-mimir"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "thresholds"
+          },
+          "mappings": [
+            {
+              "options": {
+                "0": {
+                  "color": "red",
+                  "index": 1,
+                  "text": "FAILURE"
+                },
+                "1": {
+                  "color": "green",
+                  "index": 0,
+                  "text": "SUCCESS"
+                }
+              },
+              "type": "value"
+            }
+          ],
+          "noValue": "NO DATA",
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "red",
+                "value": null
+              },
+              {
+                "color": "green",
+                "value": 1
+              }
+            ]
+          },
+          "unit": "none"
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 4,
+        "w": 4,
+        "x": 4,
+        "y": 4
+      },
+      "id": 3,
+      "options": {
+        "colorMode": "background",
+        "graphMode": "none",
+        "justifyMode": "auto",
+        "orientation": "auto",
+        "reduceOptions": {
+          "calcs": [
+            "lastNotNull"
+          ],
+          "fields": "",
+          "values": false
+        },
+        "textMode": "auto"
+      },
+      "pluginVersion": "11.6.0",
+      "targets": [
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "nawari-local-mimir"
+          },
+          "editorMode": "code",
+          "expr": "(netdata_nawari_request_status{instance=~\"^$instance$\", chart=~\"nawari.${probe_target}_status\", dimension=\"success\"}) and (time() - timestamp(netdata_nawari_request_status{instance=~\"^$instance$\", chart=~\"nawari.${probe_target}_status\", dimension=\"success\"}) < 120)",
+          "instant": true,
+          "legendFormat": "Probe Outcome",
+          "range": false,
+          "refId": "A"
+        }
+      ],
+      "title": "Service Probe Status",
+      "type": "stat"
+    },
+    {
+      "datasource": {
+        "type": "prometheus",
+        "uid": "nawari-local-mimir"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "thresholds"
+          },
+          "decimals": 2,
+          "mappings": [],
+          "noValue": "NO DATA",
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              },
+              {
+                "color": "#EAB839",
+                "value": 15
+              },
+              {
+                "color": "red",
+                "value": 50
+              }
+            ]
+          },
+          "unit": "ms"
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 4,
+        "w": 4,
+        "x": 8,
+        "y": 4
+      },
+      "id": 4,
+      "options": {
+        "colorMode": "value",
+        "graphMode": "area",
+        "justifyMode": "auto",
+        "orientation": "auto",
+        "reduceOptions": {
+          "calcs": [
+            "lastNotNull"
+          ],
+          "fields": "",
+          "values": false
+        },
+        "textMode": "auto"
+      },
+      "pluginVersion": "11.6.0",
+      "targets": [
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "nawari-local-mimir"
+          },
+          "editorMode": "code",
+          "expr": "(netdata_nawari_network_latency{instance=~\"^$instance$\", chart=~\"nawari.${probe_target}_latency\", dimension=\"gateway\"} / 1000) and (time() - timestamp(netdata_nawari_network_latency{instance=~\"^$instance$\", chart=~\"nawari.${probe_target}_latency\", dimension=\"gateway\"}) < 120)",
+          "instant": true,
+          "legendFormat": "Default Gateway RTT",
+          "range": false,
+          "refId": "A"
+        }
+      ],
+      "title": "Default Gateway Latency",
+      "type": "stat"
+    },
+    {
+      "datasource": {
+        "type": "prometheus",
+        "uid": "nawari-local-mimir"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "thresholds"
+          },
+          "decimals": 2,
+          "mappings": [],
+          "noValue": "NO DATA",
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              },
+              {
+                "color": "#EAB839",
+                "value": 5
+              },
+              {
+                "color": "red",
+                "value": 20
+              }
+            ]
+          },
+          "unit": "ms"
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 4,
+        "w": 4,
+        "x": 12,
+        "y": 4
+      },
+      "id": 5,
+      "options": {
+        "colorMode": "value",
+        "graphMode": "area",
+        "justifyMode": "auto",
+        "orientation": "auto",
+        "reduceOptions": {
+          "calcs": [
+            "lastNotNull"
+          ],
+          "fields": "",
+          "values": false
+        },
+        "textMode": "auto"
+      },
+      "pluginVersion": "11.6.0",
+      "targets": [
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "nawari-local-mimir"
+          },
+          "editorMode": "code",
+          "expr": "(netdata_nawari_network_latency{instance=~\"^$instance$\", chart=~\"nawari.${probe_target}_latency\", dimension=\"dns_lookup\"} / 1000) and (time() - timestamp(netdata_nawari_network_latency{instance=~\"^$instance$\", chart=~\"nawari.${probe_target}_latency\", dimension=\"dns_lookup\"}) < 120)",
+          "instant": true,
+          "legendFormat": "DNS Lookup Latency",
+          "range": false,
+          "refId": "A"
+        }
+      ],
+      "title": "DNS Lookup Latency",
+      "type": "stat"
+    },
+    {
+      "datasource": {
+        "type": "prometheus",
+        "uid": "nawari-local-mimir"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "thresholds"
+          },
+          "decimals": 2,
+          "mappings": [],
+          "noValue": "NO DATA",
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              },
+              {
+                "color": "#EAB839",
+                "value": 10
+              },
+              {
+                "color": "red",
+                "value": 30
+              }
+            ]
+          },
+          "unit": "ms"
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 4,
+        "w": 4,
+        "x": 16,
+        "y": 4
+      },
+      "id": 6,
+      "options": {
+        "colorMode": "value",
+        "graphMode": "area",
+        "justifyMode": "auto",
+        "orientation": "auto",
+        "reduceOptions": {
+          "calcs": [
+            "lastNotNull"
+          ],
+          "fields": "",
+          "values": false
+        },
+        "textMode": "auto"
+      },
+      "pluginVersion": "11.6.0",
+      "targets": [
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "nawari-local-mimir"
+          },
+          "editorMode": "code",
+          "expr": "(netdata_nawari_network_latency{instance=~\"^$instance$\", chart=~\"nawari.${probe_target}_latency\", dimension=\"icmp_target\"} / 1000) and (time() - timestamp(netdata_nawari_network_latency{instance=~\"^$instance$\", chart=~\"nawari.${probe_target}_latency\", dimension=\"icmp_target\"}) < 120)",
+          "instant": true,
+          "legendFormat": "Target RTT",
+          "range": false,
+          "refId": "A"
+        }
+      ],
+      "title": "ICMP Target Latency",
+      "type": "stat"
+    },
+    {
+      "datasource": {
+        "type": "prometheus",
+        "uid": "nawari-local-mimir"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "thresholds"
+          },
+          "decimals": 1,
+          "mappings": [],
+          "noValue": "NO DATA",
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              },
+              {
+                "color": "#EAB839",
+                "value": 0.1
+              },
+              {
+                "color": "red",
+                "value": 2
+              }
+            ]
+          },
+          "unit": "percent"
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 4,
+        "w": 4,
+        "x": 20,
+        "y": 4
+      },
+      "id": 7,
+      "options": {
+        "colorMode": "value",
+        "graphMode": "none",
+        "justifyMode": "auto",
+        "orientation": "auto",
+        "reduceOptions": {
+          "calcs": [
+            "lastNotNull"
+          ],
+          "fields": "",
+          "values": false
+        },
+        "textMode": "auto"
+      },
+      "pluginVersion": "11.6.0",
+      "targets": [
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "nawari-local-mimir"
+          },
+          "editorMode": "code",
+          "expr": "(max(netdata_nawari_network_loss{instance=~\"^$instance$\", chart=~\"nawari.${probe_target}_loss\"} / 1000)) and (time() - timestamp(netdata_nawari_network_loss{instance=~\"^$instance$\", chart=~\"nawari.${probe_target}_loss\"}) < 120)",
+          "instant": true,
+          "legendFormat": "Max Packet Loss",
+          "range": false,
+          "refId": "A"
+        }
+      ],
+      "title": "Max Edge Packet Loss",
+      "type": "stat"
+    },
+    {
+      "collapsed": false,
+      "gridPos": {
+        "h": 8,
+        "w": 12,
+        "x": 0,
+        "y": 8
+      },
+      "id": 8,
+      "datasource": {
+        "type": "prometheus",
+        "uid": "nawari-local-mimir"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "custom": {
+            "drawStyle": "line",
+            "lineInterpolation": "linear",
+            "lineWidth": 2,
+            "pointSize": 5,
+            "showPoints": "auto",
+            "spanNulls": false
+          },
+          "decimals": 2,
+          "noValue": "NO DATA",
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              },
+              {
+                "color": "#EAB839",
+                "value": 20
+              },
+              {
+                "color": "red",
+                "value": 50
+              }
+            ]
+          },
+          "unit": "ms"
+        },
+        "overrides": []
+      },
+      "options": {
+        "legend": {
+          "calcs": [
+            "lastNotNull",
+            "mean",
+            "max"
+          ],
+          "displayMode": "table",
+          "placement": "bottom",
+          "showLegend": true
+        },
+        "tooltip": {
+          "mode": "multi",
+          "sort": "none"
+        }
+      },
+      "pluginVersion": "11.6.0",
+      "targets": [
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "nawari-local-mimir"
+          },
+          "editorMode": "code",
+          "expr": "netdata_nawari_network_latency{instance=~\"^$instance$\", chart=~\"nawari.${probe_target}_latency\", dimension=\"dns_lookup\"} / 1000",
+          "legendFormat": "DNS Lookup ({{dimension}})",
+          "range": true,
+          "refId": "A"
+        },
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "nawari-local-mimir"
+          },
+          "editorMode": "code",
+          "expr": "netdata_nawari_network_latency{instance=~\"^$instance$\", chart=~\"nawari.${probe_target}_latency\", dimension=\"gateway\"} / 1000",
+          "legendFormat": "Default Gateway RTT ({{dimension}})",
+          "range": true,
+          "refId": "B"
+        },
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "nawari-local-mimir"
+          },
+          "editorMode": "code",
+          "expr": "netdata_nawari_network_latency{instance=~\"^$instance$\", chart=~\"nawari.${probe_target}_latency\", dimension=\"icmp_target\"} / 1000",
+          "legendFormat": "ICMP Target RTT ({{dimension}})",
+          "range": true,
+          "refId": "C"
+        }
+      ],
+      "title": "Network Diagnostic Latency (DNS, Gateway, Target)",
+      "type": "timeseries"
+    },
+    {
+      "collapsed": false,
+      "gridPos": {
+        "h": 8,
+        "w": 12,
+        "x": 12,
+        "y": 8
+      },
+      "id": 9,
+      "datasource": {
+        "type": "prometheus",
+        "uid": "nawari-local-mimir"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "custom": {
+            "drawStyle": "line",
+            "lineInterpolation": "linear",
+            "lineWidth": 2,
+            "pointSize": 5,
+            "showPoints": "auto",
+            "spanNulls": false
+          },
+          "decimals": 2,
+          "noValue": "NO DATA",
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              },
+              {
+                "color": "#EAB839",
+                "value": 1
+              },
+              {
+                "color": "red",
+                "value": 5
+              }
+            ]
+          },
+          "unit": "percent"
+        },
+        "overrides": []
+      },
+      "options": {
+        "legend": {
+          "calcs": [
+            "lastNotNull",
+            "mean",
+            "max"
+          ],
+          "displayMode": "table",
+          "placement": "bottom",
+          "showLegend": true
+        },
+        "tooltip": {
+          "mode": "multi",
+          "sort": "none"
+        }
+      },
+      "pluginVersion": "11.6.0",
+      "targets": [
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "nawari-local-mimir"
+          },
+          "editorMode": "code",
+          "expr": "netdata_nawari_network_loss{instance=~\"^$instance$\", chart=~\"nawari.${probe_target}_loss\", dimension=\"gateway\"} / 1000",
+          "legendFormat": "Gateway Packet Loss ({{dimension}})",
+          "range": true,
+          "refId": "A"
+        },
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "nawari-local-mimir"
+          },
+          "editorMode": "code",
+          "expr": "netdata_nawari_network_loss{instance=~\"^$instance$\", chart=~\"nawari.${probe_target}_loss\", dimension=\"icmp_target\"} / 1000",
+          "legendFormat": "Target Packet Loss ({{dimension}})",
+          "range": true,
+          "refId": "B"
+        }
+      ],
+      "title": "Network Diagnostic Packet Loss (%)",
+      "type": "timeseries"
+    },
+    {
+      "collapsed": false,
+      "gridPos": {
+        "h": 8,
+        "w": 16,
+        "x": 0,
+        "y": 16
+      },
+      "id": 10,
+      "datasource": {
+        "type": "prometheus",
+        "uid": "nawari-local-mimir"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "custom": {
+            "drawStyle": "line",
+            "lineInterpolation": "linear",
+            "lineWidth": 2,
+            "pointSize": 5,
+            "showPoints": "auto",
+            "spanNulls": false
+          },
+          "decimals": 2,
+          "noValue": "NO DATA",
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              },
+              {
+                "color": "#EAB839",
+                "value": 50
+              },
+              {
+                "color": "red",
+                "value": 150
+              }
+            ]
+          },
+          "unit": "ms"
+        },
+        "overrides": []
+      },
+      "options": {
+        "legend": {
+          "calcs": [
+            "lastNotNull",
+            "mean",
+            "max"
+          ],
+          "displayMode": "table",
+          "placement": "bottom",
+          "showLegend": true
+        },
+        "tooltip": {
+          "mode": "multi",
+          "sort": "none"
+        }
+      },
+      "pluginVersion": "11.6.0",
+      "targets": [
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "nawari-local-mimir"
+          },
+          "editorMode": "code",
+          "expr": "netdata_nawari_request_phases{instance=~\"^$instance$\", chart=~\"nawari.${probe_target}\", dimension=\"connect\"} / 1000",
+          "legendFormat": "TCP Connect ({{dimension}})",
+          "range": true,
+          "refId": "A"
+        },
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "nawari-local-mimir"
+          },
+          "editorMode": "code",
+          "expr": "netdata_nawari_request_phases{instance=~\"^$instance$\", chart=~\"nawari.${probe_target}\", dimension=\"tls\"} / 1000",
+          "legendFormat": "TLS Handshake ({{dimension}})",
+          "range": true,
+          "refId": "B"
+        },
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "nawari-local-mimir"
+          },
+          "editorMode": "code",
+          "expr": "netdata_nawari_request_phases{instance=~\"^$instance$\", chart=~\"nawari.${probe_target}\", dimension=\"ttfb\"} / 1000",
+          "legendFormat": "Time to First Byte ({{dimension}})",
+          "range": true,
+          "refId": "C"
+        },
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "nawari-local-mimir"
+          },
+          "editorMode": "code",
+          "expr": "netdata_nawari_request_phases{instance=~\"^$instance$\", chart=~\"nawari.${probe_target}\", dimension=\"total\"} / 1000",
+          "legendFormat": "Total Request Duration ({{dimension}})",
+          "range": true,
+          "refId": "D"
+        }
+      ],
+      "title": "HTTP Request Phase Timing Breakdown",
+      "type": "timeseries"
+    },
+    {
+      "collapsed": false,
+      "gridPos": {
+        "h": 8,
+        "w": 8,
+        "x": 16,
+        "y": 16
+      },
+      "id": 11,
+      "datasource": {
+        "type": "prometheus",
+        "uid": "nawari-local-mimir"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "custom": {
+            "drawStyle": "bars",
+            "lineInterpolation": "linear",
+            "lineWidth": 1,
+            "pointSize": 5,
+            "showPoints": "auto",
+            "spanNulls": false
+          },
+          "decimals": 0,
+          "noValue": "NO DATA",
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              }
+            ]
+          },
+          "unit": "short"
+        },
+        "overrides": [
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "Path Duration (ms)"
+            },
+            "properties": [
+              {
+                "id": "unit",
+                "value": "ms"
+              },
+              {
+                "id": "custom.drawStyle",
+                "value": "line"
+              }
+            ]
+          }
+        ]
+      },
+      "options": {
+        "legend": {
+          "calcs": [
+            "lastNotNull"
+          ],
+          "displayMode": "table",
+          "placement": "bottom",
+          "showLegend": true
+        },
+        "tooltip": {
+          "mode": "multi",
+          "sort": "none"
+        }
+      },
+      "pluginVersion": "11.6.0",
+      "targets": [
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "nawari-local-mimir"
+          },
+          "editorMode": "code",
+          "expr": "netdata_nawari_path_hops{instance=~\"^$instance$\", chart=~\"nawari.${probe_target}_path\"}",
+          "legendFormat": "Hops Count",
+          "range": true,
+          "refId": "A"
+        },
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "nawari-local-mimir"
+          },
+          "editorMode": "code",
+          "expr": "netdata_nawari_path_duration_ms{instance=~\"^$instance$\", chart=~\"nawari.${probe_target}_path\"} / 1000",
+          "legendFormat": "Path Duration (ms)",
+          "range": true,
+          "refId": "B"
+        }
+      ],
+      "title": "Network Path Analysis (Hops & Duration)",
+      "type": "timeseries"
+    }
+  ],
+  "refresh": "15s",
+  "schemaVersion": 39,
+  "tags": [
+    "nawari",
+    "network-experience",
+    "local-pilot",
+    "mimir"
+  ],
+  "templating": {
+    "list": [
+      {
+        "current": {
+          "selected": true,
+          "text": "Pascals-MacBook-Pro.local",
+          "value": "Pascals-MacBook-Pro.local"
+        },
+        "datasource": {
+          "type": "prometheus",
+          "uid": "nawari-local-mimir"
+        },
+        "definition": "label_values(netdata_nawari_network_latency, instance)",
+        "hide": 0,
+        "includeAll": false,
+        "label": "Endpoint Instance",
+        "multi": false,
+        "name": "instance",
+        "options": [],
+        "query": {
+          "qryType": 1,
+          "query": "label_values(netdata_nawari_network_latency, instance)",
+          "refId": "PrometheusVariableQueryEditor-VariableQuery"
+        },
+        "refresh": 1,
+        "regex": "",
+        "skipUrlSync": false,
+        "sort": 1,
+        "type": "query"
+      },
+      {
+        "current": {
+          "selected": true,
+          "text": "Fixture Portal (Synthetic Pilot)",
+          "value": "fixture-portal_page"
+        },
+        "hide": 0,
+        "includeAll": false,
+        "label": "Diagnostic Target",
+        "multi": false,
+        "name": "probe_target",
+        "options": [
+          {
+            "selected": true,
+            "text": "Fixture Portal (Synthetic Pilot)",
+            "value": "fixture-portal_page"
+          }
+        ],
+        "query": "fixture-portal_page : Fixture Portal (Synthetic Pilot)",
+        "skipUrlSync": false,
+        "type": "custom"
+      }
+    ]
+  },
+  "time": {
+    "from": "now-1h",
+    "to": "now"
+  },
+  "timepicker": {
+    "refresh_intervals": [
+      "5s",
+      "15s",
+      "30s",
+      "1m",
+      "5m"
+    ]
+  },
+  "timezone": "browser",
+  "title": "Nawari \u2014 Network Experience (Local Pilot)",
+  "uid": "nawari-net-exp-pilot",
+  "version": 1,
+  "weekStart": ""
+}

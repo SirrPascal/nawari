@@ -1,0 +1,17 @@
+# Local fixtures. Copy to the Homebrew Netdata go.d directory to activate.
+jobs:
+  - name: pilot_fixture_healthy
+    update_every: 15
+    url: http://127.0.0.1:18080/healthy
+    timeout: 3
+    status_accepted: [200]
+  - name: pilot_fixture_slow
+    update_every: 15
+    url: http://127.0.0.1:18080/slow
+    timeout: 3
+    status_accepted: [200]
+  - name: pilot_fixture_unavailable
+    update_every: 15
+    url: http://127.0.0.1:18080/unavailable
+    timeout: 3
+    status_accepted: [200]

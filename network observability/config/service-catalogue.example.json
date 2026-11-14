@@ -1,0 +1,84 @@
+{
+  "schema_version": 2,
+  "status": "controlled_examples_pending_owner_approval",
+  "endpoint_publication": {
+    "source": "Microsoft 365 IP Address and URL web service",
+    "documentation": "https://learn.microsoft.com/microsoft-365/enterprise/microsoft-365-ip-web-service",
+    "update_policy": "reviewed controlled configuration; never scrape the desktop client"
+  },
+  "services": [
+    {
+      "service_id": "microsoft-teams",
+      "owner": "REPLACE_WITH_SERVICE_OWNER",
+      "operations": [
+        {
+          "operation_id": "front-door-reachability",
+          "enabled": false,
+          "target": "https://REPLACE_WITH_OWNER_APPROVED_TEAMS_FRONT_DOOR/",
+          "expected_statuses": [200, 302],
+          "execution_context": "system",
+          "proves": "Only DNS, TCP, TLS and the permitted HTTP response for this named front-door operation.",
+          "cannot_prove": "Teams sign-in, messaging, meetings, media quality, employee-session routing or complete service health.",
+          "objective_ms": 1000,
+          "interval_ms": 60000,
+          "timeout_ms": 5000,
+          "jitter_ms": 10000,
+          "concurrency": 1,
+          "retry_limit": 0,
+          "authentication_requirements": "None for the approved unauthenticated operation.",
+          "network_dependencies": ["dns", "tcp-443", "tls", "http", "proxy-policy"],
+          "regional_comparison_profile": "REPLACE_WITH_REGIONAL_PROFILE",
+          "retention_seconds": 604800
+        },
+        {
+          "operation_id": "authentication-dependency-reachability",
+          "enabled": false,
+          "target": "https://REPLACE_WITH_OWNER_APPROVED_AUTH_DEPENDENCY/",
+          "expected_statuses": [200, 302],
+          "execution_context": "system",
+          "proves": "Only reachability and response timing for the approved authentication dependency operation.",
+          "cannot_prove": "Successful employee authentication, token issuance or Teams application health.",
+          "objective_ms": 1000,
+          "interval_ms": 60000,
+          "timeout_ms": 5000,
+          "jitter_ms": 10000,
+          "concurrency": 1,
+          "retry_limit": 0,
+          "authentication_requirements": "No credentials or tokens are sent by the probe.",
+          "network_dependencies": ["dns", "tcp-443", "tls", "http", "proxy-policy"],
+          "regional_comparison_profile": "REPLACE_WITH_REGIONAL_PROFILE",
+          "retention_seconds": 604800
+        },
+        {
+          "operation_id": "meeting-media-quality",
+          "enabled": false,
+          "source": "supported_tenant_call_quality_telemetry_required",
+          "coverage": "unavailable_until_authorized_integration",
+          "proves": "Nothing until an authorized supported media evidence source is integrated.",
+          "cannot_prove": "A generic HTTPS probe cannot establish packet loss, jitter, RTT or meeting quality.",
+          "authentication_requirements": "Microsoft tenant permissions and privacy approval required."
+        }
+      ]
+    },
+    {
+      "service_id": "independent-reference",
+      "owner": "REPLACE_WITH_NETWORK_SERVICE_OWNER",
+      "operations": [{
+        "operation_id": "controlled-small-response",
+        "enabled": false,
+        "target": "https://REPLACE_WITH_APPROVED_CONTROLLED_TARGET/health",
+        "expected_statuses": [200],
+        "execution_context": "system",
+        "proves": "The independent controlled operation was reachable from the same endpoint and context.",
+        "cannot_prove": "That every destination path or business service is healthy.",
+        "objective_ms": 500,
+        "interval_ms": 60000,
+        "timeout_ms": 3000,
+        "jitter_ms": 10000,
+        "concurrency": 1,
+        "retry_limit": 0,
+        "retention_seconds": 604800
+      }]
+    }
+  ]
+}

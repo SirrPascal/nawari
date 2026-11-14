@@ -1,0 +1,217 @@
+name: nawari-network-platform
+
+services:
+  postgres:
+    image: postgres:17.6-alpine3.22
+    restart: unless-stopped
+    environment:
+      POSTGRES_DB: nawari
+      POSTGRES_USER: nawari_owner
+      POSTGRES_PASSWORD_FILE: /run/secrets/postgres_password
+    secrets: [postgres_password]
+    volumes:
+      - postgres-data:/var/lib/postgresql/data
+    networks: [application]
+    healthcheck:
+      test: [CMD-SHELL, pg_isready -U nawari_owner -d nawari]
+      interval: 10s
+      timeout: 5s
+      retries: 10
+    deploy:
+      resources:
+        limits: {cpus: "0.75", memory: 1G}
+    logging: &container_logging
+      driver: local
+      options: {max-size: 10m, max-file: "3"}
+
+  secret-init:
+    image: ${NAWARI_PLATFORM_IMAGE:?set an approved image digest}
+    user: "0:0"
+    entrypoint: [/bin/sh]
+    command: [-c, "install -m 0440 -o 10001 -g 10001 /run/secrets/database_url /run/app-secrets/database-url"]
+    restart: "no"
+    secrets: [database_url]
+    volumes: [database-runtime-secret:/run/app-secrets]
+
+  api:
+    image: ${NAWARI_PLATFORM_IMAGE:?set an approved image digest}
+    restart: unless-stopped
+    command: [serve, --host, 0.0.0.0, --port, "18090"]
+    environment:
+      NAWARI_DATABASE_FILE: /run/app-secrets/database-url
+      NAWARI_AUTO_MIGRATE: "0"
+    depends_on:
+      postgres: {condition: service_healthy}
+      secret-init: {condition: service_completed_successfully}
+    volumes: [database-runtime-secret:/run/app-secrets:ro]
+    ports:
+      - 127.0.0.1:${NAWARI_API_PORT:-18090}:18090
+    networks: [application]
+    healthcheck:
+      test: [CMD, python, -c, "import urllib.request; urllib.request.urlopen('http://127.0.0.1:18090/healthz', timeout=3)"]
+      interval: 15s
+      timeout: 5s
+      retries: 5
+    deploy:
+      resources:
+        limits: {cpus: "0.75", memory: 768M}
+    logging: *container_logging
+
+  worker:
+    image: ${NAWARI_PLATFORM_IMAGE:?set an approved image digest}
+    restart: unless-stopped
+    command: [worker]
+    environment:
+      NAWARI_DATABASE_FILE: /run/app-secrets/database-url
+      NAWARI_AUTO_MIGRATE: "0"
+    depends_on:
+      postgres: {condition: service_healthy}
+      secret-init: {condition: service_completed_successfully}
+    volumes: [database-runtime-secret:/run/app-secrets:ro]
+    networks: [application, telemetry]
+    deploy:
+      resources:
+        limits: {cpus: "0.5", memory: 512M}
+    logging: *container_logging
+
+  kafka:
+    profiles: [metrics]
+    image: apache/kafka:4.0.0@sha256:3f7b939115cd4872e9cee9369d80bd69712fde55f9902f46d793f64848dedc75
+    restart: unless-stopped
+    environment:
+      KAFKA_NODE_ID: 1
+      KAFKA_PROCESS_ROLES: broker,controller
+      KAFKA_LISTENERS: PLAINTEXT://:9092,CONTROLLER://:9093
+      KAFKA_ADVERTISED_LISTENERS: PLAINTEXT://kafka:9092
+      KAFKA_CONTROLLER_LISTENER_NAMES: CONTROLLER
+      KAFKA_LISTENER_SECURITY_PROTOCOL_MAP: CONTROLLER:PLAINTEXT,PLAINTEXT:PLAINTEXT
+      KAFKA_CONTROLLER_QUORUM_VOTERS: 1@kafka:9093
+      KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR: 1
+      KAFKA_TRANSACTION_STATE_LOG_REPLICATION_FACTOR: 1
+      KAFKA_TRANSACTION_STATE_LOG_MIN_ISR: 1
+      KAFKA_AUTO_CREATE_TOPICS_ENABLE: "false"
+      KAFKA_MESSAGE_MAX_BYTES: 16000000
+      KAFKA_LOG_RETENTION_HOURS: 24
+    volumes:
+      - kafka-data:/var/lib/kafka/data
+    networks: [metrics]
+    deploy:
+      resources:
+        limits: {cpus: "2.0", memory: 4G}
+    logging: *container_logging
+
+  minio:
+    profiles: [metrics]
+    image: quay.io/minio/minio:RELEASE.2025-09-06T17-38-46Z
+    restart: unless-stopped
+    entrypoint: [/bin/sh, /opt/nawari/start-minio.sh]
+    secrets: [minio_root_user, minio_root_password]
+    volumes:
+      - ./start-minio.sh:/opt/nawari/start-minio.sh:ro
+      - object-data:/data
+    networks: [metrics, telemetry]
+    healthcheck:
+      test: [CMD, mc, ready, local]
+      interval: 10s
+      timeout: 5s
+      retries: 10
+    deploy:
+      resources:
+        limits: {cpus: "1.0", memory: 2G}
+    logging: *container_logging
+
+  mimir:
+    profiles: [metrics]
+    image: grafana/mimir:3.0.0@sha256:dfa02581c519a28e2ce50c7304d05a635bb1e14b36e2f8a7a54815b36d4d1f9b
+    restart: unless-stopped
+    entrypoint: [/bin/sh, /opt/nawari/start-mimir.sh]
+    secrets: [minio_root_user, minio_root_password]
+    volumes:
+      - ./mimir.yaml:/etc/mimir/mimir.yaml:ro
+      - ./start-mimir.sh:/opt/nawari/start-mimir.sh:ro
+      - mimir-data:/data
+    depends_on:
+      minio: {condition: service_healthy}
+      kafka: {condition: service_started}
+    networks: [metrics]
+    healthcheck:
+      test: [CMD, /bin/sh, -c, "wget -qO- http://127.0.0.1:9009/ready >/dev/null"]
+      interval: 15s
+      timeout: 5s
+      retries: 10
+    deploy:
+      resources:
+        limits: {cpus: "3.0", memory: 6G}
+    logging: *container_logging
+
+  loki:
+    profiles: [logs]
+    image: grafana/loki:3.5.5
+    restart: unless-stopped
+    command: [-config.file=/etc/loki/loki.yaml]
+    volumes:
+      - ./loki.yaml:/etc/loki/loki.yaml:ro
+      - loki-data:/loki
+    networks: [telemetry]
+    healthcheck:
+      test: [CMD, /bin/sh, -c, "wget -qO- http://127.0.0.1:3100/ready >/dev/null"]
+      interval: 15s
+      timeout: 5s
+      retries: 10
+    deploy:
+      resources:
+        limits: {cpus: "2.0", memory: 4G}
+    logging: *container_logging
+
+  alloy:
+    profiles: [logs]
+    image: grafana/alloy:v1.11.0
+    restart: unless-stopped
+    command: [run, --server.http.listen-addr=127.0.0.1:12345, --storage.path=/var/lib/alloy, /etc/alloy/config.alloy]
+    volumes:
+      - ./config.alloy:/etc/alloy/config.alloy:ro
+      - alloy-data:/var/lib/alloy
+      - relay-spool:/var/spool/nawari:ro
+    networks: [telemetry]
+    depends_on:
+      loki: {condition: service_healthy}
+    deploy:
+      resources:
+        limits: {cpus: "0.5", memory: 512M}
+    logging: *container_logging
+
+  alertmanager:
+    profiles: [shadow]
+    image: prom/alertmanager:v0.28.1
+    restart: unless-stopped
+    command: [--config.file=/etc/alertmanager/alertmanager.yml, --storage.path=/alertmanager]
+    volumes:
+      - ./alertmanager.yml:/etc/alertmanager/alertmanager.yml:ro
+      - alertmanager-data:/alertmanager
+    networks: [application]
+    deploy:
+      resources:
+        limits: {cpus: "0.25", memory: 256M}
+    logging: *container_logging
+
+networks:
+  application: {internal: true}
+  metrics: {internal: true}
+  telemetry: {internal: true}
+
+volumes:
+  postgres-data:
+  database-runtime-secret:
+  kafka-data:
+  object-data:
+  mimir-data:
+  loki-data:
+  alloy-data:
+  relay-spool:
+  alertmanager-data:
+
+secrets:
+  postgres_password: {external: true}
+  database_url: {external: true}
+  minio_root_user: {external: true}
+  minio_root_password: {external: true}

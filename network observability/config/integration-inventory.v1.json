@@ -1,0 +1,11 @@
+{
+  "schema_version":"1",
+  "register_version":"2026-11-12.1",
+  "integrations":[
+    {"id":"zabbix","status":"not_tested","transport":"supported_api","credential_scope":"selected_read_only","pagination":"required","overlap_seconds":120,"deduplication":"source_id_and_observed_at","direct_database_access":false},
+    {"id":"solarwinds","status":"not_tested","transport":"swis_swql","credential_scope":"selected_read_only","pagination":"required","overlap_seconds":120,"deduplication":"source_uri_and_observed_at","direct_database_access":false},
+    {"id":"cisco_wireless","status":"inventory_required","transport":"release_specific_supported_api","credential_scope":"approved_fields_only","pagination":"required","overlap_seconds":120,"deduplication":"controller_session_and_observed_at","direct_database_access":false},
+    {"id":"ruckus_smartzone","status":"inventory_required","transport":"version_specific_public_api","credential_scope":"approved_fields_only","pagination":"required","overlap_seconds":120,"deduplication":"controller_session_and_observed_at","direct_database_access":false},
+    {"id":"fortianalyzer","status":"inventory_required","transport":"installed_release_supported_api_or_forwarder","credential_scope":"allowlisted_events_only","pagination":"required_if_api","overlap_seconds":120,"deduplication":"adom_device_source_record_id","direct_database_access":false}
+  ]
+}

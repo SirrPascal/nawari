@@ -1,0 +1,4 @@
+subjectAltName=DNS:netdata-stream-test-parent,DNS:nawari-stream-test-parent,DNS:localhost,IP:127.0.0.1
+basicConstraints=critical,CA:FALSE
+extendedKeyUsage=serverAuth
+keyUsage=critical,digitalSignature,keyEncipherment
