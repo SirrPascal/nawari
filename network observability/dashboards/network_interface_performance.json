@@ -1,0 +1,167 @@
+{
+  "title": "Network Interface Performance",
+  "uid": "nawari-net-perf",
+  "description": "Hardware and interface performance monitoring. Explicitly distinguishes genuine SNMP metrics from unpolled candidate devices.",
+  "tags": [
+    "nawari",
+    "network",
+    "performance",
+    "interfaces"
+  ],
+  "schemaVersion": 39,
+  "editable": true,
+  "time": {
+    "from": "now-6h",
+    "to": "now"
+  },
+  "refresh": "1m",
+  "templating": {
+    "list": [
+      {
+        "current": {
+          "selected": true,
+          "text": "All",
+          "value": "$__all"
+        },
+        "datasource": {
+          "type": "alexanderzobnin-zabbix-datasource",
+          "uid": "PA67C5EADE9207728"
+        },
+        "definition": "Network Devices.*",
+        "hide": 0,
+        "includeAll": true,
+        "multi": true,
+        "name": "device",
+        "options": [],
+        "query": {
+          "group": "Network Devices",
+          "queryType": "hosts"
+        },
+        "refresh": 1,
+        "type": "query",
+        "label": "Network Device"
+      }
+    ]
+  },
+  "panels": [
+    {
+      "id": 1,
+      "type": "row",
+      "title": "Monitoring Coverage & Protocol Status",
+      "gridPos": {
+        "h": 1,
+        "w": 24,
+        "x": 0,
+        "y": 0
+      }
+    },
+    {
+      "id": 2,
+      "title": "Telemetry Coverage Audit Banner",
+      "type": "text",
+      "gridPos": {
+        "h": 4,
+        "w": 24,
+        "x": 0,
+        "y": 1
+      },
+      "options": {
+        "mode": "markdown",
+        "content": "### \u2139\ufe0f Protocol Monitoring Scope & Provenance Audit\n\n- **ICMP Ping Checks:** Active for all 34 enrolled hosts via Zabbix Server (`icmpping`, `icmppingsec`, `icmppingloss`).\n- **SNMP Direct Access:** **Unavailable / Cause Unconfirmed**. Direct SNMPv2c/v3 requests from `mon-grafana01` timed out pending network ACL / community configuration.\n- **Synthetic Data Policy:** **Strictly zero synthetic trapper values**. Devices without active SNMP return `N/A (ICMP Only)` rather than fabricated CPU, memory, or interface counters.\n- **SolarWinds SWIS:** Standing by for dedicated service account authorization."
+      }
+    },
+    {
+      "id": 3,
+      "type": "row",
+      "title": "Genuine SNMP Performance Metrics (Authorized Devices Only)",
+      "gridPos": {
+        "h": 1,
+        "w": 24,
+        "x": 0,
+        "y": 5
+      }
+    },
+    {
+      "id": 4,
+      "title": "Interface Ingress / Egress Traffic (bps)",
+      "type": "timeseries",
+      "datasource": {
+        "type": "alexanderzobnin-zabbix-datasource",
+        "uid": "PA67C5EADE9207728"
+      },
+      "description": "Genuine interface bits per second when SNMP discovery template is active.",
+      "gridPos": {
+        "h": 8,
+        "w": 12,
+        "x": 0,
+        "y": 6
+      },
+      "fieldConfig": {
+        "defaults": {
+          "unit": "bps",
+          "noValue": "N/A (ICMP Only - SNMP Pending)",
+          "custom": {
+            "lineWidth": 2
+          }
+        }
+      },
+      "targets": [
+        {
+          "group": {
+            "filter": "Network Devices"
+          },
+          "host": {
+            "filter": "$device"
+          },
+          "item": {
+            "filter": "/Bits (received|sent)/"
+          },
+          "mode": 0,
+          "refId": "A",
+          "resultFormat": "time_series"
+        }
+      ]
+    },
+    {
+      "id": 5,
+      "title": "Interface Packet Errors & Discards",
+      "type": "timeseries",
+      "datasource": {
+        "type": "alexanderzobnin-zabbix-datasource",
+        "uid": "PA67C5EADE9207728"
+      },
+      "description": "Inbound and outbound errors/discards measured via SNMP ifInErrors/ifOutErrors.",
+      "gridPos": {
+        "h": 8,
+        "w": 12,
+        "x": 12,
+        "y": 6
+      },
+      "fieldConfig": {
+        "defaults": {
+          "unit": "pps",
+          "noValue": "N/A (ICMP Only - SNMP Pending)",
+          "custom": {
+            "lineWidth": 2
+          }
+        }
+      },
+      "targets": [
+        {
+          "group": {
+            "filter": "Network Devices"
+          },
+          "host": {
+            "filter": "$device"
+          },
+          "item": {
+            "filter": "/(Inbound|Outbound) packets with errors/"
+          },
+          "mode": 0,
+          "refId": "A",
+          "resultFormat": "time_series"
+        }
+      ]
+    }
+  ]
+}

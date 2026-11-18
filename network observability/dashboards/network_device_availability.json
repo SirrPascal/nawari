@@ -1,0 +1,239 @@
+{
+  "title": "Network Device Availability",
+  "uid": "nawari-net-avail",
+  "description": "Detailed ICMP uptime history, RTT latency, packet loss, and outage intervals.",
+  "tags": [
+    "nawari",
+    "network",
+    "availability",
+    "icmp"
+  ],
+  "schemaVersion": 39,
+  "editable": true,
+  "time": {
+    "from": "now-24h",
+    "to": "now"
+  },
+  "refresh": "1m",
+  "templating": {
+    "list": [
+      {
+        "current": {
+          "selected": true,
+          "text": "All",
+          "value": "$__all"
+        },
+        "datasource": {
+          "type": "alexanderzobnin-zabbix-datasource",
+          "uid": "PA67C5EADE9207728"
+        },
+        "definition": "Network Devices.*",
+        "hide": 0,
+        "includeAll": true,
+        "multi": true,
+        "name": "device",
+        "options": [],
+        "query": {
+          "group": "Network Devices",
+          "queryType": "hosts"
+        },
+        "refresh": 1,
+        "type": "query",
+        "label": "Network Device"
+      }
+    ]
+  },
+  "panels": [
+    {
+      "id": 1,
+      "type": "row",
+      "title": "Uptime & Packet Loss Dynamics",
+      "gridPos": {
+        "h": 1,
+        "w": 24,
+        "x": 0,
+        "y": 0
+      }
+    },
+    {
+      "id": 2,
+      "title": "ICMP Packet Loss Percentage (%)",
+      "type": "timeseries",
+      "datasource": {
+        "type": "alexanderzobnin-zabbix-datasource",
+        "uid": "PA67C5EADE9207728"
+      },
+      "description": "Monitored ICMP packet loss percentage per device. Loss > 1% indicates network degradation.",
+      "gridPos": {
+        "h": 8,
+        "w": 12,
+        "x": 0,
+        "y": 1
+      },
+      "fieldConfig": {
+        "defaults": {
+          "unit": "percent",
+          "custom": {
+            "lineWidth": 2,
+            "fillOpacity": 15
+          },
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              },
+              {
+                "color": "yellow",
+                "value": 1
+              },
+              {
+                "color": "red",
+                "value": 5
+              }
+            ]
+          }
+        }
+      },
+      "targets": [
+        {
+          "group": {
+            "filter": "Network Devices"
+          },
+          "host": {
+            "filter": "$device"
+          },
+          "item": {
+            "filter": "ICMP loss"
+          },
+          "mode": 0,
+          "refId": "A",
+          "resultFormat": "time_series"
+        }
+      ]
+    },
+    {
+      "id": 3,
+      "title": "ICMP RTT Response Time (s)",
+      "type": "timeseries",
+      "datasource": {
+        "type": "alexanderzobnin-zabbix-datasource",
+        "uid": "PA67C5EADE9207728"
+      },
+      "description": "Round-trip time measured across 3 echo requests per interval.",
+      "gridPos": {
+        "h": 8,
+        "w": 12,
+        "x": 12,
+        "y": 1
+      },
+      "fieldConfig": {
+        "defaults": {
+          "unit": "s",
+          "custom": {
+            "lineWidth": 2,
+            "fillOpacity": 15
+          },
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              },
+              {
+                "color": "yellow",
+                "value": 0.05
+              },
+              {
+                "color": "red",
+                "value": 0.1
+              }
+            ]
+          }
+        }
+      },
+      "targets": [
+        {
+          "group": {
+            "filter": "Network Devices"
+          },
+          "host": {
+            "filter": "$device"
+          },
+          "item": {
+            "filter": "ICMP response time"
+          },
+          "mode": 0,
+          "refId": "A",
+          "resultFormat": "time_series"
+        }
+      ]
+    },
+    {
+      "id": 4,
+      "type": "row",
+      "title": "Device Availability Heatmap & Outage Records",
+      "gridPos": {
+        "h": 1,
+        "w": 24,
+        "x": 0,
+        "y": 9
+      }
+    },
+    {
+      "id": 5,
+      "title": "Availability State History (1=Up, 0=Down)",
+      "type": "state-timeline",
+      "datasource": {
+        "type": "alexanderzobnin-zabbix-datasource",
+        "uid": "PA67C5EADE9207728"
+      },
+      "gridPos": {
+        "h": 8,
+        "w": 24,
+        "x": 0,
+        "y": 10
+      },
+      "fieldConfig": {
+        "defaults": {
+          "mappings": [
+            {
+              "type": "value",
+              "options": {
+                "1": {
+                  "text": "UP",
+                  "color": "green"
+                },
+                "0": {
+                  "text": "DOWN",
+                  "color": "red"
+                }
+              }
+            }
+          ],
+          "color": {
+            "mode": "thresholds"
+          }
+        }
+      },
+      "targets": [
+        {
+          "group": {
+            "filter": "Network Devices"
+          },
+          "host": {
+            "filter": "$device"
+          },
+          "item": {
+            "filter": "ICMP ping"
+          },
+          "mode": 0,
+          "refId": "A",
+          "resultFormat": "time_series"
+        }
+      ]
+    }
+  ]
+}

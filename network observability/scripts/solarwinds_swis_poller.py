@@ -30,26 +30,30 @@ sys.path.insert(0, "/app")
 logging.basicConfig(level=logging.INFO, format="%(asctime)s [%(levelname)s] %(name)s: %(message)s")
 logger = logging.getLogger("swis_poller")
 
-CONFIG_FILE = os.getenv("SOLARWINDS_CONFIG_FILE", "/home/admin.comms/nawari-network-core/persistent/secrets/solarwinds_credentials.json")
-PASSWORD_FILE = os.getenv("SOLARWINDS_PASSWORD_FILE", "/home/admin.comms/nawari-network-core/persistent/secrets/solarwinds_password")
+CONFIG_FILE = os.getenv("SOLARWINDS_CONFIG_FILE", "/home/admin.comms/nawari-network-core/persistent/secrets/solarwinds_service_account.json")
+PASSWORD_FILE = os.getenv("SOLARWINDS_PASSWORD_FILE", "/home/admin.comms/nawari-network-core/persistent/secrets/solarwinds_service_password")
 DB_FILE = os.getenv("NAWARI_DATABASE_FILE", "/run/app-secrets/database-runtime-url")
 
 
-def load_credentials() -> Dict[str, Any]:
+def load_credentials() -> Optional[Dict[str, Any]]:
     creds = {
         "host": "solarwinds.kenya-airways.com",
         "port": 17774,
-        "username": "kq_domain_1\\pascal.gathungu",
+        "username": "kq_domain_1\\svc_nawari_swis",
         "password": "",
         "auth_type": "basic",
         "verify_tls": False,
     }
-    if os.path.exists(CONFIG_FILE):
-        try:
-            with open(CONFIG_FILE, "r", encoding="utf-8") as f:
-                creds.update(json.load(f))
-        except Exception as e:
-            logger.warning("Failed to parse config file %s: %s", CONFIG_FILE, e)
+    if not os.path.exists(CONFIG_FILE):
+        logger.info("SolarWinds SWIS poller in STANDBY mode: dedicated service account file not found at %s", CONFIG_FILE)
+        return None
+
+    try:
+        with open(CONFIG_FILE, "r", encoding="utf-8") as f:
+            creds.update(json.load(f))
+    except Exception as e:
+        logger.warning("Failed to parse config file %s: %s", CONFIG_FILE, e)
+        return None
 
     if os.path.exists(PASSWORD_FILE):
         try:
@@ -57,6 +61,10 @@ def load_credentials() -> Dict[str, Any]:
                 creds["password"] = f.read().strip()
         except Exception as e:
             logger.warning("Failed to read password file %s: %s", PASSWORD_FILE, e)
+
+    if not creds.get("password") or "<MANAGED" in creds.get("password", ""):
+        logger.info("SolarWinds SWIS poller in STANDBY mode: service password pending vault provisioning.")
+        return None
 
     # Fallbacks from environment
     if os.getenv("SOLARWINDS_HOST"):
@@ -115,9 +123,9 @@ class SWISClient:
 def sync_inventory_and_reconcile() -> Dict[str, Any]:
     """Test SWIS connectivity, fetch inventory, and reconcile candidates."""
     creds = load_credentials()
-    if not creds["password"]:
-        logger.warning("No password available for SolarWinds SWIS synchronization.")
-        return {"status": "missing_credentials", "synced_nodes": 0}
+    if not creds or not creds.get("password"):
+        logger.info("SolarWinds SWIS poller standing by: Awaiting dedicated service account provisioning.")
+        return {"status": "standby_awaiting_service_account", "synced_nodes": 0}
 
     client = SWISClient(creds)
     now = time.time()

@@ -1,0 +1,127 @@
+{
+  "title": "Network Incident Investigation",
+  "uid": "nawari-net-incident",
+  "description": "Correlates Zabbix reachability/loss problems with matching SolarWinds Cisco syslog events in Grafana-Loki.",
+  "tags": [
+    "nawari",
+    "incident",
+    "investigation",
+    "correlation"
+  ],
+  "schemaVersion": 39,
+  "editable": true,
+  "time": {
+    "from": "now-3h",
+    "to": "now"
+  },
+  "refresh": "30s",
+  "templating": {
+    "list": [
+      {
+        "current": {
+          "selected": true,
+          "text": "All",
+          "value": "$__all"
+        },
+        "datasource": {
+          "type": "alexanderzobnin-zabbix-datasource",
+          "uid": "PA67C5EADE9207728"
+        },
+        "definition": "Network Devices.*",
+        "hide": 0,
+        "includeAll": true,
+        "multi": true,
+        "name": "device",
+        "options": [],
+        "query": {
+          "group": "Network Devices",
+          "queryType": "hosts"
+        },
+        "refresh": 1,
+        "type": "query",
+        "label": "Network Device"
+      }
+    ]
+  },
+  "panels": [
+    {
+      "id": 1,
+      "type": "row",
+      "title": "Correlated Problems & Anomaly Detection",
+      "gridPos": {
+        "h": 1,
+        "w": 24,
+        "x": 0,
+        "y": 0
+      }
+    },
+    {
+      "id": 2,
+      "title": "Active Zabbix Availability Incidents",
+      "type": "alexanderzobnin-zabbix-problems-panel",
+      "datasource": {
+        "type": "alexanderzobnin-zabbix-datasource",
+        "uid": "PA67C5EADE9207728"
+      },
+      "gridPos": {
+        "h": 6,
+        "w": 24,
+        "x": 0,
+        "y": 1
+      },
+      "targets": [
+        {
+          "group": {
+            "filter": "Network Devices"
+          },
+          "host": {
+            "filter": "$device"
+          },
+          "mode": 1,
+          "refId": "A"
+        }
+      ]
+    },
+    {
+      "id": 3,
+      "type": "row",
+      "title": "Correlated Cisco Log Events (Matching Window)",
+      "gridPos": {
+        "h": 1,
+        "w": 24,
+        "x": 0,
+        "y": 7
+      }
+    },
+    {
+      "id": 4,
+      "title": "Interface Flaps & Authentication Failures (%LINK / %AUTHMGR / %OSPF)",
+      "type": "logs",
+      "datasource": {
+        "type": "loki",
+        "uid": "P8E80F9AEF21F6940"
+      },
+      "gridPos": {
+        "h": 10,
+        "w": 24,
+        "x": 0,
+        "y": 8
+      },
+      "options": {
+        "showLabels": true,
+        "wrapLogMessage": true,
+        "enableLogDetails": true
+      },
+      "targets": [
+        {
+          "datasource": {
+            "type": "loki",
+            "uid": "P8E80F9AEF21F6940"
+          },
+          "expr": "{source=\"solarwinds\"} |~ \"(%LINK|%AUTHMGR|%DOT1X|%MAB|%OSPF|%ILPOWER)\"",
+          "refId": "A"
+        }
+      ]
+    }
+  ]
+}

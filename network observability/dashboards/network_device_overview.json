@@ -1,0 +1,504 @@
+{
+  "title": "Network Device Overview",
+  "uid": "nawari-net-overview",
+  "description": "Enterprise overview of 34 monitored network infrastructure devices in Zabbix Group 25.",
+  "tags": [
+    "nawari",
+    "network",
+    "overview",
+    "zabbix"
+  ],
+  "schemaVersion": 39,
+  "editable": true,
+  "fiscalYearStartMonth": 0,
+  "graphTooltip": 1,
+  "liveNow": false,
+  "time": {
+    "from": "now-6h",
+    "to": "now"
+  },
+  "refresh": "30s",
+  "templating": {
+    "list": [
+      {
+        "current": {
+          "selected": true,
+          "text": "All",
+          "value": "$__all"
+        },
+        "datasource": {
+          "type": "alexanderzobnin-zabbix-datasource",
+          "uid": "PA67C5EADE9207728"
+        },
+        "definition": "Network Devices.*",
+        "hide": 0,
+        "includeAll": true,
+        "multi": true,
+        "name": "device",
+        "options": [],
+        "query": {
+          "group": "Network Devices",
+          "queryType": "hosts"
+        },
+        "refresh": 1,
+        "type": "query",
+        "label": "Network Device"
+      }
+    ]
+  },
+  "panels": [
+    {
+      "id": 1,
+      "type": "row",
+      "title": "Fleet Health & Availability KPIs",
+      "gridPos": {
+        "h": 1,
+        "w": 24,
+        "x": 0,
+        "y": 0
+      }
+    },
+    {
+      "id": 2,
+      "title": "Total Devices Monitored",
+      "type": "stat",
+      "datasource": {
+        "type": "alexanderzobnin-zabbix-datasource",
+        "uid": "PA67C5EADE9207728"
+      },
+      "description": "Total network devices registered in Zabbix Group 25 (Network Devices).",
+      "gridPos": {
+        "h": 4,
+        "w": 6,
+        "x": 0,
+        "y": 1
+      },
+      "options": {
+        "colorMode": "value",
+        "graphMode": "none",
+        "justifyMode": "auto",
+        "reduceOptions": {
+          "calcs": [
+            "count"
+          ],
+          "values": false
+        }
+      },
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "fixed",
+            "fixedColor": "blue"
+          },
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "blue",
+                "value": null
+              }
+            ]
+          }
+        }
+      },
+      "targets": [
+        {
+          "group": {
+            "filter": "Network Devices"
+          },
+          "host": {
+            "filter": "/.*/"
+          },
+          "item": {
+            "filter": "ICMP ping"
+          },
+          "mode": 0,
+          "options": {
+            "showDisabledItems": false
+          },
+          "refId": "A",
+          "resultFormat": "time_series"
+        }
+      ]
+    },
+    {
+      "id": 3,
+      "title": "ICMP Reachable Devices",
+      "type": "stat",
+      "datasource": {
+        "type": "alexanderzobnin-zabbix-datasource",
+        "uid": "PA67C5EADE9207728"
+      },
+      "description": "Number of network devices currently responding to ICMP ping echo requests.",
+      "gridPos": {
+        "h": 4,
+        "w": 6,
+        "x": 6,
+        "y": 1
+      },
+      "options": {
+        "colorMode": "background",
+        "graphMode": "none",
+        "justifyMode": "auto",
+        "reduceOptions": {
+          "calcs": [
+            "lastNotNull"
+          ],
+          "values": false
+        }
+      },
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "thresholds"
+          },
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "red",
+                "value": null
+              },
+              {
+                "color": "yellow",
+                "value": 30
+              },
+              {
+                "color": "green",
+                "value": 34
+              }
+            ]
+          }
+        }
+      },
+      "targets": [
+        {
+          "group": {
+            "filter": "Network Devices"
+          },
+          "host": {
+            "filter": "/.*/"
+          },
+          "item": {
+            "filter": "ICMP ping"
+          },
+          "mode": 0,
+          "options": {
+            "showDisabledItems": false
+          },
+          "refId": "A",
+          "resultFormat": "time_series"
+        }
+      ]
+    },
+    {
+      "id": 4,
+      "title": "Average Fleet RTT Latency",
+      "type": "stat",
+      "datasource": {
+        "type": "alexanderzobnin-zabbix-datasource",
+        "uid": "PA67C5EADE9207728"
+      },
+      "description": "Average ICMP ping response time measured across all reachable devices.",
+      "gridPos": {
+        "h": 4,
+        "w": 6,
+        "x": 12,
+        "y": 1
+      },
+      "options": {
+        "colorMode": "value",
+        "graphMode": "area",
+        "justifyMode": "auto",
+        "reduceOptions": {
+          "calcs": [
+            "mean"
+          ],
+          "values": false
+        }
+      },
+      "fieldConfig": {
+        "defaults": {
+          "unit": "s",
+          "color": {
+            "mode": "thresholds"
+          },
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              },
+              {
+                "color": "yellow",
+                "value": 0.05
+              },
+              {
+                "color": "red",
+                "value": 0.1
+              }
+            ]
+          }
+        }
+      },
+      "targets": [
+        {
+          "group": {
+            "filter": "Network Devices"
+          },
+          "host": {
+            "filter": "/.*/"
+          },
+          "item": {
+            "filter": "ICMP response time"
+          },
+          "mode": 0,
+          "options": {
+            "showDisabledItems": false
+          },
+          "refId": "A",
+          "resultFormat": "time_series"
+        }
+      ]
+    },
+    {
+      "id": 5,
+      "title": "Active Zabbix Problems",
+      "type": "stat",
+      "datasource": {
+        "type": "alexanderzobnin-zabbix-datasource",
+        "uid": "PA67C5EADE9207728"
+      },
+      "description": "Current active unacknowledged problems across Network Devices.",
+      "gridPos": {
+        "h": 4,
+        "w": 6,
+        "x": 18,
+        "y": 1
+      },
+      "options": {
+        "colorMode": "background",
+        "graphMode": "none",
+        "justifyMode": "auto"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "thresholds"
+          },
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              },
+              {
+                "color": "red",
+                "value": 1
+              }
+            ]
+          }
+        }
+      },
+      "targets": [
+        {
+          "group": {
+            "filter": "Network Devices"
+          },
+          "host": {
+            "filter": "/.*/"
+          },
+          "mode": 1,
+          "refId": "A"
+        }
+      ]
+    },
+    {
+      "id": 6,
+      "type": "row",
+      "title": "Fleet Availability & Latency Matrix",
+      "gridPos": {
+        "h": 1,
+        "w": 24,
+        "x": 0,
+        "y": 5
+      }
+    },
+    {
+      "id": 7,
+      "title": "Live ICMP Latency Trend (All 34 Devices)",
+      "type": "timeseries",
+      "datasource": {
+        "type": "alexanderzobnin-zabbix-datasource",
+        "uid": "PA67C5EADE9207728"
+      },
+      "description": "Real-time ICMP response time in seconds collected by Zabbix Server fping.",
+      "gridPos": {
+        "h": 8,
+        "w": 16,
+        "x": 0,
+        "y": 6
+      },
+      "options": {
+        "legend": {
+          "calcs": [
+            "mean",
+            "max",
+            "lastNotNull"
+          ],
+          "displayMode": "table",
+          "placement": "right"
+        }
+      },
+      "fieldConfig": {
+        "defaults": {
+          "unit": "s",
+          "custom": {
+            "lineWidth": 1,
+            "fillOpacity": 10
+          },
+          "color": {
+            "mode": "palette-classic"
+          }
+        }
+      },
+      "targets": [
+        {
+          "group": {
+            "filter": "Network Devices"
+          },
+          "host": {
+            "filter": "$device"
+          },
+          "item": {
+            "filter": "ICMP response time"
+          },
+          "mode": 0,
+          "refId": "A",
+          "resultFormat": "time_series"
+        }
+      ]
+    },
+    {
+      "id": 8,
+      "title": "Device Status Table",
+      "type": "table",
+      "datasource": {
+        "type": "alexanderzobnin-zabbix-datasource",
+        "uid": "PA67C5EADE9207728"
+      },
+      "description": "Latest ICMP reachability status (1=Up, 0=Down) and measured response times.",
+      "gridPos": {
+        "h": 8,
+        "w": 8,
+        "x": 16,
+        "y": 6
+      },
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "thresholds"
+          },
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "red",
+                "value": null
+              },
+              {
+                "color": "green",
+                "value": 1
+              }
+            ]
+          }
+        },
+        "overrides": [
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "Value"
+            },
+            "properties": [
+              {
+                "id": "mappings",
+                "value": [
+                  {
+                    "type": "value",
+                    "options": {
+                      "1": {
+                        "text": "UP",
+                        "color": "green"
+                      },
+                      "0": {
+                        "text": "DOWN",
+                        "color": "red"
+                      }
+                    }
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      },
+      "targets": [
+        {
+          "group": {
+            "filter": "Network Devices"
+          },
+          "host": {
+            "filter": "$device"
+          },
+          "item": {
+            "filter": "ICMP ping"
+          },
+          "mode": 0,
+          "refId": "A",
+          "resultFormat": "time_series"
+        }
+      ]
+    },
+    {
+      "id": 9,
+      "type": "row",
+      "title": "Active Problem Incidents Feed",
+      "gridPos": {
+        "h": 1,
+        "w": 24,
+        "x": 0,
+        "y": 14
+      }
+    },
+    {
+      "id": 10,
+      "title": "Active Zabbix Triggers & Problem Events",
+      "type": "alexanderzobnin-zabbix-problems-panel",
+      "datasource": {
+        "type": "alexanderzobnin-zabbix-datasource",
+        "uid": "PA67C5EADE9207728"
+      },
+      "gridPos": {
+        "h": 6,
+        "w": 24,
+        "x": 0,
+        "y": 15
+      },
+      "targets": [
+        {
+          "group": {
+            "filter": "Network Devices"
+          },
+          "host": {
+            "filter": "$device"
+          },
+          "mode": 1,
+          "refId": "A"
+        }
+      ]
+    }
+  ]
+}
