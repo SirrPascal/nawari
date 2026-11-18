@@ -30,14 +30,14 @@
         "definition": "Network Devices.*",
         "hide": 0,
         "includeAll": true,
+        "allValue": ".*",
         "multi": true,
         "name": "device",
         "options": [],
-        "query": {
-          "group": "Network Devices",
-          "queryType": "hosts"
-        },
+        "query": "Network Devices.*",
         "refresh": 1,
+        "regex": "",
+        "sort": 1,
         "type": "query",
         "label": "Network Device"
       }
@@ -111,7 +111,7 @@
             "filter": "Network Devices"
           },
           "host": {
-            "filter": "$device"
+            "filter": "/${device:regex}/"
           },
           "item": {
             "filter": "/Bits (received|sent)/"
@@ -152,7 +152,7 @@
             "filter": "Network Devices"
           },
           "host": {
-            "filter": "$device"
+            "filter": "/${device:regex}/"
           },
           "item": {
             "filter": "/(Inbound|Outbound) packets with errors/"

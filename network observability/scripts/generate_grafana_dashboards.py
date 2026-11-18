@@ -31,14 +31,14 @@ def make_template_variable():
                 "definition": "Network Devices.*",
                 "hide": 0,
                 "includeAll": True,
+                "allValue": ".*",
                 "multi": True,
                 "name": "device",
                 "options": [],
-                "query": {
-                    "group": "Network Devices",
-                    "queryType": "hosts"
-                },
+                "query": "Network Devices.*",
                 "refresh": 1,
+                "regex": "",
+                "sort": 1,
                 "type": "query",
                 "label": "Network Device"
             }
@@ -80,6 +80,14 @@ def build_overview():
                     "justifyMode": "auto",
                     "reduceOptions": {"calcs": ["count"], "values": False}
                 },
+                "transformations": [
+                    {
+                        "id": "reduce",
+                        "options": {
+                            "reducers": ["count"]
+                        }
+                    }
+                ],
                 "fieldConfig": {
                     "defaults": {
                         "color": {"mode": "fixed", "fixedColor": "blue"},
@@ -110,8 +118,16 @@ def build_overview():
                     "colorMode": "background",
                     "graphMode": "none",
                     "justifyMode": "auto",
-                    "reduceOptions": {"calcs": ["lastNotNull"], "values": False}
+                    "reduceOptions": {"calcs": ["count"], "values": False}
                 },
+                "transformations": [
+                    {
+                        "id": "reduce",
+                        "options": {
+                            "reducers": ["count"]
+                        }
+                    }
+                ],
                 "fieldConfig": {
                     "defaults": {
                         "color": {"mode": "thresholds"},
@@ -150,6 +166,14 @@ def build_overview():
                     "justifyMode": "auto",
                     "reduceOptions": {"calcs": ["mean"], "values": False}
                 },
+                "transformations": [
+                    {
+                        "id": "reduce",
+                        "options": {
+                            "reducers": ["mean"]
+                        }
+                    }
+                ],
                 "fieldConfig": {
                     "defaults": {
                         "unit": "s",
@@ -186,10 +210,12 @@ def build_overview():
                 "options": {
                     "colorMode": "background",
                     "graphMode": "none",
-                    "justifyMode": "auto"
+                    "justifyMode": "auto",
+                    "reduceOptions": {"calcs": ["count"], "values": False}
                 },
                 "fieldConfig": {
                     "defaults": {
+                        "noValue": "0",
                         "color": {"mode": "thresholds"},
                         "thresholds": {
                             "mode": "absolute",
@@ -235,7 +261,7 @@ def build_overview():
                 "targets": [
                     {
                         "group": {"filter": "Network Devices"},
-                        "host": {"filter": "$device"},
+                        "host": {"filter": "/${device:regex}/"},
                         "item": {"filter": "ICMP response time"},
                         "mode": 0,
                         "refId": "A",
@@ -278,7 +304,7 @@ def build_overview():
                 "targets": [
                     {
                         "group": {"filter": "Network Devices"},
-                        "host": {"filter": "$device"},
+                        "host": {"filter": "/${device:regex}/"},
                         "item": {"filter": "ICMP ping"},
                         "mode": 0,
                         "refId": "A",
@@ -301,7 +327,7 @@ def build_overview():
                 "targets": [
                     {
                         "group": {"filter": "Network Devices"},
-                        "host": {"filter": "$device"},
+                        "host": {"filter": "/${device:regex}/"},
                         "mode": 1,
                         "refId": "A"
                     }
@@ -353,7 +379,7 @@ def build_availability():
                 "targets": [
                     {
                         "group": {"filter": "Network Devices"},
-                        "host": {"filter": "$device"},
+                        "host": {"filter": "/${device:regex}/"},
                         "item": {"filter": "ICMP loss"},
                         "mode": 0,
                         "refId": "A",
@@ -385,7 +411,7 @@ def build_availability():
                 "targets": [
                     {
                         "group": {"filter": "Network Devices"},
-                        "host": {"filter": "$device"},
+                        "host": {"filter": "/${device:regex}/"},
                         "item": {"filter": "ICMP response time"},
                         "mode": 0,
                         "refId": "A",
@@ -416,7 +442,7 @@ def build_availability():
                 "targets": [
                     {
                         "group": {"filter": "Network Devices"},
-                        "host": {"filter": "$device"},
+                        "host": {"filter": "/${device:regex}/"},
                         "item": {"filter": "ICMP ping"},
                         "mode": 0,
                         "refId": "A",
@@ -479,7 +505,7 @@ def build_performance():
                 "targets": [
                     {
                         "group": {"filter": "Network Devices"},
-                        "host": {"filter": "$device"},
+                        "host": {"filter": "/${device:regex}/"},
                         "item": {"filter": "/Bits (received|sent)/"},
                         "mode": 0,
                         "refId": "A",
@@ -504,7 +530,7 @@ def build_performance():
                 "targets": [
                     {
                         "group": {"filter": "Network Devices"},
-                        "host": {"filter": "$device"},
+                        "host": {"filter": "/${device:regex}/"},
                         "item": {"filter": "/(Inbound|Outbound) packets with errors/"},
                         "mode": 0,
                         "refId": "A",
@@ -624,7 +650,7 @@ def build_incident_investigation():
                 "targets": [
                     {
                         "group": {"filter": "Network Devices"},
-                        "host": {"filter": "$device"},
+                        "host": {"filter": "/${device:regex}/"},
                         "mode": 1,
                         "refId": "A"
                     }
@@ -682,6 +708,17 @@ def build_coverage():
                 "type": "gauge",
                 "datasource": ZBX_DS,
                 "gridPos": {"h": 6, "w": 6, "x": 0, "y": 1},
+                "options": {
+                    "reduceOptions": {"calcs": ["count"], "values": False}
+                },
+                "transformations": [
+                    {
+                        "id": "reduce",
+                        "options": {
+                            "reducers": ["count"]
+                        }
+                    }
+                ],
                 "fieldConfig": {
                     "defaults": {
                         "min": 0,
@@ -708,16 +745,19 @@ def build_coverage():
                 "gridPos": {"h": 6, "w": 6, "x": 6, "y": 1},
                 "fieldConfig": {
                     "defaults": {
-                        "color": {"mode": "fixed", "fixedColor": "green"}
+                        "color": {"mode": "fixed", "fixedColor": "green"},
+                        "unit": "short"
                     }
                 },
                 "options": {
-                    "reduceOptions": {"calcs": ["count"]}
+                    "colorMode": "value",
+                    "graphMode": "none",
+                    "reduceOptions": {"calcs": ["lastNotNull"]}
                 },
                 "targets": [
                     {
                         "datasource": LOKI_DS,
-                        "expr": "count_over_time({source=\"solarwinds\"}[24h])",
+                        "expr": "sum(count_over_time({source=\"solarwinds\"}[$__range]))",
                         "refId": "A"
                     }
                 ]

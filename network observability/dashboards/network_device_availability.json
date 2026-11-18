@@ -30,14 +30,14 @@
         "definition": "Network Devices.*",
         "hide": 0,
         "includeAll": true,
+        "allValue": ".*",
         "multi": true,
         "name": "device",
         "options": [],
-        "query": {
-          "group": "Network Devices",
-          "queryType": "hosts"
-        },
+        "query": "Network Devices.*",
         "refresh": 1,
+        "regex": "",
+        "sort": 1,
         "type": "query",
         "label": "Network Device"
       }
@@ -102,7 +102,7 @@
             "filter": "Network Devices"
           },
           "host": {
-            "filter": "$device"
+            "filter": "/${device:regex}/"
           },
           "item": {
             "filter": "ICMP loss"
@@ -160,7 +160,7 @@
             "filter": "Network Devices"
           },
           "host": {
-            "filter": "$device"
+            "filter": "/${device:regex}/"
           },
           "item": {
             "filter": "ICMP response time"
@@ -224,7 +224,7 @@
             "filter": "Network Devices"
           },
           "host": {
-            "filter": "$device"
+            "filter": "/${device:regex}/"
           },
           "item": {
             "filter": "ICMP ping"

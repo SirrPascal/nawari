@@ -74,6 +74,22 @@ const TOKEN = '6000qUmkV9sm1QNgbPcrn2GTnVim1Qkv9XlLAgo6GvLjwHLSOm8HvQ';
   await page.screenshot({ path: shot5, fullPage: true });
   console.log(`[Playwright] Captured: ${shot5}`);
 
+  // 6. Grafana Network Interface Performance Dashboard
+  console.log('[Playwright] Navigating to Grafana Network Interface Performance...');
+  await page.goto(`${BASE_URL}/grafana/d/nawari-net-perf/network-interface-performance?orgId=1`, { waitUntil: 'domcontentloaded' });
+  await page.waitForTimeout(4000);
+  const shot6 = path.join(SCREENSHOTS_DIR, '96_grafana_interface_performance.png');
+  await page.screenshot({ path: shot6, fullPage: true });
+  console.log(`[Playwright] Captured: ${shot6}`);
+
+  // 7. Grafana Monitoring Coverage and Data Quality Dashboard
+  console.log('[Playwright] Navigating to Grafana Monitoring Coverage & Quality...');
+  await page.goto(`${BASE_URL}/grafana/d/nawari-net-coverage/monitoring-coverage-and-data-quality?orgId=1`, { waitUntil: 'domcontentloaded' });
+  await page.waitForTimeout(4000);
+  const shot7 = path.join(SCREENSHOTS_DIR, '97_grafana_monitoring_coverage.png');
+  await page.screenshot({ path: shot7, fullPage: true });
+  console.log(`[Playwright] Captured: ${shot7}`);
+
   await browser.close();
   console.log('[Playwright] Verification captures complete!');
 })();

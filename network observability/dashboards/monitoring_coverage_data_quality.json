@@ -41,6 +41,24 @@
         "x": 0,
         "y": 1
       },
+      "options": {
+        "reduceOptions": {
+          "calcs": [
+            "count"
+          ],
+          "values": false
+        }
+      },
+      "transformations": [
+        {
+          "id": "reduce",
+          "options": {
+            "reducers": [
+              "count"
+            ]
+          }
+        }
+      ],
       "fieldConfig": {
         "defaults": {
           "min": 0,
@@ -98,13 +116,16 @@
           "color": {
             "mode": "fixed",
             "fixedColor": "green"
-          }
+          },
+          "unit": "short"
         }
       },
       "options": {
+        "colorMode": "value",
+        "graphMode": "none",
         "reduceOptions": {
           "calcs": [
-            "count"
+            "lastNotNull"
           ]
         }
       },
@@ -114,7 +135,7 @@
             "type": "loki",
             "uid": "P8E80F9AEF21F6940"
           },
-          "expr": "count_over_time({source=\"solarwinds\"}[24h])",
+          "expr": "sum(count_over_time({source=\"solarwinds\"}[$__range]))",
           "refId": "A"
         }
       ]
