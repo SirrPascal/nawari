@@ -10,6 +10,7 @@ import json
 import logging
 import os
 from pathlib import Path
+import re
 import secrets
 import sqlite3
 import time
@@ -103,8 +104,27 @@ class Database:
                 session.execute("SELECT pg_advisory_xact_lock(714202611)")
             for migration in sorted((Path(__file__).parent / "migrations").glob("[0-9][0-9][0-9]_*.sql")):
                 for statement in sql_statements(migration.read_text()):
-                    if statement.strip():
-                        session.execute(statement)
+                    stripped = statement.strip()
+                    if not stripped:
+                        continue
+                    clean_sql = re.sub(r"--[^\n]*|/\*.*?\*/", "", stripped).strip()
+                    if not self.postgres and re.search(r"ALTER\s+TABLE\s+\w+\s+ADD\s+COLUMN", clean_sql, re.IGNORECASE):
+                        match = re.search(r"ALTER\s+TABLE\s+(\w+)\s+(.+)", clean_sql, re.IGNORECASE | re.DOTALL)
+                        if match:
+                            table_name, body = match.groups()
+                            body = body.strip().rstrip(";")
+                            add_parts = re.split(r",?\s*ADD\s+COLUMN\s+(?:IF\s+NOT\s+EXISTS\s+)?", body, flags=re.IGNORECASE)
+                            existing_cols = {row["name"] for row in session.all(f"PRAGMA table_info({table_name})")}
+                            for part in add_parts:
+                                part = part.strip()
+                                if not part:
+                                    continue
+                                col_name = part.split()[0]
+                                if col_name not in existing_cols:
+                                    session.execute(f"ALTER TABLE {table_name} ADD COLUMN {part}")
+                                    existing_cols.add(col_name)
+                            continue
+                    session.execute(statement)
             if self.postgres:
                 columns = {row["column_name"] for row in session.all("SELECT column_name FROM information_schema.columns WHERE table_name='evidence'")}
             else:
