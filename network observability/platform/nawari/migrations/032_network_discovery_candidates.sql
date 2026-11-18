@@ -1,0 +1,30 @@
+-- Migration 032: Network Discovery & Candidate Device Reconciliation
+
+CREATE TABLE IF NOT EXISTS network_discovery_candidates (
+    ip_address TEXT PRIMARY KEY,
+    inferred_name TEXT NOT NULL,
+    inferred_role TEXT NOT NULL DEFAULT 'switch_candidate',
+    discovery_source TEXT NOT NULL,
+    observed_log_count INTEGER NOT NULL DEFAULT 0,
+    sample_ports TEXT,
+    dominant_events TEXT,
+    sample_log TEXT,
+    icmp_status TEXT NOT NULL DEFAULT 'untested',
+    icmp_rtt_ms DOUBLE PRECISION,
+    icmp_loss_pct DOUBLE PRECISION,
+    snmp_status TEXT NOT NULL DEFAULT 'pending',
+    snmp_sys_name TEXT,
+    snmp_sys_descr TEXT,
+    snmp_sys_object_id TEXT,
+    solarwinds_status TEXT NOT NULL DEFAULT 'pending_swis_auth',
+    solarwinds_node_id TEXT,
+    zabbix_status TEXT NOT NULL DEFAULT 'unregistered',
+    zabbix_hostid TEXT,
+    canonical_id TEXT,
+    verification_status TEXT NOT NULL DEFAULT 'pending_verification',
+    evidence_trail TEXT,
+    last_probed_at DOUBLE PRECISION,
+    last_seen_at DOUBLE PRECISION,
+    created_at DOUBLE PRECISION,
+    updated_at DOUBLE PRECISION
+);
