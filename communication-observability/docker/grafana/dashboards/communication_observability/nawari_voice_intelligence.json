@@ -715,10 +715,10 @@
     },
     {
       "datasource": {
-        "type": "alexanderzobnin-zabbix-datasource",
-        "uid": "PA67C5EADE9207728"
+        "type": "grafana-postgresql-datasource",
+        "uid": "nawari-homer-postgres"
       },
-      "description": "Recent correlated voice calls with signaling outcome, Q.850 cause code, and topology verification status. Source: Nawari Voice Intelligence Engine. Missing data indicates collector outage, agent failure, or network disruption; values are preserved as null gaps.",
+      "description": "Chronological captured SIP call sessions with protocol headers, endpoints, and method outcomes. Source: Heplify Server & Homer Data PostgreSQL. Missing data indicates collector outage, agent failure, or network disruption; values are preserved as null gaps.",
       "fieldConfig": {
         "defaults": {},
         "overrides": []
@@ -735,22 +735,16 @@
       },
       "targets": [
         {
-          "group": {
-            "name": "Voice Infrastructure"
+          "datasource": {
+            "type": "grafana-postgresql-datasource",
+            "uid": "nawari-homer-postgres"
           },
-          "host": {
-            "name": "/.*/"
-          },
-          "application": {
-            "name": "Correlated Calls"
-          },
-          "item": {
-            "name": "Recent Correlated Calls Stream"
-          },
-          "refId": "CALLS"
+          "format": "table",
+          "rawSql": "SELECT create_date AS \"time\", sid AS \"call_id\", COALESCE(data_header->>'from_user', 'anonymous') AS \"from\", COALESCE(data_header->>'to_user', 'unknown') AS \"to\", COALESCE(data_header->>'method', 'SIP') AS \"method\", data_header->>'cseq' AS \"cseq\", protocol_header->>'srcIp' AS \"src_ip\", protocol_header->>'dstIp' AS \"dst_ip\" FROM hep_proto_1_call WHERE $__timeFilter(create_date) ORDER BY create_date DESC LIMIT 50;",
+          "refId": "A"
         }
       ],
-      "title": "Recent Correlated Voice Call Sessions [CORRELATED PROBES]",
+      "title": "Recent Captured SIP Call Sessions [REAL — HOMER / HEPLIFY]",
       "type": "table"
     }
   ],
