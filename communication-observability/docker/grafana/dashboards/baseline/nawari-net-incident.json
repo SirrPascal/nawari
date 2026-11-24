@@ -1,0 +1,167 @@
+{
+  "meta": {
+    "type": "db",
+    "canSave": true,
+    "canEdit": true,
+    "canAdmin": true,
+    "canStar": true,
+    "canDelete": true,
+    "slug": "network-incident-investigation",
+    "url": "/grafana/d/nawari-net-incident/network-incident-investigation",
+    "expires": "0001-01-01T00:00:00Z",
+    "created": "2026-11-18T15:11:49Z",
+    "updated": "2026-11-18T15:47:34Z",
+    "updatedBy": "Anonymous",
+    "createdBy": "Anonymous",
+    "version": 2,
+    "hasAcl": false,
+    "isFolder": false,
+    "folderId": 1,
+    "folderUid": "nawari-network-obs",
+    "folderTitle": "Nawari / Network Observability",
+    "folderUrl": "/grafana/dashboards/f/nawari-network-obs/nawari-network-observability",
+    "provisioned": false,
+    "provisionedExternalId": "network_incident_investigation.json",
+    "annotationsPermissions": {
+      "dashboard": {
+        "canAdd": true,
+        "canEdit": true,
+        "canDelete": true
+      },
+      "organization": {
+        "canAdd": true,
+        "canEdit": true,
+        "canDelete": true
+      }
+    }
+  },
+  "dashboard": {
+    "description": "Correlates Zabbix reachability/loss problems with matching SolarWinds Cisco syslog events in Grafana-Loki.",
+    "editable": true,
+    "id": 31,
+    "panels": [
+      {
+        "gridPos": {
+          "h": 1,
+          "w": 24,
+          "x": 0,
+          "y": 0
+        },
+        "id": 1,
+        "title": "Correlated Problems & Anomaly Detection",
+        "type": "row"
+      },
+      {
+        "datasource": {
+          "type": "alexanderzobnin-zabbix-datasource",
+          "uid": "PA67C5EADE9207728"
+        },
+        "gridPos": {
+          "h": 6,
+          "w": 24,
+          "x": 0,
+          "y": 1
+        },
+        "id": 2,
+        "targets": [
+          {
+            "group": {
+              "filter": "Network Devices"
+            },
+            "host": {
+              "filter": "/${device:regex}/"
+            },
+            "mode": 1,
+            "refId": "A"
+          }
+        ],
+        "title": "Active Zabbix Availability Incidents",
+        "type": "alexanderzobnin-zabbix-problems-panel"
+      },
+      {
+        "gridPos": {
+          "h": 1,
+          "w": 24,
+          "x": 0,
+          "y": 7
+        },
+        "id": 3,
+        "title": "Correlated Cisco Log Events (Matching Window)",
+        "type": "row"
+      },
+      {
+        "datasource": {
+          "type": "loki",
+          "uid": "P8E80F9AEF21F6940"
+        },
+        "gridPos": {
+          "h": 10,
+          "w": 24,
+          "x": 0,
+          "y": 8
+        },
+        "id": 4,
+        "options": {
+          "enableLogDetails": true,
+          "showLabels": true,
+          "wrapLogMessage": true
+        },
+        "targets": [
+          {
+            "datasource": {
+              "type": "loki",
+              "uid": "P8E80F9AEF21F6940"
+            },
+            "expr": "{source=\"solarwinds\"} |~ \"(%LINK|%AUTHMGR|%DOT1X|%MAB|%OSPF|%ILPOWER)\"",
+            "refId": "A"
+          }
+        ],
+        "title": "Interface Flaps & Authentication Failures (%LINK / %AUTHMGR / %OSPF)",
+        "type": "logs"
+      }
+    ],
+    "refresh": "30s",
+    "schemaVersion": 39,
+    "tags": [
+      "nawari",
+      "incident",
+      "investigation",
+      "correlation"
+    ],
+    "templating": {
+      "list": [
+        {
+          "allValue": ".*",
+          "current": {
+            "selected": true,
+            "text": "All",
+            "value": "$__all"
+          },
+          "datasource": {
+            "type": "alexanderzobnin-zabbix-datasource",
+            "uid": "PA67C5EADE9207728"
+          },
+          "definition": "Network Devices.*",
+          "hide": 0,
+          "includeAll": true,
+          "label": "Network Device",
+          "multi": true,
+          "name": "device",
+          "options": [],
+          "query": "Network Devices.*",
+          "refresh": 1,
+          "regex": "",
+          "sort": 1,
+          "type": "query"
+        }
+      ]
+    },
+    "time": {
+      "from": "now-3h",
+      "to": "now"
+    },
+    "title": "Network Incident Investigation",
+    "uid": "nawari-net-incident",
+    "version": 2
+  }
+}

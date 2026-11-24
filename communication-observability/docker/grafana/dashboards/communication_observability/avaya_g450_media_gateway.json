@@ -5,7 +5,7 @@
   "editable": true,
   "fiscalYearStartMonth": 0,
   "graphTooltip": 1,
-  "id": null,
+  "id": 40,
   "links": [],
   "liveNow": false,
   "panels": [
@@ -56,19 +56,24 @@
       },
       "targets": [
         {
+          "refId": "A",
+          "datasource": {
+            "type": "alexanderzobnin-zabbix-datasource",
+            "uid": "PA67C5EADE9207728"
+          },
           "group": {
-            "name": "Voice Infrastructure"
+            "filter": "/.*/"
           },
           "host": {
-            "name": "avaya-g450-01"
+            "filter": "Avaya G450 Media Gateway (HQ-GATEWAY)"
           },
           "item": {
-            "name": "Chassis System Uptime"
+            "filter": "ICMP ping"
           },
-          "refId": "UPTIME"
+          "mode": 0
         }
       ],
-      "title": "G450 System Uptime [REAL \u2014 HARDWARE]",
+      "title": "G450 Management Reachability (ICMP) [REAL \u2014 ZABBIX]",
       "type": "stat"
     },
     {
@@ -144,7 +149,7 @@
             "name": "Voice Infrastructure"
           },
           "host": {
-            "name": "avaya-g450-01"
+            "filter": "Avaya G450 Media Gateway (HQ-GATEWAY)"
           },
           "item": {
             "name": "Gateway CM Registration State"
@@ -232,7 +237,7 @@
             "name": "Voice Infrastructure"
           },
           "host": {
-            "name": "avaya-g450-01"
+            "filter": "Avaya G450 Media Gateway (HQ-GATEWAY)"
           },
           "item": {
             "name": "Internal Chassis Temperature Alarm State"
@@ -316,7 +321,7 @@
             "name": "Voice Infrastructure"
           },
           "host": {
-            "name": "avaya-g450-01"
+            "filter": "Avaya G450 Media Gateway (HQ-GATEWAY)"
           },
           "item": {
             "name": "Primary Power Supply Status"
@@ -328,7 +333,7 @@
             "name": "Voice Infrastructure"
           },
           "host": {
-            "name": "avaya-g450-01"
+            "filter": "Avaya G450 Media Gateway (HQ-GATEWAY)"
           },
           "item": {
             "name": "Secondary Power Supply Status (Redundant)"
@@ -420,7 +425,7 @@
             "name": "Voice Infrastructure"
           },
           "host": {
-            "name": "avaya-g450-01"
+            "filter": "Avaya G450 Media Gateway (HQ-GATEWAY)"
           },
           "item": {
             "name": "E1/ISDN Primary Trunk Port Operational Status"
@@ -482,7 +487,7 @@
             "name": "Voice Infrastructure"
           },
           "host": {
-            "name": "avaya-g450-01"
+            "filter": "Avaya G450 Media Gateway (HQ-GATEWAY)"
           },
           "item": {
             "name": "avG450DspChannelUtilization"
@@ -566,7 +571,7 @@
             "name": "Voice Infrastructure"
           },
           "host": {
-            "name": "avaya-g450-01"
+            "filter": "Avaya G450 Media Gateway (HQ-GATEWAY)"
           },
           "item": {
             "name": "Chassis Fan Tray State"
@@ -611,14 +616,14 @@
       },
       "targets": [
         {
+          "application": {
+            "name": "Media Modules"
+          },
           "group": {
             "name": "Voice Infrastructure"
           },
           "host": {
-            "name": "avaya-g450-01"
-          },
-          "application": {
-            "name": "Media Modules"
+            "filter": "Avaya G450 Media Gateway (HQ-GATEWAY)"
           },
           "item": {
             "name": "Discovered Media Modules Table"

@@ -1,40 +1,35 @@
 {
-  "title": "SolarWinds Cisco Logs & Events",
-  "uid": "nawari-sw-cisco-logs",
   "description": "Searchable Cisco operational events forwarded from SolarWinds (10.2.131.75) stored in Grafana-Loki with 5-day retention.",
-  "tags": [
-    "nawari",
-    "logs",
-    "loki",
-    "cisco",
-    "solarwinds"
-  ],
-  "schemaVersion": 39,
   "editable": true,
-  "time": {
-    "from": "now-1h",
-    "to": "now"
-  },
-  "refresh": "10s",
+  "id": 29,
   "panels": [
     {
-      "id": 1,
-      "type": "row",
-      "title": "Event Volumes & Facility Breakdown",
       "gridPos": {
         "h": 1,
         "w": 24,
         "x": 0,
         "y": 0
-      }
+      },
+      "id": 1,
+      "title": "Event Volumes & Facility Breakdown",
+      "type": "row"
     },
     {
-      "id": 2,
-      "title": "Cisco Log Volume by Facility",
-      "type": "timeseries",
       "datasource": {
         "type": "loki",
         "uid": "P8E80F9AEF21F6940"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "custom": {
+            "drawStyle": "bars",
+            "fillOpacity": 40,
+            "stacking": {
+              "mode": "normal"
+            }
+          },
+          "unit": "short"
+        }
       },
       "gridPos": {
         "h": 7,
@@ -42,33 +37,23 @@
         "x": 0,
         "y": 1
       },
-      "fieldConfig": {
-        "defaults": {
-          "unit": "short",
-          "custom": {
-            "drawStyle": "bars",
-            "fillOpacity": 40,
-            "stacking": {
-              "mode": "normal"
-            }
-          }
-        }
-      },
+      "id": 2,
       "targets": [
         {
+          "refId": "A",
           "datasource": {
             "type": "loki",
             "uid": "P8E80F9AEF21F6940"
           },
-          "expr": "sum by (cisco_facility) (count_over_time({source=\"solarwinds\"}[$__interval]))",
-          "refId": "A"
+          "expr": "sum by (cisco_facility) (rate({source=\"solarwinds\", environment=\"production\"}[$__interval]))",
+          "queryType": "range"
         }
-      ]
+      ],
+      "title": "Cisco Log Rate by Facility (logs/sec)",
+      "type": "timeseries",
+      "interval": "1m"
     },
     {
-      "id": 3,
-      "title": "Events by Severity Level",
-      "type": "piechart",
       "datasource": {
         "type": "loki",
         "uid": "P8E80F9AEF21F6940"
@@ -79,32 +64,34 @@
         "x": 16,
         "y": 1
       },
+      "id": 3,
       "targets": [
         {
+          "refId": "A",
           "datasource": {
             "type": "loki",
             "uid": "P8E80F9AEF21F6940"
           },
-          "expr": "sum by (cisco_severity) (count_over_time({source=\"solarwinds\"}[$__range]))",
-          "refId": "A"
+          "expr": "sum by (cisco_severity) (count_over_time({source=\"solarwinds\", environment=\"production\"}[$__range]))",
+          "instant": true,
+          "queryType": "instant"
         }
-      ]
+      ],
+      "title": "Events by Severity Level (Selected Time Range)",
+      "type": "piechart"
     },
     {
-      "id": 4,
-      "type": "row",
-      "title": "Live Log Stream & Forensic Filter",
       "gridPos": {
         "h": 1,
         "w": 24,
         "x": 0,
         "y": 8
-      }
+      },
+      "id": 4,
+      "title": "Live Log Stream & Forensic Filter",
+      "type": "row"
     },
     {
-      "id": 5,
-      "title": "Raw Cisco Syslog Records (Loki Stream)",
-      "type": "logs",
       "datasource": {
         "type": "loki",
         "uid": "P8E80F9AEF21F6940"
@@ -115,22 +102,42 @@
         "x": 0,
         "y": 9
       },
+      "id": 5,
       "options": {
-        "showLabels": true,
-        "wrapLogMessage": true,
         "enableLogDetails": true,
-        "sortOrder": "Descending"
+        "showLabels": true,
+        "sortOrder": "Descending",
+        "wrapLogMessage": true
       },
       "targets": [
         {
+          "refId": "A",
           "datasource": {
             "type": "loki",
             "uid": "P8E80F9AEF21F6940"
           },
-          "expr": "{source=\"solarwinds\"}",
-          "refId": "A"
+          "expr": "{source=\"solarwinds\", environment=\"production\"}",
+          "queryType": "range"
         }
-      ]
+      ],
+      "title": "Raw Cisco Syslog Records (Loki Stream)",
+      "type": "logs"
     }
-  ]
+  ],
+  "refresh": "10s",
+  "schemaVersion": 39,
+  "tags": [
+    "nawari",
+    "logs",
+    "loki",
+    "cisco",
+    "solarwinds"
+  ],
+  "time": {
+    "from": "now-1h",
+    "to": "now"
+  },
+  "title": "SolarWinds Cisco Logs & Events",
+  "uid": "nawari-sw-cisco-logs",
+  "version": 1
 }

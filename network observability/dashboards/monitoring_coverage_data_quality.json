@@ -1,71 +1,31 @@
 {
-  "title": "Monitoring Coverage and Data Quality",
-  "uid": "nawari-net-coverage",
   "description": "Monitors telemetry completeness, retention compliance (120h FIFO), and identity confidence.",
-  "tags": [
-    "nawari",
-    "governance",
-    "coverage",
-    "retention"
-  ],
-  "schemaVersion": 39,
   "editable": true,
-  "time": {
-    "from": "now-24h",
-    "to": "now"
-  },
-  "refresh": "1m",
+  "id": 30,
   "panels": [
     {
-      "id": 1,
-      "type": "row",
-      "title": "Fleet Coverage Summary (34 Candidates)",
       "gridPos": {
         "h": 1,
         "w": 24,
         "x": 0,
         "y": 0
-      }
+      },
+      "id": 1,
+      "title": "Fleet Coverage Summary (77 Monitored Devices)",
+      "type": "row"
     },
     {
-      "id": 2,
-      "title": "ICMP Availability Coverage",
-      "type": "gauge",
       "datasource": {
         "type": "alexanderzobnin-zabbix-datasource",
         "uid": "PA67C5EADE9207728"
       },
-      "gridPos": {
-        "h": 6,
-        "w": 6,
-        "x": 0,
-        "y": 1
-      },
-      "options": {
-        "reduceOptions": {
-          "calcs": [
-            "count"
-          ],
-          "values": false
-        }
-      },
-      "transformations": [
-        {
-          "id": "reduce",
-          "options": {
-            "reducers": [
-              "count"
-            ]
-          }
-        }
-      ],
       "fieldConfig": {
         "defaults": {
-          "min": 0,
-          "max": 34,
           "color": {
             "mode": "thresholds"
           },
+          "max": 77,
+          "min": 0,
           "thresholds": {
             "mode": "absolute",
             "steps": [
@@ -79,6 +39,21 @@
               }
             ]
           }
+        }
+      },
+      "gridPos": {
+        "h": 6,
+        "w": 6,
+        "x": 0,
+        "y": 1
+      },
+      "id": 2,
+      "options": {
+        "reduceOptions": {
+          "calcs": [
+            "count"
+          ],
+          "values": false
         }
       },
       "targets": [
@@ -95,15 +70,33 @@
           "mode": 0,
           "refId": "A"
         }
-      ]
+      ],
+      "title": "ICMP Availability Coverage",
+      "transformations": [
+        {
+          "id": "reduce",
+          "options": {
+            "reducers": [
+              "count"
+            ]
+          }
+        }
+      ],
+      "type": "gauge"
     },
     {
-      "id": 3,
-      "title": "Syslog Association Coverage",
-      "type": "stat",
       "datasource": {
         "type": "loki",
         "uid": "P8E80F9AEF21F6940"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "fixedColor": "green",
+            "mode": "fixed"
+          },
+          "unit": "short"
+        }
       },
       "gridPos": {
         "h": 6,
@@ -111,15 +104,7 @@
         "x": 6,
         "y": 1
       },
-      "fieldConfig": {
-        "defaults": {
-          "color": {
-            "mode": "fixed",
-            "fixedColor": "green"
-          },
-          "unit": "short"
-        }
-      },
+      "id": 3,
       "options": {
         "colorMode": "value",
         "graphMode": "none",
@@ -131,90 +116,109 @@
       },
       "targets": [
         {
+          "refId": "A",
           "datasource": {
             "type": "loki",
             "uid": "P8E80F9AEF21F6940"
           },
-          "expr": "sum(count_over_time({source=\"solarwinds\"}[$__range]))",
-          "refId": "A"
+          "expr": "sum(count_over_time({source=\"solarwinds\", environment=\"production\"}[$__range]))",
+          "instant": true,
+          "queryType": "instant"
         }
-      ]
+      ],
+      "title": "Syslog Association Coverage",
+      "type": "stat"
     },
     {
-      "id": 4,
-      "title": "SNMP Polling Coverage",
-      "type": "stat",
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "fixedColor": "orange",
+            "mode": "fixed"
+          },
+          "noValue": "0 / 77 (Cause Unconfirmed)"
+        }
+      },
       "gridPos": {
         "h": 6,
         "w": 6,
         "x": 12,
         "y": 1
       },
+      "id": 4,
       "options": {
         "colorMode": "background",
         "graphMode": "none"
       },
+      "targets": [],
+      "title": "SNMP Polling Coverage",
+      "type": "stat"
+    },
+    {
       "fieldConfig": {
         "defaults": {
           "color": {
-            "mode": "fixed",
-            "fixedColor": "orange"
+            "fixedColor": "red",
+            "mode": "fixed"
           },
-          "noValue": "0 / 34 (Cause Unconfirmed)"
+          "noValue": "HTTP 403 (Auth Required)"
         }
       },
-      "targets": []
-    },
-    {
-      "id": 5,
-      "title": "SolarWinds SWIS API Coverage",
-      "type": "stat",
       "gridPos": {
         "h": 6,
         "w": 6,
         "x": 18,
         "y": 1
       },
+      "id": 5,
       "options": {
         "colorMode": "background",
         "graphMode": "none"
       },
-      "fieldConfig": {
-        "defaults": {
-          "color": {
-            "mode": "fixed",
-            "fixedColor": "red"
-          },
-          "noValue": "HTTP 403 (Auth Required)"
-        }
-      },
-      "targets": []
+      "targets": [],
+      "title": "SolarWinds SWIS API Coverage",
+      "type": "stat"
     },
     {
-      "id": 6,
-      "type": "row",
-      "title": "Log Retention Compliance Audit (120 Hours / 5 Days)",
       "gridPos": {
         "h": 1,
         "w": 24,
         "x": 0,
         "y": 7
-      }
+      },
+      "id": 6,
+      "title": "Log Retention Compliance Audit (120 Hours / 5 Days)",
+      "type": "row"
     },
     {
-      "id": 7,
-      "title": "Log Retention Policy Status",
-      "type": "text",
       "gridPos": {
         "h": 6,
         "w": 24,
         "x": 0,
         "y": 8
       },
+      "id": 7,
       "options": {
-        "mode": "markdown",
-        "content": "### \ud83d\udee1\ufe0f Five-Day (120-Hour) FIFO Retention & Disk Protection Status\n\n- **Grafana-Loki:** Configured with `retention_period: 120h` and compaction active on `mon-grafana01`.\n- **PostgreSQL Telemetry:** `canonical_telemetry_events` enforces `expires_at` timestamp check with automated hourly purge.\n- **rsyslog Syslog Buffer:** Configured with `size 500M` and max 5-day rotation.\n- **Audit Result:** Oldest log record on platform: `< 1.2 hours`. 0 expired records beyond 120h."
-      }
+        "content": "### \ud83d\udee1\ufe0f Five-Day (120-Hour) FIFO Retention & Disk Protection Status\n\n- **Grafana-Loki:** Configured with `retention_period: 120h` and compaction active on `mon-grafana01`.\n- **PostgreSQL Telemetry:** `canonical_telemetry_events` enforces `expires_at` timestamp check with automated hourly purge.\n- **rsyslog Syslog Buffer:** Configured with `size 500M` and max 5-day rotation.\n- **Audit Result:** Oldest log record on platform: `< 1.2 hours`. 0 expired records beyond 120h.",
+        "mode": "markdown"
+      },
+      "title": "Log Retention Policy Status",
+      "type": "text"
     }
-  ]
+  ],
+  "refresh": "1m",
+  "schemaVersion": 39,
+  "tags": [
+    "nawari",
+    "governance",
+    "coverage",
+    "retention"
+  ],
+  "time": {
+    "from": "now-24h",
+    "to": "now"
+  },
+  "title": "Monitoring Coverage and Data Quality",
+  "uid": "nawari-net-coverage",
+  "version": 4
 }

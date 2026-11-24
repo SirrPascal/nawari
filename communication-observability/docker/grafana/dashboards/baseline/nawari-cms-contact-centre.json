@@ -1,0 +1,681 @@
+{
+  "meta": {
+    "type": "db",
+    "canSave": true,
+    "canEdit": true,
+    "canAdmin": true,
+    "canStar": true,
+    "canDelete": true,
+    "slug": "c7fa94a",
+    "url": "/grafana/d/nawari-cms-contact-centre/c7fa94a",
+    "expires": "0001-01-01T00:00:00Z",
+    "created": "2026-11-24T13:39:01Z",
+    "updated": "2026-11-24T13:39:01Z",
+    "updatedBy": "Anonymous",
+    "createdBy": "Anonymous",
+    "version": 1,
+    "hasAcl": false,
+    "isFolder": false,
+    "folderId": 15,
+    "folderUid": "nawari-comm-obs",
+    "folderTitle": "Voice & Communications Observability",
+    "folderUrl": "/grafana/dashboards/f/nawari-comm-obs/voice-and-communications-observability",
+    "provisioned": false,
+    "provisionedExternalId": "avaya_cms_contact_centre.json",
+    "annotationsPermissions": {
+      "dashboard": {
+        "canAdd": true,
+        "canEdit": true,
+        "canDelete": true
+      },
+      "organization": {
+        "canAdd": true,
+        "canEdit": true,
+        "canDelete": true
+      }
+    }
+  },
+  "dashboard": {
+    "annotations": {
+      "list": []
+    },
+    "editable": true,
+    "fiscalYearStartMonth": 0,
+    "graphTooltip": 1,
+    "id": 38,
+    "links": [],
+    "liveNow": false,
+    "panels": [
+      {
+        "collapsed": false,
+        "gridPos": {
+          "h": 1,
+          "w": 24,
+          "x": 0,
+          "y": 0
+        },
+        "id": 1,
+        "title": "CMS Host Infrastructure & Informix Database Engine Health",
+        "type": "row"
+      },
+      {
+        "datasource": {
+          "type": "alexanderzobnin-zabbix-datasource",
+          "uid": "PA67C5EADE9207728"
+        },
+        "description": "Processor core utilization on the Avaya Call Management System (CMS) server host. Units: Percentage (0-100%). Warning: 75%, Critical: 90%. Source: HOST-RESOURCES-MIB. Polling: 60s. Missing data indicates collector outage, agent failure, or network disruption; values are preserved as null gaps.",
+        "fieldConfig": {
+          "defaults": {
+            "color": {
+              "mode": "thresholds"
+            },
+            "max": 100,
+            "min": 0,
+            "thresholds": {
+              "mode": "absolute",
+              "steps": [
+                {
+                  "color": "green",
+                  "value": null
+                },
+                {
+                  "color": "yellow",
+                  "value": 75
+                },
+                {
+                  "color": "red",
+                  "value": 90
+                }
+              ]
+            },
+            "unit": "percent"
+          },
+          "overrides": []
+        },
+        "gridPos": {
+          "h": 6,
+          "w": 8,
+          "x": 0,
+          "y": 1
+        },
+        "id": 2,
+        "options": {
+          "orientation": "auto",
+          "reduceOptions": {
+            "calcs": [
+              "lastNotNull"
+            ],
+            "fields": "",
+            "values": false
+          },
+          "showThresholdLabels": false,
+          "showThresholdMarkers": true
+        },
+        "targets": [
+          {
+            "group": {
+              "name": "Contact Centre"
+            },
+            "host": {
+              "name": "avaya-cms-01"
+            },
+            "item": {
+              "name": "CMS Host CPU Utilization"
+            },
+            "refId": "CPU"
+          }
+        ],
+        "title": "CMS Host CPU Utilization [REAL \u2014 HARDWARE]",
+        "type": "gauge"
+      },
+      {
+        "datasource": {
+          "type": "alexanderzobnin-zabbix-datasource",
+          "uid": "PA67C5EADE9207728"
+        },
+        "description": "Operational state of the IBM Informix Dynamic Server (IDS) database engine underpinning CMS real-time and historical tables. 1 = Running / Online, 0 = Down / Offline. Source: Zabbix service check. Polling: 60s. Missing data indicates collector outage, agent failure, or network disruption; values are preserved as null gaps.",
+        "fieldConfig": {
+          "defaults": {
+            "color": {
+              "mode": "thresholds"
+            },
+            "mappings": [
+              {
+                "options": {
+                  "0": {
+                    "color": "red",
+                    "text": "OFFLINE (STOPPED)"
+                  },
+                  "1": {
+                    "color": "green",
+                    "text": "ONLINE (RUNNING)"
+                  }
+                },
+                "type": "value"
+              }
+            ],
+            "thresholds": {
+              "mode": "absolute",
+              "steps": [
+                {
+                  "color": "red",
+                  "value": null
+                },
+                {
+                  "color": "green",
+                  "value": 1
+                }
+              ]
+            }
+          },
+          "overrides": []
+        },
+        "gridPos": {
+          "h": 6,
+          "w": 8,
+          "x": 8,
+          "y": 1
+        },
+        "id": 3,
+        "options": {
+          "colorMode": "background",
+          "graphMode": "none",
+          "justifyMode": "auto",
+          "orientation": "auto",
+          "reduceOptions": {
+            "calcs": [
+              "lastNotNull"
+            ],
+            "fields": "",
+            "values": false
+          },
+          "textMode": "auto"
+        },
+        "targets": [
+          {
+            "group": {
+              "name": "Contact Centre"
+            },
+            "host": {
+              "name": "avaya-cms-01"
+            },
+            "item": {
+              "name": "Informix Database Engine Status"
+            },
+            "refId": "INFORMIX"
+          }
+        ],
+        "title": "Informix Database Engine Status [APPLICATION \u2014 CMS]",
+        "type": "stat"
+      },
+      {
+        "datasource": {
+          "type": "alexanderzobnin-zabbix-datasource",
+          "uid": "PA67C5EADE9207728"
+        },
+        "description": "Configured historical archiving interval for Avaya CMS interval tables (15 minutes, 30 minutes, or 60 minutes). Nawari read-only ODBC ingestion synchronizes strictly to this interval, preserving original timestamps. Source: CMS system configuration. Missing data indicates collector outage, agent failure, or network disruption; values are preserved as null gaps.",
+        "fieldConfig": {
+          "defaults": {},
+          "overrides": []
+        },
+        "gridPos": {
+          "h": 6,
+          "w": 8,
+          "x": 16,
+          "y": 1
+        },
+        "id": 4,
+        "options": {
+          "colorMode": "value",
+          "graphMode": "none",
+          "justifyMode": "auto",
+          "orientation": "auto",
+          "reduceOptions": {
+            "calcs": [
+              "lastNotNull"
+            ],
+            "fields": "",
+            "values": false
+          },
+          "textMode": "auto"
+        },
+        "targets": [
+          {
+            "group": {
+              "name": "Contact Centre"
+            },
+            "host": {
+              "name": "avaya-cms-01"
+            },
+            "item": {
+              "name": "CMS Ingestion Reporting Interval"
+            },
+            "refId": "INTERVAL"
+          }
+        ],
+        "title": "CMS Archiving Interval Configuration [APPLICATION \u2014 CMS]",
+        "type": "stat"
+      },
+      {
+        "collapsed": false,
+        "gridPos": {
+          "h": 1,
+          "w": 24,
+          "x": 0,
+          "y": 7
+        },
+        "id": 5,
+        "title": "Queue Dynamics, Wait Times & Customer Experience",
+        "type": "row"
+      },
+      {
+        "datasource": {
+          "type": "alexanderzobnin-zabbix-datasource",
+          "uid": "PA67C5EADE9207728"
+        },
+        "description": "Percentage of contact centre callers answered within Kenya Airways service level threshold (80% answered in 20 seconds). Source: Avaya CMS Informix read-only ODBC query on hsplit table. Freshness: 15\u201330 minutes. Missing data indicates collector outage, agent failure, or network disruption; values are preserved as null gaps.",
+        "fieldConfig": {
+          "defaults": {
+            "color": {
+              "mode": "thresholds"
+            },
+            "max": 100,
+            "min": 0,
+            "thresholds": {
+              "mode": "absolute",
+              "steps": [
+                {
+                  "color": "red",
+                  "value": null
+                },
+                {
+                  "color": "yellow",
+                  "value": 70
+                },
+                {
+                  "color": "green",
+                  "value": 80
+                }
+              ]
+            },
+            "unit": "percent"
+          },
+          "overrides": []
+        },
+        "gridPos": {
+          "h": 6,
+          "w": 6,
+          "x": 0,
+          "y": 8
+        },
+        "id": 6,
+        "options": {
+          "orientation": "auto",
+          "reduceOptions": {
+            "calcs": [
+              "lastNotNull"
+            ],
+            "fields": "",
+            "values": false
+          },
+          "showThresholdLabels": false,
+          "showThresholdMarkers": true
+        },
+        "targets": [
+          {
+            "group": {
+              "name": "Contact Centre"
+            },
+            "host": {
+              "name": "avaya-cms-01"
+            },
+            "item": {
+              "name": "Contact Centre Queue Service Level Attainment"
+            },
+            "refId": "SLA"
+          }
+        ],
+        "title": "Service Level Attainment (% in SLA) [APPLICATION \u2014 CMS]",
+        "type": "gauge"
+      },
+      {
+        "datasource": {
+          "type": "alexanderzobnin-zabbix-datasource",
+          "uid": "PA67C5EADE9207728"
+        },
+        "description": "Average Speed of Answer (ASA) in seconds: mean caller waiting time before an agent connects. Source: Avaya CMS Informix query. Warning: > 45s, Critical: > 90s. Missing data indicates collector outage, agent failure, or network disruption; values are preserved as null gaps.",
+        "fieldConfig": {
+          "defaults": {
+            "custom": {
+              "drawStyle": "line",
+              "lineInterpolation": "smooth",
+              "spanNulls": false
+            },
+            "unit": "s"
+          },
+          "overrides": []
+        },
+        "gridPos": {
+          "h": 6,
+          "w": 6,
+          "x": 6,
+          "y": 8
+        },
+        "id": 7,
+        "options": {
+          "tooltip": {
+            "mode": "single"
+          }
+        },
+        "targets": [
+          {
+            "group": {
+              "name": "Contact Centre"
+            },
+            "host": {
+              "name": "avaya-cms-01"
+            },
+            "item": {
+              "name": "Average Speed of Answer (ASA)"
+            },
+            "refId": "ASA"
+          }
+        ],
+        "title": "Average Speed of Answer (ASA, sec) [APPLICATION \u2014 CMS]",
+        "type": "timeseries"
+      },
+      {
+        "datasource": {
+          "type": "alexanderzobnin-zabbix-datasource",
+          "uid": "PA67C5EADE9207728"
+        },
+        "description": "Live number of customer calls currently waiting on hold across all reservation and ticketing skill queues. Source: CMS real-time stream. Warning: > 15 calls. Missing data indicates collector outage, agent failure, or network disruption; values are preserved as null gaps.",
+        "fieldConfig": {
+          "defaults": {
+            "color": {
+              "mode": "thresholds"
+            },
+            "thresholds": {
+              "mode": "absolute",
+              "steps": [
+                {
+                  "color": "green",
+                  "value": null
+                },
+                {
+                  "color": "yellow",
+                  "value": 15
+                },
+                {
+                  "color": "red",
+                  "value": 30
+                }
+              ]
+            },
+            "unit": "calls"
+          },
+          "overrides": []
+        },
+        "gridPos": {
+          "h": 6,
+          "w": 6,
+          "x": 12,
+          "y": 8
+        },
+        "id": 8,
+        "options": {
+          "colorMode": "value",
+          "graphMode": "none",
+          "justifyMode": "auto",
+          "orientation": "auto",
+          "reduceOptions": {
+            "calcs": [
+              "lastNotNull"
+            ],
+            "fields": "",
+            "values": false
+          },
+          "textMode": "auto"
+        },
+        "targets": [
+          {
+            "group": {
+              "name": "Contact Centre"
+            },
+            "host": {
+              "name": "avaya-cms-01"
+            },
+            "item": {
+              "name": "Calls Waiting in Queue"
+            },
+            "refId": "WAITING"
+          }
+        ],
+        "title": "Calls Waiting in Queue [APPLICATION \u2014 CMS]",
+        "type": "stat"
+      },
+      {
+        "datasource": {
+          "type": "alexanderzobnin-zabbix-datasource",
+          "uid": "PA67C5EADE9207728"
+        },
+        "description": "Duration in seconds of the single longest-waiting caller currently in queue. Source: CMS real-time report. Warning: > 120s, Critical: > 300s. Missing data indicates collector outage, agent failure, or network disruption; values are preserved as null gaps.",
+        "fieldConfig": {
+          "defaults": {
+            "color": {
+              "mode": "thresholds"
+            },
+            "thresholds": {
+              "mode": "absolute",
+              "steps": [
+                {
+                  "color": "green",
+                  "value": null
+                },
+                {
+                  "color": "yellow",
+                  "value": 120
+                },
+                {
+                  "color": "red",
+                  "value": 300
+                }
+              ]
+            },
+            "unit": "s"
+          },
+          "overrides": []
+        },
+        "gridPos": {
+          "h": 6,
+          "w": 6,
+          "x": 18,
+          "y": 8
+        },
+        "id": 9,
+        "options": {
+          "colorMode": "value",
+          "graphMode": "none",
+          "justifyMode": "auto",
+          "orientation": "auto",
+          "reduceOptions": {
+            "calcs": [
+              "lastNotNull"
+            ],
+            "fields": "",
+            "values": false
+          },
+          "textMode": "auto"
+        },
+        "targets": [
+          {
+            "group": {
+              "name": "Contact Centre"
+            },
+            "host": {
+              "name": "avaya-cms-01"
+            },
+            "item": {
+              "name": "Oldest Call Waiting Duration"
+            },
+            "refId": "OLDEST"
+          }
+        ],
+        "title": "Oldest Call Waiting (sec) [APPLICATION \u2014 CMS]",
+        "type": "stat"
+      },
+      {
+        "collapsed": false,
+        "gridPos": {
+          "h": 1,
+          "w": 24,
+          "x": 0,
+          "y": 14
+        },
+        "id": 10,
+        "title": "Inbound Volume Trends, Abandonment & Split/Skill Performance",
+        "type": "row"
+      },
+      {
+        "datasource": {
+          "type": "alexanderzobnin-zabbix-datasource",
+          "uid": "PA67C5EADE9207728"
+        },
+        "description": "Historical volume trend comparing Calls Offered, Calls Answered, and Calls Abandoned over interval buckets. Source: Avaya CMS Informix hsplit table. Freshness: 15\u201330 minutes. Missing data indicates collector outage, agent failure, or network disruption; values are preserved as null gaps.",
+        "fieldConfig": {
+          "defaults": {
+            "custom": {
+              "drawStyle": "line",
+              "lineInterpolation": "smooth",
+              "spanNulls": false
+            },
+            "unit": "calls"
+          },
+          "overrides": []
+        },
+        "gridPos": {
+          "h": 7,
+          "w": 12,
+          "x": 0,
+          "y": 15
+        },
+        "id": 11,
+        "options": {
+          "tooltip": {
+            "mode": "multi"
+          }
+        },
+        "targets": [
+          {
+            "group": {
+              "name": "Contact Centre"
+            },
+            "host": {
+              "name": "avaya-cms-01"
+            },
+            "item": {
+              "name": "CMS Inbound Calls Offered"
+            },
+            "refId": "OFFERED"
+          },
+          {
+            "group": {
+              "name": "Contact Centre"
+            },
+            "host": {
+              "name": "avaya-cms-01"
+            },
+            "item": {
+              "name": "CMS Inbound Calls Answered"
+            },
+            "refId": "ANSWERED"
+          },
+          {
+            "group": {
+              "name": "Contact Centre"
+            },
+            "host": {
+              "name": "avaya-cms-01"
+            },
+            "item": {
+              "name": "CMS Inbound Calls Abandoned"
+            },
+            "refId": "ABANDONED"
+          }
+        ],
+        "title": "Calls Offered vs Answered vs Abandoned [APPLICATION \u2014 CMS]",
+        "type": "timeseries"
+      },
+      {
+        "datasource": {
+          "type": "alexanderzobnin-zabbix-datasource",
+          "uid": "PA67C5EADE9207728"
+        },
+        "description": "Performance table breakdown by contact centre Skill Group / Split (e.g., Reservations English, French, Swahili, Flying Blue, Baggage Helpdesk) showing calls offered, answered, abandon %, ASA, and SLA compliance. Source: Avaya CMS read-only ODBC query. Missing data indicates collector outage, agent failure, or network disruption; values are preserved as null gaps.",
+        "fieldConfig": {
+          "defaults": {},
+          "overrides": []
+        },
+        "gridPos": {
+          "h": 7,
+          "w": 12,
+          "x": 12,
+          "y": 15
+        },
+        "id": 12,
+        "options": {
+          "showHeader": true
+        },
+        "targets": [
+          {
+            "application": {
+              "name": "Skill Performance"
+            },
+            "group": {
+              "name": "Contact Centre"
+            },
+            "host": {
+              "name": "avaya-cms-01"
+            },
+            "item": {
+              "name": "Skill Group Performance Table"
+            },
+            "refId": "SKILLS"
+          }
+        ],
+        "title": "Skill Group & Split Performance Breakdown [APPLICATION \u2014 CMS]",
+        "type": "table"
+      }
+    ],
+    "refresh": "1m",
+    "schemaVersion": 39,
+    "style": "dark",
+    "tags": [
+      "nawari",
+      "communication-observability",
+      "avaya",
+      "cms",
+      "contact-centre",
+      "informix"
+    ],
+    "templating": {
+      "list": []
+    },
+    "time": {
+      "from": "now-6h",
+      "to": "now"
+    },
+    "timepicker": {
+      "refresh_intervals": [
+        "30s",
+        "1m",
+        "5m",
+        "15m"
+      ]
+    },
+    "timezone": "browser",
+    "title": "Nawari \u2014 Avaya Call Management System (CMS) & Contact Centre Performance",
+    "uid": "nawari-cms-contact-centre",
+    "version": 1
+  }
+}

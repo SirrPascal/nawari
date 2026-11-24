@@ -1,0 +1,765 @@
+{
+  "meta": {
+    "type": "db",
+    "canSave": true,
+    "canEdit": true,
+    "canAdmin": true,
+    "canStar": true,
+    "canDelete": true,
+    "slug": "88b42b7",
+    "url": "/grafana/d/nawari-sip-trunks/88b42b7",
+    "expires": "0001-01-01T00:00:00Z",
+    "created": "2026-11-24T13:39:04Z",
+    "updated": "2026-11-24T13:41:48Z",
+    "updatedBy": "Anonymous",
+    "createdBy": "Anonymous",
+    "version": 2,
+    "hasAcl": false,
+    "isFolder": false,
+    "folderId": 15,
+    "folderUid": "nawari-comm-obs",
+    "folderTitle": "Voice & Communications Observability",
+    "folderUrl": "/grafana/dashboards/f/nawari-comm-obs/voice-and-communications-observability",
+    "provisioned": false,
+    "provisionedExternalId": "nawari_sip_trunks_signaling.json",
+    "annotationsPermissions": {
+      "dashboard": {
+        "canAdd": true,
+        "canEdit": true,
+        "canDelete": true
+      },
+      "organization": {
+        "canAdd": true,
+        "canEdit": true,
+        "canDelete": true
+      }
+    }
+  },
+  "dashboard": {
+    "annotations": {
+      "list": []
+    },
+    "editable": true,
+    "fiscalYearStartMonth": 0,
+    "graphTooltip": 1,
+    "id": 44,
+    "links": [],
+    "liveNow": false,
+    "panels": [
+      {
+        "collapsed": false,
+        "gridPos": {
+          "h": 1,
+          "w": 24,
+          "x": 0,
+          "y": 0
+        },
+        "id": 1,
+        "title": "Carrier SIP Trunk Operational Registration & Keepalive Health",
+        "type": "row"
+      },
+      {
+        "datasource": {
+          "type": "alexanderzobnin-zabbix-datasource",
+          "uid": "PA67C5EADE9207728"
+        },
+        "description": "Operational registration state of the primary Safaricom SIP trunk terminating on Avaya SBCE interface A1. 1 = REGISTERED, 0 = UNREGISTERED / FAILED. Source: Zabbix SNMP/SIP OPTIONS check on SBCE. Crucial Note: Proves layer-5 signaling reachability only; does NOT guarantee absence of voice packet loss or acceptable audio quality. Missing data indicates collector outage, agent failure, or network disruption; values are preserved as null gaps.",
+        "fieldConfig": {
+          "defaults": {
+            "color": {
+              "mode": "thresholds"
+            },
+            "mappings": [
+              {
+                "options": {
+                  "0": {
+                    "color": "red",
+                    "text": "UNREGISTERED (DOWN)"
+                  },
+                  "1": {
+                    "color": "green",
+                    "text": "REGISTERED (SIP UP)"
+                  }
+                },
+                "type": "value"
+              }
+            ],
+            "thresholds": {
+              "mode": "absolute",
+              "steps": [
+                {
+                  "color": "red",
+                  "value": null
+                },
+                {
+                  "color": "green",
+                  "value": 1
+                }
+              ]
+            }
+          },
+          "overrides": []
+        },
+        "gridPos": {
+          "h": 6,
+          "w": 6,
+          "x": 0,
+          "y": 1
+        },
+        "id": 2,
+        "options": {
+          "colorMode": "background",
+          "graphMode": "none",
+          "justifyMode": "auto",
+          "orientation": "auto",
+          "reduceOptions": {
+            "calcs": [
+              "lastNotNull"
+            ],
+            "fields": "",
+            "values": false
+          },
+          "textMode": "auto"
+        },
+        "targets": [
+          {
+            "group": {
+              "name": "Voice Infrastructure"
+            },
+            "host": {
+              "name": "sip-trunk-carrier-01"
+            },
+            "item": {
+              "name": "SIP Trunk Endpoint Reachability"
+            },
+            "refId": "SAFARICOM"
+          }
+        ],
+        "title": "Safaricom Primary SIP Trunk [REAL \u2014 ZABBIX]",
+        "type": "stat"
+      },
+      {
+        "datasource": {
+          "type": "alexanderzobnin-zabbix-datasource",
+          "uid": "PA67C5EADE9207728"
+        },
+        "description": "Operational registration state of the secondary Airtel SIP trunk terminating on Avaya SBCE interface A1. 1 = REGISTERED, 0 = UNREGISTERED / FAILED. Source: Zabbix SNMP/SIP OPTIONS check on SBCE. Signaling reachability only. Missing data indicates collector outage, agent failure, or network disruption; values are preserved as null gaps.",
+        "fieldConfig": {
+          "defaults": {
+            "color": {
+              "mode": "thresholds"
+            },
+            "mappings": [
+              {
+                "options": {
+                  "0": {
+                    "color": "red",
+                    "text": "UNREGISTERED (DOWN)"
+                  },
+                  "1": {
+                    "color": "green",
+                    "text": "REGISTERED (SIP UP)"
+                  }
+                },
+                "type": "value"
+              }
+            ],
+            "thresholds": {
+              "mode": "absolute",
+              "steps": [
+                {
+                  "color": "red",
+                  "value": null
+                },
+                {
+                  "color": "green",
+                  "value": 1
+                }
+              ]
+            }
+          },
+          "overrides": []
+        },
+        "gridPos": {
+          "h": 6,
+          "w": 6,
+          "x": 6,
+          "y": 1
+        },
+        "id": 3,
+        "options": {
+          "colorMode": "background",
+          "graphMode": "none",
+          "justifyMode": "auto",
+          "orientation": "auto",
+          "reduceOptions": {
+            "calcs": [
+              "lastNotNull"
+            ],
+            "fields": "",
+            "values": false
+          },
+          "textMode": "auto"
+        },
+        "targets": [
+          {
+            "group": {
+              "name": "Voice Infrastructure"
+            },
+            "host": {
+              "name": "sip-trunk-carrier-01"
+            },
+            "item": {
+              "name": "SIP Trunk OPTIONS Probe Status"
+            },
+            "refId": "AIRTEL"
+          }
+        ],
+        "title": "Airtel Secondary SIP Trunk [REAL \u2014 ZABBIX]",
+        "type": "stat"
+      },
+      {
+        "datasource": {
+          "type": "alexanderzobnin-zabbix-datasource",
+          "uid": "PA67C5EADE9207728"
+        },
+        "description": "Round-trip latency in milliseconds for SIP OPTIONS heartbeat pings exchanged with carrier SBC endpoints (Safaricom vs Airtel). Units: Milliseconds (ms). Warning: > 50ms, Critical: > 100ms. Source: Zabbix SIP OPTIONS probe. Polling: 30s. Missing data indicates collector outage, agent failure, or network disruption; values are preserved as null gaps.",
+        "fieldConfig": {
+          "defaults": {
+            "custom": {
+              "drawStyle": "line",
+              "lineInterpolation": "smooth",
+              "spanNulls": false
+            },
+            "unit": "ms"
+          },
+          "overrides": []
+        },
+        "gridPos": {
+          "h": 6,
+          "w": 12,
+          "x": 12,
+          "y": 1
+        },
+        "id": 4,
+        "options": {
+          "tooltip": {
+            "mode": "multi"
+          }
+        },
+        "targets": [
+          {
+            "group": {
+              "name": "Voice Infrastructure"
+            },
+            "host": {
+              "name": "sip-trunk-carrier-01"
+            },
+            "item": {
+              "name": "SIP Trunk OPTIONS Response Time"
+            },
+            "refId": "SAF_RTT"
+          },
+          {
+            "group": {
+              "name": "Voice Infrastructure"
+            },
+            "host": {
+              "name": "sip-trunk-carrier-01"
+            },
+            "item": {
+              "name": "SIP Trunk OPTIONS Response Time"
+            },
+            "refId": "AIR_RTT"
+          }
+        ],
+        "title": "Carrier SIP OPTIONS Round-Trip Latency [REAL \u2014 ZABBIX]",
+        "type": "timeseries"
+      },
+      {
+        "collapsed": false,
+        "gridPos": {
+          "h": 1,
+          "w": 24,
+          "x": 0,
+          "y": 7
+        },
+        "id": 5,
+        "title": "SIP Transaction Latencies & Signaling Ladder Breakdown",
+        "type": "row"
+      },
+      {
+        "datasource": {
+          "type": "alexanderzobnin-zabbix-datasource",
+          "uid": "PA67C5EADE9207728"
+        },
+        "description": "Post-Dial Delay (PDD: INVITE to 18x), Time-to-Alerting (TTA: INVITE to 180 Ringing), and Call Setup Duration measured in milliseconds from synthetic Asterisk test calls across carrier trunks. Source: Asterisk AMI call logs. Limitations: Reflects synthetic probe calls between test extensions. Missing data indicates collector outage, agent failure, or network disruption; values are preserved as null gaps.",
+        "fieldConfig": {
+          "defaults": {
+            "custom": {
+              "drawStyle": "line",
+              "lineInterpolation": "smooth",
+              "spanNulls": false
+            },
+            "unit": "ms"
+          },
+          "overrides": []
+        },
+        "gridPos": {
+          "h": 7,
+          "w": 14,
+          "x": 0,
+          "y": 8
+        },
+        "id": 6,
+        "options": {
+          "tooltip": {
+            "mode": "multi"
+          }
+        },
+        "targets": [
+          {
+            "application": {
+              "name": "Synthetic Voice Probes"
+            },
+            "group": {
+              "name": "Voice Infrastructure"
+            },
+            "host": {
+              "name": "/.*/"
+            },
+            "item": {
+              "name": "Post-Dial Delay (PDD)"
+            },
+            "refId": "PDD"
+          },
+          {
+            "application": {
+              "name": "Synthetic Voice Probes"
+            },
+            "group": {
+              "name": "Voice Infrastructure"
+            },
+            "host": {
+              "name": "/.*/"
+            },
+            "item": {
+              "name": "Time to Alerting (TTA)"
+            },
+            "refId": "TTA"
+          },
+          {
+            "application": {
+              "name": "Synthetic Voice Probes"
+            },
+            "group": {
+              "name": "Voice Infrastructure"
+            },
+            "host": {
+              "name": "/.*/"
+            },
+            "item": {
+              "name": "Call Setup Duration"
+            },
+            "refId": "SETUP"
+          }
+        ],
+        "title": "Signaling Phase Latencies (PDD vs TTA vs Setup) [SYNTHETIC \u2014 ASTERISK PROBE]",
+        "type": "timeseries"
+      },
+      {
+        "datasource": {
+          "type": "alexanderzobnin-zabbix-datasource",
+          "uid": "PA67C5EADE9207728"
+        },
+        "description": "Distribution of SIP response codes returned by carrier networks during synthetic probe calls: differentiates expected station states (480 offline, 486 busy, 487 teardown) from carrier/infrastructure failures (500 Server Internal Error, 502 Bad Gateway, 503 Service Unavailable, 504 Gateway Timeout). Source: Synthetic Asterisk transaction logs. Missing data indicates collector outage, agent failure, or network disruption; values are preserved as null gaps.",
+        "fieldConfig": {
+          "defaults": {
+            "unit": "short"
+          },
+          "overrides": []
+        },
+        "gridPos": {
+          "h": 7,
+          "w": 10,
+          "x": 14,
+          "y": 8
+        },
+        "id": 7,
+        "options": {
+          "legend": {
+            "displayMode": "table",
+            "placement": "right"
+          },
+          "pieType": "pie"
+        },
+        "targets": [
+          {
+            "application": {
+              "name": "Synthetic Voice Probes"
+            },
+            "group": {
+              "name": "Voice Infrastructure"
+            },
+            "host": {
+              "name": "/.*/"
+            },
+            "item": {
+              "name": "SIP Responses by Category"
+            },
+            "refId": "CODES"
+          }
+        ],
+        "title": "SIP Response Distribution (Station vs Trunk Outage) [SYNTHETIC \u2014 ASTERISK PROBE]",
+        "type": "piechart"
+      },
+      {
+        "collapsed": false,
+        "gridPos": {
+          "h": 1,
+          "w": 24,
+          "x": 0,
+          "y": 15
+        },
+        "id": 8,
+        "title": "Perimeter Interface Traffic & Voice Path Errors",
+        "type": "row"
+      },
+      {
+        "datasource": {
+          "type": "alexanderzobnin-zabbix-datasource",
+          "uid": "PA67C5EADE9207728"
+        },
+        "description": "Bidirectional network bandwidth utilization on external interface A1 carrying carrier SIP signaling and RTP media streams. Units: Bits per second (bps). Source: IF-MIB on Avaya SBCE via Zabbix SNMPv3. Polling: 30s. Missing data indicates collector outage, agent failure, or network disruption; values are preserved as null gaps.",
+        "fieldConfig": {
+          "defaults": {
+            "custom": {
+              "drawStyle": "line",
+              "lineInterpolation": "smooth",
+              "spanNulls": false
+            },
+            "unit": "bps"
+          },
+          "overrides": []
+        },
+        "gridPos": {
+          "h": 6,
+          "w": 12,
+          "x": 0,
+          "y": 16
+        },
+        "id": 9,
+        "options": {
+          "tooltip": {
+            "mode": "multi"
+          }
+        },
+        "targets": [
+          {
+            "group": {
+              "name": "Voice Infrastructure"
+            },
+            "host": {
+              "name": "avaya-sbce-01"
+            },
+            "item": {
+              "name": "A1 Interface Ingress Traffic (bps)"
+            },
+            "refId": "A1_IN"
+          },
+          {
+            "group": {
+              "name": "Voice Infrastructure"
+            },
+            "host": {
+              "name": "avaya-sbce-01"
+            },
+            "item": {
+              "name": "A1 Interface Egress Traffic (bps)"
+            },
+            "refId": "A1_OUT"
+          }
+        ],
+        "title": "A1 Carrier DMZ Bandwidth (bps) [REAL \u2014 SBCE SNMP]",
+        "type": "timeseries"
+      },
+      {
+        "datasource": {
+          "type": "alexanderzobnin-zabbix-datasource",
+          "uid": "PA67C5EADE9207728"
+        },
+        "description": "Rate of inbound and outbound frame/packet errors detected on carrier interface A1. Units: Errors per second. Source: IF-MIB ifInErrors / ifOutErrors. Any non-zero error rate directly degrades voice audio quality, causing clipping and metallic distortion. Missing data indicates collector outage, agent failure, or network disruption; values are preserved as null gaps.",
+        "fieldConfig": {
+          "defaults": {
+            "color": {
+              "mode": "thresholds"
+            },
+            "custom": {
+              "drawStyle": "line",
+              "lineInterpolation": "smooth",
+              "spanNulls": false
+            },
+            "thresholds": {
+              "mode": "absolute",
+              "steps": [
+                {
+                  "color": "green",
+                  "value": null
+                },
+                {
+                  "color": "red",
+                  "value": 1
+                }
+              ]
+            },
+            "unit": "errors/s"
+          },
+          "overrides": []
+        },
+        "gridPos": {
+          "h": 6,
+          "w": 12,
+          "x": 12,
+          "y": 16
+        },
+        "id": 10,
+        "options": {
+          "tooltip": {
+            "mode": "single"
+          }
+        },
+        "targets": [
+          {
+            "group": {
+              "name": "Voice Infrastructure"
+            },
+            "host": {
+              "name": "avaya-sbce-01"
+            },
+            "item": {
+              "name": "SBCE Aggregate Interface Error Rate"
+            },
+            "refId": "ERRORS"
+          }
+        ],
+        "title": "Carrier Interface Packet Errors (Errors/sec) [REAL \u2014 SBCE SNMP]",
+        "type": "timeseries"
+      },
+      {
+        "collapsed": false,
+        "gridPos": {
+          "h": 1,
+          "w": 24,
+          "x": 0,
+          "y": 22
+        },
+        "id": 11,
+        "title": "HOMER 7 SIP Packet Capture & Call Stream Observability",
+        "type": "row"
+      },
+      {
+        "datasource": {
+          "type": "grafana-postgresql-datasource",
+          "uid": "nawari-homer-postgres"
+        },
+        "description": "Total out-of-dialog SIP packets (OPTIONS qualify, heartbeats, and registers) ingested by Heplify Server into PostgreSQL homer_data. Real-time HEPv3 capture on UDP 9060.",
+        "fieldConfig": {
+          "defaults": {
+            "color": {
+              "mode": "thresholds"
+            },
+            "thresholds": {
+              "mode": "absolute",
+              "steps": [
+                {
+                  "color": "blue",
+                  "value": null
+                },
+                {
+                  "color": "green",
+                  "value": 100
+                }
+              ]
+            },
+            "unit": "short"
+          },
+          "overrides": []
+        },
+        "gridPos": {
+          "h": 4,
+          "w": 6,
+          "x": 0,
+          "y": 23
+        },
+        "id": 12,
+        "options": {
+          "colorMode": "value",
+          "graphMode": "none",
+          "justifyMode": "auto",
+          "orientation": "auto",
+          "reduceOptions": {
+            "calcs": [
+              "lastNotNull"
+            ],
+            "fields": "",
+            "values": false
+          },
+          "textMode": "auto"
+        },
+        "targets": [
+          {
+            "datasource": {
+              "type": "grafana-postgresql-datasource",
+              "uid": "nawari-homer-postgres"
+            },
+            "format": "table",
+            "rawSql": "SELECT count(*) AS total_sip_packets FROM hep_proto_1_default;",
+            "refId": "TOTAL_SIP"
+          }
+        ],
+        "title": "Total Ingested SIP Packets [HOMER 7 / HEPLIFY]",
+        "type": "stat"
+      },
+      {
+        "datasource": {
+          "type": "grafana-postgresql-datasource",
+          "uid": "nawari-homer-postgres"
+        },
+        "description": "Total in-dialog call packets (INVITE, 100, 180, 200 OK, ACK, BYE) stored in partitioned PostgreSQL homer_data. Source: res_hep_pjsip on UDP 9060.",
+        "fieldConfig": {
+          "defaults": {
+            "color": {
+              "mode": "thresholds"
+            },
+            "thresholds": {
+              "mode": "absolute",
+              "steps": [
+                {
+                  "color": "blue",
+                  "value": null
+                },
+                {
+                  "color": "green",
+                  "value": 10
+                }
+              ]
+            },
+            "unit": "short"
+          },
+          "overrides": []
+        },
+        "gridPos": {
+          "h": 4,
+          "w": 6,
+          "x": 6,
+          "y": 23
+        },
+        "id": 13,
+        "options": {
+          "colorMode": "value",
+          "graphMode": "none",
+          "justifyMode": "auto",
+          "orientation": "auto",
+          "reduceOptions": {
+            "calcs": [
+              "lastNotNull"
+            ],
+            "fields": "",
+            "values": false
+          },
+          "textMode": "auto"
+        },
+        "targets": [
+          {
+            "datasource": {
+              "type": "grafana-postgresql-datasource",
+              "uid": "nawari-homer-postgres"
+            },
+            "format": "table",
+            "rawSql": "SELECT count(*) AS call_dialog_packets FROM hep_proto_1_call;",
+            "refId": "CALL_PACKETS"
+          }
+        ],
+        "title": "Captured Call Dialog Packets [HOMER 7]",
+        "type": "stat"
+      },
+      {
+        "datasource": {
+          "type": "grafana-postgresql-datasource",
+          "uid": "nawari-homer-postgres"
+        },
+        "description": "Real-time captured SIP call transactions from PostgreSQL homer_data. Direct clickable data links open the reconstructed SIP call ladder in Nawari Voice Investigation.",
+        "fieldConfig": {
+          "defaults": {
+            "links": [
+              {
+                "targetBlank": true,
+                "title": "Open SIP Ladder in Nawari Voice Assurance",
+                "url": "https://10.2.1.58:18443/api/v1/assurance/homer/ladder?call_id=${__data.fields.call_id}"
+              }
+            ]
+          },
+          "overrides": []
+        },
+        "gridPos": {
+          "h": 8,
+          "w": 24,
+          "x": 0,
+          "y": 27
+        },
+        "id": 14,
+        "options": {
+          "footer": {
+            "enablePagination": true,
+            "show": true
+          },
+          "showHeader": true
+        },
+        "targets": [
+          {
+            "datasource": {
+              "type": "grafana-postgresql-datasource",
+              "uid": "nawari-homer-postgres"
+            },
+            "format": "table",
+            "rawSql": "SELECT create_date AS \"time\", sid AS \"call_id\", protocol_header->>'srcIp' AS \"source_ip\", protocol_header->>'srcPort' AS \"src_port\", protocol_header->>'dstIp' AS \"dest_ip\", protocol_header->>'dstPort' AS \"dst_port\", data_header->>'method' AS \"method\" FROM hep_proto_1_call ORDER BY create_date DESC LIMIT 50;",
+            "refId": "CALL_LOGS"
+          }
+        ],
+        "title": "Recent Captured SIP Call Transactions [HOMER 7 / NAWARI TRACE]",
+        "type": "table"
+      }
+    ],
+    "refresh": "30s",
+    "schemaVersion": 39,
+    "style": "dark",
+    "tags": [
+      "nawari",
+      "communication-observability",
+      "avaya",
+      "sip-trunks",
+      "carrier",
+      "safaricom",
+      "airtel"
+    ],
+    "templating": {
+      "list": []
+    },
+    "time": {
+      "from": "now-6h",
+      "to": "now"
+    },
+    "timepicker": {
+      "refresh_intervals": [
+        "10s",
+        "30s",
+        "1m",
+        "5m"
+      ]
+    },
+    "timezone": "browser",
+    "title": "Nawari \u2014 Carrier SIP Trunks, Signaling Ladders & Perimeter Session Routing",
+    "uid": "nawari-sip-trunks",
+    "version": 2
+  }
+}

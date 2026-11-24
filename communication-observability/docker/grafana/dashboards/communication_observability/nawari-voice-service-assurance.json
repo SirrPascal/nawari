@@ -1295,6 +1295,64 @@
       "title": "SBCE CPU Utilization [REAL \u2014 SBCE SNMP]",
       "type": "timeseries",
       "description": "Processor core utilization on the Avaya SBCE appliance. Units: Percentage (0\u2013100%). Source: HOST-RESOURCES-MIB via Zabbix. Note: Real appliance hardware telemetry. Missing data indicates collector outage, agent failure, or network disruption; values are preserved as null gaps."
+    },
+    {
+      "collapsed": false,
+      "gridPos": {
+        "h": 1,
+        "w": 24,
+        "x": 0,
+        "y": 31
+      },
+      "id": 17,
+      "title": "Synthetic AVTEST Call Execution Stream & Forensic Evidence",
+      "type": "row"
+    },
+    {
+      "datasource": {
+        "type": "grafana-postgresql-datasource",
+        "uid": "nawari-homer-postgres"
+      },
+      "description": "Real-time trace evidence of Asterisk/AVTEST synthetic test executions recorded by Homer 7. Clickable links navigate directly to the reconstructed SIP sequence ladder in Nawari Voice Assurance.",
+      "fieldConfig": {
+        "defaults": {
+          "links": [
+            {
+              "title": "Open Synthetic Call Ladder in Nawari Voice Assurance",
+              "url": "https://10.2.1.58:18443/api/v1/assurance/homer/ladder?call_id=${__data.fields.call_id}",
+              "targetBlank": true
+            }
+          ]
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 8,
+        "w": 24,
+        "x": 0,
+        "y": 32
+      },
+      "id": 18,
+      "options": {
+        "footer": {
+          "enablePagination": true,
+          "show": true
+        },
+        "showHeader": true
+      },
+      "targets": [
+        {
+          "datasource": {
+            "type": "grafana-postgresql-datasource",
+            "uid": "nawari-homer-postgres"
+          },
+          "format": "table",
+          "rawSql": "SELECT create_date AS \"time\", sid AS \"call_id\", protocol_header->>'srcIp' AS \"source\", protocol_header->>'dstIp' AS \"destination\", data_header->>'method' AS \"method\" FROM hep_proto_1_call ORDER BY create_date DESC LIMIT 25;",
+          "refId": "AVTEST_TRACE"
+        }
+      ],
+      "title": "Recent Synthetic Call Traces [AVTEST / HOMER 7]",
+      "type": "table"
     }
   ],
   "refresh": "10s",

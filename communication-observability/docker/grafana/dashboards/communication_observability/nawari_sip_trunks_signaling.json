@@ -507,6 +507,190 @@
       ],
       "title": "Carrier Interface Packet Errors (Errors/sec) [REAL \u2014 SBCE SNMP]",
       "type": "timeseries"
+    },
+    {
+      "collapsed": false,
+      "gridPos": {
+        "h": 1,
+        "w": 24,
+        "x": 0,
+        "y": 22
+      },
+      "id": 11,
+      "title": "HOMER 7 SIP Packet Capture & Call Stream Observability",
+      "type": "row"
+    },
+    {
+      "datasource": {
+        "type": "grafana-postgresql-datasource",
+        "uid": "nawari-homer-postgres"
+      },
+      "description": "Total out-of-dialog SIP packets (OPTIONS qualify, heartbeats, and registers) ingested by Heplify Server into PostgreSQL homer_data. Real-time HEPv3 capture on UDP 9060.",
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "thresholds"
+          },
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "blue",
+                "value": null
+              },
+              {
+                "color": "green",
+                "value": 100
+              }
+            ]
+          },
+          "unit": "short"
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 4,
+        "w": 6,
+        "x": 0,
+        "y": 23
+      },
+      "id": 12,
+      "options": {
+        "colorMode": "value",
+        "graphMode": "none",
+        "justifyMode": "auto",
+        "orientation": "auto",
+        "reduceOptions": {
+          "calcs": [
+            "lastNotNull"
+          ],
+          "fields": "",
+          "values": false
+        },
+        "textMode": "auto"
+      },
+      "targets": [
+        {
+          "datasource": {
+            "type": "grafana-postgresql-datasource",
+            "uid": "nawari-homer-postgres"
+          },
+          "format": "table",
+          "rawSql": "SELECT count(*) AS total_sip_packets FROM hep_proto_1_default;",
+          "refId": "TOTAL_SIP"
+        }
+      ],
+      "title": "Total Ingested SIP Packets [HOMER 7 / HEPLIFY]",
+      "type": "stat"
+    },
+    {
+      "datasource": {
+        "type": "grafana-postgresql-datasource",
+        "uid": "nawari-homer-postgres"
+      },
+      "description": "Total in-dialog call packets (INVITE, 100, 180, 200 OK, ACK, BYE) stored in partitioned PostgreSQL homer_data. Source: res_hep_pjsip on UDP 9060.",
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "thresholds"
+          },
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "blue",
+                "value": null
+              },
+              {
+                "color": "green",
+                "value": 10
+              }
+            ]
+          },
+          "unit": "short"
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 4,
+        "w": 6,
+        "x": 6,
+        "y": 23
+      },
+      "id": 13,
+      "options": {
+        "colorMode": "value",
+        "graphMode": "none",
+        "justifyMode": "auto",
+        "orientation": "auto",
+        "reduceOptions": {
+          "calcs": [
+            "lastNotNull"
+          ],
+          "fields": "",
+          "values": false
+        },
+        "textMode": "auto"
+      },
+      "targets": [
+        {
+          "datasource": {
+            "type": "grafana-postgresql-datasource",
+            "uid": "nawari-homer-postgres"
+          },
+          "format": "table",
+          "rawSql": "SELECT count(*) AS call_dialog_packets FROM hep_proto_1_call;",
+          "refId": "CALL_PACKETS"
+        }
+      ],
+      "title": "Captured Call Dialog Packets [HOMER 7]",
+      "type": "stat"
+    },
+    {
+      "datasource": {
+        "type": "grafana-postgresql-datasource",
+        "uid": "nawari-homer-postgres"
+      },
+      "description": "Real-time captured SIP call transactions from PostgreSQL homer_data. Direct clickable data links open the reconstructed SIP call ladder in Nawari Voice Investigation.",
+      "fieldConfig": {
+        "defaults": {
+          "links": [
+            {
+              "title": "Open SIP Ladder in Nawari Voice Assurance",
+              "url": "https://10.2.1.58:18443/api/v1/assurance/homer/ladder?call_id=${__data.fields.call_id}",
+              "targetBlank": true
+            }
+          ]
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 8,
+        "w": 24,
+        "x": 0,
+        "y": 27
+      },
+      "id": 14,
+      "options": {
+        "footer": {
+          "enablePagination": true,
+          "show": true
+        },
+        "showHeader": true
+      },
+      "targets": [
+        {
+          "datasource": {
+            "type": "grafana-postgresql-datasource",
+            "uid": "nawari-homer-postgres"
+          },
+          "format": "table",
+          "rawSql": "SELECT create_date AS \"time\", sid AS \"call_id\", protocol_header->>'srcIp' AS \"source_ip\", protocol_header->>'srcPort' AS \"src_port\", protocol_header->>'dstIp' AS \"dest_ip\", protocol_header->>'dstPort' AS \"dst_port\", data_header->>'method' AS \"method\" FROM hep_proto_1_call ORDER BY create_date DESC LIMIT 50;",
+          "refId": "CALL_LOGS"
+        }
+      ],
+      "title": "Recent Captured SIP Call Transactions [HOMER 7 / NAWARI TRACE]",
+      "type": "table"
     }
   ],
   "refresh": "30s",

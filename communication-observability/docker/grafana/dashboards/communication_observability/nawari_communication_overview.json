@@ -5,7 +5,7 @@
   "editable": true,
   "fiscalYearStartMonth": 0,
   "graphTooltip": 1,
-  "id": null,
+  "id": 35,
   "links": [],
   "liveNow": false,
   "panels": [
@@ -35,13 +35,13 @@
           "mappings": [
             {
               "options": {
-                "1": {
-                  "color": "green",
-                  "text": "ONLINE (UP)"
-                },
                 "0": {
                   "color": "red",
                   "text": "OFFLINE (DOWN)"
+                },
+                "1": {
+                  "color": "green",
+                  "text": "ONLINE (UP)"
                 }
               },
               "type": "value"
@@ -90,7 +90,7 @@
             "name": "Voice Infrastructure"
           },
           "host": {
-            "name": "avaya-sbce-01"
+            "filter": "Avaya SBCE Primary (HQ-DMZ)"
           },
           "item": {
             "name": "SBCE Appliance Reachability"
@@ -102,7 +102,7 @@
             "name": "Voice Infrastructure"
           },
           "host": {
-            "name": "avaya-sm-01"
+            "filter": "Avaya Session Manager Primary (HQ-CORE)"
           },
           "item": {
             "name": "Session Manager SNMP Availability"
@@ -114,7 +114,7 @@
             "name": "Voice Infrastructure"
           },
           "host": {
-            "name": "avaya-cm-01"
+            "filter": "Avaya Communication Manager Duplex (HQ-CORE)"
           },
           "item": {
             "name": "Communication Manager SNMP Availability"
@@ -126,7 +126,7 @@
             "name": "Voice Infrastructure"
           },
           "host": {
-            "name": "avaya-g450-01"
+            "filter": "Avaya G450 Media Gateway (HQ-GATEWAY)"
           },
           "item": {
             "name": "G450 ICMP Reachability"
@@ -204,7 +204,7 @@
             "name": "Voice Infrastructure"
           },
           "host": {
-            "name": "avaya-cm-01"
+            "filter": "Avaya Communication Manager Duplex (HQ-CORE)"
           },
           "item": {
             "name": "Active Alarms Count"
@@ -216,7 +216,7 @@
             "name": "Voice Infrastructure"
           },
           "host": {
-            "name": "avaya-sm-01"
+            "filter": "Avaya Session Manager Primary (HQ-CORE)"
           },
           "item": {
             "name": "Session Manager Active Alarms Count"
@@ -298,7 +298,7 @@
             "name": "Voice Infrastructure"
           },
           "host": {
-            "name": "avaya-sbce-01"
+            "filter": "Avaya SBCE Primary (HQ-DMZ)"
           },
           "item": {
             "name": "Active SIP Calls"
@@ -323,13 +323,13 @@
           "mappings": [
             {
               "options": {
-                "1": {
-                  "color": "green",
-                  "text": "REGISTERED (SIP UP)"
-                },
                 "0": {
                   "color": "red",
                   "text": "DOWN (UNREGISTERED)"
+                },
+                "1": {
+                  "color": "green",
+                  "text": "REGISTERED (SIP UP)"
                 }
               },
               "type": "value"
@@ -436,7 +436,7 @@
             "name": "Voice Infrastructure"
           },
           "host": {
-            "name": "avaya-cm-01"
+            "filter": "Avaya Communication Manager Duplex (HQ-CORE)"
           },
           "item": {
             "name": "Call Rate Total Attempts (Hourly Measurement Interval)"
@@ -448,7 +448,7 @@
             "name": "Voice Infrastructure"
           },
           "host": {
-            "name": "avaya-cm-01"
+            "filter": "Avaya Communication Manager Duplex (HQ-CORE)"
           },
           "item": {
             "name": "Call Rate Completed Calls (Hourly Measurement Interval)"
@@ -729,7 +729,7 @@
             "name": "Voice Infrastructure"
           },
           "host": {
-            "name": "avaya-cm-01"
+            "filter": "Avaya Communication Manager Duplex (HQ-CORE)"
           },
           "item": {
             "name": "avCmRealCallEstimatedMos"
@@ -799,7 +799,7 @@
             "name": "Voice Infrastructure"
           },
           "host": {
-            "name": "avaya-cm-01"
+            "filter": "Avaya Communication Manager Duplex (HQ-CORE)"
           },
           "item": {
             "name": "Real-Call Packet Loss (Last Hour)"
@@ -1005,5 +1005,5 @@
   "timezone": "browser",
   "title": "Nawari \u2014 Enterprise Communication Services Overview & Executive Service Assurance",
   "uid": "nawari-comm-overview",
-  "version": 1
+  "version": 2
 }

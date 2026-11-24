@@ -1,0 +1,699 @@
+{
+  "meta": {
+    "type": "db",
+    "canSave": true,
+    "canEdit": true,
+    "canAdmin": true,
+    "canStar": true,
+    "canDelete": true,
+    "slug": "3ea9bea",
+    "url": "/grafana/d/nawari-g450-gateway/3ea9bea",
+    "expires": "0001-01-01T00:00:00Z",
+    "created": "2026-11-24T13:39:02Z",
+    "updated": "2026-11-24T13:39:02Z",
+    "updatedBy": "Anonymous",
+    "createdBy": "Anonymous",
+    "version": 1,
+    "hasAcl": false,
+    "isFolder": false,
+    "folderId": 15,
+    "folderUid": "nawari-comm-obs",
+    "folderTitle": "Voice & Communications Observability",
+    "folderUrl": "/grafana/dashboards/f/nawari-comm-obs/voice-and-communications-observability",
+    "provisioned": false,
+    "provisionedExternalId": "avaya_g450_media_gateway.json",
+    "annotationsPermissions": {
+      "dashboard": {
+        "canAdd": true,
+        "canEdit": true,
+        "canDelete": true
+      },
+      "organization": {
+        "canAdd": true,
+        "canEdit": true,
+        "canDelete": true
+      }
+    }
+  },
+  "dashboard": {
+    "annotations": {
+      "list": []
+    },
+    "editable": true,
+    "fiscalYearStartMonth": 0,
+    "graphTooltip": 1,
+    "id": 40,
+    "links": [],
+    "liveNow": false,
+    "panels": [
+      {
+        "collapsed": false,
+        "gridPos": {
+          "h": 1,
+          "w": 24,
+          "x": 0,
+          "y": 0
+        },
+        "id": 1,
+        "title": "G450 Media Gateway Appliance & Controller Registration",
+        "type": "row"
+      },
+      {
+        "datasource": {
+          "type": "alexanderzobnin-zabbix-datasource",
+          "uid": "PA67C5EADE9207728"
+        },
+        "description": "Operating time of the Avaya G450 chassis processor since last reload or power cycle. Source: MIB-II sysUpTime (OID 1.3.6.1.2.1.1.3.0). Polling: 60s. Freshness: 60s. Missing data indicates collector outage, agent failure, or network disruption; values are preserved as null gaps.",
+        "fieldConfig": {
+          "defaults": {
+            "unit": "s"
+          },
+          "overrides": []
+        },
+        "gridPos": {
+          "h": 6,
+          "w": 6,
+          "x": 0,
+          "y": 1
+        },
+        "id": 2,
+        "options": {
+          "colorMode": "value",
+          "graphMode": "none",
+          "justifyMode": "auto",
+          "orientation": "auto",
+          "reduceOptions": {
+            "calcs": [
+              "lastNotNull"
+            ],
+            "fields": "",
+            "values": false
+          },
+          "textMode": "auto"
+        },
+        "targets": [
+          {
+            "group": {
+              "name": "Voice Infrastructure"
+            },
+            "host": {
+              "name": "avaya-g450-01"
+            },
+            "item": {
+              "name": "Chassis System Uptime"
+            },
+            "refId": "UPTIME"
+          }
+        ],
+        "title": "G450 System Uptime [REAL \u2014 HARDWARE]",
+        "type": "stat"
+      },
+      {
+        "datasource": {
+          "type": "alexanderzobnin-zabbix-datasource",
+          "uid": "PA67C5EADE9207728"
+        },
+        "description": "Registration status of the G450 Media Gateway with its controlling Avaya Communication Manager server. 1 = REGISTERED, 2 = UNREGISTERED, 3 = DISCOVERING. Source: Avaya G450 Gateway MIB. Polling: 60s. Critical alert if unregistered. Missing data indicates collector outage, agent failure, or network disruption; values are preserved as null gaps.",
+        "fieldConfig": {
+          "defaults": {
+            "color": {
+              "mode": "thresholds"
+            },
+            "mappings": [
+              {
+                "options": {
+                  "1": {
+                    "color": "green",
+                    "text": "REGISTERED (ACTIVE)"
+                  },
+                  "2": {
+                    "color": "red",
+                    "text": "UNREGISTERED (DOWN)"
+                  },
+                  "3": {
+                    "color": "yellow",
+                    "text": "DISCOVERING"
+                  }
+                },
+                "type": "value"
+              }
+            ],
+            "thresholds": {
+              "mode": "absolute",
+              "steps": [
+                {
+                  "color": "red",
+                  "value": null
+                },
+                {
+                  "color": "green",
+                  "value": 1
+                }
+              ]
+            }
+          },
+          "overrides": []
+        },
+        "gridPos": {
+          "h": 6,
+          "w": 6,
+          "x": 6,
+          "y": 1
+        },
+        "id": 3,
+        "options": {
+          "colorMode": "background",
+          "graphMode": "none",
+          "justifyMode": "auto",
+          "orientation": "auto",
+          "reduceOptions": {
+            "calcs": [
+              "lastNotNull"
+            ],
+            "fields": "",
+            "values": false
+          },
+          "textMode": "auto"
+        },
+        "targets": [
+          {
+            "group": {
+              "name": "Voice Infrastructure"
+            },
+            "host": {
+              "name": "avaya-g450-01"
+            },
+            "item": {
+              "name": "Gateway CM Registration State"
+            },
+            "refId": "REG_STATE"
+          }
+        ],
+        "title": "CM Gateway Registration [CONFIGURED \u2014 G450 MGP]",
+        "type": "stat"
+      },
+      {
+        "datasource": {
+          "type": "alexanderzobnin-zabbix-datasource",
+          "uid": "PA67C5EADE9207728"
+        },
+        "description": "Event-derived internal thermal state of the G450 chassis processor. States: 0 = UNKNOWN (no trap received / initialized), 1 = CLEARED (normal operation after temperatureClear trap), 2 = WARNING (ambient temperature threshold exceeded after temperatureWarning trap). Important: Avaya G450 MGP firmware does not expose a continuous analog temperature gauge or a separate critical trap state; thermal monitoring is strictly event-derived (Phase 13.3 MIB conformance). Provenance: CONFIGURED_UNVERIFIED. Missing data indicates trapper service failure.",
+        "fieldConfig": {
+          "defaults": {
+            "color": {
+              "mode": "thresholds"
+            },
+            "mappings": [
+              {
+                "options": {
+                  "0": {
+                    "color": "semi-dark-blue",
+                    "text": "UNKNOWN"
+                  },
+                  "1": {
+                    "color": "green",
+                    "text": "CLEARED (NORMAL)"
+                  },
+                  "2": {
+                    "color": "orange",
+                    "text": "THERMAL WARNING"
+                  }
+                },
+                "type": "value"
+              }
+            ],
+            "thresholds": {
+              "mode": "absolute",
+              "steps": [
+                {
+                  "color": "semi-dark-blue",
+                  "value": null
+                },
+                {
+                  "color": "green",
+                  "value": 1
+                },
+                {
+                  "color": "orange",
+                  "value": 2
+                }
+              ]
+            }
+          },
+          "overrides": []
+        },
+        "gridPos": {
+          "h": 6,
+          "w": 6,
+          "x": 12,
+          "y": 1
+        },
+        "id": 4,
+        "options": {
+          "colorMode": "background",
+          "graphMode": "none",
+          "justifyMode": "auto",
+          "orientation": "auto",
+          "reduceOptions": {
+            "calcs": [
+              "lastNotNull"
+            ],
+            "fields": "",
+            "values": false
+          },
+          "textMode": "auto"
+        },
+        "targets": [
+          {
+            "group": {
+              "name": "Voice Infrastructure"
+            },
+            "host": {
+              "name": "avaya-g450-01"
+            },
+            "item": {
+              "name": "Internal Chassis Temperature Alarm State"
+            },
+            "refId": "TEMP"
+          }
+        ],
+        "title": "Chassis Thermal State [EVENT TRAP \u2014 G450 MGP]",
+        "type": "stat"
+      },
+      {
+        "datasource": {
+          "type": "alexanderzobnin-zabbix-datasource",
+          "uid": "PA67C5EADE9207728"
+        },
+        "description": "Operational state of Primary and Redundant Power Supply Units (PSU 1 and PSU 2). 1 = Normal, 2 = Fault/Failed, 3 = Not Installed. Collection Mechanism: Ingested via G450 MGP SNMP traps (powerSupplyFailure / powerSupplyNormal) or chassis status. Provenance: CONFIGURED_UNVERIFIED. Missing data indicates collector outage, agent failure, or network disruption; values are preserved as null gaps.",
+        "fieldConfig": {
+          "defaults": {
+            "color": {
+              "mode": "thresholds"
+            },
+            "mappings": [
+              {
+                "options": {
+                  "1": {
+                    "color": "green",
+                    "text": "NORMAL"
+                  },
+                  "2": {
+                    "color": "red",
+                    "text": "FAULT / FAIL"
+                  },
+                  "3": {
+                    "color": "semi-dark-blue",
+                    "text": "NOT INSTALLED"
+                  }
+                },
+                "type": "value"
+              }
+            ],
+            "thresholds": {
+              "mode": "absolute",
+              "steps": [
+                {
+                  "color": "red",
+                  "value": null
+                },
+                {
+                  "color": "green",
+                  "value": 1
+                }
+              ]
+            }
+          },
+          "overrides": []
+        },
+        "gridPos": {
+          "h": 6,
+          "w": 6,
+          "x": 18,
+          "y": 1
+        },
+        "id": 5,
+        "options": {
+          "colorMode": "background",
+          "graphMode": "none",
+          "justifyMode": "auto",
+          "orientation": "auto",
+          "reduceOptions": {
+            "calcs": [
+              "lastNotNull"
+            ],
+            "fields": "",
+            "values": false
+          },
+          "textMode": "auto"
+        },
+        "targets": [
+          {
+            "group": {
+              "name": "Voice Infrastructure"
+            },
+            "host": {
+              "name": "avaya-g450-01"
+            },
+            "item": {
+              "name": "Primary Power Supply Status"
+            },
+            "refId": "PSU1"
+          },
+          {
+            "group": {
+              "name": "Voice Infrastructure"
+            },
+            "host": {
+              "name": "avaya-g450-01"
+            },
+            "item": {
+              "name": "Secondary Power Supply Status (Redundant)"
+            },
+            "refId": "PSU2"
+          }
+        ],
+        "title": "Power Supply Status (PSU 1 & 2) [CONFIGURED \u2014 EVENT TRAP]",
+        "type": "stat"
+      },
+      {
+        "collapsed": false,
+        "gridPos": {
+          "h": 1,
+          "w": 24,
+          "x": 0,
+          "y": 7
+        },
+        "id": 6,
+        "title": "Media Modules, Trunk Ports & Media Resources",
+        "type": "row"
+      },
+      {
+        "datasource": {
+          "type": "alexanderzobnin-zabbix-datasource",
+          "uid": "PA67C5EADE9207728"
+        },
+        "description": "Operational link status of the physical E1 / ISDN PRI trunk port on the installed MM710 media module. 1 = UP, 2 = DOWN. Source: IF-MIB ifOperStatus. Polling: 60s. Critical alert if down. Missing data indicates collector outage, agent failure, or network disruption; values are preserved as null gaps.",
+        "fieldConfig": {
+          "defaults": {
+            "color": {
+              "mode": "thresholds"
+            },
+            "mappings": [
+              {
+                "options": {
+                  "1": {
+                    "color": "green",
+                    "text": "LINK UP"
+                  },
+                  "2": {
+                    "color": "red",
+                    "text": "LINK DOWN"
+                  }
+                },
+                "type": "value"
+              }
+            ],
+            "thresholds": {
+              "mode": "absolute",
+              "steps": [
+                {
+                  "color": "red",
+                  "value": null
+                },
+                {
+                  "color": "green",
+                  "value": 1
+                }
+              ]
+            }
+          },
+          "overrides": []
+        },
+        "gridPos": {
+          "h": 6,
+          "w": 8,
+          "x": 0,
+          "y": 8
+        },
+        "id": 7,
+        "options": {
+          "colorMode": "background",
+          "graphMode": "none",
+          "justifyMode": "auto",
+          "orientation": "auto",
+          "reduceOptions": {
+            "calcs": [
+              "lastNotNull"
+            ],
+            "fields": "",
+            "values": false
+          },
+          "textMode": "auto"
+        },
+        "targets": [
+          {
+            "group": {
+              "name": "Voice Infrastructure"
+            },
+            "host": {
+              "name": "avaya-g450-01"
+            },
+            "item": {
+              "name": "E1/ISDN Primary Trunk Port Operational Status"
+            },
+            "refId": "E1_STATUS"
+          }
+        ],
+        "title": "E1 / ISDN PRI Physical Trunk State [CONFIGURED \u2014 IF-MIB]",
+        "type": "stat"
+      },
+      {
+        "datasource": {
+          "type": "alexanderzobnin-zabbix-datasource",
+          "uid": "PA67C5EADE9207728"
+        },
+        "description": "VoIP DSP and media resource channel utilization. Status: Not collected \u2014 requires physical audit of installed G450 firmware and DSP child cards (MP20 / MP80 for older branch gateways, MP120 / MP160 for high-capacity models). Unconfirmed telemetry is honestly displayed as N/A rather than an invented percentage. Missing data indicates uncollected hardware telemetry.",
+        "fieldConfig": {
+          "defaults": {
+            "color": {
+              "mode": "thresholds"
+            },
+            "noValue": "Not Collected (Hardware Audit Required)",
+            "thresholds": {
+              "mode": "absolute",
+              "steps": [
+                {
+                  "color": "semi-dark-blue",
+                  "value": null
+                }
+              ]
+            }
+          },
+          "overrides": []
+        },
+        "gridPos": {
+          "h": 6,
+          "w": 8,
+          "x": 8,
+          "y": 8
+        },
+        "id": 8,
+        "options": {
+          "colorMode": "background",
+          "graphMode": "none",
+          "justifyMode": "auto",
+          "orientation": "auto",
+          "reduceOptions": {
+            "calcs": [
+              "lastNotNull"
+            ],
+            "fields": "",
+            "values": false
+          },
+          "textMode": "auto"
+        },
+        "targets": [
+          {
+            "group": {
+              "name": "Voice Infrastructure"
+            },
+            "host": {
+              "name": "avaya-g450-01"
+            },
+            "item": {
+              "name": "avG450DspChannelUtilization"
+            },
+            "refId": "DSP"
+          }
+        ],
+        "title": "DSP Media Resource Channels [NOT COLLECTED \u2014 REQUIRES AUDIT]",
+        "type": "stat"
+      },
+      {
+        "datasource": {
+          "type": "alexanderzobnin-zabbix-datasource",
+          "uid": "PA67C5EADE9207728"
+        },
+        "description": "Operational cooling state of the G450 chassis fan tray unit: 1 = Normal, 2 = Fan Failure, 3 = Warning. Collection Mechanism: Ingested via G450 MGP SNMP trap (fanFailure) or chassis status. Provenance: CONFIGURED_UNVERIFIED. Missing data indicates collector outage, agent failure, or network disruption; values are preserved as null gaps.",
+        "fieldConfig": {
+          "defaults": {
+            "color": {
+              "mode": "thresholds"
+            },
+            "mappings": [
+              {
+                "options": {
+                  "1": {
+                    "color": "green",
+                    "text": "NORMAL"
+                  },
+                  "2": {
+                    "color": "red",
+                    "text": "FAN FAILURE"
+                  },
+                  "3": {
+                    "color": "yellow",
+                    "text": "WARNING"
+                  }
+                },
+                "type": "value"
+              }
+            ],
+            "thresholds": {
+              "mode": "absolute",
+              "steps": [
+                {
+                  "color": "red",
+                  "value": null
+                },
+                {
+                  "color": "green",
+                  "value": 1
+                }
+              ]
+            }
+          },
+          "overrides": []
+        },
+        "gridPos": {
+          "h": 6,
+          "w": 8,
+          "x": 16,
+          "y": 8
+        },
+        "id": 9,
+        "options": {
+          "colorMode": "background",
+          "graphMode": "none",
+          "justifyMode": "auto",
+          "orientation": "auto",
+          "reduceOptions": {
+            "calcs": [
+              "lastNotNull"
+            ],
+            "fields": "",
+            "values": false
+          },
+          "textMode": "auto"
+        },
+        "targets": [
+          {
+            "group": {
+              "name": "Voice Infrastructure"
+            },
+            "host": {
+              "name": "avaya-g450-01"
+            },
+            "item": {
+              "name": "Chassis Fan Tray State"
+            },
+            "refId": "FAN"
+          }
+        ],
+        "title": "Chassis Fan Tray Operational State [CONFIGURED \u2014 EVENT TRAP]",
+        "type": "stat"
+      },
+      {
+        "collapsed": false,
+        "gridPos": {
+          "h": 1,
+          "w": 24,
+          "x": 0,
+          "y": 14
+        },
+        "id": 10,
+        "title": "Media Module Inventory & Slot Architecture",
+        "type": "row"
+      },
+      {
+        "datasource": {
+          "type": "alexanderzobnin-zabbix-datasource",
+          "uid": "PA67C5EADE9207728"
+        },
+        "description": "Inventory table of installed media module slots (V1 through V8) on the G450 chassis, displaying module model (MM710 E1/T1, MM711 Analog, MM716 Station, MM720 ISDN BRI), serial number, and module operational status. Source: Avaya G450 Media Module Discovery. Missing data indicates collector outage, agent failure, or network disruption; values are preserved as null gaps.",
+        "fieldConfig": {
+          "defaults": {},
+          "overrides": []
+        },
+        "gridPos": {
+          "h": 7,
+          "w": 24,
+          "x": 0,
+          "y": 15
+        },
+        "id": 11,
+        "options": {
+          "showHeader": true
+        },
+        "targets": [
+          {
+            "application": {
+              "name": "Media Modules"
+            },
+            "group": {
+              "name": "Voice Infrastructure"
+            },
+            "host": {
+              "name": "avaya-g450-01"
+            },
+            "item": {
+              "name": "Discovered Media Modules Table"
+            },
+            "refId": "MODULES"
+          }
+        ],
+        "title": "Installed Media Module Slot Inventory (V1-V8) [REAL \u2014 HARDWARE]",
+        "type": "table"
+      }
+    ],
+    "refresh": "1m",
+    "schemaVersion": 39,
+    "style": "dark",
+    "tags": [
+      "nawari",
+      "communication-observability",
+      "avaya",
+      "g450",
+      "media-gateway"
+    ],
+    "templating": {
+      "list": []
+    },
+    "time": {
+      "from": "now-6h",
+      "to": "now"
+    },
+    "timepicker": {
+      "refresh_intervals": [
+        "30s",
+        "1m",
+        "5m"
+      ]
+    },
+    "timezone": "browser",
+    "title": "Nawari \u2014 Avaya G450 Media Gateway Appliance & Physical Telephony Health",
+    "uid": "nawari-g450-gateway",
+    "version": 1
+  }
+}

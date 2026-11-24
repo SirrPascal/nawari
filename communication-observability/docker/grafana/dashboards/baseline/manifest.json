@@ -1,0 +1,146 @@
+[
+  {
+    "uid": "nawari-net-coverage",
+    "title": "Monitoring Coverage and Data Quality",
+    "folder": "Nawari / Network Observability",
+    "folder_uid": "nawari-network-obs",
+    "filename": "nawari-net-coverage.json",
+    "panels_count": 7
+  },
+  {
+    "uid": "nawari-communication-manager",
+    "title": "Nawari \u2014 Avaya Aura Communication Manager (CM) Call Processing & IP Voice Performance",
+    "folder": "Voice & Communications Observability",
+    "folder_uid": "nawari-comm-obs",
+    "filename": "nawari-communication-manager.json",
+    "panels_count": 14
+  },
+  {
+    "uid": "nawari-session-manager",
+    "title": "Nawari \u2014 Avaya Aura Session Manager (ASM) Operational Health & SIP Entity Routing",
+    "folder": "Voice & Communications Observability",
+    "folder_uid": "nawari-comm-obs",
+    "filename": "nawari-session-manager.json",
+    "panels_count": 12
+  },
+  {
+    "uid": "nawari-cms-contact-centre",
+    "title": "Nawari \u2014 Avaya Call Management System (CMS) & Contact Centre Performance",
+    "folder": "Voice & Communications Observability",
+    "folder_uid": "nawari-comm-obs",
+    "filename": "nawari-cms-contact-centre.json",
+    "panels_count": 12
+  },
+  {
+    "uid": "nawari-g450-gateway",
+    "title": "Nawari \u2014 Avaya G450 Media Gateway Appliance & Physical Telephony Health",
+    "folder": "Voice & Communications Observability",
+    "folder_uid": "nawari-comm-obs",
+    "filename": "nawari-g450-gateway.json",
+    "panels_count": 11
+  },
+  {
+    "uid": "nawari-sbce-health",
+    "title": "Nawari \u2014 Avaya SBCE Operational Health",
+    "folder": "Voice & Communications Observability",
+    "folder_uid": "nawari-comm-obs",
+    "filename": "nawari-sbce-health.json",
+    "panels_count": 20
+  },
+  {
+    "uid": "nawari-sip-trunks",
+    "title": "Nawari \u2014 Carrier SIP Trunks, Signaling Ladders & Perimeter Session Routing",
+    "folder": "Voice & Communications Observability",
+    "folder_uid": "nawari-comm-obs",
+    "filename": "nawari-sip-trunks.json",
+    "panels_count": 14
+  },
+  {
+    "uid": "nawari-voice-intelligence",
+    "title": "Nawari \u2014 Communications Intelligence & Voice Service Assurance",
+    "folder": "Voice & Communications Observability",
+    "folder_uid": "nawari-comm-obs",
+    "filename": "nawari-voice-intelligence.json",
+    "panels_count": 15
+  },
+  {
+    "uid": "nawari-voice-correlation",
+    "title": "Nawari \u2014 Cross-Domain Voice & Endpoint Telemetry Correlation",
+    "folder": "Voice & Communications Observability",
+    "folder_uid": "nawari-comm-obs",
+    "filename": "nawari-voice-correlation.json",
+    "panels_count": 14
+  },
+  {
+    "uid": "nawari-endpoint-detail",
+    "title": "Nawari \u2014 Endpoint Deep-Dive & Edge Experience",
+    "folder": "Nawari / Network Observability",
+    "folder_uid": "nawari-network-obs",
+    "filename": "nawari-endpoint-detail.json",
+    "panels_count": 23
+  },
+  {
+    "uid": "nawari-endpoint-fleet",
+    "title": "Nawari \u2014 Endpoint Fleet Observability Overview",
+    "folder": "Nawari / Network Observability",
+    "folder_uid": "nawari-network-obs",
+    "filename": "nawari-endpoint-fleet.json",
+    "panels_count": 19
+  },
+  {
+    "uid": "nawari-comm-overview",
+    "title": "Nawari \u2014 Enterprise Communication Services Overview & Executive Service Assurance",
+    "folder": "Voice & Communications Observability",
+    "folder_uid": "nawari-comm-obs",
+    "filename": "nawari-comm-overview.json",
+    "panels_count": 16
+  },
+  {
+    "uid": "nawari-recording-wfo",
+    "title": "Nawari \u2014 Voice Recording & Workforce Optimisation (WFO) Operational Health",
+    "folder": "Voice & Communications Observability",
+    "folder_uid": "nawari-comm-obs",
+    "filename": "nawari-recording-wfo.json",
+    "panels_count": 13
+  },
+  {
+    "uid": "nawari-voice-service-assurance",
+    "title": "Nawari \u2014 Voice Service Assurance & Media Quality",
+    "folder": "Voice & Communications Observability",
+    "folder_uid": "nawari-comm-obs",
+    "filename": "nawari-voice-service-assurance.json",
+    "panels_count": 18
+  },
+  {
+    "uid": "nawari-net-avail",
+    "title": "Network Device Availability",
+    "folder": "Nawari / Network Observability",
+    "folder_uid": "nawari-network-obs",
+    "filename": "nawari-net-avail.json",
+    "panels_count": 5
+  },
+  {
+    "uid": "nawari-net-overview",
+    "title": "Network Device Overview",
+    "folder": "Nawari / Network Observability",
+    "folder_uid": "nawari-network-obs",
+    "filename": "nawari-net-overview.json",
+    "panels_count": 10
+  },
+  {
+    "uid": "nawari-net-incident",
+    "title": "Network Incident Investigation",
+    "folder": "Nawari / Network Observability",
+    "folder_uid": "nawari-network-obs",
+    "filename": "nawari-net-incident.json",
+    "panels_count": 4
+  },
+  {
+    "uid": "nawari-sw-cisco-logs",
+    "title": "SolarWinds Cisco Logs & Events",
+    "folder": "Nawari / Network Observability",
+    "folder_uid": "nawari-network-obs",
+    "filename": "nawari-sw-cisco-logs.json",
+    "panels_count": 5
+  }
+]
