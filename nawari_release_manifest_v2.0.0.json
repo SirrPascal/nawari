@@ -1,0 +1,123 @@
+{
+  "manifest_version": "2.0.0",
+  "release_name": "Nawari Enterprise Observability & Genuine SIP Provenance",
+  "generated_at": "2026-11-24T21:16:00Z",
+  "git_metadata": {
+    "target_branch": "chore/reconcile-nawari-layout",
+    "base_commit": "c07d5cc",
+    "working_tree_policy": "clean_deploy_only"
+  },
+  "schema_version": 34,
+  "schema_migrations": {
+    "latest_version": 34,
+    "migration_file": "034_canonical_entities_and_ha_relationships.sql",
+    "rollback_file": "rollback_034.sql",
+    "target_database": "nawari_platform"
+  },
+  "component_specifications": [
+    {
+      "name": "nawari-grafana",
+      "image": "nawari-grafana:11.6.0-zabbix-6.10.2",
+      "runtime": "Docker Container",
+      "port_bindings": ["127.0.0.1:3000:3000", "127.0.0.1:3001:3000"],
+      "persistent_volumes": ["nawari-grafana-data"],
+      "dashboards_count": 24,
+      "providers": [
+        {
+          "folderUid": "nawari-network-obs",
+          "folderName": "Nawari / Network Observability",
+          "dashboards": 13
+        },
+        {
+          "folderUid": "nawari-comm-obs",
+          "folderName": "Nawari / Communication Observability",
+          "dashboards": 11
+        }
+      ]
+    },
+    {
+      "name": "nawari-heplify",
+      "image": "ghcr.io/sipcapture/heplify-server:latest",
+      "runtime": "Docker Container",
+      "port_bindings": ["127.0.0.1:9060:9060/udp", "127.0.0.1:9060:9060/tcp", "127.0.0.1:9096:9096/tcp"],
+      "downstream_database": "homer_data",
+      "heplify_mode": "server"
+    },
+    {
+      "name": "nawari-postgres",
+      "image": "postgres:17-alpine",
+      "runtime": "Docker Container",
+      "port_bindings": ["127.0.0.1:5432:5432"],
+      "persistent_volumes": ["nawari-postgres-data"],
+      "databases": ["nawari_platform", "homer_data", "zabbix"]
+    },
+    {
+      "name": "nawari-asterisk",
+      "image": "avtest-asterisk:22.11.0",
+      "runtime": "Docker Container (Isolated Lab)",
+      "port_bindings": ["127.0.0.1:5038:5038", "127.0.0.1:5061:5061", "127.0.0.1:5060:5060/udp"],
+      "purpose": "Synthetic Loopback Probe (AVTEST)",
+      "safety_boundary": "127.0.0.1 only; dialing external corporate numbers is prohibited"
+    },
+    {
+      "name": "nawari-api",
+      "runtime": "Python 3.12 (FastAPI / Nawari Platform Engine)",
+      "port_bindings": ["127.0.0.1:18000:18000"],
+      "auth_mode": "Bearer Token / Microsoft Entra ID OIDC"
+    }
+  ],
+  "dashboard_catalogue_uids": [
+    "nawari-enterprise-overview",
+    "network-infrastructure-overview",
+    "network-topology",
+    "interface-traffic-health",
+    "network-path-analysis",
+    "endpoint-fleet-overview",
+    "endpoint-detail",
+    "nawari-global-outstations",
+    "nawari-edge-fleet",
+    "nawari-incident-operations",
+    "nawari-service-catalog-sla",
+    "nawari-controlled-operations",
+    "nawari-predictive-intelligence",
+    "nawari-communication-overview",
+    "nawari-sbce-health",
+    "nawari-session-manager",
+    "nawari-communication-manager",
+    "nawari-g450-gateway",
+    "nawari-cms-contact-centre",
+    "nawari-recording-wfo",
+    "nawari-sip-trunks",
+    "nawari-voice-service-assurance",
+    "nawari-voice-intelligence",
+    "nawari-voice-correlation"
+  ],
+  "required_persistent_secrets": [
+    {
+      "key": "pilot_operator_token",
+      "path": "persistent/secrets/pilot_operator_token",
+      "permission": "0600",
+      "lifecycle_days": 30
+    },
+    {
+      "key": "snmpv3_auth_priv_credentials",
+      "path": "persistent/secrets/snmpv3_credentials.env",
+      "permission": "0600",
+      "protocol": "SHA-256 / AES-128"
+    },
+    {
+      "key": "homer_postgres_user",
+      "account": "homer_user",
+      "database": "homer_data",
+      "permission": "non-superuser"
+    }
+  ],
+  "verification_status": {
+    "local_unit_tests": "PASSED",
+    "telemetry_integrity_tests": "PASSED",
+    "canonical_entity_ha_tests": "PASSED",
+    "homer_sip_observability_tests": "PASSED",
+    "web_frontend_build": "PASSED",
+    "production_live_telemetry": "BLOCKED_EXTERNAL_DEPENDENCY (Requires Corporate VPN reconnection)"
+  }
+}

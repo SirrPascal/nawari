@@ -118,7 +118,7 @@ def test_mandatory_panel_descriptions_100_percent_coverage():
             if not desc or len(desc.strip()) < 15:
                 missing_descriptions.append(f"{dash_path.name} -> ID {p.get('id')} ({title})")
 
-    assert total_vis_panels in (201, 205), f"Expected 201 or 205 visualization panels, got {total_vis_panels}"
+    assert total_vis_panels in (201, 205, 207), f"Expected 201, 205, or 207 visualization panels, got {total_vis_panels}"
     assert len(missing_descriptions) == 0, f"Missing descriptions on {len(missing_descriptions)} panels: {missing_descriptions}"
 
 

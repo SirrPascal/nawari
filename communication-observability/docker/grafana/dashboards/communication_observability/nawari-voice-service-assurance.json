@@ -1163,7 +1163,8 @@
           },
           "trigger": {
             "filter": ""
-          }
+          },
+          "rawSql": "SELECT create_date AS \"time\", sid AS \"call_id\", protocol_header->>'srcIp' AS \"source\", protocol_header->>'dstIp' AS \"destination\", data_header->>'method' AS \"method\" FROM hep_proto_1_call WHERE protocol_header->>'captureId' = 'nawari-avtest-lab' OR protocol_header->>'srcIp' IN ('127.0.0.1', '::1') ORDER BY create_date DESC LIMIT 25;"
         },
         {
           "application": {
@@ -1196,10 +1197,11 @@
           },
           "trigger": {
             "filter": ""
-          }
+          },
+          "rawSql": "SELECT create_date AS \"time\", sid AS \"call_id\", protocol_header->>'srcIp' AS \"source\", protocol_header->>'dstIp' AS \"destination\", data_header->>'method' AS \"method\" FROM hep_proto_1_call WHERE protocol_header->>'captureId' = 'nawari-avtest-lab' OR protocol_header->>'srcIp' IN ('127.0.0.1', '::1') ORDER BY create_date DESC LIMIT 25;"
         }
       ],
-      "title": "SBCE Signaling (A1) & Media (B1) Traffic Throughput [REAL \u2014 SBCE SNMP]",
+      "title": "Recent Synthetic Call Traces [SYNTHETIC \u2014 ASTERISK PROBE]",
       "type": "timeseries",
       "description": "Real-time physical interface throughput on Avaya SBCE interface A1 (External DMZ carrier signaling) and B1 (Internal Core media). Units: Bits per second (bps). Source: Avaya SBCE IF-MIB via Zabbix SNMPv3. Note: This panel displays REAL infrastructure traffic, distinct from synthetic probe metrics. Missing data indicates collector outage, agent failure, or network disruption; values are preserved as null gaps."
     },

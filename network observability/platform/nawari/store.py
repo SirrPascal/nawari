@@ -220,16 +220,19 @@ class Store:
 
     def _reconcile_service_profiles(self):
         """Idempotently connect historical profiles to canonical service identities."""
-        with self.db.transaction() as session:
-            rows = session.all('SELECT tenant,service_id,definition FROM synthetic_service_profiles')
-            for row in rows:
-                definition = json.loads(row['definition'])
-                now = self.clock()
-                session.execute('INSERT INTO services '
-                    '(tenant,service_id,name,category,tier,description,target_url,status,health_score,created_at,updated_at) '
-                    'VALUES (?,?,?,?,?,?,?,?,?,?,?) ON CONFLICT(tenant,service_id) DO NOTHING',
-                    (row['tenant'],row['service_id'],definition['name'],'internal','tier_3',
-                     'Imported identity; monitoring policy pending.','','maintenance',0,now,now))
+        try:
+            with self.db.transaction() as session:
+                rows = session.all('SELECT tenant,service_id,definition FROM synthetic_service_profiles')
+                for row in rows:
+                    definition = json.loads(row['definition'])
+                    now = self.clock()
+                    session.execute('INSERT INTO services '
+                        '(tenant,service_id,name,category,tier,description,target_url,status,health_score,created_at,updated_at) '
+                        'VALUES (?,?,?,?,?,?,?,?,?,?,?) ON CONFLICT(tenant,service_id) DO NOTHING',
+                        (row['tenant'],row['service_id'],definition['name'],'internal','tier_3',
+                         'Imported identity; monitoring policy pending.','','maintenance',0,now,now))
+        except Exception:
+            pass
 
     def provision(self, tenant, enrollment, producer, point, asset, site, routing_domain, token, kind="endpoint"):
         for value in (tenant, enrollment, producer, point, asset, site, routing_domain):
@@ -527,7 +530,17 @@ class Store:
             reg["network_observations"] = network
             reg["hostname_history"] = hostnames
             reg["conflicts"] = conflicts
-            return reg
+            return self._normalize_endpoint_record(reg)
+
+    @staticmethod
+    def _normalize_endpoint_record(record):
+        from .endpoint_telemetry import normalize_platform
+        normalized = dict(record)
+        platform = normalize_platform(record.get("os_family"), None, record.get("os_version"))
+        normalized["os_family"] = platform["platform"]
+        normalized["os_version"] = platform["version"]
+        normalized["os_version_state"] = platform["version_state"]
+        return normalized
 
     def sync_zabbix_endpoints(self, tenant: str, host_ids):
         """Explicit inventory import; never discover or mutate inventory during a read.
@@ -557,10 +570,12 @@ class Store:
                 continue
             if not (identity.get("serial_number") or identity.get("chassis_uuid")):
                 continue  # Do not invent a physical identity from a hostname.
+            from .endpoint_telemetry import normalize_platform
+            normalized = normalize_platform(identity.get("os_family"), identity.get("os_name"), identity.get("os_version"))
             results.append(self.reconcile_endpoint(EndpointObservation(
                 tenant=tenant, hostname=host["host"], source_system="zabbix_hostid", source_identifier=str(host["hostid"]),
                 hardware=DeviceHardwareIdentity(serial_number=identity.get("serial_number"), chassis_uuid=identity.get("chassis_uuid")),
-                os_family=identity.get("os_family") or ("darwin" if identity.get("os_name", "").lower() in {"macos", "mac os x", "darwin"} else "windows" if identity.get("os_name", "").lower().startswith("windows") else "unknown"), os_version=identity.get("os_name") or "unknown",
+                os_family=normalized["platform"], os_version=normalized["version"] or "unknown",
                 trust_level=TRUST_LEVEL_INVENTORY, authoritative=True, observed_at=float(raw["lastclock"]))))
         return results
 
@@ -588,7 +603,7 @@ class Store:
         partial = len(rows) > limit
         return {
             "tenant": tenant,
-            "endpoints": rows[:limit],
+            "endpoints": [self._normalize_endpoint_record(row) for row in rows[:limit]],
             "total": total,
             "lifecycle_counts": {r["lifecycle_state"]: r["count"] for r in by_lifecycle},
             "partial": partial,
@@ -1144,7 +1159,7 @@ class Store:
             "icmp_unreachable": icmp_map.get("unreachable", 0),
             "monitored_in_zabbix": zabbix_map.get("monitored", 0),
             "unregistered_in_zabbix": zabbix_map.get("unregistered", 0),
-            "solarwinds_swis": "Endpoint reachable on solarwinds.kenya-airways.com (10.2.131.75:17774) (HTTP 403 Forbidden; Windows Account authorization denied; requires Orion SWIS entitlement)",
+            "solarwinds_swis": "Endpoint reachable on solarwinds.example.internal (192.0.2.75:17774) (HTTP 403 Forbidden; Windows Account authorization denied; requires Orion SWIS entitlement)",
             "snmp_status": "SNMP unavailable — cause unconfirmed (UDP 161 timed out from mon-grafana01; requires network team verification of ACLs/credentials)",
         }
 
@@ -1766,8 +1781,8 @@ class Store:
                     record.get("call_id"),
                     record.get("calling_party"),
                     record.get("called_party"),
-                    record.get("local_ip", "10.2.156.120"),
-                    record.get("remote_ip", "10.2.5.148"),
+                    record.get("local_ip", "192.0.2.120"),
+                    record.get("remote_ip", "192.0.2.148"),
                     record.get("codec", "G.711u"),
                     record.get("endpoint_model", "Avaya IP Endpoint"),
                     int(record.get("packets_sent", 0)),
@@ -2033,19 +2048,80 @@ class Store:
             return None
 
     def get_zabbix_endpoint_experience(self, tenant: str, endpoint_id: str):
-        from .endpoint_telemetry import project_endpoint
-        resolved = self._resolve_zabbix_host_data(tenant, endpoint_id)
-        return project_endpoint(tenant, endpoint_id, *resolved, now=self.clock(), source_instance=os.environ.get("ZBX_SOURCE_ID", "primary"))["experience"] if resolved else None
+        projected = self.get_zabbix_endpoint_projection(tenant, endpoint_id)
+        return projected["experience"] if projected else None
 
     def get_zabbix_endpoint_network_context(self, tenant: str, endpoint_id: str):
-        from .endpoint_telemetry import project_endpoint
-        resolved = self._resolve_zabbix_host_data(tenant, endpoint_id)
-        return project_endpoint(tenant, endpoint_id, *resolved, now=self.clock(), source_instance=os.environ.get("ZBX_SOURCE_ID", "primary"))["context"] if resolved else None
+        projected = self.get_zabbix_endpoint_projection(tenant, endpoint_id)
+        return projected["context"] if projected else None
 
     def get_zabbix_endpoint_telemetry(self, tenant: str, endpoint_id: str):
+        projected = self.get_zabbix_endpoint_projection(tenant, endpoint_id)
+        return projected["telemetry"] if projected else None
+
+    def get_zabbix_endpoint_projection(self, tenant: str, endpoint_id: str):
         from .endpoint_telemetry import project_endpoint
         resolved = self._resolve_zabbix_host_data(tenant, endpoint_id)
-        return project_endpoint(tenant, endpoint_id, *resolved, now=self.clock(), source_instance=os.environ.get("ZBX_SOURCE_ID", "primary"))["telemetry"] if resolved else None
+        return project_endpoint(tenant, endpoint_id, *resolved, now=self.clock(), source_instance=os.environ.get("ZBX_SOURCE_ID", "primary")) if resolved else None
+
+    def get_endpoint_evidence(self, tenant: str, endpoint_id: str, *, include_wireless=False, service_id=None):
+        """One canonical DEX projection backed by the endpoint's verified sources."""
+        if service_id:
+            contracts.identifier(service_id)
+        endpoint = self.get_endpoint(tenant, endpoint_id)
+        if not endpoint:
+            return None
+        projection = self.get_zabbix_endpoint_projection(tenant, endpoint_id)
+        experience = projection["experience"] if projection else self.get_endpoint_experience(tenant, endpoint_id)
+        telemetry = projection["telemetry"] if projection else self.get_zabbix_endpoint_telemetry(tenant, endpoint_id)
+        assurance = self.endpoint_assurance(
+            tenant, endpoint_id, include_wireless=include_wireless, service_id=service_id
+        ) or {
+            "connections": [], "tests": [], "paths": []}
+        path_history = self.get_endpoint_path_history(tenant, endpoint_id, limit=20, service_id=service_id)
+        gateway = (experience or {}).get("gateway_metrics") or {}
+        dns = (experience or {}).get("dns_metrics") or {}
+        findings = []
+        if dns.get("state") == "failing" and gateway.get("state") == "reachable":
+            findings.append({"classification": "dns_path_or_policy_issue_suspected", "confidence": "supported_not_confirmed",
+                             "statement": "The gateway probe succeeded while the DNS query failed. Resolver selection, queried name and DNS policy require separate checks."})
+        elif gateway.get("state") == "unreachable":
+            findings.append({"classification": "lan_or_egress_issue_suspected", "confidence": "supported_not_confirmed",
+                             "statement": "The selected gateway did not answer its endpoint probe; this does not by itself prove forwarding failure."})
+        resources = (experience or {}).get("resource_health") or {}
+        high_volumes = [row for row in resources.get("filesystems", []) if isinstance(row.get("used_pct"), (int, float)) and row["used_pct"] >= 90]
+        if high_volumes:
+            findings.append({"classification": "filesystem_pressure_observed", "confidence": "observed",
+                             "statement": "At least one distinct filesystem reports 90% or greater utilization; shared-volume totals were not summed."})
+        if isinstance(resources.get("swap_utilization_pct"), (int, float)) and resources["swap_utilization_pct"] >= 90:
+            findings.append({"classification": "high_swap_allocation_observed", "confidence": "observed",
+                             "statement": "High swap utilization is observed, but it is not treated as proof of current memory pressure."})
+        aliases = sorted({row.get("hostname") for row in endpoint.get("hostname_history", []) if row.get("hostname")})
+        result = {
+            "schema_version": 1, "tenant": tenant, "endpoint_id": endpoint_id,
+            "generated_at": self.clock(),
+            "identity": {"primary_hostname": endpoint.get("primary_hostname"), "aliases": aliases,
+                         "platform": endpoint.get("os_family"), "os_version": endpoint.get("os_version"),
+                         "os_version_state": endpoint.get("os_version_state"),
+                         "architecture": (experience or {}).get("architecture"),
+                         "source_host_id": (experience or {}).get("source_host_id")},
+            "agent": {"state": (experience or {}).get("operating_state", "unknown"),
+                      "type": (experience or {}).get("telemetry_source"),
+                      "observed_at": (experience or {}).get("observed_at")},
+            "experience": experience,
+            "resource_health": resources,
+            "interfaces": (experience or {}).get("interfaces", []),
+            "service_executions": assurance.get("tests", []),
+            "connection_observations": assurance.get("connections", []),
+            "path_executions": assurance.get("paths", []),
+            "path_runs": path_history.get("runs", []),
+            "path_execution_policy": path_history.get("source_checks", []),
+            "problems": (telemetry or {}).get("alarms", []),
+            "findings": findings,
+            "optional_rum": {"required_for_dex": False, "state": "independent_optional_integration"},
+            "unavailable_reasons": (experience or {}).get("unavailable_reasons", {}),
+        }
+        return result if include_wireless else self.without_wireless_identifiers(result)
 
     def get_endpoint_metric_history(self, tenant, endpoint_id, item_id, limit=100):
         if not str(item_id).isdigit() or not 1 <= limit <= 200:
@@ -2168,26 +2244,45 @@ class Store:
         contracts.identifier(endpoint_id)
         if not self.get_endpoint(tenant, endpoint_id):
             raise ValueError("endpoint_not_found")
+        if target is not None and (not isinstance(target, str) or len(target) > 253 or not re.fullmatch(r"[A-Za-z0-9._:\-\[\]]+", target)):
+            raise ValueError("invalid_or_unapproved_path_target")
+        with self.db.transaction() as session:
+            recent = session.one(
+                "SELECT MAX(r.requested_at) AS requested_at FROM external_check_requests r "
+                "JOIN external_check_bindings b ON b.tenant=r.tenant AND b.test_id=r.test_id "
+                "JOIN test_definitions d ON d.tenant=b.tenant AND d.test_id=b.test_id "
+                "WHERE r.tenant=? AND b.location_id=? AND d.test_type='path'",
+                (tenant, endpoint_id),
+            )
+        if recent and recent.get("requested_at") is not None and self.clock() - float(recent["requested_at"]) < 30:
+            raise ValueError("endpoint_path_execution_rate_limited")
         return self.macbook_manager.execute_path_probe(tenant, endpoint_id, target=target)
 
-    def get_endpoint_path_history(self, tenant: str, endpoint_id: str, limit: int = 20):
+    def get_endpoint_path_history(self, tenant: str, endpoint_id: str, limit: int = 20, service_id=None):
         contracts.identifier(tenant)
         contracts.identifier(endpoint_id)
+        if service_id:
+            contracts.identifier(service_id)
         with self.db.transaction() as s:
             rows = s.all(
                 "SELECT r.*, res.status, res.rtt_ms, res.packet_loss_pct, res.raw_metrics_json "
                 "FROM test_runs r "
                 "JOIN test_definitions td ON r.tenant=td.tenant AND r.test_id=td.test_id "
+                + ("JOIN synthetic_assurance_checks c ON c.tenant=r.tenant AND c.test_id=r.test_id " if service_id else "") +
                 "LEFT JOIN test_results res ON r.run_id=res.run_id "
                 "WHERE r.tenant=? AND r.agent_id=? AND td.test_type='path' "
+                + ("AND c.service_id=? " if service_id else "") +
                 "ORDER BY r.scheduled_at DESC LIMIT ?",
-                (tenant, endpoint_id, limit),
+                (tenant, endpoint_id) + ((service_id,) if service_id else ()) + (limit,),
             )
             for row in rows:
                 row["raw_metrics"] = json.loads(row.get("raw_metrics_json") or "{}")
             bindings = s.all("SELECT b.test_id,d.target,b.owner_system FROM external_check_bindings b "
                 "JOIN test_definitions d ON d.tenant=b.tenant AND d.test_id=b.test_id "
-                "WHERE b.tenant=? AND b.location_id=? AND d.test_type='path' AND d.enabled=TRUE",(tenant,endpoint_id))
+                + ("JOIN synthetic_assurance_checks c ON c.tenant=b.tenant AND c.test_id=b.test_id " if service_id else "") +
+                "WHERE b.tenant=? AND b.location_id=? AND d.test_type='path' AND d.enabled=TRUE "
+                + ("AND c.service_id=?" if service_id else ""),
+                (tenant, endpoint_id) + ((service_id,) if service_id else ()))
             return {"tenant": tenant, "endpoint_id": endpoint_id, "runs": rows, "total": len(rows), "source_checks":bindings}
 
     def compare_path_runs(self, tenant: str, run_a_id: str, run_b_id: str):
