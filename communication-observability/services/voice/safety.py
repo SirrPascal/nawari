@@ -99,6 +99,8 @@ class CallSafetyManager:
                     f"Outbound trunk call to '{target}' requires explicit live confirmation: "
                     f"pass live=True and confirm_live_call=True (CLI: --live --confirm-live-call)"
                 )
+            # Staged validation: require Stage 1 (OPTIONS) reachability
+            self.validate_staged_prerequisites(request)
 
         # 5. Circuit Breaker Check
         self.check_circuit_breaker()
@@ -182,6 +184,74 @@ class CallSafetyManager:
                 state.is_tripped = True
 
         state.save(self.settings.circuit_breaker_state_path)
+
+    def record_options_status(
+        self,
+        target_peer: str,
+        is_reachable: bool,
+        rtt_ms: float = 0.0,
+        status_code: int = 200,
+        status_reason: str = "OK",
+    ) -> None:
+        """Persist latest SIP OPTIONS qualification result for staged gating."""
+        path = self.settings.options_state_path
+        data = {}
+        if path.exists():
+            try:
+                with open(path, "r", encoding="utf-8") as f:
+                    data = json.load(f)
+            except Exception:
+                data = {}
+        data[target_peer] = {
+            "target_peer": target_peer,
+            "is_reachable": is_reachable,
+            "rtt_ms": rtt_ms,
+            "status_code": status_code,
+            "status_reason": status_reason,
+            "timestamp": time.time(),
+        }
+        path.parent.mkdir(parents=True, exist_ok=True)
+        tmp = path.with_suffix(".tmp")
+        with open(tmp, "w", encoding="utf-8") as f:
+            json.dump(data, f, indent=2)
+        tmp.replace(path)
+
+    def get_last_options_status(self, target_peer: str) -> Optional[dict]:
+        """Retrieve latest SIP OPTIONS qualification state for a peer."""
+        path = self.settings.options_state_path
+        if not path.exists():
+            return None
+        try:
+            with open(path, "r", encoding="utf-8") as f:
+                data = json.load(f)
+                return data.get(target_peer)
+        except Exception:
+            return None
+
+    def validate_staged_prerequisites(self, request: SyntheticCallRequest) -> None:
+        """Verify that Stage 1 (SIP OPTIONS) has passed before permitting Stage 2 test calls."""
+        target_peer = request.target_entity or "avaya-sbce-primary"
+        status = self.get_last_options_status(target_peer)
+        if not status:
+            raise SafetyViolationError(
+                f"Stage 2 test call blocked: No Stage 1 SIP OPTIONS verification on record for '{target_peer}'. "
+                f"Run 'nawari-voice options --peer {target_peer}' first."
+            )
+        if not status.get("is_reachable"):
+            code = status.get("status_code", 0)
+            reason = status.get("status_reason", "Unreachable")
+            raise SafetyViolationError(
+                f"Stage 2 test call blocked: Stage 1 SIP OPTIONS to '{target_peer}' failed "
+                f"(Status: {code} {reason}). Signaling reachability must be verified first."
+            )
+        elapsed = time.time() - status.get("timestamp", 0.0)
+        if elapsed > self.settings.stage_prerequisite_window_seconds:
+            raise SafetyViolationError(
+                f"Stage 2 test call blocked: Stage 1 SIP OPTIONS qualification for '{target_peer}' "
+                f"expired ({elapsed:.1f}s ago > {self.settings.stage_prerequisite_window_seconds}s limit). "
+                f"Refresh SIP OPTIONS qualification first."
+            )
+
 
     def reset_circuit_breaker(self) -> None:
         """Manually reset the circuit breaker state."""

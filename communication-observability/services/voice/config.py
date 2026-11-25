@@ -62,11 +62,22 @@ class VoiceSettings:
 
     # Safety Allow/Deny Lists
     allowed_targets: list[str] = field(
-        default_factory=lambda: ["1001", "1002", "1003", "1004"]
+        default_factory=lambda: ["1001", "1002", "1003", "1004", "8801", "8802"]
     )
     emergency_blacklist: set[str] = field(
         default_factory=lambda: {"911", "112", "999", "000", "100", "991"}
     )
+
+    # Live Avaya Infrastructure Targets
+    avaya_sbce_primary_ip: str = "10.2.156.131"
+    avaya_sbce_secondary_ip: str = "10.2.156.130"
+    avaya_sm_primary_ip: str = "10.2.156.40"
+    avaya_sip_port: int = 5060
+
+    # Staged Active Testing Controls
+    options_ping_timeout_seconds: float = 3.0
+    options_ping_interval_seconds: int = 60
+    stage_prerequisite_window_seconds: float = 300.0
 
     # Dialplan contexts
     diagnostic_context: str = "nawari-diagnostic"
@@ -84,6 +95,10 @@ class VoiceSettings:
     def circuit_breaker_state_path(self) -> Path:
         return self.state_dir / "circuit_breaker.json"
 
+    @property
+    def options_state_path(self) -> Path:
+        return self.state_dir / "options_status.json"
+
 
 def get_voice_settings() -> VoiceSettings:
     """Instantiate VoiceSettings populated from environment variables."""
@@ -93,7 +108,7 @@ def get_voice_settings() -> VoiceSettings:
     if allowed_targets_env:
         targets = [t.strip() for t in allowed_targets_env.split(",") if t.strip()]
     else:
-        targets = ["1001", "1002", "1003", "1004"]
+        targets = ["1001", "1002", "1003", "1004", "8801", "8802"]
 
     state_dir_env = os.environ.get("NAWARI_VOICE_STATE_DIR")
     state_dir = Path(state_dir_env) if state_dir_env else Path("/tmp/nawari_voice")

@@ -47,6 +47,8 @@ def test_destination_allowlist_enforcement(temp_safety_manager):
     temp_safety_manager.validate_request(
         SyntheticCallRequest(target="1001")
     )
+    # Record green Stage 1 OPTIONS status to satisfy staging prerequisite for live call
+    temp_safety_manager.record_options_status("avaya-sbce-primary", is_reachable=True)
     temp_safety_manager.validate_request(
         SyntheticCallRequest(target="0722000000", live=True, confirm_live_call=True)
     )

@@ -23,6 +23,33 @@ class CallOutcome(str, Enum):
     DRY_RUN = "DRY_RUN"
 
 
+class SipTestStage(str, Enum):
+    """Staged rollout levels for voice observability."""
+
+    STAGE_1_SIP_OPTIONS = "STAGE_1_SIP_OPTIONS"
+    STAGE_2_CONTROLLED_INTERNAL_CALL = "STAGE_2_CONTROLLED_INTERNAL_CALL"
+    STAGE_3_PASSIVE_PRODUCTION_CAPTURE = "STAGE_3_PASSIVE_PRODUCTION_CAPTURE"
+
+
+@dataclass
+class SipOptionsResult:
+    """Telemetry report from an active SIP OPTIONS reachability probe."""
+
+    target_host: str
+    target_port: int = 5060
+    status_code: int = 0
+    status_reason: str = ""
+    rtt_ms: float = 0.0
+    is_reachable: bool = False
+    provenance: str = "SYNTHETIC_AVTEST"
+    error_message: Optional[str] = None
+    timestamp: float = 0.0
+
+    def to_dict(self) -> dict[str, Any]:
+        return asdict(self)
+
+
+
 class MediaVerificationLevel(str, Enum):
     """Verification level for voice audio streams.
 
@@ -139,6 +166,8 @@ class SyntheticCallRequest:
     dry_run: bool = False
     live: bool = False
     confirm_live_call: bool = False
+    stage: str = "STAGE_2_CONTROLLED_INTERNAL_CALL"
+    target_entity: str = "avaya-sbce-primary"
     action_id: Optional[str] = None
     variables: dict[str, str] = field(default_factory=dict)
 
