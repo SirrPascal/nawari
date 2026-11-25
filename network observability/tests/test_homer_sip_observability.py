@@ -24,6 +24,19 @@ from nawari.homer_client import HomerClient, PERMITTED_LOCAL_EXTENSIONS
 from nawari.store import Store
 
 
+def _is_live_homer_available() -> bool:
+    try:
+        import subprocess
+        res = subprocess.run(
+            ["docker", "exec", "nawari-postgres", "psql", "-U", "zabbix", "-d", "homer_data", "-c", "SELECT 1;"],
+            capture_output=True,
+            timeout=2,
+        )
+        return res.returncode == 0
+    except Exception:
+        return False
+
+
 @pytest.fixture
 def homer():
     return HomerClient()
@@ -37,6 +50,8 @@ def store(tmp_path):
 
 def test_homer_service_status(homer):
     """Verifies that the HOMER / Heplify capture pipeline is healthy and active."""
+    if not _is_live_homer_available():
+        pytest.skip("Requires live nawari-postgres container")
     status = homer.get_service_status()
     assert status["status"] == "healthy"
     assert status["heplify_server"]["status"] == "running"
@@ -54,6 +69,8 @@ def test_homer_service_status(homer):
 
 def test_homer_query_captured_calls(homer):
     """Verifies querying distinct SIP transactions from PostgreSQL hep_proto_1_call."""
+    if not _is_live_homer_available():
+        pytest.skip("Requires live nawari-postgres container")
     calls = homer.list_captured_calls(limit=10)
     assert isinstance(calls, list)
     assert len(calls) > 0
@@ -61,12 +78,14 @@ def test_homer_query_captured_calls(homer):
     assert "call_id" in first
     assert "packet_count" in first
     assert "methods" in first
-    assert first["evidence_quality"] in ("verified_genuine_capture", "synthetic_probe")
-    assert first["classification"] in ("PRODUCTION", "SYNTHETIC")
+    assert first["evidence_quality"] in ("verified_genuine_capture", "synthetic_probe", "synthetic_asterisk_probe")
+    assert first["classification"] in ("PRODUCTION", "SYNTHETIC", "SYNTHETIC_ASTERISK", "VERIFIED_PRODUCTION_AVAYA")
 
 
 def test_homer_sip_ladder_parsing(homer):
     """Verifies that raw captured SIP packets are parsed into a chronological SIP ladder."""
+    if not _is_live_homer_available():
+        pytest.skip("Requires live nawari-postgres container")
     calls = homer.list_captured_calls(limit=5)
     assert len(calls) > 0
     call_id = calls[0]["call_id"]
@@ -77,7 +96,7 @@ def test_homer_sip_ladder_parsing(homer):
     assert len(ladder["hops"]) == ladder["total_hops"]
     assert "sequenceDiagram" in ladder["mermaid"]
     assert ladder["correlation_status"] in ("verified", "provisional")
-    assert ladder["classification"] in ("PRODUCTION", "SYNTHETIC")
+    assert ladder["classification"] in ("PRODUCTION", "SYNTHETIC", "SYNTHETIC_ASTERISK", "VERIFIED_PRODUCTION_AVAYA")
 
     # Verify individual hop structure
     first_hop = ladder["hops"][0]
@@ -107,6 +126,8 @@ def test_safety_gate_blocks_corporate_avaya_destinations(homer):
 
 def test_execute_isolated_call_answered_echo(homer):
     """Executes a genuine isolated SIP call to Ext 1001 (Echo) and verifies 200 OK Answered."""
+    if not _is_live_homer_available():
+        pytest.skip("Requires live nawari-postgres and nawari-asterisk containers")
     res = homer.execute_isolated_test_call(extension="1001")
     assert res["target_extension"] == "1001"
     if res['actual_code'] is None:
@@ -130,6 +151,8 @@ def test_execute_isolated_call_answered_echo(homer):
 
 def test_execute_isolated_call_busy_failure(homer):
     """Executes a genuine isolated SIP call to Ext 1003 (Busy Simulator) and verifies 486 Busy."""
+    if not _is_live_homer_available():
+        pytest.skip("Requires live nawari-postgres and nawari-asterisk containers")
     res = homer.execute_isolated_test_call(extension="1003")
     assert res["target_extension"] == "1003"
     if res['actual_code'] is None:

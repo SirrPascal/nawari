@@ -1,0 +1,48 @@
+services:
+  nawari-heplify-agent:
+    image: sipcapture/heplify@sha256:aa6dc20006f8bdd13dd62f1d54789e885843284280224d2ee2f8489d88dffd0e
+    container_name: nawari-heplify-agent
+    restart: unless-stopped
+    privileged: false
+    network_mode: "host"
+    cap_drop:
+      - ALL
+    cap_add:
+      - NET_RAW
+      - NET_ADMIN
+    security_opt:
+      - no-new-privileges:true
+    read_only: true
+    tmpfs:
+      - /tmp:size=10M,mode=1777
+    mem_limit: 256m
+    cpus: 0.50
+    environment:
+      - HEPLIFY_CAPTURE_IFACE=${HEPLIFY_CAPTURE_IFACE:-ens224}
+      - HEPLIFY_SERVER=${HEPLIFY_SERVER:-10.2.1.58:9060}
+      - HEPLIFY_NODE_ID=${HEPLIFY_NODE_ID:-2002}
+      - HEPLIFY_NODE_NAME=${HEPLIFY_NODE_NAME:-nawari-avaya-sbce-prod}
+      - HEPLIFY_SIP_PORTS=${HEPLIFY_SIP_PORTS:-5060-5061}
+      - HEPLIFY_LOG_LEVEL=${HEPLIFY_LOG_LEVEL:-info}
+    command: >
+      heplify
+      -i ${HEPLIFY_CAPTURE_IFACE:-ens224}
+      -hs ${HEPLIFY_SERVER:-10.2.1.58:9060}
+      -hi ${HEPLIFY_NODE_ID:-2002}
+      -hn ${HEPLIFY_NODE_NAME:-nawari-avaya-sbce-prod}
+      -m SIP
+      -pr ${HEPLIFY_SIP_PORTS:-5060-5061}
+      -l ${HEPLIFY_LOG_LEVEL:-info}
+      -promisc=true
+      -vlan=true
+    healthcheck:
+      test: ["CMD-SHELL", "pgrep heplify || exit 1"]
+      interval: 30s
+      timeout: 5s
+      retries: 3
+      start_period: 10s
+    labels:
+      com.nawari.component: "voice-capture-agent"
+      com.nawari.telemetry.domain: "communications"
+      com.nawari.provenance.tier: "production-span"
+      com.nawari.security.hardened: "true"

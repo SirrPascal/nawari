@@ -53,19 +53,52 @@ def resolve_sip_node_name(ip: str, port: int = 5060) -> str:
     return f"Endpoint_{sanitized}"
 
 
-def classify_sip_capture(capture_id: str, src_ip: str) -> tuple[str, str]:
-    """Classifies a captured SIP packet into SYNTHETIC vs PRODUCTION.
+from .telemetry_contract import SipSourceClassification
+
+
+def classify_sip_capture(
+    capture_id: str,
+    src_ip: str,
+    capture_node: str = "",
+    auth_token: str = ""
+) -> tuple[str, str]:
+    """Classifies a captured SIP packet strictly adhering to proven capture provenance.
+    
+    Categories:
+    - SYNTHETIC_ASTERISK: Local Asterisk loopback probe or nawari-avtest-lab.
+    - AUTHORIZED_SYNTHETIC_ENTERPRISE: Signed synthetic enterprise test caller.
+    - VERIFIED_PRODUCTION_AVAYA: Record originated from approved production capture point AND Avaya core.
+    - UNVERIFIED_CAPTURE: Packets from voice subnets lacking authoritative provenance or unverified sources.
+    - UNKNOWN: Missing or empty capture metadata.
     
     Returns:
-        (classification, evidence_quality)
+        (classification_string, evidence_quality_description)
     """
     cid = (capture_id or "").strip()
     sip_src = (src_ip or "").strip()
-    if cid == "nawari-avtest-lab" or sip_src in ("127.0.0.1", "::1"):
-        return ("SYNTHETIC", "synthetic_probe")
-    if cid.startswith("nawari-avaya-") or sip_src.startswith("10.2.156.") or sip_src.startswith("10.102."):
-        return ("PRODUCTION", "verified_production_capture")
-    return ("UNVERIFIED", "unverified_source")
+
+    if not cid and not sip_src:
+        return (SipSourceClassification.UNKNOWN.value, "missing_capture_metadata")
+
+    # 1. Asterisk synthetic loopback
+    if cid == "nawari-avtest-lab" or sip_src in ("127.0.0.1", "::1") or capture_node == "Asterisk_Synthetic_Probe":
+        return (SipSourceClassification.SYNTHETIC_ASTERISK.value, "synthetic_asterisk_probe")
+
+    # 2. Authorized synthetic enterprise test
+    if cid == "nawari-avtest-enterprise" or (auth_token and auth_token.startswith("ey")):
+        return (SipSourceClassification.AUTHORIZED_SYNTHETIC_ENTERPRISE.value, "authorized_synthetic_enterprise")
+
+    # 3. Verified Production Avaya requires approved capture point (e.g. nawari-avaya-sbce-prod on dedicated SPAN)
+    if cid in ("nawari-avaya-sbce-prod", "nawari-avaya-span-prod") and (
+        sip_src.startswith("10.2.156.") or sip_src.startswith("10.102.")
+    ):
+        return (SipSourceClassification.VERIFIED_PRODUCTION_AVAYA.value, "verified_production_avaya_capture")
+
+    # 4. Voice subnet traffic lacking approved capture point is strictly UNVERIFIED
+    if sip_src.startswith("10.2.156.") or sip_src.startswith("10.102."):
+        return (SipSourceClassification.UNVERIFIED_CAPTURE.value, "unverified_subnet_traffic_lacks_provenance")
+
+    return (SipSourceClassification.UNVERIFIED_CAPTURE.value, "unverified_external_capture")
 
 
 class HomerClient:

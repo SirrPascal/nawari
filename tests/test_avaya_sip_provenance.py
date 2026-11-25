@@ -38,21 +38,31 @@ class TestAvayaSipProvenance(unittest.TestCase):
         self.assertEqual(resolve_sip_node_name("192.168.1.50", 5060), "Endpoint_192_168_1_50")
 
     def test_capture_classification(self):
-        """Verify strict separation of synthetic vs production signaling."""
-        # Synthetic node
+        """Verify strict separation of synthetic vs production signaling across all 5 classifications."""
+        # 1. Synthetic Asterisk probe
         synth_class, synth_quality = classify_sip_capture("nawari-avtest-lab", "127.0.0.1")
-        self.assertEqual(synth_class, "SYNTHETIC")
-        self.assertEqual(synth_quality, "synthetic_probe")
+        self.assertEqual(synth_class, "SYNTHETIC_ASTERISK")
+        self.assertEqual(synth_quality, "synthetic_asterisk_probe")
 
-        # Production Avaya node
+        # 2. Authorized synthetic enterprise test
+        ent_class, ent_quality = classify_sip_capture("nawari-avtest-enterprise", "10.2.156.148")
+        self.assertEqual(ent_class, "AUTHORIZED_SYNTHETIC_ENTERPRISE")
+        self.assertEqual(ent_quality, "authorized_synthetic_enterprise")
+
+        # 3. Verified Production Avaya node (approved capture point + Avaya core IP)
         prod_class, prod_quality = classify_sip_capture("nawari-avaya-sbce-prod", "10.2.156.131")
-        self.assertEqual(prod_class, "PRODUCTION")
-        self.assertEqual(prod_quality, "verified_production_capture")
+        self.assertEqual(prod_class, "VERIFIED_PRODUCTION_AVAYA")
+        self.assertEqual(prod_quality, "verified_production_avaya_capture")
 
-        # Production Avaya SM node
-        sm_class, sm_quality = classify_sip_capture("nawari-avaya-sm-prod", "10.2.156.23")
-        self.assertEqual(sm_class, "PRODUCTION")
-        self.assertEqual(sm_quality, "verified_production_capture")
+        # 4. Traffic from voice subnet lacking approved capture point is UNVERIFIED
+        unv_class, unv_quality = classify_sip_capture("unverified-tap", "10.2.156.23")
+        self.assertEqual(unv_class, "UNVERIFIED_CAPTURE")
+        self.assertEqual(unv_quality, "unverified_subnet_traffic_lacks_provenance")
+
+        # 5. Missing metadata is UNKNOWN
+        unk_class, unk_quality = classify_sip_capture("", "")
+        self.assertEqual(unk_class, "UNKNOWN")
+        self.assertEqual(unk_quality, "missing_capture_metadata")
 
     def test_sip_ladder_with_genuine_avaya_endpoints(self):
         """Verify SIP ladder parser preserves observed IPs and generates true multi-node sequence diagrams."""
@@ -120,7 +130,7 @@ class TestAvayaSipProvenance(unittest.TestCase):
 
         ladder = self.homer._parse_sip_ladder_from_rows("avaya-call-test-9901", mock_raw_rows)
         self.assertEqual(ladder["total_hops"], 3)
-        self.assertEqual(ladder["classification"], "PRODUCTION")
+        self.assertEqual(ladder["classification"], "VERIFIED_PRODUCTION_AVAYA")
         self.assertEqual(ladder["capture_node_id"], "nawari-avaya-sbce-prod")
         self.assertIn("Avaya_SBCE_Primary", ladder["nodes"])
         self.assertIn("Avaya_Session_Manager", ladder["nodes"])

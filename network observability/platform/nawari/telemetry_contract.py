@@ -60,6 +60,15 @@ class OperationalHealth(str, enum.Enum):
     UNKNOWN = "UNKNOWN"
 
 
+class SipSourceClassification(str, enum.Enum):
+    """Explicit canonical source classification for voice signaling captures."""
+    SYNTHETIC_ASTERISK = "SYNTHETIC_ASTERISK"
+    AUTHORIZED_SYNTHETIC_ENTERPRISE = "AUTHORIZED_SYNTHETIC_ENTERPRISE"
+    VERIFIED_PRODUCTION_AVAYA = "VERIFIED_PRODUCTION_AVAYA"
+    UNVERIFIED_CAPTURE = "UNVERIFIED_CAPTURE"
+    UNKNOWN = "UNKNOWN"
+
+
 @dataclasses.dataclass
 class SampleDistribution:
     """Statistical distribution of multi-sample probe measurements."""
