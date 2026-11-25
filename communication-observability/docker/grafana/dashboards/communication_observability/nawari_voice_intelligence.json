@@ -718,7 +718,7 @@
         "type": "grafana-postgresql-datasource",
         "uid": "nawari-homer-postgres"
       },
-      "description": "Chronological captured Avaya enterprise SIP signaling from corporate voice network. Filtered to exclude synthetic probe traffic.",
+      "description": "Chronological captured Avaya enterprise SIP signaling from corporate voice network. Positively filtered to require verified capture node identity (nawari-avaya-sbce-prod / nawari-avaya-span-prod) and enterprise voice IP subnets.",
       "fieldConfig": {
         "defaults": {},
         "overrides": []
@@ -740,7 +740,7 @@
             "uid": "nawari-homer-postgres"
           },
           "format": "table",
-          "rawSql": "SELECT create_date AS \"time\", sid AS \"call_id\", COALESCE(data_header->>'from_user', 'anonymous') AS \"from\", COALESCE(data_header->>'to_user', 'unknown') AS \"to\", COALESCE(data_header->>'method', 'SIP') AS \"method\", data_header->>'cseq' AS \"cseq\", protocol_header->>'srcIp' AS \"src_ip\", protocol_header->>'dstIp' AS \"dst_ip\" FROM hep_proto_1_call WHERE (COALESCE(protocol_header->>'captureId', '') != 'nawari-avtest-lab' AND protocol_header->>'srcIp' NOT IN ('127.0.0.1', '::1')) AND $__timeFilter(create_date) ORDER BY create_date DESC LIMIT 50;",
+          "rawSql": "SELECT create_date AS \"time\", sid AS \"call_id\", COALESCE(data_header->>'from_user', 'anonymous') AS \"from\", COALESCE(data_header->>'to_user', 'unknown') AS \"to\", COALESCE(data_header->>'method', 'SIP') AS \"method\", data_header->>'cseq' AS \"cseq\", protocol_header->>'srcIp' AS \"src_ip\", protocol_header->>'dstIp' AS \"dst_ip\" FROM hep_proto_1_call WHERE protocol_header->>'captureId' IN ('nawari-avaya-sbce-prod', 'nawari-avaya-span-prod') AND (protocol_header->>'srcIp' LIKE '10.2.156.%' OR protocol_header->>'srcIp' LIKE '10.102.%') AND $__timeFilter(create_date) ORDER BY create_date DESC LIMIT 50;",
           "refId": "A"
         }
       ],

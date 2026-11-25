@@ -255,3 +255,46 @@ def test_machine_readable_metric_catalogue_validity():
                 "SERVICE_ASSURANCE_SLI"
             )
             assert "spanNulls: False" in p.get("null_handling")
+
+
+def test_sip_production_positive_filtering():
+    """Verify captured SIP production tables use positive capture node provenance instead of negative exclusion."""
+    voice_dash = COMM_OBS_DIR / "nawari_voice_intelligence.json"
+    with open(voice_dash) as f:
+        v_data = json.load(f)
+    p10 = next(p for p in v_data.get("panels", []) if p.get("id") == 10)
+    sql10 = p10["targets"][0]["rawSql"]
+    assert "nawari-avaya-sbce-prod" in sql10, "Panel 10 must positively require nawari-avaya-sbce-prod"
+    assert "nawari-avaya-span-prod" in sql10, "Panel 10 must positively require nawari-avaya-span-prod"
+    assert "10.2.156.%" in sql10, "Panel 10 must require voice subnet IP range"
+    assert "!= 'nawari-avtest-lab'" not in sql10, "Panel 10 must NOT rely on negative exclusion"
+
+    trunks_dash = COMM_OBS_DIR / "nawari_sip_trunks_signaling.json"
+    with open(trunks_dash) as f:
+        t_data = json.load(f)
+    p14 = next(p for p in t_data.get("panels", []) if p.get("id") == 14)
+    sql14 = p14["targets"][0]["rawSql"]
+    assert "nawari-avaya-sbce-prod" in sql14, "Panel 14 must positively require nawari-avaya-sbce-prod"
+    assert "nawari-avaya-span-prod" in sql14, "Panel 14 must positively require nawari-avaya-span-prod"
+    assert "10.2.156.%" in sql14, "Panel 14 must require voice subnet IP range"
+    assert "!= 'nawari-avtest-lab'" not in sql14, "Panel 14 must NOT rely on negative exclusion"
+
+
+def test_solarwinds_syslog_volume_panel_integrity():
+    """Verify SolarWinds log dashboard has distinct 1h and 24h volume panels and never conflates them."""
+    sw_dash_path = ROOT_DIR.parent / "network observability/dashboards/solarwinds_cisco_logs_events.json"
+    with open(sw_dash_path) as f:
+        sw_data = json.load(f)
+
+    panels = {p.get("id"): p for p in sw_data.get("panels", [])}
+    p_1h = next((p for p in panels.values() if "1h" in p.get("title", "")), None)
+    p_24h = next((p for p in panels.values() if "24h" in p.get("title", "")), None)
+
+    assert p_1h is not None, "Must have explicit 1h volume panel"
+    assert p_24h is not None, "Must have explicit 24h volume panel"
+
+    expr_1h = p_1h["targets"][0]["expr"]
+    expr_24h = p_24h["targets"][0]["expr"]
+
+    assert "[1h]" in expr_1h, "1h panel must query [1h] range"
+    assert "[24h]" in expr_24h, "24h panel must query [24h] range"

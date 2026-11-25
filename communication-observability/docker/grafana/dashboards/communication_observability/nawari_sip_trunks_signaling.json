@@ -651,7 +651,7 @@
         "type": "grafana-postgresql-datasource",
         "uid": "nawari-homer-postgres"
       },
-      "description": "Real-time captured SIP call transactions from corporate Avaya SBC and carrier trunks, excluding synthetic loopback probes.",
+      "description": "Real captured SIP signaling sessions traversing enterprise SBC/carrier trunks. Positively filtered on approved capture agents and corporate voice IP subnets.",
       "fieldConfig": {
         "defaults": {
           "links": [
@@ -685,7 +685,7 @@
             "uid": "nawari-homer-postgres"
           },
           "format": "table",
-          "rawSql": "SELECT create_date AS \"time\", sid AS \"call_id\", protocol_header->>'srcIp' AS \"source_ip\", protocol_header->>'srcPort' AS \"src_port\", protocol_header->>'dstIp' AS \"dest_ip\", protocol_header->>'dstPort' AS \"dst_port\", data_header->>'method' AS \"method\" FROM hep_proto_1_call WHERE (COALESCE(protocol_header->>'captureId', '') != 'nawari-avtest-lab' AND protocol_header->>'srcIp' NOT IN ('127.0.0.1', '::1')) ORDER BY create_date DESC LIMIT 50;",
+          "rawSql": "SELECT create_date AS \"time\", sid AS \"call_id\", protocol_header->>'srcIp' AS \"source_ip\", protocol_header->>'srcPort' AS \"src_port\", protocol_header->>'dstIp' AS \"dest_ip\", protocol_header->>'dstPort' AS \"dst_port\", data_header->>'method' AS \"method\" FROM hep_proto_1_call WHERE protocol_header->>'captureId' IN ('nawari-avaya-sbce-prod', 'nawari-avaya-span-prod') AND (protocol_header->>'srcIp' LIKE '10.2.156.%' OR protocol_header->>'srcIp' LIKE '10.102.%') ORDER BY create_date DESC LIMIT 50;",
           "refId": "CALL_LOGS"
         }
       ],
