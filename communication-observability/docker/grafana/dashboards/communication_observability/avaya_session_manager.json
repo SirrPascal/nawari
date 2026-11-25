@@ -80,7 +80,7 @@
             "name": "Voice Infrastructure"
           },
           "host": {
-            "filter": "Avaya Session Manager Primary (HQ-CORE)"
+            "filter": "/(Avaya Session Manager Primary \\(HQ-CORE\\)|HQ-ASM01|avaya-sm-01)/"
           },
           "item": {
             "name": "Session Manager Host CPU Utilization"
@@ -150,7 +150,7 @@
             "name": "Voice Infrastructure"
           },
           "host": {
-            "filter": "Avaya Session Manager Primary (HQ-CORE)"
+            "filter": "/(Avaya Session Manager Primary \\(HQ-CORE\\)|HQ-ASM01|avaya-sm-01)/"
           },
           "item": {
             "name": "Session Manager Host RAM Utilization"
@@ -205,7 +205,7 @@
             "filter": "/.*/"
           },
           "host": {
-            "filter": "Avaya Session Manager Primary (HQ-CORE)"
+            "filter": "/(Avaya Session Manager Primary \\(HQ-CORE\\)|HQ-ASM01|avaya-sm-01)/"
           },
           "item": {
             "filter": "ICMP ping"
@@ -251,7 +251,7 @@
             "name": "Voice Infrastructure"
           },
           "host": {
-            "filter": "Avaya Session Manager Primary (HQ-CORE)"
+            "filter": "/(Avaya Session Manager Primary \\(HQ-CORE\\)|HQ-ASM01|avaya-sm-01)/"
           },
           "item": {
             "name": "TCP Established Sockets"
@@ -351,7 +351,7 @@
             "name": "Voice Infrastructure"
           },
           "host": {
-            "filter": "Avaya Session Manager Primary (HQ-CORE)"
+            "filter": "/(Avaya Session Manager Primary \\(HQ-CORE\\)|HQ-ASM01|avaya-sm-01)/"
           },
           "item": {
             "name": "SIP Entity State \u2014 Avaya Communication Manager"
@@ -439,7 +439,7 @@
             "name": "Voice Infrastructure"
           },
           "host": {
-            "filter": "Avaya Session Manager Primary (HQ-CORE)"
+            "filter": "/(Avaya Session Manager Primary \\(HQ-CORE\\)|HQ-ASM01|avaya-sm-01)/"
           },
           "item": {
             "name": "SIP Entity State \u2014 Avaya SBCE Pride"
@@ -485,7 +485,7 @@
             "name": "Voice Infrastructure"
           },
           "host": {
-            "filter": "Avaya Session Manager Primary (HQ-CORE)"
+            "filter": "/(Avaya Session Manager Primary \\(HQ-CORE\\)|HQ-ASM01|avaya-sm-01)/"
           },
           "item": {
             "name": "SIP OPTIONS Response Time \u2014 Avaya CM"
@@ -537,7 +537,7 @@
             "name": "Voice Infrastructure"
           },
           "host": {
-            "filter": "Avaya Session Manager Primary (HQ-CORE)"
+            "filter": "/(Avaya Session Manager Primary \\(HQ-CORE\\)|HQ-ASM01|avaya-sm-01)/"
           },
           "item": {
             "name": "SIP Entity Summary Stream"
@@ -603,7 +603,7 @@
             "name": "Voice Infrastructure"
           },
           "host": {
-            "filter": "Avaya Session Manager Primary (HQ-CORE)"
+            "filter": "/(Avaya Session Manager Primary \\(HQ-CORE\\)|HQ-ASM01|avaya-sm-01)/"
           },
           "item": {
             "name": "Session Manager Active Alarms Count"

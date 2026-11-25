@@ -65,7 +65,7 @@
             "filter": "/.*/"
           },
           "host": {
-            "filter": "Avaya G450 Media Gateway (HQ-GATEWAY)"
+            "filter": "/(Avaya G450 Media Gateway \\(HQ-GATEWAY\\)|HQ-G450-GW01|avaya-g450-01)/"
           },
           "item": {
             "filter": "ICMP ping"
@@ -149,7 +149,7 @@
             "name": "Voice Infrastructure"
           },
           "host": {
-            "filter": "Avaya G450 Media Gateway (HQ-GATEWAY)"
+            "filter": "/(Avaya G450 Media Gateway \\(HQ-GATEWAY\\)|HQ-G450-GW01|avaya-g450-01)/"
           },
           "item": {
             "name": "Gateway CM Registration State"
@@ -237,7 +237,7 @@
             "name": "Voice Infrastructure"
           },
           "host": {
-            "filter": "Avaya G450 Media Gateway (HQ-GATEWAY)"
+            "filter": "/(Avaya G450 Media Gateway \\(HQ-GATEWAY\\)|HQ-G450-GW01|avaya-g450-01)/"
           },
           "item": {
             "name": "Internal Chassis Temperature Alarm State"
@@ -321,7 +321,7 @@
             "name": "Voice Infrastructure"
           },
           "host": {
-            "filter": "Avaya G450 Media Gateway (HQ-GATEWAY)"
+            "filter": "/(Avaya G450 Media Gateway \\(HQ-GATEWAY\\)|HQ-G450-GW01|avaya-g450-01)/"
           },
           "item": {
             "name": "Primary Power Supply Status"
@@ -333,7 +333,7 @@
             "name": "Voice Infrastructure"
           },
           "host": {
-            "filter": "Avaya G450 Media Gateway (HQ-GATEWAY)"
+            "filter": "/(Avaya G450 Media Gateway \\(HQ-GATEWAY\\)|HQ-G450-GW01|avaya-g450-01)/"
           },
           "item": {
             "name": "Secondary Power Supply Status (Redundant)"
@@ -425,7 +425,7 @@
             "name": "Voice Infrastructure"
           },
           "host": {
-            "filter": "Avaya G450 Media Gateway (HQ-GATEWAY)"
+            "filter": "/(Avaya G450 Media Gateway \\(HQ-GATEWAY\\)|HQ-G450-GW01|avaya-g450-01)/"
           },
           "item": {
             "name": "E1/ISDN Primary Trunk Port Operational Status"
@@ -487,7 +487,7 @@
             "name": "Voice Infrastructure"
           },
           "host": {
-            "filter": "Avaya G450 Media Gateway (HQ-GATEWAY)"
+            "filter": "/(Avaya G450 Media Gateway \\(HQ-GATEWAY\\)|HQ-G450-GW01|avaya-g450-01)/"
           },
           "item": {
             "name": "avG450DspChannelUtilization"
@@ -571,7 +571,7 @@
             "name": "Voice Infrastructure"
           },
           "host": {
-            "filter": "Avaya G450 Media Gateway (HQ-GATEWAY)"
+            "filter": "/(Avaya G450 Media Gateway \\(HQ-GATEWAY\\)|HQ-G450-GW01|avaya-g450-01)/"
           },
           "item": {
             "name": "Chassis Fan Tray State"
@@ -623,7 +623,7 @@
             "name": "Voice Infrastructure"
           },
           "host": {
-            "filter": "Avaya G450 Media Gateway (HQ-GATEWAY)"
+            "filter": "/(Avaya G450 Media Gateway \\(HQ-GATEWAY\\)|HQ-G450-GW01|avaya-g450-01)/"
           },
           "item": {
             "name": "Discovered Media Modules Table"

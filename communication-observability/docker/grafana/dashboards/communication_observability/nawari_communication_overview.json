@@ -90,7 +90,7 @@
             "name": "Voice Infrastructure"
           },
           "host": {
-            "filter": "Avaya SBCE Primary (HQ-DMZ)"
+            "filter": "/(Avaya SBCE Primary \\(HQ-DMZ\\)|HQ-SBCE01|avaya-sbce-01)/"
           },
           "item": {
             "name": "SBCE Appliance Reachability"
@@ -102,7 +102,7 @@
             "name": "Voice Infrastructure"
           },
           "host": {
-            "filter": "Avaya Session Manager Primary (HQ-CORE)"
+            "filter": "/(Avaya Session Manager Primary \\(HQ-CORE\\)|HQ-ASM01|avaya-sm-01)/"
           },
           "item": {
             "name": "Session Manager SNMP Availability"
@@ -114,7 +114,7 @@
             "name": "Voice Infrastructure"
           },
           "host": {
-            "filter": "Avaya Communication Manager Duplex (HQ-CORE)"
+            "filter": "/(Avaya Communication Manager Duplex \\(HQ-CORE\\)|HQ-CM01-MGT|avaya-cm-01)/"
           },
           "item": {
             "name": "Communication Manager SNMP Availability"
@@ -126,7 +126,7 @@
             "name": "Voice Infrastructure"
           },
           "host": {
-            "filter": "Avaya G450 Media Gateway (HQ-GATEWAY)"
+            "filter": "/(Avaya G450 Media Gateway \\(HQ-GATEWAY\\)|HQ-G450-GW01|avaya-g450-01)/"
           },
           "item": {
             "name": "G450 ICMP Reachability"
@@ -204,7 +204,7 @@
             "name": "Voice Infrastructure"
           },
           "host": {
-            "filter": "Avaya Communication Manager Duplex (HQ-CORE)"
+            "filter": "/(Avaya Communication Manager Duplex \\(HQ-CORE\\)|HQ-CM01-MGT|avaya-cm-01)/"
           },
           "item": {
             "name": "Active Alarms Count"
@@ -216,7 +216,7 @@
             "name": "Voice Infrastructure"
           },
           "host": {
-            "filter": "Avaya Session Manager Primary (HQ-CORE)"
+            "filter": "/(Avaya Session Manager Primary \\(HQ-CORE\\)|HQ-ASM01|avaya-sm-01)/"
           },
           "item": {
             "name": "Session Manager Active Alarms Count"
@@ -298,7 +298,7 @@
             "name": "Voice Infrastructure"
           },
           "host": {
-            "filter": "Avaya SBCE Primary (HQ-DMZ)"
+            "filter": "/(Avaya SBCE Primary \\(HQ-DMZ\\)|HQ-SBCE01|avaya-sbce-01)/"
           },
           "item": {
             "name": "Active SIP Calls"
@@ -436,7 +436,7 @@
             "name": "Voice Infrastructure"
           },
           "host": {
-            "filter": "Avaya Communication Manager Duplex (HQ-CORE)"
+            "filter": "/(Avaya Communication Manager Duplex \\(HQ-CORE\\)|HQ-CM01-MGT|avaya-cm-01)/"
           },
           "item": {
             "name": "Call Rate Total Attempts (Hourly Measurement Interval)"
@@ -448,7 +448,7 @@
             "name": "Voice Infrastructure"
           },
           "host": {
-            "filter": "Avaya Communication Manager Duplex (HQ-CORE)"
+            "filter": "/(Avaya Communication Manager Duplex \\(HQ-CORE\\)|HQ-CM01-MGT|avaya-cm-01)/"
           },
           "item": {
             "name": "Call Rate Completed Calls (Hourly Measurement Interval)"
@@ -729,7 +729,7 @@
             "name": "Voice Infrastructure"
           },
           "host": {
-            "filter": "Avaya Communication Manager Duplex (HQ-CORE)"
+            "filter": "/(Avaya Communication Manager Duplex \\(HQ-CORE\\)|HQ-CM01-MGT|avaya-cm-01)/"
           },
           "item": {
             "name": "avCmRealCallEstimatedMos"
@@ -799,7 +799,7 @@
             "name": "Voice Infrastructure"
           },
           "host": {
-            "filter": "Avaya Communication Manager Duplex (HQ-CORE)"
+            "filter": "/(Avaya Communication Manager Duplex \\(HQ-CORE\\)|HQ-CM01-MGT|avaya-cm-01)/"
           },
           "item": {
             "name": "Real-Call Packet Loss (Last Hour)"

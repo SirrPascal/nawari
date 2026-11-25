@@ -95,7 +95,7 @@
             "filter": "/.*/"
           },
           "host": {
-            "filter": "Avaya Communication Manager Duplex (HQ-CORE)"
+            "filter": "/(Avaya Communication Manager Duplex \\(HQ-CORE\\)|HQ-CM01-MGT|avaya-cm-01)/"
           },
           "item": {
             "filter": "ICMP ping"
@@ -161,7 +161,7 @@
             "name": "Voice Infrastructure"
           },
           "host": {
-            "filter": "Avaya Communication Manager Duplex (HQ-CORE)"
+            "filter": "/(Avaya Communication Manager Duplex \\(HQ-CORE\\)|HQ-CM01-MGT|avaya-cm-01)/"
           },
           "item": {
             "name": "Active Alarms Count"
@@ -207,7 +207,7 @@
             "name": "Voice Infrastructure"
           },
           "host": {
-            "filter": "Avaya Communication Manager Duplex (HQ-CORE)"
+            "filter": "/(Avaya Communication Manager Duplex \\(HQ-CORE\\)|HQ-CM01-MGT|avaya-cm-01)/"
           },
           "item": {
             "name": "Call Rate Total Attempts (Hourly Measurement Interval)"
@@ -253,7 +253,7 @@
             "name": "Voice Infrastructure"
           },
           "host": {
-            "filter": "Avaya Communication Manager Duplex (HQ-CORE)"
+            "filter": "/(Avaya Communication Manager Duplex \\(HQ-CORE\\)|HQ-CM01-MGT|avaya-cm-01)/"
           },
           "item": {
             "name": "Call Rate Completed Calls (Hourly Measurement Interval)"
@@ -335,7 +335,7 @@
             "name": "Voice Infrastructure"
           },
           "host": {
-            "filter": "Avaya Communication Manager Duplex (HQ-CORE)"
+            "filter": "/(Avaya Communication Manager Duplex \\(HQ-CORE\\)|HQ-CM01-MGT|avaya-cm-01)/"
           },
           "item": {
             "name": "Real-Call Packet Loss (Last Hour)"
@@ -405,7 +405,7 @@
             "name": "Voice Infrastructure"
           },
           "host": {
-            "filter": "Avaya Communication Manager Duplex (HQ-CORE)"
+            "filter": "/(Avaya Communication Manager Duplex \\(HQ-CORE\\)|HQ-CM01-MGT|avaya-cm-01)/"
           },
           "item": {
             "name": "Real-Call Peak Jitter (Last Hour)"
@@ -475,7 +475,7 @@
             "name": "Voice Infrastructure"
           },
           "host": {
-            "filter": "Avaya Communication Manager Duplex (HQ-CORE)"
+            "filter": "/(Avaya Communication Manager Duplex \\(HQ-CORE\\)|HQ-CM01-MGT|avaya-cm-01)/"
           },
           "item": {
             "name": "Real-Call Peak Two-Way Delay (Last Hour)"
@@ -545,7 +545,7 @@
             "name": "Voice Infrastructure"
           },
           "host": {
-            "filter": "Avaya Communication Manager Duplex (HQ-CORE)"
+            "filter": "/(Avaya Communication Manager Duplex \\(HQ-CORE\\)|HQ-CM01-MGT|avaya-cm-01)/"
           },
           "item": {
             "name": "Real-Call Hourly Average Jitter"
@@ -605,7 +605,7 @@
             "name": "Voice Infrastructure"
           },
           "host": {
-            "filter": "Avaya Communication Manager Duplex (HQ-CORE)"
+            "filter": "/(Avaya Communication Manager Duplex \\(HQ-CORE\\)|HQ-CM01-MGT|avaya-cm-01)/"
           },
           "item": {
             "name": "Negotiated Audio Codec"
@@ -653,7 +653,7 @@
             "name": "Voice Infrastructure"
           },
           "host": {
-            "filter": "Avaya Communication Manager Duplex (HQ-CORE)"
+            "filter": "/(Avaya Communication Manager Duplex \\(HQ-CORE\\)|HQ-CM01-MGT|avaya-cm-01)/"
           },
           "item": {
             "name": "Echo Cancellation Status"
@@ -703,7 +703,7 @@
             "name": "Voice Infrastructure"
           },
           "host": {
-            "filter": "Avaya Communication Manager Duplex (HQ-CORE)"
+            "filter": "/(Avaya Communication Manager Duplex \\(HQ-CORE\\)|HQ-CM01-MGT|avaya-cm-01)/"
           },
           "item": {
             "name": "Real-Call Evaluated Calls Count"
