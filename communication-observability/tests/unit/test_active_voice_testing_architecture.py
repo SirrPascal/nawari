@@ -49,14 +49,14 @@ def test_01_pjsip_config_avaya_endpoints():
     content = pjsip_path.read_text(encoding="utf-8")
 
     assert "[avaya-sbce-primary]" in content
-    assert "contact = sip:10.2.156.131:5060" in content
+    assert "contact = sip:10.2.156.132:5060" in content
     assert "qualify_frequency = 60" in content
 
     assert "[avaya-sbce-secondary]" in content
     assert "contact = sip:10.2.156.130:5060" in content
 
     assert "[avaya-sm-primary]" in content
-    assert "contact = sip:10.2.156.40:5060" in content
+    assert "contact = sip:10.2.156.22:5060" in content
 
 
 def test_02_dialplan_staged_extensions():

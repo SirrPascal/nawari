@@ -68,10 +68,13 @@ class VoiceSettings:
         default_factory=lambda: {"911", "112", "999", "000", "100", "991"}
     )
 
-    # Live Avaya Infrastructure Targets
-    avaya_sbce_primary_ip: str = "10.2.156.131"
-    avaya_sbce_secondary_ip: str = "10.2.156.130"
-    avaya_sm_primary_ip: str = "10.2.156.40"
+    # Live Avaya Infrastructure Targets (Reconciled from Live Zabbix & Network Sweep)
+    avaya_sbce_primary_ip: str = "10.2.156.132"     # Active Signaling VIP (Port 5060 Open)
+    avaya_sbce_secondary_ip: str = "10.2.156.130"   # HA Standby Signaling
+    avaya_sm_primary_ip: str = "10.2.156.22"        # Primary Session Manager (Zabbix HostID 10865)
+    avaya_sm_secondary_ip: str = "10.2.156.23"      # Secondary Session Manager
+    avaya_sm_branch_ip: str = "10.2.156.28"         # Branch Session Manager
+    avaya_sm_aux_ip: str = "10.2.156.40"            # Auxiliary Signaling Entity
     avaya_sip_port: int = 5060
 
     # Staged Active Testing Controls
