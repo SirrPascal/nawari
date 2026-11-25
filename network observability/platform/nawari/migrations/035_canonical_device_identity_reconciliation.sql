@@ -2,7 +2,7 @@
 
 -- 1. Canonical Device Identity Registry
 CREATE TABLE IF NOT EXISTS canonical_device_identities (
-    canonical_id TEXT PRIMARY KEY REFERENCES canonical_devices(canonical_id),
+    canonical_id TEXT PRIMARY KEY,
     solarwinds_node_id TEXT,
     zabbix_host_id TEXT,
     preferred_display_name TEXT NOT NULL,
