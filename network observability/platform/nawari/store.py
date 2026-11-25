@@ -1204,9 +1204,9 @@ class Store:
                 self.topology_reconciler.reconcile_interface(s, iface, now)
             return dev_id
 
-    def init_zabbix_sync(self, url: str = None, token: str = None, tenant: str = "default", auto_start: bool = False):
+    def init_zabbix_sync(self, url: str = None, token: str = None, tenant: str = "default", auto_start: bool = False, sync_interval_seconds: float = 60.0, **kwargs):
         connector = self.get_zabbix_connector(url=url, token=token)
-        self.zabbix_worker = zabbix_sync.ZabbixSyncWorker(self, connector, tenant=tenant)
+        self.zabbix_worker = zabbix_sync.ZabbixSyncWorker(self, connector, tenant=tenant, sync_interval_seconds=sync_interval_seconds)
         if auto_start:
             self.zabbix_worker.start()
         return self.zabbix_worker
