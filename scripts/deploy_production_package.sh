@@ -70,19 +70,17 @@ COMM_DASH_SRC="${ROOT_DIR}/communication-observability/docker/grafana/dashboards
 NET_DASH_SRC="${ROOT_DIR}/communication-observability/docker/grafana/dashboards/network_observability"
 PROV_SRC="${ROOT_DIR}/communication-observability/docker/grafana/provisioning"
 
-# Sync host-bind paths
+# Sync host-bind paths directly (Grafana has /var/lib/grafana/dashboards mounted read-only from host)
 mkdir -p "${ROOT_DIR}/docker/grafana/dashboards/communication_observability"
 mkdir -p "${ROOT_DIR}/docker/grafana/dashboards/network_observability"
 mkdir -p "${ROOT_DIR}/docker/grafana/provisioning"
-cp -r "${COMM_DASH_SRC}/." "${ROOT_DIR}/docker/grafana/dashboards/communication_observability/" 2>/dev/null || true
-cp -r "${NET_DASH_SRC}/." "${ROOT_DIR}/docker/grafana/dashboards/network_observability/" 2>/dev/null || true
-cp -r "${PROV_SRC}/." "${ROOT_DIR}/docker/grafana/provisioning/" 2>/dev/null || true
+cp -r "${COMM_DASH_SRC}/." "${ROOT_DIR}/docker/grafana/dashboards/communication_observability/"
+cp -r "${NET_DASH_SRC}/." "${ROOT_DIR}/docker/grafana/dashboards/network_observability/"
+cp -r "${PROV_SRC}/." "${ROOT_DIR}/docker/grafana/provisioning/"
 
 if docker ps --format '{{.Names}}' | grep -q "^nawari-grafana$"; then
-    docker cp "${COMM_DASH_SRC}/." nawari-grafana:/var/lib/grafana/dashboards/communication_observability/
-    docker cp "${NET_DASH_SRC}/." nawari-grafana:/var/lib/grafana/dashboards/network_observability/
     docker restart nawari-grafana
-    echo "  [OK] Dashboards synchronized and nawari-grafana container restarted."
+    echo "  [OK] Dashboards synchronized via host bind mount and nawari-grafana container restarted."
 else
     echo "  [WARN] nawari-grafana container not running; files updated in local repository tree."
 fi
